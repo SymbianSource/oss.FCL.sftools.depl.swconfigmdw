@@ -1,0 +1,145 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// CNTMODEL.RSS
+// The default template resource
+// 
+//
+
+// BOTH THESE HEADERS NEED TO BE PUBLIC
+//
+
+
+#include "cntmodel.rls"
+#include <cntdef.hrh> // as existing version, but see below
+#include <cntmodel.rh>
+
+
+//  
+// There are two ways of defining custom filterable fields.  The two methods cannot be mixed.
+//
+// Option 1. uses a single flag (KIntFieldFlagFilterable) to define up to four custom filterable fields. 
+// The order of priority of the fields is the order in which they are defined in an rss file. 
+// 
+// Option 2.uses four flags to define up to four custom filterable fields. KIntFieldFlagFilterable1 defines the highest priority 
+// field and KIntFieldFlagFilterable4 defines the lowest priority one. The order in which the fields appear in an rss file
+// is unimportant.
+// In total, the filterable fields must define a series starting at KIntFieldFlagFilterable1 and without gaps (e.g. it is possible 
+// to define fields with KIntFieldFlagFilterable3, KIntFieldFlagFilterable1 and KIntFieldFlagFilterable2, but illegal 
+// to define fields with KIntFieldFlagFilterable1, KIntFieldFlagFilterable4 and KIntFieldFlagFilterable3).
+// NOTE: see STRING_r_cntui_new_field_defns52 and STRING_r_cntui_new_field_defns51 below.
+//  
+
+// These field type UIDs are used in testing of the custom filterable fields only.
+// Licensees should register new UIDs for their own filterable fields.
+
+#define KUidContactFieldCustom1Value		0x101FD209
+#define KUidContactFieldCustom2Value		0x101FD20A
+
+//
+// FROM EIKDEF.RH - avoids CntModel requiring Eikon
+//
+STRUCT RSS_SIGNATURE
+    {
+    LONG signature; // EEikResourceSignatureValue;=4
+    SRLINK self;
+    }
+
+STRUCT ARRAY
+    {
+    STRUCT items[];
+    }
+
+RESOURCE RSS_SIGNATURE { }
+
+//
+// The template data
+//
+RESOURCE ARRAY r_cntui_new_field_defns
+    {
+    items=
+        {
+// home or personal jobbies
+        FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldPrefixNameValue;
+			vCardMapping=KIntContactFieldVCardMapUnusedN;
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns1;
+			flags=EContactFieldFlagDisabled;
+			},
+        FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldGivenNameValue;
+			vCardMapping=KIntContactFieldVCardMapUnusedN;
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns2;
+			},
+        FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldAdditionalNameValue;
+			vCardMapping=KIntContactFieldVCardMapUnusedN;
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns3;
+			flags=EContactFieldFlagDisabled;
+			},
+        FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldFamilyNameValue;
+			vCardMapping=KIntContactFieldVCardMapUnusedN;
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns4;
+			},
+        FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldSuffixNameValue;
+			vCardMapping=KIntContactFieldVCardMapUnusedN;
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns5;
+			flags=EContactFieldFlagDisabled;
+			},
+        FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldPhoneNumberValue;
+			vCardMapping=KIntContactFieldVCardMapTEL;
+			extraMapping=
+			    {
+			    	MAPPING { mapping=KIntContactFieldVCardMapHOME; },
+				MAPPING { mapping=KIntContactFieldVCardMapVOICE; },
+			    	MAPPING { mapping=KIntContactFieldVCardMapCELL; }
+			    };
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns6;
+			flags=KIntFieldFlagFilterable1;
+			},
+
+	FIELD
+			{
+			fieldStorageType=KStorageTypeText;
+			contactFieldType=KUidContactFieldEMailValue;
+			vCardMapping=KIntContactFieldVCardMapEMAILINTERNET;
+			extraMapping=
+			    {
+			    MAPPING { mapping=KIntContactFieldVCardMapHOME; }
+			    };
+			category=EContactCategoryHome;
+			fieldName=STRING_r_cntui_new_field_defns15;
+			}
+	};
+}

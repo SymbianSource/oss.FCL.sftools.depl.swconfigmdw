@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<model revision="1.5.2"  ver="9.4" revision-type="issued" name="Symbian OS" label="System Model" 
+	copyright="Symbian Ltd. 2008" distribution="internal" shapes="mcshapes.xml">
+	 <sysdef href="System_Definition_Template.xml">
+	 	<info href="techstreams.xml" type="info"/>
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="Symbian_OS_v9.5_Schedule12.xml" type="s12"/>
+	 	<info href="Symbian_OS_vFuture_Schedule12.xml" type="s12"/>
+	 </sysdef>
+	 <filter select="*" display="show"/>  
+	<ignore type="layer" name="Tools and Utils and SDKENG"/>
+  <ignore type="layer" name="Applications"/>
+  <ignore type="layer" name="MISC"/>
+<layout>
+	<info href="display-names.xml" type="abbrev"/>
+	<info href="component-names.xml" type="abbrev"/>
+	<!--	<info href="values-osd.xml" type="border"/>	-->
+	<layer-group color="rgb(143,188,143)" from="Hardware" to="Application Services">
+		<layer-group color="rgb(93,155,205)" from="Kernel Services" to="OS Services" label="Core OS"/>	
+	</layer-group>
+	<legend label="Key">
+		<legend use="@shapes#colors"/>
+		<legend use="@shapes#styles"/>
+		<legend use="@shapes#patterns"/>
+		<legend use="@shapes#borders"/>
+		<note class="lgd" width="auto">{@copyright}&#xa;{@distribution}</note>
+	</legend>
+</layout>
+</model>

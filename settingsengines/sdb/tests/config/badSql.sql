@@ -1,0 +1,1 @@
+i am not proper sql and will cause exception

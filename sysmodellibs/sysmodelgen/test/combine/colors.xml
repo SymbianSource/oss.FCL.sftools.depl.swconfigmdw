@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<values default="grey" label="Technology Streams">
+ <item label="Base Services" value="#8f8fbd">
+  <component name="Application Utilities"/>
+  <component name="Content Access Framework for DRM"/>
+  <component name="Reference DRM Agent"/>
+  <component name="Syslibs Subsystem Documentation"/>
+  <component name="Plugin Framework"/>
+  <component name="Zip Compression Library"/>
+  <component name="Feature Registry"/>
+  <component name="Power, Memory and Disk Management"/>
+  <component name="C Standard Library"/>
+  <component name="System Agent"/>
+  <component name="Task Scheduler"/>
+  <component name="XML Framework"/>
+  <component name="XML Parser"/>
+  <component name="WBXML Parser"/>
+ </item>
+ <item label="Baseband Adaption" value="#5f9f9f">
+  <component name="TRP TSY"/>
+  <component name="SIM TSY"/>
+  <component name="MultiMode TSY"/>
+  <component name="TRP CSY"/>
+  <component name="Baseband Channel Adaptor"/>
+  <component name="Baseband Channel Adaptor for C32"/>
+ </item>
+ <item label="Comms Framework" value="#527f76">
+  <component name="Comms Database"/>
+  <component name="File Logger"/>
+  <component name="ESock Server"/>
+  <component name="Network Interface Manager"/>
+  <component name="Comms Root Server"/>
+  <component name="Comms Framework"/>
+  <component name="Comms Elements"/>
+  <component name="Network Controller"/>
+  <component name="BBI"/>
+  <component name="MBuf Manager"/>
+  <component name="C32 Serial Server"/>
+  <component name="QoS Interface"/>
+  <component name="Serial Port CSY"/>
+ </item>
+ <item label="Crypto Services" value="yellow">
+  <component name="Authentication Services"/>
+  <component name="Certificate and Key Management"/>
+  <component name="Cryptography Library"/>
+  <component name="SECURITYCOMMON"/>
+  <component name="Crypto Token Framework"/>
+  <component name="Java MIDlet Installer"/>
+  <component name="Secure Software Install"/>
+  <component name="SIS Installer"/>
+  <component name="MAKEKEYS"/>
+ </item>
+ <item label="Development Boards" value="#934900">
+  <component name=""/>
+  <component name="OMAP 1623"/>
+  <component name="OMAP 2420"/>
+  <component name="OMAP H4HRP Variant"/>
+  <component name="OMAP H2"/>
+  <component name="OMAP H4"/>
+  <component name="Lubbock Variant"/>
+ </item>
+ <item label="Kernel" value="#00ffff">
+  <component name=""/>
+  <component name="Board Support Packages"/>
+  <component name="Bootstrap"/>
+  <component name="Kernel Architecture 2"/>
+  <component name="Integrator BSP support for Unistore2"/>
+  <component name="User HAL"/>
+  <component name="User Library"/>
+  <component name="Flash Translation Layer"/>
+ </item>
+ <item label="Multimedia Protocols" value="#eaadea">
+  <component name="RTP"/>
+  <component name="SIP Framework"/>
+  <component name="SIP Connection Provider Plugins"/>
+ </item>
+ <item label="IP Networking" value="#ff7f00">
+  <component name="ETHER AGT"/>
+  <component name="TLS"/>
+  <component name="IPShim"/>
+  <component name="PPP Compression Plugins"/>
+  <component name="PPP NIF"/>
+  <component name="Ethernet NIF"/>
+  <component name="Ethernet Over IR Packet Driver"/>
+  <component name="Ethernet Packet Driver"/>
+  <component name="PDP NIF"/>
+  <component name="Raw IP NIF"/>
+  <component name="SLIP NIF"/>
+  <component name="Tunnel NIF"/>
+  <component name="CGI"/>
+  <component name="Connection Provider Plugin"/>
+  <component name="GPRS/UMTS QOS PRT"/>
+  <component name="QoS Framework PRT"/>
+  <component name="Subconnection Parameters"/>
+  <component name="IP Hook"/>
+  <component name="IP Hook Examples"/>
+  <component name="Internet Sockets"/>
+  <component name="IP Event Notifier"/>
+  <component name="IPSec"/>
+  <component name="TCP/IPv4/v6 PRT"/>
+  <component name="Core IPSec PRT"/>
+  <component name="VPN"/>
+  <component name="Mobile IP"/>
+  <component name="NWSS WAP Stack"/>
+  <component name="WAP Message API"/>
+  <component name="WAP Short Stack"/>
+  <component name="DHCP"/>
+  <component name="DND"/>
+  <component name="CSD AGT"/>
+  <component name="NULL AGT"/>
+  <component name="PSD AGT"/>
+  <component name="Connection AGT"/>
+  <component name="AgentPr"/>
+  <component name="ConnProv"/>
+  <component name="SubConnProv"/>
+  <component name="MetaConnProv"/>
+  <component name="ShimPr"/>
+  <component name="Wireless LAN"/>
+  <component name="SCHEDULER"/>
+ </item>
+ <item label="Open Environment" value="#817485"/>
+ <item label="Peripherals" value="#008000">
+  <component name=""/>
+  <component name="Audio Driver"/>
+  <component name="Emulator"/>
+  <component name="Ethernet Driver"/>
+  <component name="File Server"/>
+  <component name="File System Plugins"/>
+  <component name="Text Shell"/>
+  <component name="Text Window Server"/>
+  <component name="Media Drivers"/>
+  <component name="MIDI Driver"/>
+  <component name="Other LDDs"/>
+  <component name="PDDs"/>
+  <component name="Peripheral Bus Controllers"/>
+  <component name="SD Card Driver"/>
+  <component name="Speech Driver"/>
+  <component name="Video Driver"/>
+ </item>
+ <item label="Persistent Data Services" value="#993366">
+  <component name="SQL"/>
+  <component name="Store"/>
+  <component name="DBMS"/>
+  <component name="Central Repository"/>
+  <component name="Event Logger"/>
+ </item>
+ <item label="Shortlink" value="#db7093">
+  <component name="Bluetooth CSY"/>
+  <component name="Bluetooth HCI"/>
+  <component name="Bluetooth Manager"/>
+  <component name="Bluetooth PAN Profile"/>
+  <component name="Bluetooth Protocol Client APIs"/>
+  <component name="Bluetooth SDP"/>
+  <component name="Bluetooth Stack PRT"/>
+  <component name="IrDA CSY"/>
+  <component name="IrDA PRT"/>
+  <component name="Remote Control Framework"/>
+  <component name="USB CSY"/>
+  <component name="USB Manager"/>
+  <component name="OBEX Extension API"/>
+  <component name="OBEX Protocol"/>
+  <component name="Bluetooth Profiles"/>
+  <component name="HCI Framework"/>
+  <component name="USB Driver"/>
+ </item>
+ <item label="Telephony Services" value="#3299cc">
+  <component name="ETel 3rd Party API"/>
+  <component name="ETel CDMA"/>
+  <component name="ETel Multimode"/>
+  <component name="ETel Packet Data"/>
+  <component name="ETel SIM Toolkit"/>
+  <component name="ETel Server and Core"/>
+  <component name="SMS PRT"/>
+  <component name="SMS Utilities"/>
+  <component name="Phonebook Sync"/>
+  <component name="CDMA SMS Plugins"/>
+  <component name="CDMA WAP PRT"/>
+  <component name="Dial"/>
+  <component name="Fax Client and Server"/>
+  <component name="GSM Utilities"/>
+  <component name="Telephony Watchers"/>
+  <component name="WAP PRT"/>
+  <component name="Packet Logger"/>
+  <component name="Secondary PDP context UMTS Driver"/>
+ </item>
+ <item label="Text and I18n Services" value="#9f9f5f">
+  <component name="Character Encoding and Conversion Framework"/>
+  <component name="Character Encoding and Conversion Plugins"/>
+  <component name="Text Handling"/>
+  <component name="FAT Filename Conversion Plugins"/>
+  <component name="Text Shaper Plugin"/>
+  <component name="Text Formatting"/>
+  <component name="Locale Support"/>
+ </item>
+ <item label="Connectivity Services" value="#cfb53b">
+  <component name="Secure Backup Engine"/>
+  <component name="Bearer Abstraction Layer"/>
+  <component name="M-Router"/>
+  <component name="ConnectQI"/>
+  <component name="ConnectQI SDK"/>
+  <component name="PLP Variant"/>
+  <component name="Remote File Server"/>
+  <component name="Secure Backup Socket Server"/>
+  <component name="Server Socket"/>
+  <component name="Service Broker"/>
+  <component name="Software Install Server"/>
+  <component name="Sync Initiation"/>
+  <component name="OMA SyncML DM Interface"/>
+  <component name="OMA SyncML Framework"/>
+  <component name="OMA Data Sync"/>
+ </item>
+ <item label="Device Provisioning" value="#ebc79e">
+  <component name="Device Management Framework"/>
+  <component name="Device Management Adaptors"/>
+  <component name="Client Provisioning Framework"/>
+  <component name="Client Provisioning Adaptors"/>
+ </item>
+ <item label="Graphics" value="#32cd99">
+  <component name="Bit GDI"/>
+  <component name="Colour Palette"/>
+  <component name="EGL API"/>
+  <component name="EGL Implementation"/>
+  <component name="Font Store"/>
+  <component name="Font and Bitmap Server"/>
+  <component name="FreeType Font Rasteriser"/>
+  <component name="GDI"/>
+  <component name="GDITOOLS"/>
+  <component name="GDTRAN"/>
+  <component name="Graphics Surfaces"/>
+  <component name="OpenGL ES"/>
+  <component name="OpenGL ES Framework"/>
+  <component name="OpenVG API"/>
+  <component name="OpenVG Implementation"/>
+  <component name="Printer Driver Support"/>
+  <component name="Printer Drivers"/>
+  <component name="Reference Fonts"/>
+  <component name="Screen Driver"/>
+  <component name="UI Bench"/>
+  <component name="Window Server"/>
+ </item>
+ <item label="Internet and Web Services" value="#ff8f68">
+  <component name="HTTP Protocol Plugins"/>
+  <component name="HTTP Transport Framework"/>
+  <component name="HTTP Filter Plugins"/>
+  <component name="WAP Push Framework"/>
+  <component name="WAP Push Handlers"/>
+  <component name="WAP Push MTM"/>
+  <component name="WAP Base"/>
+  <component name="HTTP Utilities Library"/>
+  <component name="Bookmark Support"/>
+  <component name="Web Recognisers"/>
+  <component name="FTP Engine"/>
+  <component name="Telnet Engine"/>
+ </item>
+ <item label="Location Based Services" value="green">
+  <component name=""/>
+ </item>
+ <item label="Java" value="#c0d9d9">
+  <component name="CLDC Hi 1.1"/>
+  <component name="Java IO"/>
+  <component name="Java Lang"/>
+  <component name="Java Utilities"/>
+  <component name="MIDP Device Control"/>
+  <component name="MIDP GSM Security RP"/>
+  <component name="MIDP IO"/>
+  <component name="MIDP LCDUI"/>
+  <component name="MIDP MIDlet"/>
+  <component name="MIDP RMS"/>
+  <component name="LCDUI Plugin"/>
+  <component name="Runtime Plugin"/>
+  <component name="Security Policy"/>
+  <component name="Bluetooth 1.0"/>
+  <component name="WMA 1.1"/>
+  <component name="JTWI 1.0"/>
+  <component name="Mobile Media API 1.1"/>
+  <component name="Mobile 3D 1.0"/>
+  <component name="MIDP PIM"/>
+  <component name="MIDP File GCF"/>
+ </item>
+ <item label="Messaging" value="red">
+  <component name="Message Store"/>
+  <component name="IMAP4 MTM"/>
+  <component name="POP3 MTM"/>
+  <component name="SMTP MTM"/>
+  <component name="MMS Settings"/>
+  <component name="MSG URLHANDLER"/>
+  <component name="Scheduled Send MTM"/>
+  <component name="Send As"/>
+  <component name="OBEX MTMs"/>
+  <component name="SMIL Parser"/>
+  <component name="BIO Messaging Framework"/>
+  <component name="BIO Messaging Parsers"/>
+  <component name="BIO Watchers"/>
+  <component name="SMS MTM"/>
+  <component name="Fax MTM"/>
+  <component name="MSG TEST"/>
+  <component name=""/>
+  <component name="MMS MTM"/>
+  <component name="CDMA MTM"/>
+ </item>
+ <item label="Multimedia" value="#8fbc8f">
+  <component name="Camera"/>
+  <component name="Camera Server"/>
+  <component name="Camera Driver"/>
+  <component name="Broadcast Tuner"/>
+  <component name="Tuner Server"/>
+  <component name="Tuner Driver"/>
+  <component name=""/>
+  <component name="Image Conversion Library Plugins"/>
+  <component name="MMF Recognisers"/>
+  <component name="Multimedia Framework Plugins"/>
+  <component name="Media Device Framework"/>
+  <component name="Image Conversion Library"/>
+  <component name="Multimedia Framework"/>
+  <component name="Media Device Framework Plugins"/>
+  <component name="Multimedia Device Framework"/>
+ </item>
+ <item label="PIM Application Services" value="#ffff80">
+  <component name="Agenda Model"/>
+  <component name="Agenda Versit Plugin"/>
+  <component name="Alarm Server"/>
+  <component name="Chinese Calendar Converter"/>
+  <component name="Calendar"/>
+  <component name="Timezone"/>
+  <component name="WLDDATABASEKIT"/>
+  <component name="WLDTOOLS"/>
+  <component name="World Server"/>
+  <component name="Contacts Model"/>
+  <component name="Backup Restore Notification"/>
+  <component name="Core Apps Test"/>
+  <component name="Data Engine"/>
+  <component name="Help"/>
+  <component name="File Converter Plugins"/>
+  <component name="Sheet Engine"/>
+  <component name="vCard and vCal"/>
+  <component name="Word Engine"/>
+ </item>
+ <item label="UI Frameworks" value="#00ff00">
+  <component name="Animation"/>
+  <component name="UI Graphics Utilities"/>
+  <component name="FEP Base"/>
+  <component name="Clock"/>
+  <component name="Graphics Effects"/>
+  <component name="System Starter"/>
+  <component name="UIKON"/>
+  <component name="BMP Animation"/>
+  <component name="Grid"/>
+  <component name="Application Architecture"/>
+  <component name="UI Look and Feel"/>
+  <component name="View Server"/>
+  <component name="Printing Services"/>
+  <component name="MIME Recognition Framework"/>
+  <component name="Content Handling Framework"/>
+  <component name="Control Environment"/>
+  <component name="File Converter Framework"/>
+  <component name="UIKON Error Resolver Plugin"/>
+ </item>
+ <item label="OS Packaging" value="#a29040">
+  <component name="SDK Builder"/>
+  <component name="CBRTOOLS"/>
+  <component name="CDB"/>
+  <component name="TESTTOOLS_DESKTOP"/>
+  <component name="KITSETUPAPP"/>
+  <component name="NAVIGATION_PAGES"/>
+  <component name="PRODUCTINSTALLER"/>
+  <component name="RUNPERL"/>
+  <component name="SDKINFO"/>
+  <component name="SISAR"/>
+  <component name="SDKPKG-MANAGER"/>
+  <component name="SDKPKG-TOOLS"/>
+  <component name="EMULATOR_LAUNCHER"/>
+  <component name="PKGMGRGUI"/>
+  <component name="TOOLS_STUBS"/>
+  <component name="PERLLIBRARY"/>
+  <component name="SPLASH"/>
+  <component name="JAVALIBRARY"/>
+  <component name="DUMMY"/>
+  <component name="ASSERTION"/>
+  <component name="ENUM"/>
+  <component name="ENVVAR"/>
+  <component name="FILESYS"/>
+  <component name="INSTALLUTILS"/>
+  <component name="JADE"/>
+  <component name="JAVAHELP"/>
+  <component name="LANGCONFIG"/>
+  <component name="LOGGER"/>
+  <component name="MBMCODEC"/>
+  <component name="MNEMONICFIX"/>
+  <component name="PATHBROWSER"/>
+  <component name="SHELLEXEC"/>
+  <component name="SWINGWORKER"/>
+  <component name="TESTCASERUNNER"/>
+  <component name="TOOLBARPANEL"/>
+  <component name="KITCOMPARATOR"/>
+  <component name="BSPBUILDER"/>
+ </item>
+ <item label="Platform Tools" value="#BAC97E">
+  <component name="BUILD-TOOLS"/>
+  <component name="BUILDSYSTEMTOOLS"/>
+  <component name="RAPTOR"/>
+  <component name="E32TOOLS EKA2"/>
+  <component name="ROMKIT_EKA2"/>
+  <component name="REDISTRIBUTION"/>
+  <component name="Debug"/>
+ </item>
+ <item label="Software Engineering Tools" value="#56a1a1">
+  <component name="AGENDA"/>
+  <component name="AGENTNOTIFIER"/>
+  <component name="AUDIO"/>
+  <component name="BCCOMPARATOR"/>
+  <component name="BLUETOOTHUI"/>
+  <component name="BURTESTSERVER"/>
+  <component name="CAPTOOLS"/>
+  <component name="CHATSCRIPTS"/>
+  <component name="CINIDATA"/>
+  <component name="CONNECTUI"/>
+  <component name="CONTACTS"/>
+  <component name="CONTACUI"/>
+  <component name="EIKSTD"/>
+  <component name="EXTRAS"/>
+  <component name="LEAVESCAN"/>
+  <component name="MESSAGINGUI"/>
+  <component name="MIGRATIONTOOL"/>
+  <component name="PHONEUI"/>
+  <component name="PROGRAMCHECKER"/>
+  <component name="RESOURCE_HANDLER"/>
+  <component name="RESOURCE_HANDLER_UI"/>
+  <component name="SMOKETEST"/>
+  <component name="STATAPI"/>
+  <component name="STAT_DESKTOP"/>
+  <component name="STAT_DEVICE"/>
+  <component name="SYSTEMMONITOR"/>
+  <component name="Simple App"/>
+  <component name="TESTDRIVER"/>
+  <component name="TESTEXECUTE"/>
+  <component name="TESTTOOLS_UTILITIES"/>
+  <component name="TIMEW"/>
+  <component name="USBUI"/>
+  <component name="Use Case Controller"/>
+  <component name="SHELL"/>
+  <component name="STARTUP"/>
+  <component name="STATUSPANE"/>
+  <component name="UIKLAF"/>
+  <component name="IAPSTATUSAPP"/>
+ </item>
+ <item label="Technical Documentation" value="#6A5182">
+  <component name="DEVELOPERLIBRARY"/>
+ </item>
+ <item label="Test Product" value="#544A38">
+  <component name="Subsystem Tests"/>
+ </item>
+ <item label="System Engineering" value="#615FAD">
+  <component name="DEPMODEL"/>
+ </item>
+ <item label="Location Based Services" value="green">
+  <component name="Location Based Services"/>
+ </item> 
+</values>

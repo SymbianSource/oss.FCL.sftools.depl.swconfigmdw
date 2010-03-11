@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- Main application beans (flows) -->
+	
+	<bean id="sdbApplication" class="com.symbian.sdb.Application" autowire="byName">
+	</bean>
+	
+	<bean id="workflowFactory" class="com.symbian.sdb.mode.flow.WorkflowFactory" autowire="byName"/>
+	
+	<bean id="cedFlow" class="com.symbian.sdb.mode.flow.CedFlow" autowire="byName" lazy-init="true"/>
+	<bean id="genericFlow" class="com.symbian.sdb.mode.flow.GenericFlow" autowire="byName" lazy-init="true">
+		<property name="inputDatabaseValidator" ref="genericFlowInputDatabaseValidator"/>
+	</bean>
+	<bean id="contactsFlow" class="com.symbian.sdb.mode.flow.ContactsFlow" autowire="byName" lazy-init="true">
+		<property name="inputDatabaseValidator" ref="contactsFlowInputDatabaseValidator"/>
+	</bean>
+
+	<bean id="preferencesManager" class="com.symbian.sdb.contacts.model.PreferencesManager"/>
+	
+	<!-- Flow Helper Beans  -->
+	<bean id="genericFlowInputDatabaseValidator" class="com.symbian.sdb.mode.flow.GenericFlowInputDatabaseValidator"/>
+	<bean id="contactsFlowInputDatabaseValidator" class="com.symbian.sdb.mode.flow.ContactsFlowInputDatabaseValidator">
+		
+	</bean>
+
+	<!-- Contact Database Beans - SQLite -->
+	
+	<bean id="sqliteContactsManager" class="com.symbian.sdb.contacts.ContactsManager" autowire="byName">
+		<property name="contactPersister" ref="sqliteContactPersister"/>
+	</bean>
+	
+	<bean id="sqliteContactPersister" class="com.symbian.sdb.contacts.sqlite.SQLiteContactPersisterImpl">
+		<property name="contactDao" ref="contactDaoSQLite"/>
+	</bean>	
+
+	<bean id="contactDaoSQLite" class="com.symbian.sdb.contacts.sqlite.ContactDaoSQLite" autowire="byName"/>
+	
+	<!-- Contact Database Beans - DBMS -->
+	<alias name="dbmsContactFlow" alias="dbmsContactsManager"/>
+	<bean id="dbmsContactFlow" class="com.symbian.sdb.contacts.ContactsManager" autowire="byName">
+		<property name="contactPersister" ref="dbmsContactPersister"/>
+	</bean>
+	
+	<bean id="dbmsContactPersister" class="com.symbian.sdb.contacts.dbms.DBMSContactPersisterImpl" autowire="byName">
+		<property name="contactDao" ref="contactDaoDbms"/>
+	</bean>	
+	
+	<bean id="contactDaoDbms" class="com.symbian.sdb.contacts.dbms.ContactDaoDBMS" autowire="byName"/>
+
+	<!-- Template Manager Bean - SQLITE -->
+	
+	<bean id="sqliteTemplateManager" class="com.symbian.sdb.contacts.template.TemplateManager" autowire="byName"> 
+		<property name="templatePersister" ref="sqliteTemplatePersister"></property>
+		<property name="templateReader" ref="sqliteTemplateReader"></property>
+	</bean>
+	
+	<bean id="sqliteTemplatePersister" class="com.symbian.sdb.contacts.template.model.sqlite.SQLiteTemplatePersister">
+		<property name="contactDao" ref="contactDaoSQLite"/>
+	</bean>
+	
+	<bean id="sqliteTemplateReader" class="com.symbian.sdb.contacts.template.model.sqlite.SQLiteTemplateReader">
+		<property name="contactDao" ref="contactDaoSQLite"/>
+	</bean>
+
+
+
+	<!-- Template Manager Bean - DBMS -->
+	
+	<bean id="dbmsTemplateManager" class="com.symbian.sdb.contacts.template.TemplateManager" autowire="byName"> 
+		<property name="templatePersister" ref="dbmsTemplatePersister"></property>
+		<property name="templateReader" ref="dbmsTemplateReader"></property>
+	</bean>
+	
+	<bean id="dbmsTemplatePersister" class="com.symbian.sdb.contacts.template.model.dbms.DbmsTemplatePersister" autowire="byName" >
+		<property name="contactDao" ref="contactDaoDbms"/>
+		<property name="templateReader" ref="dbmsTemplateReader"></property>
+	</bean>
+	
+	<bean id="dbmsTemplateReader" class="com.symbian.sdb.contacts.template.model.dbms.DbmsTemplateReader">
+		<property name="contactDao" ref="contactDaoDbms"/>
+	</bean>
+	
+	<!-- General use beans -->
+	
+	<bean class="com.symbian.sdb.util.SystemPropertyInitializingBean">
+		<property name="systemProperties">
+			<map>
+				<entry key="org.sqlite.lib.path" value="lib/"/>
+			</map>
+		</property>
+	</bean>
+	
+	<alias name="databaseManager" alias="connectionProvider"/>
+	<bean id="databaseManager" class="com.symbian.sdb.database.DBManager"/>
+	
+	<bean id="contactImporter" class="com.symbian.sdb.contacts.importer.VCardContactImporter" autowire="byName"/>
+	<bean id="contactReader" class="com.symbian.sdb.contacts.importer.vcard.VCARDContactReader" autowire="byName"/>
+	
+	<bean id="speedDialManager" class="com.symbian.sdb.contacts.speeddial.SpeedDialManagerImpl">
+		<property name="speedDialIniFileManager" ref="speedDialIniFileManager"/>
+	</bean>
+	
+	<bean id="speedDialIniFileManager" class="com.symbian.sdb.contacts.speeddial.SpeedDialStoreManager"/>
+	
+</beans>

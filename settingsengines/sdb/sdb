@@ -1,0 +1,3 @@
+#!/bin/sh
+export LD_LIBRARY_PATH=${0%%/*}/sdb-creator/lib
+java -jar ${0%%/*}/sdb-creator/lib/sdb.jar $*

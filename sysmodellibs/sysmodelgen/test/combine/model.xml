@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<model ver="9.4" revision="1.3" revision-type="issued" name="Symbian OS" label="System Model" 
+	 ts="techstreams.xml" shapes="shapes.xml">
+	 <sysdef href="System_Definition.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <sysdef href="System_Definition.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <sysdef href="System_Definition.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+  	 <sysdef href="sysdef.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 	</sysdef>
+	 <filter accept="java"/>
+	 <filter accept="gt"/>
+	 <filter accept="techview"/>
+	 <!-- filter reject="techview"/ : no need for this-->
+<layout>
+	<info href="colors.xml" type="color"/>
+	<info href="display-names.xml" type="abbrev"/>
+	<legend label="Key">
+		<legend use="#color"/>
+		<legend use="@shapes#styles"/>
+		<legend use="@shapes#patterns"/>
+		<legend use="@shapes#borders"/>
+	</legend>
+</layout>
+</model>

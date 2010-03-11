@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template_config version="1.0.0">
+	
+	<group type="labels">
+		<item name="STRING_r_cntui_new_field_defns1" value="Title" />
+		<item name="STRING_r_cntui_new_field_defns2" value="First name"  />
+		<item name="STRING_r_cntui_new_field_defns3" value="Middle name"  />
+		<item name="STRING_r_cntui_new_field_defns4" value="Last name"  />
+		<item name="STRING_r_cntui_new_field_defns5" value="Suffix"  />
+		<item name="STRING_r_cntui_new_field_defns6" value="Mobile"  />
+		<item name="STRING_r_cntui_new_field_defns7" value="Home tel"  />
+		<item name="STRING_r_cntui_new_field_defns8" value="Home fax"  />
+		<item name="STRING_r_cntui_new_field_defns9" value="Home Pager"  />
+		<item name="STRING_r_cntui_new_field_defns10" value="Bulletin Board"  />
+		<item name="STRING_r_cntui_new_field_defns11" value="Home Modem"  />
+		<item name="STRING_r_cntui_new_field_defns12" value="Car Phone"  />
+		<item name="STRING_r_cntui_new_field_defns13" value="Home ISDN"  />
+		<item name="STRING_r_cntui_new_field_defns14" value="Home Video"  />
+		<item name="STRING_r_cntui_new_field_defns15" value="Home email"  />
+		<item name="STRING_r_cntui_new_field_defns16" value="Home PO box"  />
+		<item name="STRING_r_cntui_new_field_defns17" value="Home ext address"  />
+		<item name="STRING_r_cntui_new_field_defns18" value="Home address"  />
+		<item name="STRING_r_cntui_new_field_defns19" value="Home city"  />
+		<item name="STRING_r_cntui_new_field_defns20" value="Home region"  />
+		<item name="STRING_r_cntui_new_field_defns21" value="Home p'code"  />
+		<item name="STRING_r_cntui_new_field_defns22" value="Home country"  />
+		<item name="STRING_r_cntui_new_field_defns23" value="Home Web page"  />
+		<item name="STRING_r_cntui_new_field_defns24" value="Company"  />
+		<item name="STRING_r_cntui_new_field_defns25" value="Job title"  />
+		<item name="STRING_r_cntui_new_field_defns26" value="Work mobile"  />
+		<item name="STRING_r_cntui_new_field_defns27" value="Work tel"  />
+		<item name="STRING_r_cntui_new_field_defns28" value="Work fax"  />
+		<item name="STRING_r_cntui_new_field_defns29" value="Work pager"  />
+		<item name="STRING_r_cntui_new_field_defns30" value="Work Bulletin Board"  />
+		<item name="STRING_r_cntui_new_field_defns31" value="Work Modem"  />
+		<item name="STRING_r_cntui_new_field_defns32" value="Work Car Phone"  />
+		<item name="STRING_r_cntui_new_field_defns33" value="Work ISDN"  />
+		<item name="STRING_r_cntui_new_field_defns34" value="Work Video"  />
+		<item name="STRING_r_cntui_new_field_defns35" value="Work email"  />
+		<item name="STRING_r_cntui_new_field_defns36" value="Work Web page"  />
+		<item name="STRING_r_cntui_new_field_defns37" value="Work PO box"  />
+		<item name="STRING_r_cntui_new_field_defns38" value="Work ext address"  />
+		<item name="STRING_r_cntui_new_field_defns39" value="Work address"  />
+		<item name="STRING_r_cntui_new_field_defns40" value="Work city"  />
+		<item name="STRING_r_cntui_new_field_defns41" value="Work region"  />
+		<item name="STRING_r_cntui_new_field_defns42" value="Work p'code"  />
+		<item name="STRING_r_cntui_new_field_defns43" value="Work country"  />
+		<item name="STRING_r_cntui_new_field_defns44" value="LOGO"  />
+		<item name="STRING_r_cntui_new_field_defns45" value="Birthday"  />
+		<item name="STRING_r_cntui_new_field_defns46" value="Notes"  />
+		<item name="STRING_r_cntui_new_field_defns47" value="Display name"  />
+		<item name="STRING_r_cntui_new_field_defns48" value="PHOTO"  />
+		<item name="STRING_r_cntui_new_field_defns49" value="LABEL"  />
+		<item name="STRING_r_cntui_new_field_defns50" value="Group / Template Label"  />
+		<item name="STRING_r_cntui_new_field_defns51" value="Custom Filterable field No.1"  />
+		<item name="STRING_r_cntui_new_field_defns52" value="Custom Filterable field No.2"  />
+		<item name="STRING_r_cntui_new_field_defns53" value="Custom Filterable field No.3"  />
+		<item name="STRING_r_cntui_new_field_defns54" value="Custom Filterable field No.4"  />
+		<item name="STRING_r_cntui_new_field_defns_im_address" value="IM address"  />
+		<item name="STRING_r_cntui_new_field_defns_im_addr_wv" value="Wireless Village"  />
+		<item name="STRING_r_cntui_new_field_defns_second_name" value="Second Name"  />
+		<item name="STRING_r_cntui_new_field_defns_first_name_prn" value="First name reading"  />
+		<item name="STRING_r_cntui_new_field_defns_last_name_prn" value="Last name reading"  />
+		<item name="STRING_r_cntui_new_field_defns_company_prn" value="Company reading"  />
+		<item name="STRING_r_cntui_new_field_defns_sip_id_poc" value="SIP ID POC"  />
+		<item name="STRING_r_cntui_new_field_defns_sip_id_swis" value="SIP ID SWIS"  />
+		<item name="STRING_r_cntui_new_field_defns_sip_id_voip" value="SIP ID VOIP"  />
+		<item name="STRING_r_cntui_new_field_defns_sip_id_generic" value="SIP ID Generic"  />
+		<item name="STRING_r_cntui_new_field_defns64" value="Assistant"  />
+		<item name="STRING_r_cntui_new_field_defns65" value="Assistant tel"  />
+		<item name="STRING_r_cntui_new_field_defns66" value="Anniversary"  />
+		<item name="STRING_r_cntui_new_field_defns67" value="Spouse"  />
+		<item name="STRING_r_cntui_new_field_defns68" value="Children"  />
+		<item name="STRING_r_cntui_new_field_defns69" value="Class"  />
+		<item name="STRING_r_cntui_new_field_defns70" value="Department"  />
+		<item name="STRING_r_cntui_new_field_defns_geo" value="GEO"  />
+	</group>
+	
+</template_config>

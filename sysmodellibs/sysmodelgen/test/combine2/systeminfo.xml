@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="ascii"?>
+<model ver="9.4">
+ <c name="Connectivity Services" deprecated="9.4"/>
+ <c name="Connectivity Framework" deprecated="9.4"/>
+ <c name="GPRS QOS PRT" plugin="Y"/>
+ <c name="UMTS QOS PRT" plugin="Y"/>
+ <c name="QOS 3GPP CPR" plugin="Y"/>
+ <c name="PDP SCPR" plugin="Y"/>
+ <c name="QOS IP SCPR" plugin="Y"/>
+ <c name="IP Proto-CPR" plugin="Y"/>
+ <c name="TCP CPR" plugin="Y"/>
+ <c plugin="Y" introduced="9.1" name="Device Management Adaptors"/>
+ <c introduced="9.1" name="Client Provisioning Framework"/>
+ <c introduced="9.1" plugin="Y" name="Client Provisioning Adaptors"/>
+ <c name="Telnet Engine" introduced="6.0"/>
+ <c name="WAP Push Framework" introduced="6.1"/>
+ <c plugin="Y" name="IMAP4 MTM"/>
+ <c plugin="Y" name="OBEX MTMs"/>
+ <c plugin="Y" name="Scheduled Send MTM"/>
+ <c plugin="Y" name="SMS MTM"/>
+ <c introduced="9.0" name="RTP"/>
+ <c introduced="9.2" name="SIP Framework"/>
+ <c name="Other File Converter Plugins" plugin="Y" introduced="5.0" deprecated="9.3"/>
+ <c name="Data Engine" introduced="5.0" deprecated="9.3"/>
+ <c name="Sheet Engine" introduced="5.0" deprecated="9.3"/>
+ <c name="Word Engine" introduced="5.0" deprecated="9.3"/>
+ <c name="Help" introduced="6.0"/>
+ <c name="Agenda Model" introduced="5.0" deprecated="9.1"/>
+ <c name="Calendar" introduced="9.2"/>
+ <c plugin="Y" name="Agenda Versit Plugin"/>
+ <c name="Contacts Model" introduced="5.0"/>
+ <c introduced="8.1" name="Backup Restore Notification"/>
+ <c name="Chinese Calendar Converter" introduced="6.1"/>
+ <c name="vCard and vCal" introduced="5.0"/>
+ <c introduced="ER5" name="Application Utilities"/>
+ <c name="Central Repository" introduced="7.0s"/>
+ <c name="Feature Registry" introduced="9.2" deprecated="9.5"/>
+ <c name="DBMS Emulation Library" introduced="9.3"/>
+ <c introduced="6.2" name="Plugin Framework"/>
+ <c name="Power and Memory Notification Service" introduced="6.0"/>
+ <c name="Domain Manager" introduced="8.1b"/>
+ <c name="Hardware Resources Manager" introduced="9.4"/>
+ <c plugin="Y" name="WBXML Parser" introduced="7.0s"/>
+ <c name="XML Framework" introduced="7.0s"/>
+ <c plugin="Y" name="XML Parser" introduced="7.0s"/>
+ <c introduced="6.0" name="Zip Compression Library"/>
+ <c introduced="9.1" plugin="Y" name="FAT Filename Conversion Plugins"/>
+ <c plugin="Y" name="ROFS File System"/>
+ <c plugin="Y" name="USB Mass Storage File System"/>
+ <c plugin="Y" name="LFFS File System"/>
+ <c plugin="Y" name="NTFS File System"/>
+ <c name="ROM File System" plugin="Y"/>
+ <c name="LFFS File System" plugin="Y"/>
+ <c name="FAT32 File System" plugin="Y"/>
+ <c name="FAT File System" plugin="Y"/>
+ <c name="Composite File System" plugin="Y"/>
+ <c name="ISO9660 File System" plugin="Y"/>
+ <c name="NAND Flash Translation Layer" introduced="7.0s" deprecated="9.1"/>
+ <c name="JTWI 1.0" introduced="8.0"/>
+ <c name="Kernel Architecture 2" introduced="8.0"/>
+ <c name="Integrator Panasonic Logic Module" ref="true"/>
+ <c name="OMAP H2 SDIO" ref="true"/>
+ <c name="OMAP H4 SDIO" ref="true"/>
+ <c name="OMAP H2 Unistore2" ref="true"/>
+ <c name="OMAP H4 Unistore2" ref="true"/>
+ <c name="H4 Boot Loader" ref="true"/>
+ <c name="OMAP H4 Mini Environment Boot Loader" ref="true"/>
+ <c name="StrongArm 1100 ASSP" deprecated="8.0" ref="true"/>
+ <c name="System On Chip ASSP" ref="true"/>
+ <c name="Template Variant" ref="true"/>
+ <c name="OMAP H4 BSP" ref="true"/>
+ <c name="Lubbock BSP" ref="true"/>
+ <c name="Reference DRM Agent" ref="true"/>
+ <c name="Bootstrap" ref="true"/>
+ <c name="Assabet BSP" ref="true"/>
+ <c plugin="Y" name="Locale Support"/>
+ <c plugin="Y" name="Screen Driver" introduced="6.1"/>
+ <c name="Inter-System Communication" introduced="9.5"/>
+ <c name="Baseband Channel Adaptor" introduced="8.1"/>
+ <c name="Baseband Channel Adaptor for C32" plugin="Y"/>
+ <c name="Baseband Channel Adaptor for ISC" plugin="Y"/>
+ <c introduced="9.3" name="Wireless LAN"/>
+ <c introduced="8.1" name="Bluetooth GAVDP"/>
+ <c name="Crypto SPI Plugins" plugin="Y" introduced="9.5"/>
+ <c plugin="Y" name="Ethernet NIF"/>
+ <c plugin="Y" name="Ethernet Packet Driver"/>
+ <c plugin="Y" name="PPP NIF"/>
+ <c plugin="Y" ref="true" name="SLIP NIF"/>
+ <c plugin="Y" name="Tunnel NIF"/>
+ <c name="IP Event Notifier" plugin="Y"/>
+ <c plugin="Y" introduced="7.0s" name="QoS Framework PRT"/>
+ <c plugin="Y" name="TCP/IPv4/v6 PRT"/>
+ <c plugin="Y" name="Bluetooth PAN Profile" introduced="8.1"/>
+ <c plugin="Y" name="CSD AGT"/>
+ <c plugin="Y" name="GPRS/UMTS QOS PRT"/>
+ <c plugin="Y" name="NULL AGT"/>
+ <c plugin="Y" name="PSD AGT"/>
+ <c ref="true" name="WAP Short Stack" introduced="8.0"/>
+ <c plugin="Y" name="Bluetooth CSY"/>
+ <c plugin="Y" name="Serial Port CSY"/>
+ <c introduced="9.1" name="Remote Control Framework"/>
+ <c name="CDMA SMS Stack" plugin="Y" introduced="8.0"/>
+ <c name="SMS Stack" plugin="Y"/>
+ <c ref="true" plugin="Y" name="TRP TSY"/>
+ <c introduced="8.1" name="ETel CDMA"/>
+ <c introduced="8.1" name="Etel CDMA"/>
+ <c name="ETel SIM Toolkit" introduced="6.1"/>
+ <c plugin="Y" introduced="8.1" ref="true" name="CDMA TSY"/>
+ <c introduced="8.1" plugin="Y" outsource="9.0" ref="true" name="MultiMode TSY"/>
+ <c introduced="8.0" plugin="Y" ref="true" name="SIM TSY"/>
+ <c name="Dial" deprecated="9.1"/>
+ <c name="Phonebook Sync" plugin="Y"/>
+ <c plugin="Y" name="Telephony Watchers"/>
+ <c introduced="9.0" name="Backup Engine"/>
+ <c name="C Standard Library" introduced="ER5"/>
+ <c name="Certificate and Key Management" introduced="6.0"/>
+ <c name="Event Logger" introduced="6.0"/>
+ <c name="Task Scheduler" introduced="6.0"/>
+ <c ref="true" plugin="Y" name="FreeType Font Rasteriser"/>
+ <c ref="true" name="Reference Fonts"/>
+ <c ref="true" plugin="Y" name="Printer Drivers"/>
+ <c introduced="7.0s" name="Colour Palette"/>
+ <c introduced="9.5" name="OpenVG Implementation" ref="true"/>
+ <c name="Camera Framework" introduced="7.0s"/>
+ <c ref="true" name="Camera Plugins" plugin="Y" introduced="7.0s"/>
+ <c name="Imaging Frameworks" introduced="7.0s"/>
+ <c plugin="Y" name="Imaging Plugins" introduced="7.0s"/>
+ <c name="Multimedia Framework" introduced="7.0s"/>
+ <c plugin="Y" name="Multimedia Framework Plugins" introduced="7.0s"/>
+ <c name="OpenGL ES Framework" introduced="8.0"/>
+ <c name="Error Resolver Data" ref="true"/>
+ <c name="BMP Animation" introduced="6.0"/>
+ <c plugin="Y" name="Clock"/>
+ <c name="MUX CSY" ref="true"/>
+ <c name="TRP AGT" ref="true"/>
+ <c name="Location Based Services" introduced="9.2"/>
+ <c name="EGL Implementation" ref="true"/>
+ <c name="EGL API" ref="true"/>
+ <c ref="true" name="OpenGL ES Implementation"/>
+ <c introduced="8.0" ref="true" name="OpenGL ES API"/>
+ <c ref="true" plugin="Y" name="iType Font Rasteriser" introduced="9.5"/>
+ <c ref="true" name="OpenVG API"/>
+ <c name="Phonebook Access Profile" introduced="9.2"/>
+ <c name="Location Framework" introduced="9.2"/>
+ <c name="LBS Plugins" introduced="9.2"/>
+ <c name="LBS Network Test" introduced="9.2"/>
+ <c name="Network Protocol Module" ref="true"/>
+ <c name="MTP Framework" introduced="9.4"/>
+ <c name="MTP Integration Test" introduced="9.4"/>
+ <c name="TRP Dispatch Layer Plugins" plugin="Y"/>
+ <c name="UTRACE" introduced="9.3" deprecated="9.4"/>
+ <c name="WLDDATABASEKIT" introduced="6.0" deprecated="9.1"/>
+ <c name="WLDTOOLS" introduced="5.0" deprecated="9.1"/>
+ <c name="HTML to RichText Converter" plugin="Y"/>
+ <c name="File Converter Plugins" plugin="Y"/>
+ <c introduced="9.1" name="Time Zone Localisation"/>
+ <c name="Secure Software Install Device Tools" ref="true"/>
+ <c name="CAF Recogniser Configuration" ref="true"/>
+ <c plugin="Y" name="POP3 and SMTP MTM"/>
+ <c name="Cotulla ASSP" ref="true"/>
+ <c name="E32 Utilities" ref="true"/>
+ <c name="Unistore2 Emulator Support" ref="true"/>
+ <c name="Integrator Unistore2 NAND Logic Module" ref="true"/>
+ <c name="Unistore2 Boot Support" ref="true"/>
+ <c ref="true" name="Emulator BSP"/>
+ <c introduced="9.0" ref="true" name="OMAP H2 BSP"/>
+ <c name="Integrator ARM1136 Core Module" ref="true"/>
+ <c name="Integrator ARM920 Core Module" ref="true"/>
+ <c name="Integrator Core Modules" ref="true"/>
+ <c name="Integrator Motherboard" ref="true"/>
+ <c name="Integrator SSR NAND Logic Module" ref="true"/>
+ <c name="Integrator XX600 Logic Module" ref="true"/>
+ <c name="Multimedia Validation Suite Integration Tests" introduced="9.4"/>
+ <c name="Reference DevSound Plugins" plugin="Y"/>
+ <c name="SWI Analysis Toolkit" ref="true"/>
+ <c name="IP Hook Examples" ref="true"/>
+ <c name="IP Examples" ref="true"/>
+ <c name="Reference ACL Adaptation" introduced="9.5"/>
+ <c introduced="9.5" name="A3F Audio Component Library"/>
+ <c introduced="9.5" name="A3F DevSound Customisation"/>
+ <c introduced="9.5" name="A3F DevSound"/>
+ <c introduced="9.5" name="A3F Audio Component Framework"/>
+ <c introduced="9.5" name="Security Common Utils"/>
+ <c introduced="9.5" name="A3F Trace Utility"/>
+ <c name="Command Shell" introduced="9.5"/>
+ <c name="Telnet Server" introduced="9.5"/>
+ <c name="Multimedia Resource Controller" introduced="9.5"/>
+</model>

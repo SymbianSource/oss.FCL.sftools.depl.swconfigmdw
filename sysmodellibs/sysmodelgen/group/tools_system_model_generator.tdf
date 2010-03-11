@@ -1,0 +1,13 @@
+<tool name="System Model Generator" version="1.1.10" description="Perl command line tool to create system model diagrams.">
+	<properties>
+		<property type="toolLogic" name="Path" value="$INSTDIR"/>
+	</properties>
+	<templates>
+		<template type="xsl" operation="preconfigure" name="smt_preconfigure.xsl" />
+		<template type="nsis" operation="configure" name="/src/tools/product/tools/smg/cli/group/smt.configure.nsh" />
+		<template type="nsis" operation="unconfigure" name="/src/tools/product/tools/smg/cli/group/smt.unconfigure.nsh" />
+	</templates>
+	<files>
+		<zip source="\tools\dist\smg\smg.zip" target="$INSTDIR\SystemModelGenerator"/>
+	</files>
+</tool>

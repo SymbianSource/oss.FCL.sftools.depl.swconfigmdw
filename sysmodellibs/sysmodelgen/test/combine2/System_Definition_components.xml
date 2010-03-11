@@ -1,0 +1,2314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SystemDefinition [
+<!ELEMENT SystemDefinition ( systemModel )>
+<!ATTLIST SystemDefinition
+  name CDATA #REQUIRED
+  schema CDATA #REQUIRED
+>
+<!-- all paths are relative to the environment variable specified by the root attribute, or SOURCEROOT if not.  -->
+
+<!-- System Model Section of DTD -->
+<!ELEMENT systemModel (layer+)>
+
+<!ELEMENT layer (block* | collection*)*>
+<!-- Kernel Services, Base Services, OS Services, Etc -->
+<!ATTLIST layer
+  name CDATA #REQUIRED
+  levels NMTOKENS #IMPLIED
+  span CDATA #IMPLIED
+>
+
+<!ELEMENT block (subblock* | collection*)*>
+ <!-- Generic OS services, Comms Services, etc -->
+<!ATTLIST block
+  levels NMTOKENS #IMPLIED
+  span CDATA #IMPLIED
+  level NMTOKEN #IMPLIED
+  name CDATA #REQUIRED
+>
+
+<!ELEMENT subblock (collection)*>
+<!-- Cellular Baseband Services, Networking Services, etc -->
+<!ATTLIST subblock
+  name CDATA #REQUIRED
+>
+
+<!ELEMENT collection (component)*>
+<!-- Screen Driver, Content Handling, etc -->
+<!ATTLIST collection
+  name CDATA #REQUIRED
+  level NMTOKEN #IMPLIED
+>
+
+<!ELEMENT component (unit)*>
+<!-- contains units or is a  package or prebuilt -->
+<!ATTLIST component
+  name CDATA #REQUIRED
+  deprecated CDATA #IMPLIED
+  introduced CDATA #IMPLIED
+  contract CDATA #IMPLIED
+  plugin (Y|N) "N"
+  filter CDATA #IMPLIED
+  class NMTOKENS #IMPLIED
+  supports CDATA #IMPLIED
+>
+
+<!ELEMENT unit EMPTY >
+<!-- must be buildable (bld.inf) -->
+<!-- bldFile  may someday be removed in favour of mrp -->
+<!ATTLIST unit
+  mrp CDATA #IMPLIED
+  filter CDATA #IMPLIED
+  bldFile CDATA #IMPLIED
+  root CDATA #IMPLIED
+  version NMTOKEN #IMPLIED
+  prebuilt NMTOKEN #IMPLIED
+  late (Y|N) #IMPLIED
+  priority CDATA #IMPLIED
+>
+]>
+<SystemDefinition name="MCL" schema="2.0.0">
+  <systemModel>
+    <layer name="fake">
+      <collection name="Build System Tools">
+        <component name="BUILDSYSTEMTOOLS">
+          <unit bldFile="common/generic/tools/build/group" mrp="common/generic/tools/build/group/tools_build.mrp"/>
+        </component>
+        <component name="GT Techview Baseline">
+          <unit mrp="common/generic/tools/cbr/mrpfiles/gt_techview_baseline.mrp"/>
+          <!-- DEF087736 This is needed for generating export tables but shouldn't appear otherwise it is included in techview and gt
+		     <package name="gt_only_baseline" mrp="common/generic/tools/cbr/mrpfiles/gt_only_baseline.mrp"/> -->
+        </component>
+        <component name="Cedar Utils">
+          <unit mrp="cedar/generic/utils/tools_utils_cedar.mrp"/>
+        </component>
+        <component name="Common Utils">
+          <unit mrp="common/generic/utils/tools_utils_common.mrp"/>
+        </component>
+        <component name="Additional Utils">
+          <unit mrp="common/generic/tools/cbr/mrpfiles/additional_unknown_cedar.mrp"/>
+        </component>
+      </collection>
+      <collection name="Tools and Utils">
+        <component name="CTS Functionality Checkers">
+          <unit mrp="common/testtools/cts/FunctionalityCheckers/Group/testtools_cts_functionalitycheckers.mrp"/>
+        </component>
+        <component name="BURTESTSERVER">
+          <unit bldFile="common/testtools/burtestserver/Group" mrp="common/testtools/burtestserver/Group/testtools_burtestserver.mrp"/>
+        </component>
+        <component name="CBRTOOLS" filter="gt">
+          <unit bldFile="common/generic/tools/cbr/tools/group" mrp="common/generic/tools/cbr/tools/group/tools_cbr_tools.mrp"/>
+        </component>
+        <component name="CBRPRF">
+          <unit bldFile="common/generic/tools/cbr/prf/group" mrp="common/generic/tools/cbr/prf/group/tools_cbr_prf.mrp"/>
+        </component>
+        <component name="CDB">
+          <unit bldFile="common/testtools/cdb/group" mrp="common/testtools/cdb/group/testtools_cdb.mrp"/>
+        </component>
+        <component name="CHATSCRIPTS">
+          <unit bldFile="common/testtools/ChatScripts/group" mrp="common/testtools/ChatScripts/group/testtools_chatscripts.mrp"/>
+        </component>
+        <component name="DEPCHECK">
+          <unit bldFile="common/generic/tools/depcheck" mrp="common/generic/tools/depcheck/tools_depcheck.mrp"/>
+        </component>
+        <component name="Dependency Modeller" introduced="9.2" class="test PC">
+          <unit bldFile="common/generic/tools/depmodel/group" mrp="common/generic/tools/depmodel/tools_depmodel.mrp"/>
+        </component>
+        <component name="E32 Tools" class="PC">
+          <unit bldFile="cedar/generic/tools/e32tools/group" mrp="cedar/generic/tools/e32tools/group/tools_e32tools.mrp"/>
+        </component>
+        <component name="E32 Perl Tools" class="PC">
+          <unit mrp="cedar/generic/tools/e32toolp/group/tools_e32toolp.mrp"/>
+        </component>
+        <component name="EVALID">
+          <unit bldFile="common/generic/tools/host_utilities/evalid" mrp="common/generic/tools/host_utilities/evalid/tools_evalid.mrp"/>
+        </component>
+        <component name="KITCOMPARATOR">
+          <unit bldFile="common/testtools/cts/kitcomparator/group" mrp="common/testtools/cts/kitcomparator/group/testtools_cts_kitcomparator.mrp"/>
+        </component>
+        <component name="SYSTEMTEST_OS" filter="techview">
+          <unit bldFile="common/generic/SystemTest/Symbian/Group" mrp="common/generic/SystemTest/Symbian/Group/systemtest_os.mrp"/>
+        </component>
+        <component name="SYSTEMTEST_TOOLS" filter="techview">
+          <unit bldFile="common/generic/SystemTest/Tools/Group" mrp="common/generic/SystemTest/Tools/Group/systemtest_tools.mrp"/>
+        </component>
+        <component name="LEAVESCAN">
+          <unit bldFile="common/testtools/leavescan/group" mrp="common/testtools/leavescan/group/testtools_leavescan.mrp"/>
+        </component>
+        <component name="PROGRAMCHECKER">
+          <unit bldFile="common/testtools/programchecker/group" mrp="common/testtools/programchecker/group/testtools_programchecker.mrp"/>
+        </component>
+        <component name="RCOMP">
+          <unit bldFile="common/generic/tools/rcomp/group" mrp="common/generic/tools/rcomp/group/tools_rcomp.mrp"/>
+        </component>
+        <component name="Redistribution" filter="gt">
+          <unit bldFile="common/generic/tools/redistribution" mrp="common/generic/tools/redistribution/tools_redistribution_common.mrp"/>
+        </component>
+        <component name="WinC Redistribution">
+          <unit mrp="cedar/generic/tools/redistribution/tools_redistribution_winc.mrp"/>
+        </component>
+        <component name="Additional Redistribution">
+          <unit mrp="common/generic/tools/redistribution/additional_tools.mrp"/>
+        </component>
+        <component name="ROMKIT_EKA2">
+          <unit bldFile="cedar/generic/tools/romkit/group" mrp="cedar/generic/tools/romkit/group/tools_romkit.mrp"/>
+        </component>
+        <component name="MIGRATIONTOOL">
+          <unit bldFile="common/testtools/migrationtool/group" mrp="common/testtools/migrationtool/group/testtools_migrationtool.mrp"/>
+        </component>
+        <component name="TESTDRIVER">
+          <unit bldFile="common/testtools/TestDriver/Group" mrp="common/testtools/TestDriver/Group/testtools_testdriver.mrp"/>
+        </component>
+        <component name="S60 Compatibility Headers" filter="gt">
+          <unit version="9.5" bldFile="common/generic/tools/s60_header_compat/group95" mrp="common/generic/tools/s60_header_compat/group95/tools_s60_header_compat95.mrp"/>
+          <unit version="Future" bldFile="common/generic/tools/s60_header_compat/groupfuture" mrp="common/generic/tools/s60_header_compat/groupfuture/tools_s60_header_compatfuture.mrp"/>
+        </component>
+        <component name="SMOKETEST" filter="gt">
+          <unit bldFile="common/testtools/smoketest/Group" mrp="common/testtools/smoketest/Group/testtools_smoketest.mrp"/>
+        </component>
+        <component name="Stat API" filter="gt">
+          <unit bldFile="common/testtools/stat/device/source/statapi/console" mrp="common/testtools/stat/device/group/testtools_stat_device_gt.mrp"/>
+        </component>
+        <component name="Stat Source" contract="Symbian_Affiliate" filter="gt">
+          <unit mrp="common/testtools/stat/group/testtools_stat_common_source.mrp"/>
+        </component>
+        <component name="STAT_DESKTOP" contract="Symbian_Affiliate" filter="gt">
+          <unit bldFile="common/testtools/stat/desktop/group" mrp="common/testtools/stat/desktop/group/testtools_stat_desktop.mrp"/>
+        </component>
+        <component name="TESTEXECUTE">
+          <unit bldFile="common/testtools/testexecute/Group" mrp="common/testtools/testexecute/Group/tools_testexecute.mrp"/>
+        </component>
+        <component name="Test Tools Desktop" filter="gt">
+          <unit bldFile="common/testtools/desktop/group" mrp="common/testtools/desktop/group/testtools_desktop.mrp"/>
+        </component>
+        <component name="Wintunnel">
+          <unit mrp="common/testtools/wintunnel/group/testtools_WinTunnel_srconly.mrp"/>
+        </component>
+        <component name="Use Case Controller">
+          <unit bldFile="common/testtools/ucc/BuildScripts/group" mrp="common/testtools/ucc/BuildScripts/group/testtools_ucc.mrp"/>
+        </component>
+        <component name="CINIDATA">
+          <unit bldFile="common/generic/tools/cinidata" mrp="common/generic/tools/cinidata/tools_cinidata.mrp"/>
+        </component>
+        <component name="AUTOTEST">
+          <unit bldFile="common/generic/tools/autotest/group" mrp="common/generic/tools/autotest/group/tools_autotest.mrp"/>
+        </component>
+        <component name="TESTCONFIGFILEPARSER">
+          <unit bldFile="common/generic/tools/testconfigfileparser/group" mrp="common/generic/tools/testconfigfileparser/group/tools_testconfigfileparser.mrp"/>
+        </component>
+        <component name="KITSETUPAPP" filter="gt">
+          <unit bldFile="common/generic/tools/devkits/kitsetupapp/group" mrp="common/generic/tools/devkits/kitsetupapp/group/tools_devkits_kitsetupapp.mrp" priority="1020"/>
+        </component>
+        <component name="NAVIGATION_PAGES">
+          <unit mrp="common/generic/tools/sdk_eng/NavigationPages/tools_sdk_eng_NavigationPages.mrp"/>
+        </component>
+        <component name="PRODUCTINSTALLER" filter="gt">
+          <unit bldFile="common/generic/tools/custkits/productinstaller/group" mrp="common/generic/tools/custkits/productinstaller/group/tools_custkits_productinstaller.mrp"/>
+        </component>
+        <component name="REDISTRIBUTION_WINC_EKA2">
+          <unit bldFile="cedar/generic/tools/redistribution" mrp="cedar/generic/tools/redistribution/tools_redistribution_cedar.mrp"/>
+        </component>
+        <component name="MakeKeys" filter="gt" introduced="6.0" class="PC">
+          <unit bldFile="common/generic/security/makekeys/group" mrp="common/generic/security/makekeys/group/security_makekeys.mrp"/>
+        </component>
+        <component name="CAPTOOLS">
+          <unit bldFile="common/testtools/captools/group" mrp="common/testtools/captools/group/testtools_captools.mrp"/>
+        </component>
+        <component name="STLPORT">
+          <unit bldFile="common/generic/tools/stlport/group" mrp="common/generic/tools/stlport/group/tools_stlport.mrp"/>
+        </component>
+      </collection>
+      <collection name="Developer Library">
+        <component name="Developer Library Tools" class="placeholder">
+          <!-- placeholder for  mrp="common/developerlibrary/tools/developerlibrary_tools.mrp" -->
+        </component>
+        <component name="Developer Library Help" class="doc">
+          <unit version="9.5" bldFile="common/developerlibrary/group/devlib95" mrp="common/developerlibrary/group/devlib95/developerlibrary_doc_html.mrp"/>
+        </component>
+        <component name="Developer Library Source" filter="gt" class="doc">
+          <unit bldFile="common/developerlibrary/securitysupplement/doc_source" mrp="common/developerlibrary/developerlibrary_doc_source.mrp"/>
+        </component>
+        <component name="Developer Library HTML" class="doc">
+          <unit mrp="common/developerlibrary/group/shared/developerlibrary_doc_plain_html.mrp"/>
+        </component>
+        <component name="System Documentation" class="doc">
+          <unit mrp="common/system/group/system.mrp"/>
+        </component>
+        <component name="Tools Documentation" class="doc">
+          <unit mrp="cedar/generic/tools/documentation/tools_documentation.mrp"/>
+        </component>
+      </collection>
+      <collection name="SDKENG">
+        <component name="RUNPERL" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/runperl/group" mrp="common/generic/tools/sdk_eng/runperl/group/tools_sdk_eng_runperl.mrp"/>
+        </component>
+        <component name="BUILD-TOOLS" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/build-tools/group" mrp="common/generic/tools/sdk_eng/build-tools/group/tools_sdk_eng_build-tools.mrp"/>
+        </component>
+        <component name="JAVALIBRARY" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/javalibrary/group" mrp="common/generic/tools/sdk_eng/javalibrary/group/tools_sdk_eng_javalibrary.mrp"/>
+        </component>
+        <component name="ASSERTION" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/assertion/group" mrp="common/generic/tools/sdk_eng/assertion/group/tools_sdk_eng_assertion.mrp"/>
+        </component>
+        <component name="ENUM" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/enum/group" mrp="common/generic/tools/sdk_eng/enum/group/tools_sdk_eng_enum.mrp"/>
+        </component>
+        <component name="LOGGER" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/logger/group" mrp="common/generic/tools/sdk_eng/logger/group/tools_sdk_eng_logger.mrp"/>
+        </component>
+        <component name="FILESYS" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/filesys/group" mrp="common/generic/tools/sdk_eng/filesys/group/tools_sdk_eng_filesys.mrp"/>
+        </component>
+        <component name="ENVVAR" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/envvar/group" mrp="common/generic/tools/sdk_eng/envvar/group/tools_sdk_eng_envvar.mrp"/>
+        </component>
+        <component name="INSTALLUTILS" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/installutils/group" mrp="common/generic/tools/sdk_eng/installutils/group/tools_sdk_eng_installutils.mrp"/>
+        </component>
+        <component name="MNEMONICFIX" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/mnemonicfix/group" mrp="common/generic/tools/sdk_eng/mnemonicfix/group/tools_sdk_eng_mnemonicfix.mrp"/>
+        </component>
+        <component name="PATHBROWSER" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/pathbrowser/group" mrp="common/generic/tools/sdk_eng/pathbrowser/group/tools_sdk_eng_pathbrowser.mrp"/>
+        </component>
+        <component name="SHELLEXEC" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/shellexec/group" mrp="common/generic/tools/sdk_eng/shellexec/group/tools_sdk_eng_shellexec.mrp"/>
+        </component>
+        <component name="SWINGWORKER" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/swingworker/group" mrp="common/generic/tools/sdk_eng/swingworker/group/tools_sdk_eng_swingworker.mrp"/>
+        </component>
+        <component name="TESTCASERUNNER" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/testcaserunner/group" mrp="common/generic/tools/sdk_eng/testcaserunner/group/tools_sdk_eng_testcaserunner.mrp"/>
+        </component>
+        <component name="TOOLBARPANEL" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/toolbarpanel/group" mrp="common/generic/tools/sdk_eng/toolbarpanel/group/tools_sdk_eng_toolbarpanel.mrp"/>
+        </component>
+        <component name="JAVAHELP" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/javahelp/group" mrp="common/generic/tools/sdk_eng/javahelp/group/tools_sdk_eng_javahelp.mrp"/>
+        </component>
+        <component name="LANGCONFIG" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/langconfig/group" mrp="common/generic/tools/sdk_eng/langconfig/group/tools_sdk_eng_langconfig.mrp"/>
+        </component>
+        <component name="MBMCODEC" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/mbmcodec/group" mrp="common/generic/tools/sdk_eng/mbmcodec/group/tools_sdk_eng_mbmcodec.mrp"/>
+        </component>
+        <component name="SDKINFO" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/sdkinfo/group" mrp="common/generic/tools/sdk_eng/sdkinfo/group/tools_sdk_eng_sdkinfo.mrp"/>
+        </component>
+        <component name="JADE" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/jade/group" mrp="common/generic/tools/sdk_eng/jade/group/tools_sdk_eng_jade.mrp"/>
+        </component>
+        <component name="CSHLPCMP_GUI" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/cshlpcmp_gui/group" mrp="common/generic/tools/sdk_eng/cshlpcmp_gui/group/tools_sdk_eng_cshlpcmp_gui.mrp" priority="1010"/>
+        </component>
+        <component name="SDK Package Manager" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/sdkpkg-manager/group" mrp="common/generic/tools/sdk_eng/sdkpkg-manager/group/tools_sdk_eng_sdkpkg-manager.mrp"/>
+        </component>
+        <component name="Example Package Defs" filter="gt">
+          <unit mrp="/product/TechviewExampleSDK/product_TechViewExampleSDK_pkgdefs.mrp"/>
+        </component>
+        <component name="SDKPKG-TOOLS" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/sdkpkg-tools/group" mrp="common/generic/tools/sdk_eng/sdkpkg-tools/group/tools_sdk_eng_sdkpkg-tools.mrp"/>
+        </component>
+        <component name="EMULATOR_LAUNCHER" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/emulator_launcher/group" mrp="common/generic/tools/sdk_eng/emulator_launcher/group/tools_sdk_eng_emulator_launcher.mrp"/>
+        </component>
+        <component name="PKGMGRGUI" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/pkgmgrgui/group" mrp="common/generic/tools/sdk_eng/pkgmgrgui/group/tools_sdk_eng_pkgmgrgui.mrp"/>
+        </component>
+        <component name="LAUNCH" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/launch/group" mrp="common/generic/tools/sdk_eng/launch/group/tools_sdk_eng_launch.mrp"/>
+        </component>
+        <component name="TOOLS_STUBS" filter="gt">
+          <unit bldFile="common/generic/tools/sdk_eng/tools_stubs/group" mrp="common/generic/tools/sdk_eng/tools_stubs/group/tools_sdk_eng_tools_stubs.mrp"/>
+        </component>
+        <component name="BSPBUILDER" filter="gt">
+          <unit bldFile="common/generic/tools/bspbuilder/group" mrp="common/generic/tools/bspbuilder/group/tools_bspbuilder.mrp"/>
+        </component>
+        <component name="ALP2CSH">
+          <unit bldFile="common/generic/tools/sdk_eng/alp2csh/group" mrp="common/generic/tools/sdk_eng/alp2csh/group/tools_sdk_eng_alp2csh.mrp"/>
+        </component>
+        <component name="CJPEG">
+          <unit bldFile="common/generic/tools/sdk_eng/cjpeg/group" mrp="common/generic/tools/sdk_eng/cjpeg/group/tools_sdk_eng_cjpeg.mrp"/>
+        </component>
+        <component name="CSHLPCMP Frontend">
+          <unit bldFile="common/generic/tools/sdk_eng/cshlpcmp_frontend/group" mrp="common/generic/tools/sdk_eng/cshlpcmp_frontend/group/tools_sdk_eng_cshlpcmp_frontend.mrp"/>
+        </component>
+        <component name="CSHLPCMP Backend">
+          <unit mrp="common/generic/tools/sdk_eng/cshlpcmp_backend/group/tools_sdk_eng_cshlpcmp_backend_srconly.mrp"/>
+        </component>
+        <component name="PERLLIBRARY">
+          <unit bldFile="common/generic/tools/sdk_eng/perllibrary/group" mrp="common/generic/tools/sdk_eng/perllibrary/group/tools_sdk_eng_perllibrary.mrp"/>
+        </component>
+        <component name="Perl Shared Libraries">
+          <unit bldFile="common/generic/tools/sdk_eng/perl_shared/group" mrp="common/generic/tools/sdk_eng/perl_shared/group/tools_sdk_eng_perl_shared.mrp"/>
+        </component>
+        <component name="RTF2PTML">
+          <unit bldFile="common/generic/tools/sdk_eng/rtf2ptml/group" mrp="common/generic/tools/sdk_eng/rtf2ptml/group/tools_sdk_eng_rtf2ptml.mrp"/>
+        </component>
+        <component name="SPLASH">
+          <unit bldFile="common/generic/tools/sdk_eng/splash/group" mrp="common/generic/tools/sdk_eng/splash/group/tools_sdk_eng_splash.mrp"/>
+        </component>
+        <component name="SDK Builder">
+          <unit bldFile="common/generic/tools/sdk_eng/SDK_Builder/group" mrp="common/generic/tools/sdk_eng/SDK_Builder/group/tools_sdk_eng_sdk_builder.mrp"/>
+        </component>
+      </collection>
+      <collection name="Test Product">
+        <component name="Bluetooth Test Product" introduced="9.2" class="test">
+          <unit mrp="common/generic/bluetooth/latest/testproduct/group/bluetooth_testproduct.mrp"/>
+        </component>
+        <component name="Multimedia Test Product" class="test">
+          <unit mrp="common/generic/multimedia/testproduct/group/multimedia_testproduct.mrp"/>
+        </component>
+        <component name="Syslibs Test Product" class="test">
+          <unit mrp="common/generic/syslibs/testproduct/group/syslibs_testproduct.mrp"/>
+        </component>
+        <component name="Comms Infrastructure Test Product" introduced="9.2" class="test">
+          <unit mrp="common/generic/comms-infras/testproduct/group/comms-infras_testproduct.mrp"/>
+        </component>
+        <component name="Graphics Test Product" class="test">
+          <unit mrp="common/generic/graphics/testproduct/group/graphics_testproduct.mrp"/>
+        </component>
+      </collection>
+        <collection name="Emulator">
+          <component name="Emulator BSP" contract="Symbian_SD4C">
+            <unit bldFile="cedar/generic/base/emulator/wins" mrp="cedar/generic/base/emulator/wins/base_wins.mrp"/>
+          </component>
+          <component name="Unistore2 Emulator Support" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt" introduced="9.4">
+            <unit bldFile="cedar/generic/base/emulator/wins_restricted/unistore2" mrp="cedar/generic/base/emulator/wins_restricted/unistore2/base_wins_unistore2.mrp"/>
+          </component>
+        </collection>
+        <collection name="Assabet">
+          <component name="Assabet BSP" deprecated="8.0">
+            <unit bldFile="cedar/generic/base/assabet" mrp="cedar/generic/base/assabet/base_assabet.mrp"/>
+          </component>
+          <component name="StrongArm 1100 ASSP" introduced="8.1">
+            <unit mrp="cedar/generic/base/sa1100/base_sa1100.mrp"/>
+          </component>
+        </collection>
+        <collection name="Integrator BSP">
+          <component name="Integrator Motherboard" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/integrator/integratorap" mrp="cedar/generic/base/integrator/integratorap/base_integrator_integratorap.mrp"/>
+          </component>
+          <component name="Integrator Core Modules">
+            <unit bldFile="cedar/generic/base/integrator/core" mrp="cedar/generic/base/integrator/core/base_integrator_core_8.1b.mrp"/>
+          </component>
+          <component name="Integrator ARM920 Core Module" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/integrator/core/cm920" mrp="cedar/generic/base/integrator/core/cm920/base_integrator_core_cm920.mrp"/>
+          </component>
+          <component name="Integrator ARM1136 Core Module">
+            <unit bldFile="cedar/generic/base/integrator/core/cm1136" mrp="cedar/generic/base/integrator/core/cm1136/base_integrator_core_cm1136.mrp"/>
+          </component>
+          <component name="Integrator XX600 Logic Module" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/integrator/logic/lmxx600" mrp="cedar/generic/base/integrator/logic/lmxx600/base_integrator_logic_lmxx600.mrp"/>
+          </component>
+          <component name="Integrator SSR NAND Logic Module" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/integrator/logic/lmnand" mrp="cedar/generic/base/integrator/logic/lmnand/base_integrator_logic_lmnand.mrp"/>
+          </component>
+          <component name="Integrator Panasonic Logic Module" contract="SD_Card_PSL">
+            <unit mrp="cedar/generic/base/integrator/logic/lm_pana/base_integrator_logic_lm_pana.mrp"/>
+          </component>
+          <component name="Integrator Unistore2 NAND Logic Module" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt">
+            <unit bldFile="cedar/generic/base/integrator/logic/lmnand2" mrp="cedar/generic/base/integrator/logic/lmnand2/base_integrator_logic_lmnand2.mrp"/>
+          </component>
+        </collection>
+        <collection name="OMAP H2">
+          <component name="OMAP H2 BSP" introduced="9.0">
+            <unit bldFile="cedar/generic/base/omap/h2" mrp="cedar/generic/base/omap/h2/base_omaph2.mrp"/>
+          </component>
+          <component name="OMAP H2 Unistore2" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt" introduced="9.1">
+            <unit bldFile="cedar/generic/base/omap/h2_restricted/unistore2" mrp="cedar/generic/base/omap/h2_restricted/unistore2/base_h2_unistore2.mrp"/>
+          </component>
+          <component name="OMAP H2 SDIO" filter="gt" introduced="9.2">
+            <unit bldFile="cedar/generic/base/omap/h2_restricted/sdio" mrp="cedar/generic/base/omap/h2_restricted/sdio/base_h2_sdio.mrp"/>
+          </component>
+        </collection>
+        <collection name="OMAP H4">
+          <component name="OMAP H4 BSP">
+            <unit bldFile="cedar/generic/base/omap_hrp/h4" mrp="cedar/generic/base/omap_hrp/h4/base_omaph4hrp.mrp"/>
+          </component>
+          <component name="H4 Boot Loader" introduced="9.1">
+            <unit mrp="cedar/generic/base/omap_hrp/h4_bootloader/base_omaph4hrp_bootldr.mrp" bldFile="cedar/generic/base/omap_hrp/h4_bootloader"/>
+          </component>
+          <component name="OMAP H4 Mini Environment Boot Loader" introduced="9.2">
+            <unit mrp="cedar/generic/base/omap_hrp/h4_mebootloader/base_omaph4hrp_mebootldr.mrp" bldFile="cedar/generic/base/omap_hrp/h4_mebootloader"/>
+          </component>
+          <component name="OMAP H4 Unistore2" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt" introduced="9.2">
+            <unit bldFile="cedar/generic/base/omap_hrp/h4_restricted/unistore2" mrp="cedar/generic/base/omap_hrp/h4_restricted/unistore2/base_omaph4hrp_unistore2.mrp"/>
+          </component>
+          <component name="OMAP H4 SDIO" filter="gt" introduced="9.2">
+            <unit bldFile="cedar/generic/base/omap_hrp/h4_restricted/sdio" mrp="cedar/generic/base/omap_hrp/h4_restricted/sdio/base_omaph4hrp_sdio.mrp"/>
+          </component>
+        </collection>
+        <collection name="USB Hardware Adaptation">
+          <component name="OMAP USB Host Controller Driver" introduced="9.5" filter="gt">
+            <unit bldFile="cedar/generic/base/omap_hrp/h4_restricted/usbho" mrp="cedar/generic/base/omap_hrp/h4_restricted/usbho/base_omaph4hrp_usbhostotg_usbware.mrp"/>
+          </component>
+          <component name="OMAP USB Host Controller Driver Template" introduced="9.5" filter="gt">
+            <unit bldFile="cedar/generic/base/template/template_variant/usbho" mrp="cedar/generic/base/template/template_variant/usbho/base_template_usbhostotg.mrp"/>
+          </component>
+        </collection>
+        <collection name="Kernel Architecture">
+          <component name="Kernel Architecture 2" introduced="8.0">
+            <unit bldFile="cedar/generic/base/e32" mrp="cedar/generic/base/e32/base_e32.mrp"/>
+          </component>
+        </collection>
+        <collection name="Boot Loader">
+          <component name="Bootstrap" introduced="9.2">
+            <unit mrp="cedar/generic/base/ubootldr/base_ubootldr.mrp"/>
+          </component>
+        </collection>
+        <collection name="Flash Translation Layer">
+          <component name="Unistore2 Drivers" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt" introduced="9.1">
+            <unit bldFile="cedar/generic/base/e32/drivers/unistore2" mrp="cedar/generic/base/e32/drivers/unistore2/base_drivers_unistore2.mrp"/>
+          </component>
+          <component name="Unistore2 Core" contract="NAND_Flash_XSR_Unistore_2_Core_Portion" filter="gt" introduced="9.1">
+            <unit mrp="cedar/generic/base/e32/drivers/unistore2/base_drivers_unistore2_undeliverable.mrp"/>
+          </component>
+          <component name="Unistore2 Crash Logger" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt" introduced="9.1">
+            <unit bldFile="cedar/generic/base/e32/drivers/crashflash/unistore2" mrp="cedar/generic/base/e32/drivers/crashflash/unistore2/base_crashflash_unistore2.mrp"/>
+          </component>
+          <component name="Unistore2 Boot Support" contract="NAND_Flash_XSR_Unistore_2_Other_Portions" filter="gt" introduced="9.1">
+            <unit bldFile="cedar/generic/base/e32utils/nandboot/nandloader/unistore2" mrp="cedar/generic/base/e32utils/nandboot/base_nandboot_unistore2.mrp"/>
+          </component>
+        </collection>
+        <collection name="Kernel Test">
+          <component name="E32 Tests" class="test">
+            <unit bldFile="cedar/generic/base/e32test/group" mrp="cedar/generic/base/e32test/group/base_e32test.mrp"/>
+          </component>
+          <component name="SDIO Tests" filter="gt" introduced="9.2" class="test">
+            <unit bldFile="cedar/generic/base/e32utils/sdio" mrp="cedar/generic/base/e32utils/sdio/base_sdiotests.mrp"/>
+          </component>
+          <component name="E32 Utilities" contract="NAND_Flash_XSR_Unistore_2_Other_Portions">
+            <unit bldFile="cedar/generic/base/e32utils/group" mrp="cedar/generic/base/e32utils/group/base_e32utils.mrp"/>
+          </component>
+          <component name="File Server Tests" class="test">
+            <unit bldFile="cedar/generic/base/f32test/group" mrp="cedar/generic/base/f32test/group/base_f32test.mrp"/>
+          </component>
+        </collection>
+        <collection name="Logical Device Drivers">
+          <component name="Ethernet Driver">
+            <unit bldFile="cedar/generic/base/e32/drivers/ethernet" mrp="cedar/generic/base/e32/drivers/ethernet/base_e32_drivers_ethernet.mrp"/>
+          </component>
+          <component name="Sound Driver" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/e32/drivers/esound" mrp="cedar/generic/base/e32/drivers/esound/base_e32_drivers_sound.mrp"/>
+          </component>
+          <component name="Serial Port Driver">
+            <unit bldFile="cedar/generic/base/e32/drivers/ecomm" mrp="cedar/generic/base/e32/drivers/ecomm/base_e32_drivers_ecomm.mrp"/>
+          </component>
+          <component name="Legacy Drivers">
+            <unit mrp="cedar/generic/base/e32/drivers/adc/base_e32_drivers_adc.mrp"/>
+          </component>
+          <component name="Local Media Subsystem" introduced="8.1b">
+            <!-- these are LDDs for storage media-->
+            <unit bldFile="cedar/generic/base/e32/drivers/locmedia" mrp="cedar/generic/base/e32/drivers/locmedia/base_e32_drivers_locmedia.mrp"/>
+          </component>
+          <component name="Run Mode Debugger">
+            <unit bldFile="cedar/generic/base/e32/drivers/debug" mrp="cedar/generic/base/e32/drivers/debug/base_e32_drivers_debug.mrp"/>
+          </component>
+          <component name="Kernel Trace Tool">
+            <unit bldFile="cedar/generic/base/e32/drivers/trace" mrp="cedar/generic/base/e32/drivers/trace/base_e32_drivers_trace.mrp"/>
+          </component>
+        </collection>
+        <collection name="Generic Driver Support">
+          <component name="SD Card 3C Driver" contract="SD_Card_SD3C" filter="gt" introduced="9.1">
+            <unit bldFile="cedar/generic/base/e32/drivers/pbus/mmc/sdcard/sdcard3c" mrp="cedar/generic/base/e32/drivers/pbus/mmc/sdcard/sdcard3c/base_e32_sd3c.mrp"/>
+          </component>
+          <component name="SD Card 4C Driver" contract="SD_Card_SD4C" filter="gt" introduced="9.1">
+            <unit bldFile="cedar/generic/base/e32/drivers/pbus/mmc/sdcard/sdcard4c" mrp="cedar/generic/base/e32/drivers/pbus/mmc/sdcard/sdcard4c/base_e32_sd4c.mrp"/>
+          </component>
+          <component name="Media Drivers">
+            <!-- these are for storage media-->
+            <unit bldFile="cedar/generic/base/e32/drivers/media" mrp="cedar/generic/base/e32/drivers/media/base_e32_drivers_media.mrp"/>
+          </component>
+          <component name="Generic Board Support Packages">
+            <unit bldFile="cedar/generic/base/e32/drivers/bsp" mrp="cedar/generic/base/e32/drivers/bsp/base_e32_drivers_bsp.mrp"/>
+          </component>
+          <component name="System On Chip ASSP" contract="Symbian_SD4C">
+            <unit mrp="cedar/generic/base/soc/base_soc.mrp"/>
+          </component>
+        </collection>
+        <collection name="Generic BSP">
+          <component name="Template Variant">
+            <unit bldFile="cedar/generic/base/template/template_variant" mrp="cedar/generic/base/template/base_template.mrp"/>
+          </component>
+        </collection>
+        <collection name="Shortlink Logical Device Drivers">
+          <component name="USB Client Driver" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/e32/drivers/usbc" mrp="cedar/generic/base/e32/drivers/usbc/base_e32_drivers_usbcli.mrp"/>
+          </component>
+          <component name="USB Host and OTG Drivers" introduced="9.5" filter="gt">
+            <unit bldFile="cedar/generic/base/e32/drivers/usbho" mrp="cedar/generic/base/e32/drivers/usbho/base_drivers_usbhostotg.mrp"/>
+          </component>
+          <component name="USB Host and OTG Stack" introduced="9.5" filter="gt">
+            <unit bldFile="cedar/generic/base/e32/drivers/usbho/usbd" mrp="cedar/generic/base/e32/drivers/usbho/usbd/base_drivers_usbhostotg_usbware.mrp"/>
+          </component>
+        </collection>
+        <collection name="Graphics LDDs">
+          <component name="Surface Manager" introduced="9.5">
+            <unit bldFile="common/generic/graphics/surfacemanager/group" mrp="common/generic/graphics/surfacemanager/group/graphics_surfacemanager.mrp"/>
+          </component>
+        </collection>
+        <collection name="Localisation">
+          <component name="Locale Support" contract="Symbian_Affiliate" plugin="Y">
+            <unit bldFile="common/generic/base/loce32/ongoing" mrp="common/generic/base/loce32/ongoing/mmpfiles/base_loce32.mrp"/>
+          </component>
+        </collection>
+        <collection name="User Library and File Server">
+          <component name="User Library" contract="Symbian_Kernel">
+            <unit bldFile="cedar/generic/base/e32/euser" mrp="cedar/generic/base/e32/euser/base_e32_euser.mrp"/>
+          </component>
+          <component name="Compiler Runtime Support" filter="gt">
+            <unit bldFile="cedar/generic/base/e32/compsupp" mrp="cedar/generic/base/e32/compsupp/base_e32_compsupp.mrp"/>
+          </component>
+          <component name="File Server" filter="gt">
+            <unit bldFile="cedar/generic/base/f32/group" mrp="cedar/generic/base/f32/group/base_f32.mrp"/>
+          </component>
+          <component name="FAT Filename Conversion Plugins" plugin="Y" introduced="9.1">
+            <unit bldFile="common/generic/syslibs/FATCharsetConv/group" mrp="common/generic/syslibs/FATCharsetConv/group/syslibs_FATCharsetConv.mrp"/>
+          </component>
+          <component name="NAND Flash Translation Layer" filter="gt" introduced="7.0s" deprecated="9.1">
+            <unit bldFile="cedar/generic/base/f32/sftl" mrp="cedar/generic/base/f32/sftl/base_f32_sftl.mrp"/>
+          </component>
+          <component name="Base Starter" filter="gt">
+            <unit bldFile="cedar/generic/base/f32/estart" mrp="cedar/generic/base/f32/estart/base_f32_estart.mrp"/>
+          </component>
+          <component name="Domain Manager" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/domain/group" mrp="cedar/generic/base/domain/group/base_domain.mrp"/>
+          </component>
+          <component name="Base Documentation" class="doc">
+            <unit mrp="cedar/generic/base/documentation/base_documentation.mrp"/>
+          </component>
+        </collection>
+        <collection name="File Systems">
+          <component name="ROM File System" filter="gt" plugin="Y">
+            <unit mrp="cedar/generic/base/f32/srom/base_f32_srom.mrp"/>
+          </component>
+          <component name="ROFS" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/srofs" mrp="cedar/generic/base/f32/srofs/base_f32_srofs.mrp"/>
+          </component>
+          <component name="USB Mass Storage File System" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/smassstorage" mrp="cedar/generic/base/f32/smassstorage/base_f32_smassstorage.mrp"/>
+          </component>
+          <component name="LFFS" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/slffs" mrp="cedar/generic/base/f32/slffs/base_f32_slffs.mrp"/>
+          </component>
+          <component name="FAT32 File System" contract="FAT32" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/sfat32" mrp="cedar/generic/base/f32/sfat32/base_f32_sfat32.mrp"/>
+          </component>
+          <component name="FAT File System" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/sfat" mrp="cedar/generic/base/f32/sfat/base_f32_sfat.mrp"/>
+          </component>
+          <component name="Composite File System" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/scomp" mrp="cedar/generic/base/f32/scomp/base_f32_scomp.mrp"/>
+          </component>
+          <component name="NTFS" filter="gt" plugin="Y">
+            <unit bldFile="cedar/generic/base/f32/ntfs" mrp="cedar/generic/base/f32/ntfs/base_f32_sntfs.mrp"/>
+          </component>
+          <component name="ISO9660 File System" filter="gt" plugin="Y" introduced="8.1b">
+            <unit bldFile="cedar/generic/base/f32/iso9660" mrp="cedar/generic/base/f32/iso9660/base_f32_siso9660.mrp"/>
+          </component>
+        </collection>
+        <collection name="Base User-side Tests">
+          <component name="Base Integration Test">
+            <unit bldFile="cedar/generic/base_integration_test/group" mrp="cedar/generic/base_integration_test/group/base_integration_test.mrp"/>
+          </component>
+        </collection>
+        <collection name="HAL Services">
+          <component name="User-Side Hardware Abstraction" introduced="6.0">
+            <unit bldFile="cedar/generic/base/hal" mrp="cedar/generic/base/hal/base_hal.mrp"/>
+          </component>
+        </collection>
+        <collection name="Text Mode Shell">
+          <component name="Text Window Server">
+            <unit bldFile="cedar/generic/base/e32/ewsrv" mrp="cedar/generic/base/e32/ewsrv/base_e32_ewsrv.mrp"/>
+          </component>
+          <component name="Text Shell" filter="gt">
+            <unit bldFile="cedar/generic/base/f32/etshell" mrp="cedar/generic/base/f32/etshell/base_f32_eshell.mrp"/>
+          </component>
+        </collection>
+        <collection name="Generic Services">
+          <component name="MIME Recognition Framework">
+            <unit bldFile="common/generic/app-framework/emime/group" mrp="common/generic/app-framework/emime/group/app-framework_emime.mrp"/>
+          </component>
+          <component name="System Agent" introduced="9.0">
+            <unit bldFile="common/generic/syslibs/sysagent2/group" mrp="common/generic/syslibs/sysagent2/group/syslibs_sysagent2.mrp"/>
+          </component>
+          <component name="Task Scheduler" introduced="6.0">
+            <unit bldFile="common/generic/syslibs/schsvr/ongoing/group" mrp="common/generic/syslibs/schsvr/ongoing/group/syslibs_schsvr.mrp"/>
+          </component>
+          <component name="Active Backup Client">
+            <unit bldFile="common/generic/connectivity/SecureBackupEngine/abclient/group" mrp="common/generic/connectivity/SecureBackupEngine/abclient/group/connectivity_abclient.mrp"/>
+          </component>
+          <component name="Syslibs Documentation" class="doc">
+            <unit mrp="common/generic/syslibs/documentation/syslibs_documentation.mrp"/>
+          </component>
+          <component name="HTTP Utilities Library" introduced="6.2">
+            <unit bldFile="common/generic/application-protocols/inetprotutil/group" mrp="common/generic/application-protocols/inetprotutil/group/application-protocols_inetprotutil.mrp"/>
+          </component>
+        </collection>
+        <collection name="Generic Open Libraries">
+          <component name="C Standard Library" introduced="ER5">
+            <unit bldFile="common/generic/syslibs/stdlib/group" mrp="common/generic/syslibs/stdlib/group/syslibs_stdlib.mrp"/>
+          </component>
+          <component name="C++ Standard Library" introduced="9.5">
+            <unit bldFile="common/generic/openenv/stdcpp/group" mrp="common/generic/openenv/stdcpp/group/openenv_libstdcpp.mrp"/>
+          </component>
+          <component name="Open Environment Core" introduced="9.4">
+            <unit bldFile="common/generic/openenv/core/group" mrp="common/generic/openenv/core/group/openenv.mrp"/>
+          </component>
+        </collection>
+        <collection name="XML">
+          <component name="XML Framework" introduced="7.0s">
+            <unit bldFile="common/generic/syslibs/xml/xmlframework/group" mrp="common/generic/syslibs/xml/xmlframework/group/syslibs_xml.mrp"/>
+          </component>
+          <component name="XML Parser" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/syslibs/xml/xmlparser/group" mrp="common/generic/syslibs/xml/xmlparser/group/syslibs_xmlparser.mrp"/>
+          </component>
+          <component name="WBXML Parser" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/syslibs/xml/wbxmlparser/group" mrp="common/generic/syslibs/xml/wbxmlparser/group/syslibs_wbxmlparser.mrp"/>
+          </component>
+        </collection>
+        <collection name="Compression Libraries">
+          <component name="Zip Compression Library" introduced="6.0">
+            <unit bldFile="common/generic/syslibs/ezlib2/group" mrp="common/generic/syslibs/ezlib2/group/syslibs_ezlib2.mrp"/>
+          </component>
+        </collection>
+        <collection name="Low Level Libraries and Frameworks">
+          <component name="Plugin Framework" introduced="6.2">
+            <unit version="3" bldFile="common/generic/syslibs/ecom3/Group" mrp="common/generic/syslibs/ecom3/Group/syslibs_ecom3.mrp"/>
+          </component>
+          <component name="Application Utilities" introduced="ER5">
+            <unit bldFile="common/generic/syslibs/bafl/group" mrp="common/generic/syslibs/bafl/group/syslibs_bafl.mrp"/>
+          </component>
+        </collection>
+        <collection name="Character Conversion Framework">
+          <component name="Character Encoding and Conversion Framework">
+            <unit bldFile="common/generic/syslibs/charconv/framework/group" mrp="common/generic/syslibs/charconv/framework/group/syslibs_charconv.mrp"/>
+          </component>
+          <component name="Character Encoding and Conversion Plugins" plugin="Y">
+            <unit bldFile="common/generic/syslibs/charconv/plugins/group" mrp="common/generic/syslibs/charconv/plugins/group/syslibs_charconv_plugins.mrp"/>
+          </component>
+        </collection>
+        <collection name="Authorisation">
+          <component name="User Prompt Service" introduced="9.5">
+            <unit bldFile="common/generic/security/ups/group" mrp="common/generic/security/ups/group/security_ups.mrp"/>
+          </component>
+        </collection>
+        <collection name="Crypto Libraries">
+          <component name="Weak Crypto SPI" filter="gt" introduced="9.5">
+            <unit bldFile="common/generic/security/cryptospi/group" mrp="common/generic/security/cryptospi/group/security_cryptospi_weak.mrp"/>
+          </component>
+          <component name="Strong Crypto SPI" contract="Symbian_Strong_Cryptography" filter="gt" introduced="9.5">
+            <unit bldFile="common/generic/security/cryptospi/strong" mrp="common/generic/security/cryptospi/group/security_cryptospi_strong.mrp"/>
+          </component>
+          <component name="Open Crypto Libraries" introduced="9.5">
+            <unit bldFile="common/generic/openenv/oeaddons/crypto/group" mrp="common/generic/openenv/oeaddons/crypto/group/oeaddons_crypto.mrp"/>
+          </component>
+        </collection>
+        <collection name="Crypto Management Libraries">
+          <component name="Security Utils" introduced="8.0">
+            <unit bldFile="common/generic/security/common/group" mrp="common/generic/security/common/group/security_common.mrp"/>
+          </component>
+          <component name="Security Test Framework" deprecated="9.5" class="test" introduced="7.0">
+            <unit mrp="common/generic/security/testframework/group/security_testframework.mrp"/>
+          </component>
+          <component name="Security Documentation" class="doc">
+            <unit mrp="common/generic/security/documentation/security_documentation.mrp"/>
+          </component>
+          <component name="Security Config" introduced="9.1">
+            <unit bldFile="common/generic/security/securityconfig/group" mrp="common/generic/security/securityconfig/group/security_config.mrp"/>
+          </component>
+          <component name="Crypto Token Framework">
+            <unit bldFile="common/generic/security/cryptotokens/group" mrp="common/generic/security/cryptotokens/group/security_cryptotokens.mrp"/>
+          </component>
+          <component name="Security Common Utils" introduced="8.0">
+            <unit bldFile="common/generic/security/commonutils/group" mrp="common/generic/security/commonutils/group/security_commonutils.mrp"/>
+          </component>
+        </collection>
+        <collection name="Content Management">
+          <component name="Content Access Framework for DRM" introduced="9.1">
+            <unit bldFile="common/generic/security/caf2/group" mrp="common/generic/security/caf2/group/security_caf2.mrp"/>
+          </component>
+          <component name="CAF Recogniser Config" introduced="9.1">
+            <unit bldFile="common/generic/security/caf2/reccafconfig" mrp="common/generic/security/caf2/reccafconfig/security_reccafconfig.mrp"/>
+          </component>
+        </collection>
+        <collection name="Crypto Plugins">
+          <component name="Crypto SPI Plugins" contract="Symbian_Strong_Cryptography" filter="gt" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/security/cryptospi/plugins/group" mrp="common/generic/security/cryptospi/plugins/group/security_cryptospi_plugins.mrp"/>
+          </component>
+        </collection>
+        <collection name="Feature Management">
+          <component name="Feature Manager" introduced="9.5">
+            <unit bldFile="common/generic/syslibs/featmgr/group" mrp="common/generic/syslibs/featmgr/group/syslibs_featmgr.mrp"/>
+          </component>
+          <component name="Feature Registry" introduced="9.2" deprecated="9.5">
+            <unit bldFile="common/generic/syslibs/featreg/group" mrp="common/generic/syslibs/featreg/group/syslibs_featreg.mrp"/>
+          </component>
+        </collection>
+        <collection name="Logging Services">
+          <component name="Event Logger" introduced="6.0">
+            <unit bldFile="common/generic/syslibs/logeng/ongoing/group" mrp="common/generic/syslibs/logeng/ongoing/group/syslibs_logeng.mrp"/>
+          </component>
+          <component name="File Logger" introduced="ER5">
+            <unit bldFile="common/generic/comms-infras/flogger/group" mrp="common/generic/comms-infras/flogger/group/comms-infras_flogger.mrp"/>
+          </component>
+          <component name="Comms Debug Utility" introduced="7.0s">
+            <unit bldFile="common/generic/comms-infras/commsdebugutility/group" mrp="common/generic/comms-infras/commsdebugutility/group/comms-infras_commsdebugutility.mrp"/>
+          </component>
+          <component name="Trace Framework">
+            <unit bldFile="common/generic/tools/debug/trace/ulogger/group" mrp="common/generic/tools/debug/trace/ulogger/group/tools_debug_trace.mrp"/>
+          </component>
+          <component name="UTRACE" introduced="9.3" deprecated="9.4">
+            <unit bldFile="common/testtools/Trace/UTrace/API/group" mrp="common/testtools/Trace/UTrace/API/group/testtools_utrace_api.mrp"/>
+          </component>
+          <component name="RFile Logger" deprecated="9.5">
+            <unit bldFile="common/testtools/utilities/group" mrp="common/testtools/utilities/group/testtools_utilities.mrp"/>
+          </component>
+        </collection>
+        <collection name="Persistent Storage">
+          <component name="Store">
+            <unit bldFile="common/generic/syslibs/store/group" mrp="common/generic/syslibs/store/group/syslibs_store.mrp"/>
+          </component>
+          <component name="DBMS">
+            <unit bldFile="common/generic/syslibs/dbms/group" mrp="common/generic/syslibs/dbms/group/syslibs_dbms.mrp"/>
+          </component>
+          <component name="Central Repository" introduced="7.0s">
+            <unit bldFile="common/generic/syslibs/centralrepository/group" mrp="common/generic/syslibs/centralrepository/group/syslibs_centralrepository.mrp"/>
+          </component>
+          <component name="SQL" introduced="9.3">
+            <unit bldFile="common/generic/syslibs/sql/GROUP" mrp="common/generic/syslibs/sql/GROUP/syslibs_sql.mrp"/>
+          </component>
+          <component name="SQLite 3 API" introduced="9.5">
+            <unit bldFile="common/generic/syslibs/sql/CLIB/GROUP" mrp="common/generic/syslibs/sql/CLIB/GROUP/syslibs_sqlite3.mrp"/>
+          </component>
+        </collection>
+        <collection name="Database Abstraction">
+          <component name="DBMS Emulation Library" introduced="9.3">
+            <unit bldFile="common/generic/syslibs/dbms/esql/group" mrp="common/generic/syslibs/dbms/esql/group/syslibs_dbmssql.mrp"/>
+          </component>
+        </collection>
+        <collection name="System Health Management">
+          <component name="System Health Manager" introduced="Future">
+            <unit bldFile="common/generic/app-framework/shma/group" mrp="common/generic/app-framework/shma/group/app-framework_shma.mrp"/>
+          </component>
+        </collection>
+        <collection name="System State Management">
+          <component name="System Starter" introduced="9.1">
+            <unit bldFile="common/generic/app-framework/sysstart/group" mrp="common/generic/app-framework/sysstart/group/app-framework_sysstart.mrp"/>
+          </component>
+          <component name="System State Manager" introduced="Future">
+            <unit bldFile="common/generic/app-framework/ssma/group" mrp="common/generic/app-framework/ssma/group/app-framework_ssma.mrp"/>
+          </component>
+          <component name="System State Plugins" introduced="Future" plugin="Y">
+            <unit bldFile="common/generic/app-framework/ssplugins/group" mrp="common/generic/app-framework/ssplugins/group/app-framework_ssplugins.mrp"/>
+          </component>
+          <component name="System State Reference Plugins" introduced="Future" plugin="Y">
+            <unit bldFile="common/generic/app-framework/ssrefplugins/group" mrp="common/generic/app-framework/ssrefplugins/group/app-framework_ssrefplugins.mrp"/>
+          </component>
+        </collection>
+        <collection name="Accessory Management">
+          <component name="Remote Control Framework" introduced="9.1">
+            <unit bldFile="common/generic/bluetooth/latest/bluetooth/remotecontrol/group" mrp="common/generic/bluetooth/latest/bluetooth/remotecontrol/group/bluetooth_remotecontrol.mrp"/>
+          </component>
+        </collection>
+        <collection name="Resource Interfaces">
+          <component name="FM Transmitter Control" introduced="9.5">
+            <unit bldFile="common/generic/telephony/hwrm/fmtx/group" mrp="common/generic/telephony/hwrm/fmtx/group/telephony_hwrmfmtx.mrp"/>
+          </component>
+        </collection>
+        <collection name="Resource Management">
+          <component name="Hardware Resources Manager" introduced="9.5">
+            <unit bldFile="common/generic/telephony/hwrm/group" mrp="common/generic/telephony/hwrm/group/telephony_hwrm.mrp"/>
+          </component>
+          <component name="Hardware Resources Manager Config" introduced="9.5" class="config">
+            <unit bldFile="common/generic/telephony/hwrm/config" mrp="common/generic/telephony/hwrm/config/telephony_hwrm-config.mrp"/>
+          </component>
+          <component name="Power and Memory Notification Service" introduced="6.0">
+            <unit bldFile="common/generic/syslibs/pwrcli/group" mrp="common/generic/syslibs/pwrcli/group/syslibs_pwrcli.mrp"/>
+          </component>
+        </collection>
+        <collection name="Location Request Management">
+          <component name="Location Server" contract="LBS" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsLocServer/group" mrp="common/generic/LBS/LbsLocServer/group/lbs_locationserver.mrp"/>
+          </component>
+          <component name="Network Request Handler" contract="LBS" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsNetworkRequestHandler/group" mrp="common/generic/LBS/LbsNetworkRequestHandler/group/lbs_networkrequesthandler.mrp"/>
+          </component>
+          <component name="LBS Test Product" class="test" introduced="9.2">
+            <unit mrp="common/generic/LBS/test/testproduct/group/lbs_testproduct.mrp"/>
+          </component>
+        </collection>
+        <collection name="Location Management">
+          <component name="A-GPS Location Manager" contract="LBS" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsAGPSManager/group" mrp="common/generic/LBS/LbsAGPSManager/group/lbs_agpslocationmanager.mrp"/>
+          </component>
+          <component name="Network Location Manager" contract="LBS" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsNetworkLocationManager/group" mrp="common/generic/LBS/LbsNetworkLocationManager/group/lbs_networklocationmanager.mrp"/>
+          </component>
+          <component name="Location Admin" contract="LBS" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsAdmin/group" mrp="common/generic/LBS/LbsAdmin/group/lbs_admin.mrp"/>
+          </component>
+          <component name="Network Gateway" contract="LBS" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsNetGateway/group" mrp="common/generic/LBS/LbsNetGateway/group/lbs_networkgateway.mrp"/>
+          </component>
+        </collection>
+        <collection name="Network Adaptation">
+          <component name="Network Protocol Module" plugin="Y" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsNetworkTest/group" mrp="common/generic/LBS/LbsNetworkTest/group/lbs_networktest.mrp"/>
+          </component>
+          <component name="Privacy Protocol Module" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/LBS/LbsPrivacyProtocolModule/group" mrp="common/generic/LBS/LbsPrivacyProtocolModule/group/lbs_privacyprotocolmodule.mrp"/>
+          </component>
+          <component name="SUPL Protocol Module" introduced="9.5">
+            <unit bldFile="common/generic/LBS/LbsSuplProtocolModule/group" mrp="common/generic/LBS/LbsSuplProtocolModule/group/lbssuplprotocolmodule.mrp"/>
+          </component>
+        </collection>
+        <collection name="GPS Data Source Modules">
+          <component name="Default Positioning Module" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/LBS/lbsgpsdatasourcemodules/lbsdefaultproxypsy/group" mrp="common/generic/LBS/lbsgpsdatasourcemodules/lbsdefaultproxypsy/group/lbs_default_positioning_module.mrp"/>
+          </component>
+          <component name="Bluetooth GPS Positioning Module" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/LBS/lbsgpsdatasourcemodules/lbslocbtgpspsy/group" mrp="common/generic/LBS/lbsgpsdatasourcemodules/lbslocbtgpspsy/group/lbs_bt_positioning_module.mrp"/>
+          </component>
+          <component name="Simulation Positioning Module" plugin="Y" introduced="9.5" class="test">
+            <unit bldFile="common/generic/LBS/lbsgpsdatasourcemodules/lbssimulationpsy/group" mrp="common/generic/LBS/lbsgpsdatasourcemodules/lbssimulationpsy/group/lbs_simulation_positioning_module.mrp"/>
+          </component>
+        </collection>
+        <collection name="Data Source Adaptation">
+          <component name="A-GPS Reference Module" plugin="Y" introduced="9.2">
+            <unit bldFile="common/generic/LBS/LbsLocDataSourcePlugins/group" mrp="common/generic/LBS/LbsLocDataSourcePlugins/group/lbs_datasourceplugins.mrp"/>
+          </component>
+          <component name="GPS Data Source Adaptation" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/LBS/lbspospluginfw/group" mrp="common/generic/LBS/lbspospluginfw/group/lbs_gps_data_source_adaptation.mrp"/>
+          </component>
+        </collection>
+          <collection name="Comms Process and Settings">
+            <component name="Comms Root Server" introduced="7.0s">
+              <unit bldFile="common/generic/comms-infras/rootserver/group" mrp="common/generic/comms-infras/rootserver/group/comms-infras_rootserver.mrp"/>
+            </component>
+            <component name="Comms Root Server Config" introduced="9.1" class="config">
+              <unit mrp="common/generic/comms-infras/rootserver/group/comms-infras_rootserver-config.mrp"/>
+            </component>
+          </collection>
+          <collection name="Comms Config. Utils">
+            <component name="Comms Database">
+              <unit bldFile="common/generic/comms-infras/commsdat/group" mrp="common/generic/comms-infras/commsdat/group/comms-infras_commsdat.mrp"/>
+            </component>
+            <component name="Comms Database Shim" introduced="8.1">
+              <unit bldFile="common/generic/comms-infras/commdb/group" mrp="common/generic/comms-infras/commdb/group/comms-infras_commdbshim.mrp"/>
+            </component>
+          </collection>
+          <collection name="Data Comms Server">
+            <component name="ESock Server">
+              <unit version="3" bldFile="common/generic/comms-infras/esock/group" mrp="common/generic/comms-infras/esock/group/comms-infras_esock.mrp"/>
+            </component>
+            <component name="ESock Server Config" introduced="9.1" class="config">
+              <unit version="3" mrp="common/generic/comms-infras/esock/group/comms-infras_esock-config.mrp"/>
+            </component>
+            <component name="Network Interface Manager" introduced="ER5U">
+              <unit version="2" bldFile="common/generic/comms-infras/nifman/group" mrp="common/generic/comms-infras/nifman/group/comms-infras_nifman.mrp"/>
+            </component>
+            <component name="Networking Dialog API" introduced="6.1">
+              <unit bldFile="common/generic/networking/dialog/group" mrp="common/generic/networking/dialog/group/networking_dialog.mrp"/>
+            </component>
+            <component name="Networking Dialog Stub" introduced="6.1">
+              <unit bldFile="common/generic/networking/dialog/default" mrp="common/generic/networking/dialog/default/networking_dialog_default.mrp"/>
+            </component>
+            <component name="Network Controller" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/netcon/group" mrp="common/generic/networking/netcon/group/networking_netcon.mrp"/>
+            </component>
+          </collection>
+          <collection name="Serial Server">
+            <component name="C32 Serial Server" introduced="ER5">
+              <unit bldFile="common/generic/ser-comms/c32/group" mrp="common/generic/ser-comms/c32/group/ser-comms_c32.mrp"/>
+            </component>
+            <component name="C32 Serial Server Config" introduced="ER5" class="config">
+              <unit bldFile="common/generic/ser-comms/c32/data" mrp="common/generic/ser-comms/c32/data/ser-comms_c32-config.mrp"/>
+            </component>
+          </collection>
+          <collection name="Comms Framework Utilities">
+            <component name="Comms Framework" introduced="7.0s">
+              <unit bldFile="common/generic/comms-infras/commsfw/group" mrp="common/generic/comms-infras/commsfw/group/comms-infras_commsfw.mrp" priority="10"/>
+            </component>
+            <component name="Comms Elements" introduced="8.0">
+              <unit bldFile="common/generic/comms-infras/elements/group" mrp="common/generic/comms-infras/elements/group/comms-infras_elements.mrp"/>
+            </component>
+            <component name="MBuf Manager" introduced="7.0s">
+              <unit bldFile="common/generic/comms-infras/mbufmgr/group" mrp="common/generic/comms-infras/mbufmgr/group/comms-infras_mbufmgr.mrp"/>
+            </component>
+            <component name="Comms Infrastructure Documentation" introduced="7.0" class="doc">
+              <unit mrp="common/generic/comms-infras/documentation/comms-infras_documentation.mrp"/>
+            </component>
+          </collection>
+          <collection name="Serial Comms Server Plugins">
+            <component name="Serial Port CSY" plugin="Y" introduced="ER5">
+              <unit bldFile="common/generic/ser-comms/c32/PORTS" mrp="common/generic/ser-comms/c32/PORTS/ser-comms_serialportcsy.mrp"/>
+            </component>
+            <component name="Packet Loopback CSY" class="test" introduced="8.1">
+              <unit bldFile="common/generic/networking/test/PacketLoopbackCSY/group" mrp="common/generic/networking/test/PacketLoopbackCSY/group/PacketLoopbackCSY.mrp"/>
+            </component>
+            <component name="MUX CSY" introduced="9.4" plugin="Y">
+              <unit bldFile="common/generic/telephony/trp/csy/csy27010/group" mrp="common/generic/telephony/trp/csy/csy27010/group/telephony_muxcsy.mrp"/>
+            </component>
+          </collection>
+          <collection name="Telephony Utilities">
+            <component name="Dial" deprecated="9.1">
+              <unit bldFile="common/generic/telephony/dial/group" mrp="common/generic/telephony/dial/group/telephony_dial.mrp"/>
+            </component>
+            <component name="Telephony Watchers" plugin="Y">
+              <unit bldFile="common/generic/telephony/watchers/group" mrp="common/generic/telephony/watchers/group/telephony_watchers.mrp"/>
+            </component>
+            <component name="ETel 3rd Party API" introduced="7.0">
+              <unit bldFile="common/generic/telephony/etel3rdparty/Group" mrp="common/generic/telephony/etel3rdparty/Group/telephony_etel3rdparty.mrp"/>
+            </component>
+            <component name="Telephony Confidential Documentation" class="doc">
+              <unit mrp="common/generic/telephony/confidential/telephony_confidential.mrp"/>
+            </component>
+            <component name="Telephony Documentation" class="doc">
+              <unit mrp="common/generic/telephony/documentation/telephony_documentation.mrp"/>
+            </component>
+          </collection>
+          <collection name="Fax">
+            <component name="Fax Client and Server">
+              <unit bldFile="common/generic/telephony/fax/Group" mrp="common/generic/telephony/fax/Group/telephony_fax.mrp"/>
+            </component>
+          </collection>
+          <collection name="Telephony Server">
+            <component name="ETel Server and Core">
+              <unit bldFile="common/generic/telephony/etel/group" mrp="common/generic/telephony/etel/group/telephony_etel.mrp"/>
+            </component>
+            <component name="ETel Config" class="config">
+              <unit mrp="common/generic/telephony/etel/group/telephony_etel-config.mrp"/>
+            </component>
+            <component name="ETel Multimode" introduced="7.0">
+              <unit bldFile="common/generic/telephony/etelmm/group" mrp="common/generic/telephony/etelmm/group/telephony_etelmm.mrp"/>
+            </component>
+            <component name="ETel Packet Data" introduced="7.0">
+              <unit bldFile="common/generic/telephony/etelpckt/group" mrp="common/generic/telephony/etelpckt/group/telephony_etelpckt.mrp"/>
+            </component>
+            <component name="ETel SIM Toolkit" introduced="6.1">
+              <unit bldFile="common/generic/telephony/etelsat/group" mrp="common/generic/telephony/etelsat/group/telephony_etelsat.mrp"/>
+            </component>
+            <component name="ETel CDMA" introduced="7.0s">
+              <unit bldFile="common/generic/telephony/etelcdma/group" mrp="common/generic/telephony/etelcdma/group/telephony_etelcdma.mrp"/>
+            </component>
+          </collection>
+          <collection name="Telephony Protocols">
+            <component name="CSD AGT" plugin="Y" introduced="6.1">
+              <unit bldFile="common/generic/networking/csdagt/group" mrp="common/generic/networking/csdagt/group/networking_csdagt.mrp"/>
+            </component>
+            <component name="PSD AGT" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/psdagt/group" mrp="common/generic/networking/psdagt/group/networking_psdagt.mrp"/>
+            </component>
+            <component name="GPRS/UMTS QoS PRT" contract="IPv6_QOS" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/guqos/group" mrp="common/generic/networking/guqos/group/networking_guqos.mrp"/>
+            </component>
+            <component name="GPRS/UMTS QoS Interface" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/umtsif/group" mrp="common/generic/networking/umtsif/group/networking_umtsif.mrp"/>
+            </component>
+            <component name="QoS Extn API" contract="IPv6_QOS" introduced="9.2">
+              <unit bldFile="common/generic/networking/qosextnapi/group" mrp="common/generic/networking/qosextnapi/group/networking_qosextnapi.mrp"/>
+            </component>
+            <component name="Secondary PDP context UMTS Driver" introduced="8.1">
+              <unit bldFile="common/generic/networking/spud/group" mrp="common/generic/networking/spud/group/networking_spud.mrp"/>
+            </component>
+            <component name="QoS 3GPP CPR" plugin="Y" introduced="9.2">
+              <unit bldFile="common/generic/networking/umts/qos3gpp/group" mrp="common/generic/networking/umts/qos3gpp/group/networking_Qos3GPP.mrp"/>
+            </component>
+            <component name="PDP Layer" plugin="Y" introduced="9.5">
+              <unit bldFile="common/generic/networking/umts/pdp/group" mrp="common/generic/networking/umts/pdp/group/networking_pdp.mrp"/>
+            </component>
+            <component name="Raw IP NIF" plugin="Y" introduced="8.1">
+              <unit bldFile="common/generic/networking/rawipnif/group" mrp="common/generic/networking/rawipnif/group/networking_rawipnif.mrp"/>
+            </component>
+          </collection>
+          <collection name="SMS Protocols">
+            <component name="SMS Stack" contract="SMS_MTM" plugin="Y">
+              <unit bldFile="common/generic/nbprotocols/smsstackv2/group" mrp="common/generic/nbprotocols/smsstackv2/group/nbprotocols_smsstackv2.mrp"/>
+            </component>
+            <component name="CDMA SMS Stack" plugin="Y" introduced="8.0">
+              <unit bldFile="common/generic/nbprotocols/cdmasmsstack/group" mrp="common/generic/nbprotocols/cdmasmsstack/group/nbprotocols_cdmasmsstack.mrp"/>
+            </component>
+          </collection>
+          <collection name="Baseband Abstraction">
+            <component name="Baseband Channel Adaptor" introduced="8.1">
+              <unit bldFile="common/generic/networking/basebandadaptation/bca/group" mrp="common/generic/networking/basebandadaptation/bca/group/networking_bca.mrp"/>
+            </component>
+            <component name="Inter-System Communication" filter="gt" introduced="9.5">
+              <unit bldFile="common/generic/networking/basebandadaptation/isc/group" mrp="common/generic/networking/basebandadaptation/isc/group/networking_isc.mrp"/>
+            </component>
+          </collection>
+          <collection name="Telephony Server Plugins">
+            <component name="Common TSY" plugin="Y">
+              <unit bldFile="common/generic/telephony/ctsy/group" mrp="common/generic/telephony/ctsy/group/telephony_commontsy.mrp"/>
+            </component>
+            <component name="Multimode TSY" plugin="Y">
+              <unit bldFile="common/generic/telephony/mmtsy/group" mrp="common/generic/telephony/mmtsy/group/telephony_mmtsy.mrp"/>
+            </component>
+            <component name="CDMA TSY" plugin="Y">
+              <unit bldFile="common/generic/telephony/cdmatsy/group" mrp="common/generic/telephony/cdmatsy/group/telephony_cdmatsy.mrp"/>
+            </component>
+            <component name="SIM TSY" plugin="Y" introduced="7.0" class="test">
+              <unit bldFile="common/generic/telephony/simtsy/group" mrp="common/generic/telephony/simtsy/group/telephony_simtsy.mrp"/>
+            </component>
+          </collection>
+          <collection name="Telephony Reference Platform">
+            <component name="TRP TSY" plugin="Y">
+              <unit bldFile="common/generic/telephony/trp/group" mrp="common/generic/telephony/trp/group/telephony_trp.mrp"/>
+            </component>
+            <component name="TRP AGT" introduced="9.4" plugin="Y">
+              <unit bldFile="common/generic/telephony/trp/agt/trpagt/group" mrp="common/generic/telephony/trp/agt/trpagt/group/telephony_trpagt.mrp"/>
+            </component>
+          </collection>
+          <collection name="Baseband Adaptation Plugins">
+            <component name="Baseband Channel Adaptor for C32" plugin="Y" introduced="8.1">
+              <unit bldFile="common/generic/networking/basebandadaptation/c32bca/group" mrp="common/generic/networking/basebandadaptation/c32bca/group/networking_c32bca.mrp"/>
+            </component>
+            <component name="Baseband Channel Adaptor for ISC" plugin="Y">
+              <unit bldFile="common/generic/networking/basebandadaptation/bcatoisc/group" mrp="common/generic/networking/basebandadaptation/bcatoisc/group/networking_bcatoisc.mrp"/>
+            </component>
+          </collection>
+          <collection name="TCP/IP Utilities">
+            <component name="DND" introduced="7.0">
+              <unit bldFile="common/generic/networking/dnd/group" mrp="common/generic/networking/dnd/group/networking_dnd.mrp"/>
+            </component>
+            <component name="DND Config" introduced="7.0" class="config">
+              <unit mrp="common/generic/networking/dnd/group/networking_dnd-config.mrp"/>
+            </component>
+            <component name="DHCP" introduced="8.0">
+              <unit bldFile="common/generic/networking/dhcp/group" mrp="common/generic/networking/dhcp/group/networking_dhcp.mrp"/>
+            </component>
+            <component name="Network Address and Port Translation" plugin="Y" introduced="9.4">
+              <unit bldFile="common/generic/networking/napt/group" mrp="common/generic/networking/napt/group/networking_napt.mrp"/>
+            </component>
+          </collection>
+          <collection name="ESock API Extensions">
+            <component name="Internet Sockets" introduced="ER5">
+              <unit bldFile="common/generic/networking/insock/group" mrp="common/generic/networking/insock/group/networking_insock.mrp"/>
+            </component>
+          </collection>
+          <collection name="Network Protocols">
+            <component name="IP Event Notifier" plugin="Y" introduced="8.1">
+              <unit bldFile="common/generic/networking/ipeventnotifier/group" mrp="common/generic/networking/ipeventnotifier/group/networking_ipeventnotifier.mrp"/>
+            </component>
+            <component name="TCP/IPv4/v6 PRT" plugin="Y" introduced="7.0">
+              <unit bldFile="common/generic/networking/tcpip6/group" mrp="common/generic/networking/tcpip6/group/networking_tcpip6.mrp"/>
+            </component>
+            <component name="TCP/IPv4/v6 Config" introduced="7.0" class="config">
+              <unit mrp="common/generic/networking/tcpip6/group/networking_tcpip6-config.mrp"/>
+            </component>
+            <component name="IP Hook" introduced="7.0">
+              <unit bldFile="common/generic/networking/inhook6/group" mrp="common/generic/networking/inhook6/group/networking_inhook6.mrp"/>
+            </component>
+            <component name="Mobile IP" plugin="Y" introduced="8.1">
+              <unit bldFile="common/generic/networking/mobileip/group" mrp="common/generic/networking/mobileip/group/networking_mobileip.mrp"/>
+            </component>
+          </collection>
+          <collection name="Networking Test and Utils">
+            <component name="Networking Unit Test" introduced="7.0" class="test">
+              <unit mrp="common/generic/networking/unittest/group/networking_unittest.mrp"/>
+            </component>
+            <component name="Networking ROM">
+              <!--  production component: contains the IBY files -->
+              <unit bldFile="common/generic/networking/general/group" mrp="common/generic/networking/general/group/networking_general.mrp"/>
+            </component>
+            <component name="Networking Examples" introduced="7.0" class="test">
+              <unit bldFile="common/generic/networking/examplecode/group" mrp="common/generic/networking/examplecode/group/networking_examplecode.mrp"/>
+            </component>
+            <component name="IPv6 to 4 Tunnel" plugin="Y" class="test">
+              <unit mrp="common/generic/networking/6to4/group/networking_6to4.mrp"/>
+            </component>
+            <component name="IP Analyzer" deprecated="9.5" introduced="7.0" class="test">
+              <unit mrp="common/generic/networking/iprotor/group/networking_iprotor.mrp"/>
+            </component>
+            <component name="Networking Documentation" class="doc">
+              <unit mrp="common/generic/networking/documentation/networking_documentation.mrp"/>
+            </component>
+            <component name="Networking Integration Test" class="test" introduced="ER5">
+              <unit bldFile="common/generic/networking/integrationtest/Group" mrp="common/generic/networking/integrationtest/Group/networking_integrationtest.mrp"/>
+            </component>
+            <component name="Networking Performance Measurement Tools" introduced="9.5" class="test">
+              <unit bldFile="common/generic/networking/netperf/group" mrp="common/generic/networking/netperf/group/networking_netperf.mrp"/>
+            </component>
+          </collection>
+          <collection name="Network Control">
+            <component name="QoS Framework Config" contract="IPv6_QOS" introduced="7.0s" class="config">
+              <unit mrp="common/generic/networking/qos/group/networking_qos-config.mrp"/>
+            </component>
+            <component name="QoS Library" contract="IPv6_QOS" introduced="7.0s">
+              <unit bldFile="common/generic/networking/qoslib/group" mrp="common/generic/networking/qoslib/group/networking_qoslib.mrp"/>
+            </component>
+            <component name="PF QoS Library" contract="IPv6_QOS" introduced="7.0s">
+              <unit bldFile="common/generic/networking/pfqoslib/group" mrp="common/generic/networking/pfqoslib/group/networking_pfqoslib.mrp"/>
+            </component>
+            <component name="QoS Framework PRT" contract="IPv6_QOS" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/qos/group" mrp="common/generic/networking/qos/group/networking_qos.mrp"/>
+            </component>
+            <component name="QoS IP SCPR" plugin="Y">
+              <unit bldFile="common/generic/networking/umts/qosipscpr/group" mrp="common/generic/networking/umts/qosipscpr/group/networking_qosipscpr.mrp"/>
+            </component>
+            <component name="IP Network Layer" plugin="Y" introduced="9.5">
+              <unit bldFile="common/generic/networking/ip/ipproto/group" mrp="common/generic/networking/ip/ipproto/group/networking_ipproto.mrp"/>
+            </component>
+            <component name="IP Transport Layer" plugin="Y">
+              <unit bldFile="common/generic/networking/ip/iptransport/group" mrp="common/generic/networking/ip/iptransport/group/networking_iptransport.mrp"/>
+            </component>
+          </collection>
+          <collection name="Link Layer Control">
+            <component name="NULL AGT" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/nullagt/group" mrp="common/generic/networking/nullagt/group/networking_nullagt.mrp"/>
+            </component>
+            <component name="Generic SCPR Parameters" introduced="9.5">
+              <unit bldFile="common/generic/networking/umts/genericscprparams/group" mrp="common/generic/networking/umts/genericscprparams/group/networking_genericscprparams.mrp"/>
+            </component>
+            <component name="MBMS Parameters" plugin="Y" introduced="9.5">
+              <unit bldFile="common/generic/networking/umts/mbmsparams/group" mrp="common/generic/networking/umts/mbmsparams/group/networking_mbmsparams.mrp"/>
+            </component>
+          </collection>
+          <collection name="Link Layer Protocols">
+            <component name="Ethernet NIF" plugin="Y">
+              <unit bldFile="common/generic/networking/ether802/group" mrp="common/generic/networking/ether802/group/networking_ether802.mrp"/>
+            </component>
+            <component name="Ethernet Packet Driver" plugin="Y">
+              <unit mrp="common/generic/networking/etherdrv/group/networking_etherdrv_srconly.mrp"/>
+            </component>
+            <component name="PPP NIF" plugin="Y" introduced="ER5">
+              <unit version="2" bldFile="common/generic/networking/ppp/group" mrp="common/generic/networking/ppp/group/networking_ppp.mrp"/>
+            </component>
+            <component name="PPP Config" class="config" introduced="ER5">
+              <unit version="2" mrp="common/generic/networking/ppp/group/networking_ppp-config.mrp"/>
+            </component>
+            <component name="SLIP NIF" plugin="Y">
+              <unit bldFile="common/generic/networking/slip/group" mrp="common/generic/networking/slip/group/networking_slip.mrp"/>
+            </component>
+            <component name="Tunnel NIF" plugin="Y" introduced="7.0s">
+              <unit bldFile="common/generic/networking/tunnelnif/group" mrp="common/generic/networking/tunnelnif/group/networking_tunnelnif.mrp"/>
+            </component>
+            <component name="Wireless LAN" filter="gt" introduced="9.3">
+              <unit bldFile="common/generic/networking/802.11/group" mrp="common/generic/networking/802.11/group/networking_802.11.mrp"/>
+            </component>
+          </collection>
+          <collection name="PPP Compression Plugins">
+            <component name="Predictor Compression" plugin="Y" introduced="6.0">
+              <unit bldFile="common/generic/networking/predcomp/group" mrp="common/generic/networking/predcomp/group/networking_predcomp.mrp"/>
+            </component>
+            <component name="MPPC" contract="MPPC_LZS_Compression_Libraries" filter="gt" plugin="Y">
+              <unit bldFile="common/generic/networking/mscomp/group" mrp="common/generic/networking/mscomp/group/networking_mscomp.mrp"/>
+            </component>
+            <component name="Stac LZS Compression" contract="MPPC_LZS_Compression_Libraries" filter="gt" plugin="Y">
+              <unit bldFile="common/generic/networking/staccomp/group" mrp="common/generic/networking/staccomp/group/networking_staccomp.mrp"/>
+            </component>
+          </collection>
+          <collection name="Link Layer Utilities">
+            <component name="EAP Framework" filter="gt" introduced="9.3">
+              <unit bldFile="common/generic/networking/eap/group" mrp="common/generic/networking/eap/group/networking_eap.mrp"/>
+            </component>
+            <component name="Packet Logger" introduced="8.1" class="test">
+              <unit bldFile="common/generic/networking/packetlogger/group" mrp="common/generic/networking/packetlogger/group/networking_packetlogger.mrp"/>
+            </component>
+          </collection>
+          <collection name="USB Management">
+            <component name="USB Manager">
+              <unit version="2" bldFile="common/generic/usb/group" mrp="common/generic/usb/group/usb_manager.mrp"/>
+            </component>
+            <component name="USB Manager Tests" introduced="7.0" class="test">
+              <unit version="2" mrp="common/generic/usb/usb_test/group/usb_test.mrp"/>
+            </component>
+            <component name="USB Class and Manager Documentation" class="doc">
+              <unit mrp="common/generic/usb/documentation/usb_documentation.mrp"/>
+            </component>
+          </collection>
+          <collection name="USB Function Drivers">
+            <component name="Mass Storage Driver" introduced="9.5">
+              <unit bldFile="common/generic/connectivity/usbms/group" mrp="common/generic/connectivity/usbms/group/connectivity_usbms.mrp"/>
+            </component>
+          </collection>
+          <collection name="Short Link">
+            <component name="Bluetooth HCI Framework 2" introduced="9.2">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/hci_v2/framework/group" mrp="common/generic/bluetooth/latest/bluetooth/hci_v2/framework/group/bluetooth_hci_v2_framework.mrp"/>
+            </component>
+            <component name="Bluetooth SDP">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/sdp" mrp="common/generic/bluetooth/latest/bluetooth/sdp/bluetooth_sdp.mrp"/>
+            </component>
+          </collection>
+          <collection name="Host Controller Interface">
+            <component name="Bluetooth HCI Framework 1" introduced="6.0">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/hci" mrp="common/generic/bluetooth/latest/bluetooth/hci/bluetooth_hci.mrp"/>
+            </component>
+            <component name="Bluetooth HCI Extension Interface" introduced="6.1">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/hciproxy" mrp="common/generic/bluetooth/latest/bluetooth/hciproxy/bluetooth_hciproxy.mrp"/>
+            </component>
+            <component name="Bluetooth HCI 2 Reference Implementations" plugin="Y" introduced="9.2">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/hci_v2/implementations/group" mrp="common/generic/bluetooth/latest/bluetooth/hci_v2/implementations/group/bluetooth_hci_v2_implementations.mrp"/>
+            </component>
+          </collection>
+          <collection name="Bluetooth">
+            <component name="Bluetooth Manager">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/manager" mrp="common/generic/bluetooth/latest/bluetooth/manager/bluetooth_manager.mrp"/>
+            </component>
+            <component name="Bluetooth Notifiers Support">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/btextnotifiers" mrp="common/generic/bluetooth/latest/bluetooth/btextnotifiers/bluetooth_btextnotifiers.mrp"/>
+            </component>
+            <component name="Bluetooth Config" class="config">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/config" mrp="common/generic/bluetooth/latest/bluetooth/config/bluetooth_config.mrp"/>
+            </component>
+            <component name="Bluetooth GAVDP" introduced="8.1">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/profiles/gavdp/group" mrp="common/generic/bluetooth/latest/bluetooth/profiles/gavdp/group/bluetooth_gavdp.mrp"/>
+            </component>
+            <component name="Bluetooth ROM" introduced="9.1">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/rom" mrp="common/generic/bluetooth/latest/bluetooth/rom/bluetooth_rom.mrp"/>
+            </component>
+            <component name="Bluetooth Client Library">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/user" mrp="common/generic/bluetooth/latest/bluetooth/user/bluetooth_user.mrp"/>
+            </component>
+            <component name="Bluetooth Build Utilities">
+              <unit mrp="common/generic/bluetooth/latest/bluetooth/bluetooth_common.mrp"/>
+            </component>
+            <component name="Bluetooth Examples and Tests" introduced="6.1" class="test">
+              <unit mrp="common/generic/bluetooth/latest/bluetooth/test/bluetooth_tests_examples.mrp"/>
+            </component>
+            <component name="Bluetooth Logging Engine" class="test" introduced="9.2">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/logger/group" mrp="common/generic/bluetooth/latest/bluetooth/logger/group/bluetooth_logger.mrp"/>
+            </component>
+            <component name="Bluetooth Documentation" class="doc">
+              <unit mrp="common/generic/bluetooth/latest/documentation/bluetooth_documentation.mrp"/>
+            </component>
+          </collection>
+          <collection name="Short Link Protocol Plugins">
+            <component name="Bluetooth Stack" introduced="6.0">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/stack" mrp="common/generic/bluetooth/latest/bluetooth/stack/bluetooth_stack.mrp"/>
+            </component>
+            <component name="IrDA Stack">
+              <unit bldFile="common/generic/infra-red/irda/group" mrp="common/generic/infra-red/irda/group/infra-red_irda.mrp"/>
+            </component>
+            <component name="IrDA Config" introduced="6.0" class="config">
+              <unit bldFile="common/generic/infra-red/config" mrp="common/generic/infra-red/config/infra-red_config.mrp"/>
+            </component>
+            <component name="IrDA Test" introduced="9.2" class="test">
+              <unit mrp="common/generic/infra-red/irda_test/group/infra-red_irda_test.mrp"/>
+            </component>
+            <component name="IrDA Documentation" class="doc">
+              <unit mrp="common/generic/infra-red/documentation/infra-red_documentation.mrp"/>
+            </component>
+            <component name="Shortlink Documentation" class="doc">
+              <unit mrp="common/generic/ser-comms/documentation/ser-comms_documentation.mrp"/>
+            </component>
+          </collection>
+          <collection name="Short Link CSYs">
+            <component name="Bluetooth CSY" plugin="Y">
+              <unit bldFile="common/generic/bluetooth/latest/bluetooth/btcomm" mrp="common/generic/bluetooth/latest/bluetooth/btcomm/bluetooth_btcomm.mrp"/>
+            </component>
+          </collection>
+        <collection name="Multimedia APIs and Frameworks">
+          <component name="Multimedia Framework" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/group" mrp="common/generic/multimedia/mmf/group/multimedia_mmf.mrp"/>
+          </component>
+          <component name="MMF Unit Tests" introduced="7.0s" class="test">
+            <unit mrp="common/generic/multimedia/unittest/mmf/group/multimedia_unittest_mmf_source.mrp"/>
+          </component>
+          <component name="MMF Integration Tests" introduced="7.0s" class="test">
+            <unit mrp="common/generic/multimedia/inttest/mmf/group/multimedia_inttest_mmf_source.mrp"/>
+          </component>
+          <component name="MMF Characterisation Validation" introduced="9.3" class="test">
+            <unit bldFile="common/generic/multimedia/char/mmf/group" mrp="common/generic/multimedia/char/mmf/group/multimedia_mmf_char.mrp"/>
+          </component>
+          <component name="Multimedia Documentation" class="doc">
+            <unit mrp="common/generic/multimedia/documentation/multimedia_documentation.mrp"/>
+          </component>
+          <component name="Multimedia Utility Library">
+            <unit bldFile="common/generic/multimedia/mmcommon/group" mrp="common/generic/multimedia/mmcommon/group/multimedia_common.mrp"/>
+          </component>
+          <component name="Imaging Frameworks" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/icl/group" mrp="common/generic/multimedia/icl/group/multimedia_icl.mrp"/>
+          </component>
+          <component name="Imaging Unit Tests" introduced="7.0s" class="test">
+            <unit mrp="common/generic/multimedia/unittest/icl/group/multimedia_unittest_icl_source.mrp"/>
+          </component>
+          <component name="Imaging Integration Tests" introduced="7.0s" class="test">
+            <unit mrp="common/generic/multimedia/inttest/icl/group/multimedia_inttest_icl_source.mrp"/>
+          </component>
+          <component name="Camera Framework" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/ecam/framework/group" mrp="common/generic/multimedia/ecam/framework/group/multimedia_ecam_framework.mrp"/>
+          </component>
+          <component name="Camera Unit Tests" introduced="9.2" class="test">
+            <unit mrp="common/generic/multimedia/unittest/ecam/group/multimedia_unittest_ecam_source.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Plugins">
+          <component name="Imaging Plugins" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/icl/plugins/group" mrp="common/generic/multimedia/icl/plugins/group/multimedia_icl_plugin.mrp"/>
+          </component>
+          <component name="Camera Plugins" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/ecam/plugins/group" mrp="common/generic/multimedia/ecam/plugins/group/multimedia_ecam_plugins.mrp"/>
+          </component>
+          <component name="A3F Audio Component Library">
+            <unit bldFile="common/generic/multimedia/a3f/acl/group" mrp="common/generic/multimedia/a3f/acl/group/multimedia_a3f_acl.mrp"/>
+          </component>
+          <component name="A3F DevSound Customisation">
+            <unit bldFile="common/generic/multimedia/a3f/devsoundadaptationinfo/group" mrp="common/generic/multimedia/a3f/devsoundadaptationinfo/group/multimedia_a3f_devsoundadaptationinfo.mrp"/>
+          </component>
+          <component name="3GP Library" introduced="Future">
+            <unit bldFile="common/generic/multimedia/3gplibrary/group" mrp="common/generic/multimedia/3gplibrary/group/multimedia_3gplibrary.mrp"/>
+          </component>
+          <component name="3GP Unit Tests" introduced="Future" class="test">
+            <unit mrp="common/generic/multimedia/unittest/3gplibrary/group/multimedia_unittest_3gplibrary_source.mrp"/>
+          </component>
+          <component name="Multimedia Test Codecs" introduced="9.5" class="test" plugin="Y">
+            <unit bldFile="common/generic/multimedia/packetvideo/group" mrp="common/generic/multimedia/packetvideo/group/multimedia_pv_aac.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Resource Management">
+          <component name="Multimedia Resource Controller">
+            <unit bldFile="common/generic/multimedia/a3f/refmmrc/group" mrp="common/generic/multimedia/a3f/refmmrc/group/multimedia_a3f_refmmrc.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Device Framework">
+          <component name="Media Device Framework" introduced="9.2">
+            <unit bldFile="common/generic/multimedia/mdf/group" mrp="common/generic/multimedia/mdf/group/multimedia_mdf.mrp"/>
+          </component>
+          <component name="MDF Unit Tests" introduced="9.2" class="test">
+            <unit mrp="common/generic/multimedia/unittest/mdf/group/multimedia_unittest_mdf_source.mrp"/>
+          </component>
+          <component name="Speech Recognition Controller" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/ASR/group" mrp="common/generic/multimedia/mmf/ASR/group/multimedia_mmf_ASR.mrp"/>
+          </component>
+        </collection>
+        <collection name="OpenMAX IL">
+          <component name="OpenMAX IL API" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/openmax/il/omxilapi/group" mrp="common/generic/multimedia/openmax/il/omxilapi/group/multimedia_omx_il_api.mrp"/>
+          </component>
+          <component name="OpenMAX IL Core" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/openmax/il/omxilcore/group" mrp="common/generic/multimedia/openmax/il/omxilcore/group/multimedia_omx_il_core.mrp"/>
+          </component>
+          <component name="OpenMAX IL Reference Components" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/openmax/il/omxilcomp/ref_components/group" mrp="common/generic/multimedia/openmax/il/omxilcomp/ref_components/group/multimedia_omx_il_comp_ref.mrp"/>
+          </component>
+          <component name="OpenMAX IL Test Components" introduced="9.5" class="test">
+            <unit bldFile="common/generic/multimedia/openmax/il/omxilcomp/test_components/group" mrp="common/generic/multimedia/openmax/il/omxilcomp/test_components/group/multimedia_omx_il_comp_test.mrp"/>
+          </component>
+          <component name="OpenMAX IL Unit Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/unittest/openmax/il/group/multimedia_unittest_omx_il.mrp"/>
+          </component>
+          <component name="OpenMAX IL Core Conformance Suite" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/confsuite/omxil/core_loader_conf_suite/group/multimedia_omx_il_core_loader_conf_suite.mrp"/>
+          </component>
+          <component name="Multimedia Integration Layer API" introduced="9.5" class="test">
+            <unit bldFile="common/generic/multimedia/milif/refomxil/group" mrp="/src/common/generic/multimedia/milif/refomxil/group/multimedia_il_api.mrp"/>
+          </component>
+          <component name="Multimedia Integration Layer Unit Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/unittest/milif/group/multimedia_unittest_milif.mrp"/>
+          </component>
+        </collection>
+        <collection name="Sound Device">
+          <component name="DevSound API">
+            <unit bldFile="common/generic/multimedia/mmf/SoundDev/group_api" mrp="common/generic/multimedia/mmf/SoundDev/group_api/multimedia_mdf_devsound_api.mrp"/>
+          </component>
+          <component name="A3F DevSound">
+            <unit bldFile="common/generic/multimedia/a3f/a3fdevsound/group" mrp="common/generic/multimedia/a3f/a3fdevsound/group/multimedia_a3f_devsound.mrp"/>
+          </component>
+          <component name="A3F Audio Component Framework">
+            <unit bldFile="common/generic/multimedia/a3f/acf/group" mrp="common/generic/multimedia/a3f/acf/group/multimedia_a3f_acf.mrp"/>
+          </component>
+          <component name="DevSound Plugin Support" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/SoundDev/group_pluginsupport" mrp="common/generic/multimedia/mmf/SoundDev/group_pluginsupport/multimedia_mdf_devsound_pluginsupport.mrp"/>
+          </component>
+          <component name="Reference DevSound Plugins" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/SoundDev/group_refplugin" mrp="common/generic/multimedia/mmf/SoundDev/group_refplugin/multimedia_mdf_devsound_refplugin.mrp"/>
+          </component>
+          <component name="Bluetooth DevSound Plugin" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/sounddevbt/group" mrp="common/generic/multimedia/mmf/sounddevbt/group/multimedia_mdf_devsound_refbtplugin.mrp"/>
+          </component>
+          <component name="A3F Trace Utility">
+            <unit bldFile="common/generic/multimedia/a3f/traces/group" mrp="common/generic/multimedia/a3f/traces/group/multimedia_a3f_traces.mrp"/>
+          </component>
+          <component name="A3F Integration Tests" class="test">
+            <unit mrp="common/generic/multimedia/inttest/a3f/devsound/group/multimedia_inttest_a3f_devsound_source.mrp"/>
+          </component>
+          <component name="A3F Server Start" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/a3f/a3fserverstart/group" mrp="common/generic/multimedia/a3f/a3fserverstart/group/multimedia_a3f_serverstart.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Test Environment">
+          <component name="Multimedia Test Framework" class="test" introduced="7.0s">
+            <unit mrp="common/generic/multimedia/testframework/group/multimedia_testframework_source.mrp"/>
+          </component>
+          <component name="Multimedia Test Framework Unit Tests" class="test" introduced="7.0s">
+            <unit mrp="common/generic/multimedia/unittest/testframework/group/multimedia_unittest_testframework_source.mrp"/>
+          </component>
+          <component name="Multimedia Test Agent" class="test" introduced="8.0">
+            <unit mrp="common/generic/multimedia/inttest/drm/testagent/group/multimediatestagent_source.mrp"/>
+          </component>
+          <component name="Multimedia Test Tools" class="test">
+            <unit mrp="common/generic/multimedia/testtools/Group/multimedia_testtools_source.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Software Adaptation">
+          <component name="Video Renderer" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/mmf/videorenderer/group" mrp="common/generic/multimedia/mmf/videorenderer/group/multimedia_videorenderer.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Hardware Adaptation Interfaces">
+          <component name="DevSound Hardware Device API" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/SoundDev/group_hwdev" mrp="common/generic/multimedia/mmf/SoundDev/group_hwdev/multimedia_mdf_devsound_hwdev.mrp"/>
+          </component>
+          <component name="Reference ACL Adaptation">
+            <unit bldFile="common/generic/multimedia/a3f/refacladaptation/group" mrp="common/generic/multimedia/a3f/refacladaptation/group/multimedia_a3f_refacladaptation.mrp"/>
+          </component>
+          <component name="Video HAI" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/DevVideo/group" mrp="common/generic/multimedia/mmf/DevVideo/group/multimedia_mdf_devvideo.mrp"/>
+          </component>
+          <component name="Mobile TV DVB-H Receiver HAI" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/mobiletv/hai/dvbh/group" mrp="common/generic/multimedia/mobiletv/hai/dvbh/group/multimedia_mobiletv_dvbh_hai.mrp"/>
+          </component>
+          <component name="Mobile TV DVB-H Unit Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/unittest/mobiletv/hai/dvbh/group/multimedia_unittest_dvbhhai.mrp"/>
+          </component>
+        </collection>
+        <collection name="Windowing Framework">
+          <component name="Window Server">
+            <unit bldFile="common/generic/graphics/wserv/group" mrp="common/generic/graphics/wserv/group/graphics_wserv.mrp"/>
+          </component>
+        </collection>
+        <collection name="Printing Services">
+          <component name="Printer Driver Support">
+            <unit bldFile="common/generic/graphics/pdrstore/group" mrp="common/generic/graphics/pdrstore/group/graphics_pdrstore.mrp"/>
+          </component>
+          <component name="Printer Drivers" plugin="Y">
+            <unit bldFile="common/generic/graphics/printdrv/group" mrp="common/generic/graphics/printdrv/group/graphics_printdrv.mrp"/>
+          </component>
+        </collection>
+        <collection name="Graphics Test">
+          <component name="Graphics Test Harness" class="test">
+            <unit mrp="common/generic/graphics/testharness/group/graphics_testharness.mrp"/>
+          </component>
+          <component name="UI Bench" introduced="9.2" class="test">
+            <unit bldFile="common/generic/graphics/ui_bench/group" mrp="common/generic/graphics/ui_bench/group/graphics_ui_bench.mrp"/>
+          </component>
+          <component name="Graphics Documentation" class="doc" contract="Symbian_Affiliate">
+            <unit mrp="common/generic/graphics/documentation/graphics_documentation.mrp"/>
+          </component>
+        </collection>
+        <collection name="Fonts Services">
+          <component name="Text Shaper Plugin" plugin="Y" introduced="9.2">
+            <unit bldFile="common/generic/graphics/iculayoutengine/group" mrp="common/generic/graphics/iculayoutengine/group/graphics_iculayoutengine.mrp"/>
+          </component>
+          <component name="Font and Bitmap Server">
+            <unit bldFile="common/generic/graphics/fbserv/group" mrp="common/generic/graphics/fbserv/group/graphics_fbserv.mrp"/>
+          </component>
+          <component name="Font Store">
+            <unit bldFile="common/generic/graphics/fntstore/group" mrp="common/generic/graphics/fntstore/group/graphics_fntstore.mrp"/>
+          </component>
+          <component name="FreeType Font Rasteriser" plugin="Y">
+            <unit bldFile="common/generic/graphics/freetype/group" mrp="common/generic/graphics/freetype/group/graphics_freetype.mrp"/>
+          </component>
+          <component name="iType Font Rasteriser" contract="Monotype_iType_Rasteriser" filter="gt" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/graphics/itype/group" mrp="common/generic/graphics/itype/group/graphics_itype.mrp"/>
+          </component>
+          <component name="Reference Fonts">
+            <unit bldFile="common/generic/graphics/fonts/group" mrp="common/generic/graphics/fonts/group/graphics_fonts.mrp"/>
+          </component>
+        </collection>
+        <collection name="Khronos APIs">
+          <component name="OpenGL ES Framework" introduced="8.0">
+            <unit bldFile="common/generic/graphics/openglesdisplayproperty/group" mrp="common/generic/graphics/openglesdisplayproperty/group/graphics_openglesdisplayproperty.mrp"/>
+          </component>
+          <component name="OpenGL ES API" introduced="8.0">
+            <unit bldFile="common/generic/graphics/openglesheaders/group" mrp="common/generic/graphics/openglesheaders/group/graphics_openglesheaders.mrp"/>
+          </component>
+          <component name="OpenVG API" contract="Symbian_Exclude" introduced="9.5">
+            <unit bldFile="common/generic/graphics/openvgheaders/group" mrp="common/generic/graphics/openvgheaders/group/graphics_openvgheaders.mrp"/>
+          </component>
+          <component name="EGL API" contract="Symbian_Exclude" introduced="9.4">
+            <unit bldFile="common/generic/graphics/eglheaders/group" mrp="common/generic/graphics/eglheaders/group/graphics_eglheaders.mrp"/>
+          </component>
+        </collection>
+        <collection name="Khronos Implementation">
+          <component name="OpenGL ES Implementation" contract="OPENGL" filter="gt" introduced="8.0">
+            <unit bldFile="common/generic/graphics/OpenGLES/group/" mrp="common/generic/graphics/OpenGLES/group/graphics_opengles.mrp"/>
+          </component>
+          <component name="OpenVG Implementation" contract="Symbian_Exclude" introduced="9.5">
+            <unit bldFile="common/generic/graphics/OpenVG/group/" mrp="common/generic/graphics/OpenVG/group/graphics_openvg.mrp"/>
+          </component>
+          <component name="EGL Implementation" contract="Symbian_Exclude" introduced="9.4">
+            <unit bldFile="common/generic/graphics/egl/group/" mrp="common/generic/graphics/egl/group/graphics_egl.mrp"/>
+          </component>
+        </collection>
+        <collection name="Graphics Device Interface">
+          <component name="Bit GDI">
+            <unit bldFile="common/generic/graphics/bitgdi/group" mrp="common/generic/graphics/bitgdi/group/graphics_bitgdi.mrp"/>
+          </component>
+          <component name="GDI">
+            <unit bldFile="common/generic/graphics/gdi/group" mrp="common/generic/graphics/gdi/group/graphics_gdi.mrp"/>
+          </component>
+          <component name="Direct GDI">
+            <unit bldFile="common/generic/graphics/directgdi/group" mrp="common/generic/graphics/directgdi/group/graphics_directgdi.mrp"/>
+          </component>
+          <component name="Colour Palette" introduced="7.0s">
+            <unit bldFile="common/generic/graphics/palette/group" mrp="common/generic/graphics/palette/group/graphics_palette.mrp"/>
+          </component>
+        </collection>
+        <collection name="Core Graphics Resources">
+          <component name="Common Graphics Headers" introduced="9.5">
+            <unit bldFile="common/generic/graphics/commonheader/group" mrp="common/generic/graphics/commonheader/group/graphics_commonheader.mrp"/>
+          </component>
+          <component name="Graphics Data Resource" introduced="9.5">
+            <unit bldFile="common/generic/graphics/graphicsresource/group" mrp="common/generic/graphics/graphicsresource/group/graphics_graphicsresource.mrp"/>
+          </component>
+          <component name="Graphics Data Resource Adaptation" introduced="9.5">
+            <unit bldFile="common/generic/graphics/graphicsresourceadapter/group" mrp="common/generic/graphics/graphicsresourceadapter/group/graphics_graphicsresourceadapter.mrp"/>
+          </component>
+        </collection>
+        <collection name="BitGDI Adaptations">
+          <component name="Direct GDI Interface" introduced="9.5">
+            <unit bldFile="common/generic/graphics/directgdiheaders/group" mrp="common/generic/graphics/directgdiheaders/group/graphics_directgdiheaders.mrp"/>
+          </component>
+          <component name="Direct GDI Adaptation" introduced="9.5">
+            <unit bldFile="common/generic/graphics/directgdiadapter/group" mrp="common/generic/graphics/directgdiadapter/group/graphics_directgdiadapter.mrp"/>
+          </component>
+        </collection>
+        <collection name="Graphics Surface Composition">
+          <component name="Graphics Composition Engine" introduced="9.5">
+            <unit bldFile="common/generic/graphics/gce/group" mrp="common/generic/graphics/gce/group/graphics_gce.mrp"/>
+          </component>
+          <component name="Composition Engine Adaptation" introduced="9.5">
+            <unit bldFile="common/generic/graphics/gce/compositionbackend/group" mrp="common/generic/graphics/gce/compositionbackend/group/graphics_compositionbackend.mrp"/>
+          </component>
+          <component name="Surface Update" introduced="9.5">
+            <unit bldFile="common/generic/graphics/surfaceupdate/group" mrp="common/generic/graphics/surfaceupdate/group/graphics_surfaceupdate.mrp"/>
+          </component>
+        </collection>
+        <collection name="Graphics Hardware Adaptation">
+          <component name="Screen Driver" plugin="Y" introduced="6.1">
+            <unit bldFile="common/generic/graphics/screendriver/group" mrp="common/generic/graphics/screendriver/group/graphics_screendriver.mrp"/>
+          </component>
+        </collection>
+        <collection name="File Handling">
+          <component name="File Converter Framework">
+            <unit bldFile="common/generic/app-framework/conarc/group" mrp="common/generic/app-framework/conarc/group/app-framework_conarc.mrp"/>
+          </component>
+          <component name="HTML to RichText Converter" plugin="Y" introduced="7.0">
+            <unit bldFile="common/generic/app-services/chtmltocrtconv/group" mrp="common/generic/app-services/chtmltocrtconv/group/app-services_chtmltocrtconv.mrp"/>
+          </component>
+          <component name="RichText to HTML Converter" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/app-services/richtexttohtmlconv/Group" mrp="common/generic/app-services/richtexttohtmlconv/Group/app-services_richtexttohtmlconv.mrp"/>
+          </component>
+        </collection>
+        <collection name="Text Rendering">
+          <component name="Text Handling">
+            <unit bldFile="common/generic/app-framework/etext/group" mrp="common/generic/app-framework/etext/group/app-framework_etext.mrp"/>
+          </component>
+          <component name="Text Formatting">
+            <unit bldFile="common/generic/app-framework/form/group" mrp="common/generic/app-framework/form/group/app-framework_form.mrp"/>
+          </component>
+          <component name="Word" class="test">
+            <unit mrp="common/generic/app-framework/word/group/app-framework_word.mrp"/>
+          </component>
+        </collection>
+        <collection name="Common Application Services">
+          <component name="Alarm Server" introduced="7.0">
+            <unit bldFile="common/generic/app-services/alarmserver/Group" mrp="common/generic/app-services/alarmserver/Group/app-services_alarmserver.mrp"/>
+          </component>
+          <component name="Alarm Server Test" deprecated="9.5" introduced="8.1" class="test">
+            <unit bldFile="common/generic/app-services/test_engineering/alarmserver/TestAlarmSrv" mrp="common/generic/app-services/test_engineering/alarmserver/TestAlarmSrv/app-services_testalarmsrv.mrp"/>
+          </component>
+          <component name="Help" introduced="6.0">
+            <unit bldFile="common/generic/app-services/hlpmodel/group" mrp="common/generic/app-services/hlpmodel/group/app-services_hlpmodel.mrp"/>
+          </component>
+          <component name="Core Apps Test" class="test" introduced="8.1">
+            <!-- XML Previous Location: Application Services/Other Application Services/ -->
+            <unit mrp="common/generic/app-services/coreappstest/Group/app-services_CoreAppsTest.mrp"/>
+          </component>
+          <component name="Application Services Documentation" class="doc">
+            <unit mrp="common/generic/app-services/documentation/app-services_documentation.mrp"/>
+          </component>
+          <component name="Backup Restore Notification" introduced="8.1">
+            <unit bldFile="common/generic/app-services/BackupRestoreNotification/group" mrp="common/generic/app-services/BackupRestoreNotification/group/app-services_BackupRestoreNotification.mrp"/>
+          </component>
+        </collection>
+        <collection name="Time Zone Services">
+          <component name="Time Zone Server" introduced="9.1">
+            <unit bldFile="common/generic/app-services/tz/group" mrp="common/generic/app-services/tz/group/app-services_tz.mrp"/>
+          </component>
+          <component name="Time Zone Localization" introduced="9.1">
+            <unit bldFile="common/generic/app-services/TimeZoneLocalization/group" mrp="common/generic/app-services/TimeZoneLocalization/group/app-services_timezonelocalization.mrp"/>
+          </component>
+          <component name="Time Zone Localization Resource Factory" introduced="9.1" class="config">
+            <unit bldFile="common/generic/app-services/TzLocalizationRscFactory/group" mrp="common/generic/app-services/TzLocalizationRscFactory/group/app-services_tzlocalizationrscfactory.mrp"/>
+          </component>
+          <component name="Time Zone Database" introduced="9.1" class="config">
+            <unit bldFile="common/generic/app-services/tzdb/group" mrp="common/generic/app-services/tzdb/group/app-services_tzdb.mrp"/>
+          </component>
+          <component name="World Server" introduced="7.0" deprecated="9.1">
+            <unit bldFile="common/generic/app-services/worldserver/group" mrp="common/generic/app-services/worldserver/group/app-services_worldserver.mrp"/>
+          </component>
+          <component name="World Server Test" introduced="8.1" deprecated="9.1" class="test">
+            <unit bldFile="common/generic/app-services/test_engineering/worldserver/TestWorldSrv" mrp="common/generic/app-services/test_engineering/worldserver/TestWorldSrv/app-services_testworldsrv.mrp"/>
+          </component>
+        </collection>
+        <collection name="Content Handling">
+          <component name="SMIL Parser" introduced="7.0s">
+            <unit bldFile="common/generic/messaging/gmxml/GROUP" mrp="common/generic/messaging/gmxml/GROUP/messaging_gmxml.mrp"/>
+          </component>
+          <component name="Web Recognisers" plugin="Y">
+            <unit bldFile="common/generic/application-protocols/recognisers/group" mrp="common/generic/application-protocols/recognisers/group/application-protocols_recognisers.mrp"/>
+          </component>
+          <component name="Reference DRM Agent" introduced="8.0">
+            <unit bldFile="common/generic/security/caf2/test/RefTestAgent/group" mrp="common/generic/security/caf2/test/RefTestAgent/group/security_rta.mrp"/>
+          </component>
+          <component name="CAF Streaming Support" introduced="9.5">
+            <unit bldFile="common/generic/security/caf2/streaming/group" mrp="common/generic/security/caf2/streaming/group/security_streamingcaf.mrp"/>
+          </component>
+        </collection>
+        <collection name="Printing Support">
+          <component name="Printing UI Support">
+            <unit bldFile="common/generic/app-framework/print/group" mrp="common/generic/app-framework/print/group/app-framework_print.mrp"/>
+          </component>
+        </collection>
+        <collection name="Open Environment Utilities">
+          <component name="Command Shell">
+            <unit bldFile="common/generic/openenv/oetools/zsh/group" mrp="common/generic/openenv/oetools/zsh/group/oetools_zsh.mrp"/>
+          </component>
+          <component name="Telnet Server">
+            <unit bldFile="common/generic/openenv/oetools/telnetd/group" mrp="common/generic/openenv/oetools/telnetd/group/oetools_telnetd.mrp"/>
+          </component>
+        </collection>
+        <collection name="Backup and Restore">
+          <component name="Backup Engine" introduced="9.0">
+            <unit bldFile="common/generic/connectivity/SecureBackupEngine/group" mrp="common/generic/connectivity/SecureBackupEngine/group/connectivity_backupengine.mrp"/>
+          </component>
+        </collection>
+        <collection name="Application Framework">
+          <component name="Application Architecture">
+            <unit bldFile="common/generic/app-framework/apparc/group" mrp="common/generic/app-framework/apparc/group/app-framework_apparc.mrp"/>
+          </component>
+          <component name="View Server" introduced="6.0">
+            <unit bldFile="common/generic/app-framework/viewsrv/group" mrp="common/generic/app-framework/viewsrv/group/app-framework_viewsrv.mrp"/>
+          </component>
+          <component name="UIF Test Framework" class="test">
+            <unit mrp="common/generic/app-framework/TestFramework/group/app-framework_testframework.mrp"/>
+          </component>
+        </collection>
+        <collection name="Installation Services">
+          <component name="Secure Software Install">
+            <unit bldFile="common/generic/security/swi/group" mrp="common/generic/security/swi/group/security_swi.mrp"/>
+          </component>
+          <component name="Secure Software Install Device Tools" introduced="8.1">
+            <unit bldFile="common/generic/security/swi/devicetools/group" mrp="common/generic/security/swi/devicetools/group/security_switools_device.mrp"/>
+          </component>
+          <component name="SIS Installer" introduced="7.0s">
+            <unit bldFile="common/generic/security/sisinstaller/group" mrp="common/generic/security/sisinstaller/group/security_sisinstaller.mrp"/>
+          </component>
+          <component name="Java MIDlet Installer" introduced="7.0s">
+            <unit bldFile="common/generic/security/javaMIDletInstaller/group" mrp="common/generic/security/javaMIDletInstaller/group/security_javamidletinstaller.mrp"/>
+          </component>
+        </collection>
+        <collection name="Application Launch Services">
+          <component name="After Market Application Starter" introduced="Future">
+            <unit bldFile="common/generic/app-framework/amastart/group" mrp="common/generic/app-framework/amastart/group/app-framework_amastart.mrp"/>
+          </component>
+          <component name="Application Launch Plugins" introduced="Future">
+            <unit bldFile="common/generic/app-framework/aplp/group" mrp="common/generic/app-framework/aplp/group/app-framework_aplp.mrp"/>
+          </component>
+        </collection>
+        <collection name="Crypto Services">
+          <component name="Certificate and Key Management" introduced="6.0">
+            <unit bldFile="common/generic/security/certman/group" mrp="common/generic/security/certman/group/security_certman.mrp"/>
+          </component>
+          <component name="File-based Certificate and Key Stores" introduced="8.0">
+            <unit bldFile="common/generic/security/filetokens/group" mrp="common/generic/security/filetokens/group/security_filetokens.mrp"/>
+          </component>
+          <component name="Root Certificates" introduced="7.0s">
+            <unit mrp="common/generic/security/rootcerts/rootcerts.mrp"/>
+          </component>
+          <component name="ASN PKCS" introduced="8.0">
+            <unit bldFile="common/generic/security/asnpkcs/group" mrp="common/generic/security/asnpkcs/group/security_asnpkcs.mrp"/>
+          </component>
+          <component name="OpenSSL" introduced="9.5">
+            <unit bldFile="common/generic/openenv/oeaddons/ssl/group" mrp="common/generic/openenv/oeaddons/ssl/group/oeaddons_ssl.mrp"/>
+          </component>
+        </collection>
+        <collection name="Network Security">
+          <component name="EAP Plugins for WiFi" plugin="Y" introduced="9.3">
+            <unit bldFile="common/generic/networking/802.11/WiFiSecEapMods/group" mrp="common/generic/networking/802.11/WiFiSecEapMods/group/networking_wifieap.mrp"/>
+          </component>
+          <component name="TLS" introduced="6.0">
+            <unit bldFile="common/generic/networking/tls/group" mrp="common/generic/networking/tls/group/networking_tls.mrp"/>
+          </component>
+          <component name="TLS Provider" introduced="8.1">
+            <unit bldFile="common/generic/security/tlsprovider/group" mrp="common/generic/security/tlsprovider/group/security_tlsprovider.mrp"/>
+          </component>
+          <component name="IPsec" contract="IPSec_Protocol_Stack" introduced="7.0">
+            <unit bldFile="common/generic/networking/ipsec/group" mrp="common/generic/networking/ipsec/group/networking_ipsec.mrp"/>
+          </component>
+        </collection>
+        <collection name="Application Layer Protocols">
+          <component name="HTTP Transport Framework" introduced="6.2">
+            <unit bldFile="common/generic/application-protocols/http/framework/group" mrp="common/generic/application-protocols/http/framework/group/http_transport-framework.mrp"/>
+          </component>
+          <component name="HTTP Examples" introduced="6.2">
+            <unit bldFile="common/generic/application-protocols/http/examples/group" mrp="common/generic/application-protocols/http/examples/group/http_examples.mrp"/>
+          </component>
+          <component name="WAP Push Support" introduced="6.2">
+            <unit bldFile="common/generic/wap-browser/wapplugins/Group" mrp="common/generic/wap-browser/wapplugins/Group/wap-browser_wappushsupport.mrp"/>
+          </component>
+          <component name="WAP Base" introduced="6.0">
+            <unit bldFile="common/generic/wap-browser/wapbase/Group" mrp="common/generic/wap-browser/wapbase/Group/wap-browser_wapbase.mrp"/>
+          </component>
+          <component name="FTP Engine" introduced="6.0">
+            <unit bldFile="common/generic/networking/ftp_e/group" mrp="common/generic/networking/ftp_e/group/networking_ftp_e.mrp"/>
+          </component>
+          <component name="Telnet Engine" introduced="6.0">
+            <unit bldFile="common/generic/networking/telnet_e/group" mrp="common/generic/networking/telnet_e/group/networking_telnet_e.mrp"/>
+          </component>
+        </collection>
+        <collection name="Application Layer Plugins and Utils">
+          <component name="URI Permission Services" introduced="9.4">
+            <unit bldFile="common/generic/application-protocols/ineturilist/group" mrp="common/generic/application-protocols/ineturilist/group/application-protocols_ineturilist.mrp"/>
+          </component>
+          <component name="Bookmark Support" introduced="9.1">
+            <unit bldFile="common/generic/application-protocols/bookmarks/group" mrp="common/generic/application-protocols/bookmarks/group/application-protocols_bookmarks.mrp"/>
+          </component>
+          <component name="HTTP Protocol Plugins" plugin="Y" introduced="6.2">
+            <unit bldFile="common/generic/application-protocols/http/protocol/group" mrp="common/generic/application-protocols/http/protocol/group/http_protocol-plugin.mrp"/>
+          </component>
+          <component name="HTTP Transport Plugins" plugin="Y" introduced="6.2">
+            <unit bldFile="common/generic/application-protocols/http/transport/group" mrp="common/generic/application-protocols/http/transport/group/http_transport-plugin.mrp"/>
+          </component>
+        </collection>
+        <collection name="OBEX">
+          <component name="OBEX Protocol" introduced="9.1">
+            <unit bldFile="common/generic/obex/group" mrp="common/generic/obex/group/obex.mrp"/>
+          </component>
+          <component name="OBEX Extension API" introduced="9.2">
+            <unit bldFile="common/generic/obex/obexextensionapis/group" mrp="common/generic/obex/obexextensionapis/group/obex_extensionapis.mrp"/>
+          </component>
+        </collection>
+        <collection name="Bluetooth Profiles">
+          <component name="Bluetooth PAN Profile" plugin="Y" introduced="8.1">
+            <unit bldFile="common/generic/bluetooth/latest/bluetooth/profiles/pan/group" mrp="common/generic/bluetooth/latest/bluetooth/profiles/pan/group/bluetooth_pan.mrp"/>
+          </component>
+        </collection>
+        <collection name="WAP Stack">
+          <component name="WAP Message API">
+            <unit bldFile="common/generic/wap-stack/wapmessage/group" mrp="common/generic/wap-stack/wapmessage/group/wap-stack_wapmessage.mrp"/>
+          </component>
+          <component name="WAP Short Stack" contract="Symbian_Affiliate" filter="gt" introduced="8.0">
+            <unit bldFile="common/generic/wap-stack/wapstack/group" mrp="common/generic/wap-stack/wapstack/group/wap-stack_wapstack.mrp"/>
+          </component>
+        </collection>
+        <collection name="Connectivity Transports">
+          <component name="m-Router" contract="MRouter" filter="gt">
+            <unit bldFile="common/generic/connectivity/mRouterSecure/group" mrp="common/generic/connectivity/mRouterSecure/group/connectivity_mRouterSecure.mrp"/>
+          </component>
+          <component name="PLP Remote Link" deprecated="9.0">
+            <unit bldFile="common/generic/connectivity/legacy/PLP/plpgrp" mrp="common/generic/connectivity/legacy/PLP/plpgrp/connectivity_legacy_plp_plpgrp.mrp"/>
+          </component>
+          <component name="PLP Variant" deprecated="9.0">
+            <unit bldFile="common/generic/connectivity/legacy/PLP/plpvariant" mrp="common/generic/connectivity/legacy/PLP/plpvariant/connectivity_legacy_plp_plpvariant.mrp"/>
+          </component>
+        </collection>
+        <collection name="MTP Transports">
+          <component name="MTP USB Transport" plugin="Y" introduced="9.4">
+            <unit bldFile="common/generic/mtp/transports/usbsic/group" mrp="common/generic/mtp/transports/usbsic/group/mtp_usbsic.mrp"/>
+          </component>
+          <component name="MTP PTP-IP Transport" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/mtp/transports/ptpip/group" mrp="common/generic/mtp/transports/ptpip/group/mtp_ptpip.mrp"/>
+          </component>
+        </collection>
+        <collection name="IMS and streaming">
+          <component name="MTP Framework" introduced="9.4">
+            <unit bldFile="common/generic/mtp/framework/group" mrp="common/generic/mtp/framework/group/mtp_framework.mrp"/>
+          </component>
+          <component name="RTP" introduced="9.0">
+            <!-- Real Time Data Protocol -->
+            <unit bldFile="common/generic/mm-protocols/rtp/group" mrp="common/generic/mm-protocols/rtp/group/mm-protocols_rtp.mrp"/>
+          </component>
+          <component name="AMR Payload Formatter" introduced="9.5">
+            <unit bldFile="common/generic/mm-protocols/rtpamr/group" mrp="common/generic/mm-protocols/rtpamr/group/mm-protocols_rtpamr.mrp"/>
+          </component>
+          <component name="SIP Framework" contract="SIP_Stack" introduced="9.2">
+            <unit version="2" bldFile="common/generic/mm-protocols/SIP2/Group" mrp="common/generic/mm-protocols/SIP2/Group/mm-protocols_SIP2_Com.mrp"/>
+          </component>
+        </collection>
+        <collection name="SIP Connection Provider Plugins">
+          <component name="SIP Dummy PRT" plugin="Y" introduced="9.2">
+            <unit bldFile="common/generic/mm-protocols/SipProvEngine/SIPDummyPRT/group" mrp="common/generic/mm-protocols/SipProvEngine/SIPDummyPRT/group/mm-protocols_SIPDummyPRT.mrp"/>
+          </component>
+          <component name="SIP State Machine" introduced="9.2">
+            <unit bldFile="common/generic/mm-protocols/SipProvEngine/SipStateMachine/group" mrp="common/generic/mm-protocols/SipProvEngine/SipStateMachine/group/mm-protocols_SipStateMachine.mrp"/>
+          </component>
+          <component name="SIP Connection Plugins" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/mm-protocols/SIPProviders/group" mrp="common/generic/mm-protocols/SIPProviders/group/mm-protocols_sipproviders.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Middleware Frameworks">
+          <component name="Metadata Utility Framework" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/muf/metadataframework/group" mrp="common/generic/multimedia/muf/metadataframework/group/multimedia_muf.mrp"/>
+          </component>
+          <component name="Broadcast Radio Tuner" introduced="9.1">
+            <unit bldFile="common/generic/multimedia/tuner/group" mrp="common/generic/multimedia/tuner/group/multimedia_tuner.mrp"/>
+          </component>
+          <component name="Broadcast Radio Transmitter" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/transmitter/framework/group" mrp="common/generic/multimedia/transmitter/framework/group/multimedia_transmitter.mrp"/>
+          </component>
+          <component name="MUF Unit Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/unittest/muf/group/multimedia_unittest_muf_source.mrp"/>
+          </component>
+          <component name="MUF Integration Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/inttest/muf/group/multimedia_inttest_muf_source.mrp"/>
+          </component>
+          <component name="Tuner Unit Tests" introduced="9.1" class="test">
+            <unit mrp="common/generic/multimedia/unittest/tuner/group/multimedia_unittest_tuner_source.mrp"/>
+          </component>
+          <component name="Broadcast Radio Transmitter Unit Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/unittest/transmitter/group/multimedia_unittest_transmitter_source.mrp"/>
+          </component>
+          <component name="Broadcast Radio Transmitter Integration Tests" introduced="9.5" class="test">
+            <unit mrp="common/generic/multimedia/inttest/transmitter/group/multimedia_inttest_transmitter_source.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Middleware Plugins">
+          <component name="Metadata Parser Plugin" plugin="Y" introduced="9.5">
+            <unit bldFile="common/generic/multimedia/muf/metadataparser/group" mrp="common/generic/multimedia/muf/metadataparser/group/metadata_parser_plugin.mrp"/>
+          </component>
+          <component name="Multimedia Framework Plugins" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/multimedia/mmf/group_plugin" mrp="common/generic/multimedia/mmf/group_plugin/multimedia_mmf_plugin.mrp"/>
+          </component>
+          <component name="Broadcast Radio Transmitter Plugin" introduced="9.5" plugin="Y">
+            <unit bldFile="common/generic/multimedia/transmitter/plugin/group" mrp="common/generic/multimedia/transmitter/plugin/group/multimedia_transmitter_plugin.mrp"/>
+          </component>
+        </collection>
+        <collection name="Common UI Support">
+          <component name="UIKON" introduced="6.0">
+            <unit bldFile="common/generic/app-framework/uikon/group" mrp="common/generic/app-framework/uikon/group/app-framework_uikon.mrp"/>
+          </component>
+          <component name="Error Resolver Data">
+            <unit bldFile="common/generic/app-framework/errorresgt/group" mrp="common/generic/app-framework/errorresgt/group/app-framework_errorresgt.mrp"/>
+          </component>
+          <component name="UI Look and Feel" introduced="6.0">
+            <unit bldFile="common/generic/app-framework/uiklafgt/GROUP" mrp="common/generic/app-framework/uiklafgt/GROUP/app-framework_uiklafgt.mrp"/>
+          </component>
+          <component name="Grid">
+            <unit bldFile="common/generic/app-framework/grid/group" mrp="common/generic/app-framework/grid/group/app-framework_grid.mrp"/>
+          </component>
+          <component name="UI Frameworks Documentation" class="doc">
+            <unit mrp="common/generic/app-framework/documentation/app-framework_documentation.mrp"/>
+          </component>
+        </collection>
+        <collection name="Look-and-Feel Agnostic UI Foundation">
+          <component name="Control Environment">
+            <unit bldFile="common/generic/app-framework/cone/group" mrp="common/generic/app-framework/cone/group/app-framework_cone.mrp"/>
+          </component>
+          <component name="Front End Processor">
+            <unit bldFile="common/generic/app-framework/fepbase/group" mrp="common/generic/app-framework/fepbase/group/app-framework_fepbase.mrp"/>
+          </component>
+          <component name="Graphics Effects" introduced="9.2">
+            <unit bldFile="common/generic/app-framework/gfxtranseffect/group" mrp="common/generic/app-framework/gfxtranseffect/group/app-framework_gfxtranseffect.mrp"/>
+          </component>
+          <component name="UI Graphics Utilities">
+            <unit bldFile="common/generic/app-framework/egul/group" mrp="common/generic/app-framework/egul/group/app-framework_egul.mrp"/>
+          </component>
+          <component name="Number Formatting" introduced="7.0s">
+            <unit bldFile="common/generic/app-framework/numberconversion/group" mrp="common/generic/app-framework/numberconversion/group/app-framework_numberconversion.mrp"/>
+          </component>
+          <component name="Clock" plugin="Y">
+            <unit bldFile="common/generic/app-framework/clock/group" mrp="common/generic/app-framework/clock/group/app-framework_clock.mrp"/>
+          </component>
+          <component name="BMP Animation" introduced="6.0">
+            <unit bldFile="common/generic/app-framework/bmpanim/group" mrp="common/generic/app-framework/bmpanim/group/app-framework_bmpanim.mrp"/>
+          </component>
+          <component name="Animation" introduced="9.1">
+            <unit bldFile="common/generic/app-framework/animation/group" mrp="common/generic/app-framework/animation/group/app-framework_animation.mrp"/>
+          </component>
+        </collection>
+        <collection name="PIM App Services">
+          <component name="Calendar" introduced="9.2">
+            <unit version="2" bldFile="common/generic/app-engines/calendar/group" mrp="common/generic/app-engines/calendar/group/app-engines_calendar.mrp"/>
+          </component>
+          <component name="Agenda Model Test" deprecated="9.1" class="test" introduced="8.1">
+            <unit bldFile="common/generic/app-engines/test_engineering/agendaserver/TestAgendaSrv" mrp="common/generic/app-engines/test_engineering/agendaserver/TestAgendaSrv/app-engines_testagendasrv.mrp"/>
+          </component>
+          <component name="Agenda Versit Plugin" plugin="Y" introduced="8.1">
+            <unit version="2" bldFile="common/generic/app-engines/agnversit2/group" mrp="common/generic/app-engines/agnversit2/group/app-engines_agnversit2.mrp"/>
+          </component>
+          <component name="Contacts Model" introduced="5.0">
+            <unit version="2" bldFile="common/generic/app-engines/cntmodel/groupsql" mrp="common/generic/app-engines/cntmodel/groupsql/app-engines_cntmodel.mrp"/>
+          </component>
+          <component name="Application Engines Documentation" class="doc">
+            <unit mrp="common/generic/app-engines/documentation/app-engines_documentation.mrp"/>
+          </component>
+        </collection>
+        <collection name="PIM Application Support">
+          <component name="vCard and vCal" introduced="5.0">
+            <unit bldFile="common/generic/app-services/versit/group" mrp="common/generic/app-services/versit/group/app-services_versit.mrp"/>
+          </component>
+          <component name="Chinese Calendar Converter" introduced="6.1">
+            <unit bldFile="common/generic/app-services/calcon/group" mrp="common/generic/app-services/calcon/group/app-services_calcon.mrp"/>
+          </component>
+        </collection>
+        <collection name="PIM Protocols">
+          <component name="Phonebook Sync" plugin="Y">
+            <unit bldFile="common/generic/telephony/phbksync/group" mrp="common/generic/telephony/phbksync/group/telephony_phbksync.mrp"/>
+          </component>
+          <!-- here or in support? It's a plugin for cntmdl that's hidden from the user, but it is the mechansim to access the SIM card, so it's protocol-like -->
+          <component name="Bluetooth PBAP" introduced="9.2">
+            <unit bldFile="common/generic/bluetooth/latest/bluetooth/profiles/pbap/group" mrp="common/generic/bluetooth/latest/bluetooth/profiles/pbap/group/bluetooth_accesshost.mrp"/>
+          </component>
+        </collection>
+        <collection name="Messaging Framework">
+          <component name="Message Server and Store">
+            <unit bldFile="common/generic/messaging/framework/group" mrp="common/generic/messaging/framework/group/messaging_framework.mrp"/>
+          </component>
+          <component name="BIO Messaging Framework" introduced="6.0">
+            <unit bldFile="common/generic/messaging/biomsg/group" mrp="common/generic/messaging/biomsg/group/messaging_biomsg.mrp"/>
+          </component>
+          <component name="MMS Settings" introduced="9.2">
+            <unit bldFile="common/generic/messaging/mmssettings/group/" mrp="common/generic/messaging/mmssettings/group/messaging_mmssettings.mrp"/>
+          </component>
+          <component name="MMS Configuration">
+            <unit mrp="common/generic/messaging/mmssettings/group/messaging_mmssettings-config.mrp"/>
+          </component>
+          <component name="Watcher Framework">
+            <unit bldFile="common/generic/messaging/watcher/group" mrp="common/generic/messaging/watcher/group/messaging_watcher.mrp"/>
+          </component>
+          <component name="Messaging Test" class="test">
+            <!-- XML Previous Location: Application Services/Messaging Application Support/ -->
+            <unit bldFile="common/generic/messaging/test/group" mrp="common/generic/messaging/test/group/messaging_test.mrp"/>
+          </component>
+          <component name="Messaging Tests" class="test">
+            <unit mrp="common/generic/messaging/group/messaging.mrp"/>
+          </component>
+          <component name="Messaging Test Framework" class="test" deprecated="9.5">
+            <unit mrp="common/generic/messaging/testframework/group/messaging_testframework.mrp"/>
+          </component>
+          <component name="Messaging Test Product" class="test">
+            <unit mrp="common/generic/messaging/testproduct/group/messaging_testproduct.mrp"/>
+          </component>
+        </collection>
+        <collection name="Messaging Plugins">
+          <component name="Scheduled Send MTM" plugin="Y" introduced="6.0">
+            <unit bldFile="common/generic/messaging/schedulesend/group" mrp="common/generic/messaging/schedulesend/group/messaging_schedulesend.mrp"/>
+          </component>
+          <component name="POP3 and SMTP MTM" plugin="Y">
+            <unit bldFile="common/generic/messaging/email/group" mrp="common/generic/messaging/email/group/messaging_email.mrp"/>
+          </component>
+          <component name="IMAP4 MTM" plugin="Y" introduced="9.2">
+            <unit bldFile="common/generic/messaging/email/imap/group" mrp="common/generic/messaging/email/imap/group/messaging_email_imap.mrp"/>
+          </component>
+          <component name="OBEX MTMs" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/messaging/obex/Group" mrp="common/generic/messaging/obex/Group/messaging_obex.mrp"/>
+          </component>
+          <component name="SMS MTM" plugin="Y">
+            <unit bldFile="common/generic/messaging/sms/multimode/Group" mrp="common/generic/messaging/sms/multimode/Group/messaging_sms_multimode.mrp"/>
+          </component>
+        </collection>
+        <collection name="Messaging Services">
+          <component name="BIO Watchers" plugin="Y" introduced="8.0">
+            <unit bldFile="common/generic/messaging/biomsg/BioWatchersCdma/Group" mrp="common/generic/messaging/biomsg/BioWatchersCdma/Group/messaging_biomsg_biowatchers_cdma.mrp"/>
+          </component>
+          <component name="Send As">
+            <unit bldFile="common/generic/messaging/sendas2/group" mrp="common/generic/messaging/sendas2/group/messaging_sendas2.mrp"/>
+          </component>
+          <component name="Message URL Handler" introduced="7.0">
+            <unit bldFile="common/generic/messaging/urlhandler/group" mrp="common/generic/messaging/urlhandler/group/messaging_urlhandler.mrp"/>
+          </component>
+          <component name="WAP Push Framework" introduced="6.1">
+            <unit bldFile="common/generic/wap-browser/wappush/group" mrp="common/generic/wap-browser/wappush/group/wap-browser_wappush.mrp"/>
+          </component>
+        </collection>
+        <collection name="Sync and Remote Management Framework">
+          <component name="OMA SyncML Data Sync" introduced="7.0s">
+            <unit bldFile="common/generic/syncml/datasync/Group" mrp="common/generic/syncml/datasync/Group/oma_syncml_datasync.mrp"/>
+          </component>
+          <component name="OMA SyncML Common Framework" introduced="7.0s">
+            <unit bldFile="common/generic/syncml/framework/Group" mrp="common/generic/syncml/framework/Group/oma_syncml_common_framework.mrp"/>
+          </component>
+          <component name="OMA SyncML DM Interface" introduced="7.0s">
+            <unit bldFile="common/generic/syncml/devman/group" mrp="common/generic/syncml/devman/group/oma_syncml_dm_interface.mrp"/>
+          </component>
+          <component name="OMA SyncML Config" introduced="9.4" class="config">
+            <unit bldFile="common/generic/syncml/syncmlconfig/group" mrp="common/generic/syncml/syncmlconfig/group/oma_syncml_config.mrp"/>
+          </component>
+          <component name="Device Management Framework" introduced="8.0">
+            <unit bldFile="common/generic/devprov/devman/group" mrp="common/generic/devprov/devman/group/devprov_devman_framework.mrp"/>
+          </component>
+          <component name="Device Management Framework Config" introduced="9.5" class="config">
+            <unit bldFile="common/generic/devprov/config/devman/group" mrp="common/generic/devprov/config/devman/group/dmframeworkconfig.mrp" priority="10"/>
+          </component>
+          <component name="Client Provisioning Framework" introduced="9.1">
+            <unit bldFile="common/generic/devprov/clientprov/Group" mrp="common/generic/devprov/clientprov/Group/devprov_clientprov_framework.mrp"/>
+          </component>
+          <component name="Client Provisioning Framework Config" introduced="9.5" class="config">
+            <unit bldFile="common/generic/devprov/config/clientprov/group" mrp="common/generic/devprov/config/clientprov/group/cpframeworkconfig.mrp" priority="10"/>
+          </component>
+        </collection>
+        <collection name="Remote Management Test">
+          <component name="OMA SyncML Integration Test" introduced="7.0s" class="test">
+            <unit bldFile="common/generic/syncml/integtest/group" mrp="common/generic/syncml/integtest/group/oma_syncml_integtest.mrp"/>
+          </component>
+          <component name="OMA Device Management Integration Test" introduced="9.1" class="test">
+            <unit bldFile="common/generic/devprov/integtest/group" mrp="common/generic/devprov/integtest/group/devprov_integtest.mrp"/>
+          </component>
+          <component name="MTP Integration Test" introduced="9.4" class="test">
+            <unit bldFile="common/generic/mtp/test/group" mrp="common/generic/mtp/test/group/mtp_test.mrp"/>
+          </component>
+        </collection>
+        <collection name="Sync and Remote Management Services">
+          <component name="Data Sync Adaptors" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/generic/syncml/DBA/group" mrp="common/generic/syncml/DBA/group/data_sync_adaptors.mrp"/>
+          </component>
+          <component name="Device Management Adaptors" plugin="Y" introduced="9.1">
+            <unit bldFile="common/generic/devprov/adapters/devman/Group" mrp="common/generic/devprov/adapters/devman/Group/devprov_devman_adapters.mrp"/>
+          </component>
+          <component name="Device Management Adaptors Config" introduced="9.5" class="config">
+            <unit bldFile="common/generic/devprov/config/adapters/devman/group" mrp="common/generic/devprov/config/adapters/devman/group/dmadaptersconfig.mrp" priority="10"/>
+          </component>
+          <component name="Client Provisioning Adaptors" plugin="Y" introduced="9.1">
+            <unit bldFile="common/generic/devprov/adapters/clientprov/group" mrp="common/generic/devprov/adapters/clientprov/group/devprov_clientprov_adapters.mrp"/>
+          </component>
+          <component name="Client Provisioning Adaptors Config" introduced="9.5" class="config">
+            <unit bldFile="common/generic/devprov/config/adapters/clientprov/group" mrp="common/generic/devprov/config/adapters/clientprov/group/cpadaptersconfig.mrp" priority="10"/>
+          </component>
+        </collection>
+        <collection name="MTP Data Providers">
+          <component name="MTP File and Folder Provider" plugin="Y" introduced="9.4">
+            <unit bldFile="common/generic/mtp/dataproviders/filedp/group" mrp="common/generic/mtp/dataproviders/filedp/group/mtp_filedp.mrp"/>
+          </component>
+        </collection>
+        <collection name="Bluetooth Application Profiles">
+          <component name="Bluetooth AVRCP" introduced="9.1">
+            <unit bldFile="common/generic/bluetooth/latest/bluetooth/profiles/avrcp" mrp="common/generic/bluetooth/latest/bluetooth/profiles/avrcp/bluetooth_avrcp.mrp"/>
+          </component>
+        </collection>
+        <!--  Moved from Programming Support layer -->
+        <collection name="MIDP 2.0 Profile">
+          <component name="MIDP MIDlet" contract="Java_J2ME" filter="!java">
+            <unit bldFile="common/generic/j2me/systemamsV1_5" mrp="common/generic/j2me/group/9.2/generic_j2me_92.mrp"/>
+          </component>
+        </collection>
+        <collection name="MIDP 2.0 Packages">
+          <component name="JTWI 1.0" contract="Java_J2ME" filter="java" introduced="8.0">
+            <unit bldFile="common/generic/j2me/group/9.2" mrp="common/generic/j2me/group/9.2/techview_j2me_92.mrp"/>
+          </component>
+        </collection>
+        <collection name="Virtual Machine">
+          <component name="CLDC Hi 1.1" filter="java">
+            <unit mrp="common/generic/j2me/group/techview_j2me_midp2.mrp"/>
+          </component>
+        </collection>
+        <collection name="Apps">
+          <component name="Simple App" filter="techview">
+            <unit bldFile="common/techview/apps/simpleapp/group" mrp="common/techview/apps/simpleapp/group/Techview_SimpleApp.mrp"/>
+          </component>
+          <component name="CONTACUI" filter="techview">
+            <unit bldFile="common/techview/apps/contacui/group" mrp="common/techview/apps/contacui/group/techview_contacui.mrp" priority="30"/>
+          </component>
+          <component name="AGENDA" filter="techview">
+            <unit bldFile="common/techview/apps/agenda/group" mrp="common/techview/apps/agenda/group/techview_agenda.mrp"/>
+          </component>
+          <component name="AUDIO" filter="techview">
+            <unit bldFile="common/techview/apps/audio/Group" mrp="common/techview/apps/audio/Group/techview_audio.mrp"/>
+          </component>
+          <component name="CONTACTS" filter="techview">
+            <unit bldFile="common/techview/apps/contacts/group" mrp="common/techview/apps/contacts/group/techview_contacts.mrp"/>
+          </component>
+          <component name="SYNCMLAPP" filter="techview">
+            <unit bldFile="common/techview/apps/syncmlapp/group" mrp="common/techview/apps/syncmlapp/group/techview_syncmlapp.mrp"/>
+          </component>
+          <component name="HELP" filter="techview">
+            <unit bldFile="common/techview/apps/help/group" mrp="common/techview/apps/help/group/techview_help.mrp"/>
+          </component>
+          <component name="TIMEW" filter="techview">
+            <unit bldFile="common/techview/apps/timew/group" mrp="common/techview/apps/timew/group/techview_timew.mrp"/>
+          </component>
+          <component name="SECUI" filter="techview">
+            <unit bldFile="common/techview/apps/secui/group" mrp="common/techview/apps/secui/group/techview_secui.mrp"/>
+          </component>
+          <component name="Bluetooth UI" filter="techview">
+            <unit bldFile="common/techview/commsui/bluetoothui/group" mrp="common/techview/commsui/bluetoothui/group/techview_bluetoothui.mrp"/>
+          </component>
+          <component name="Remote Control Reference TSP" filter="techview" plugin="Y" introduced="9.1">
+            <unit bldFile="common/generic/bluetooth/latest/bluetooth/remotecontrol/reference/reftsp/group" mrp="common/generic/bluetooth/latest/bluetooth/remotecontrol/reference/reftsp/group/bluetooth_remotecontrol_refTSP.mrp"/>
+          </component>
+          <component name="PHONEUI" filter="techview">
+            <unit bldFile="common/techview/commsui/phoneui/group" mrp="common/techview/commsui/phoneui/group/techview_phoneui.mrp"/>
+          </component>
+          <component name="IAPSTATUSAPP" filter="techview">
+            <unit bldFile="common/techview/commsui/iapstatusapp/group" mrp="common/techview/commsui/iapstatusapp/group/techview_iapstatusapp.mrp"/>
+          </component>
+          <component name="CONNECTUI" filter="techview">
+            <unit bldFile="common/techview/commsui/connectui/group" mrp="common/techview/commsui/connectui/group/techview_connectui.mrp"/>
+          </component>
+          <component name="USBUI" filter="techview">
+            <unit bldFile="common/techview/commsui/UsbUi/group" mrp="common/techview/commsui/UsbUi/group/techview_usbui.mrp"/>
+          </component>
+          <component name="MESSAGINGUI" filter="techview">
+            <unit bldFile="common/techview/messagingui/Group" mrp="common/techview/messagingui/Group/techview_messagingui.mrp"/>
+          </component>
+          <component name="Networking Agent Notifier" filter="techview" plugin="Y" introduced="7.0s">
+            <unit bldFile="common/techview/networking/agentnotifier/group" mrp="common/techview/networking/agentnotifier/group/techview_networking_agentnotifier.mrp"/>
+          </component>
+          <component name="VPN UI" filter="techview" introduced="7.0">
+            <unit bldFile="common/techview/networking/vpnui/group" mrp="common/techview/networking/vpnui/group/techview_networking_vpnui.mrp"/>
+          </component>
+          <component name="STAT_DEVICE" filter="techview">
+            <unit bldFile="common/testtools/stat/device/source/statapi/Techview" mrp="common/testtools/stat/device/group/testtools_stat_device_techview.mrp"/>
+          </component>
+          <component name="Install App" filter="techview">
+            <unit bldFile="common/techview/apps/InstallApp/group" mrp="common/techview/apps/InstallApp/group/techview_installapp.mrp"/>
+          </component>
+          <component name="RESOURCE_HANDLER_UI" filter="techview">
+            <unit bldFile="common/testtools/ResourceHandler/TVResourceHandler/group" mrp="common/testtools/ResourceHandler/TVResourceHandler/group/Testtools_ResourceHandler_techview.mrp"/>
+          </component>
+          <component name="MemSpy" filter="techview" introduced="9.2" class="test">
+            <unit bldFile="common/generic/graphics/testutils/memspy/group" mrp="common/generic/graphics/testutils/memspy/group/graphics_memspy.mrp"/>
+          </component>
+          <component name="RESOURCE_HANDLER" deprecated="9.5" contract="Symbian_Affiliate">
+            <unit mrp="common/testtools/ResourceHandler/TVResourceHandler/group/Testtools_ResourceHandler_gt.mrp"/>
+          </component>
+          <component name="IP Administration Tool" class="test" introduced="7.0">
+            <unit mrp="common/generic/networking/ipadm/group/networking_ipadm.mrp"/>
+          </component>
+          <component name="Name Resolver Utility" class="test" introduced="7.0s">
+            <unit mrp="common/generic/networking/nslookup/group/networking_nslookup.mrp"/>
+          </component>
+          <component name="Security UPS Techview" filter="techview">
+            <unit bldFile="common/generic/security/ups/techview/group" mrp="common/generic/security/ups/techview/group/security_ups_techview.mrp"/>
+          </component>
+          <component name="Connectivity Framework" introduced="7.0s" deprecated="9.4" filter="techview">
+            <unit bldFile="common/generic/connectivity/framework/group" mrp="common/generic/connectivity/framework/group/connectivity_framework.mrp"/>
+          </component>
+          <component name="Connectivity Services" filter="techview" introduced="7.0s" deprecated="9.4">
+            <unit bldFile="common/generic/connectivity/services/group" mrp="common/generic/connectivity/services/group/connectivity_services.mrp"/>
+          </component>
+        </collection>
+        <collection name="Multimedia Validation Suite">
+          <component name="Multimedia Validation Suite Application" introduced="9.4" class="test">
+            <unit bldFile="common/generic/multimedia/mvs/application/group" mrp="common/generic/multimedia/mvs/application/group/multimedia_mvs_app.mrp"/>
+          </component>
+          <component name="Multimedia Validation Suite Agents" introduced="9.4">
+            <unit bldFile="common/generic/multimedia/mvs/agents/group" mrp="common/generic/multimedia/mvs/agents/group/multimedia_mvs_agents.mrp"/>
+          </component>
+          <component name="MVS Integration Tests" introduced="9.4" class="test">
+            <unit mrp="common/generic/multimedia/inttest/mvs/group/multimedia_inttest_mvs_source.mrp"/>
+          </component>
+        </collection>
+        <collection name="Toolkit">
+          <component name="UIKLAF" filter="techview">
+            <unit bldFile="common/techview/toolkit/uiklaf/GROUP" mrp="common/techview/toolkit/uiklaf/GROUP/techview_uiklaf.mrp" priority="10"/>
+          </component>
+          <component name="EIKSTD" filter="techview">
+            <unit bldFile="common/techview/toolkit/eikstd/group" mrp="common/techview/toolkit/eikstd/group/techview_eikstd.mrp" priority="20"/>
+          </component>
+          <component name="EXTRAS" filter="techview">
+            <unit bldFile="common/techview/toolkit/extras/group" mrp="common/techview/toolkit/extras/group/techview_extras.mrp"/>
+          </component>
+          <component name="STATUSPANE" filter="techview">
+            <unit bldFile="common/techview/toolkit/statuspane/group" mrp="common/techview/toolkit/statuspane/group/techview_statuspane.mrp"/>
+          </component>
+          <component name="SHELL" filter="techview">
+            <unit bldFile="common/techview/toolkit/shell/group" mrp="common/techview/toolkit/shell/group/techview_shell.mrp"/>
+          </component>
+          <component name="STARTUP" filter="techview">
+            <unit bldFile="common/techview/toolkit/start_up/group" mrp="common/techview/toolkit/start_up/group/techview_startup.mrp"/>
+          </component>
+          <component name="ROM Kit" filter="techview">
+            <unit bldFile="common/techview/toolkit/romkit/group" mrp="common/techview/toolkit/romkit/group/techview_romkit.mrp"/>
+          </component>
+          <component name="ROM Images" filter="techview">
+            <unit version="Future" mrp="cedar/generic/utils/techview_roms_Future.mrp"/>
+            <unit version="9.4" mrp="cedar/generic/utils/techview_roms_9.4.mrp"/>
+          </component>
+          <component name="FEPSETUP" filter="techview">
+            <unit bldFile="common/techview/misc/fepsetup/group" mrp="common/techview/misc/fepsetup/group/techview_fepsetup.mrp"/>
+          </component>
+          <component name="FEPS" filter="techview">
+            <unit bldFile="common/techview/misc/feps/group" mrp="common/techview/misc/feps/group/techview_feps.mrp"/>
+          </component>
+          <component name="CCTLCOLSCHEME" filter="techview">
+            <unit bldFile="common/techview/misc/cctlcolscheme/group" mrp="common/techview/misc/cctlcolscheme/group/techview_cctlcolscheme.mrp"/>
+          </component>
+          <component name="SOUNDSETUP" filter="techview">
+            <unit bldFile="common/techview/misc/soundsetup/group" mrp="common/techview/misc/soundsetup/group/techview_soundsetup.mrp"/>
+          </component>
+          <component name="KEYCLICKREF" filter="techview">
+            <unit bldFile="common/techview/misc/KeyClickRef/Group" mrp="common/techview/misc/KeyClickRef/Group/techview_KeyClickRef.mrp"/>
+          </component>
+          <component name="Configuration Files" filter="techview">
+            <unit mrp="common/techview/misc/MrpFiles/techview_epoc_ini.mrp"/>
+          </component>
+          <component name="Additional Configuration Files" filter="techview">
+            <unit mrp="common/techview/misc/MrpFiles/techview_additional_cedar.mrp"/>
+          </component>
+          <component name="CDB Orphaned Header file checker" filter="techview">
+            <unit bldFile="common/techview/apps/CDBDummy/group" mrp="common/techview/apps/CDBDummy/group/techview_cdb_dummy_orphanheader_checker.mrp"/>
+          </component>
+        </collection>
+      <collection name="Connectivity PC Side">
+        <component name="ConnectQI" contract="MRouterSDK" introduced="9.1" class="PC">
+          <unit mrp="common/connectqi/release/connectqisdk_mr3/connectqisdk_mr3.mrp"/>
+        </component>
+      </collection>
+      <collection name="Comms PC Side">
+        <component name="Prepare Default Comms Database" filter="gt" class="config PC">
+          <unit bldFile="common/generic/comms-infras/commsdat/defaultcommdb/group" mrp="common/generic/comms-infras/commsdat/defaultcommdb/group/comms-infras_defaultcommdb.mrp"/>
+        </component>
+        <component name="Install Default Comms Database" class="PC">
+          <unit bldFile="common/generic/comms-infras/commsdat/installdefaultcommdb/group" mrp="common/generic/comms-infras/commsdat/installdefaultcommdb/group/comms-infras_installdefaultcommdb.mrp" priority="1010"/>
+        </component>
+        <component name="Comms Tools" introduced="9.4" class="PC">
+          <unit mrp="common/generic/comms-infras/tools/group/comms-infras_tools.mrp"/>
+        </component>
+      </collection>
+      <collection name="Time Zone PC Side">
+        <component name="Time Zone Compiler" introduced="9.1" class="config PC">
+          <unit bldFile="common/generic/app-services/tzcompiler/group" mrp="common/generic/app-services/tzcompiler/group/app-services_tzcompiler.mrp"/>
+        </component>
+        <component name="World Database Kit" introduced="6.0" deprecated="9.1" class="config PC">
+          <unit bldFile="common/generic/app-services/wlddatabasekit/group" mrp="common/generic/app-services/wlddatabasekit/group/app-services_wlddatabasekit_cedar.mrp"/>
+        </component>
+        <component name="World Tools" introduced="5.0" deprecated="9.1" class="config PC">
+          <unit bldFile="common/generic/app-services/wldtools/group" mrp="common/generic/app-services/wldtools/group/app-services_wldtools.mrp"/>
+        </component>
+      </collection>
+      <collection name="Secure Software Install Tools">
+        <component name="SWI Analysis Toolkit" class="PC">
+          <unit bldFile="common/generic/security/swi/pctools/group" mrp="common/generic/security/swi/pctools/group/security_switools.mrp"/>
+        </component>
+        <component name="Secure Software Install SIS Tools" class="PC">
+          <unit bldFile="common/generic/security/swi/sistools/group" mrp="common/generic/security/swi/sistools/group/security_sistools.mrp"/>
+        </component>
+        <component name="OpenSSL Library" class="PC">
+          <unit mrp="common/generic/security/openssl/security_openssl.mrp"/>
+        </component>
+      </collection>
+      <collection name="Graphics Tools">
+        <component name="GDI Tools" class="PC">
+          <unit bldFile="common/generic/graphics/gditools/group" mrp="common/generic/graphics/gditools/group/graphics_gditools.mrp"/>
+        </component>
+        <component name="Bitmap Font Tools" class="PC">
+          <unit bldFile="common/generic/graphics/gdtran/group" mrp="common/generic/graphics/gdtran/group/graphics_gdtran.mrp"/>
+        </component>
+      </collection>
+      <collection name="IP Examples">
+        <component name="Example Internet Utilities" introduced="ER5">
+          <unit mrp="common/generic/networking/inetutil/group/networking_inetutil.mrp"/>
+        </component>
+        <component name="IP Probe" plugin="Y" introduced="7.0s">
+          <unit mrp="common/generic/networking/probe/group/networking_probe.mrp"/>
+        </component>
+      </collection>
+      <collection name="Miscellaneous">
+        <component name="DUMMY">
+          <unit bldFile="common/generic/tools/cbr/dummy" mrp="common/generic/tools/cbr/dummy/additional_dummy.mrp"/>
+        </component>
+        <component name="SYSTEMMONITOR">
+          <unit bldFile="common/testtools/systemmonitor/group" mrp="common/testtools/systemmonitor/group/testtools_systemmonitor.mrp"/>
+        </component>
+      </collection>
+    </layer>
+  </systemModel>
+</SystemDefinition>

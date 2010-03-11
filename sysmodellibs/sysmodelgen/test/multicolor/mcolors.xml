@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<values default="grey" label="Things">
+<item label="Foo" value="blue">
+<component name="Wireless LAN"/>
+<component name="Graphics Effects"/>
+
+            <component name="ETel SIM Toolkit" />
+            <component name="ETel Server and Core" />
+            <component name="Hardware Resources Manager" />
+</item>
+        <item label="Bar" value="#f66">
+            <component name="Baseband Channel Adaptor" />
+            <component name="Baseband Channel Adaptor for C32" />
+            <component name="Baseband Channel Adaptor for ISC" />
+            <component name="CDMA TSY" />
+            <component name="Common TSY" />
+            <component name="ETel CDMA" />
+            <component name="ETel Config" />
+            <component name="ETel Multimode" />
+            <component name="ETel Packet Data" />
+            <component name="ETel SIM Toolkit" />
+            <component name="ETel Server and Core" />
+            <component name="Hardware Resources Manager" />
+            <component name="Inter-System Communication" />
+            <component name="MultiMode TSY" />
+            <component name="S60 Compatibility Headers" />
+            <component name="SIM TSY" />
+            <component name="TRP AGT" />
+            <component name="TRP CSY" />
+            <component name="TRP TSY" />
+        </item>
+<item label="Baz" value="yellow">
+<component name="OMAP 1623"/>
+<component name="SD Card Driver"/>
+<component name="Audio Driver"/>
+<component name="MIDI Driver"/>
+<component name="Speech Driver"/>
+<component name="Video Driver"/>
+<component name="Emulator"/>
+<component name="Lubbock Variant"/>
+<component name="OMAP H2"/>
+<component name="OMAP H4"/>
+<component name="PDDs"/>
+<component name="MultiMode TSY"/>
+<component name="CDMA TSY"/>
+<component name="SIM TSY"/>
+<component name="TRP TSY"/>
+<component name="TRP CSY"/>
+<component name="Bluetooth HCI"/>
+<component name="IP Hook Examples"/>
+<component name="SLIP NIF"/>
+<component name="WAP Short Stack"/>
+<component name="Camera"/>
+<component name="OpenGL ES"/>
+<component name="FreeType Font Rasteriser"/>
+<component name="Reference Fonts"/>
+<component name="Printer Drivers"/>
+<component name="Reference DRM Agent"/>
+<component name="Security Policy"/>
+<component name="MIDP GSM Security RP"/>
+</item>
+</values>

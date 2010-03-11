@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<model ver="9.4" revision="1.3" revision-type="issued" name="Symbian OS" label="System Model" 
+	copyright="Symbian Ltd. 2006" distribution="internal"
+	 ts="techstreams.xml" shapes="shapes.xml">
+	 <sysdef href="System_Definition_Template.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <filter accept="java"/>
+	 <filter accept="gt"/>
+	 <!-- filter reject="techview"/ : no need for this-->
+	<ignore type="layer" name="Tools and Utils and SDKENG"/>
+	<ignore type="layer" name="MISC"/>
+<layout >
+	<info href="display-names.xml" type="abbrev"/>
+	<layer-group color="rgb(143,188,143)" from="HAL" to="Application Services">
+		<layer-group color="rgb(93,155,205)" from="Kernel Services" to="OS Services" label="Core OS"/>	
+	</layer-group>
+	<legend label="Key">
+		<legend use="@shapes#examples"/>
+		<legend use="@shapes#colors"/>
+		<legend use="@shapes#styles" label="{@name} components"/>
+		<legend use="@shapes#patterns"/>
+		<legend use="@shapes#borders"/>
+		<legend>
+			<legend label="Undocumented feature: multiline labels:&#xa;{@copyright}&#xa;{@revision-type} for the&#xa;{@name}"/>		
+		</legend>
+		<note width="auto">Documented feature: multiline notes:&#xa;{@copyright}&#xa;{@revision-type} for the&#xa;{@name}</note>
+		<note width="auto" class="lgd">{@copyright}&#xa;{@distribution}</note>
+	</legend>
+</layout>
+</model>

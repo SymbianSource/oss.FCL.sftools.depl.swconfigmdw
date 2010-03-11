@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sym:sdbcreator 
+	version="1.0"
+	xmlns:sym="http://www.symbian.com/sdbcreator/symbiansecuritysettings"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.symbian.com/sdbcreator/symbiansecuritysettings schema.xsd ">
+      
+    <policy type="default" always="pass"/> 
+
+    <policy VID="1234" type="schema">
+      <capability type="TrustedUI"/>
+      <capability type="PowerMgmt"/>
+      <capability type="DRM"/>
+    </policy>
+
+    <configuration name="page_size" value="512"/>
+    <configuration name="encoding" value="UTF_16"/>
+
+
+</sym:sdbcreator>

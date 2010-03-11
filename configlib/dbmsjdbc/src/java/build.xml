@@ -1,0 +1,185 @@
+<project name="com.symbian.dbms" default="all" basedir="../">
+
+	<!--properties...-->
+	<!-- The epoc.build property specifies the temp location for build files 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored.
+		 NOTE: Do not use this directly - use build.dir instead -->
+	<property name="epoc.build" value="${basedir}"/>
+	
+	<!-- The tools.rel property specifies the releease location for binaries 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored -->
+	<property name="tools.rel" value="${basedir}\rel"/>
+	
+	<!-- Add a new level of indirection to the build to location so we can 
+		 ensure that we can delete the directory as we don't have permission
+		 to delect epoc.build -->
+	<property name="build.dir" value="${epoc.build}\target"/>
+	
+	<property name="lib.dir" location="${basedir}/../lib"/>
+	<property name="testlib.dir" location="${basedir}/../lib/test"/>
+
+	
+	<!-- These directories will store the code coverage and junit reports-->
+	<property name="reports.dir" value="${build.dir}\reports"/>
+	<property name="junit.reports.dir" value="${reports.dir}\junit"/>
+	
+	<!-- source code directories for src and test code -->
+	<property name="src.dir" value="${basedir}\java"/>
+	<property name="test.src.dir" value="${basedir}\test"/>
+	<property name="native.src.dir" value="${basedir}\src\native"/>
+		
+	<!-- destination directories for built classes -->
+	<property name="app.build.dir" value="${build.dir}\application-classes"/>
+		<!--<property name="jniheaders.build.dir" value="${build.dir}\dbmsjni"/>-->
+		
+	<property name="jniheaders.build.dir" value="${native.src.dir}\..\..\..\target\dbmsjni"/>
+
+	<property name="test.build.dir" value="${build.dir}\test-classes"/>
+	<property name="test.temp.dir" value="${build.dir}\test-temp"/>
+		
+	<!-- directory in which we construt releaseable distros -->
+	<property name="dist.win.dir" value="${build.dir}\dist_win"/>
+	<property name="dist.lin.dir" value="${build.dir}\dist_lin"/>
+		
+	<!-- directory in which we store built instrumented jars -->
+	<property name="dist.inst.dir" value="${build.dir}\dist"/>
+
+	<property name="jars.instr.dir" value="${build.dir}\dist_instr"/>
+
+	<property name="deploy.location" value="\dbmsjdbc"/>
+	<property name="deploy.location_lib" value="${deploy.location}\lib"/>
+
+	<property name="jar.location" value="${epoc.rel}/"/>
+	<property name="release.jar" value="${jar.location}rel/dbmsjdbc.jar"/>
+	<property name="deb.jar" value="${jar.location}deb/dbmsjdbc.jar"/>
+	
+	<!-- log dir 
+	Note due to the command structure in SDB Creator we can't overwrite the 
+	default log dir for tests so it will still be written to the source tree-->
+	
+	<property name="log.dir" value="${basedir}\logs"/>
+
+	<property name="jar" value="${dist.win.dir}/dbmsjdbc/lib\dbmsjdbc.jar"/>
+
+
+	
+	<!-- Distribution Zip -->
+	<property name="dbmsjdbc.zip" location="${tools.rel}\dbmsjdbc.zip"/>
+	<property name="dbmsjdbc.tar" location="${tools.rel}\dbmsjdbc.tar"/>
+	<property name="dbmsjdbc.tar.gz" location="${tools.rel}\dbmsjdbc.tar.gz"/>
+
+	
+	<!-- Compiler settings -->
+	<property name="javacFailOnError" value="true"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="false"/>
+	<property name="logExtension" value=".log"/>
+	<property name="compilerArg" value=""/>
+	<property name="javacSource" value="1.5"/>
+	<property name="javacTarget" value="1.5"/>
+	
+	<path id="path_bootclasspath">
+		<fileset dir="${java.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<path id="test_classpath">
+		<fileset dir="${testlib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<property name="bootclasspath" refid="path_bootclasspath"/>
+	<property name="bundleJavacSource" value="${javacSource}"/>
+	<property name="bundleJavacTarget" value="${javacTarget}"/>
+	<property name="bundleBootClasspath" value="${bootclasspath}"/>
+	
+	<target name="all" depends="clean, build.src, build.test, build.javah, create.jar"/>
+	<target name="build.release" depends="clean, build.src, build.test, build.javah, create.jar"/>
+	
+	<!-- ================================= 
+	        target: clean
+	          
+	          - This target is mandatory for the Symbian buid process.
+	          - Please clean up all generated files during the build proccess.
+	          - Used by "abld clean" and "abld reallyclean".  
+	         ================================= -->
+	<target name="clean" description="Cleans the build using abld clean">
+		<delete dir="${build.dir}"/>
+		<delete failonerror="false" file="${release.jar}"/>
+		<delete failonerror="false" file="${deb.jar}"/>
+		<delete failonerror="false" file="${dbmsjdbc.zip}"/>
+		<delete failonerror="false" file="${dbmsjdbc.tar}"/>
+		<delete failonerror="false" file="${dbmsjdbc.tar.gz}"/>
+		<delete dir="${jniheaders.build.dir}"/>
+		<delete dir="${log.dir}"/>
+	</target>
+		
+	<!-- This builds all the source code (exc test code) and puts it into
+		 ${build.dir} using the compiler settings defined above 			-->
+	<target name="build.src" description="Build source code (excluding tests)">
+		
+		<mkdir dir="${app.build.dir}"/>
+		
+		<!-- compile the source code -->
+		<javac destdir="${app.build.dir}" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}"		>
+			<src path="${src.dir}"/>
+		</javac>
+	</target>
+	
+	<!-- Builds the test code into ${test.build.dir} -->
+	<target name="build.test">
+
+		<mkdir dir="${test.build.dir}"/>
+		<mkdir dir="${test.temp.dir}"/>
+		
+		<!-- compile the test code -->
+		<javac destdir="${test.build.dir}" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}"		>
+			<classpath>
+				<path refid="test_classpath"/>
+				<pathelement location="${app.build.dir}"/>
+			</classpath>
+			<src path="${test.src.dir}"/>
+		</javac>		
+	</target>
+
+	<target name="build.javah" description="Build JNI headers">
+		
+		<mkdir dir="${jniheaders.build.dir}"/>
+		
+		<!-- compile the source code -->
+		<javah destdir="${jniheaders.build.dir}" verbose="${javahVerbose}" bootclasspath="${bundleBootClasspath}" classpath="${app.build.dir}">
+			<class name="com.symbian.dbms.jdbc.DbmsConnection"/> 
+			<class name="com.symbian.dbms.jdbc.DbmsResultSet"/> 
+			<class name="com.symbian.dbms.jdbc.DbmsStatement"/> 
+			<class name="com.symbian.dbms.jdbc.DbmsDatabaseMetaData"/> 
+			<class name="com.symbian.store.StreamStore"/> 
+			<class name="com.symbian.store.StoreInputStream"/> 
+			<class name="com.symbian.store.StoreOutputStream"/> 
+			<class name="com.symbian.store.EmbeddedStore"/>
+		</javah>
+	</target>
+	
+	
+	<target name="create.jar">
+		<mkdir dir="${jar.location}"/>
+		<jar destfile="${release.jar}" basedir="${app.build.dir}">
+			<manifest>
+			        <attribute name="Class-Path" value="${jar.classpath.list}"/>
+		    </manifest>
+		</jar>
+		<jar destfile="${deb.jar}" basedir="${app.build.dir}">
+			<manifest>
+			        <attribute name="Class-Path" value="${jar.classpath.list}"/>
+		    </manifest>
+		</jar>
+	</target>
+	
+	<target name="what" description="Prints out all releasables">
+		<echo message="${release.jar}" />		
+		<echo message="${deb.jar}" />		
+	</target>
+	
+</project>

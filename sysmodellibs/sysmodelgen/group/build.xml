@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="system_model_generator" default="all" basedir="../.">
+
+	<!-- The epoc.build property specifies the temp location for build files 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored.
+		 NOTE: Do not use this directly - use build.dir instead -->
+	<property name="epoc.build" value="${basedir}"/>
+	
+	<!-- The tools.rel property specifies the releease location for binaries 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored -->
+	<property name="tools.rel" value="${basedir}"/>
+
+
+	<property name="release.folder" value="${tools.rel}\dist\smg" /> 
+	
+	<property name="temp.folder" value="${epoc.build}/temp" />
+
+	<property name="zip.folder" value="${epoc.build}/zips/" />
+	
+	<property name="current.version" value="1.0.0" />
+	
+	<property name="src.folder" value="${basedir}/src" />
+	
+	<property name="doc.folder" value="${basedir}/docs" />
+	
+	<property name="resources.folder" value="${basedir}/resources" />
+	
+	<property name="installer.folder" value="${basedir}/installer" />
+	
+	<target name="clean">
+	
+		<delete dir="${release.folder}"/>
+		
+		<delete dir="${temp.folder}"/>
+		
+		<delete dir="${zip.folder}"/>
+		
+	</target>
+	
+	<target name="build">
+	
+		<mkdir dir="${release.folder}"/>
+		
+		<mkdir dir="${temp.folder}"/>
+		
+		<mkdir dir="${zip.folder}"/>
+		
+		<copy file="${src.folder}/svg/DrawSvg.pl" tofile="${temp.folder}/SysModGen.pl"/>
+		
+		<copy todir="${temp.folder}/documentation" >
+			<fileset dir="${doc.folder}/">
+				<exclude name="**/DISTRIBUTION.POLICY"/>
+				<exclude name="**/SystemModelToolkitInstaller_main.jpg" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${temp.folder}">
+			<fileset dir="${src.folder}/">
+				<exclude name="**/DISTRIBUTION.POLICY"/>
+				<exclude name="**/*.pl"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${temp.folder}/resources">
+			<fileset dir="${resources.folder}/">
+				<exclude name="**/DISTRIBUTION.POLICY"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${release.folder}/SystemModelGenerator">
+			<fileset dir="${temp.folder}">
+				<exclude name="**/DISTRIBUTION.POLICY"/>
+			</fileset>
+		</copy>
+		
+		<copy file="${installer.folder}/SysModGen.cmd" todir="${release.folder}"/>
+		
+	</target>
+	
+	<target name="all">
+
+		<antcall target="clean" />
+
+		<antcall target="build" />
+		
+	</target>
+
+	<target name="test">
+
+	</target>
+	
+	<target name="what" description="Prints out all releasables">
+
+		<fileset id="dist.contents.SystemModelGenerator" dir="${release.folder}/SystemModelGenerator" includes="*"/>
+		<pathconvert property="prop.dist.contents" refid="dist.contents.SystemModelGenerator" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents}</echo>
+		
+		<fileset id="dist.contents.common" dir="${release.folder}/SystemModelGenerator/common" includes="*"/>
+		<pathconvert property="prop.dist.contents.common" refid="dist.contents.common" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.common}</echo>
+
+		<fileset id="dist.contents.documentation" dir="${release.folder}/SystemModelGenerator/documentation" includes="*"/>
+		<pathconvert property="prop.dist.contents.documentation" refid="dist.contents.documentation" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.documentation}</echo>
+		
+		<fileset id="dist.contents.svg" dir="${release.folder}/SystemModelGenerator/svg" includes="*"/>
+		<pathconvert property="prop.dist.contents.svg" refid="dist.contents.svg" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.svg}</echo>
+		
+		<fileset id="dist.contents.auxiliary" dir="${release.folder}/SystemModelGenerator/resources/auxiliary" includes="*"/>
+		<pathconvert property="prop.dist.contents.auxiliary" refid="dist.contents.auxiliary" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.auxiliary}</echo>
+		
+		<fileset id="dist.contents.Xalan" dir="${release.folder}/SystemModelGenerator/resources/installed/Xalan" includes="*"/>
+		<pathconvert property="prop.dist.contents.Xalan" refid="dist.contents.Xalan" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.Xalan}</echo>
+		
+		<fileset id="dist.contents.xsd" dir="${release.folder}/SystemModelGenerator/resources/xsd" includes="*"/>
+		<pathconvert property="prop.dist.contents.xsd" refid="dist.contents.xsd" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.xsd}</echo>
+		
+		<echo message="${release.folder}\SysModGen.cmd" />
+	</target>
+	
+	
+</project>

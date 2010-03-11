@@ -1,0 +1,5 @@
+NOTESRC_RELEASER
+Nokia Corporation
+
+NOTESRC_RELEASE_REASON
+System Model Generator release.

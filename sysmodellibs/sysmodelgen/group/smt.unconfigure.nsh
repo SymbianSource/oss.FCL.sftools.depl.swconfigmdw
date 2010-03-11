@@ -1,0 +1,3 @@
+
+
+Delete "$INSTDIR\SysModGen.cmd"

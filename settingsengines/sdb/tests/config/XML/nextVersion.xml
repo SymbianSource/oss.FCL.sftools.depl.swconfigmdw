@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdb:sdb version="2.0"	
+	xmlns:sdb="http://www.symbian.com/sdbcreator/symbiansecuritysettings"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <database type="sqlite">     
+
+            <policy type="default" always="pass"/>
+            <policy VID="f" type="schema">
+                  <capability type="TrustedUI"/>
+                  <capability type="PowerMgmt"/>
+                 <capability type="DRM"/>
+            </policy>
+
+            <configuration name="page_size" value="512"/>
+            <configuration name="encoding" value="UTF_16"/>
+
+    </database>   
+
+    <database type="dbms">     
+
+          <!--   none security settings available as for now,
+             parser would have to validate it manually?
+             or would just ignore them-->
+
+            <configuration name="locale" value="./locale.dll"/>
+            <configuration name="block_size" value="4096"/>
+            <configuration name="cluster_size" value="4096"/>
+
+    </database>   
+    
+   <common>
+            <applicable type="dbms"/>
+            <applicable type="sqlite"/>
+
+            <database>
+               <policy type="default" always="pass"/>
+               <configuration name="cluster_size" value="4096"/>
+          </database>
+
+   </common>
+
+</sdb:sdb>

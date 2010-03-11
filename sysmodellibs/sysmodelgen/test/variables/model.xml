@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<model ver="9.4" revision="1.5" revision-type="issued" name="Symbian OS" label="System Model" 
+	 ts="techstreams.xml" shapes="testshapes1.xml"
+	deps="deps94.xml">
+	 <sysdef href="System_Definition_Template.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <!-- can include thes attributes in model if printing  copyright="Symbian Ltd. 2006" distribution="internal" -->
+	 <!-- type is not really used, it's just for readability (mostly)-->
+	 <filter accept="java"/>
+	 <filter accept="gt"/>
+	 <!-- filter reject="techview"/ : no need for this-->
+	<ignore type="layer" name="Tools and Utils and SDKENG"/>
+	<ignore type="layer" name="MISC"/>
+<layout >
+	<info href="display-names.xml" type="abbrev"/>
+	<layer-group color="rgb(143,188,143)" from="HAL" to="Application Services">
+		<!-- some error checking is done to ensure the inner layers are actually inside the outer ones, but if not, it 
+		will give odd resutls -->
+		<layer-group color="rgb(93,155,205)" from="Kernel Services" to="OS Services" label="Core OS"/>	
+	</layer-group>
+	<legend label="Key">
+		<legend use="@shapes#colors"/>
+		<legend use="@shapes#styles"/>
+		<legend use="@shapes#patterns"/>
+		<legend use="@shapes#borders"/>
+		<legend use="@shapes#examples"/>
+	</legend>
+	
+</layout>
+</model>

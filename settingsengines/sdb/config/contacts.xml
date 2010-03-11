@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template_config version="1.0.0">
+	
+	  <group type="storage">
+		<item name="KStorageTypeText" value="0" /> 
+		<item name="KStorageTypeStore" value="1" /> 
+		<item name="KStorageTypeContactItemId" value="2" /> 
+		<item name="KStorageTypeDateTime" value="3" /> 
+	</group>
+
+	<group type="category">
+		<item name="EContactCategoryNone" value="0" /> 
+		<item name="EContactCategoryHome" value="1" /> 
+		<item name="EContactCategoryWork" value="2" /> 
+		<item name="EContactCategoryOther" value="3" /> 
+	</group>
+
+	<group type="flags">
+		<item name="EContactFieldFlagHidden" value="0x001" /> 
+		<item name="EContactFieldFlagReadOnly" value="0x002" /> 
+		<item name="EContactFieldFlagSynchronize" value="0x004" /> 
+		<item name="EContactFieldFlagDisabled" value="0x008" /> 
+		
+		<item name="KIntFieldFlagHidden" value="0x001" /> 
+		<item name="KIntFieldFlagReadOnly" value="0x002" /> 
+		<item name="KIntFieldFlagSynchronize" value="0x004" /> 
+		<item name="KIntFieldFlagDisabled" value="0x008" />
+		
+		<item name="EContactFieldFlagFilterable" value="0x010" /> 
+		<item name="EContactFieldFlagFilterable1" value="0x020" /> 
+		<item name="EContactFieldFlagFilterable2" value="0x040" /> 
+		<item name="EContactFieldFlagFilterable3" value="0x080" /> 
+		<item name="EContactFieldFlagFilterable4" value="0x100" /> 
+		<item name="KIntFieldFlagFilterable" value="0x010" /> 
+		<item name="KIntFieldFlagFilterable1" value="0x020" /> 
+		<item name="KIntFieldFlagFilterable2" value="0x040" /> 
+		<item name="KIntFieldFlagFilterable3" value="0x080" /> 
+		<item name="KIntFieldFlagFilterable4" value="0x100" />
+	</group>
+
+	<group type="contact_type" >
+		<item name="KUidContactCardValue" value="0x10001309" />
+		<item name="KUidContactGroupValue" value="0x1000130A" />
+		<item name="KUidContactOwnCardValue" value="0x10004F95" />
+		<item name="KUidContactICCEntryValue" value="0x101F4A6F" />
+		<item name="KUidContactTemplateValue" value="0x1000130B" />
+		<item name="KUidContactCardTemplateValue" value="0x10004FF1" />
+	</group>
+ 
+	<group type="speed_dial">
+		<item name="KUidSpeedDialEightValue" value="0x100067Cf"/>
+		<item name="KUidSpeedDialFiveValue" value="0x100067Cc"/>
+		<item name="KUidSpeedDialFourValue" value="0x100067Cb"/>
+		<item name="KUidSpeedDialNineValue" value="0x100067d0"/>
+		<item name="KUidSpeedDialOneValue" value="0x100067C8"/>
+		<item name="KUidSpeedDialSevenValue" value="0x100067Ce"/>
+		<item name="KUidSpeedDialSixValue" value="0x100067Cd"/>
+		<item name="KUidSpeedDialThreeValue" value="0x100067Ca"/>
+		<item name="KUidSpeedDialTwoValue" value="0x100067C9"/>
+	</group>
+
+	<group type="vcard_mapping">
+		<item name="KIntContactFieldVCardMapAGENT" value="0x1000401E" token="KVersitTokenAGENT" vCard="AGENT"/>
+		<item name="KIntContactFieldVCardMapAVI" value="0x10005DCF" token="KVersitParam8Avi" vCard="AVI"/>
+		<item name="KIntContactFieldVCardMapAnniversary" value="0x10274DAC" token="KVersitTokenAnniversary" vCard="X-ANNIVERSARY"/>
+		<item name="KIntContactFieldVCardMapAssistant" value="0x10274DAA" token="KVersitTokenAssistant" vCard="X-ASSISTANT"/>
+		<item name="KIntContactFieldVCardMapAssistantTel" value="0x10274DAB" token="KVersitTokenAssistantTel" vCard="X-ASSISTANT-TEL"/>
+		<item name="KIntContactFieldVCardMapBBS" value="0x100039D5" token="KVersitParam8Bbs" vCard="BBS"/>
+		<item name="KIntContactFieldVCardMapBDAY" value="0x1000401F" token="KVersitTokenBDAY" vCard="BDAY"/>
+		<item name="KIntContactFieldVCardMapBMP" value="0x10005DC4" token="KVersitParam8Bmp" vCard="BMP"/>
+		<item name="KIntContactFieldVCardMapCAR" value="0x100039D7" token="KVersitParam8Car" vCard="CAR"/>
+		<item name="KIntContactFieldVCardMapCELL" value="0x10003E71" token="KVersitParam8Cell" vCard="CELL"/>
+		<item name="KIntContactFieldVCardMapCGM" value="0x10005DC2" token="KVersitParam8Cgm" vCard="CGM"/>
+		<item name="KIntContactFieldVCardMapEXTENDEDADR" value="0x10004DEB" token="KVersitTokenADR" vCard="ADR" structuredField="1"/>
+		<item name="KIntContactFieldVCardMapADR" value="0x1000401D" token="KVersitTokenADR" vCard="ADR" structuredField="2"/>
+		<item name="KIntContactFieldVCardMapLOCALITY" value="0x10004DEC" token="KVersitTokenADR" vCard="ADR" structuredField="3"/>		
+		<item name="KIntContactFieldVCardMapREGION" value="0x10004DED" token="KVersitTokenADR" vCard="ADR" structuredField="4"/>		
+		<item name="KIntContactFieldVCardMapPOSTCODE" value="0x10004DEE" token="KVersitTokenADR" vCard="ADR" structuredField="5"/>		
+		<item name="KIntContactFieldVCardMapCOUNTRY" value="0x10004DEF" token="KVersitTokenADR" vCard="ADR" structuredField="6"/>
+		<item name="KIntContactFieldVCardMapPOSTOFFICE" value="0x10004DEA" token="KVersitTokenADR" vCard="ADR" structuredField="7"/>
+		<item name="KIntContactFieldVCardMapChildren" value="0x10274DAE" token="KVersitTokenChildren" vCard="X-CHILDREN"/>
+		<item name="KIntContactFieldVCardMapClass" value="0x10274DAF" token="KVersitTokenClass" vCard="X-CLASS"/>
+		<item name="KIntContactFieldVCardMapDIB" value="0x10005DC7" token="KVersitParam8Dib" vCard="DIB"/>
+		<item name="KIntContactFieldVCardMapDOM" value="0x10003E80" token="KVersitParam8Dom" vCard="DOM"/>
+		<item name="KIntContactFieldVCardMapDepartment" value="0x10274DB0" token="KVersitParam8Dom" vCard="X-DEPARTMENT"/>
+		<item name="KIntContactFieldVCardMapEMAILINTERNET" value="0x10004020" token="KVersitTokenEMAIL" vCard="EMAIL"/>
+		<item name="KIntContactFieldVCardMapFAX" value="0x100039DE" token="KVersitParam8Fax" vCard="FAX"/>
+		<item name="KIntContactFieldVCardMapGEO" value="0x10004021" token="KVersitTokenGEO" vCard="GEO"/>
+		<item name="KIntContactFieldVCardMapGIF" value="0x10005DC1" token="KVersitParam8Internet" vCard="INTERNET"/>
+		<item name="KIntContactFieldVCardMapHOME" value="0x100039DB" token="KVersitParam8Home" vCard="HOME"/>
+		<item name="KIntContactFieldVCardMapINTERNET" value="0x10274DB1" token="KVersitParam8Internet" vCard="INTERNET"/>
+		<item name="KIntContactFieldVCardMapINTL" value="0x10005DBE" token="UNKNOWN" vCard="INTL"/>
+		<item name="KIntContactFieldVCardMapISDN" value="0x100039D8" token="KVersitParam8Isdn" vCard="ISDN"/>
+		<item name="KIntContactFieldVCardMapJPEG" value="0x10005DCC" token="KVersitParam8Jpeg" vCard="JPEG"/>
+		<item name="KIntContactFieldVCardMapKEY" value="0x1000651A" token="KVersitTokenKEY" vCard="KEY"/>
+		<item name="KIntContactFieldVCardMapLABEL" value="0x10004022" token="KVersitTokenLABEL" vCard="LABEL"/>
+		<item name="KIntContactFieldVCardMapLOGO" value="0x10004023" token="KVersitTokenLOGO" vCard="LOGO"/>
+		<item name="KIntContactFieldVCardMapMAILER" value="0x10004024" token="KVersitTokenMAILER" vCard="MAILER"/>
+		<item name="KIntContactFieldVCardMapMET" value="0x10005DC5" token="KVersitParam8Met" vCard="MET"/>
+		<item name="KIntContactFieldVCardMapMODEM" value="0x100039D6" token="KVersitParam8Modem" vCard="MODEM"/>
+		<item name="KIntContactFieldVCardMapMPEG" value="0x10005DCD" token="KVersitParam8Mpeg" vCard="MPEG"/>
+		<item name="KIntContactFieldVCardMapMPEG2" value="0x10005DCE" token="KVersitParam8Mpeg2" vCard="MPEG2"/>
+		<item name="KIntContactFieldVCardMapMSG" value="0x100039DC" token="KVersitParam8Msg" vCard="MSG"/>
+		<item name="KIntContactFieldVCardMapNOTE" value="0x10004025" token="KVersitTokenNOTE" vCard="NOTE"/>
+		<item name="KIntContactFieldVCardMapNotRequired" value="0x10004030"/>
+		<item name="KIntContactFieldVCardMapORG" value="0x10004026" token="UNKNOWN" vCard="ORG"/>
+		<item name="KIntContactFieldVCardMapORGPronunciation" value="0x102015AB"/>
+		<item name="KIntContactFieldVCardMapPAGER" value="0x10003E72" token="KVersitParam8Pager" vCard="PAGER"/>
+		<item name="KIntContactFieldVCardMapPARCEL" value="0x10005DC0" token="UNKNOWN" vCard="PARCEL"/>
+		<item name="KIntContactFieldVCardMapPDF" value="0x10005DCA" token="KVersitParam8Pdf" vCard="PDF"/>
+		<item name="KIntContactFieldVCardMapPGP" value="0x1000654F" token="KVersitParam8PGP" vCard="PGP"/>
+		<item name="KIntContactFieldVCardMapPHOTO" value="0x10004027" token="KVersitTokenPHOTO" vCard="PHOTO"/>
+		<item name="KIntContactFieldVCardMapPICT" value="0x10005DC8" token="KVersitParam8Pict" vCard="PICT"/>
+		<item name="KIntContactFieldVCardMapPMB" value="0x10005DC6" token="KVersitParam8Pmb" vCard="PMB"/>
+		<item name="KIntContactFieldVCardMapPOC" value="0x10204FC8" token="KVersitParamPOC" vCard="POC"/>
+		<item name="KIntContactFieldVCardMapPOSTAL" value="0x10005DBF" token="UNKNOWN" vCard="POSTAL"/>
+		<item name="KIntContactFieldVCardMapPREF" value="0x10003E70" token="KVersitParam8Pref" vCard="PREF"/>
+		<item name="KIntContactFieldVCardMapPS" value="0x10005DCB" token="KVersitParam8Ps" vCard="PS"/>
+		<item name="KIntContactFieldVCardMapQTIME" value="0x10005DD0" token="KVersitParam8Qtime" vCard="QTIME"/>
+		<item name="KIntContactFieldVCardMapROLE" value="0x10004028" token="KVersitTokenROLE" vCard="ROLE"/>
+		<item name="KIntContactFieldVCardMapSECONDNAME" value="0x101FD9B7" token="KVersitTokenSECONDNAME" vCard="X-EPOCSECONDNAME"/>
+		<item name="KIntContactFieldVCardMapSIPID" value="0x10204BB1" token="KVersitTokenSIPID" vCard="X-SIP"/>
+		<item name="KIntContactFieldVCardMapSMIME" value="0x10006550"/>
+		<item name="KIntContactFieldVCardMapSOUND" value="0x10004029" token="KVersitTokenSOUND" vCard="SOUND"/>
+		<item name="KIntContactFieldVCardMapSWIS" value="0x10204FC9" token="KVersitParamSWIS" vCard="SWIS"/>
+		<item name="KIntContactFieldVCardMapSpouse" value="0x10274DAD" token="KVersitTokenSpouse" vCard="X-SPOUSE"/>
+		<item name="KIntContactFieldVCardMapTEL" value="0x1000402A" token="KVersitTokenTEL" vCard="TEL"/>
+		<item name="KIntContactFieldVCardMapTELFAX" value="0x1000402B"/>
+		<item name="KIntContactFieldVCardMapTIFF" value="0x10005DC9" token="KVersitParam8Tiff" vCard="TIFF"/>
+		<item name="KIntContactFieldVCardMapTITLE" value="0x1000402C" token="KVersitTokenTITLE" vCard="TITLE"/>
+		<item name="KIntContactFieldVCardMapTZ" value="0x10006519" token="UNKNOWN" vCard="TZ"/>
+		<item name="KIntContactFieldVCardMapUID" value="0x10004033" token="UNKNOWN" vCard="UID"/>
+		<item name="KIntContactFieldVCardMapURL" value="0x1000402D" token="KVersitTokenURL" vCard="URL"/>
+		<item name="KIntContactFieldVCardMapUnknown" value="0x10004032"/>
+		<item name="KIntContactFieldVCardMapUnknownXDash" value="0x10004031"/>
+		<item name="KIntContactFieldVCardMapUnusedFN" value="0x1000402F" token="KVersitTokenFN" vCard="FN"/>
+		<item name="KIntContactFieldVCardMapUnusedN" value="0x1000402E" token="KVersitTokenN" vCard="N"/>
+		<item name="KIntContactFieldVCardMapVIDEO" value="0x100039D9" token="KVersitParam8Video" vCard="VIDEO"/>
+		<item name="KIntContactFieldVCardMapVOICE" value="0x100039DD" token="KVersitParam8Voice" vCard="VOICE"/>
+		<item name="KIntContactFieldVCardMapVOIP" value="0x10204FCA" token="KVersitParamVOIP" vCard="VOIP"/>
+		<item name="KIntContactFieldVCardMapWMF" value="0x10005DC3" token="KVersitParam8Wmf" vCard="WMF"/>
+		<item name="KIntContactFieldVCardMapWORK" value="0x100039DA" token="KVersitParam8Work" vCard="WORK"/>
+		<item name="KIntContactFieldVCardMapWV" value="0x101FA9BF" token="KVersitTokenWVID" vCard="X-WV-ID"/>
+		<item name="KIntContactFieldVCardMapX509" value="0x1000654E" token="KVersitParam8X509" vCard="X509"/>
+	</group>
+
+	<group type="field_type_mapping">
+		<item name="KIntContactFieldVCardMapJPEG" value="0x10005DCC"/>
+		<item name="KPbkUidContactFieldLocationPrivValue" value="0x101F4FF2"/>
+		
+		<item name="KUidContactFieldAdditionalNameValue" value="0x1000178A"/>
+		<item name="KUidContactFieldAddressValue" value="0x1000130C"/>
+		<item name="KUidContactFieldAnniversaryValue" value="0x10274DA5"/>
+		<item name="KUidContactFieldAssistantValue" value="0x10274DA4"/>
+		<item name="KUidContactFieldBirthdayValue" value="0x10004034"/>
+		<item name="KUidContactFieldChildrenValue" value="0x10274DA7"/>
+		<item name="KUidContactFieldClassValue" value="0x10274DA8"/>
+		<item name="KUidContactFieldCompanyNamePronunciationValue" value="0x10200BA8"/>
+		<item name="KUidContactFieldCompanyNameValue" value="0x1000130D"/>
+		<item name="KUidContactFieldCountryValue" value="0x10004DF9"/>
+		<item name="KUidContactFieldDTMFValue" value="0x10006518"/>
+		<item name="KUidContactFieldDefinedTextValue" value="0x10001792"/>
+		<item name="KUidContactFieldDepartmentNameValue" value="0x10274DA9"/>
+		<item name="KUidContactFieldEMailValue" value="0x1000178E"/>
+		<item name="KUidContactFieldExtendedAddressValue" value="0x10004DF5"/>
+		<item name="KUidContactFieldFamilyNamePronunciationValue" value="0x10200BAA"/>
+		<item name="KUidContactFieldFamilyNameValue" value="0x1000137D"/>
+		<item name="KUidContactFieldFaxValue" value="0x10001791"/>
+		<item name="KUidContactFieldGEOValue" value="0x10274DB2"/>
+		<item name="KUidContactFieldGivenNamePronunciationValue" value="0x10200BA9"/>
+		<item name="KUidContactFieldGivenNameValue" value="0x1000137C"/>
+		<item name="KUidContactFieldHiddenValue" value="0x1000178D"/>
+		<item name="KUidContactFieldICCGroupValue" value="0x101F81B9"/>
+		<item name="KUidContactFieldICCPhonebookValue" value="0x101F7583"/>
+		<item name="KUidContactFieldICCSlotValue" value="0x101F4E0F"/>
+		<item name="KUidContactFieldIMAddressValue" value="0x101F6102"/>
+		<item name="KUidContactFieldJobTitleValue" value="0x10009398"/>
+		<item name="KUidContactFieldLocalityValue" value="0x10004DF6"/>
+		<item name="KUidContactFieldMsgValue" value="0x1000178F"/>
+		<item name="KUidContactFieldNoneValue" value="0x0"/>
+		<item name="KUidContactFieldNoteValue" value="0x1000401C"/>
+		<item name="KUidContactFieldPhoneNumberValue" value="0x1000130E"/>
+		<item name="KUidContactFieldPictureValue" value="0x10005DD1"/>
+		<item name="KUidContactFieldPostCodeValue" value="0x10004DF8"/>
+		<item name="KUidContactFieldPostOfficeValue" value="0x10004DF4"/>
+		<item name="KUidContactFieldPrefixNameValue" value="0x1000178C"/>
+		<item name="KUidContactFieldRegionValue" value="0x10004DF7"/>
+		<item name="KUidContactFieldRingToneValue" value="0x10006517"/>
+		<item name="KUidContactFieldSIPIDValue" value="0x10204BB0"/>
+		<item name="KUidContactFieldSecondNameValue" value="0x101FD957"/>
+		<item name="KUidContactFieldSmsValue" value="0x10001790"/>
+		<item name="KUidContactFieldSpouseValue" value="0x10274DA6"/>
+		<item name="KUidContactFieldStorageInlineValue" value="0x10004036"/>
+		<item name="KUidContactFieldSuffixNameValue" value="0x1000178B"/>
+		<item name="KUidContactFieldTemplateLabelValue" value="0x10005780"/>
+		<item name="KUidContactFieldUrlValue" value="0x10004035"/>
+		<item name="KUidContactsVoiceDialFieldValue" value="0x10006646"/>
+		
+		<!-- fields declared in RSS file -->
+		<item name="KUidContactFieldCustom1Value" value="0x101FD209"/>
+		<item name="KUidContactFieldCustom2Value" value="0x101FD20A"/>		
+	</group>
+
+	<!-- theses are the required mapping for the fields used by the hint field generation. -->
+	<group type="uid_mapping">
+		<item name="KUidContactFieldVCardMapHOME" value="KIntContactFieldVCardMapHOME"/>
+		<item name="KUidContactFieldIMAddress" value="KUidContactFieldIMAddressValue"/>
+		<item name="KUidContactFieldVCardMapPAGER" value="KIntContactFieldVCardMapPAGER"/>
+		<item name="KUidContactFieldRingTone" value="KIntContactFieldRingTone"/>
+		<item name="KUidContactFieldVCardMapCELL" value="KIntContactFieldVCardMapCELL"/>
+		<item name="KUidContactFieldVCardMapWV"	value="KIntContactFieldVCardMapMV"/>
+		<item name="KUidContactFieldVCardMapWORK" value="KIntContactFieldVCardMapWORK"/>
+		<item name="KUidContactFieldFax" value="KUidContactFieldFaxValue"/>
+		
+		<item name="KUidContactsVoiceDialField" value="KUidContactsVoiceDialFieldValue"/>
+
+	</group>
+
+</template_config>

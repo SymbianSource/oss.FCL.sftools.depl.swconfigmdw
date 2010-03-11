@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<import resource="applicationContext.xml"/>
+	
+	<bean id="contactsFlow" class="com.symbian.sdb.mode.flow.ContactsFlow" autowire="byName" lazy-init="true" scope="prototype">
+		<property name="inputDatabaseValidator" ref="contactsFlowInputDatabaseValidator"/>
+	</bean>
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+                <value>classpath:project.properties</value>
+		</property>
+	</bean>
+
+<!--	<bean id="emulatorConfiguration" class="com.symbian.sdb.emulator.EmulatorConfiguration"  autowire="byName">
+			<property name="emulatorsConfigurationXmlLocation" ref="emulatorsConfigurationXmlLocation"/>
+	</bean>
+
+	<bean id="emulatorsConfigurationXmlLocation" class="java.lang.String">
+		<constructor-arg><value>${test.emulatorsConfigurationXMLLocation}</value></constructor-arg>
+	</bean> -->
+	
+</beans>

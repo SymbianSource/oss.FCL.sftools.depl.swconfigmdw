@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<attributes>
+  <block name="Generic OS Services" inherit="no">
+    <attrs comment="This package is...">
+    </attrs>
+  </block>
+    <coll name="MTP Data Providers" inherit="yes">
+    <attrs this="comm"  that="no"/>
+  </coll>
+  <layer name="Hardware" inherit="yes">
+   <attrs foo="bar" baz="xyzzy"/>
+  </layer>
+</attributes>

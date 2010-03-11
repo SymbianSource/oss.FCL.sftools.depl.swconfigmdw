@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model>
+ <c ts="Base Services" name="Application Utilities"/>
+ <c ts="Base Services" name="Syslibs Subsystem Documentation"/>
+ <c ts="Base Services" name="Plugin Framework"/>
+ <c ts="Base Services" name="Zip Compression Library"/>
+ <c ts="Base Services" name="Feature Registry"/>
+ <c ts="Base Services" name="Power, Memory and Disk Management"/>
+ <c ts="Base Services" name="Power and Memory Notification Service"/>
+ <c ts="Base Services" name="C Standard Library"/>
+ <c ts="Base Services" name="System Agents"/>
+ <c ts="Base Services" name="System Agent"/>
+ <c ts="Base Services" name="Task Scheduler"/>
+ <c ts="Base Services" name="XML Framework"/>
+ <c ts="Base Services" name="XML Parser"/>
+ <c ts="Base Services" name="WBXML Parser"/>
+ <c ts="Base Services" name="Feature Manager"/>
+ <c ts="Base Services" name="Syslibs Documentation"/>
+ <c ts="Base Services" name="Generic Usability Library"/>
+ <c ts="Base Services" name="Sensors Framework"/>
+ <c ts="Base Services" name="Test Sensor"/>
+ <c ts="Baseband Adaption" name="ETel CDMA"/>
+ <c ts="Baseband Adaption" name="ETel Multimode"/>
+ <c ts="Baseband Adaption" name="ETel Packet Data"/>
+ <c ts="Baseband Adaption" name="ETel SIM Toolkit"/>
+ <c ts="Baseband Adaption" name="ETel Server and Core"/>
+ <c ts="Baseband Adaption" name="ETel Config"/>
+ <c ts="Baseband Adaption" name="TRP TSY"/>
+ <c ts="Baseband Adaption" name="SIM TSY"/>
+ <c ts="Baseband Adaption" name="MultiMode TSY"/>
+ <c ts="Baseband Adaption" name="CDMA TSY"/>
+ <c ts="Baseband Adaption" name="TRP CSY"/>
+ <c ts="Baseband Adaption" name="Baseband Channel Adaptor"/>
+ <c ts="Baseband Adaption" name="Baseband Channel Adaptor for C32"/>
+ <c ts="Baseband Adaption" name="Hardware Resources Manager"/>
+ <c ts="Baseband Adaption" name="Hardware Resources Manager Config"/>
+ <c ts="Baseband Adaption" name="MUX CSY"/>
+ <c ts="Baseband Adaption" name="TRP AGT"/>
+ <c ts="Baseband Adaption" name="Inter-System Communication"/>
+ <c ts="Baseband Adaption" name="S60 Compatibility Headers"/>
+ <c ts="Baseband Adaption" name="TRP Dispatch Layer Plugins"/>
+ <c ts="Baseband Adaption" name="Baseband Channel Adaptor for ISC"/>
+ <c ts="Comms Framework" name="Comms Database"/>
+ <c ts="Comms Framework" name="File Logger"/>
+ <c ts="Comms Framework" name="ESock Server"/>
+ <c ts="Comms Framework" name="Network Interface Manager"/>
+ <c ts="Comms Framework" name="Comms Root Server"/>
+ <c ts="Comms Framework" name="Comms Framework"/>
+ <c ts="Comms Framework" name="Comms Elements"/>
+ <c ts="Comms Framework" name="Network Controller"/>
+ <c ts="Comms Framework" name="BBI"/>
+ <c ts="Comms Framework" name="MBuf Manager"/>
+ <c ts="Comms Framework" name="C32 Serial Server"/>
+ <c ts="Comms Framework" name="Serial Port CSY"/>
+ <c ts="Comms Framework" name="Packet Loopback CSY"/>
+ <c ts="Comms Framework" name="Comms Tools"/>
+ <c ts="Comms Framework" name="Comms Infrastructure Documentation"/>
+ <c ts="Comms Framework" name="Comms Root Server Config"/>
+ <c ts="Comms Framework" name="Comms Database Shim"/>
+ <c ts="Comms Framework" name="Default Comms Database"/>
+ <c ts="Comms Framework" name="Comms Database Install Default"/>
+ <c ts="Comms Framework" name="Prepare Default Comms Database"/>
+ <c ts="Comms Framework" name="Install Default Comms Database"/>
+ <c ts="Comms Framework" name="ESock Server Config"/>
+ <c ts="Comms Framework" name="IP CPR Shim"/>
+ <c ts="Comms Framework" name="Comms Debug Utility"/>
+ <c ts="Comms Framework" name="C32 Serial Server Config"/>
+ <c ts="Comms Framework" name="Networking Dialog API"/>
+ <c ts="Comms Framework" name="Agent Dialog"/>
+ <c ts="Crypto Services" name="TLS Provider"/>
+ <c ts="Crypto Services" name="Authentication Services"/>
+ <c ts="Crypto Services" name="Certificate and Key Management"/>
+ <c ts="Crypto Services" name="Weak Cryptography Library"/>
+ <c ts="Crypto Services" name="Strong Cryptography Library"/>
+ <c ts="Crypto Services" name="Weak Crypto SPI"/>
+ <c ts="Crypto Services" name="Strong Crypto SPI"/>
+ <c ts="Crypto Services" name="Crypto SPI Plugins"/>
+ <c ts="Crypto Services" name="Security Utils"/>
+ <c ts="Crypto Services" name="Security Config"/>
+ <c ts="Crypto Services" name="Crypto Token Framework"/>
+ <c ts="Crypto Services" name="File-based Certificate and Key Stores"/>
+ <c ts="Crypto Services" name="Root Certificates"/>
+ <c ts="Crypto Services" name="ASN PKCS"/>
+ <c ts="Crypto Services" name="Java MIDlet Installer"/>
+ <c ts="Crypto Services" name="Secure Software Install"/>
+ <c ts="Crypto Services" name="Secure Software Install Device Tools"/>
+ <c ts="Crypto Services" name="SWI Analysis Toolkit"/>
+ <c ts="Crypto Services" name="Secure Software Install SIS Tools"/>
+ <c ts="Crypto Services" name="OpenSSL Library"/>
+ <c ts="Crypto Services" name="SIS Installer"/>
+ <c ts="Crypto Services" name="MAKEKEYS"/>
+ <c ts="Crypto Services" name="Content Access Framework for DRM"/>
+ <c ts="Crypto Services" name="CAF Recogniser Configuration"/>
+ <c ts="Crypto Services" name="Certificate Store"/>
+ <c ts="Crypto Services" name="Key Store"/>
+ <c ts="Crypto Services" name="Security Tools"/>
+ <c ts="Crypto Services" name="Cryptography Library"/>
+ <c ts="Crypto Services" name="Reference DRM Agent"/>
+ <c ts="Crypto Services" name="Security Common Utils"/>
+ <c ts="Crypto Services" name="User Prompt Service"/>
+ <c ts="Crypto Services" name="Security Documentation"/>
+ <c ts="Crypto Services" name="CAF Recogniser Config"/>
+ <c ts="Crypto Services" name="CAF Streaming Support"/>
+ <c ts="Crypto Services" name="Security Test Framework"/>
+ <c ts="Crypto Services" name="Security UPS Techview"/>
+ <c ts="Development Boards" name=""/>
+ <c ts="Development Boards" name="OMAP 1623"/>
+ <c ts="Development Boards" name="OMAP 2420"/>
+ <c ts="Development Boards" name="OMAP H4HRP Variant"/>
+ <c ts="Development Boards" name="OMAP H2"/>
+ <c ts="Development Boards" name="OMAP H4"/>
+ <c ts="Development Boards" name="Lubbock Variant"/>
+ <c ts="Development Boards" name="OMAP H2 BSP"/>
+ <c ts="Development Boards" name="OMAP H2 SDIO"/>
+ <c ts="Development Boards" name="OMAP H4 SDIO"/>
+ <c ts="Development Boards" name="OMAP H2 Unistore2"/>
+ <c ts="Development Boards" name="OMAP H4 Unistore2"/>
+ <c ts="Development Boards" name="H4 Boot Loader"/>
+ <c ts="Development Boards" name="OMAP H4 Mini Environment Boot Loader"/>
+ <c ts="Development Boards" name="StrongArm 1100 ASSP"/>
+ <c ts="Development Boards" name="OMAP H4 BSP"/>
+ <c ts="Development Boards" name="Lubbock BSP"/>
+ <c ts="Kernel" name=""/>
+ <c ts="Kernel" name="Board Support Packages"/>
+ <c ts="Kernel" name="Bootstrap"/>
+ <c ts="Kernel" name="Kernel Architecture 2"/>
+ <c ts="Kernel" name="Integrator BSP support for Unistore2"/>
+ <c ts="Kernel" name="User HAL"/>
+ <c ts="Kernel" name="User Library"/>
+ <c ts="Kernel" name="E32 Tests"/>
+ <c ts="Kernel" name="Flash Translation Layer"/>
+ <c ts="Kernel" name="E32 Tools"/>
+ <c ts="Kernel" name="E32 Perl Tools"/>
+ <c ts="Kernel" name="Base Integration Test"/>
+ <c ts="Kernel" name="Emulator BSP"/>
+ <c ts="Kernel" name="User-Side Hardware Abstraction"/>
+ <c ts="Kernel" name="System On Chip ASSP"/>
+ <c ts="Kernel" name="Template Variant"/>
+ <c ts="Kernel" name="Kernel Trace Tool"/>
+ <c ts="Kernel" name="E32 Utilities"/>
+ <c ts="Kernel" name="Base Documentation"/>
+ <c ts="Multimedia Protocols" name="RTP"/>
+ <c ts="Multimedia Protocols" name="SIP Framework"/>
+ <c ts="Multimedia Protocols" name="SIP Connection Provider Plugins"/>
+ <c ts="Multimedia Protocols" name="SIP Connection Provider"/>
+ <c ts="Multimedia Protocols" name="SIP Dummy PRT"/>
+ <c ts="Multimedia Protocols" name="SIP State Machine"/>
+ <c ts="Multimedia Protocols" name="SIP Params"/>
+ <c ts="Multimedia Protocols" name="SIP Subconnection Provider"/>
+ <c ts="Multimedia Protocols" name="SIP Connection Plugins"/>
+ <c ts="Multimedia Protocols" name="AMR Payload Formatter"/>
+ <c ts="Multimedia Protocols" name="Secure RTP"/>
+ <c ts="IP Networking" name="ETHER AGT"/>
+ <c ts="IP Networking" name="TLS"/>
+ <c ts="IP Networking" name="IPShim"/>
+ <c ts="IP Networking" name="PPP Compression Plugins"/>
+ <c ts="IP Networking" name="PPP NIF"/>
+ <c ts="IP Networking" name="Ethernet NIF"/>
+ <c ts="IP Networking" name="Ethernet Over IR Packet Driver"/>
+ <c ts="IP Networking" name="Ethernet Packet Driver"/>
+ <c ts="IP Networking" name="PDP NIF"/>
+ <c ts="IP Networking" name="Raw IP NIF"/>
+ <c ts="IP Networking" name="SLIP NIF"/>
+ <c ts="IP Networking" name="Tunnel NIF"/>
+ <c ts="IP Networking" name="CGI"/>
+ <c ts="IP Networking" name="Connection Provider Plugin"/>
+ <c ts="IP Networking" name="GPRS/UMTS QOS PRT"/>
+ <c ts="IP Networking" name="QoS Framework PRT"/>
+ <c ts="IP Networking" name="Subconnection Parameters"/>
+ <c ts="IP Networking" name="IP Hook"/>
+ <c ts="IP Networking" name="IP Hook Examples"/>
+ <c ts="IP Networking" name="IP Examples"/>
+ <c ts="IP Networking" name="Internet Sockets"/>
+ <c ts="IP Networking" name="IP Event Notifier"/>
+ <c ts="IP Networking" name="IPSec"/>
+ <c ts="IP Networking" name="TCP/IPv4/v6 PRT"/>
+ <c ts="IP Networking" name="Core IPSec PRT"/>
+ <c ts="IP Networking" name="VPN"/>
+ <c ts="IP Networking" name="Mobile IP"/>
+ <c ts="IP Networking" name="Network Controller" type="stakeholder"/>
+ <c ts="IP Networking" name="NWSS WAP Stack"/>
+ <c ts="IP Networking" name="WAP Message API"/>
+ <c ts="IP Networking" name="WAP Short Stack"/>
+ <c ts="IP Networking" name="DHCP"/>
+ <c ts="IP Networking" name="DND"/>
+ <c ts="IP Networking" name="CSD AGT"/>
+ <c ts="IP Networking" name="NULL AGT"/>
+ <c ts="IP Networking" name="PSD AGT"/>
+ <c ts="IP Networking" name="Connection AGT"/>
+ <c ts="IP Networking" name="AgentPr"/>
+ <c ts="IP Networking" name="ConnProv"/>
+ <c ts="IP Networking" name="SubConnProv"/>
+ <c ts="IP Networking" name="MetaConnProv"/>
+ <c ts="IP Networking" name="ShimPr"/>
+ <c ts="IP Networking" name="Wireless LAN"/>
+ <c ts="IP Networking" name="VPN UI"/>
+ <c ts="IP Networking" name="SCHEDULER"/>
+ <c ts="IP Networking" name="QoS Scheduler"/>
+ <c ts="IP Networking" name="Network Address and Port Translation"/>
+ <c ts="IP Networking" name="EAP Framework"/>
+ <c ts="IP Networking" name="EAP Plugins for WiFi"/>
+ <c ts="IP Networking" name="Networking Documentation"/>
+ <c ts="IP Networking" name="Networking Dialog Stub"/>
+ <c ts="IP Networking" name="Dialog Default"/>
+ <c ts="IP Networking" name="DND Config"/>
+ <c ts="IP Networking" name="Legacy Networking"/>
+ <c ts="IP Networking" name="Networking Test"/>
+ <c ts="IP Networking" name="Networking ROM"/>
+ <c ts="IP Networking" name="Networking Unit Test"/>
+ <c ts="IP Networking" name="Networking Examples"/>
+ <c ts="IP Networking" name="Example Internet Utilities"/>
+ <c ts="IP Networking" name="Internet Test Utils"/>
+ <c ts="IP Networking" name="IPv6 to 4 Tunnel"/>
+ <c ts="IP Networking" name="Networking Integration Test"/>
+ <c ts="IP Networking" name="Networking Performance Measurement Tools"/>
+ <c ts="IP Networking" name="Comms User Prompt Manager"/>
+ <c ts="IP Networking" name="IP UPS Plugins"/>
+ <c ts="IP Networking" name="IP Administration Tool"/>
+ <c ts="IP Networking" name="IP Analyzer"/>
+ <c ts="IP Networking" name="IP Protocol Analyzer"/>
+ <c ts="IP Networking" name="Name Resolver Utility"/>
+ <c ts="IP Networking" name="IP Probe"/>
+ <c ts="IP Networking" name="IPsec"/>
+ <c ts="IP Networking" name="Network Security"/>
+ <c ts="IP Networking" name="TCP/IPv4/v6 Config"/>
+ <c ts="IP Networking" name="GPRS/UMTS QoS PRT"/>
+ <c ts="IP Networking" name="GPRS/UMTS QoS Interface"/>
+ <c ts="IP Networking" name="QoS Interface"/>
+ <c ts="IP Networking" name="IPv6 Config"/>
+ <c ts="IP Networking" name="GPRS QOS PRT"/>
+ <c ts="IP Networking" name="UMTS QOS PRT"/>
+ <c ts="IP Networking" name="QOS Extn API"/>
+ <c ts="IP Networking" name="QoS Extn API"/>
+ <c ts="IP Networking" name="PPP Config"/>
+ <c ts="IP Networking" name="Predictor Compression"/>
+ <c ts="IP Networking" name="MPPC"/>
+ <c ts="IP Networking" name="Stac LZS Compression"/>
+ <c ts="IP Networking" name="Reference CPR"/>
+ <c ts="IP Networking" name="Reference SCPR"/>
+ <c ts="IP Networking" name="QoS Framework Config"/>
+ <c ts="IP Networking" name="QoS Library"/>
+ <c ts="IP Networking" name="PF QoS Library"/>
+ <c ts="IP Networking" name="IP CPR"/>
+ <c ts="IP Networking" name="IP SCPR"/>
+ <c ts="IP Networking" name="QOS IP SCPR"/>
+ <c ts="IP Networking" name="QoS IP SCPR"/>
+ <c ts="IP Networking" name="IP Network Layer"/>
+ <c ts="IP Networking" name="IP Transport Layer"/>
+ <c ts="IP Networking" name="IP Proto-CPR"/>
+ <c ts="IP Networking" name="TCP CPR"/>
+ <c ts="IP Networking" name="UMTS/GPRS SCPR"/>
+ <c ts="IP Networking" name="QOS 3GPP CPR"/>
+ <c ts="IP Networking" name="QoS 3GPP CPR"/>
+ <c ts="IP Networking" name="PDP Layer"/>
+ <c ts="IP Networking" name="PDP SCPR"/>
+ <c ts="IP Networking" name="Generic SCPR Parameters"/>
+ <c ts="IP Networking" name="MBMS Parameters"/>
+ <c ts="Open Environment" name="Open Environment Core"/>
+ <c ts="Open Environment" name="Command Shell"/>
+ <c ts="Open Environment" name="Telnet Server"/>
+ <c ts="Open Environment" name="C++ Standard Library"/>
+ <c ts="Open Environment" name="OpenSSL"/>
+ <c ts="Open Environment" name="Open Crypto Libraries"/>
+ <c ts="Peripherals" name=""/>
+ <c ts="Peripherals" name="Audio Driver"/>
+ <c ts="Peripherals" name="Emulator"/>
+ <c ts="Peripherals" name="Ethernet Driver"/>
+ <c ts="Peripherals" name="File Server"/>
+ <c ts="Peripherals" name="File Systems"/>
+ <c ts="Peripherals" name="Text Shell"/>
+ <c ts="Peripherals" name="Text Window Server"/>
+ <c ts="Peripherals" name="Media Drivers"/>
+ <c ts="Peripherals" name="MIDI Driver"/>
+ <c ts="Peripherals" name="Other LDDs"/>
+ <c ts="Peripherals" name="PDDs"/>
+ <c ts="Peripherals" name="Peripheral Bus Controllers"/>
+ <c ts="Peripherals" name="SD Card Driver"/>
+ <c ts="Peripherals" name="Speech Driver"/>
+ <c ts="Peripherals" name="Video Driver"/>
+ <c ts="Peripherals" name="Domain Manager"/>
+ <c ts="Peripherals" name="SDIO Tests"/>
+ <c ts="Peripherals" name="Assabet BSP"/>
+ <c ts="Peripherals" name="Integrator BSP"/>
+ <c ts="Peripherals" name="ROM File System"/>
+ <c ts="Peripherals" name="ROFS"/>
+ <c ts="Peripherals" name="ROFS File System"/>
+ <c ts="Peripherals" name="USB Mass Storage File System"/>
+ <c ts="Peripherals" name="LFFS"/>
+ <c ts="Peripherals" name="LFFS File System"/>
+ <c ts="Peripherals" name="FAT32 File System"/>
+ <c ts="Peripherals" name="FAT File System"/>
+ <c ts="Peripherals" name="Composite File System"/>
+ <c ts="Peripherals" name="NTFS"/>
+ <c ts="Peripherals" name="NTFS File System"/>
+ <c ts="Peripherals" name="ISO9660 File System"/>
+ <c ts="Peripherals" name="File System Plugins"/>
+ <c ts="Peripherals" name="NAND Flash Translation Layer"/>
+ <c ts="Peripherals" name="Cotulla ASSP"/>
+ <c ts="Peripherals" name="Unistore2 Emulator Support"/>
+ <c ts="Peripherals" name="Integrator Unistore2 NAND Logic Module"/>
+ <c ts="Peripherals" name="Unistore2 Boot Support"/>
+ <c ts="Peripherals" name="Integrator ARM1136 Core Module"/>
+ <c ts="Peripherals" name="Integrator ARM920 Core Module"/>
+ <c ts="Peripherals" name="Integrator Core Modules"/>
+ <c ts="Peripherals" name="Integrator Motherboard"/>
+ <c ts="Peripherals" name="Integrator SSR NAND Logic Module"/>
+ <c ts="Peripherals" name="Integrator XX600 Logic Module"/>
+ <c ts="Peripherals" name="Integrator Panasonic Logic Module"/>
+ <c ts="Peripherals" name="Local Media Subsystem"/>
+ <c ts="Peripherals" name="SD Card 3C Driver"/>
+ <c ts="Peripherals" name="SD Card 4C Driver"/>
+ <c ts="Peripherals" name="File Server Tests"/>
+ <c ts="Peripherals" name="Base Starter"/>
+ <c ts="Peripherals" name="Sound Driver"/>
+ <c ts="Peripherals" name="Serial Port Driver"/>
+ <c ts="Peripherals" name="Legacy Drivers"/>
+ <c ts="Peripherals" name="USB Client Driver"/>
+ <c ts="Peripherals" name="Unistore2 Drivers"/>
+ <c ts="Peripherals" name="Unistore2 Core"/>
+ <c ts="Peripherals" name="Unistore2 Crash Logger"/>
+ <c ts="Peripherals" name="Generic Board Support Packages"/>
+ <c ts="Persistent Data Services" name="SQL"/>
+ <c ts="Persistent Data Services" name="DBMS"/>
+ <c ts="Persistent Data Services" name="Store"/>
+ <c ts="Persistent Data Services" name="Central Repository"/>
+ <c ts="Persistent Data Services" name="Event Logger"/>
+ <c ts="Persistent Data Services" name="DBMS Emulation Library"/>
+ <c ts="Persistent Data Services" name="SQLite 3 API"/>
+ <c ts="Shortlink" name="Bluetooth CSY"/>
+ <c ts="Shortlink" name="Bluetooth HCI"/>
+ <c ts="Shortlink" name="Bluetooth Manager"/>
+ <c ts="Shortlink" name="Bluetooth PAN Profile"/>
+ <c ts="Shortlink" name="Bluetooth Protocol Client APIs"/>
+ <c ts="Shortlink" name="Bluetooth SDP"/>
+ <c ts="Shortlink" name="Bluetooth Stack PRT"/>
+ <c ts="Shortlink" name="IrDA CSY"/>
+ <c ts="Shortlink" name="IrDA PRT"/>
+ <c ts="Shortlink" name="Remote Control Framework"/>
+ <c ts="Shortlink" name="Remote Control Profile"/>
+ <c ts="Shortlink" name="USB CSY"/>
+ <c ts="Shortlink" name="USB Manager"/>
+ <c ts="Shortlink" name="OBEX Extension API"/>
+ <c ts="Shortlink" name="OBEX Protocol"/>
+ <c ts="Shortlink" name="Bluetooth Profiles"/>
+ <c ts="Shortlink" name="HCI Framework"/>
+ <c ts="Shortlink" name="USB Driver"/>
+ <c ts="Shortlink" name="Bluetooth PBAP"/>
+ <c ts="Shortlink" name="Bluetooth AVRCP"/>
+ <c ts="Shortlink" name="Bluetooth Logging Engine"/>
+ <c ts="Shortlink" name="Phonebook Access Profile"/>
+ <c ts="Shortlink" name="Mass Storage Driver"/>
+ <c ts="Shortlink" name="OMAP USB Host Controller Driver"/>
+ <c ts="Shortlink" name="OMAP USB Host Controller Driver Template"/>
+ <c ts="Shortlink" name="USB Host and OTG Drivers"/>
+ <c ts="Shortlink" name="USB Host and OTG Stack"/>
+ <c ts="Shortlink" name="Bluetooth Documentation"/>
+ <c ts="Shortlink" name="IrDA Documentation"/>
+ <c ts="Shortlink" name="Shortlink Documentation"/>
+ <c ts="Shortlink" name="USB Class and Manager Documentation"/>
+ <c ts="Shortlink" name="USB Manager Tests"/>
+ <c ts="Shortlink" name="Bluetooth Examples and Tests"/>
+ <c ts="Shortlink" name="USB Documentation"/>
+ <c ts="Shortlink" name="USB Test"/>
+ <c ts="Shortlink" name="Bluetooth Example Tests"/>
+ <c ts="Shortlink" name="IrDA Stack"/>
+ <c ts="Shortlink" name="IrDA Test"/>
+ <c ts="Shortlink" name="IrDA Config"/>
+ <c ts="Shortlink" name="Bluetooth HCI Extension Interface"/>
+ <c ts="Shortlink" name="Bluetooth HCI Framework 2"/>
+ <c ts="Shortlink" name="Bluetooth HCI Framework 1"/>
+ <c ts="Shortlink" name="Bluetooth HCI 2 Reference Implementations"/>
+ <c ts="Shortlink" name="Bluetooth Notifiers Support"/>
+ <c ts="Shortlink" name="Bluetooth HCI Proxy"/>
+ <c ts="Shortlink" name="Bluetooth HCI Implementation"/>
+ <c ts="Shortlink" name="Bluetooth Stack"/>
+ <c ts="Shortlink" name="Bluetooth Notifiers"/>
+ <c ts="Shortlink" name="Bluetooth Config"/>
+ <c ts="Shortlink" name="Remote Control Reference TSP"/>
+ <c ts="Shortlink" name="Bluetooth GAVDP"/>
+ <c ts="Shortlink" name="Bluetooth ROM"/>
+ <c ts="Shortlink" name="Bluetooth User"/>
+ <c ts="Shortlink" name="Bluetooth Common"/>
+ <c ts="Shortlink" name="Bluetooth Client Library"/>
+ <c ts="Shortlink" name="Bluetooth Build Utilities"/>
+ <c ts="Telephony Services" name="ETel 3rd Party API"/>
+ <c ts="Telephony Services" name="SMS PRT"/>
+ <c ts="Telephony Services" name="SMS Utilities"/>
+ <c ts="Telephony Services" name="Phonebook Sync"/>
+ <c ts="Telephony Services" name="CDMA SMS Plugins"/>
+ <c ts="Telephony Services" name="CDMA WAP PRT"/>
+ <c ts="Telephony Services" name="Dial"/>
+ <c ts="Telephony Services" name="Fax Client and Server"/>
+ <c ts="Telephony Services" name="GSM Utilities"/>
+ <c ts="Telephony Services" name="Telephony Watchers"/>
+ <c ts="Telephony Services" name="WAP PRT"/>
+ <c ts="Telephony Services" name="CDMA TSY" type="stakeholder"/>
+ <c ts="Telephony Services" name="MultiMode TSY" type="stakeholder"/>
+ <c ts="Telephony Services" name="SIM TSY" type="stakeholder"/>
+ <c ts="Telephony Services" name="Packet Logger"/>
+ <c ts="Telephony Services" name="Secondary PDP context UMTS Driver"/>
+ <c ts="Telephony Services" name="Common TSY"/>
+ <c ts="Telephony Services" name="Multimode TSY"/>
+ <c ts="Telephony Services" name="Telephony Confidential Documentation"/>
+ <c ts="Telephony Services" name="Telephony Documentation"/>
+ <c ts="Telephony Services" name="SMS Stack"/>
+ <c ts="Telephony Services" name="CDMA SMS Stack"/>
+ <c ts="Telephony Services" name="Hardware Resource Manager UI Plugin"/>
+ <c ts="Telephony Services" name="Hardware Resources Manager Config"/>
+ <c ts="Text and I18n Services" name="Application Utilities" type="stakeholder"/>
+ <c ts="Text and I18n Services" name="Character Encoding and Conversion Framework"/>
+ <c ts="Text and I18n Services" name="Character Encoding and Conversion Plugins"/>
+ <c ts="Text and I18n Services" name="Text Handling"/>
+ <c ts="Text and I18n Services" name="FAT Filename Conversion Plugins"/>
+ <c ts="Text and I18n Services" name="Font Store" type="stakeholder"/>
+ <c ts="Text and I18n Services" name="Font and Bitmap Server" type="stakeholder"/>
+ <c ts="Text and I18n Services" name="Text Shaper Plugin"/>
+ <c ts="Text and I18n Services" name="Text Formatting"/>
+ <c ts="Text and I18n Services" name="GDI" type="stakeholder"/>
+ <c ts="Text and I18n Services" name="Locale Support"/>
+ <c ts="Text and I18n Services" name="UI Graphics Utilities" type="stakeholder"/>
+ <c ts="Text and I18n Services" name="User Library" type="stakeholder"/>
+ <c ts="Text and I18n Services" name="Number Formatting"/>
+ <c ts="Text and I18n Services" name="Word"/>
+ <c ts="Connectivity Services" name="Secure Backup Engine"/>
+ <c ts="Connectivity Services" name="Backup Engine"/>
+ <c ts="Connectivity Services" name="Active Backup Client"/>
+ <c ts="Connectivity Services" name="Connectivity Framework"/>
+ <c ts="Connectivity Services" name="Connectivity Services"/>
+ <c ts="Connectivity Services" name="Bearer Abstraction Layer"/>
+ <c ts="Connectivity Services" name="M-Router"/>
+ <c ts="Connectivity Services" name="m-Router"/>
+ <c ts="Connectivity Services" name="ConnectQI"/>
+ <c ts="Connectivity Services" name="ConnectQI SDK"/>
+ <c ts="Connectivity Services" name="PLP Variant"/>
+ <c ts="Connectivity Services" name="PLP Remote Link"/>
+ <c ts="Connectivity Services" name="Event Broadcast"/>
+ <c ts="Connectivity Services" name="Remote File Server"/>
+ <c ts="Connectivity Services" name="Secure Backup Socket Server"/>
+ <c ts="Connectivity Services" name="Server Socket"/>
+ <c ts="Connectivity Services" name="Service Broker"/>
+ <c ts="Connectivity Services" name="Software Install Server"/>
+ <c ts="Connectivity Services" name="Sync Initiation"/>
+ <c ts="Connectivity Services" name="OMA SyncML DM Interface"/>
+ <c ts="Connectivity Services" name="OMA SyncML Framework"/>
+ <c ts="Connectivity Services" name="OMA SyncML Common Framework"/>
+ <c ts="Connectivity Services" name="OMA Data Sync"/>
+ <c ts="Connectivity Services" name="OMA SyncML Data Sync"/>
+ <c ts="Connectivity Services" name="Data Sync Adaptors"/>
+ <c ts="Connectivity Services" name="Mobile Active Sync"/>
+ <c ts="Connectivity Services" name="MTP Framework"/>
+ <c ts="Connectivity Services" name="MTP USB Transport"/>
+ <c ts="Connectivity Services" name="MTP File and Folder Provider"/>
+ <c ts="Connectivity Services" name=""/>
+ <c ts="Connectivity Services" name="OMA SyncML Integration Test"/>
+ <c ts="Connectivity Services" name="Device Management Integration Test"/>
+ <c ts="Connectivity Services" name="PC Side Connection Manager"/>
+ <c ts="Connectivity Services" name="MTP PTP-IP Transport"/>
+ <c ts="Connectivity Services" name="MTP Integration Test" introduced="9.4" class="test"/>
+ <c ts="Connectivity Services" name="OMA SyncML Config" introduced="9.4" class="config"/>
+ <c ts="Device Provisioning" name="Device Management Framework"/>
+ <c ts="Device Provisioning" name="Device Management Adaptors"/>
+ <c ts="Device Provisioning" name="Client Provisioning Framework"/>
+ <c ts="Device Provisioning" name="Client Provisioning Adaptors"/>
+ <c ts="Device Provisioning" name="Device Management Framework Config"/>
+ <c ts="Device Provisioning" name="Client Provisioning Framework Config"/>
+ <c ts="Device Provisioning" name="Device Management Adaptors Config"/>
+ <c ts="Device Provisioning" name="Client Provisioning Adaptors Config"/>
+ <c ts="Device Provisioning" name="OMA Device Management Integration Test"/>
+ <link href="http://wiki.symbian.intra/wiki/display/GUI/Home">Graphics Home</link>
+ <c ts="Graphics" name="Bit GDI"/>
+ <c ts="Graphics" name="Colour Palette"/>
+ <c ts="Graphics" name="Composition Back-end"/>
+ <c ts="Graphics" name="EGL API"/>
+ <c ts="Graphics" name="EGL Implementation"/>
+ <c ts="Graphics" name="Font Store"/>
+ <c ts="Graphics" name="Font and Bitmap Server"/>
+ <c ts="Graphics" name="FreeType Font Rasteriser"/>
+ <c ts="Graphics" name="GDI"/>
+ <c ts="Graphics" name="GDITOOLS"/>
+ <c ts="Graphics" name="GDTRAN"/>
+ <c ts="Graphics" name="Graphics Composition Engine"/>
+ <c ts="Graphics" name="Graphics Surfaces"/>
+ <c ts="Graphics" name="iType Font Rasteriser"/>
+ <c ts="Graphics" name="OpenGL ES"/>
+ <c ts="Graphics" name="OpenGL ES Framework"/>
+ <c ts="Graphics" name="OpenVG API"/>
+ <c ts="Graphics" name="OpenVG Implementation"/>
+ <c ts="Graphics" name="Printer Driver Support"/>
+ <c ts="Graphics" name="Printer Drivers"/>
+ <c ts="Graphics" name="Reference Fonts"/>
+ <c ts="Graphics" name="Screen Driver"/>
+ <c ts="Graphics" name="UI Bench"/>
+ <c ts="Graphics" name="Window Server"/>
+ <c ts="Graphics" name="Animation"/>
+ <c ts="Graphics" name="BmpAnim"/>
+ <c ts="Graphics" name="Clock"/>
+ <c ts="Graphics" name="Control Environment"/>
+ <c ts="Graphics" name="EGUL (Epoc Graphics Utilities Library)"/>
+ <c ts="Graphics" name="ErrorResGt (default error message resources)"/>
+ <c ts="Graphics" name="FepBase (FEP base classes)"/>
+ <c ts="Graphics" name="GfxTransEffect (transition effects client APIs)"/>
+ <c ts="Graphics" name="Grid"/>
+ <c ts="Graphics" name="Printing Services"/>
+ <c ts="Graphics" name="Uikon"/>
+ <c ts="Graphics" name="UikLaf (UI look-and-feel customization)"/>
+ <c ts="Graphics" name="Surface Manager LDD"/>
+ <c ts="Graphics" name="Surface Manager"/>
+ <c ts="Graphics" name="Common Graphics Headers"/>
+ <c ts="Graphics" name="Composition Engine Adaptation"/>
+ <c ts="Graphics" name="Graphics Resource Content Update"/>
+ <c ts="Graphics" name="Surface Update"/>
+ <c ts="Graphics" name="MemSpy"/>
+ <c ts="Graphics" name="Graphics Documentation"/>
+ <c ts="Graphics" name="Graphics Test Harness"/>
+ <c ts="Graphics" name="GDI Tools"/>
+ <c ts="Graphics" name="Bitmap Font Tools"/>
+ <c ts="Graphics" name="OpenGL ES API"/>
+ <c ts="Graphics" name="OpenGL ES Implementation"/>
+ <c ts="Graphics" name="Graphics Data Resource"/>
+ <c ts="Graphics" name="Graphics Data Resource Adaptation"/>
+ <c ts="Graphics" name="Direct GDI"/>
+ <c ts="Graphics" name="Direct GDI Interface"/>
+ <c ts="Graphics" name="Direct GDI Adaptation"/>
+ <link href="http://smglinx.intra/twiki/bin/view/CM/Browsing"/>
+ <c ts="Internet and Web Services" name="HTTP Protocol Plugins"/>
+ <c ts="Internet and Web Services" name="HTTP Transport Framework"/>
+ <c ts="Internet and Web Services" name="HTTP Transport Plugins"/>
+ <c ts="Internet and Web Services" name="HTTP Examples"/>
+ <c ts="Internet and Web Services" name="URI Permission Services"/>
+ <c ts="Internet and Web Services" name="WAP Push Framework"/>
+ <c ts="Internet and Web Services" name="WAP Push Handlers"/>
+ <c ts="Internet and Web Services" name="WAP Push MTM"/>
+ <c ts="Internet and Web Services" name="WAP Base"/>
+ <c ts="Internet and Web Services" name="HTTP Utilities Library"/>
+ <c ts="Internet and Web Services" name="Bookmark Support"/>
+ <c ts="Internet and Web Services" name="Web Recognisers"/>
+ <c ts="Internet and Web Services" name="FTP Engine"/>
+ <c ts="Internet and Web Services" name="Telnet Engine"/>
+ <c ts="Internet and Web Services" name="WAP Push Support"/>
+ <c ts="Internet and Web Services" name="HTTP Filter Plugins"/>
+ <c ts="Internet and Web Services" name="UPnP"/>
+ <c ts="Location Based Services" name="Location Server"/>
+ <c ts="Location Based Services" name="Network Request Handler"/>
+ <c ts="Location Based Services" name="A-GPS Location Manager"/>
+ <c ts="Location Based Services" name="Network Location Manager"/>
+ <c ts="Location Based Services" name="Lbs Admin"/>
+ <c ts="Location Based Services" name="LBS Admin"/>
+ <c ts="Location Based Services" name="Network Gateway"/>
+ <c ts="Location Based Services" name="Network Protocol Module"/>
+ <c ts="Location Based Services" name="A-GPS Reference Module"/>
+ <c ts="Location Based Services" name="Location Based Services"/>
+ <c ts="Location Based Services" name="Location Admin"/>
+ <c ts="Location Based Services" name="LBS Test Product"/>
+ <c ts="Location Based Services" name="Privacy Protocol Module"/>
+ <c ts="Location Based Services" name="GPS Data Source Adaptation"/>
+ <c ts="Location Based Services" name="Default Positioning Module"/>
+ <c ts="Location Based Services" name="Bluetooth GPS Positioning Module"/>
+ <c ts="Location Based Services" name="Simulation Positioning Module"/>
+ <c ts="Location Based Services" name="SUPL Protocol Module"/>
+ <c ts="Java" name="CLDC Hi 1.1"/>
+ <c ts="Java" name="Java IO"/>
+ <c ts="Java" name="Java Lang"/>
+ <c ts="Java" name="Java Utilities"/>
+ <c ts="Java" name="MIDP Device Control"/>
+ <c ts="Java" name="MIDP GSM Security RP"/>
+ <c ts="Java" name="MIDP IO"/>
+ <c ts="Java" name="MIDP LCDUI"/>
+ <c ts="Java" name="MIDP MIDlet"/>
+ <c ts="Java" name="MIDP RMS"/>
+ <c ts="Java" name="LCDUI Plugin"/>
+ <c ts="Java" name="Runtime Plugin"/>
+ <c ts="Java" name="Security Policy"/>
+ <c ts="Java" name="Bluetooth 1.0"/>
+ <c ts="Java" name="Bluetooth 1.1"/>
+ <c ts="Java" name="Bluetooth 1.1 Push"/>
+ <c ts="Java" name="WMA 1.1"/>
+ <c ts="Java" name="WMA 1.1 Push"/>
+ <c ts="Java" name="JTWI 1.0"/>
+ <c ts="Java" name="Mobile Media API 1.1"/>
+ <c ts="Java" name="Mobile 3D 1.0"/>
+ <c ts="Java" name="Mobile 3D 1.1"/>
+ <c ts="Java" name="MIDP PIM"/>
+ <c ts="Java" name="MIDP File GCF"/>
+ <c ts="Java" name="Java MIDlet Installer" type="stakeholder"/>
+ <c ts="Messaging" name="Message Store"/>
+ <c ts="Messaging" name="Message Server and Store"/>
+ <c ts="Messaging" name="Watcher Framework"/>
+ <c ts="Messaging" name="IMAP4 MTM"/>
+ <c ts="Messaging" name="POP3 MTM"/>
+ <c ts="Messaging" name="SMTP MTM"/>
+ <c ts="Messaging" name="POP3 and SMTP MTM"/>
+ <c ts="Messaging" name="MMS Settings"/>
+ <c ts="Messaging" name="MMS Configuration"/>
+ <c ts="Messaging" name="MSG URLHANDLER"/>
+ <c ts="Messaging" name="Message URL Handler"/>
+ <c ts="Messaging" name="Scheduled Send MTM"/>
+ <c ts="Messaging" name="Send As"/>
+ <c ts="Messaging" name="OBEX MTMs"/>
+ <c ts="Messaging" name="SMIL Parser"/>
+ <c ts="Messaging" name="BIO Messaging Framework"/>
+ <c ts="Messaging" name="BIO Messaging Parsers"/>
+ <c ts="Messaging" name="BIO Watchers"/>
+ <c ts="Messaging" name="SMS MTM"/>
+ <c ts="Messaging" name="Fax MTM"/>
+ <c ts="Messaging" name="MSG TEST"/>
+ <c ts="Messaging" name="Messaging Test"/>
+ <c ts="Messaging" name=""/>
+ <c ts="Messaging" name="MMS MTM"/>
+ <c ts="Messaging" name="CDMA MTM"/>
+ <c ts="Messaging" name="Messaging Config"/>
+ <c ts="Messaging" name="Messaging Tests"/>
+ <c ts="Messaging" name="Messaging Test Framework"/>
+ <c ts="Messaging" name="Messaging Test Product"/>
+ <c ts="Multimedia" name="Camera"/>
+ <c ts="Multimedia" name="Camera Server"/>
+ <c ts="Multimedia" name="Camera Driver"/>
+ <c ts="Multimedia" name="Camera Framework"/>
+ <c ts="Multimedia" name="Broadcast Tuner"/>
+ <c ts="Multimedia" name="Tuner Server"/>
+ <c ts="Multimedia" name="Tuner Driver"/>
+ <c ts="Multimedia" name="Broadcast Radio Tuner"/>
+ <c ts="Multimedia" name="Speech Recognition Controller"/>
+ <c ts="Multimedia" name="Image Conversion Library"/>
+ <c ts="Multimedia" name="Imaging Frameworks"/>
+ <c ts="Multimedia" name="Image Conversion Library Plugins"/>
+ <c ts="Multimedia" name="Imaging Plugins"/>
+ <c ts="Multimedia" name="MMF Recognisers"/>
+ <c ts="Multimedia" name="Multimedia Framework Plugins"/>
+ <c ts="Multimedia" name="DevSound API"/>
+ <c ts="Multimedia" name="Reference DevSound Plugins"/>
+ <c ts="Multimedia" name="Video HAI"/>
+ <c ts="Multimedia" name="Bluetooth DevSound Plugin"/>
+ <c ts="Multimedia" name="ICL Integration Tests"/>
+ <c ts="Multimedia" name="MMF Integration Tests"/>
+ <c ts="Multimedia" name="ICL Unit Tests"/>
+ <c ts="Multimedia" name="MMF Unit Tests"/>
+ <c ts="Multimedia" name="Multimedia Test Framework Unit Tests"/>
+ <c ts="Multimedia" name="Multimedia Test Framework"/>
+ <c ts="Multimedia" name="Multimedia Framework"/>
+ <c ts="Multimedia" name="Multimedia Validation Suite"/>
+ <c ts="Multimedia" name="Multimedia Validation Suite Application"/>
+ <c ts="Multimedia" name="Multimedia Validation Suite Agents"/>
+ <c ts="Multimedia" name="MVS Integration Tests"/>
+ <c ts="Multimedia" name="Media Device Framework Plugins"/>
+ <c ts="Multimedia" name="Multimedia Device Framework"/>
+ <c ts="Multimedia" name="Mobile TV DVB-H Receiver HAI"/>
+ <c ts="Multimedia" name="MDF Unit Tests"/>
+ <c ts="Multimedia" name="Camera Unit Tests"/>
+ <c ts="Multimedia" name="Tuner Unit Tests"/>
+ <c ts="Multimedia" name="Mobile TV DVB-H Unit Tests"/>
+ <c ts="Multimedia" name="Multimedia Test Agent"/>
+ <c ts="Multimedia" name="Multimedia Test Tools"/>
+ <c ts="Multimedia" name="MMF Characterisation Validation"/>
+ <c ts="Multimedia" name="Multimedia Documentation"/>
+ <c ts="Multimedia" name="Multimedia Utility Library"/>
+ <c ts="Multimedia" name="Camera Plugins"/>
+ <c ts="Multimedia" name="Media Device Framework"/>
+ <c ts="Multimedia" name="OpenMAX"/>
+ <c ts="Multimedia" name="DevSound Hardware Device API"/>
+ <c ts="Multimedia" name="DevSound Plugin Support"/>
+ <c ts="Multimedia" name="Multimedia Resource Controller"/>
+ <c ts="Multimedia" name="A3F Audio Component Library"/>
+ <c ts="Multimedia" name="A3F DevSound Customisation"/>
+ <c ts="Multimedia" name="A3F DevSound"/>
+ <c ts="Multimedia" name="A3F Audio Component Framework"/>
+ <c ts="Multimedia" name="A3F Trace Utility"/>
+ <c ts="Multimedia" name="Reference ACL Adaptation"/>
+ <c ts="Multimedia" name="Multimedia Test Codecs"/>
+ <c ts="Multimedia" name="Decision Framework"/>
+ <c ts="Multimedia" name="MUF Unit Tests"/>
+ <c ts="Multimedia" name="MUF Integration Tests"/>
+ <c ts="Multimedia" name="Imaging Unit Tests"/>
+ <c ts="Multimedia" name="Imaging Integration Tests"/>
+ <c ts="Multimedia" name="3GP Unit Tests"/>
+ <c ts="Multimedia" name="Metadata Utility Framework"/>
+ <c ts="Multimedia" name="Metadata Parser Plugin"/>
+ <c ts="Multimedia" name="Video Renderer"/>
+ <c ts="Multimedia" name="A3F Integration Tests"/>
+ <c ts="Multimedia" name="A3F Server Start"/>
+ <c ts="Multimedia" name="3GP Library"/>
+ <c ts="Multimedia" name="Broadcast Radio Transmitter"/>
+ <c ts="Multimedia" name="Broadcast Radio Transmitter Unit Tests"/>
+ <c ts="Multimedia" name="Broadcast Radio Transmitter Integration Tests"/>
+ <c ts="Multimedia" name="Broadcast Radio Transmitter Plugin"/>
+ <c ts="Multimedia" name="OpenMAX IL API"/>
+ <c ts="Multimedia" name="OpenMAX IL Core"/>
+ <c ts="Multimedia" name="OpenMAX IL Reference Components"/>
+ <c ts="Multimedia" name="OpenMAX IL Test Components"/>
+ <c ts="Multimedia" name="OpenMAX IL Unit Tests"/>
+ <c ts="Multimedia" name="OpenMAX IL Core Conformance Suite"/>
+ <c ts="Multimedia" name="Multimedia Integration Layer API"/>
+ <c ts="Multimedia" name="Multimedia Integration Layer Unit Tests"/>
+ <c ts="PIM Application Services" name="Agenda Model"/>
+ <c ts="PIM Application Services" name="Agenda Versit Plugin"/>
+ <c ts="PIM Application Services" name="Alarm Server"/>
+ <c ts="PIM Application Services" name="Chinese Calendar Converter"/>
+ <c ts="PIM Application Services" name="CalInterimAPI"/>
+ <c ts="PIM Application Services" name="Calendar"/>
+ <c ts="PIM Application Services" name="Time Zone Localisation"/>
+ <c ts="PIM Application Services" name="Time Zone Server"/>
+ <c ts="PIM Application Services" name="Time Zone Compiler"/>
+ <c ts="PIM Application Services" name="Time Zone Database"/>
+ <c ts="PIM Application Services" name="Timezone"/>
+ <c ts="PIM Application Services" name="Time Zone Localisation Resource Factory"/>
+ <c ts="PIM Application Services" name="WLDDATABASEKIT"/>
+ <c ts="PIM Application Services" name="World Database Kit"/>
+ <c ts="PIM Application Services" name="WLDTOOLS"/>
+ <c ts="PIM Application Services" name="World Tools"/>
+ <c ts="PIM Application Services" name="World Server"/>
+ <c ts="PIM Application Services" name="Contacts Model"/>
+ <c ts="PIM Application Services" name="Backup Restore Notification"/>
+ <c ts="PIM Application Services" name="Chart"/>
+ <c ts="PIM Application Services" name="HTML to RichText Converter"/>
+ <c ts="PIM Application Services" name="Core Apps Test"/>
+ <c ts="PIM Application Services" name="Data Engine"/>
+ <c ts="PIM Application Services" name="Help"/>
+ <c ts="PIM Application Services" name="File Converter Plugins"/>
+ <c ts="PIM Application Services" name="RichText to HTML Converter"/>
+ <c ts="PIM Application Services" name="Sheet Engine"/>
+ <c ts="PIM Application Services" name="vCard and vCal"/>
+ <c ts="PIM Application Services" name="Word Engine"/>
+ <c ts="PIM Application Services" name="Agenda Model Test"/>
+ <c ts="PIM Application Services" name="Alarm Server Test"/>
+ <c ts="PIM Application Services" name="World Server Test"/>
+ <c ts="PIM Application Services" name="Application Engines Documentation"/>
+ <c ts="PIM Application Services" name="Application Services Documentation"/>
+ <c ts="PIM Application Services" name="Other File Converter Plugins"/>
+ <c ts="PIM Application Services" name="Time Zone Localization"/>
+ <c ts="PIM Application Services" name="Time Zone Localization Resource Factory"/>
+ <c ts="UI Frameworks" name="Animation"/>
+ <c ts="UI Frameworks" name="UI Graphics Utilities"/>
+ <c ts="UI Frameworks" name="FEP Base"/>
+ <c ts="UI Frameworks" name="Front End Processor"/>
+ <c ts="UI Frameworks" name="Clock"/>
+ <c ts="UI Frameworks" name="Graphics Effects"/>
+ <c ts="UI Frameworks" name="System Starter"/>
+ <c ts="UI Frameworks" name="UIKON"/>
+ <c ts="UI Frameworks" name="BMP Animation"/>
+ <c ts="UI Frameworks" name="Grid"/>
+ <c ts="UI Frameworks" name="Application Architecture"/>
+ <c ts="UI Frameworks" name="UI Look and Feel"/>
+ <c ts="UI Frameworks" name="View Server"/>
+ <c ts="UI Frameworks" name="Printing UI Support"/>
+ <c ts="UI Frameworks" name="MIME Recognition Framework"/>
+ <c ts="UI Frameworks" name="Content Handling Framework"/>
+ <c ts="UI Frameworks" name="Control Environment"/>
+ <c ts="UI Frameworks" name="File Converter Framework"/>
+ <c ts="UI Frameworks" name="UIKON Error Resolver Plugin"/>
+ <c ts="UI Frameworks" name="Error Resolver Data"/>
+ <c ts="UI Frameworks" name="UI Frameworks Documentation"/>
+ <c ts="UI Frameworks" name="UIF Test Framework"/>
+ <c ts="UI Frameworks" name="FM Transmitter Control"/>
+ <c ts="UI Frameworks" name="Hardware Resources Manager"/>
+ <c ts="UI Frameworks" name="Hardware Resources Manager Config"/>
+ <c ts="UI Frameworks" name="System Health Manager"/>
+ <c ts="UI Frameworks" name="System State Manager"/>
+ <c ts="UI Frameworks" name="System State Plugins"/>
+ <c ts="UI Frameworks" name="System State Reference Plugins"/>
+ <c ts="UI Frameworks" name="After Market Application Starter"/>
+ <c ts="UI Frameworks" name="Application Launch Plugins"/>
+ <c ts="Product Creation Tools" name="SDK Builder"/>
+ <c ts="Product Creation Tools" name="CBRTOOLS"/>
+ <c ts="Product Creation Tools" name="CDB"/>
+ <c ts="Product Creation Tools" name="TESTTOOLS_DESKTOP"/>
+ <c ts="Product Creation Tools" name="KITSETUPAPP"/>
+ <c ts="Product Creation Tools" name="NAVIGATION_PAGES"/>
+ <c ts="Product Creation Tools" name="PRODUCTINSTALLER"/>
+ <c ts="Product Creation Tools" name="RUNPERL"/>
+ <c ts="Product Creation Tools" name="SDKINFO"/>
+ <c ts="Product Creation Tools" name="SISAR"/>
+ <c ts="Product Creation Tools" name="SDKPKG-MANAGER"/>
+ <c ts="Product Creation Tools" name="SDKPKG-TOOLS"/>
+ <c ts="Product Creation Tools" name="EMULATOR_LAUNCHER"/>
+ <c ts="Product Creation Tools" name="PKGMGRGUI"/>
+ <c ts="Product Creation Tools" name="TOOLS_STUBS"/>
+ <c ts="Product Creation Tools" name="PERLLIBRARY"/>
+ <c ts="Product Creation Tools" name="SPLASH"/>
+ <c ts="Product Creation Tools" name="JAVALIBRARY"/>
+ <c ts="Product Creation Tools" name="DUMMY"/>
+ <c ts="Product Creation Tools" name="ASSERTION"/>
+ <c ts="Product Creation Tools" name="ENUM"/>
+ <c ts="Product Creation Tools" name="ENVVAR"/>
+ <c ts="Product Creation Tools" name="FILESYS"/>
+ <c ts="Product Creation Tools" name="INSTALLUTILS"/>
+ <c ts="Product Creation Tools" name="JADE"/>
+ <c ts="Product Creation Tools" name="JAVAHELP"/>
+ <c ts="Product Creation Tools" name="LANGCONFIG"/>
+ <c ts="Product Creation Tools" name="LOGGER"/>
+ <c ts="Product Creation Tools" name="MBMCODEC"/>
+ <c ts="Product Creation Tools" name="MNEMONICFIX"/>
+ <c ts="Product Creation Tools" name="PATHBROWSER"/>
+ <c ts="Product Creation Tools" name="SHELLEXEC"/>
+ <c ts="Product Creation Tools" name="SWINGWORKER"/>
+ <c ts="Product Creation Tools" name="TESTCASERUNNER"/>
+ <c ts="Product Creation Tools" name="TOOLBARPANEL"/>
+ <c ts="Product Creation Tools" name="BCCOMPARATOR"/>
+ <c ts="Product Creation Tools" name="KITCOMPARATOR"/>
+ <c ts="Product Creation Tools" name="BSPBUILDER"/>
+ <c ts="Product Creation Tools" name="Compiler Runtime Support"/>
+ <c ts="Product Creation Tools" name="Tools Documentation"/>
+ <c ts="Development Tools" name="testtools_tdep"/>
+ <c ts="Development Tools" name=""/>
+ <c ts="Development Tools" name="tools_connectivity_ftpd"/>
+ <c ts="Development Tools" name="tools_connectivity_telnetd"/>
+ <c ts="Development Tools" name="tools_connectivity_rndis"/>
+ <c ts="Development Tools" name="coredumpserver"/>
+ <c ts="Development Tools" name="base_e32_drivers_debug"/>
+ <c ts="Development Tools" name="tools_debug_trace, tools_sampler_profiler_dd, tools_sampler_profiler_server"/>
+ <c ts="Development Tools" name="Trace Framework"/>
+ <c ts="Development Tools" name="Run Mode Debugger"/>
+ <c ts="Development Tools" name="UTRACE"/>
+ <c ts="Development Tools" name="RFile Logger"/>
+ <c ts="Test Environment" name="AGENDA"/>
+ <c ts="Test Environment" name="AGENTNOTIFIER"/>
+ <c ts="Test Environment" name="AUDIO"/>
+ <c ts="Test Environment" name="BCCOMPARATOR" type="stakeholder"/>
+ <c ts="Test Environment" name="BLUETOOTHUI"/>
+ <c ts="Test Environment" name="BURTESTSERVER"/>
+ <c ts="Test Environment" name="CAPTOOLS"/>
+ <c ts="Test Environment" name="CHATSCRIPTS"/>
+ <c ts="Test Environment" name="CINIDATA"/>
+ <c ts="Test Environment" name="CONNECTUI"/>
+ <c ts="Test Environment" name="CONTACTS"/>
+ <c ts="Test Environment" name="CONTACUI"/>
+ <c ts="Test Environment" name="EIKSTD"/>
+ <c ts="Test Environment" name="EXTRAS"/>
+ <c ts="Test Environment" name="LEAVESCAN"/>
+ <c ts="Test Environment" name="MESSAGINGUI"/>
+ <c ts="Test Environment" name="MIGRATIONTOOL"/>
+ <c ts="Test Environment" name="PHONEUI"/>
+ <c ts="Test Environment" name="PROGRAMCHECKER"/>
+ <c ts="Test Environment" name="RESOURCE_HANDLER"/>
+ <c ts="Test Environment" name="RESOURCE_HANDLER_UI"/>
+ <c ts="Test Environment" name="SMOKETEST"/>
+ <c ts="Test Environment" name="STATAPI"/>
+ <c ts="Test Environment" name="STAT_DESKTOP"/>
+ <c ts="Test Environment" name="STAT_DEVICE"/>
+ <c ts="Test Environment" name="SYSTEMMONITOR"/>
+ <c ts="Test Environment" name="Simple App"/>
+ <c ts="Test Environment" name="TESTDRIVER"/>
+ <c ts="Test Environment" name="TESTEXECUTE"/>
+ <c ts="Test Environment" name="TESTTOOLS_DESKTOP" type="stakeholder"/>
+ <c ts="Test Environment" name="TESTTOOLS_UTILITIES"/>
+ <c ts="Test Environment" name="TIMEW"/>
+ <c ts="Test Environment" name="USBUI"/>
+ <c ts="Test Environment" name="Use Case Controller"/>
+ <c ts="Test Environment" name="SHELL"/>
+ <c ts="Test Environment" name="STARTUP"/>
+ <c ts="Test Environment" name="STATUSPANE"/>
+ <c ts="Test Environment" name="UIKLAF"/>
+ <c ts="Test Environment" name="IAPSTATUSAPP"/>
+ <c ts="Test Environment" name=""/>
+ <c ts="Test Environment" name="Install App"/>
+ <c ts="Test Environment" name="Networking Agent Notifier"/>
+ <c ts="Test Environment" name="SECUI"/>
+ <c ts="Test Environment" name="Bluetooth UI"/>
+ <c ts="Test Environment" name="HELP"/>
+ <c ts="Test Environment" name="SYNCMLAPP"/>
+ <c ts="Test Environment" name="KEYCLICKREF"/>
+ <c ts="Test Environment" name="Configuration Files"/>
+ <c ts="Test Environment" name="Additional Configuration Files"/>
+ <c ts="Test Environment" name="ROM Kit"/>
+ <c ts="Test Environment" name="FEPSETUP"/>
+ <c ts="Test Environment" name="FEPS"/>
+ <c ts="Test Environment" name="CCTLCOLSCHEME"/>
+ <c ts="Test Environment" name="SOUNDSETUP"/>
+ <c ts="Technical Documentation" name="DEVELOPERLIBRARY"/>
+ <c ts="Technical Documentation" name="Developer Library Tools"/>
+ <c ts="Technical Documentation" name="Developer Library Help"/>
+ <c ts="Technical Documentation" name="Developer Library Source"/>
+ <c ts="Technical Documentation" name="Developer Library HTML"/>
+ <c ts="Test Product" name="Subsystem Tests"/>
+ <c ts="System Engineering" name="DEPMODEL"/>
+ <c ts="System Engineering" name="System Documentation"/>
+</model>

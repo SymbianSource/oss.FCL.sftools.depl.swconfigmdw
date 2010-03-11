@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shapes xmlns:s="http://www.w3.org/2000/svg">
+
+	<!-- borders to use for OSD components -->
+	<borders use="s12/@osd" label="Sched 12 Category" show-unused="yes">
+		<border type="box"/>
+		<border value="OS" type="box-clipLT" label="Optional Symbian ({count(//component[s12/@osd='OS'])})"/>
+		<border value="CS" type="box-clipLB" label="Common Symbian ({count(//component[s12/@osd='CS'])})"/>
+		<border value="CR" type="box-clipRB" label="Common Replace­able ({count(//component[s12/@osd='CR'])})"/>
+		<border value="OR" type="box-clipRT" label="Optional Replace­able ({count(//component[s12/@osd='OR'])})"/>
+		<border value="T-R" type="box-clipAll" label="Refer­ence/Test ({count(//component[s12/@osd='T-R'])})"/>
+	</borders>
+
+	<!-- for some processors, /*/systemModel is much faster than //systemModel -->	
+	<patterns show-unused="yes"> <!-- this is very slow, don't check if used -->
+		 <overlay rule="@deprecated" label="Depre­cated  ({count(//component[@deprecated])})" type="big-X"/> 
+		<overlay rule="s12/@ref='true' or @ref='true'" type="striped-diag-up" label="Reference Compo­nent ({count(//component[s12/@ref='true' or @ref='true'])})"/>
+	</patterns>
+	
+	
+	 <styles match="block[collection] | subblock[collection]">
+		<style>stroke-width: 1</style>
+	</styles>
+	
+<s:defs>
+    <s:style type="text/css">
+	        text.collection {font-size: 3.3px!important}
+        </s:style>
+  </s:defs>
+<colors label="Technology Streams" match="layer" default="grey" use="descendant::component/@ts" spacing="proportional" direction="-1:0.2"  blur="0.1">
+	<color value="Base Services" color="#8f8fbd" />
+	<color value="Baseband Adaption" color="#5f9f9f" />
+	<color value="Comms Framework" color="#527f76" />
+	<color value="Crypto Services" color="yellow" />
+	<color value="Development Boards" color="#934900" />
+	<color value="Kernel" color="#00ffff" />
+	<color value="Multimedia Protocols" color="#eaadea" />
+	<color value="IP Networking" color="#ff7f00" />
+	<color value="Open Environment" color="#817485" />
+	<color value="Peripherals" color="#008000" />
+	<color value="Persistent Data Services" color="#993366" />
+	<color value="Shortlink" color="#db7093" />
+	<color value="Telephony Services" color="#3299cc" />
+	<color value="Text and I18n Services" color="#9f9f5f" />
+	<color value="Connectivity Services" color="#cfb53b" />
+	<color value="Device Provisioning" color="#ebc79e" />
+	<color value="Graphics" color="#32cd99" />
+	<color value="Internet and Web Services" color="#ff8f68" />
+	<color value="Location Based Services" color="green" />
+	<color value="Java" color="#c0d9d9" />
+	<color value="Messaging" color="red" />
+	<color value="Multimedia" color="#8fbc8f" />
+	<color value="PIM Application Services" color="#ffff80" />
+	<color value="UI Frameworks" color="#00ff00" />
+	<color value="Product Creation Tools" color="#a29040" />
+	<color value="Development Tools" color="#BAC97E" />
+	<color value="Test Environment" color="#56a1a1" />
+	<color value="Technical Documentation" color="#6A5182" />
+	<color value="Test Product" color="#544A38" />
+	<color value="System Engineering" color="#615FAD" />
+</colors>
+	<colors label="Version" default="grey" use="s12/@ver" angle="10" blur="0.5">
+    <color value="9.4" color="red"/>
+    <color value="9.5" color="green"/>
+    <color value="Future" color="blue"/>
+   </colors>
+  
+</shapes>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    targetNamespace="http://www.symbian.com/sdbcreator/symbiansecuritysettings"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:sym="http://www.symbian.com/sdbcreator/symbiansecuritysettings">
+
+	<xs:element name="sdbcreator">
+		<xs:complexType>
+			<xs:sequence>				
+				<xs:element name="policy" minOccurs="1" maxOccurs="4">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="capability" minOccurs="0" maxOccurs="7">
+								<xs:complexType>
+									<xs:attribute name="type" type="sym:capabilitytype"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="type" type="sym:PolicyType" use="required"/>
+						<xs:attribute name="VID" type="xs:string" use="optional"/>
+						<xs:attribute name="SID" type="xs:string" use="optional"/>								
+						<xs:attribute name="always" type="sym:always" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				
+				<xs:element name="configuration" minOccurs="0" maxOccurs="2">
+					<xs:complexType>
+						<xs:attribute name="name" use="required" type="sym:config_name"/>
+						<xs:attribute name="value" use="required"/>
+					</xs:complexType>
+				</xs:element>											
+						
+				
+			</xs:sequence>				
+
+			<xs:attribute name="version" use="optional" default="1.0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d+(.)?\d*"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>			
+	
+	<xs:simpleType name="capabilitytype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NetworkServices" />
+			<xs:enumeration value="LocalServices" />
+			<xs:enumeration value="ReadUserData" />
+			<xs:enumeration value="WriteUserData" />
+			<xs:enumeration value="Location" />
+			<xs:enumeration value="UserEnvironment" />
+			<xs:enumeration value="TCB" />
+			<xs:enumeration value="CommDD" />
+			<xs:enumeration value="PowerMgmt" />
+			<xs:enumeration value="MultimediaDD" />
+			<xs:enumeration value="ReadDeviceData" />
+			<xs:enumeration value="WriteDeviceData" />
+			<xs:enumeration value="DRM" />
+			<xs:enumeration value="TrustedUI" />
+			<xs:enumeration value="ProtSrv" />
+			<xs:enumeration value="DiskAdmin" />
+			<xs:enumeration value="NetworkControl" />
+			<xs:enumeration value="AllFiles" />
+			<xs:enumeration value="SwEvent" />
+			<xs:enumeration value="SurroundingsDD" />
+		</xs:restriction>
+	</xs:simpleType>
+	    
+    <xs:simpleType name="PolicyType">
+    	<xs:restriction base="xs:string">
+			<xs:enumeration value="default"/>
+			<xs:enumeration value="read"/>
+			<xs:enumeration value="schema"/>
+			<xs:enumeration value="write"/>
+		</xs:restriction>
+    </xs:simpleType>    
+    
+	<xs:simpleType name="always">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pass"/>
+			<xs:enumeration value="fail"/>
+		</xs:restriction>
+	</xs:simpleType> 
+		
+	<xs:simpleType name="config_name">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="page_size"/>
+			<xs:enumeration value="encoding"/>			
+		</xs:restriction>
+	</xs:simpleType>
+	    	
+	
+</xs:schema>

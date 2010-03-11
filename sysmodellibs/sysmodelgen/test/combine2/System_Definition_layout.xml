@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition name="MCL" schema="2.0.0">
+  <systemModel>
+    <layer name="Tools and Utils and SDKENG" levels="SDK tools test">
+      <collection move="Build System Tools" level="tools"/>
+      <collection move="Tools and Utils" level="tools"/>
+      <collection move="Developer Library" level="test"/>
+      <collection move="SDKENG" level="SDK"/>
+      <collection move="Test Product" level="test"/>
+    </layer>
+    <layer name="Hardware" levels="Hardware-dependent">
+      <block name="Board Support Packages" level="Hardware-dependent">
+        <collection move="Emulator"/>
+        <collection move="Assabet"/>
+        <collection move="Integrator BSP"/>
+        <collection move="OMAP H2"/>
+        <collection move="OMAP H4"/>
+        <collection move="USB Hardware Adaptation"/>
+      </block>
+    </layer>
+    <layer name="Kernel Services">
+      <block name="Kernel and Hardware Services" levels="generic specific user">
+        <collection move="Kernel Architecture" level="specific"/>
+        <collection move="Boot Loader" level="generic"/>
+        <collection move="Flash Translation Layer" level="generic"/>
+        <collection move="Kernel Test" level="generic"/>
+        <collection move="Logical Device Drivers" level="specific"/>
+        <collection move="Generic Driver Support" level="generic"/>
+        <collection move="Generic BSP" level="generic"/>
+        <collection move="Shortlink Logical Device Drivers" level="specific"/>
+        <collection move="Graphics LDDs" level="specific"/>
+        <collection move="Localisation" level="specific"/>
+        <collection move="User Library and File Server" level="user"/>
+        <collection move="File Systems" level="user"/>
+        <collection move="Base User-side Tests" level="user"/>
+        <collection move="HAL Services" level="user"/>
+        <collection move="Text Mode Shell" level="user"/>
+      </block>
+    </layer>
+    <layer name="OS Services">
+      <block name="Generic OS Services" levels="physical-abstraction app-libs translation data-services utilities">
+        <collection move="Generic Services" level="utilities"/>
+        <collection move="Generic Open Libraries" level="translation"/>
+        <collection move="XML" level="data-services"/>
+        <collection move="Compression Libraries" level="data-services"/>
+        <collection move="Low Level Libraries and Frameworks" level="app-libs"/>
+        <collection move="Character Conversion Framework" level="utilities"/>
+      </block>
+      <block name="Security and Data Privacy" levels="physical-abstraction app-libs translation data-services utilities">
+        <collection move="Authorisation" level="utilities"/>
+        <collection move="Crypto Libraries" level="translation"/>
+        <collection move="Crypto Management Libraries" level="data-services"/>
+        <collection move="Content Management" level="utilities"/>
+        <collection move="Crypto Plugins" level="app-libs"/>
+      </block>
+      <block name="Persistent Data Services" levels="physical-abstraction app-libs translation data-services utilities">
+        <collection move="Feature Management" level="data-services"/>
+        <collection move="Logging Services" level="utilities"/>
+        <collection move="Persistent Storage" level="app-libs"/>
+        <collection move="Database Abstraction" level="translation"/>
+      </block>
+      <block name="Device Services" levels="physical-abstraction app-libs translation data-services utilities">
+        <collection move="System Health Management" level="data-services"/>
+        <collection move="System State Management" level="data-services"/>
+        <collection move="Accessory Management" level="translation"/>
+        <collection move="Resource Interfaces" level="app-libs"/>
+        <collection move="Resource Management" level="physical-abstraction"/>
+      </block>
+      <block name="Location Based Services" levels="data-acquisition adaptation management application-interface">
+        <collection move="Location Request Management" level="application-interface"/>
+        <collection move="Location Management" level="management"/>
+        <collection move="Network Adaptation" level="adaptation"/>
+        <collection move="GPS Data Source Modules" level="data-acquisition"/>
+        <collection move="Data Source Adaptation" level="adaptation"/>
+      </block>
+      <block name="Comms Services" levels="physical-abstraction bearer-manager internal-utils servers_and_extensions utilities">
+        <subblock name="Communications Framework">
+          <collection move="Comms Process and Settings" level="utilities"/>
+          <collection move="Comms Config. Utils" level="servers_and_extensions"/>
+          <collection move="Data Comms Server" level="servers_and_extensions"/>
+          <collection move="Serial Server" level="bearer-manager"/>
+          <collection move="Comms Framework Utilities" level="internal-utils"/>
+          <collection move="Serial Comms Server Plugins" level="physical-abstraction"/>
+        </subblock>
+        <subblock name="Cellular Baseband Services">
+          <collection move="Telephony Utilities" level="utilities"/>
+          <collection move="Fax" level="utilities"/>
+          <collection move="Telephony Server" level="internal-utils"/>
+          <collection move="Telephony Protocols" level="servers_and_extensions"/>
+          <collection move="SMS Protocols" level="bearer-manager"/>
+          <collection move="Baseband Abstraction" level="physical-abstraction"/>
+          <collection move="Telephony Server Plugins" level="physical-abstraction"/>
+          <collection move="Telephony Reference Platform" level="physical-abstraction"/>
+          <collection move="Baseband Adaptation Plugins" level="physical-abstraction"/>
+        </subblock>
+        <subblock name="Networking Services">
+          <collection move="TCP/IP Utilities" level="utilities"/>
+          <collection move="ESock API Extensions" level="utilities"/>
+          <collection move="Network Protocols" level="servers_and_extensions"/>
+          <collection move="Networking Test and Utils" level="utilities"/>
+          <collection move="Network Control" level="internal-utils"/>
+          <collection move="Link Layer Control" level="physical-abstraction"/>
+          <collection move="Link Layer Protocols" level="bearer-manager"/>
+          <collection move="PPP Compression Plugins" level="bearer-manager"/>
+          <collection move="Link Layer Utilities" level="bearer-manager"/>
+        </subblock>
+        <subblock name="Short Link Services">
+          <collection move="USB Management" level="utilities"/>
+          <collection move="USB Function Drivers" level="utilities"/>
+          <collection move="Short Link" level="servers_and_extensions"/>
+          <collection move="Host Controller Interface" level="servers_and_extensions"/>
+          <collection move="Bluetooth" level="internal-utils"/>
+          <collection move="Short Link Protocol Plugins" level="bearer-manager"/>
+          <collection move="Short Link CSYs" level="physical-abstraction"/>
+        </subblock>
+      </block>
+      <block name="Multimedia" levels="adaptation device-fw devices middleware application-interface">
+        <collection move="Multimedia APIs and Frameworks" level="application-interface"/>
+        <collection move="Multimedia Plugins" level="middleware"/>
+        <collection move="Multimedia Resource Management" level="middleware"/>
+        <collection move="Multimedia Device Framework" level="device-fw"/>
+        <collection move="OpenMAX IL" level="device-fw"/>
+        <collection move="Sound Device" level="devices"/>
+        <collection move="Multimedia Test Environment" level="device-fw"/>
+        <collection move="Multimedia Software Adaptation" level="adaptation"/>
+        <collection move="Multimedia Hardware Adaptation Interfaces" level="adaptation"/>
+      </block>
+      <block name="Graphics" levels="engines internal-adaptations device-interface internal-utils application-interface">
+        <collection move="Windowing Framework" level="application-interface"/>
+        <collection move="Printing Services" level="application-interface"/>
+        <collection move="Graphics Test" level="application-interface"/>
+        <collection move="Fonts Services" level="internal-utils"/>
+        <collection move="Khronos APIs" level="device-interface"/>
+        <collection move="Khronos Implementation" level="internal-adaptations"/>
+        <collection move="Graphics Device Interface" level="device-interface"/>
+        <collection move="Core Graphics Resources" level="internal-adaptations"/>
+        <collection move="BitGDI Adaptations" level="internal-adaptations"/>
+        <collection move="Graphics Surface Composition" level="engines"/>
+        <collection move="Graphics Hardware Adaptation" level="engines"/>
+      </block>
+    </layer>
+    <layer name="Generic Middleware" levels="generic specific">
+      <block name="Generic Application Support">
+        <collection move="File Handling" level="specific"/>
+        <collection move="Text Rendering" level="generic"/>
+        <collection move="Common Application Services" level="generic"/>
+        <collection move="Time Zone Services" level="generic"/>
+        <collection move="Content Handling" level="specific"/>
+        <collection move="Printing Support" level="specific"/>
+        <collection move="Open Environment Utilities" level="generic"/>
+        <collection move="Backup and Restore" level="generic"/>
+      </block>
+      <block name="Application Provisioning and Installation">
+        <collection move="Application Framework" level="generic"/>
+        <collection move="Installation Services" level="specific"/>
+        <collection move="Application Launch Services" level="generic"/>
+      </block>
+      <block name="Security Management">
+        <collection move="Crypto Services" level="generic"/>
+        <collection move="Network Security" level="generic"/>
+      </block>
+      <block name="High-level Internet Protocols">
+        <collection move="Application Layer Protocols" level="specific"/>
+        <collection move="Application Layer Plugins and Utils" level="specific"/>
+        <collection move="OBEX" level="specific"/>
+        <collection move="Bluetooth Profiles" level="specific"/>
+        <collection move="WAP Stack" level="generic"/>
+        <collection move="Connectivity Transports" level="generic"/>
+        <collection move="MTP Transports" level="generic"/>
+        <collection move="IMS and streaming" level="generic"/>
+        <collection move="SIP Connection Provider Plugins" level="specific"/>
+      </block>
+      <block name="Multimedia Middleware" levels="plugins framework">
+        <collection move="Multimedia Middleware Frameworks" level="framework"/>
+        <collection move="Multimedia Middleware Plugins" level="plugins"/>
+      </block>
+      <block name="System GUI Framework" levels="structure presentation">
+        <subblock name="GUI Provisioning"/>
+        <collection move="Common UI Support" level="presentation"/>
+        <collection move="Look-and-Feel Agnostic UI Foundation" level="structure"/>
+      </block>
+    </layer>
+    <layer name="Application Services">
+      <block name="PIM" levels="utilities engines protocols">
+        <collection move="PIM App Services" level="engines"/>
+        <collection move="PIM Application Support" level="utilities"/>
+        <collection move="PIM Protocols" level="protocols"/>
+      </block>
+      <block name="Messaging" levels="plugins framework services">
+        <collection move="Messaging Framework" level="framework"/>
+        <collection move="Messaging Plugins" level="plugins"/>
+        <collection move="Messaging Services" level="services"/>
+      </block>
+      <block name="Remote Management" levels="framework services">
+        <collection move="Sync and Remote Management Framework" level="framework"/>
+        <collection move="Remote Management Test" level="services"/>
+        <collection move="Sync and Remote Management Services" level="services"/>
+        <collection move="MTP Data Providers" level="services"/>
+        <collection move="Bluetooth Application Profiles" level="services"/>
+      </block>
+      <block name="Java J2ME" levels="config package profile">
+        <collection move="MIDP 2.0 Profile" level="profile"/>
+        <collection move="MIDP 2.0 Packages" level="package"/>
+        <collection move="Virtual Machine" level="package"/>
+      </block>
+    </layer>
+    <layer name="Test Applications" levels="tools apps">
+      <block name="Techview">
+        <collection move="Apps" level="apps"/>
+        <collection move="Multimedia Validation Suite" level="apps"/>
+        <collection move="Toolkit" level="tools"/>
+      </block>
+    </layer>
+    <layer name="MISC" levels="test pc-tools">
+      <collection move="Connectivity PC Side" level="pc-tools"/>
+      <collection move="Comms PC Side" level="pc-tools"/>
+      <collection move="Time Zone PC Side" level="pc-tools"/>
+      <collection move="Secure Software Install Tools" level="pc-tools"/>
+      <collection move="Graphics Tools" level="pc-tools"/>
+      <collection move="IP Examples" level="test"/>
+      <collection move="Miscellaneous" level="test"/>
+    </layer>
+  </systemModel>
+</SystemDefinition>

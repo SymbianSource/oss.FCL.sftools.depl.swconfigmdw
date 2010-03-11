@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<values>
+ <item label="Proof of concept" value="stroke-dasharray: 2,3">
+  <component name="MultiMode TSY"/>
+  <component name="Bluetooth PAN Profile"/>
+  <component name="Animation"/>
+  <component name="Feature Registry"/>
+  <component name="HTTP Protocol Plugins"/>
+  <component name="HTTP Filter Plugins"/>
+ </item>
+</values>

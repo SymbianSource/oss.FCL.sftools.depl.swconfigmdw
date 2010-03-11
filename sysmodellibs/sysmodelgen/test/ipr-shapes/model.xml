@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<model ver="9.4" revision="1.6" revision-type="draft" name="Symbian OS" label="System Model"  shapes="alt-shapes.xml"  deps="deps94.xml">
+	 <sysdef href="System_Definition.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <filter accept="java"/>
+	 <filter accept="gt"/>	 	
+	<ignore type="layer" name="Tools and Utils and SDKENG"/>
+	<ignore type="layer" name="MISC"/>
+	<layout>
+		<info href="display-names.xml" type="abbrev"/>
+		<legend  label="Key">
+			<legend use="@shapes#colors"/>
+			<legend use="@shapes#borders"/>  
+			<legend use="@shapes#patterns"/>  
+			<legend use="@shapes#examples"/>
+		</legend>
+	</layout> 
+</model>  

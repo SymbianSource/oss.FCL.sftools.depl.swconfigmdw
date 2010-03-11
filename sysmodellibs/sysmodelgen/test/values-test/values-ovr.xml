@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<values>
+ <item label="New" value="radial-grad">
+  <component name="Wireless LAN"/>
+  <component name="Graphics Effects"/>
+ </item>
+ <item label="Reference" value="striped-diag-up">
+  <component name="OMAP 1623"/>
+  <component name="SD Card Driver"/>
+  <component name="Audio Driver"/>
+  <component name="MIDI Driver"/>
+  <component name="Speech Driver"/>
+  <component name="Video Driver"/>
+  <component name="Emulator"/>
+  <component name="Lubbock Variant"/>
+  <component name="OMAP H2"/>
+  <component name="OMAP H4"/>
+  <component name="PDDs"/>
+  <component name="MultiMode TSY"/>
+  <component name="CDMA TSY"/>
+  <component name="SIM TSY"/>
+  <component name="TRP TSY"/>
+  <component name="TRP CSY"/>
+  <component name="Bluetooth HCI"/>
+  <component name="IP Hook Examples"/>
+  <component name="SLIP NIF"/>
+  <component name="WAP Short Stack"/>
+  <component name="Camera"/>
+  <component name="OpenGL ES"/>
+  <component name="FreeType Font Rasteriser"/>
+  <component name="Reference Fonts"/>
+  <component name="Printer Drivers"/>
+  <component name="Reference DRM Agent"/>
+  <component name="Security Policy"/>
+  <component name="MIDP GSM Security RP"/>
+ </item>
+</values>

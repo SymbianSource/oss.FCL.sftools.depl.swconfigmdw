@@ -1,0 +1,1 @@
+create table t1(t1key INTEGER PRIMARY KEY, data TEXT, num double, timeEnter DATE)

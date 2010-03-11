@@ -1,0 +1,654 @@
+<project name="com.symbian.sdb" default="all" basedir=".">
+
+
+	<!--properties...-->
+	<!-- The epoc.build property specifies the temp location for build files 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored.
+		 NOTE: Do not use this directly - use build.dir instead -->
+	<property name="epoc.build" value="${basedir}" />
+
+	<!-- The tools.rel property specifies the releease location for binaries 
+		 In the TCL build this will have been specified as a unique location 
+		 and so this value will be ignored -->
+	<property name="tools.rel" value="${basedir}\rel" />
+
+	<!-- Add a new level of indirection to the build to location so we can 
+		 ensure that we can delete the directory as we don't have permission
+		 to delect epoc.build -->
+	<property name="build.dir" value="${epoc.build}\target"/>
+	
+	<property name="lib.dir" location="${basedir}/lib"/>
+	
+	<property name="shared.lib.dir" location="${tools.rel}/java/lib"/>
+
+	<!-- These directories for monty -->
+	<property name="monty.dir" value="${basedir}/monty" />
+	<property name="monty.output" value="${monty.dir}/output" />
+	<property name="monty.working.dir" value="${monty.dir}/testdir" />
+	
+	<!-- source code directories for src and test code -->
+	<property name="src.dir" value="${basedir}\src" />
+	<property name="test.src.dir" value="${basedir}\tests" />
+	
+	<!-- This directory will store junit reports-->
+	<property name="junit.reports.dir" value="${build.dir}\reports\junit"/>
+	
+	<!-- destination directories for built classes -->
+	<property name="app.build.dir" value="${build.dir}\application-classes" />
+	<property name="test.build.dir" value="${build.dir}\test-classes" />
+	<property name="test.temp.dir" value="${build.dir}\test-temp" />
+
+	<!-- directory in which we construt releaseable distros -->
+	<property name="dist.win.dir" value="${build.dir}\dist_win" />
+	<property name="dist.lin.dir" value="${build.dir}\dist_lin" />
+
+	<property name="deploy.location" value="\sdb-creator" />
+	<property name="deploy.location_lib" value="${deploy.location}\lib" />
+	<property name="deploy.location_ced" value="${deploy.location}\ced" />
+	<property name="deploy.location_config" value="${deploy.location}\config" />
+
+	<!-- log dir 
+	Note due to the command structure in SDB Creator we can't overwrite the 
+	default log dir for tests so it will still be written to the source tree-->
+
+	<property name="log.dir" value="${basedir}\logs" />
+
+	<!-- Location for ced binaries -->
+	<property name="ced.dir.win" location="${dist.win.dir}/sdb-creator/ced/" />
+	<property name="ced.dir.lin" location="${dist.lin.dir}/sdb-creator/ced/" />
+
+	<property name="ced.dev.dir" location="${basedir}/ced/" />
+
+	<property name="cedbin.dir" location="${basedir}\cedbin\" />
+
+	<property name="jar" value="${dist.win.dir}/sdb-creator/lib\sdb.jar" />
+
+	<property name="mainifest.common.path" value="dbmsjdbc.jar serializer.jar log4j-1.2.14.jar antlr-3.1.jar commons-cli-2.0-SNAPSHOT.jar google-collect-snapshot-20080820.jar parser.jar asm-3.1.jar commons-io-1.4.jar commons-logging.jar spring.jar xalan.jar xercesImpl.jar xml-apis.jar tools_vcard4j.jar commons-codec-1.3.jar" />
+
+	<!-- Load emulators configuration - used for emulator testing -->
+	<property file="${user.home}/userConfig.properties" />
+	<property file="testdata/projectConfig.properties" />
+
+	<!-- List of variables to replace when configuring SDB -->
+	<filterset id="project.variables">
+		<filter token="EMULATOR_CONFIG_XML_LOCATION" value="${test.emulatorsConfigurationXMLLocation}" />
+	</filterset>
+
+	<!-- Distribution Zip -->
+	<property name="sdb.zip" location="${tools.rel}\sdb.zip"/>
+	<property name="sdb.tar" location="${tools.rel}\sdb.tar"/>
+	<property name="sdb.tar.gz" location="${tools.rel}\sdb.tar.gz"/>
+	<property name="sdb_instr.zip" location="${jars.instr.dir}\sdb_instr.zip"/>
+
+	<!-- Compiler settings -->
+	<property name="javacFailOnError" value="true" />
+	<property name="javacDebugInfo" value="on" />
+	<property name="javacVerbose" value="false" />
+	<property name="logExtension" value=".log" />
+	<property name="compilerArg" value="" />
+	<property name="javacSource" value="1.5" />
+	<property name="javacTarget" value="1.5" />
+
+	<path id="path_bootclasspath">
+		<fileset dir="${java.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<condition property="isWindows">
+                <os family="windows" />
+        </condition>
+
+        <condition property="isLinux">
+                <os family="unix" />
+        </condition>
+
+	<path id="sdb_lib_classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+			<exclude name="sqlitejdbc-v053-native.jar" if="isWindows"/>
+			<exclude name="sqlitejdbc-v033.jar" if="isLinux"/>
+		</fileset>
+		<fileset dir="${shared.lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<property name="bootclasspath" refid="path_bootclasspath" />
+	<property name="bundleJavacSource" value="${javacSource}" />
+	<property name="bundleJavacTarget" value="${javacTarget}" />
+	<property name="bundleBootClasspath" value="${bootclasspath}" />
+
+	<!-- all does not include emu tests to maintain BaC with existing build configs -->
+	<target name="all" depends="clean, copy-properties-files, panopticode.metrics, build.src, pmd, create.distros.seperate, monty" />
+
+	<target name="short.build" depends="clean, build.src, build.test, test.unit" />
+
+	<target name="build.release" depends="clean, build.src, build.test, create.distros.seperate" />
+	<target name="build.release.win" depends="clean, build.src, build.test, create.distros.win" />
+	<target name="build.release.lin" depends="clean, build.src, build.test, create.distros.lin" />
+
+	<target name="build.and.all.test" depends="clean, build.src, build.test, test.all" />
+	<target name="build.and.unit.test" depends="clean, build.src, build.test, test.unit" />
+	<target name="build.and.integration.test" depends="clean, build.src, build.test, test.int" />
+	<target name="build.and.emulator.test" depends="clean, build.src, build.test, test.emulator" />
+
+	<!-- ================================= 
+	        target: clean
+	          
+	          - This target is mandatory for the Symbian buid process.
+	          - Please clean up all generated files during the build proccess.
+	          - Used by "abld clean" and "abld reallyclean".  
+	         ================================= -->
+	<target name="clean" description="Cleans the build using abld clean">
+		
+		<delete dir="${build.dir}" />
+		<delete failonerror="false" file="${sdb.zip}" />
+		<delete failonerror="false" file="${sdb.tar}" />
+		<delete failonerror="false" file="${sdb.tar.gz}" />
+		<delete failonerror="false" dir="${monty.output}" />
+		<delete dir="${log.dir}" />
+	</target>
+
+	<target name="panopticode.metrics">
+		<ant antfile="${basedir}/panopticode-build.xml" target="metrics" />
+	</target>
+
+	<!-- This builds all the source code (exc test code) and puts it into
+		 ${build.dir} using the compiler settings defined above 			-->
+	<target name="build.src" depends="if_unix, copy-properties-files" description="Build source code (excluding tests)">
+
+		<mkdir dir="${app.build.dir}" />
+		<mkdir dir="${tools.rel}/java/lib" />
+		<!-- compile the source code -->
+		<javac destdir="${app.build.dir}" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}">
+			<classpath refid="sdb_lib_classpath" />
+			<src path="${src.dir}" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+
+		<copy todir="${app.build.dir}">
+			<fileset dir="${basedir}/src/">
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Builds the test code into ${test.build.dir} -->
+	<target name="build.test">
+
+		<mkdir dir="${test.build.dir}" />
+		<mkdir dir="${test.temp.dir}" />
+
+		<!-- compile the test code -->
+		<javac destdir="${test.build.dir}" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}">
+			<classpath>
+				<path refid="sdb_lib_classpath" />
+				<pathelement location="${app.build.dir}" />
+			</classpath>
+			<src path="${test.src.dir}" />
+		</javac>
+		<copy todir="${test.build.dir}" file="${basedir}/tests/applicationContext-integration-tests.xml" />
+		<copy todir="${test.build.dir}" file="${basedir}/tests/project.properties" />
+	</target>
+
+	<target name="run.unit.tests" if="unit.test">
+		<junit printsummary="withOutAndErr" fork="yes" forkmode="perBatch" haltonfailure="no" failureproperty="junit.failed">
+			<classpath>
+				<path refid="test.classpath" />
+				<path refid="sdb_lib_classpath" />
+			</classpath>
+			<sysproperty key="tempdir" value="${test.temp.dir}" />
+			<formatter type="xml" />
+			<formatter type="plain" />
+			<batchtest todir="${junit.reports.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*Test.java" />
+					<exclude name="**/*IntegrationTest*.java" />
+					<exclude name="**/*EmulatorTest*.java" />
+					<exclude name="**/DbmsTest.java" />
+					<exclude name="**/FieldContainerTest.java" />
+					<exclude name="**/TemplateManagerTest.java" />
+					<exclude name="**/TemplateMapperTest.java" />
+					<exclude name="**/CEDProcessFactoryTest.java" />
+				</fileset>
+			</batchtest>
+			<jvmarg value="-javaagent:${basedir}/lib/jmockit.jar" />
+		</junit>
+		
+		<junit printsummary="withOutAndErr" fork="yes" haltonfailure="no" failureproperty="junit.failed">
+			<classpath>
+				<path refid="test.classpath" />
+				<path refid="sdb_lib_classpath" />
+			</classpath>
+			<sysproperty key="tempdir" value="${test.temp.dir}" />
+			<formatter type="xml" />
+			<formatter type="plain" />
+			<batchtest todir="${junit.reports.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/DbmsTest.java" />
+					<include name="**/FieldContainerTest.java" />
+					<include name="**/TemplateManagerTest.java" />
+					<include name="**/TemplateMapperTest.java" />
+					<include name="**/CEDProcessFactoryTest.java" />
+				</fileset>
+			</batchtest>
+			<jvmarg value="-javaagent:${basedir}/lib/jmockit.jar" />
+		</junit>
+		
+		<antcall target="create.junit.report" />
+		<fail message="Unit test failure" if="junit.failed" />		
+		
+	</target>
+
+
+	<target name="run.integration.tests" if="integration.test">
+		<junit printsummary="withOutAndErr" fork="yes" haltonfailure="no" failureproperty="junit.failed">
+			<classpath>
+				<path refid="test.classpath" />
+				<path refid="sdb_lib_classpath" />
+			</classpath>
+			<sysproperty key="tempdir" value="${test.temp.dir}" />
+			<formatter type="xml" />
+			<formatter type="plain" />
+			<batchtest todir="${junit.reports.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*IntegrationTest.java" />
+				</fileset>
+			</batchtest>
+
+			<jvmarg value="-javaagent:${basedir}/lib/jmockit.jar" />
+		</junit>
+
+		<property name="report.required" value="${junit.failed}" />
+		<antcall target="create.reports" />
+
+		<fail message="Integration test failure" if="junit.failed" />
+	</target>
+
+	<target name="run.emulator.tests" if="emulator.test">
+		<junit printsummary="withOutAndErr" fork="yes" haltonfailure="no" failureproperty="junit.failed">
+			<classpath>
+				<path refid="test.classpath" />
+				<path refid="sdb_lib_classpath" />
+			</classpath>
+			<sysproperty key="tempdir" value="${test.temp.dir}" />
+			<formatter type="xml" />
+			<formatter type="plain" />
+			<batchtest todir="${junit.reports.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*EmulatorTest.java" />
+				</fileset>
+			</batchtest>
+
+			<jvmarg value="-javaagent:${basedir}/lib/jmockit.jar" />
+		</junit>
+
+		<property name="report.required" value="${junit.failed}" />
+		<antcall target="create.reports" />
+
+		<fail message="Emulator test failure" if="junit.failed" />
+	</target>
+
+	<target name="test.all">
+		<property name="unit.test" value="true" />
+		<property name="integration.test" value="true" />
+		<property name="emulator.test" value="true" />
+		<antcall target="run.tests" />
+	</target>
+
+	<target name="test.exEmu">
+		<property name="unit.test" value="true" />
+		<property name="integration.test" value="true" />
+		<antcall target="run.tests" />
+	</target>
+
+	<target name="test.unit">
+		<property name="unit.test" value="true" />
+		<antcall target="run.tests" />
+	</target>
+
+	<target name="test.int">
+		<property name="integration.test" value="true" />
+		<antcall target="run.tests" />
+	</target>
+
+	<target name="test.emulator">
+		<property name="emulator.test" value="true" />
+		<antcall target="run.tests" />
+	</target>
+
+	<!-- runs the junit tests and generates the reports -->
+	<target name="run.tests">
+
+		<path id="test.classpath">
+			<pathelement path="${test.build.dir}" />
+			<pathelement path="${app.build.dir}" />
+		</path>
+
+		<mkdir dir="${junit.reports.dir}" />
+
+		<antcall target="run.unit.tests" inheritrefs="true" inheritall="true" />
+
+		<antcall target="run.integration.tests" inheritrefs="true" inheritall="true" />
+
+		<antcall target="run.emulator.tests" inheritrefs="true" inheritall="true" />
+
+		<property name="report.required" value="true" />
+		<antcall target="create.reports" />
+
+	</target>
+
+	<path id="pmd.classpath">
+		<pathelement location="${build}" />
+		<fileset dir="${basedir}/lib/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
+
+	<target name="pmd">
+		<mkdir dir="${reports.dir}" />
+		<pmd rulesetfiles="rulesets/favorites.xml" minimumPriority="2" failOnRuleViolation="true">
+			<formatter type="net.sourceforge.pmd.renderers.HTMLRenderer" toFile="${reports.dir}\pmd_report.html" />
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+
+		</pmd>
+	</target>
+
+	<target name="publish.monty.results" if="publish.monty.results">
+		<copy todir="c:\CruiseControl_2_8\TMS_Results\SDB_WIP" failonerror="false" flatten="true">
+			<fileset dir="${basedir}/monty/output/">
+				<include name="**/*.csv" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="create.reports" if="report.required">
+		<antcall target="create.junit.report" />
+	</target>
+
+	<target name="create.junit.report">
+		<junitreport todir="${junit.reports.dir}">
+			<fileset dir="${junit.reports.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.reports.dir}" />
+		</junitreport>
+	</target>
+
+	<target name="create.jar">
+		<jar destfile="${jar.location}" basedir="${app.build.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="com.symbian.sdb.Application" />
+				<attribute name="Class-Path" value="${jar.classpath.list}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- Generates the jar of all built classes (exc test code) into
+		 ${dist.win.dir}/SDB.jar													-->
+	<target name="create.distros.seperate">
+		<antcall target="create.distros.win" />
+		<antcall target="create.distros.lin" />
+	</target>
+
+	<target name="create.distros.combinedinzip">
+		<antcall target="create.distros.lin" />
+		<antcall target="create.distros.win" />
+	</target>
+
+	<target name="create.distros.win">
+		<!-- Create the windows jar -->
+		<mkdir dir="${dist.win.dir}${deploy.location_lib}" />
+		<antcall target="create.jar">
+			<param name="jar.location" value="${dist.win.dir}${deploy.location_lib}\sdb.jar" />
+			<param name="jar.classpath.list" value="${mainifest.common.path} sqlitejdbc-v033.jar" />
+		</antcall>
+
+		<filelist id="windows" dir="${lib.dir}">
+			<!--common-->
+			<file name="serializer.jar" />
+			<file name="log4j-1.2.14.jar" />
+			<file name="dbmsjdbc.jar" />
+			<file name="commons-cli-2.0-SNAPSHOT.jar" />
+			<file name="antlr-3.1.jar" />
+			<file name="parser.jar" />
+			<file name="asm-3.1.jar	" />
+			<file name="commons-io-1.4.jar" />
+			<file name="commons-logging.jar" />
+			<file name="commons-codec-1.3.jar" />
+			<file name="spring.jar" />
+			<file name="xalan.jar" />
+			<file name="xercesImpl.jar" />
+			<file name="xml-apis.jar" />
+			<file name="tools_vcard4j.jar" />
+			<file name="google-collect-snapshot-20080820.jar" />
+			<!--specific-->
+	    	<file name="sqlitejdbc-v033.jar"/>
+	    	<file name="sqlitejdbc.dll"/>
+	    	<file name="libdbmsjdbc.dll"/>
+	    	<file name="libsymport.dll"/>
+	    </filelist>	
+	    
+	    <filelist id="commonlibs" dir="${shared.lib.dir}">
+	    	<!--common-->
+	    	<file name="log4j-1.2.14.jar"/>
+	    	<file name="commons-cli-2.0-SNAPSHOT.jar"/>
+	    	<file name="xalan.jar"/>
+	    	<file name="xercesImpl.jar"/>
+
+	    	<!--specific-->
+	   	<file name="sqlitejdbc-v033.jar"/>
+	    </filelist>	
+
+    	<antcall target="setup.dist">
+    		<param name="dist.dir" value="${dist.win.dir}"/>
+    		<param name="properties.file" value="${basedir}/config/sdb.rel.properties"/>
+    		<reference refid="windows" torefid="libs"/>
+    		<reference refid="commonlibs" torefid="commonlibs"/>
+    	</antcall>
+    	<copy todir="${dist.win.dir}" file="${basedir}/sdb.bat"/>
+		
+		<!-- if the linux build has happened bundle the tar -->
+    	<available file="${sdb.tar.gz}" type="file" property="gz.present"/>
+    	<antcall target="copy.tar.gz"/>
+	    	
+		<antcall target="zip.release"/>
+
+	</target>
+
+	<target name="copy.tar.gz" if="gz.present">
+		<copy failonerror="false" todir="${dist.win.dir}/sdb-creator/linux" file="${sdb.tar.gz}" />
+	</target>
+
+	<target name="create.distros.lin">
+
+		<!-- Create the linux jar -->
+		<mkdir dir="${dist.lin.dir}${deploy.location_lib}" />
+		<antcall target="create.jar">
+			<param name="jar.location" value="${dist.lin.dir}${deploy.location_lib}\sdb.jar" />
+			<param name="jar.classpath.list" value="${mainifest.common.path} sqlitejdbc-v053-native.jar" />
+		</antcall>
+
+		<filelist id="linux" dir="${lib.dir}">
+			<!--common-->
+			<file name="serializer.jar" />
+			<file name="dbmsjdbc.jar" />
+			<file name="antlr-3.1.jar" />
+			<file name="parser.jar" />
+			<file name="asm-3.1.jar	" />
+			<file name="commons-io-1.4.jar" />
+			<file name="commons-logging.jar" />
+			<file name="commons-codec-1.3.jar" />
+			<file name="spring.jar" />
+			<file name="xalan.jar" />			
+			<file name="xercesImpl.jar" />
+			<file name="xml-apis.jar" />
+			<file name="tools_vcard4j.jar" />
+			<file name="google-collect-snapshot-20080820.jar" />
+			<file name="commons-cli-2.0-SNAPSHOT.jar" />
+			<file name="log4j-1.2.14.jar" />
+			<!--specific-->
+			<file name="libsqlite3.so" />
+			<file name="libsqlitejdbc.so" />
+			<file name="libdbmsjdbc.so" />
+			<file name="libsymport.so" />
+		</filelist>
+
+	    <filelist id="commonlibs" dir="${shared.lib.dir}">
+	    	<!--common-->
+	    	<file name="log4j-1.2.14.jar"/>
+	    	<file name="commons-cli-2.0-SNAPSHOT.jar"/>
+	    	<file name="xalan.jar"/>
+	    	<file name="xercesImpl.jar"/>
+
+	    	<!--specific-->
+	    	<file name="sqlitejdbc-v053-native.jar"/>
+	    </filelist>	
+
+
+		<antcall target="setup.dist">
+			<param name="dist.dir" value="${dist.lin.dir}" />
+			<param name="properties.file" value="${basedir}/config/sdb.linux.properties" />
+			<reference refid="linux" torefid="libs" />
+			<reference refid="commonlibs" torefid="commonlibs"/>
+		</antcall>
+		<copy todir="${dist.lin.dir}" file="${basedir}/sdb" />
+
+		<antcall target="gzip.release" />
+	</target>
+
+	<target name="setup.dist">
+        <mkdir dir="${dist.dir}${deploy.location_lib}"/>
+        
+    	<mkdir dir="${dist.dir}${deploy.location_lib}"/>
+    	<mkdir dir="${dist.dir}${deploy.location_config}"/>
+		
+		<copy todir="${dist.dir}${deploy.location_lib}" >
+			<filelist refid="libs"/>
+			<filelist refid="commonlibs"/>
+		</copy>
+
+		<copy tofile="${dist.dir}/sdb-creator/config/sdb.properties" file="${properties.file}" />
+
+		<copy todir="${dist.dir}${deploy.location_config}">
+			<fileset dir="${basedir}/config/">
+				<exclude name="*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- remove dependency on deploying CED in win depends="deploy.ced.win" -->
+	<target name="zip.release">
+		<mkdir dir="${tools.rel}" />
+		<zip destfile="${sdb.zip}" update="true">
+			<zipfileset dir="${dist.win.dir}" />
+		</zip>
+	</target>
+
+	<!-- remove dependency on deploying CED in linux depends="deploy.ced.lin" -->
+	<target name="gzip.release">
+		<mkdir dir="${tools.rel}" />
+		<tar destfile="${sdb.tar}">
+			<tarfileset dir="${dist.lin.dir}">
+				<exclude name="sdb" />
+				<exclude name="**/*.jar" />
+				<exclude name="**/*.exe" />
+			</tarfileset>
+			<tarfileset dir="${dist.lin.dir}" filemode="750">
+				<include name="**/*.jar" />
+				<include name="sdb" />
+				<include name="**/*.exe" />
+			</tarfileset>
+		</tar>
+		<gzip destfile="${sdb.tar.gz}" src="${sdb.tar}" />
+		<delete file="${sdb.tar}" />
+	</target>
+
+	<!-- ================================= 
+          target: what
+          
+          - This target is mandatory for the Symbian buid process.
+          - Please echo all created files, sperated by whitespace.
+          - Used by "abld build -what".
+         ================================= -->
+	<target name="what" description="Prints out all releasables">
+		<available file="${sdb.zip}" type="file" property="zip.present" />
+		<antcall target="print.zip" />
+		<available file="${sdb.tar.gz}" type="file" property="gz.present" />
+		<antcall target="print.tar.gz" />
+	</target>
+
+	<target name="print.tar.gz" if="gz.present">
+		<echo>${sdb.tar.gz}</echo>
+	</target>
+
+	<target name="print.zip" if="zip.present">
+		<echo>${sdb.zip}</echo>
+	</target>
+
+	<target name="deploy.ced.dev">
+		<delete dir="${ced.dev.dir}" />
+
+		<mkdir dir="${ced.dev.dir}\win\93\" />
+		<mkdir dir="${ced.dev.dir}\win\94\" />
+		<mkdir dir="${ced.dev.dir}\win\95\" />
+		<unzip src="${cedbin.dir}\win\93.zip" dest="${ced.dev.dir}\win\" />
+		<unzip src="${cedbin.dir}\win\94.zip" dest="${ced.dev.dir}\win\" />
+		<unzip src="${cedbin.dir}\win\95.zip" dest="${ced.dev.dir}\win\" />
+
+		<mkdir dir="${ced.dev.dir}\lin\93\" />
+		<mkdir dir="${ced.dev.dir}\lin\94\" />
+		<mkdir dir="${ced.dev.dir}\lin\95\" />
+		<unzip src="${cedbin.dir}\lin\93.zip" dest="${ced.dev.dir}\lin\" />
+		<unzip src="${cedbin.dir}\lin\94.zip" dest="${ced.dev.dir}\lin\" />
+		<unzip src="${cedbin.dir}\lin\95.zip" dest="${ced.dev.dir}\lin\" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- The "copy-properties-files" target copies template properties and   -->
+	<!-- sets some envinroment specyfic values in it eg. emulator settings   -->
+	<!-- =================================================================== -->
+	<target name="copy-properties-files" description="Copy property files">
+		<echo message="Generating properties" />
+		<copy tofile="tests/project.properties" file="templates/project_template.properties" overwrite="true">
+			<filterset refid="project.variables" />
+		</copy>
+	</target>
+	
+    <target name="monty" depends="build.release.win">
+    	<mkdir dir="${monty.working.dir}" />
+		<unzip src="${sdb.zip}" dest="${monty.working.dir}" />
+		<mkdir dir="${monty.output}" />
+		<exec executable="python.exe" resultproperty="monty.error.code" searchpath="true" dir="${monty.working.dir}">
+			<arg value="${basedir}/monty/monty.py"/>
+			<arg value="-e"/>
+			<arg value="${basedir}/monty/test_suite/sdb_smoke_test.csv"/>
+			<arg value="-l"/>
+			<arg value="${basedir}/monty/output"/>
+			<arg value="-t"/>
+			<arg value="${basedir}/monty"/>
+		</exec>
+		
+		<fail message="Monty test failure. Exit code ${monty.error.code}">
+			<condition>
+				<isfailure code="${monty.error.code}" />
+			</condition>
+		</fail>
+	</target>
+
+	<target name="if_windows" if="isWindows">
+		<echo message="OS detected: Windows"/>
+	</target>
+
+	<target name="if_unix" if="isLinux">
+        	<property name="sw.root" value="/opt/flag" />
+		<echo message="OS detected: Unix"/>
+		<echo message="Make sure you have LD_LIBRARY_PATH envinroment variable set to ${basedir}/lib"/>
+	</target>
+
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<model ver="9.4" revision-type="draft" revision="1.1" name="Symbian OS" label="System Model" >
+	 <sysdef href="system_definition.xml">
+	 	<info href="systeminfo.xml" type="extra"/>
+	 	<info href="levels.xml" type="levels"/>
+	 </sysdef>
+	 <filter accept="java"/>
+	 <filter accept="gt"/>
+	<ignore type="layer" name="Tools and Utils and SDKENG"/>
+	<ignore type="layer" name="MISC"/>
+	<ignore type="component" name="Techview Mobile Active Sync"/>
+<layout>
+	<display name="UI Framework" align="right"/>
+	<display name="Application Services" align="left"/>
+	<info href="display-names.xml" type="abbrev"/>
+	<info href="values.xml" type="color"/>
+	<info href="values-osd.xml" type="border"/>
+	<info href="values-ovr.xml" type="overlay"/>
+	<info href="values-thickness.xml" type="style"/>
+	<info href="values-style.xml" type="style"/>
+	<legend label="Key">
+		<legend use="#color"/>
+		<legend use="#style"/>
+		<legend use="#overlay"/>
+		<legend use="#border"/>
+	</legend>
+</layout>
+</model>

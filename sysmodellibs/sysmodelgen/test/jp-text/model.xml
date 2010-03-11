@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<model ver="9.4"  revision="1.5"  revision-type="発行済み" name="シンビアン OS" label="システム モデル" 
+	distribution="内部" copyright="Symbian Ltd. 2008" shapes="issued-shapes.xml">
+	 <sysdef href="final-94-System_Definition.xml">
+	 	<info href="Symbian_OS_v9.4_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <filter accept="java"/>
+	 <ignore type="layer" name="Tools and Utils and SDKENG"/>
+	<ignore type="layer" name="MISC"/>
+	 <filter accept="gt"/>
+<layout>
+	<info href="display-names94.jp.xml" type="abbrev"/>
+	<info href="system_model_colors.xml" type="color"/>
+	<layer-group color="rgb(143,188,143)" from="HAL" to="Application Services">
+		<layer-group color="rgb(93,155,205)" from="Kernel Services" to="OS Services" label="Core OS"/>	
+	</layer-group>
+	<logo height="17" src="symbian-logo.svg" embed="yes"/>
+	<legend label="Key">
+		<legend use="#color"/>
+		<legend use="@shapes#styles"/>
+		<legend use="@shapes#patterns"/>
+		<legend use="@shapes#borders"/>
+		<note class="lgd" width="auto">{@copyright}&#xa;{@distribution}</note>
+	</legend>
+</layout>
+</model>

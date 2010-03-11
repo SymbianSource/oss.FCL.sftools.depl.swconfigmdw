@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:svg xmlns:doc="tooldoc" xmlns:s="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" onload="wrapalltext()" class="subblock-fixed" viewBox="-21.95 0 583.7499999999999 415.7985">
+ <title xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math">Symbian OS vFuture System Model: Build M04710a</title>
+ <defs xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math">
+  <style type="text/css">
+    text.layer, text.block, text.subblock, text.collection, text.component,
+    text.cbox, text.lgrp, text.label, text.lgd {
+		fill:black;
+		font-family: Arial;
+    }
+    text.title {
+		fill:red;
+		font-weight: bold;
+		font-size: 6.3495px;	
+		font-family: Arial;
+    }    
+    text.component {		
+		font-size: 1.940px;  /*  5.5pt  */
+		font-weight: bold
+	}
+ 	text.lgd, 
+	text.layer, text.block {
+		font-size: 4.233px;  /*  12pt  */
+		font-weight: bold;
+	}
+	text.label {		
+		font-size: 1.940px;  /*  5.5pt  */
+		font-weight: bold
+	}
+	text.cbox {		
+		font-size: 1.411px;  /*  4pt  */
+		font-weight: bold
+	}
+	text.lgrp {
+		font-size: 12.699px;  /*  36pt  */
+		font-weight: normal;
+	}
+
+svg.subblock text.block,
+svg.subblock-fixed text.block {
+		font-size: 7.7605px;  /*  22pt  */
+	}
+svg.block text.block,
+svg.block-fixed text.block {
+		font-size: 11.288px;  /*  32pt  */
+		font-weight: normal;
+	}
+
+svg.subblock-fixed text.block, 
+svg.block-fixed text.block {
+	}
+
+
+	text.subblock {
+		font-size: 2.822px;  /*  8pt  */
+	}
+	
+	svg.collection text.subblock,
+	svg.collection-fixed text.subblock  {
+		font-size: 4.233px;  /*  12pt  */
+	}
+	
+	svg.subblock text.subblock,
+	svg.subblock-fixed text.subblock  {
+		font-size: 7.055px;  /*  20pt  */
+	}
+
+	text.collection {
+		font-size: 2.469px;  /*  7pt  */
+	}
+	
+	svg.collection text.collection,
+	svg.collection-fixed text.collection  {
+		font-size: 3.7035px;  /*  10.5pt  */
+	} 
+
+	/* thin border */
+	rect.legend, rect.collection, rect.cbox {
+		stroke-width: 0.0882px;  /*  0.25pt  */
+		stroke: black
+	}
+	/* thick border */
+	rect.layer, rect.subblock, rect.block  {
+		stroke-width: 0.2469px;  /*  0.7pt  */
+		stroke: black
+	}
+	rect.layer {
+		fill: #e6e6e6
+	}
+	rect.block {
+		fill: #b3b3b3
+	}
+	rect.subblock {
+		fill: #e6e6e6
+	}
+	rect.collection {
+		fill: white
+	}
+	rect.legend {
+		fill: white
+	}
+ </style>
+  <symbol id="Borderbox" viewBox="0 0 20 20">
+   <path d="M 0 0 L 0 20 L 20 20 L 20 0 z" stroke="black"/>
+  </symbol>
+  <symbol id="Borderbox-clipLB" viewBox="0 0 20 20">
+   <path d="M 0 0 L 0 15 L 5 20 L 20 20 L 20 0 z" stroke="black"/>
+  </symbol>
+  <symbol id="Borderbox-clipLT" viewBox="0 0 20 20">
+   <path d="M 5 0 L 0 5 L 0 20 L 20 20 L 20 0 z" stroke="black"/>
+  </symbol>
+  <symbol id="Borderbox-clipRB" viewBox="0 0 20 20">
+   <path d="M 0 0 L 0 20 L 15 20 L 20 15 L 20 0 z" stroke="black"/>
+  </symbol>
+  <symbol id="Borderbox-clipRT" viewBox="0 0 20 20">
+   <path d="M 0 0 L 0 20 L 20 20 L 20 5 L 15 0 z" stroke="black"/>
+  </symbol>
+  <symbol id="Borderbox-clipAll" viewBox="0 0 20 20">
+   <path d="M 5 0 L 0 5 L 0 15 L 5 20 L 15 20 L 20 15 L 20 5 L 15 0 z" stroke="black"/>
+  </symbol>
+ </defs>
+ <s:defs>
+  <s:marker id="Triangle" viewBox="-1 -1 7 7" refX="5" refY="2" markerUnits="strokeWidth" markerWidth="6" markerHeight="6" orient="auto">
+   <s:polygon style="fill:black;stroke:black;" points="0,0 5,2 0,4 0,0"/>
+  </s:marker>
+  <s:marker id="TriangleF" viewBox="-1 -1 7 7" refX="0" refY="2" markerUnits="strokeWidth" markerWidth="6" markerHeight="6" orient="auto">
+   <s:polygon style="fill:blue;stroke:blue;" points="5,0 5,4 0,2 5,0"/>
+  </s:marker>
+  <s:style type="text/css">
+	path.arrow {
+		marker-end: url(#Triangle);
+		fill:none;stroke: black;
+		stroke-width: 1.2px;
+	}
+	path.arrowF {
+		marker-start: url(#TriangleF);
+		fill:none;stroke: blue;
+		stroke-width: 1.2px;		
+	}
+</s:style>
+ </s:defs>
+ <!--Drawing in static mode: false-->
+ <script xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" type="text/ecmascript"> 
+
+var svgns="http://www.w3.org/2000/svg";
+
+
+var curId = '';
+function clear(id) {
+	if(curId != '') off(curId);
+	return curId=id;
+}
+
+
+function on(id) {
+	var cur =document.getElementById(id)
+	cur.setAttribute('visibility','visible');
+	
+	if(!cur.hasAttribute('wrapenated')) {
+		cur.setAttribute('wrapenated','true');
+		wrapalltext(cur)
+	}
+	
+	return cur;
+}
+
+function off(id) {
+	document.getElementById(id).setAttribute('visibility','hidden');
+}
+
+
+
+
+function splitup(txt) {
+	var a = new Array;
+	var t = txt;
+	var found		
+	while((found = t.match(/(^[\u3041-\u309e\u30a1-\u30fe\u4e00-\ufa2d])([\u3041-\u309e\u30a1-\u30fe\u4e00-\ufa2d].*)$/))|| ( found = t.match(/^([^ \u200b\xad-]+[ \u200b\xad-]+)(.*)$/))) {
+			a.push(found[1]);
+			t=found[2];
+	}
+	a.push(t);
+	return a;
+}
+
+
+
+
+
+function splitable(node) {
+ 	return node.firstChild.nodeType == 3 &amp;&amp; node.firstChild.data.match(/[\t\n\r \u200b\xad-]/);
+}
+
+function crush(node, len) {
+	node.setAttribute('letter-spacing','-0.1');
+	if( node.getComputedTextLength() &gt; len) 
+		node.setAttribute('letter-spacing','-0.2');
+}
+
+function whatSize(txt) { // convert a length into pixels
+	if(txt.match(/^[0-9.-]+$/)) return txt;
+	var a = document.createElementNS(svgns,'rect');
+	a.setAttribute('x',0);
+	a.setAttribute('y',0);
+	a.setAttribute('width',txt);
+	var l = a.getBBox().width;
+	delete a;
+	return l;
+}
+
+function wrapalltext(node) {
+    if(!node) node= document;
+    var all = node.getElementsByTagNameNS(svgns,'text');
+    var i=0;
+    for (i=0; i&lt;all.length; i++) {
+	var cur = all.item(i);
+	var w =0;
+	if(cur.hasAttribute('ref')) {
+		w = document.getElementById(cur.getAttribute('ref')).getBBox().width * 0.9;
+	} else if (cur.hasAttribute('width')) {
+		w = whatSize(cur.getAttribute('width'));
+	}
+	if (w)	wraptext(cur,w)
+	}
+}
+
+
+function wraptext(cur,l) {
+	if(cur.firstChild.nodeType != 3)  return; // must be just a text node
+	if(cur.getBBox().width &lt; l )  {
+		cur.firstChild.data = cur.firstChild.data.replace(/[\xad\u200b]/g,"");
+		return; // no need -- won't wrap
+	}
+	var t = cur.firstChild.data.replace(/\s+/," ");  // normalize all spaces
+	t = t.replace(/^ +/,"").replace(/ +$/,"");  // trim spaces
+	var words =splitup(t); 	// each word ends with the split character (if any)
+	if (words.length&lt;2)  {
+		crush(cur, l);
+		return;
+	}
+	cur.removeChild(cur.firstChild)
+	var tspan = document.createElementNS(svgns,'tspan');
+	cur.appendChild(tspan);
+	var txt = document.createTextNode(words[0]);
+	tspan.appendChild(txt);
+	tspan.setAttribute('x',cur.getAttribute('x'));	// Opera needs this
+	var nlines=1;
+	var zero =0;
+	for (i =1;i&lt; words.length;i++) {
+		var was = txt.data;
+		txt.data+=words[i];
+		if (tspan.getComputedTextLength() -zero &gt; l) { // if the line with this word at the end is bigger than the available space...
+			txt.data=was.replace(/ +$/,"").replace(/\xad(.)/,"$1").replace(/\u200b/g,""); // remove zero-width spaces and trailing spaces and soft hyphens
+			// if it's still too big then decrease the letter spacing
+			if( tspan.getComputedTextLength() &gt; l ) 	crush(tspan,l);
+			tspan = document.createElementNS(svgns,'tspan');
+			tspan.setAttribute('dy',"1em");
+			nlines++;
+			tspan.setAttribute('x',cur.getAttribute('x'));
+			cur.appendChild(tspan);
+			txt = document.createTextNode('');
+			tspan.appendChild(txt);
+			zero = tspan.getComputedTextLength();
+			txt.data+=words[i];
+		}
+	}
+	txt.data=txt.data.replace(/ +$/,"").replace(/\xad(.)/,"$1").replace(/\u200b/g,""); // remove zero-width spaces and trailing spaces and soft hyphens
+	var align =cur.getAttribute('dominant-baseline');
+	if(align=='' || align=='ideographic') {
+		cur.setAttribute('dy',(1-nlines)+"em");
+	 } else{
+	 	 if(align=='mathematical')
+			cur.setAttribute('dy',((1-nlines ) / 2 )+"em");
+		else if(align=='hanging') 
+			cur.setAttribute('dy',"0em")
+	 }
+}
+   </script>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer-group">
+  <rect width="577.3499999999999" height="387.15000000000003" x="-18.75" y="3.2" rx="4.65" fill="rgb(143,188,143)"/>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer-group">
+  <rect width="568.5999999999999" height="210.06" x="-15" y="139.46" rx="4.65" fill="rgb(93,155,205)"/>
+  <text text-anchor="middle" dominant-baseline="mathematical" class="lgrp" transform="rotate(-90)" y="-7.5" width="210.06" x="-244.49">Core OS</text>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer" transform="translate(0 8.2)" id="ApplicationServices">
+  <rect x="0.3" y="0.3" width="9.3" rx="4.65" ry="4.65" class="layer" height="70.23"/>
+  <text text-anchor="middle" dominant-baseline="mathematical" class="layer" transform="rotate(-90)" y="4.95" width="70.23" x="-35.415">Application Services</text>
+  <g class="layer-detail" transform="translate(208.4 6.4)">
+   <rect x="-195.6" class="layer" y="-6.4" width="535.8" height="70.23"/>
+   <g>
+    <g class="block" transform="translate( 0 0)" id="PIM" onmouseover="on('dep-PIM')" onmouseout="off('dep-PIM')">
+     <rect class="block" x="0" width="46.8" height="63.83" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="29.314999999999998" dominant-baseline="mathematical">PIM</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 48.9 0)" id="Messaging" onmouseover="on('dep-Messaging')" onmouseout="off('dep-Messaging')">
+     <rect class="block" x="0" width="46.8" height="63.83" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="29.314999999999998" dominant-baseline="mathematical">Messaging</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 97.79999999999998 0)" id="RemoteManagement" onmouseover="on('dep-RemoteManagement')" onmouseout="off('dep-RemoteManagement')">
+     <rect class="block" x="0" width="46.8" height="63.83" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="29.314999999999998" dominant-baseline="mathematical">Remote Management</text>
+     <g/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer" transform="translate(0 81.63000000000001)" id="GenericMiddleware">
+  <rect x="0.3" y="0.3" width="9.3" rx="4.65" ry="4.65" class="layer" height="54.63000000000001"/>
+  <text text-anchor="middle" dominant-baseline="mathematical" class="layer" transform="rotate(-90)" y="4.95" width="54.63000000000001" x="-27.615000000000006">Generic Middleware</text>
+  <g class="layer-detail" transform="translate(135.05000000000004 6.4)">
+   <rect x="-122.25000000000003" class="layer" y="-6.4" width="535.8" height="54.63000000000001"/>
+   <g>
+    <g class="block" transform="translate( 0 0)" id="GenericApplicationSupport" onmouseover="on('dep-GenericApplicationSupport')" onmouseout="off('dep-GenericApplicationSupport')">
+     <rect class="block" x="0" width="46.8" height="48.230000000000004" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="21.515" dominant-baseline="mathematical">Generic Application Support</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 48.9 0)" id="ApplicationProvisioningandInstallation" onmouseover="on('dep-ApplicationProvisioningandInstallation')" onmouseout="off('dep-ApplicationProvisioningandInstallation')">
+     <rect class="block" x="0" width="46.8" height="48.230000000000004" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="21.515" dominant-baseline="mathematical">Application Provisioning and Installation</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 97.79999999999998 0)" id="SecurityManagement" onmouseover="on('dep-SecurityManagement')" onmouseout="off('dep-SecurityManagement')">
+     <rect class="block" x="0" width="46.8" height="48.230000000000004" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="21.515" dominant-baseline="mathematical">Security Management</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 146.69999999999996 0)" id="High-levelInternetProtocols" onmouseover="on('dep-High-levelInternetProtocols')" onmouseout="off('dep-High-levelInternetProtocols')">
+     <rect class="block" x="0" width="46.8" height="48.230000000000004" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="21.515" dominant-baseline="mathematical">High-level Internet Protocols</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 195.59999999999994 0)" id="MultimediaMiddleware" onmouseover="on('dep-MultimediaMiddleware')" onmouseout="off('dep-MultimediaMiddleware')">
+     <rect class="block" x="0" width="46.8" height="48.230000000000004" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="21.515" dominant-baseline="mathematical">Multimedia Middleware</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 244.49999999999991 0)" id="SystemGUIFramework" onmouseover="on('dep-SystemGUIFramework')" onmouseout="off('dep-SystemGUIFramework')">
+     <rect class="block" x="0" width="46.8" height="48.230000000000004" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="21.515" dominant-baseline="mathematical">System GUI Framework</text>
+     <g/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer" transform="translate(0 144.46)" id="OSServices">
+  <rect x="0.3" y="0.3" width="9.3" rx="4.65" ry="4.65" class="layer" height="126.63000000000001"/>
+  <text text-anchor="middle" dominant-baseline="mathematical" class="layer" transform="rotate(-90)" y="4.95" width="126.63000000000001" x="-63.615">OS Services</text>
+  <g class="layer-detail" transform="translate(12.8 6.4)">
+   <rect x="0" class="layer" y="-6.4" width="535.8" height="126.63000000000001"/>
+   <g>
+    <g class="block" transform="translate( 0 0)" id="GenericOSServices" onmouseover="on('dep-GenericOSServices')" onmouseout="off('dep-GenericOSServices')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Generic OS Services</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 48.9 0)" id="SecurityandDataPrivacy" onmouseover="on('dep-SecurityandDataPrivacy')" onmouseout="off('dep-SecurityandDataPrivacy')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Security and Data Privacy</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 97.79999999999998 0)" id="PersistentDataServices" onmouseover="on('dep-PersistentDataServices')" onmouseout="off('dep-PersistentDataServices')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Persistent Data Services</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 146.69999999999996 0)" id="DeviceServices" onmouseover="on('dep-DeviceServices')" onmouseout="off('dep-DeviceServices')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Device Services</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 195.59999999999994 0)" id="LocationBasedServices" onmouseover="on('dep-LocationBasedServices')" onmouseout="off('dep-LocationBasedServices')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Location Based Services</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 244.49999999999991 0)">
+     <rect class="block" x="0" width="193.49999999999994" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="193.49999999999994" x="96.74999999999997" y="116.03" dominant-baseline="ideographic">Comms Services</text>
+     <g>
+      <g class="subblock" transform="translate( 0)" id="CommunicationsFramework" onmouseover="on('dep-CommunicationsFramework')" onmouseout="off('dep-CommunicationsFramework')">
+       <rect class="subblock" x="0" height="103.60000000000001" width="46.8" y="0"/>
+       <text text-anchor="middle" class="subblock" dominant-baseline="mathematical" x="23.4" width="46.8" y="51.800000000000004">Communications Framework</text>
+       <g/>
+      </g>
+      <g class="subblock" transform="translate( 48.9)" id="CellularBasebandServices" onmouseover="on('dep-CellularBasebandServices')" onmouseout="off('dep-CellularBasebandServices')">
+       <rect class="subblock" x="0" height="103.60000000000001" width="46.8" y="0"/>
+       <text text-anchor="middle" class="subblock" dominant-baseline="mathematical" x="23.4" width="46.8" y="51.800000000000004">Cellular Baseband Services</text>
+       <g/>
+      </g>
+      <g class="subblock" transform="translate( 97.79999999999998)" id="NetworkingServices" onmouseover="on('dep-NetworkingServices')" onmouseout="off('dep-NetworkingServices')">
+       <rect class="subblock" x="0" height="103.60000000000001" width="46.8" y="0"/>
+       <text text-anchor="middle" class="subblock" dominant-baseline="mathematical" x="23.4" width="46.8" y="51.800000000000004">Networking Services</text>
+       <g/>
+      </g>
+      <g class="subblock" transform="translate( 146.69999999999996)" id="ShortLinkServices" onmouseover="on('dep-ShortLinkServices')" onmouseout="off('dep-ShortLinkServices')">
+       <rect class="subblock" x="0" height="103.60000000000001" width="46.8" y="0"/>
+       <text text-anchor="middle" class="subblock" dominant-baseline="mathematical" x="23.4" width="46.8" y="51.800000000000004">Short Link Services</text>
+       <g/>
+      </g>
+     </g>
+    </g>
+    <g class="block" transform="translate( 440.0999999999999 0)" id="Multimedia" onmouseover="on('dep-Multimedia')" onmouseout="off('dep-Multimedia')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Multimedia</text>
+     <g/>
+    </g>
+    <g class="block" transform="translate( 488.99999999999994 0)" id="Graphics" onmouseover="on('dep-Graphics')" onmouseout="off('dep-Graphics')">
+     <rect class="block" x="0" width="46.8" height="120.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="57.51499999999999" dominant-baseline="mathematical">Graphics</text>
+     <g/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer" transform="translate(0 274.29)" id="KernelServices">
+  <rect x="0.3" y="0.3" width="9.3" rx="4.65" ry="4.65" class="layer" height="70.23"/>
+  <text text-anchor="middle" dominant-baseline="mathematical" class="layer" transform="rotate(-90)" y="4.95" width="70.23" x="-35.415">Kernel Services</text>
+  <g class="layer-detail" transform="translate(257.29999999999995 6.4)">
+   <rect x="-244.49999999999997" class="layer" y="-6.4" width="535.8" height="70.23"/>
+   <g>
+    <g class="block" transform="translate( 0 0)" id="KernelandHardwareServices" onmouseover="on('dep-KernelandHardwareServices')" onmouseout="off('dep-KernelandHardwareServices')">
+     <rect class="block" x="0" width="46.8" height="63.83" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="29.314999999999998" dominant-baseline="mathematical">Kernel and Hardware Services</text>
+     <g/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" class="layer" transform="translate(0 352.72)" id="Hardware">
+  <rect x="0.3" y="0.3" width="9.3" rx="4.65" ry="4.65" class="layer" height="32.63"/>
+  <text text-anchor="middle" dominant-baseline="mathematical" class="layer" transform="rotate(-90)" y="4.95" width="32.63" x="-16.615000000000002">Hardware</text>
+  <g class="layer-detail" transform="translate(257.29999999999995 6.4)">
+   <rect x="-244.49999999999997" class="layer" y="-6.4" width="535.8" height="32.63"/>
+   <g>
+    <g class="block" transform="translate( 0 0)" id="BoardSupportPackages" onmouseover="on('dep-BoardSupportPackages')" onmouseout="off('dep-BoardSupportPackages')">
+     <rect class="block" x="0" width="46.8" height="26.23" y="-3.2"/>
+     <text text-anchor="middle" class="block" width="46.8" x="23.4" y="10.515" dominant-baseline="mathematical">Board Support Packages</text>
+     <g/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" id="legend-root" class="legend" transform="translate(436.16793999999993 393.55) translate(92.43206 0) scale(1) translate(-92.43206)">
+  <text text-anchor="middle" class="title" y="2.1165000000000003" x="72.21603">Symbian OS vFuture<tspan dy="1em" x="72.21603">System Model</tspan>
+   <tspan font-style="italic" dy="1em" id="release-version" x="72.21603">Build M04710a</tspan>
+  </text>
+ </g>
+ <g xmlns="http://www.w3.org/2000/svg" xmlns:m="http://exslt.org/math" id="legend-display" class="legend" opacity="0.8" transform="translate(436.16793999999993 393.55)">
+  <g id="legend-owner">
+   <rect id="legend-ctrl" rx="5" ry="5" height="9.233" x="0" y="0" visibility="hidden" pointer-events="all" width="37"/>
+  </g>
+ </g>
+<s:g visibility="hidden" id="dep-PIM">
+  <s:path class="arrow" d="M219.91028873990555,75.22999999999999L 216.33387551424656,84.83000000000001"/>
+  <s:path class="arrow" d="M208.4,64.25217791411045L 181.85000000000005,88.00782208588959"/>
+  <s:path class="arrow" d="M251.38823307916783,75.22999999999999L 306.19999999999993,164.53450920245396"/>
+  <s:path class="arrow" d="M208.4,62.98966257668711L 59.6,188.1003374233129"/>
+  <s:path class="arrow" d="M241.5941165395839,75.22999999999999L 264.8035489033229,150.86"/>
+  <s:path class="arrow" d="M255.20000000000002,64.25217791411045L 281.75,88.00782208588959"/>
+  <s:path class="arrow" d="M255.20000000000002,62.377745398773015L 403.9999999999999,183.597254601227"/>
+  <s:path class="arrow" d="M236.59136528306522,75.22999999999999L 278.73105888493177,355.92"/>
+  <s:path class="arrow" d="M212.8209959868661,75.22999999999999L 157.39999999999998,168.42567484662578"/>
+  <s:path class="arrow" d="M237.66509639595625,75.22999999999999L 274.8349036040437,277.49"/>
+  <s:path class="arrowF" d="M242.99754601226996,11.399999999999999c8.834969325153365, -38.027499999999996 26.504907975460092,-76.05499999999999 26.504907975460092,0"/>
+  <s:path class="arrowF" d="M237.39877300613497,75.22999999999999c28.867484662576672, 44.13999999999999 86.60245398773002,88.27999999999999 86.60245398773002,0"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-Messaging">
+  <s:path class="arrow" d="M304.09999999999997,59.054730061349694L 501.79999999999995,192.03526993865034"/>
+  <s:path class="arrow" d="M300.2882330791678,75.22999999999999L 355.0999999999999,164.53450920245396"/>
+  <s:path class="arrow" d="M268.81028873990556,75.22999999999999L 265.2338755142465,84.83000000000001"/>
+  <s:path class="arrow" d="M304.09999999999997,68.73199386503069L 403.9999999999999,177.2430061349693"/>
+  <s:path class="arrow" d="M269.50245398773006,11.399999999999999c-8.834969325153365, -38.027499999999996 -26.504907975460092,-76.05499999999999 -26.504907975460092,0"/>
+  <s:path class="arrow" d="M280.7,75.22999999999999L 280.69999999999993,150.86"/>
+  <s:path class="arrow" d="M257.3,64.25217791411045L 230.75000000000006,88.00782208588957"/>
+  <s:path class="arrow" d="M304.09999999999997,55.87730674846627L 379.54999999999995,96.38269325153374"/>
+  <s:path class="arrow" d="M257.3,55.87730674846627L 181.85000000000005,96.38269325153374"/>
+  <s:path class="arrow" d="M290.4941165395839,75.22999999999999L 313.70354890332294,150.86"/>
+  <s:path class="arrow" d="M257.3,62.98966257668712L 108.5,188.1003374233129"/>
+  <s:path class="arrow" d="M257.3,69.54788343558282L 157.39999999999998,181.5421165644172"/>
+  <s:path class="arrow" d="M280.7,75.22999999999999L 280.69999999999993,355.92"/>
+  <s:path class="arrow" d="M257.3,59.054730061349694L 59.6,192.03526993865034"/>
+  <s:path class="arrow" d="M292.5897112600944,75.22999999999999L 296.16612448575347,84.83000000000001"/>
+  <s:path class="arrow" d="M280.7,75.22999999999999L 280.69999999999993,277.49"/>
+  <s:path class="arrowF" d="M292.5897112600944,75.22999999999999L 296.16612448575347,84.83000000000001"/>
+  <s:path class="arrowF" d="M271.210497993433,75.22999999999999L 249.67439802991606,147.66000000000003"/>
+  <s:path class="arrowF" d="M291.8975460122699,11.399999999999999c8.834969325153365, -38.027499999999996 26.504907975460092,-76.05499999999999 26.504907975460092,0"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-RemoteManagement">
+  <s:path class="arrow" d="M306.2,64.25217791411045L 279.65,88.00782208588959"/>
+  <s:path class="arrow" d="M329.59999999999997,75.22999999999999L 329.5999999999999,150.86"/>
+  <s:path class="arrow" d="M306.2,52.288076248904474L 181.85000000000005,99.97192375109555"/>
+  <s:path class="arrow" d="M339.3941165395839,75.22999999999999L 362.6035489033229,150.86"/>
+  <s:path class="arrow" d="M324.001226993865,75.22999999999999c-28.867484662576672, 44.13999999999999 -86.60245398773002,88.27999999999999 -86.60245398773002,0"/>
+  <s:path class="arrow" d="M318.40245398773004,11.399999999999999c-8.834969325153365, -38.027499999999996 -26.504907975460092,-76.05499999999999 -26.504907975460092,0"/>
+  <s:path class="arrow" d="M317.71028873990554,75.22999999999999L 314.1338755142465,84.83000000000001"/>
+  <s:path class="arrow" d="M319.80588346041606,75.22999999999999L 296.5964510966769,150.86"/>
+  <s:path class="arrow" d="M310.6209959868661,75.22999999999999L 255.19999999999996,168.42567484662578"/>
+  <s:path class="arrow" d="M349.1882330791678,75.22999999999999L 403.9999999999999,164.53450920245396"/>
+  <s:path class="arrow" d="M306.2,69.54788343558283L 206.29999999999998,181.5421165644172"/>
+  <s:path class="arrow" d="M324.80863471693476,75.22999999999999L 282.6689411150681,355.92"/>
+  <s:path class="arrow" d="M306.2,62.98966257668712L 157.39999999999998,188.1003374233129"/>
+  <s:path class="arrow" d="M323.7349036040437,75.22999999999999L 286.5650963959562,277.49"/>
+  <s:path class="arrow" d="M306.2,55.87730674846627L 230.75000000000006,96.38269325153374"/>
+  <s:path class="arrow" d="M306.2,59.054730061349694L 108.5,192.03526993865032"/>
+  <s:path class="arrow" d="M306.2,56.431441717791415L 59.6,194.65855828220865"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-GenericApplicationSupport">
+  <s:path class="arrow" d="M169.64754601226997,84.83000000000001c8.834969325153377, -30.227500000000003 26.50490797546013,-60.455000000000005 26.50490797546013,0"/>
+  <s:path class="arrow" d="M162.18251533742335,84.83000000000001c46.411656441717774, -42.45249999999999 139.23496932515332,-84.90499999999999 139.23496932515332,0"/>
+  <s:path class="arrow" d="M140.55224375189724,133.06000000000003L 108.5,176.24641104294483"/>
+  <s:path class="arrow" d="M164.048773006135,133.06000000000003c28.867484662576672, 36.339999999999996 86.60245398773002,72.67999999999999 86.60245398773002,0"/>
+  <s:path class="arrow" d="M152.4840812506324,133.06000000000003L 148.87212131943744,147.66000000000003"/>
+  <s:path class="arrow" d="M181.85000000000005,126.8830858895706L 257.2999999999999,184.72191411042945"/>
+  <s:path class="arrow" d="M181.85000000000005,118.91060327198367L 355.0999999999999,192.6943967280164"/>
+  <s:path class="arrow" d="M160.68950920245405,84.83000000000001c80.00699386503064, -54.67749999999999 240.0209815950919,-109.35499999999998 240.0209815950919,0"/>
+  <s:path class="arrow" d="M181.85000000000005,115.25071779141106L 501.79999999999995,201.469282208589"/>
+  <s:path class="arrow" d="M169.78476392787115,133.06000000000003L 274.53556172863233,355.92"/>
+  <s:path class="arrow" d="M135.05000000000004,127.86215337423315L 59.6,188.8578466257669"/>
+  <s:path class="arrow" d="M173.15646887159537,133.06000000000003L 261.23672178988323,277.49"/>
+  <s:path class="arrow" d="M164.41591874936762,133.06000000000003L 168.0278786805626,147.66000000000003"/>
+  <s:path class="arrowF" d="M160.68950920245405,84.83000000000001c80.00699386503064, -54.67749999999999 240.0209815950919,-109.35499999999998 240.0209815950919,0"/>
+  <s:path class="arrowF" d="M181.85000000000005,88.00782208588957L 208.4,64.25217791411043"/>
+  <s:path class="arrowF" d="M181.85000000000005,96.38269325153375L 257.3,55.877306748466275"/>
+  <s:path class="arrowF" d="M181.85000000000005,99.97192375109555L 306.2,52.288076248904474"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-ApplicationProvisioningandInstallation">
+  <s:path class="arrow" d="M226.22462252574294,133.06000000000003L 257.2999999999999,172.76319018404905"/>
+  <s:path class="arrow" d="M230.75000000000006,126.8830858895706L 306.19999999999993,184.72191411042945"/>
+  <s:path class="arrow" d="M230.75000000000006,117.54370607919691L 452.8999999999999,199.17629392080315"/>
+  <s:path class="arrow" d="M212.948773006135,133.06000000000003c28.867484662576658, 36.33999999999999 86.60245398772997,72.67999999999998 86.60245398772997,0"/>
+  <s:path class="arrow" d="M230.75000000000006,116.22082822085892L 501.79999999999995,200.49917177914114"/>
+  <s:path class="arrow" d="M183.95000000000005,127.86215337423315L 108.5,188.8578466257669"/>
+  <s:path class="arrow" d="M214.15085835672272,133.06000000000003L 277.0013370371794,355.92"/>
+  <s:path class="arrow" d="M183.95000000000005,122.45725241016655L 59.6,194.2627475898335"/>
+  <s:path class="arrow" d="M189.45224375189724,133.06000000000003L 157.39999999999998,176.24641104294483"/>
+  <s:path class="arrow" d="M218.54754601227,84.83000000000001c8.83496932515335, -30.227499999999996 26.50490797546005,-60.45499999999999 26.50490797546005,0"/>
+  <s:path class="arrow" d="M216.17388132295724,133.06000000000003L 269.0220330739299,277.49"/>
+  <s:path class="arrowF" d="M183.95000000000005,127.86215337423315L 108.5,188.8578466257669"/>
+  <s:path class="arrowF" d="M216.33387551424656,84.83000000000001L 219.91028873990555,75.22999999999999"/>
+  <s:path class="arrowF" d="M230.75000000000006,88.00782208588957L 257.3,64.25217791411045"/>
+  <s:path class="arrowF" d="M210.14938650306755,133.06000000000003c63.333742331288306, 48.56499999999998 190.00122699386492,97.12999999999997 190.00122699386492,0"/>
+  <s:path class="arrowF" d="M218.54754601227,84.83000000000001c8.83496932515335, -30.227499999999996 26.50490797546005,-60.45499999999999 26.50490797546005,0"/>
+  <s:path class="arrowF" d="M230.75000000000006,121.75791849255043L 355.0999999999999,189.84708150744962"/>
+  <s:path class="arrowF" d="M230.75000000000006,96.38269325153375L 306.2,55.877306748466275"/>
+  <s:path class="arrowF" d="M196.15245398773013,84.83000000000001c-8.834969325153377, -30.227500000000003 -26.50490797546013,-60.455000000000005 -26.50490797546013,0"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-SecurityManagement">
+  <s:path class="arrow" d="M267.4475460122699,84.83000000000001c8.834969325153365, -30.2275 26.504907975460092,-60.455 26.504907975460092,0"/>
+  <s:path class="arrow" d="M245.05245398773005,84.83000000000001c-8.83496932515335, -30.227499999999996 -26.50490797546005,-60.45499999999999 -26.50490797546005,0"/>
+  <s:path class="arrow" d="M232.85,127.86215337423315L 157.39999999999998,188.8578466257669"/>
+  <s:path class="arrow" d="M232.85,119.45452965235177L 59.6,197.2654703476483"/>
+  <s:path class="arrow" d="M279.65,126.8830858895706L 355.0999999999999,184.72191411042945"/>
+  <s:path class="arrow" d="M258.51695278557423,133.06000000000003L 279.46711234572643,355.92"/>
+  <s:path class="arrow" d="M262.5415408419143,133.06000000000003L 267.1855145921143,150.86"/>
+  <s:path class="arrow" d="M232.85,122.45725241016655L 108.5,194.2627475898335"/>
+  <s:path class="arrow" d="M259.19129377431904,133.06000000000003L 276.8073443579766,277.49"/>
+  <s:path class="arrowF" d="M232.85,122.45725241016655L 108.5,194.2627475898335"/>
+  <s:path class="arrowF" d="M245.05245398773005,84.83000000000001c-8.83496932515335, -30.227499999999996 -26.50490797546005,-60.45499999999999 -26.50490797546005,0"/>
+  <s:path class="arrowF" d="M279.65,88.00782208588957L 306.2,64.25217791411043"/>
+  <s:path class="arrowF" d="M250.2840812506324,133.06000000000003L 246.6721213194374,147.66000000000003"/>
+  <s:path class="arrowF" d="M265.2338755142465,84.83000000000001L 268.8102887399055,75.22999999999999"/>
+  <s:path class="arrowF" d="M250.65122699386504,133.06000000000003c-28.867484662576672, 36.339999999999996 -86.60245398773002,72.67999999999999 -86.60245398773002,0"/>
+  <s:path class="arrowF" d="M267.4475460122699,84.83000000000001c8.834969325153365, -30.2275 26.504907975460092,-60.455 26.504907975460092,0"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-High-levelInternetProtocols">
+  <s:path class="arrow" d="M328.54999999999995,126.8830858895706L 403.9999999999999,184.72191411042945"/>
+  <s:path class="arrow" d="M296.16612448575347,84.83000000000001L 292.5897112600945,75.22999999999999"/>
+  <s:path class="arrow" d="M311.4415408419143,133.06000000000003L 316.08551459211435,150.86"/>
+  <s:path class="arrow" d="M281.75,119.45452965235177L 108.5,197.2654703476483"/>
+  <s:path class="arrow" d="M293.95245398773005,84.83000000000001c-8.834969325153365, -30.2275 -26.504907975460092,-60.455 -26.504907975460092,0"/>
+  <s:path class="arrow" d="M324.02462252574287,133.06000000000003L 355.0999999999999,172.76319018404908"/>
+  <s:path class="arrow" d="M281.75,122.45725241016655L 157.39999999999998,194.2627475898335"/>
+  <s:path class="arrow" d="M281.75,117.5437060791969L 59.6,199.17629392080315"/>
+  <s:path class="arrow" d="M302.88304721442574,133.06000000000003L 281.9328876542735,355.92"/>
+  <s:path class="arrow" d="M298.8584591580856,133.06000000000003L 294.21448540788555,150.86"/>
+  <s:path class="arrow" d="M302.2087062256809,133.06000000000003L 284.59265564202326,277.49"/>
+  <s:path class="arrowF" d="M281.75,119.45452965235177L 108.5,197.2654703476483"/>
+  <s:path class="arrowF" d="M293.95245398773005,84.83000000000001c-8.834969325153365, -30.2275 -26.504907975460092,-60.455 -26.504907975460092,0"/>
+  <s:path class="arrowF" d="M281.75,88.00782208588957L 255.20000000000002,64.25217791411043"/>
+  <s:path class="arrowF" d="M314.1338755142465,84.83000000000001L 317.7102887399055,75.22999999999999"/>
+  <s:path class="arrowF" d="M287.25224375189714,133.06000000000003L 255.19999999999996,176.24641104294483"/>
+  <s:path class="arrowF" d="M296.16612448575347,84.83000000000001L 292.5897112600945,75.22999999999999"/>
+  <s:path class="arrowF" d="M299.551226993865,133.06000000000003c-28.867484662576658, 36.33999999999999 -86.60245398772997,72.67999999999998 -86.60245398772997,0"/>
+  <s:path class="arrowF" d="M301.41748466257667,84.83000000000001c-46.411656441717774, -42.45249999999999 -139.23496932515332,-84.90499999999999 -139.23496932515332,0"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-MultimediaMiddleware">
+  <s:path class="arrow" d="M330.65,117.54370607919691L 108.5,199.17629392080318"/>
+  <s:path class="arrow" d="M377.44999999999993,122.45725241016655L 501.79999999999995,194.2627475898335"/>
+  <s:path class="arrow" d="M330.65,116.22082822085892L 59.6,200.49917177914114"/>
+  <s:path class="arrow" d="M377.44999999999993,127.86215337423316L 452.8999999999999,188.8578466257669"/>
+  <s:path class="arrow" d="M347.24914164327726,133.06000000000003L 284.3986629628205,355.92"/>
+  <s:path class="arrow" d="M330.65,122.45725241016655L 206.29999999999998,194.2627475898335"/>
+  <s:path class="arrow" d="M345.22611867704273,133.06000000000003L 292.37796692607,277.49"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-SystemGUIFramework">
+  <s:path class="arrow" d="M379.54999999999995,119.45452965235177L 206.29999999999998,197.2654703476483"/>
+  <s:path class="arrow" d="M400.71049079754596,84.83000000000001c-80.00699386503064, -54.67749999999999 -240.0209815950919,-109.35499999999998 -240.0209815950919,0"/>
+  <s:path class="arrow" d="M400.15061349693246,133.06000000000003c-63.333742331288306, 48.56499999999998 -190.00122699386492,97.12999999999997 -190.00122699386492,0"/>
+  <s:path class="arrow" d="M379.54999999999995,117.54370607919691L 157.39999999999998,199.17629392080318"/>
+  <s:path class="arrow" d="M420.8477562481027,133.06000000000003L 452.8999999999999,176.2464110429448"/>
+  <s:path class="arrow" d="M379.54999999999995,115.25071779141106L 59.6,201.469282208589"/>
+  <s:path class="arrow" d="M426.3499999999999,127.86215337423315L 501.79999999999995,188.8578466257669"/>
+  <s:path class="arrow" d="M391.6152360721288,133.06000000000003L 286.86443827136753,355.92"/>
+  <s:path class="arrow" d="M388.2435311284046,133.06000000000003L 300.1632782101167,277.49"/>
+  <s:path class="arrowF" d="M379.54999999999995,122.45725241016655L 255.19999999999996,194.2627475898335"/>
+  <s:path class="arrowF" d="M426.3499999999999,127.86215337423315L 501.79999999999995,188.8578466257669"/>
+  <s:path class="arrowF" d="M400.71049079754596,84.83000000000001c-80.00699386503064, -54.67749999999999 -240.0209815950919,-109.35499999999998 -240.0209815950919,0"/>
+  <s:path class="arrowF" d="M379.54999999999995,96.38269325153375L 304.09999999999997,55.877306748466275"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-GenericOSServices">
+  <s:path class="arrow" d="M59.6,207.46904141104298L 403.9999999999999,202.96595858895708"/>
+  <s:path class="arrow" d="M59.6,207.42533304119198L 355.0999999999999,203.00966695880808"/>
+  <s:path class="arrow" d="M59.6,207.28546625766876L 257.2999999999999,203.1495337423313"/>
+  <s:path class="arrow" d="M47.39754601226994,147.66000000000003c8.834969325153372, -66.2275 26.504907975460114,-132.455 26.504907975460114,0"/>
+  <s:path class="arrow" d="M41.79877300613497,267.89000000000004c28.867484662576675, 72.34 86.60245398773003,144.68 86.60245398773003,0"/>
+  <s:path class="arrow" d="M59.6,223.20847239263807L 260.8152331638347,355.92"/>
+  <s:path class="arrow" d="M59.6,217.5015521472393L 257.29999999999995,299.67844785276077"/>
+  <s:path class="arrowF" d="M47.39754601226994,147.66000000000003c8.834969325153372, -66.2275 26.504907975460114,-132.455 26.504907975460114,0"/>
+  <s:path class="arrowF" d="M39.93251533742332,147.66000000000003c46.41165644171779, -78.4525 139.23496932515337,-156.905 139.23496932515337,0"/>
+  <s:path class="arrowF" d="M38.999386503067484,267.89000000000004c63.333742331288335, 84.565 190.001226993865,169.13 190.001226993865,0"/>
+  <s:path class="arrowF" d="M59.6,207.28546625766876L 257.2999999999999,203.1495337423313"/>
+  <s:path class="arrowF" d="M59.6,207.42533304119198L 355.0999999999999,203.00966695880808"/>
+  <s:path class="arrowF" d="M59.6,200.49917177914114L 330.65,116.2208282208589"/>
+  <s:path class="arrowF" d="M59.6,201.469282208589L 379.54999999999995,115.25071779141106"/>
+  <s:path class="arrowF" d="M41.79877300613497,267.89000000000004c28.867484662576675, 72.34 86.60245398773003,144.68 86.60245398773003,0"/>
+  <s:path class="arrowF" d="M59.6,207.36705521472396L 306.19999999999993,203.0679447852761"/>
+  <s:path class="arrowF" d="M59.6,207.46904141104298L 403.9999999999999,202.96595858895708"/>
+  <s:path class="arrowF" d="M37.44417177914111,147.66000000000003c145.87055214723924, -115.1275 437.6116564417177,-230.255 437.6116564417177,0"/>
+  <s:path class="arrowF" d="M37.319754601227,147.66000000000003c162.25349693251533, -121.24 486.76049079754597,-242.48 486.76049079754597,0"/>
+  <s:path class="arrowF" d="M59.6,188.8578466257669L 135.05000000000004,127.86215337423313"/>
+  <s:path class="arrowF" d="M59.6,194.2627475898335L 183.95000000000005,122.45725241016655"/>
+  <s:path class="arrowF" d="M59.6,197.2654703476483L 232.85,119.45452965235177"/>
+  <s:path class="arrowF" d="M59.6,199.17629392080315L 281.75,117.54370607919691"/>
+  <s:path class="arrowF" d="M59.6,188.1003374233129L 208.4,62.989662576687124"/>
+  <s:path class="arrowF" d="M59.6,192.03526993865034L 257.3,59.05473006134969"/>
+  <s:path class="arrowF" d="M59.6,194.65855828220862L 306.2,56.43144171779139"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-SecurityandDataPrivacy">
+  <s:path class="arrow" d="M108.5,194.2627475898335L 232.85,122.45725241016655"/>
+  <s:path class="arrow" d="M108.5,207.16308282208593L 257.2999999999999,203.27191717791413"/>
+  <s:path class="arrow" d="M108.5,197.2654703476483L 281.75,119.45452965235177"/>
+  <s:path class="arrow" d="M108.5,188.8578466257669L 183.95000000000005,127.86215337423315"/>
+  <s:path class="arrow" d="M73.90245398773006,147.66000000000003c-8.834969325153372, -66.2275 -26.504907975460114,-132.455 -26.504907975460114,0"/>
+  <s:path class="arrow" d="M96.29754601226993,147.66000000000003c8.834969325153365, -66.22749999999999 26.504907975460092,-132.45499999999998 26.504907975460092,0"/>
+  <s:path class="arrow" d="M108.5,227.06684049079757L 264.7921865310677,355.92"/>
+  <s:path class="arrow" d="M108.5,219.93319018404912L 257.29999999999995,297.24680981595094"/>
+  <s:path class="arrowF" d="M88.8325153374233,147.66000000000003c46.41165644171778, -78.4525 139.23496932515334,-156.905 139.23496932515334,0"/>
+  <s:path class="arrowF" d="M108.5,207.28546625766876L 306.19999999999993,203.1495337423313"/>
+  <s:path class="arrowF" d="M108.5,197.2654703476483L 281.75,119.45452965235177"/>
+  <s:path class="arrowF" d="M108.5,192.03526993865034L 306.2,59.054730061349716"/>
+  <s:path class="arrowF" d="M108.5,194.2627475898335L 232.85,122.45725241016655"/>
+  <s:path class="arrowF" d="M108.5,207.36705521472396L 355.0999999999999,203.0679447852761"/>
+  <s:path class="arrowF" d="M73.90245398773006,147.66000000000003c-8.834969325153372, -66.2275 -26.504907975460114,-132.455 -26.504907975460114,0"/>
+  <s:path class="arrowF" d="M108.5,188.8578466257669L 183.95000000000005,127.86215337423315"/>
+  <s:path class="arrowF" d="M86.49969325153374,267.89000000000004c129.46687116564416, 109.01499999999999 388.40061349693246,218.02999999999997 388.40061349693246,0"/>
+  <s:path class="arrowF" d="M108.5,176.24641104294483L 140.5522437518972,133.06000000000003"/>
+  <s:path class="arrowF" d="M108.5,199.17629392080315L 330.65,117.5437060791969"/>
+  <s:path class="arrowF" d="M108.5,188.1003374233129L 257.3,62.989662576687124"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-PersistentDataServices">
+  <s:path class="arrow" d="M128.401226993865,267.89000000000004c-28.867484662576675, 72.34 -86.60245398773003,144.68 -86.60245398773003,0"/>
+  <s:path class="arrow" d="M157.39999999999998,233.4974539877301L 268.7691398983008,355.92"/>
+  <s:path class="arrow" d="M157.39999999999998,223.9859202453988L 257.29999999999995,293.19407975460126"/>
+  <s:path class="arrowF" d="M135.59964943032423,147.66000000000003c113.03356704645046, -102.9025 339.1007011393514,-205.805 339.1007011393514,0"/>
+  <s:path class="arrowF" d="M135.3996932515337,267.89000000000004c129.46687116564416, 109.01499999999999 388.40061349693246,218.02999999999997 388.40061349693246,0"/>
+  <s:path class="arrowF" d="M157.39999999999998,188.8578466257669L 232.85,127.86215337423316"/>
+  <s:path class="arrowF" d="M122.80245398773003,147.66000000000003c-8.834969325153365, -66.22749999999999 -26.504907975460092,-132.45499999999998 -26.504907975460092,0"/>
+  <s:path class="arrowF" d="M128.401226993865,267.89000000000004c-28.867484662576675, 72.34 -86.60245398773003,144.68 -86.60245398773003,0"/>
+  <s:path class="arrowF" d="M145.1975460122699,147.66000000000003c8.834969325153377, -66.2275 26.50490797546013,-132.455 26.50490797546013,0"/>
+  <s:path class="arrowF" d="M139.59877300613493,267.89000000000004c28.867484662576683, 72.34 86.60245398773004,144.68 86.60245398773004,0"/>
+  <s:path class="arrowF" d="M157.39999999999998,206.9591104294479L 257.2999999999999,203.47588957055217"/>
+  <s:path class="arrowF" d="M157.39999999999998,207.16308282208593L 306.19999999999993,203.27191717791413"/>
+  <s:path class="arrowF" d="M157.39999999999998,207.28546625766876L 355.0999999999999,203.1495337423313"/>
+  <s:path class="arrowF" d="M157.39999999999998,207.36705521472396L 403.9999999999999,203.0679447852761"/>
+  <s:path class="arrowF" d="M157.39999999999998,176.24641104294486L 189.4522437518972,133.06000000000003"/>
+  <s:path class="arrowF" d="M157.39999999999998,199.17629392080315L 379.54999999999995,117.5437060791969"/>
+  <s:path class="arrowF" d="M157.39999999999998,188.1003374233129L 306.2,62.989662576687124"/>
+  <s:path class="arrowF" d="M148.87212131943744,147.66000000000003L 152.4840812506324,133.06000000000003"/>
+  <s:path class="arrowF" d="M157.39999999999998,194.2627475898335L 281.75,122.45725241016655"/>
+  <s:path class="arrowF" d="M157.39999999999998,168.4256748466258L 212.8209959868661,75.22999999999999"/>
+  <s:path class="arrowF" d="M157.39999999999998,181.5421165644172L 257.3,69.54788343558283"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-DeviceServices">
+  <s:path class="arrow" d="M171.70245398773005,147.66000000000003c-8.834969325153377, -66.2275 -26.50490797546013,-132.455 -26.50490797546013,0"/>
+  <s:path class="arrow" d="M179.16748466257667,147.66000000000003c-46.41165644171779, -78.4525 -139.23496932515337,-156.905 -139.23496932515337,0"/>
+  <s:path class="arrow" d="M206.29999999999998,246.35868098159514L 272.74609326553383,355.92"/>
+  <s:path class="arrow" d="M206.29999999999998,232.0913803680982L 257.29999999999995,285.08861963190185"/>
+  <s:path class="arrowF" d="M206.29999999999998,181.5421165644172L 306.2,69.54788343558283"/>
+  <s:path class="arrowF" d="M206.29999999999998,194.2627475898335L 330.65,122.45725241016655"/>
+  <s:path class="arrowF" d="M206.29999999999998,197.2654703476483L 379.54999999999995,119.45452965235177"/>
+  <s:path class="arrowF" d="M168.0278786805626,147.66000000000003L 164.41591874936762,133.06000000000003"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-LocationBasedServices">
+  <s:path class="arrow" d="M255.19999999999996,194.2627475898335L 379.54999999999995,122.45725241016655"/>
+  <s:path class="arrow" d="M255.19999999999996,176.24641104294483L 287.25224375189714,133.06000000000003"/>
+  <s:path class="arrow" d="M249.67439802991606,147.66000000000003L 271.210497993433,75.22999999999999"/>
+  <s:path class="arrow" d="M246.6721213194374,147.66000000000003L 250.2840812506324,133.06000000000003"/>
+  <s:path class="arrow" d="M255.19999999999996,206.55116564417182L 306.19999999999993,203.88383435582824"/>
+  <s:path class="arrow" d="M255.19999999999996,206.9591104294479L 355.0999999999999,203.47588957055217"/>
+  <s:path class="arrow" d="M228.06748466257665,147.66000000000003c-46.41165644171778, -78.4525 -139.23496932515334,-156.905 -139.23496932515334,0"/>
+  <s:path class="arrow" d="M255.19999999999996,205.32733128834357L 257.2999999999999,205.1076687116565"/>
+  <s:path class="arrow" d="M255.19999999999996,207.16308282208593L 403.9999999999999,203.27191717791413"/>
+  <s:path class="arrow" d="M250.0290927694406,267.89000000000004L 276.7230466327669,355.92"/>
+  <s:path class="arrow" d="M226.201226993865,267.89000000000004c-28.867484662576683, 72.34 -86.60245398773004,144.68 -86.60245398773004,0"/>
+  <s:path class="arrow" d="M229.00061349693246,267.89000000000004c-63.333742331288335, 84.565 -190.001226993865,169.13 -190.001226993865,0"/>
+  <s:path class="arrow" d="M255.19999999999996,256.4077607361964L 265.3438699202991,277.49"/>
+  <s:path class="arrowF" d="M255.19999999999996,168.4256748466258L 310.6209959868661,75.22999999999999"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-CommunicationsFramework">
+  <s:path class="arrow" d="M291.8975460122698,150.86c8.834969325153391, -57.91250000000001 26.504907975460174,-115.82500000000002 26.504907975460174,0"/>
+  <s:path class="arrow" d="M286.29877300613487,254.46000000000004c28.86748466257669, 64.025 86.60245398773007,128.05 86.60245398773007,0"/>
+  <s:path class="arrow" d="M257.2999999999999,203.47588957055217L 157.39999999999998,206.9591104294479"/>
+  <s:path class="arrow" d="M257.2999999999999,203.1495337423313L 59.6,207.28546625766876"/>
+  <s:path class="arrow" d="M280.6999999999999,254.46000000000004L 280.69999999999993,355.92"/>
+  <s:path class="arrow" d="M280.6999999999999,254.46000000000004L 280.69999999999993,277.49"/>
+  <s:path class="arrowF" d="M257.2999999999999,172.76319018404902L 226.22462252574297,133.06000000000003"/>
+  <s:path class="arrowF" d="M257.2999999999999,203.27191717791413L 108.5,207.16308282208593"/>
+  <s:path class="arrowF" d="M257.2999999999999,205.1076687116565L 255.19999999999996,205.32733128834357"/>
+  <s:path class="arrowF" d="M257.2999999999999,184.72191411042945L 181.85000000000005,126.88308588957061"/>
+  <s:path class="arrowF" d="M264.8035489033229,150.86L 241.5941165395839,75.22999999999999"/>
+  <s:path class="arrowF" d="M296.5964510966769,150.86L 319.805883460416,75.22999999999999"/>
+  <s:path class="arrowF" d="M257.2999999999999,203.1495337423313L 59.6,207.28546625766876"/>
+  <s:path class="arrowF" d="M304.09999999999985,203.1495337423313L 501.79999999999995,207.28546625766876"/>
+  <s:path class="arrowF" d="M280.69999999999993,150.86L 280.7,75.22999999999999"/>
+  <s:path class="arrowF" d="M291.8975460122698,150.86c8.834969325153391, -57.91250000000001 26.504907975460174,-115.82500000000002 26.504907975460174,0"/>
+  <s:path class="arrowF" d="M286.29877300613487,254.46000000000004c28.86748466257669, 64.025 86.60245398773007,128.05 86.60245398773007,0"/>
+  <s:path class="arrowF" d="M284.4325153374232,150.86c46.41165644171779, -70.1375 139.23496932515337,-140.275 139.23496932515337,0"/>
+  <s:path class="arrowF" d="M267.1855145921143,150.86L 262.5415408419143,133.06000000000003"/>
+  <s:path class="arrowF" d="M294.21448540788555,150.86L 298.8584591580856,133.06000000000003"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-CellularBasebandServices">
+  <s:path class="arrow" d="M352.9999999999999,203.27191717791413L 501.79999999999995,207.16308282208593"/>
+  <s:path class="arrow" d="M340.79754601226983,150.86c8.834969325153365, -57.9125 26.504907975460092,-115.825 26.504907975460092,0"/>
+  <s:path class="arrow" d="M306.19999999999993,203.1495337423313L 108.5,207.28546625766876"/>
+  <s:path class="arrow" d="M306.19999999999993,203.0679447852761L 59.6,207.36705521472396"/>
+  <s:path class="arrow" d="M306.19999999999993,203.27191717791413L 157.39999999999998,207.16308282208593"/>
+  <s:path class="arrow" d="M314.3752366641622,254.46000000000004L 284.554686701728,355.92"/>
+  <s:path class="arrow" d="M318.40245398773,150.86c-8.834969325153391, -57.91250000000001 -26.504907975460174,-115.82500000000002 -26.504907975460174,0"/>
+  <s:path class="arrow" d="M306.19999999999993,253.74042944785282L 295.320296032601,277.49"/>
+  <s:path class="arrowF" d="M318.40245398773,150.86c-8.834969325153391, -57.91250000000001 -26.504907975460174,-115.82500000000002 -26.504907975460174,0"/>
+  <s:path class="arrowF" d="M306.19999999999993,203.88383435582824L 255.19999999999996,206.55116564417182"/>
+  <s:path class="arrowF" d="M306.19999999999993,184.72191411042945L 230.75000000000006,126.8830858895706"/>
+  <s:path class="arrowF" d="M316.08551459211435,150.86L 311.4415408419143,133.06000000000003"/>
+  <s:path class="arrowF" d="M306.19999999999993,164.53450920245396L 251.38823307916783,75.22999999999999"/>
+  <s:path class="arrowF" d="M340.79754601226983,150.86c8.834969325153365, -57.9125 26.504907975460092,-115.825 26.504907975460092,0"/>
+  <s:path class="arrowF" d="M329.5999999999999,150.86L 329.59999999999997,75.22999999999999"/>
+  <s:path class="arrowF" d="M313.70354890332294,150.86L 290.4941165395839,75.22999999999999"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-NetworkingServices">
+  <s:path class="arrow" d="M355.0999999999999,189.84708150744962L 230.75000000000006,121.75791849255043"/>
+  <s:path class="arrow" d="M389.6975460122698,150.86c8.834969325153365, -57.9125 26.504907975460092,-115.825 26.504907975460092,0"/>
+  <s:path class="arrow" d="M367.30245398772996,150.86c-8.834969325153365, -57.9125 -26.504907975460092,-115.825 -26.504907975460092,0"/>
+  <s:path class="arrow" d="M355.0999999999999,203.0679447852761L 108.5,207.36705521472396"/>
+  <s:path class="arrow" d="M355.0999999999999,203.00966695880808L 59.6,207.42533304119198"/>
+  <s:path class="arrow" d="M355.0999999999999,242.46751533742335L 288.409373403456,355.92"/>
+  <s:path class="arrow" d="M355.0999999999999,203.1495337423313L 157.39999999999998,207.28546625766876"/>
+  <s:path class="arrow" d="M372.9012269938649,254.46000000000004c-28.86748466257669, 64.025 -86.60245398773007,128.05 -86.60245398773007,0"/>
+  <s:path class="arrow" d="M355.0999999999999,228.20021472392642L 304.0999999999999,283.86478527607363"/>
+  <s:path class="arrowF" d="M355.0999999999999,203.00966695880808L 59.6,207.42533304119198"/>
+  <s:path class="arrowF" d="M355.0999999999999,203.47588957055217L 255.19999999999996,206.9591104294479"/>
+  <s:path class="arrowF" d="M355.0999999999999,192.6943967280164L 181.85000000000005,118.91060327198367"/>
+  <s:path class="arrowF" d="M355.0999999999999,172.76319018404905L 324.02462252574287,133.06000000000003"/>
+  <s:path class="arrowF" d="M355.0999999999999,164.53450920245396L 300.2882330791678,75.22999999999999"/>
+  <s:path class="arrowF" d="M362.6035489033229,150.86L 339.3941165395839,75.22999999999999"/>
+  <s:path class="arrowF" d="M372.9012269938649,254.46000000000004c-28.86748466257669, 64.025 -86.60245398773007,128.05 -86.60245398773007,0"/>
+  <s:path class="arrowF" d="M389.6975460122698,150.86c8.834969325153365, -57.9125 26.504907975460092,-115.825 26.504907975460092,0"/>
+  <s:path class="arrowF" d="M367.30245398772996,150.86c-8.834969325153365, -57.9125 -26.504907975460092,-115.825 -26.504907975460092,0"/>
+  <s:path class="arrowF" d="M355.0999999999999,184.72191411042945L 279.65,126.8830858895706"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-ShortLinkServices">
+  <s:path class="arrow" d="M416.20245398772994,150.86c-8.834969325153365, -57.9125 -26.504907975460092,-115.825 -26.504907975460092,0"/>
+  <s:path class="arrow" d="M403.9999999999999,203.0679447852761L 157.39999999999998,207.36705521472396"/>
+  <s:path class="arrow" d="M403.9999999999999,202.96595858895708L 59.6,207.46904141104298"/>
+  <s:path class="arrow" d="M423.66748466257656,150.86c-46.41165644171779, -70.1375 -139.23496932515337,-140.275 -139.23496932515337,0"/>
+  <s:path class="arrow" d="M403.9999999999999,219.68680981595097L 304.0999999999999,292.3781901840491"/>
+  <s:path class="arrow" d="M403.9999999999999,229.19834355828223L 292.264060105184,355.92"/>
+  <s:path class="arrowF" d="M403.9999999999999,202.96595858895708L 59.6,207.46904141104298"/>
+  <s:path class="arrowF" d="M403.9999999999999,203.27191717791413L 255.19999999999996,207.16308282208593"/>
+  <s:path class="arrowF" d="M403.9999999999999,183.597254601227L 255.20000000000002,62.377745398773015"/>
+  <s:path class="arrowF" d="M416.20245398772994,150.86c-8.834969325153365, -57.9125 -26.504907975460092,-115.825 -26.504907975460092,0"/>
+  <s:path class="arrowF" d="M403.9999999999999,184.72191411042945L 328.54999999999995,126.8830858895706"/>
+  <s:path class="arrowF" d="M403.9999999999999,177.24300613496933L 304.09999999999997,68.73199386503072"/>
+  <s:path class="arrowF" d="M403.9999999999999,164.53450920245396L 349.1882330791678,75.22999999999999"/>
+  <s:path class="arrowF" d="M403.9999999999999,219.68680981595097L 304.0999999999999,292.3781901840491"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-Multimedia">
+  <s:path class="arrow" d="M474.90030674846616,267.89000000000004c-129.46687116564416, 109.01499999999999 -388.40061349693246,218.02999999999997 -388.40061349693246,0"/>
+  <s:path class="arrow" d="M474.7003505696756,147.66000000000003c-113.03356704645046, -102.9025 -339.1007011393514,-205.805 -339.1007011393514,0"/>
+  <s:path class="arrow" d="M487.4975460122698,147.66000000000003c8.834969325153391, -66.2275 26.504907975460174,-132.455 26.504907975460174,0"/>
+  <s:path class="arrow" d="M452.8999999999999,227.06684049079757L 296.6078134689321,355.92"/>
+  <s:path class="arrow" d="M475.0558282208588,147.66000000000003c-145.87055214723924, -115.1275 -437.6116564417177,-230.255 -437.6116564417177,0"/>
+  <s:path class="arrow" d="M452.8999999999999,219.93319018404912L 304.0999999999999,297.24680981595094"/>
+  <s:path class="arrowF" d="M452.8999999999999,199.17629392080315L 230.75000000000006,117.54370607919691"/>
+  <s:path class="arrowF" d="M452.8999999999999,176.2464110429448L 420.8477562481027,133.06000000000003"/>
+  <s:path class="arrowF" d="M452.8999999999999,188.85784662576688L 377.44999999999993,127.86215337423316"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-Graphics">
+  <s:path class="arrow" d="M501.79999999999995,207.28546625766876L 304.09999999999985,203.1495337423313"/>
+  <s:path class="arrow" d="M501.79999999999995,188.8578466257669L 426.3499999999999,127.86215337423316"/>
+  <s:path class="arrow" d="M523.8003067484661,267.89000000000004c-129.46687116564416, 109.01499999999999 -388.40061349693246,218.02999999999997 -388.40061349693246,0"/>
+  <s:path class="arrow" d="M524.080245398773,147.66000000000003c-162.25349693251533, -121.24 -486.76049079754597,-242.48 -486.76049079754597,0"/>
+  <s:path class="arrow" d="M501.79999999999995,223.20847239263807L 300.58476683616516,355.92"/>
+  <s:path class="arrow" d="M501.79999999999995,217.5015521472393L 304.0999999999999,299.67844785276077"/>
+  <s:path class="arrowF" d="M501.79999999999995,192.03526993865034L 304.09999999999997,59.05473006134969"/>
+  <s:path class="arrowF" d="M501.79999999999995,207.16308282208593L 352.9999999999999,203.27191717791413"/>
+  <s:path class="arrowF" d="M501.79999999999995,194.2627475898335L 377.44999999999993,122.45725241016655"/>
+  <s:path class="arrowF" d="M501.79999999999995,200.49917177914114L 230.75000000000006,116.22082822085892"/>
+  <s:path class="arrowF" d="M501.79999999999995,188.8578466257669L 426.3499999999999,127.86215337423316"/>
+  <s:path class="arrowF" d="M501.79999999999995,201.469282208589L 181.85000000000005,115.25071779141106"/>
+  <s:path class="arrowF" d="M514.00245398773,147.66000000000003c-8.834969325153391, -66.2275 -26.504907975460174,-132.455 -26.504907975460174,0"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-KernelandHardwareServices">
+  <s:path class="arrow" d="M304.0999999999999,292.3781901840491L 403.9999999999999,219.68680981595097"/>
+  <s:path class="arrow" d="M304.0999999999999,333.5058292805635c30.853749999999998, 8.541763094639162 61.707499999999996 25.625289283917486 0,25.625289283917486"/>
+  <s:path class="arrowF" d="M257.29999999999995,297.24680981595094L 108.5,219.93319018404912"/>
+  <s:path class="arrowF" d="M257.29999999999995,293.19407975460126L 157.39999999999998,223.9859202453988"/>
+  <s:path class="arrowF" d="M265.3438699202991,277.49L 255.19999999999996,256.40776073619634"/>
+  <s:path class="arrowF" d="M295.320296032601,277.49L 306.19999999999993,253.74042944785282"/>
+  <s:path class="arrowF" d="M304.0999999999999,283.86478527607363L 355.0999999999999,228.20021472392642"/>
+  <s:path class="arrowF" d="M304.0999999999999,292.3781901840491L 403.9999999999999,219.68680981595097"/>
+  <s:path class="arrowF" d="M304.0999999999999,297.24680981595094L 452.8999999999999,219.93319018404912"/>
+  <s:path class="arrowF" d="M261.23672178988323,277.49L 173.1564688715954,133.06000000000003"/>
+  <s:path class="arrowF" d="M269.0220330739299,277.49L 216.17388132295724,133.06000000000003"/>
+  <s:path class="arrowF" d="M276.8073443579766,277.49L 259.19129377431904,133.06000000000003"/>
+  <s:path class="arrowF" d="M284.59265564202326,277.49L 302.2087062256809,133.06000000000003"/>
+  <s:path class="arrowF" d="M292.37796692607,277.49L 345.22611867704273,133.06000000000003"/>
+  <s:path class="arrowF" d="M300.1632782101167,277.49L 388.2435311284046,133.06000000000003"/>
+  <s:path class="arrowF" d="M274.8349036040437,277.49L 237.66509639595625,75.22999999999999"/>
+  <s:path class="arrowF" d="M286.5650963959562,277.49L 323.7349036040437,75.22999999999999"/>
+  <s:path class="arrowF" d="M257.29999999999995,299.67844785276077L 59.6,217.5015521472393"/>
+  <s:path class="arrowF" d="M257.29999999999995,285.08861963190185L 206.29999999999998,232.0913803680982"/>
+  <s:path class="arrowF" d="M280.69999999999993,277.49L 280.6999999999999,254.46000000000004"/>
+  <s:path class="arrowF" d="M280.69999999999993,277.49L 280.7,75.22999999999999"/>
+  <s:path class="arrowF" d="M304.0999999999999,333.5058292805635c30.853749999999998, 8.541763094639162 61.707499999999996 25.625289283917486 0,25.625289283917486"/>
+  <s:path class="arrowF" d="M304.0999999999999,299.67844785276077L 501.79999999999995,217.5015521472393"/>
+ </s:g>
+ <s:g visibility="hidden" id="dep-BoardSupportPackages">
+  <s:path class="arrow" d="M304.0999999999999,359.13111856448097c30.853749999999998, -8.541763094639164 61.707499999999996 -25.62528928391749 0,-25.62528928391749"/>
+  <s:path class="arrowF" d="M264.7921865310678,355.92L 108.5,227.0668404907976"/>
+  <s:path class="arrowF" d="M280.69999999999993,355.92L 280.6999999999999,254.46000000000004"/>
+  <s:path class="arrowF" d="M284.554686701728,355.92L 314.3752366641622,254.46000000000004"/>
+  <s:path class="arrowF" d="M274.53556172863233,355.92L 169.78476392787115,133.06000000000003"/>
+  <s:path class="arrowF" d="M279.46711234572643,355.92L 258.51695278557423,133.06000000000003"/>
+  <s:path class="arrowF" d="M284.3986629628205,355.92L 347.2491416432773,133.06000000000003"/>
+  <s:path class="arrowF" d="M278.73105888493177,355.92L 236.59136528306522,75.22999999999999"/>
+  <s:path class="arrowF" d="M280.69999999999993,355.92L 280.7,75.22999999999999"/>
+  <s:path class="arrowF" d="M260.81523316383476,355.92L 59.6,223.20847239263807"/>
+  <s:path class="arrowF" d="M268.7691398983008,355.92L 157.39999999999998,233.4974539877301"/>
+  <s:path class="arrowF" d="M272.74609326553383,355.92L 206.29999999999998,246.35868098159514"/>
+  <s:path class="arrowF" d="M276.7230466327669,355.92L 250.0290927694406,267.89000000000004"/>
+  <s:path class="arrowF" d="M288.40937340345596,355.92L 355.0999999999999,242.46751533742338"/>
+  <s:path class="arrowF" d="M296.6078134689321,355.92L 452.8999999999999,227.0668404907976"/>
+  <s:path class="arrowF" d="M300.58476683616516,355.92L 501.79999999999995,223.20847239263807"/>
+  <s:path class="arrowF" d="M277.0013370371794,355.92L 214.15085835672272,133.06000000000003"/>
+  <s:path class="arrowF" d="M281.93288765427343,355.92L 302.88304721442574,133.06000000000003"/>
+  <s:path class="arrowF" d="M286.86443827136753,355.92L 391.6152360721288,133.06000000000003"/>
+  <s:path class="arrowF" d="M282.6689411150681,355.92L 324.80863471693476,75.22999999999999"/>
+  <s:path class="arrowF" d="M304.0999999999999,359.13111856448097c30.853749999999998, -8.541763094639164 61.707499999999996 -25.62528928391749 0,-25.62528928391749"/>
+  <s:path class="arrowF" d="M292.264060105184,355.92L 403.9999999999999,229.19834355828226"/>
+ </s:g>
+</s:svg>

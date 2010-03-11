@@ -1,0 +1,12 @@
+BEGIN:VCARD
+X-LOTUS-CHARSET:UTF-8
+VERSION:2.1
+FN:John Rambo/UK/Symbian
+N:Rambo1;John;;Mr;
+TEL;VOICE;CELL;HOME:07873198633
+EMAIL;WORK:John.Rambo@war.com
+X-LOTUS-SHORTNAME:John.Rambo\; JohnRambo
+TITLE:Software Engineer
+X-LOTUS-ADDL-NDX-NAMES:John Rambo;John Rambo/UK/Symbian;John Rambo;JohnRambo;John.Rambo;John.Rambo@symbian.com;JohnRambo;JohnZielinski;CN=JohnZielinski/OU=users/OU=lon/OU=uk/OU=Symbian/DC=prod/DC=ad/DC=symbian/DC=intra
+REV:20080815T111508Z
+END:VCARD

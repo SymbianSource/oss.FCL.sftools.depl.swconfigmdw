@@ -1,0 +1,395 @@
+<?xml version="1.0"?>
+<display-names>
+<abbrev name="Application Architecture" abbrev="App. Arch."/>
+<abbrev name="Content Handling Framework" abbrev="Content Handling Frmwk."/>
+<abbrev name="File Converter Framework" abbrev="File Cnvrter. Frmwk."/>
+<abbrev name="Content Access Framework for DRM" abbrev="Content Access Frmwrk. for DRM"/>
+<abbrev name="MIME Recognition Framework" abbrev="MIME Recog&#xad;nizer Frmwk."/>
+<abbrev name="Web Recognisers" abbrev="Web Recog&#xad;nisers"/>
+<abbrev name="OMA SyncML Framework" abbrev="OMA SyncML Frmwrk."/>
+<abbrev name="Device Management Framework" abbrev="Dev Man Frmwk."/>
+<abbrev name="Device Management Framework Config" abbrev="Dev Man Frmwk. Config"/>
+<abbrev name="Device Management Adaptors" abbrev="Dev Man Adaptors"/>
+<abbrev name="Device Management Adaptors Config" abbrev="Dev Man Adaptors Config"/>
+<abbrev name="Client Provisioning Framework" abbrev="Client Provision&#xad;ing Frmwk."/>
+<abbrev name="Client Provisioning Framework Config" abbrev="Client Provision&#xad;ing Frmwk. Config"/>
+<abbrev name="Client Provisioning Adaptors" abbrev="Client Provision&#xad;ing Adaptors"/>
+<abbrev name="Client Provisioning Adaptors Config" abbrev="Client Provision&#xad;ing Adaptors Config"/>
+<abbrev name="HTTP Transport Framework" abbrev="HTTP Trans. Frmwk."/>
+<abbrev name="WAP Push Framework" abbrev="WAP Push Frmwk."/>
+<abbrev name="BIO Messaging Framework" abbrev="BIO Msg. Frmwk."/>
+<abbrev name="Message Store" abbrev="Msg. Store"/>
+<abbrev name="Message Server and Store" abbrev="Msg. Server &amp; Store"/>
+<abbrev name="Scheduled Send MTM" abbrev="Sched. Send MTM"/>
+<abbrev name="SIP Framework" abbrev="SIP Frmwk."/>
+<abbrev name="SIP Connection Provider Plugins" abbrev="SIP Connect. Provider Plugins"/>
+<abbrev name="Agenda Versit Plugin" abbrev="vCal Plugin"/>
+<abbrev name="Backup Restore Notification" abbrev="Backup Restore Notifica&#xad;tion"/>
+<abbrev name="Chinese Calendar Converter" abbrev="Chinese Calendar Cnvter."/>
+<abbrev name="Other File Converter Plugins" abbrev="Other File Cnvter. Plugins"/>
+<abbrev name="File Converter Plugins" abbrev="File Cnvter. Plugins"/>
+<abbrev name="vCard and vCal" abbrev="vCard &amp;vCal"/>
+<abbrev name="Application Utilities" abbrev="Applica&#xad;tion Utilities"/>
+<abbrev name="Central Repository" abbrev="Central Repos&#xad;itory"/>
+<abbrev name="Character Encoding and Conversion Framework" abbrev="Char. Encode. Conv. Frmwk."/>
+<abbrev name="Character Encoding and Conversion Plugins" abbrev="Char. Encode. Conv. Plugins"/>
+<abbrev name="Cryptography Library" abbrev="Crypto. Library"/>
+<abbrev name="Media Device Framework" abbrev="Media Device Frmwk."/>
+<abbrev name="Media Device Framework Plugins" abbrev="Media Device Frmwrk. Plugins"/>
+<abbrev name="Plugin Framework" abbrev="Plugin Frmwk."/>
+<abbrev name="Power and Memory Notification Service" abbrev="Power &amp; Mem&#xad;ory Notifica&#xad;tion Service"/>
+<abbrev name="Power and Shutdown Management" abbrev="Pw. &amp;Shut. Manage&#xad;ment"/>
+<abbrev name="XML Framework" abbrev="XML Frmwk."/>
+<abbrev name="Zip Compression Library" abbrev="Zip Compres&#xad;sion Library"/>
+<abbrev name="FAT Filename Conversion Plugins" abbrev="FAT file name Conv. Plugins"/>
+<abbrev name="File System Plugins" abbrev="File Systems"/>
+<abbrev name="LCDUI Plugin" abbrev="LCDUI plugin"/>
+<abbrev name="Runtime Plugin" abbrev="Runtime plugin"/>
+<abbrev name="Kernel Architecture 2" abbrev="Kernel Arch. 2"/>
+<abbrev name="Flash Translation Layer" abbrev="Flash Trans&#xad;lation Layer"/>
+<abbrev name="Ethernet Driver" abbrev="Ether. Driver"/>
+<abbrev name="Bootstrap" abbrev="Boot&#xad;strap"/>
+<abbrev name="Emulator" abbrev="Emu&#xad;lator"/>
+<abbrev name="OMAP H2" abbrev="OMAP H2 Variant"/>
+<abbrev name="OMAP H4" abbrev="OMAP H4 Variant"/>
+<abbrev name="Peripheral Bus Controllers" abbrev="Periph. Bus Cntrllrs."/>
+<abbrev name="Baseband Channel Adaptor" abbrev="Bsebnd Channel Adaptor Frmwk."/>
+<abbrev name="Baseband Channel Adaptor for C32" abbrev="C32 BCA"/>
+<abbrev name="Secondary PDP context UMTS Driver" abbrev="Secondary PDP UMTS Driver"/>
+<abbrev name="Comms Database" abbrev="Comms Dbase."/>
+<abbrev name="Comms Framework" abbrev="Comms Frmwk."/>
+<abbrev name="Ethernet Over IR Packet Driver" abbrev="Ethernet Over IR Packet DRV"/>
+<abbrev name="Ethernet Packet Driver" abbrev="Ethernet Packet DRV"/>
+<abbrev name="PPP Compression Plugins" abbrev="PPP Compres&#xad;sion Plugins"/>
+<abbrev name="QoS Framework PRT" abbrev="QOS Frmwk. PRT"/>
+<abbrev name="TCP/IPv4/v6 PRT" abbrev="TCP/ IPv4/v6 PRT"/>
+<abbrev name="Bluetooth PAN Profile" abbrev="Bluetooth PAN Profile"/>
+<abbrev name="GPRS/UMTS QOS PRT" abbrev="GPRS/ UMTS QOS PRT"/>
+<abbrev name="Network Controller" abbrev="Network Contrllr."/>
+<abbrev name="Connection AGT" abbrev="Connec&#xad;tion AGT"/>
+<abbrev name="Subconnection Parameters" abbrev="Subcon. Params."/>
+<abbrev name="Bluetooth CSY" abbrev="Btooth.  CSY"/>
+<abbrev name="Bluetooth Manager" abbrev="Btooth.  Manager"/>
+<abbrev name="Bluetooth Protocol Client APIs" abbrev="Btooth. Protocol Client APIs"/>
+<abbrev name="Bluetooth SDP" abbrev="Btooth.  SDP"/>
+<abbrev name="Remote Control Framework" abbrev="Remote Control Frmwk."/>
+<abbrev name="Bluetooth HCI" abbrev="Btooth. HCI"/>
+<abbrev name="Bluetooth Stack PRT" abbrev="Btooth. Stack PRT"/>
+<abbrev name="ETel CDMA" abbrev="Etel CDMA"/>
+<abbrev name="ETel Multimode" abbrev="ETel Multi&#xad;mode"/>
+<abbrev name="ETel Server and Core" abbrev="ETel Server &amp; Core"/>
+<abbrev name="Fax Client and Server" abbrev="Fax Client &amp; Server"/>
+<abbrev name="Phonebook Sync" abbrev="Phone&#xad;book Sync"/>
+<abbrev name="Bearer Abstraction Layer" abbrev="Bearer Abstrac&#xad;tion Layer"/>
+<abbrev name="M-Router" abbrev="m-Router"/>
+<abbrev name="C Standard Library" abbrev="C std. Library"/>
+<abbrev name="Certificate and Key Management" abbrev="Cert. &amp; Key Manage&#xad;ment"/>
+<abbrev name="Crypto Token Framework" abbrev="Crypto. Token Frmwk."/>
+<abbrev name="Task Scheduler" abbrev="Task Sched&#xad;uler"/>
+<abbrev name="Bit GDI" abbrev="Bit GDI"/>
+<abbrev name="Font and Bitmap Server" abbrev="Font &amp;Bitmp. Server"/>
+<abbrev name="FreeType Font Rasteriser" abbrev="FreeType Font Rster."/>
+<abbrev name="Broadcast Tuner" abbrev="Broad&#xad;cast Tuner"/>
+<abbrev name="Camera Framework" abbrev="Camera Frmwk."/>
+<abbrev name="Image Conversion Library" abbrev="Image Conv. Library"/>
+<abbrev name="Image Conversion Library Plugins" abbrev="Image Conv. Library Plugins"/>
+<abbrev name="Multimedia Framework" abbrev="Multi&#xad;media Frmwk."/>
+<abbrev name="Multimedia Framework Plugins" abbrev="Multi&#xad;media Frmwk. Plugins"/>
+<abbrev name="OpenGL ES Framework" abbrev="OpenGL ES Frmwk."/>
+<abbrev name="Control Environment" abbrev="Control Environ&#xad;ment"/>
+<abbrev name="UI Look and Feel" abbrev="UI Look &amp;Feel"/>
+<abbrev name="UIKON" abbrev="Uikon"/>
+<abbrev name="Text Formatting" abbrev="Text Formatt&#xad;ing"/>
+<abbrev name="OpenGL ES Implementation" abbrev="OpenGL ES Implemen&#xad;tation"/>
+<abbrev name="HTML to RichText Converter" abbrev="HTML to RichText Cnvter."/>
+<abbrev name="File Converter Plugins" abbrev="File Cnvter. Plugins"/>
+<abbrev name="RichText to HTML Converter" abbrev="RichText to HTML Cnvter."/>
+<abbrev name="Time Zone Server" abbrev="Timezone Server"/>
+<abbrev name="Time Zone Compiler" abbrev="Timezone Compiler"/>
+<abbrev name="Time Zone Database" abbrev="Timezone Database"/>
+<abbrev name="Time Zone Localisation" abbrev="Timezone Locali&#xad;sation"/>
+<abbrev name="POP3 and SMTP MTM" abbrev="POP3 &amp; SMTP MTMs"/>
+<abbrev name="Front End Processor" abbrev="Front End Proces&#xad;sor"/>
+<abbrev name="Integrator ARM1136 Core Module" abbrev="Integrtr. ARM1136 Core Module"/>
+<abbrev name="Integrator ARM920 Core Module" abbrev="Integrtr. ARM920 Core Module"/>
+<abbrev name="Integrator Core Modules" abbrev="Integrtr. Core Modules"/>
+<abbrev name="Integrator Motherboard" abbrev="Integrtr. Mother&#xad;board"/>
+<abbrev name="Integrator SSR NAND Logic Module" abbrev="Integrtr. SSR NAND Logic Module"/>
+<abbrev name="Integrator XX600 Logic Module" abbrev="Integrtr. XX600 Logic Module"/>
+
+
+<abbrev name="SIP Subconnection Provider" abbrev="SIP Subcon. Provider"/>
+<abbrev name="SIP Connection Provider" abbrev="SIP Connec&#xad;tion Provider"/>
+<abbrev name="SIP Connection Plugins" abbrev="SIP Connec&#xad;tion Plugins"/>
+<abbrev name="MTP File and Folder Provider" abbrev="MTP File &amp; Folder Provider"/>
+<abbrev name="OMA SyncML Common Framework" abbrev="OMA SyncML Common Frmwk."/>
+<abbrev name="Central Repository 2" abbrev="Central Repos&#xad;itory 2"/>
+<abbrev name="Power, Memory and Disk Management" abbrev="Power &amp; Shutdown Manage&#xad;ment"/>
+<abbrev name="Hardware Resources Manager" abbrev="Hardware Resource Manager"/>
+
+<abbrev name="ROFS File System" abbrev="ROFS"/>
+<abbrev name="USB Mass Storage File System" abbrev="USB Mass Storage FS"/>
+<abbrev name="LFFS File System" abbrev="LFFS"/>
+<abbrev name="NTFS File System" abbrev="NTFS"/>
+<abbrev name="NAND Flash Translation Layer" abbrev="NAND Flash Trans&#xad;lation Layer"/>
+<abbrev name="Inter-System Communication" abbrev="Inter-System Comms."/>
+<abbrev name="Baseband Channel Adaptor for ISC" abbrev="ISC BCA"/>
+<abbrev name="Connection Provider Plugin" abbrev="Connec&#xad;tion Provider Plugin"/>
+<abbrev  name="HCI Framework" abbrev="HCI Frmwk."/>
+<abbrev  name="CDMA WAP Protocol" abbrev="CDMA WAP PRT"/>
+<abbrev  name="Etel CDMA" abbrev="ETel CDMA"/>
+<abbrev  name="OpenVG Implementation" abbrev="OpenVG Implemen&#xad;tation"/>
+
+<abbrev name="Imaging Frameworks" abbrev="Imaging Frmwks."/>
+<abbrev name="EGL Implementation" abbrev="EGL Implemen&#xad;tation"/>
+<abbrev name="iType Font Rasteriser" abbrev="iType Font Rster."/>
+<abbrev name="Location Framework" abbrev="Location Frmwrk."/>
+<abbrev name="MTP Framework" abbrev="MTP Frmwk."/>
+<abbrev name="UTRACE" abbrev="UTrace"/>
+ 
+<abbrev name="WLDDATABASEKIT" abbrev="World Database Kit"/>
+<abbrev name="WLDTOOLS" abbrev="World Database Tools"/>
+<abbrev name="CAF Recogniser Config" ref="true" abbrev="CAF Recog&#xad;niser Config"/>
+<abbrev name="Integrator Unistore2 NAND Logic Module" ref="true" abbrev="Integrtr. Unistore2 NAND Logic Module"/>
+<abbrev name="Integrator Panasonic Logic Module" ref="true" abbrev="Integrtr. Panasonic Logic Module"/>
+<abbrev name="OMAP H4 Mini Environment Boot Loader" ref="true" abbrev="H4 Mini Env. Boot Loader"/>
+<abbrev name="StrongArm 1100 ASSP"  ref="true" abbrev="Strong&#xad;Arm 1100 ASSP"/>
+<abbrev name="Connectivity Services" abbrev="Connec&#xad;tivity Services"/>
+<abbrev name="Connectivity Framework" abbrev="Connec&#xad;tivity Frmwk."/>
+<abbrev name="Multimedia Validation Suite Integration Tests" abbrev="MVS Integration Tests"/>
+
+
+<abbrev name="Device Management Integration Test" abbrev="Dev Man Integration Test"/>
+<abbrev name="Event Broadcast" abbrev="Event Broad&#xad;cast"/>
+<abbrev name="Speech Recognition Controller" abbrev="Speech Recog&#xad;nition Cntrllr."/>
+<abbrev name="Comms Database Shim" abbrev="Comms Dbase. Shim"/>
+<abbrev name="Predictor Compression" abbrev="Predictor Compres&#xad;sion"/>
+<abbrev name="Stac LZS Compression" abbrev="Stac LZS Compres&#xad;sion"/>
+<abbrev name="QoS Framework Config" abbrev="QoS Frmwk. Config"/>
+<abbrev name="Bluetooth HCI Proxy" abbrev="Btooth. HCI Proxy"/>
+<abbrev name="Bluetooth HCI Implementation" abbrev="Btooth. HCI Impl."/>
+<abbrev name="Bluetooth Notifiers" abbrev="Btooth. Notifiers"/>
+<abbrev name="Bluetooth Configuration" abbrev="Btooth. Config"/>
+<abbrev name="Bluetooth GAVDP" abbrev="Btooth. GAVDP"/>
+<abbrev name="Bluetooth ROM" abbrev="Btooth. ROM"/>
+<abbrev name="Bluetooth User" abbrev="Btooth. User"/>
+<abbrev name="Bluetooth Common" abbrev="Btooth. Common"/>
+<abbrev name="Bluetooth Common" abbrev="Btooth. Common"/>
+<abbrev name="Bluetooth HCI Extension Interface" abbrev="Btooth. HCI Ext. Interface"/>
+<abbrev name="MTP USB Transport" abbrev="MTP USB Trans&#xad;port"/>
+<abbrev name="MTP PTP-IP Transport" abbrev="MTP PTP-IP Trans&#xad;port"/>     
+<abbrev name="FM Transmitter Control" abbrev="FM Transmit. Control"/>	
+<abbrev name="Graphics Data Resource Adaptation" abbrev="Graphics Data Resource Adapt."/>	
+<abbrev name="Watcher Framework" abbrev="Watcher Frmwk."/>
+<abbrev name="Strong Cryptography Library" abbrev="Strong Crypto. Library"/>
+<abbrev name="Weak Cryptography Library" abbrev="Weak Crypto. Library"/>
+<abbrev name="EAP Framework" abbrev="EAP Frmwk."/>
+<abbrev name="Kernel Architecture 1" abbrev="Kernel Arch. 1"/>
+<abbrev name="Board Support Packages" abbrev="Board Support Pckgs"/>
+<abbrev name="PC Side Connection Manager" abbrev="PC Side Connec&#xad;tion Manager"/>	
+<abbrev name="Multimedia Utility Library" abbrev="Multi&#xad;media Utility Library"/>
+<abbrev name="Open Environment Core" abbrev="Open Environ&#xad;ment Core"/>
+<abbrev name="Root Certificates" abbrev="Root Certif&#xad;icates"/>
+<abbrev name="User-Side Hardware Abstraction" abbrev="User Side Hardware Abstrac&#xad;tion"/>
+<abbrev name="MMS Configuration" abbrev="MMS Config."/>
+<abbrev name="Number Formatting" abbrev="Number Format&#xad;ting"/>
+<abbrev name="Trace Framework" abbrev="Trace Frmwk."/>
+<abbrev name="File-based Certificate and Key Stores" abbrev="Cert. &amp; Key Stores"/>
+<abbrev name="Secure Software Install SIS Tools" abbrev="SWI SIS Tools"/>          
+<abbrev name="Graphics Composition Engine" abbrev="Graphics Composi&#xad;tion Eng."/>
+<abbrev name="Composition Engine Adaptation" abbrev="Compo&#xad;sition Engine Adapt."/>
+<abbrev name="Local Media Subsystem" abbrev="Local Media Sub&#xad;system"/>
+<abbrev name="A-GPS Adaptation Module for SIRF" abbrev="A-GPS Adapt. Module for SIRF"/>
+<abbrev name="URI Permission Services" abbrev="URI Permis&#xad;sion Services"/>
+<abbrev name="Network Address and Port Translation" abbrev="Network Addr &amp; Port Trans&#xad;lation"/>
+<abbrev name="Certificate Store" abbrev="Cert. Store"/>      
+<abbrev name="System State Reference Plugins" abbrev="System State Ref. Plugins"/>
+<abbrev name="Application Engines Documentation" abbrev="App. Engines Docs"/>
+<abbrev name="System Documentation" abbrev="System Docs"/>
+<abbrev name="Tools Documentation" abbrev="Tools Docs"/>
+<abbrev name="Base Documentation" abbrev="Base Docs"/>
+<abbrev name="Syslibs Documentation" abbrev="Syslibs Docs"/>
+<abbrev name="Security Documentation" abbrev="Security Docs"/>
+<abbrev name="Comms Infrastructure Documentation" abbrev="Comms Infrastructure Docs"/>
+<abbrev name="Telephony Confidential Documentation" abbrev="Telephony Confidential Docs"/>
+<abbrev name="Telephony Documentation" abbrev="Telephony Docs"/>
+<abbrev name="Networking Documentation" abbrev="Networking Docs"/>
+<abbrev name="USB Class and Manager Documentation" abbrev="USB Class and Manager Docs"/>
+<abbrev name="Bluetooth Documentation" abbrev="Bluetooth Docs"/>
+<abbrev name="IrDA Documentation" abbrev="IrDA Docs"/>
+<abbrev name="Shortlink Documentation" abbrev="Shortlink Docs"/>
+<abbrev name="Multimedia Documentation" abbrev="Multimedia Docs"/>
+<abbrev name="Graphics Documentation" abbrev="Graphics Docs"/>
+<abbrev name="Application Services Documentation" abbrev="App. Services Docs"/>
+<abbrev name="UI Frameworks Documentation" abbrev="UI Frmwks. Docs"/>
+
+
+          <!--toolkit stuff follows -->
+	<abbrev name="DUMMY" abbrev="Dummy"/>
+	<abbrev name="E32TEST" abbrev="E32 Test"/>
+	<abbrev name="E32UTILS" abbrev="E32 Utils"/>	  
+	<abbrev name="BUILDSYSTEMTOOLS" abbrev="Build System Tools"/>
+	<abbrev name="BURTESTSERVER" abbrev="BUR Test Server"/>
+	<abbrev name="BCCOMPARATOR" abbrev="BC Compar&#xad;ator"/>
+	<abbrev name="CBRTOOLS" abbrev="CBR Tools"/>
+	<abbrev name="CHATSCRIPTS" abbrev="Chat Scripts"/>
+	<abbrev name="DEPCHECK" abbrev="Dependency Checker"/>
+	<abbrev name="DEPMODEL" abbrev="Depmodel"/>
+	<abbrev name="DEVELOPERLIBRARY" abbrev="Developer Library"/>
+	<abbrev name="E32TOOLS EKA2" abbrev="E32 Tools EKA2"/>
+	<abbrev name="EVALID" abbrev="Evalid"/>
+	<abbrev name="KITCOMPARATOR" abbrev="Kit Compar&#xad;ator"/>
+	<abbrev name="PLATTEST" abbrev="Plat Test"/>
+
+	<abbrev name="LEAVESCAN" abbrev="Leavescan"/>
+	<abbrev name="PROGRAMCHECKER" abbrev="Program Checker"/>
+	<abbrev name="RCOMP" abbrev="Rcomp"/>
+	<abbrev name="REDISTRIBUTION" abbrev="Redistri&#xad;bution"/>
+	<abbrev name="RESOURCE_HANDLER" abbrev="Resource Handler"/>
+	<abbrev name="ROMKIT_EKA2" abbrev="ROMKIT EKA2"/>
+	<abbrev name="MIGRATIONTOOL" abbrev="Migration Tool"/>
+	<abbrev name="TESTDRIVER" abbrev="Test Driver"/>
+
+	<abbrev name="SMOKETEST" abbrev="Smoketest"/>
+	<abbrev name="STATAPI" abbrev="STAT API"/>
+
+	<abbrev name="STAT_DESKTOP" abbrev="STAT Desktop"/>
+	<abbrev name="Stat Source" abbrev="STAT Source"/>
+	<abbrev name="TESTEXECUTE" abbrev="Test Execute"/>
+	<abbrev name="TESTTOOLS_DESKTOP" abbrev="Testtools Desktop"/>
+	<abbrev name="CINIDATA" abbrev="CINI Data"/>
+	<abbrev name="AUTOTEST" abbrev="Autotest"/>
+	<abbrev name="TESTCONFIGFILEPARSER" abbrev="Test Config File Parser"/>
+	<abbrev name="KITSETUPAPP" abbrev="Kit Setup App"/>
+	<abbrev name="NAVIGATION_PAGES" abbrev="Navigation Pages"/>
+	<abbrev name="PRODUCTINSTALLER" abbrev="Product Installer"/>
+	<abbrev name="REDISTRIBUTION_WINC_EKA2" abbrev="Redistri&#xad;bution WINC EKA2"/>
+	<abbrev name="MAKEKEYS" abbrev="Make Keys"/>
+	<abbrev name="CAPTOOLS" abbrev="Capability Tools"/>
+	
+	<abbrev name="STLPORT" abbrev="STL Port"/>
+	<abbrev name="RUNPERL" abbrev="Run PERL"/>
+	<abbrev name="BUILD-TOOLS" abbrev="Build Tools"/>
+	<abbrev name="JAVALIBRARY" abbrev="Java Library"/>
+	<abbrev name="ASSERTION" abbrev="Assertion"/>
+	<abbrev name="ENUM" abbrev="Enum"/>
+	<abbrev name="LOGGER" abbrev="Logger"/>
+	<abbrev name="FILESYS" abbrev="Filesys"/>
+	<abbrev name="ENVVAR" abbrev="Envvar"/>
+	<abbrev name="INSTALLUTILS" abbrev="Install Utils"/>
+	<abbrev name="MNEMONICFIX" abbrev="Mnemonic Fix"/>
+	<abbrev name="PATHBROWSER" abbrev="Path Browser"/>
+	<abbrev name="SHELLEXEC" abbrev="Shell Exec"/>
+	<abbrev name="SWINGWORKER" abbrev="Swing Worker"/>
+	<abbrev name="TESTCASERUNNER" abbrev="Test Case Runner"/>
+	<abbrev name="TOOLBARPANEL" abbrev="Toolbar Panel"/>
+	<abbrev name="JAVAHELP" abbrev="Java Help"/>
+	<abbrev name="LANGCONFIG" abbrev="Language Config"/>
+	<abbrev name="MBMCODEC" abbrev="MBM Codec"/>
+	<abbrev name="SDKINFO" abbrev="SDK Info"/>
+	<abbrev name="CSHLPCMP_GUI" abbrev="CSHLPCMP GUI"/>
+	<abbrev name="SDKPKG-MANAGER" abbrev="SDK Package Manager"/>
+	<abbrev name="SDKPKG-TOOLS" abbrev="SDK Package Tools"/>
+	<abbrev name="EMULATOR_LAUNCHER" abbrev="Emulator Launcher"/>
+	<abbrev name="PKGMGRGUI" abbrev="Package Manager GUI"/>
+	<abbrev name="LAUNCH" abbrev="Launch"/>
+	<abbrev name="TOOLS_STUBS" abbrev="Tools Stubs"/>
+	<abbrev name="CWPLUGINS" abbrev="CodeWarrior Plugins"/>
+	<abbrev name="BSPBUILDER" abbrev="BSP Builder"/>
+
+
+<abbrev name="ALP2CSH" abbrev="ALP to CSH"/>
+	<abbrev name="CJPEG" abbrev="CJpeg"/>
+	<abbrev name="CSHLPCMP_FRONTEND" abbrev="CSHLPCMP Frontend"/>
+	<abbrev name="PERLLIBRARY" abbrev="PERL Library"/>
+	<abbrev name="RTF2PTML" abbrev="RTF to PTML"/>
+	<abbrev name="SPLASH" abbrev="Splash"/>
+
+
+	<abbrev name="CONTACUI" abbrev="Contacts UI"/>
+	<abbrev name="AGENDA" abbrev="Agenda UI"/>
+	<abbrev name="AUDIO" abbrev="Audio"/>
+	<abbrev name="CONTACTS" abbrev="Contacts"/>
+	<abbrev name="SYNCMLAPP" abbrev="SyncML App"/>
+	<abbrev name="HELP" abbrev="Help"/>
+	<abbrev name="TIMEW" abbrev="World Time"/>
+	<abbrev name="SECUI" abbrev="Security UI"/>
+	<abbrev name="BLUETOOTHUI" abbrev="Bluetooth UI"/>
+	<abbrev name="PHONEUI" abbrev="Phone UI"/>
+	<abbrev name="IAPSTATUSAPP" abbrev="IAP Status App"/>
+	<abbrev name="CONNECTUI" abbrev="Connect UI"/>
+	<abbrev name="USBUI" abbrev="USB UI"/>
+	<abbrev name="MESSAGINGUI" abbrev="Messaging UI"/>
+	<abbrev name="AGENTNOTIFIER" abbrev="Agent Notifier"/>
+	<abbrev name="VPNUI" abbrev="VPN UI"/>
+	<abbrev name="STAT_DEVICE" abbrev="STAT Device"/>
+
+
+	<abbrev name="RESOURCE_HANDLER_UI" abbrev="Resource Handler UI"/>
+	<abbrev name="EXTRAS" abbrev="Extras"/>
+	<abbrev name="STATUSPANE" abbrev="Status Pane"/>
+	<abbrev name="SHELL" abbrev="Shell"/>
+	<abbrev name="STARTUP" abbrev="Startup"/>
+	<abbrev name="FEPSETUP" abbrev="FEP Setup"/>
+	<abbrev name="CCTLCOLSCHEME" abbrev="Colour Scheme Control"/>
+	<abbrev name="SOUNDSETUP" abbrev="Sound Setup"/>
+	<abbrev name="KEYCLICKREF" abbrev="Key Click Ref"/>
+	<abbrev name="ETHER AGT" abbrev="Ether AGT"/>
+	<abbrev name="GDITOOLS" abbrev="GDI Tools"/>
+	<abbrev name="INTEGRATIONTEST" abbrev="Integration Test"/>
+	<abbrev name="MSG TEST" abbrev="Messaging Test"/>
+	<abbrev name="MSG URLHANDLER" abbrev="Messaging URL Handler"/>
+	<abbrev name="SYSTEMMONITOR" abbrev="System Monitor"/>
+	<abbrev name="TEMPLATE_EKA2" abbrev="Template EKA2"/>
+	<abbrev name="TESTTOOLS_UTILITIES" abbrev="Testtools Utilities"/>
+	<abbrev name="SYSTEMTEST_OS" abbrev="System Test OS"/>
+	<abbrev name="SYSTEMTEST_TOOLS" abbrev="System Test Tools"/>
+	
+	<!-- end toolkit -->
+	
+	<abbrev name="Backup and Restore Provider" abbrev="Backup &amp; Restore Provider"/>
+	<abbrev name="Sensors Framework" abbrev="Sensors Frmwk."/>
+    <abbrev name="Generic SCPR Parameters" abbrev="Generic SCPR Params"/>
+    <abbrev name="MBMS Parameters" abbrev="MBMS Params"/>
+	<abbrev name="Networking Performance Measurement Tools" abbrev="Perfor&#xad;mance Mea&#xad;sure&#xad;ment Tools"/>
+                        <abbrev name="Reference ACL Adaptation" abbrev="Ref. ACL Adaptation"/>
+                  <abbrev name="A3F Audio Component Framework" abbrev="A3F Audio Compo&#xad;nent Fmwk."/>
+        
+		<abbrev name="A3F DevSound Customisation" abbrev="A3F DevSound Custom&#xad;isation"/>
+<abbrev name="MMF Characterisation Validation" abbrev="MMF Character&#xad;isation Validation"/>
+        <abbrev name="Messaging Test Framework" abbrev="Messaging Test Fmwk."/>
+        <abbrev name="Security Test Framework" abbrev="Security Test Fmwk." />
+        <abbrev name="Multimedia Test Framework"  abbrev="Multi&#xad;media Test Fmwk." />
+        <abbrev name="Multimedia Test Framework Unit Tests"  abbrev="MM Test Fmwk. Unit Tests"/>
+        <abbrev name="UIF Test Framework" abbrev="UIF Test Fmwk."/>
+          
+<abbrev name="Metadata Utility Framework" abbrev="Metadata Utility Fmwk."/>
+            <abbrev name="Bluetooth HCI Framework 2" abbrev="Btooth. HCI Fmwk. 2"/>
+            <abbrev name="Bluetooth HCI Framework 1" abbrev="Btooth. HCI Fmwk. 1"/>
+            <abbrev name="Bluetooth HCI 2 Reference Implementations" abbrev="BT HCI 2 Ref. Implemen&#xad;tations"/>
+            <abbrev name="Time Zone Localization" abbrev="Timezone Locali&#xad;zation"/>
+            <abbrev name="Messaging Test Framework" abbrev="Messaging Test Fmwk."/>
+<abbrev name="USB Class and Manager Documentation" abbrev="USB Class &amp; Manager Docs"/>
+   <abbrev name="Application Engines Documentation" abbrev="App Engines Docs"/>
+        <abbrev name="UI Frameworks Documentation" abbrev="UIF Docs"/>
+        <abbrev name="Application Services Documentation" abbrev="App Services Docs"/>
+        <abbrev name="Base Documentation" abbrev="Base Docs"/>
+        <abbrev name="Bluetooth Documentation" abbrev="Bluetooth Docs"/>
+        <abbrev name="IrDA Documentation" abbrev="IrDA Docs"/>
+        <abbrev name="Comms Infrastructure Documentation" abbrev="Comms Docs"/>
+        <abbrev name="Graphics Documentation" abbrev="Graphics Docs"/>
+        <abbrev name="Multimedia Documentation" abbrev="Multi&#xad;media Docs"/>
+        <abbrev name="Networking Documentation" abbrev="Network&#xad;ing Docs"/>
+        <abbrev name="Security Documentation" abbrev="Security Docs"/>
+        <abbrev name="Shortlink Documentation" abbrev="Shortlink Docs"/>
+        <abbrev name="Syslibs Documentation" abbrev="Syslibs Docs"/>
+        <abbrev name="System Documentation" abbrev="System Docs"/>
+        <abbrev name="Telephony Confidential Documentation" abbrev="Telephony Confidential Docs"/>
+        <abbrev name="Telephony Documentation" abbrev="Telephony Docs"/>
+        <abbrev name="Tools Documentation" abbrev="Tools Docs"/>
+        <abbrev name="USB Documentation" abbrev="USB Docs"/>
+       <abbrev name="Application Frameworks and System State" abbrev="App. Frameworks &amp; System State"/>
+       <abbrev name="Networking Dialog API" abbrev="Network&#xad;ing Dialog API"/>
+       <abbrev name="Networking Dialog Stub" abbrev="Network&#xad;ing Dialog Stub"/>
+       	
+</display-names>

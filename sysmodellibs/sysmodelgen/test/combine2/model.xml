@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<model ver="9.5" revision="0.8" revision-type="draft" name="Symbian OS" label="System Model" 
+	 ts="techstreams.xml" shapes="shapes.xml">
+	 <sysdef href="System_Definition_components.xml">
+	 	<info href="Symbian_OS_v9.5_Schedule12.xml" type="s12"/>
+	 	<info href="systeminfo.xml" type="extra"/>
+	 </sysdef>
+	 <sysdef href="System_Definition_layout.xml">
+	 	<info href="Symbian_OS_v9.5_Schedule12.xml" type="s12"/>
+	 </sysdef>
+	 <filter select="*" display="show"/>
+<layout>
+	<info href="display-names.xml" type="abbrev"/>
+	<info href="component-names.xml" type="abbrev"/>
+	<legend label="Key">
+		<legend use="@shapes#color"/>
+		<legend use="@shapes#styles"/>
+		<legend use="@shapes#patterns"/>
+		<legend use="@shapes#borders"/>
+	</legend>
+</layout>
+</model>

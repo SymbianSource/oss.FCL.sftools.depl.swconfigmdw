@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shapes xmlns:s="http://www.w3.org/2000/svg">
+
+	<!-- borders to use for OSD components -->
+	<borders use="s12/@osd" label="Sched 12 Category" show-unused="yes">
+		<border type="box"/>
+		<border value="OS" type="box-clipLT" label="Optional Symbian ({count(//component[s12/@osd='OS'])})"/>
+		<border value="CS" type="box-clipLB" label="Common Symbian ({count(//component[s12/@osd='CS'])})"/>
+		<border value="CR" type="box-clipRB" label="Common Replace­able ({count(//component[s12/@osd='CR'])})"/>
+		<border value="OR" type="box-clipRT" label="Optional Replace­able ({count(//component[s12/@osd='OR'])})"/>
+		<border value="T-R" type="box-clipAll" label="Refer­ence/Test ({count(//component[s12/@osd='T-R'])})"/>
+	</borders>
+
+	<!-- for some processors, /*/systemModel is much faster than //systemModel -->	
+	<patterns show-unused="yes"> <!-- this is very slow, don't check if used -->
+		<overlay rule="s12[@ver=/*/systemModel/@ver]/@ref='true' or @ref='true'" type="striped-diag-up" label="Reference Compo­nent ({count(//component[s12/@ref='true' or @ref='true'])})"/>
+		<overlay rule="@since = /*/systemModel/@ver or @introduced = /*/systemModel/@ver" type="radial-grad" label="New in {@ver} ({count(//component[@introduced = /*/systemModel/@ver])})"/>
+	</patterns>
+	
+	<styles>
+		<style>stroke-width: 0.4</style>
+		<style rule="@plugin='true'" label="Plugin Compo­nent ({count(//component[@plugin])})">stroke-width: 2</style>
+	</styles>
+	 
+	<colors default="grey" match="@ts" label="Technology Streams"/>
+</shapes>

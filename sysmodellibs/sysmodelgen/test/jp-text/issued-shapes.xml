@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shapes xmlns:s="http://www.w3.org/2000/svg">
+	
+	<s:defs>
+<s:style type="text/css">
+text {font-family: "MS UI Gothic" !important}
+</s:style>
+</s:defs>  
+	
+	<!-- borders to use for OSD components -->
+	<!-- bracket, function or axis notation not allowed in use. Can only use blah/blah/@blah form -->
+	<borders use="s12/@osd" label="Sched 12 Category" show-unused="yes">
+		<border type="box"/>
+		<border value="OS" type="box-clipLT" label="Optional Symbian"/>
+		<border value="CS" type="box-clipLB" label="Common Symbian"/>
+		<border value="CR" type="box-clipRB" label="Common Replace­able"/>
+		<border value="OR" type="box-clipRT" label="Optional Replace­able"/>
+		<border value="T-R" type="box-clipAll" label="Refer­ence/Test"/>
+	</borders>
+	
+	<patterns show-unused="yes"> <!-- this is very slow, don't check if used -->
+		 <overlay rule="@deprecated and (VERSION(@deprecated) &lt;=  VERSION())" label="Depre­cated Compo­nent" type="big-X"/> 
+		<overlay rule="s12/@ref='true' or @ref='true'" type="striped-diag-up" label="Reference Compo­nent"/>
+		<overlay rule="@since = /*/systemModel/@ver or @introduced = /*/systemModel/@ver" type="radial-grad" label="New in {@ver}"/>
+		</patterns>
+	
+	<styles>
+		<style>stroke-width: 0.4</style>
+		<style rule="@plugin='true'" label="Plugin Compo­nent">stroke-width: 2</style>
+	</styles>
+	 
+	<colors default="grey" match="@ts" label="Technology Streams"/>
+	<!-- these can also go in the model.xml in a legend element -->
+	<examples>
+		<cmp color="Graphics">Plug-in</cmp>
+		<cmp overlay="Reference Compo­nent" border="Common Symbian">Reference</cmp>
+		<cmp overlay="New in {@ver}">New {@ver}</cmp>
+	</examples>
+
+<!-- stuff without rule is the fallback option (used only if others are not used) -->
+</shapes>

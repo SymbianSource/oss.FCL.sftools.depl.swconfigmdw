@@ -1,0 +1,38 @@
+#
+# Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+# All rights reserved.
+# This component and the accompanying materials are made available
+# under the terms of "Eclipse Public License v1.0"
+# which accompanies this distribution, and is available
+# at the URL "http://www.eclipse.org/legal/epl-v10.html".
+#
+# Initial Contributors:
+# Nokia Corporation - initial contribution.
+#
+# Contributors:
+#
+# Description: 
+#
+
+component	depl_swconfigmdw_configlib_dbmsjdbc
+
+source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/documentation
+source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/group
+source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/lib
+source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/src
+source  /src/tools/depl/swconfigmdw/configlib/dbmsjdbc/raptor
+source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/runalltests.sh
+source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/runjavatests.bat
+
+# binary	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/group all
+# This is a temp solution as Raptor is having issues listing --what for this comp
+binary	/epoc32/release/tools2/rel/libdbmsjdbc.dll
+binary	/epoc32/release/tools2/deb/libdbmsjdbc.dll
+binary	/epoc32/release/tools2/rel/dbmsjdbc.jar
+binary	/epoc32/release/tools2/deb/dbmsjdbc.jar
+
+exports /src/tools/depl/swconfigmdw/configlib/dbmsjdbc/group
+
+notes_source	/src/tools/depl/swconfigmdw/configlib/dbmsjdbc/group/release.txt
+
+ipr T

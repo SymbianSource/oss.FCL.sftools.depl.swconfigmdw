@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shapes xmlns:s="http://www.w3.org/2000/svg">
+
+	<s:defs>
+		<!-- diagonal line pattern -->
+		<s:linearGradient id="ref" spreadMethod="repeat" gradientUnits="userSpaceOnUse" x1="0%" x2="15%" y1="15%" y2="0%">
+			<s:stop offset="0%" stop-opacity="0" stop-color="white"/>
+			<s:stop offset="30%" stop-color="green" stop-opacity="0.9"/>
+			<s:stop offset="60%" stop-opacity="0" stop-color="white"/>
+			<s:stop offset="100%" stop-opacity="0" stop-color="white"/>
+		</s:linearGradient>
+	</s:defs>
+	
+	<!-- borders to use for IPR components: A B C D E F G I T-->
+	<!-- bracket, function or axis notation not allowed in use. Can only use blah/blah/@blah form -->
+
+	<borders use="@ipr" label="IPR" sort="yes">
+		<border viewBox="0 0 20 20">
+			<s:path d="M 0 0 L 0 20 L 20 20 L 20 0 z" stroke="black"/>
+		</border>	
+              
+		<border value="A" viewBox="0 0 20 20" label="A">
+			<s:path d="M 5 0 L 0 5 L 0 20 L 20 20 L 20 0 z" stroke="black"/>
+		</border>	 
+
+
+		<border value="E" viewBox="0 0 20 20" label="E">
+			<s:path d="M 0 0 L 0 20 L 15 20 L 20 15 L 20 0 z" stroke="black"/>
+		</border>	 
+
+		<border value="F" type="round" label="F"/>
+		<border value="G" type="hexagon" label="G"/>
+		<border value="T" type="box-clipAll" label="T"/>
+		
+		
+		<border value="B" viewBox="0 0 20 20" label="B">
+			<s:path d="M 0 0 L 0 15 L 5 20 L 20 20 L 20 0 z" stroke="black"/>
+		</border>	 
+
+		<border value="D" viewBox="0 0 20 20" label="D">
+			<s:path d="M 0 0 L 0 20 L 20 20 L 20 5 L 15 0 z" stroke="black"/>
+		</border>	 
+
+	</borders>
+
+	<patterns sort="yes">
+		<overlay rule="@outsource &lt;= 9.4" type="radial-grad" label="Outsourced"/>
+		<overlay rule="@ref='true'" type="#ref" label="Reference Component"/>
+		<overlay rule="*[contains(@filter,'9.4')]" label="Changed in 9.4">
+			<s:radialGradient id="new" gradientUnits="userSpaceOnUse" cx="10" cy="10" r="14">
+				<s:stop offset="0%" stop-color="#55f" stop-opacity="1"/>
+				<s:stop offset="100%" stop-opacity="0" stop-color="#555"/>
+			</s:radialGradient>
+		</overlay>
+		
+	</patterns>
+
+	<styles>
+		<style>stroke-width: 0.8</style>
+	</styles>
+
+	<colors default="grey" use="s12/@osd" label="Sched 12 Category">
+	        <color color="yellow" value="OS" label="Optional Symbian"/>
+	        <color color="red" value="T-R" label="Test/Reference"/>
+	        <color color="green" value="Spoon" label="Not used"/>
+	        <color color="#8f8fbd" value="CR" label="Common Replaceable"/>
+	        <color color="#00ffff" value="OR" label="Optional Replaceable"/>
+	        <color color="#c0d9d9" value="CS" label="Common Symbian"/>
+	</colors>
+
+<!-- stuff without rule is the fallback option (used only if others are not used) -->
+</shapes>

@@ -1,0 +1,380 @@
+
+.body_text { 
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ font-size: 11px; 
+ font-weight: normal; 
+ font-variant: normal; 
+ /*color: #666*/
+ color: black
+ }
+ 
+ 
+ 
+.head { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ font-weight: bold;
+ position:relative; right:10px;
+ font-variant: normal;
+ color: #505050;
+ }
+ 
+ .table
+ {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+ font-size: 11px; 
+ font-weight: 500; 
+ font-variant: normal; 
+ color: #666
+ }
+ 
+ .header { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ font-weight: bold;
+ background-color : #FFFFF0;
+ border: 1px solid #505050;
+ color: #505050;
+ width:170px;
+ padding:5px;
+ height:25px;
+ }
+ 
+ .head1 { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ font-weight: bold;
+ background-color : #FFFFF0;
+ border: 1px solid #505050;
+ color: #505050;
+ width:105px;
+ margin-bottom:6px;
+ padding:5px;
+ height:13px;
+ clear: both;
+ }
+
+
+.underlined {
+ 
+ border-bottom : 1px solid #D9D9D9;
+ border-left : 1px solid #8E8E8E;
+ background-color: #fff;
+
+ }
+ 
+ 
+ /*.headerOLD { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ font-weight: bold;
+ color: #5F5F5F;
+ width:106px;
+ padding:5px;
+ padding-left:7px;
+ margin-left:3px;
+ height:25px;
+ background-image: url(images/button_lg_3.gif);
+ background-position: 0px 0px;
+ background-repeat: no-repeat;
+ }
+ */
+ 
+ .header4 { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ font-weight: bold;
+ color: #5F5F5F;
+ width:175px;
+ padding:5px;
+ padding-left:7px;
+ margin-left:3px;
+ height:25px;
+ background-image: url(images/button_lg_4.gif);
+ background-position: 0px 0px;
+ background-repeat: no-repeat;
+ }
+  
+          
+
+ .header2 { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ font-weight: bold;
+ background-color : #FFFFFF;
+ border: 0px solid #505050;
+ color: #505050;
+ width:400px;
+ padding:5px;
+ height:13px;
+ }
+ 
+ .radiobox {
+ border: 1px solid Gray;
+ background-color: #B9E7FF;
+ float: left;
+ width:22px;
+ }
+ 
+ .contenttype { 
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 11px;
+ font-weight: normal;
+ background-color : #EBEBEB;
+ border:1px solid Gray;
+ color: #7E7E7E;
+ width:180px;
+ margin-left:26px;
+ margin-top: 5px;
+ padding:1.5px;
+ }
+ 
+ 
+ 
+ .catbox {
+ border: 1px solid #CCC;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size:11px;
+ padding:4px;
+ }
+ 
+ 
+.box {
+ border-left: 1px solid #CCC;
+ border-right: 1px solid #CCC;
+ border-bottom: 1px solid #CCC; 
+ position:absolute; left:13%;
+ 
+ }
+ 
+ .container {
+ position:relative; left:240px;
+
+ }
+ 
+ .container2 {
+
+ }
+
+.content {
+
+/* Photoshop Frutiger 36pt Regular -- Smooth  */
+ background-repeat: no-repeat;
+ background-position: top left;
+} 
+ 
+.box2 { 
+border: 1px solid #EEE; 
+background:#fff; position:absolute; 
+width:100%; 
+height:200px; 
+
+}
+
+.message {  
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 11px; 
+font-weight: normal; 
+background-color : #FFFFF0;
+border: 1px solid #505050;
+color: #505050;
+text-decoration: none; 
+font-variant: normal; 
+
+}
+
+a {  
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 11px; 
+font-weight: normal; 
+text-decoration: none; 
+font-variant: normal; 
+
+color: #505050;
+}
+
+a:link {  
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 11px; 
+font-weight: normal;
+text-decoration: none;  
+font-variant: normal; 
+color: #505050;
+
+}
+
+a:hover {  
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 11px; 
+font-weight: normal;
+font-variant: normal; 
+color: #00AAFF;
+}
+
+a.small {  
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 10px; 
+font-weight: bold;
+text-decoration: none; 
+font-variant: normal; 
+color: #2E8EB6;
+}
+
+a.small:hover {  
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size: 10px; 
+font-weight: bold;
+text-decoration: none; 
+font-variant: normal; 
+color: #0073AE;
+}
+
+select { 
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size:8pt; 
+color:#000000;
+width:170px; 
+}
+
+input.button1 { 
+font-size:8pt; 
+border:1px solid #666666; 
+width:100px;
+}
+
+.UploadDesc{
+
+position:relative;
+top:15px;
+left:15px;
+padding:5px;
+float:left;
+width:500px;
+border-bottom:1px #CCC solid;
+/*background-color:#f1f1f1;*/
+
+height:30px;
+font-size:10px;
+font-family:verdana, arial, helvetica;
+color:#505050;
+}
+
+
+.UploadDescG{
+
+position:relative;
+top:15px;
+left:15px;
+padding:5px;
+float:left;
+width:300px;
+border-bottom:1px #CCC solid;
+/*background-color:#f1f1f1;*/
+
+height:30px;
+font-size:10px;
+font-family:verdana, arial, helvetica;
+color:#505050;
+}
+
+
+
+.UploadDesc2{
+
+position:relative;
+top:15px;
+left:15px;
+padding:5px;
+float:left;
+width:500px;
+
+/*background-color:#f1f1f1;*/
+
+height:30px;
+font-size:15px;
+font-family:verdana, arial, helvetica;
+color:#505050;
+}
+
+
+
+input.button { 
+font-size:8pt; 
+border: 2px groove #E0E0E0; 
+width:140px;
+background-color: #DCDCDC;
+
+color:#000;
+}
+
+input.login{
+font-size:8pt; 
+border: 2px groove #E0E0E0; 
+width:80px;
+background-color: #DCDCDC;
+
+color:#000;
+
+
+}
+input.button_big { 
+font-size:8pt; 
+border:1px solid #666666;
+width:140px;
+}
+
+input.browse { 
+font-size:8pt; 
+border:1px solid #666666;
+width:200px;
+}
+
+
+input.button_big { 
+font-size:8pt; 
+border:1px solid #666666;
+width:140px;
+}
+
+input.input1 { 
+font-size:8pt; 
+border:1px solid #666666; 
+width:140px;
+}
+
+
+.ctype {
+ 
+ background-image: url(images/contenttype_bg.gif);
+ background-position : 0px 0px;
+ background-repeat : no-repeat;
+ padding-top:8px;
+ padding-left:25px;
+ color: #4E4E4E;
+ margin-bottom:-20px;
+ width:500px;
+ height:50px;
+ font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+ font-size : 11px;
+ text-align : left;
+ }
+ 
+ .ctype_header{
+ 
+ margin-bottom:0px;
+
+ 
+ }
+ 
+
+
+
+
+
+
+.subhead1 {
+font-family: Verdana, Arial, Helvetica, sans-serif; 
+font-size:8pt; 
+padding-right:3px;	
+font-weight:bold;
+}

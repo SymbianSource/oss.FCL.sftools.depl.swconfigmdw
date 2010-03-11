@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LicensesFile>
+ <Recipients>
+  <!--pgp elements and codename attributes for customers are temporary to allow the generation of old style CSV export ta bles 
+	Symbian is only included for the pgp information-->
+  <Customer name="Symbian">
+   <pgpkey name="Symbian PGP ADK" value="0xFB53FEAB"/>
+   <pgpkey name="Symbian Inbound ADK" value="0xC559B390"/>
+   <pgpkey name="Symbian Outbound ADK" value="0xF22D8D5F"/>
+   <pgpkey name="Symbian Sierra" value="0xF754B56C"/>
+  </Customer>
+  <Customer name="UIQ">
+   <!--Affiliate seems the closest to what we currently ship to UIQ as found in the UIQ 9.1 and 9.2 export tables -->
+   <License name="Affiliate" version="9.1"/>
+   <License name="Affiliate" version="9.2"/>
+   <pgpkey name="Mango - UIQ Technology" value="0x7F21100A"/>
+  </Customer>
+  <Customer name="Nokia" codename="Nile">
+   <License name="SLDA" version="6.1"/>
+   <License name="CKL" version="7.0s"/>
+   <License name="CKL" version="8.0"/>
+   <License name="CKL" version="9.1"/>
+   <License name="CKL" version="9.2"/>
+   <License name="CKL" version="9.3"/>
+   <MutualLicense name="Mutual_Java"/>
+   <MutualLicense name="Mutual_SD4C"/>
+   <MutualLicense name="Mutual_SD3C"/>
+   <MutualLicense name="Mutual_FAT32"/>
+   <pgpkey name="Ronnie King" value="0x26477E35"/>
+   <pgpkey name="Nokia Finland Additional Decryption Key" value="0x6E41B544"/>
+   <pgpkey name="Releases Symbian 2006" value="0xA49E5695"/>
+  </Customer>
+  <Customer name="Test" codename="Test">
+   <License name="SLDA" version="6.1"/>
+   <License name="CKL" version="7.0s"/>
+   <License name="CKL" version="8.0"/>
+   <License name="CKL" version="9.1"/>
+   <License name="CKL" version="9.2"/>
+   <License name="CKL" version="9.3"/>
+   <MutualLicense name="Mutual_Java"/>
+   <MutualLicense name="Mutual_SD4C"/>
+   <MutualLicense name="Mutual_FAT32"/>
+   <pgpkey name="Haavisto Antti" value="0x5C823685"/>
+   <pgpkey name="Akseli Salovaara" value="0x58A1DA58"/>
+   <pgpkey name="Ronnie King" value="0x26477E35"/>
+   <pgpkey name="Nokia Finland Additional Decryption Key" value="0x6E41B544"/>
+   <pgpkey name="Releases Symbian" value="0x699E6B68"/>
+  </Customer>
+  <Customer name="Sony Ericsson" codename="Kariba">
+   <License name="CKL" version="7.0"/>
+   <License name="CKL" version="7.0e"/>
+   <License name="CKL" version="9.1"/>
+   <License name="CKL" version="9.2" prerelease="Unknown"/>
+   <License name="CKL" version="9.3" prerelease="Unknown"/>
+   <MutualLicense name="Mutual_SD4C"/>
+   <MutualLicense name="Mutual_Java"/>
+   <MutualLicense name="Mutual_FAT32"/>
+   <MutualLicense name="TapRoot WiFi"/>
+   <pgpkey name="Zebra_Kista" value="0xFA7C0507" version="9.1"/>
+   <pgpkey name="Zebra_Kista_swrel" value="0xDE92B88D" version="9.1"/>
+   <pgpkey name="Zebra - LPD key" value="0x4F9423E2" version="9.1"/>
+   <pgpkey name="SEMC ADK" value="0x606DB136"/>
+   <pgpkey name="Mango - UIQ Technology" value="0x7F21100A"/>
+  </Customer>
+  <Customer name="Sony Ericsson KK" codename="KaribaKK">
+   <License name="OTI" version="9.2"/>
+   <!--following MutualLicense need to be checked, they are based on what we appear to ship to KaribaKK currently-->
+   <MutualLicense name="Mutual_SD4C"/>
+   <MutualLicense name="Mutual_FAT32"/>
+   <pgpkey name="License" value="0x1EE818C7"/>
+   <pgpkey name="License" value="0x322F250A"/>
+   <pgpkey name="License" value="0x759FC07D"/>
+  </Customer>
+  <Customer name="Fujitsu" codename="Tigris">
+   <License name="SLDA" version="6.1"/>
+   <License name="CKL" version="8.1"/>
+   <License name="CKL" version="9.1"/>
+   <License name="CKL" version="9.2" prerelease="unknown"/>
+   <MutualLicense name="Mutual_Java"/>
+   <MutualLicense name="Mutual_SD4C"/>
+   <MutualLicense name="Mutual_FAT32"/>
+   <pgpkey name="Tigris" value="0xE73817A9"/>
+  </Customer>
+  <Customer name="Samsung" codename="Cooper">
+   <!-- following purely from the current export tables, also receive cat B networking code-->
+   <License name="CKL" version="8.1b"/>
+   <License name="CKL" version="9.1"/>
+   <License name="CKL" version="9.2"/>
+   <MutualLicense name="Mutual_Java"/>
+   <pgpkey name="Samsung_Wizard" value="0x7B247C36"/>
+   <pgpkey name="Samsung Phaeton" value="0xAEA59B1F"/>
+  </Customer>
+  <Customer name="NTT DoCoMo" codename="Maple">
+   <License name="OTI" version="8.1"/>
+   <!--<License name="OTI" version="9.1"/>-->
+   <License name="OTI" version="9.2" prerelease="unknown"/>
+   <MutualLicense name="Mutual_Java"/>
+   <MutualLicense name="Mutual_SD4C"/>
+   <MutualLicense name="Mutual_FAT32"/>
+   <pgpkey name="Adachi Satoru" value="0xFDD6C226"/>
+   <pgpkey name="Hidenori Nomura" value="0x9F495FC3"/>
+   <pgpkey name="Junji Otoshi" value="0xA5DB59B8"/>
+   <pgpkey name="Yurin Kogetsu" value="0x09681AB8"/>
+   <pgpkey name="FMCT CBR users" value="0xF696D653"/>
+   <pgpkey name="JPG Group Key" value="0xE1272C0A"/>
+  </Customer>
+  <!--Mitsubishi information is purely from the two export tables-->
+  <Customer name="Mitsubishi_MTC" codename="OderMTC">
+   <License name="CKL" version="9.2"/>
+   <pgpkey name="Oder_SD" value="0x8217CBF2"/>
+  </Customer>
+  <Customer name="Mitsubishi_RD" codename="OderRD">
+   <License name="CKL" version="9.2"/>
+   <pgpkey name="License" value="0x5D8D179D"/>
+  </Customer>
+  <Customer name="TapRoot">
+   <!--Both a DKL partner and a supplier under SCCA ??-->
+   <License name="DKL" version="7.0"/>
+   <License name="SCCA" version="9.1"/>
+   <License name="SCCA" version="9.2"/>
+   <MutualLicense name="Mutual_SD4C"/>
+  </Customer>
+  <Customer name="Intuwave">
+   <License name="OCCA" version="9.1"/>
+   <License name="OCCA" version="9.2"/>
+   <License name="OCCA" version="9.3"/>
+  </Customer>
+  <Customer name="TI">
+   <License name="DKL" version="9.1"/>
+   <!--9.1 is a guess. What versions of OS are supplied to TI?-->
+   <MutualLicense name="Mutual_SD4C"/>
+   <!--may also receive some category A source code?-->
+  </Customer>
+  <Customer name="Elektrobit">
+   <License name="IDH" version="7.0s"/>
+   <License name="IDH" version="9.1"/>
+   <License name="IDH" version="9.2"/>
+   <pgpkey name="Elektrobit_Company_key" value="0xD2A427EB"/>
+   <pgpkey name="Tero_Aaltonen_Elektrobit" value="0xABD3AB16"/>
+   <pgpkey name="Electrobit key" value="0x19258D32" version="9.1"/>
+   <pgpkey name="Paul_Albertella_Elektrobit" value="0xEB953652" version="9.2"/>
+  </Customer>
+  <Customer name="Lucky Goldstar" codename="LG">
+   <!--all information for LG is based on their 9.1 export table file!!-->
+   <License name="CKL" version="9.1"/>
+   <MutualLicense name="Mutual_Java"/>
+   <MutualLicense name="Mutual_SD3C"/>
+   <pgpkey name="Hyung-Keun_Yu" value="0xE02D237E"/>
+   <pgpkey name="KeeWhan" value="0xB6577F4B"/>
+   <pgpkey name="Hyung-Keun_Yu_for_Symbian" value="0x5C7AF217"/>
+  </Customer>
+  <Customer name="Panasonic" codename="Isis">
+   <License name="CKL" version="9.1"/>
+   <License name="CKL" version="9.2"/>
+   <pgpkey name="Rick_Baker" value="0x10FBF0CC"/>
+   <pgpkey name="8xIsis_all" value="0x0ECB7092"/>
+  </Customer>
+  <Customer name="Sharp_Filtered" codename="Missouri_Filtered">
+   <!--CKL is assumed here!-->
+   <License name="CKL" version="9.2"/>
+   <pgpkey name="Missouri" value="0xF331532F"/>
+  </Customer>
+  <Customer name="Sharp" codename="Missouri">
+   <!-- CKL is assumed here!-->
+   <License name="CKL" version="9.2"/>
+   <pgpkey name="MissouriABCDEFG" value="0xF664B34F"/>
+  </Customer>
+  <Customer name="Teleca">
+   <!--Probable a CKL licensee for 9.2?
+	Currently we don't deliver to Teleca-->
+  </Customer>
+ </Recipients>
+ <!-- Contracts define exceptions to the default DEFGT category. A supplier may have N contracts. Each contract has a name, a set of contracts, mutual licences and components
+The IPR for a give Contract (CustKit, BAK etc) applies to all components in the contract. MutualLicense staments allow an override of any of the Contractual IPR if the customer
+holds the relevant license.
+-->
+ <Contracts>
+  <Supplier name="Symbian">
+   <Contract name="Symbian_Default">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="Symbian_Default" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+   </Contract>
+   <Contract name="Symbian_Exclude">
+    <Contract name="DEFAULT" ipr=""/>
+   </Contract>
+   <Contract name="Symbian_Affiliate">
+		Symbian Affiliates may receive extra category B source code
+			<Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="Symbian_Affiliate" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		Symbian Affiliates may receive extra category B source code
+			<Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+   </Contract>
+   <Contract name="Symbian_SD4C" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="BIL" ipr="E(DEFG)"/>
+    <Contract name="OCCA" ipr="E(DEFG)"/>
+    <Contract name="BAK" ipr="E(DEFG)"/>
+    <MutualLicense name="Mutual_SD4C" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="Symbian_SD4C">
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="BIL" ipr="E(DEFGT)"/>
+    <Contract name="OCCA" ipr="E(DEFGT)"/>
+    <Contract name="BAK" ipr="E(DEFGT)"/>
+    <MutualLicense name="Mutual_SD4C" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="Symbian_Strong_Cryptography">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="BAK" ipr="exclude_bin"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="Symbian_Strong_Cryptography" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="BAK" ipr="exclude_bin"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+   </Contract>
+   <Contract name="Symbian_Kernel" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="OTI" ipr="A D E F G"/>
+    <Contract name="Affiliate" ipr="A B D E F G"/>
+    <Contract name="CKL" ipr="A D E F G"/>
+    <Contract name="DKL_ConfidentialSource" ipr="S(A)" type="Supplementary"/>
+   </Contract>
+   <Contract name="Symbian_Kernel">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="OTI" ipr="A D E F G T"/>
+    <Contract name="Affiliate" ipr="A B D E F G T"/>
+    <Contract name="CKL" ipr="A D E F G T"/>
+    <Contract name="DKL_ConfidentialSource" ipr="S(A)" type="Supplementary"/>
+   </Contract>
+   <Contract name="Symbian_MAS_ISC">
+    <MutualLicense name="Symbian_MobileActiveSync" ipr="I T"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Samsung" os_version_specific="No">
+   <Contract name="NAND_Flash_XSR_Unistore_2_Core_Portion">
+		XSR Core portion is deliverable as object code only, and no recipients can have source.
+			<Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+   </Contract>
+   <Contract name="NAND_Flash_XSR_Unistore_2_Other_Portions" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		The rest of XSR is really an ISC - source is available to all, but under a limited warranty.
+			<Contract name="BAK" ipr="E(B)"/>
+    <Contract name="OCCA" ipr="E(B)"/>
+    <Contract name="DEFAULT" ipr="B E"/>
+   </Contract>
+   <Contract name="NAND_Flash_XSR_Unistore_2_Other_Portions">
+		The rest of XSR is really an ISC - source is available to all, but under a limited warranty.
+			<Contract name="BAK" ipr="E(B E T)"/>
+    <Contract name="OCCA" ipr="E(B E T)"/>
+    <Contract name="DEFAULT" ipr="B E T"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Panasonic" os_version_specific="Yes">
+   <Contract name="SD_Card_SD3C" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		SD Card source code is provided to customers who can show an appropriate mutual license.
+		Object code is provided to all.
+		SD3C source can be provided to members of the SD Card Association
+			<Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="DKL_SD3C" ipr="S(B E)" type="Supplementary"/>
+    <MutualLicense name="Mutual_SD3C" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="SD_Card_SD3C">
+		SD Card source code is provided to customers who can show an appropriate mutual license.
+		Object code is provided to all.
+		SD3C source can be provided to members of the SD Card Association
+			<Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="DKL_SD3C" ipr="S(B E T)" type="Supplementary"/>
+    <MutualLicense name="Mutual_SD3C" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="SD_Card_SD4C" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		SD Card source code is provided to customers who can show an appropriate mutual license.
+		Object code is provided to all.
+		SD4C source can be provided to holders of a 4C Development or Production license.       
+		    <Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="DKL_SD4C" ipr="S(B E)" type="Supplementary"/>
+    <MutualLicense name="Mutual_SD4C" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="SD_Card_SD4C">
+		SD Card source code is provided to customers who can show an appropriate mutual license.
+		Object code is provided to all.
+		SD4C source can be provided to holders of a 4C Development or Production license.       
+		    <Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="DKL_SD4C" ipr="S(B E T)" type="Supplementary"/>
+    <MutualLicense name="Mutual_SD4C" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="SD_Card_PSL">
+		Platform Specific Layer code is supplied to CKL and DKL holders if they hold the appropriate 3DC or 4DC license
+			<Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+    <MutualLicense name="Mutual_SD4C" ipr="B D E F G T"/>
+    <MutualLicense name="Mutual_SD3C" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="SD_Card_PSL" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		Platform Specific Layer code is supplied to CKL and DKL holders if they hold the appropriate 3DC or 4DC license
+			<Contract name="Affiliate" ipr="B"/>
+    <Contract name="DEFAULT" ipr="binary"/>
+    <MutualLicense name="Mutual_SD4C" ipr="B D E F G"/>
+    <MutualLicense name="Mutual_SD3C" ipr="B D E F G"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Nokia">
+   <Contract name="IPSec_Protocol_Stack">
+		IPSec Protocol Stack source code is available in CKL but not in DKL or other products
+			<Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="IPSec_Protocol_Stack" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		IPSec Protocol Stack source code is available in CKL but not in DKL or other products
+			<Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="CKL" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="TCPIP_v4-v6_PRT">
+		Category B IPv4 and IPv6 Source code is available to CKL holders but not to DKL
+			<Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="TCPIP_v4-v6_PRT" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+		Category B IPv4 and IPv6 Source code is available to CKL holders but not to DKL
+			<Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="CKL" ipr="B D E F G"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+   </Contract>
+   <Contract name="IPv6_QOS">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="IPv6_QOS" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="CKL" ipr="B D E F G"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+   </Contract>
+   <Contract name="SIP_Stack">
+    <!-- 9.2 onwards only-->
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="LBS">
+    <!-- 9.2 onwards only -->
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+    <Contract name="ODH" ipr="B D E F G T"/>
+    <Contract name="OTI" ipr="B D E F G T"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Hi/fn">
+   <Contract name="MPPC_LZS_Compression_Libraries" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="CKL" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="MPPC_LZS_Compression_Libraries">
+    <Contract name="DEFAULT" ipr="binary"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Sun">
+   <Contract name="Java_J2ME" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="DevKit" ipr="E(B) D E F G"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="OCCA" ipr="E(B D E F G)"/>
+    <Contract name="BAK" ipr="E(B D E F G)"/>
+    <MutualLicense name="Mutual_Java" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="Java_J2ME">
+    <!-- 9.2 onwards introduces category T source code-->
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="DevKit" ipr="E(B) D E F G T"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="OCCA" ipr="E(B D E F G T)"/>
+    <Contract name="BAK" ipr="E(B D E F G T)"/>
+    <MutualLicense name="Mutual_Java" ipr="B D E F G T"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Intuwave">
+   <Contract name="MRouter">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="MRouter" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+   </Contract>
+   <Contract name="MRouterSDK">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="Kariba" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="MRouterSDK" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="Kariba" ipr="B D E F G"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Microsoft">
+   <Contract name="FAT32">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="OTI" ipr="A D E F G T"/>
+    <Contract name="Affiliate" ipr="A B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Constract name="CKL" ipr="A D E F G T"/>
+    <Contract name="DKL_ConfidentialSource" ipr="S(A)" type="Supplementary"/>
+    <MutualLicense name="Mutual_FAT32" ipr="A B D E F G T"/>
+   </Contract>
+   <Contract name="FAT32" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="OTI" ipr="A D E F G"/>
+    <Contract name="Affiliate" ipr="A B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Constract name="CKL" ipr="A D E F G"/>
+    <Contract name="DKL_ConfidentialSource" ipr="S(A)" type="Supplementary"/>
+    <MutualLicense name="Mutual_FAT32" ipr="A B D E F G"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="SEMC">
+   <Contract name="SMS_MTM">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="SMS_MTM" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Contract name="CKL" ipr="B D E F G"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="Criterion/Hybrid">
+   <Contract name="OPENGL">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+   </Contract>
+   <Contract name="OPENGL" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+   </Contract>
+  </Supplier>
+  <Supplier name="TapRoot">
+   <Contract name="GPRSBTT">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="OCCA" ipr="E(D E F G T)"/>
+    <Contract name="OTI" ipr="B D E F G T"/>
+    <Contract name="Affiliate" ipr="B D E F G T"/>
+    <Contract name="BAK" ipr="E(D E F G T)"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+   </Contract>
+   <Contract name="GPRSBTT" versions="6.1,7.0,7.0e,7.0s,8.0,8.1,8.1b,9.1">
+    <Contract name="DEFAULT" ipr="D E F G"/>
+    <Contract name="OCCA" ipr="E(D E F G)"/>
+    <Contract name="OTI" ipr="B D E F G"/>
+    <Contract name="Affiliate" ipr="B D E F G"/>
+    <Contract name="BAK" ipr="E(D E F G)"/>
+    <Contract name="CKL" ipr="B D E F G"/>
+   </Contract>
+   <Contract name="WLAN">
+    <Contract name="DEFAULT" ipr="D E F G T"/>
+    <Contract name="CKL" ipr="B D E F G T"/>
+    <MutualLicense name="Mutual_WLAN" ipr="B D E F G T"/>
+   </Contract>
+  </Supplier>
+ </Contracts>
+</LicensesFile>

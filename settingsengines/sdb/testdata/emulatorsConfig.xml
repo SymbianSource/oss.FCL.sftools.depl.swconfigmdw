@@ -1,0 +1,9 @@
+<emulators>
+  <emulator>
+    <driveLetter>C</driveLetter>
+    <epocroot>\symbian\94\</epocroot>
+    <platform>WINSCW</platform>
+    <variant>UDEB</variant>
+    <version>SOS_9_4</version>
+  </emulator>
+</emulators>

@@ -1,0 +1,1159 @@
+<?xml version="1.0" encoding="ascii"?>
+<?xml-stylesheet type="text/xsl" href="system_info.xsl"?>
+
+<model ver="9.3" draft="1.2" name="Symbian OS" label="System Model">
+ <c name="Application Architecture">
+  <name>App. Arch.</name>
+ </c>
+ <c removed="9.2" name="Application Installer">
+  <name>App Installer</name>
+ </c>
+ <c introduced="8.0" name="Content Handling Framework">
+  <name>Content Handling Frmwk.</name>
+ </c>
+ <c name="File Converter Framework">
+  <name>File Cnvrter. Frmwk.</name>
+ </c>
+ <c name="Java MIDlet Installer" introduced="7.0s"/>
+ <c name="SIS Installer" introduced="7.0s"/>
+ <c introduced="9.1" name="System Starter"/>
+ <c name="View Server" introduced="6.0"/>
+ <c plugin="true" name="BIO Messaging Parsers">
+  <name>BIO Msg. Parsers</name>
+ </c>
+ <c introduced="8.0" name="Content Access Frmwrk. for DRM"/>
+ <c introduced="8.0" name="Content Access Framework to support DRM">
+  <name>Content Access Frmwrk. for DRM</name>
+ </c>
+ <c introduced="8.0" name="Device Management Plugins" plugin="true"/>
+ <c introduced="9.1" name="Content Access Framework for DRM">
+  <name>Content Access Frmwrk. for DRM</name>
+ </c>
+ <c name="Reference DRM Agent" ref="true" introduced="8.0"/>
+ <c name="MIME Recognition Framework">
+  <name>MIME Recog&#173;nizer Frmwk.</name>
+ </c>
+ <c introduced="8.0" plugin="true" name="MMF Recognisers">
+  <name>MMF Recog&#173;nizers</name>
+ </c>
+ <c name="SMIL Parser" introduced="8.0"/>
+ <c plugin="true" name="WAP Push Handlers" introduced="6.2"/>
+ <c plugin="true" name="Web Recognisers">
+  <name>Web Recog&#173;nisers</name>
+ </c>
+ <c removed="" plugin="true" name="Data Sync Plugins"/>
+ <c name="OMA SyncML Framework">
+  <name>OMA SyncML Frmwrk.</name>
+ </c>
+ <c introduced="8.0" name="Sync Initiation"/>
+ <c introduced="8.0" name="Device Management Framework">
+  <name>Dev Man Frmwk.</name>
+ </c>
+ <c plugin="true" introduced="9.1" name="Device Management Adaptors">
+  <name>Dev Man Adaptors</name>
+ </c>
+ <c introduced="9.1" name="Client Provisioning Framework">
+  <name>Client Provision&#173;ing Frmwk.</name>
+ </c>
+ <c introduced="9.1" plugin="true" name="Client Provisioning Adaptors">
+  <name>Client Provision&#173;ing Adaptors</name>
+ </c>
+ <c name="Bookmark Support" introduced="9.1"/>
+ <c name="FTP Engine" introduced="6.0"/>
+ <c plugin="true" name="HTTP Filter Plugins"/>
+ <c plugin="true" name="HTTP Protocol Plugins" introduced="6.2"/>
+ <c name="HTTP Transport Framework" introduced="6.2">
+  <name>HTTP Trans. Frmwk.</name>
+ </c>
+ <c name="URI Permission Services" introduced="9.4">
+  <name>URI Permis&#173;sion Services</name>
+ </c>
+ <c name="HTTP Transport Plugins" plugin="true"/>
+ <c name="HTTP Utilities Library" introduced="6.2"/>
+ <c name="Network Address and Port Translation" introduced="9.4" plugin="true">
+  <name>Network Addr &amp; Port Trans&#173;lation</name>
+ </c>
+ <c name="Telnet Engine" introduced="6.0"/>
+ <c name="WAP Push Framework" introduced="6.1">
+  <name>WAP Push Frmwk.</name>
+ </c>
+ <c plugin="true" name="WAP Push MTM"/>
+ <c name="BIO Messaging Framework">
+  <name>BIO Msg. Frmwk.</name>
+ </c>
+ <c name="Watcher Framework">
+  <name>Watcher Frmwk.</name>
+ </c>
+ <c plugin="true" name="BIO Watchers"/>
+ <c plugin="true" introduced="8.1" name="CDMA MTM"/>
+ <c plugin="true" name="IMAP4 MTM"/>
+ <c name="Message Store">
+  <name>Msg. Store</name>
+ </c>
+ <c name="Message Server and Store">
+  <name>Msg. Server &amp; Store</name>
+ </c>
+ <c plugin="true" name="OBEX MTMs"/>
+ <c plugin="true" name="POP3 MTM"/>
+ <c plugin="true" name="Scheduled Send MTM">
+  <name>Sched. Send MTM</name>
+ </c>
+ <c outsource="9.0" plugin="true" name="SMS MTM"/>
+ <c plugin="true" name="SMTP MTM"/>
+ <c introduced="9.0" name="RTP"/>
+ <c outsource="9.1" introduced="9.1" name="SIP Framework">
+  <name>SIP Frmwk.</name>
+ </c>
+ <c name="SIP Connection Provider Plugins" introduced="9.2">
+  <name>SIP Connect. Provider Plugins</name>
+ </c>
+ <c name="Convert" plugin="true" introduced="5.0" deprecated="9.3"/>
+ <c name="Data Engine" introduced="5.0" deprecated="9.3"/>
+ <c name="Sheet Engine" introduced="5.0" deprecated="9.3"/>
+ <c name="Word Engine" introduced="5.0" deprecated="9.3"/>
+ <c name="Help" introduced="6.0"/>
+ <c introduced="9.1" name="Timezone"/>
+ <c name="World Server" introduced="7.0" deprecated="9.1"/>
+ <c name="Agenda Model" introduced="5.0" deprecated="9.1"/>
+ <c name="Calendar" introduced="9.2"/>
+ <c plugin="true" name="Agenda Versit Plugin">
+  <name>vCal Plugin</name>
+ </c>
+ <c name="Contacts Model" introduced="5.0"/>
+ <c name="Alarm Server" introduced="7.0"/>
+ <c introduced="8.1" name="Backup Restore Notification">
+  <name>Backup Restore Notifica&#173;tion</name>
+ </c>
+ <c outsource="9.0" name="Chinese Calendar Converter" introduced="6.1">
+  <name>Chinese Calendar Cnvter.</name>
+ </c>
+ <c name="Other File Converter Plugins" plugin="true" deprecated="9.3">
+  <name>Other File Cnvter. Plugins</name>
+ </c>
+ <c plugin="true" name="File Converter Plugins">
+  <name>File Cnvter. Plugins</name>
+ </c>
+ <c name="vCard and vCal" introduced="5.0">
+  <name>vCard &amp;vCal</name>
+ </c>
+ <c introduced="ER5" name="Application Utilities">
+  <name>Applica&#173;tion Utilities</name>
+ </c>
+ <c name="Central Repository 2" introduced="8.1">
+  <name>Central Repos&#173;itory 2</name>
+ </c>
+ <c name="Central Repository" introduced="7.0s">
+  <name>Central Repos&#173;itory</name>
+ </c>
+ <c name="Character Encoding and Conversion Framework">
+  <name>Char. Encode. Conv. Frmwk.</name>
+ </c>
+ <c plugin="true" name="Character Encoding and Conversion Plugins">
+  <name>Char. Encode. Conv. Plugins</name>
+ </c>
+ <c name="Cryptography Library">
+  <name>Crypto. Library</name>
+ </c>
+ <c name="Strong Cryptography Library">
+  <name>Strong Crypto. Library</name>
+ </c>
+ <c name="Weak Cryptography Library">
+  <name>Weak Crypto. Library</name>
+ </c>
+ <c name="Feature Registry" introduced="9.2" deprecated="9.6"/>
+ <c name="DBMS Emulation Library" introduced="9.3"/>
+ <c name="Media Device Framework">
+  <name>Media Device Frmwk.</name>
+ </c>
+ <c outsource="9.0" plugin="true" name="Media Device Framework Plugins">
+  <name>Media Device Frmwrk. Plugins</name>
+ </c>
+ <c introduced="6.2" name="Plugin Framework">
+  <name>Plugin Frmwk.</name>
+ </c>
+ <c name="Power, Memory and Disk Management" introduced="7.0">
+  <name>Power &amp; Shutdown Manage&#173;ment</name>
+ </c>
+ <c name="Power and Memory Notification Service" introduced="6.0">
+  <name>Power &amp; Mem&#173;ory Notifica&#173;tion Service</name>
+ </c>
+ <c name="Domain Manager" introduced="7.0"/>
+ <c name="Hardware Resources Manager" introduced="9.5">
+  <name>Hardware Resource Manager</name>
+ </c>
+ <c name="Power and Shutdown Management">
+  <name>Pw. &amp;Shut. Manage&#173;ment</name>
+ </c>
+ <c plugin="true" name="WBXML Parser" introduced="7.0s"/>
+ <c name="XML Framework" introduced="7.0s">
+  <name>XML Frmwk.</name>
+ </c>
+ <c plugin="true" name="XML Parser" introduced="7.0s"/>
+ <c introduced="6.0" name="Zip Compression Library">
+  <name>Zip Compres&#173;sion Library</name>
+ </c>
+ <c introduced="9.1" plugin="true" name="FAT Filename Conversion Plugins">
+  <name>FAT file name Conv. Plugins</name>
+ </c>
+ <c plugin="true" name="File Systems"/>
+ <c plugin="true" name="ROFS File System">
+  <name>ROFS</name>
+ </c>
+ <c plugin="true" name="USB Mass Storage File System">
+  <name>USB Mass Storage FS</name>
+ </c>
+ <c plugin="true" name="LFFS File System">
+  <name>LFFS</name>
+ </c>
+ <c plugin="true" name="NTFS File System">
+  <name>NTFS</name>
+ </c>
+ <c name="ROM File System" plugin="true"/>
+ <c name="LFFS File System" plugin="true"/>
+ <c name="FAT32 File System" plugin="true"/>
+ <c name="FAT File System" plugin="true"/>
+ <c name="Composite File System" plugin="true"/>
+ <c name="ISO9660 File System" plugin="true"/>
+ <c plugin="true" name="NAND Flash Translation Layer" introduced="7.0s" deprecated="9.1">
+  <name>NAND Flash Trans&#173;lation Layer</name>
+ </c>
+ <c plugin="true" name="File System Plugins">
+  <name>File Systems</name>
+ </c>
+ <c plugin="true" name="Bluetooth 1.0" introduced="8.0">
+  <location>Programming Support/Java J2ME/Bluetooth and SMS Push</location>
+ </c>
+ <c plugin="true" name="WMA 1.1">
+  <location>Programming Support/Java J2ME/Bluetooth and SMS Push</location>
+ </c>
+ <c name="Java IO">
+  <location>Programming Support/Java J2ME/CLDC 1.1</location>
+ </c>
+ <c name="Java Lang">
+  <location>Programming Support/Java J2ME/CLDC 1.1</location>
+ </c>
+ <c name="Java Utilities">
+  <location>Programming Support/Java J2ME/CLDC 1.1</location>
+ </c>
+ <c plugin="true" name="LCDUI Plugin">
+  <name>LCDUI plugin</name>
+  <location>Programming Support/Java J2ME/Low Level Plugins</location>
+ </c>
+ <c plugin="true" name="Runtime Plugin">
+  <name>Runtime plugin</name>
+  <location>Programming Support/Java J2ME/Low Level Plugins</location>
+ </c>
+ <c name="Bluetooth 1.0" introduced="8.0">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c name="JTWI 1.0" introduced="8.0">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c name="MIDP File GCF">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c name="MIDP PIM">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c outsource="9.1" name="Mobile 3D 1.0" introduced="8.0">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c name="Mobile Media API 1.1" introduced="8.0">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c name="WMA 1.1">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Packages</location>
+ </c>
+ <c name="MIDP Device Control">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Profile</location>
+ </c>
+ <c introduced="9.1" plugin="true" ref="true" name="MIDP GSM Security RP">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Profile</location>
+ </c>
+ <c name="MIDP IO">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Profile</location>
+ </c>
+ <c name="MIDP LCDUI">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Profile</location>
+ </c>
+ <c name="MIDP MIDlet">
+  <location>Programming Support/Java J2ME/MIDP 2.0 Profile</location>
+ </c>
+ <c plugin="true" ref="true" name="Security Policy"/>
+ <c introduced="9.0" ref="true" name="OMAP 1623"/>
+ <c name="Kernel Architecture 1">
+  <name>Kernel Arch. 1</name>
+ </c>
+ <c name="Kernel Architecture 2" introduced="8.0">
+  <name>Kernel Arch. 2</name>
+ </c>
+ <c name="Flash Translation Layer">
+  <name>Flash Trans&#173;lation Layer</name>
+ </c>
+ <c name="Board Support Packages">
+  <name>Board Support Pckgs</name>
+ </c>
+ <c name="SD Card Driver" ref="true" plugin="true"/>
+ <c plugin="true" outsource="9.0" ref="true" name="Audio Driver" introduced="7.0s"/>
+ <c plugin="true" name="Ethernet Driver">
+  <name>Ether. Driver</name>
+ </c>
+ <c plugin="true" outsource="9.0" ref="true" name="MIDI Driver" introduced="8.0"/>
+ <c plugin="true" name="Other LDDs"/>
+ <c plugin="true" outsource="9.0" introduced="8.0" ref="true" name="Speech Driver"/>
+ <c plugin="true" name="USB Driver"/>
+ <c plugin="true" outsource="9.0" ref="true" name="Video Driver" introduced="8.0"/>
+ <c plugin="true" name="Media Drivers"/>
+ <c name="Bootstrap" ref="true">
+  <name>Boot&#173;strap</name>
+ </c>
+ <c ref="true" name="Emulator">
+  <name>Emu&#173;lator</name>
+ </c>
+ <c ref="true" name="Lubbock Variant"/>
+ <c introduced="9.0" ref="true" name="OMAP H2">
+  <name>OMAP H2 Variant</name>
+ </c>
+ <c ref="true" name="OMAP H4">
+  <name>OMAP H4 Variant</name>
+ </c>
+ <c ref="true" name="OMAP H4 Variant"/>
+ <c ref="true" plugin="true" name="PDDs"/>
+ <c plugin="true" name="Peripheral Bus Controllers">
+  <name>Periph. Bus Cntrllrs.</name>
+ </c>
+ <c plugin="true" name="Locale Support"/>
+ <c plugin="true" name="Screen Driver" introduced="6.1"/>
+ <c plugin="true" name="MMS MTM"/>
+ <c name="Baseband Channel Adaptor" introduced="8.1">
+  <name>Bsebnd Channel Adaptor Frmwk.</name>
+ </c>
+ <c name="Inter-System Communication" introduced="9.5">
+  <name>Inter-System Comms.</name>
+ </c>
+ <c name="Baseband Channel Adaptor for C32" plugin="true">
+  <name>C32 BCA</name>
+ </c>
+ <c name="Baseband Channel Adaptor for ISC" plugin="true">
+  <name>ISC BCA</name>
+ </c>
+ <c introduced="9.3" name="Wireless LAN"/>
+ <c name="Secondary PDP context UMTS Driver">
+  <name>Secondary PDP UMTS Driver</name>
+ </c>
+ <c introduced="9.1" name="Bluetooth Audio Video Remote Control Profile"/>
+ <c introduced="9.1" name="Bluetooth Generic Audio Video Distribution Profile"/>
+ <c outsource="No" introduced="9.1" name="Bluetooth OBEX 1.0"/>
+ <c introduced="9.1" name="Cell Broadcast Services"/>
+ <c name="Assabet BSP" ref="true"/>
+ <c name="INTEGRATOR_CM1136" ref="true"/>
+ <c name="INTEGRATOR_CM920" ref="true"/>
+ <c name="INTEGRATOR_CORE" ref="true"/>
+ <c outsource="No" name="Linkup BSP"/>
+ <c name="IP Hook Examples" ref="true"/>
+ <c name="IP Examples" ref="true"/>
+ <c introduced="9.1" name="Timezone compiler"/>
+ <c introduced="9.1" name="Timezone database"/>
+ <c introduced="9.1" name="Timezone localization"/>
+ <c name="Crypto SPI Plugins" plugin="true" introduced="9.5"/>
+ <c name="SWI Analysis Toolkit" ref="true"/>
+ <c name="Comms Database">
+  <name>Comms Dbase.</name>
+ </c>
+ <c name="Comms Framework">
+  <name>Comms Frmwk.</name>
+ </c>
+ <c plugin="true" name="Ethernet NIF"/>
+ <c plugin="true" name="Ethernet Over IR Packet Driver">
+  <name>Ethernet Over IR Packet DRV</name>
+ </c>
+ <c plugin="true" name="Ethernet Packet Driver">
+  <name>Ethernet Packet DRV</name>
+ </c>
+ <c name="EAP Framework">
+  <name>EAP Frmwk.</name>
+ </c>
+ <c plugin="true" name="PPP Compression Plugins">
+  <name>PPP Compres&#173;sion Plugins</name>
+ </c>
+ <c outsource="9.0" plugin="true" name="PPP NIF"/>
+ <c plugin="true" ref="true" name="SLIP NIF"/>
+ <c plugin="true" name="Tunnel NIF"/>
+ <c outsource="9.0" plugin="true" name="Core IPSec PRT"/>
+ <c name="IP Event Notifier" plugin="true"/>
+ <c outsource="9.0" plugin="true" introduced="7.0s" name="QoS Framework PRT">
+  <name>QOS Frmwk. PRT</name>
+ </c>
+ <c outsource="9.0" plugin="true" name="TCP/IPv4/v6 PRT">
+  <name>TCP/ IPv4/v6 PRT</name>
+ </c>
+ <c plugin="true" name="Bluetooth PAN Profile" introduced="8.1">
+  <name>Bluetooth PAN Profile</name>
+ </c>
+ <c plugin="true" name="CSD AGT"/>
+ <c plugin="true" name="GPRS/UMTS QOS PRT">
+  <name>GPRS/ UMTS QOS PRT</name>
+ </c>
+ <c name="Network Controller">
+  <name>Network Contrllr.</name>
+ </c>
+ <c plugin="true" name="NULL AGT"/>
+ <c plugin="true" name="PSD AGT"/>
+ <c name="Connection Provider Plugin" plugin="true">
+  <name>Connec&#173;tion Provider Plugin</name>
+ </c>
+ <c removed="9.1" name="Connection AGT" plugin="true">
+  <name>Connec&#173;tion AGT</name>
+ </c>
+ <c name="Subconnection Parameters" plugin="true">
+  <name>Subcon. Params.</name>
+ </c>
+ <c ref="true" name="WAP Short Stack" introduced="8.0"/>
+ <c plugin="true" name="Bluetooth CSY">
+  <name>Btooth.  CSY</name>
+ </c>
+ <c plugin="true" name="IrDA CSY"/>
+ <c plugin="true" name="Serial Port CSY"/>
+ <c plugin="true" name="USB CSY"/>
+ <c name="Bluetooth Manager">
+  <name>Btooth.  Manager</name>
+ </c>
+ <c name="Bluetooth Protocol Client APIs" introduced="8.0">
+  <name>Btooth. Protocol Client APIs</name>
+ </c>
+ <c name="Bluetooth SDP">
+  <name>Btooth.  SDP</name>
+ </c>
+ <c name="HCI Framework" introduced="9.2">
+  <name>HCI Frmwk.</name>
+ </c>
+ <c introduced="9.1" name="Remote Control Framework">
+  <name>Remote Control Frmwk.</name>
+ </c>
+ <c ref="true" name="Bluetooth HCI">
+  <name>Btooth. HCI</name>
+ </c>
+ <c plugin="true" name="Bluetooth Stack PRT">
+  <name>Btooth. Stack PRT</name>
+ </c>
+ <c plugin="true" name="IrDA PRT"/>
+ <c name="CDMA SMS Stack" plugin="true" introduced="8.1"/>
+ <c name="SMS Stack" plugin="true"/>
+ <c plugin="true" introduced="8.1" name="CDMA SMS Plugins"/>
+ <c plugin="true" introduced="8.1" name="CDMA WAP Protocol">
+  <name>CDMA WAP PRT</name>
+ </c>
+ <c plugin="true" introduced="8.1" name="CDMA WAP PRT"/>
+ <c plugin="true" name="SMS PRT"/>
+ <c plugin="true" name="WAP PRT"/>
+ <c ref="true" plugin="true" name="TRP CSY"/>
+ <c ref="true" plugin="true" name="TRP TSY"/>
+ <c introduced="8.1" name="Etel CDMA">
+  <name>ETel CDMA</name>
+ </c>
+ <c introduced="8.1" name="ETel CDMA">
+  <name>Etel CDMA</name>
+ </c>
+ <c name="ETel Multimode">
+  <name>ETel Multi&#173;mode</name>
+ </c>
+ <c name="ETel Server and Core">
+  <name>ETel Server &amp; Core</name>
+ </c>
+ <c name="ETel SIM Toolkit" introduced="6.1"/>
+ <c name="Fax Client and Server">
+  <name>Fax Client &amp; Server</name>
+ </c>
+ <c plugin="true" introduced="8.1" ref="true" name="CDMA TSY"/>
+ <c introduced="8.1" plugin="true" outsource="9.0" ref="true" name="MultiMode TSY"/>
+ <c introduced="8.0" plugin="true" ref="true" name="SIM TSY"/>
+ <c name="Dial" deprecated="9.1"/>
+ <c name="Phonebook Sync" plugin="true">
+  <name>Phone&#173;book Sync</name>
+ </c>
+ <c plugin="true" name="Telephony Watchers"/>
+ <c name="Bearer Abstraction Layer" introduced="8.0">
+  <name>Bearer Abstrac&#173;tion Layer</name>
+ </c>
+ <c name="M-Router">
+  <name>m-Router</name>
+ </c>
+ <c introduced="8.0" name="Server Socket"/>
+ <c name="Service Broker" introduced="8.0"/>
+ <c name="PC Side Connection Manager">
+  <name>PC Side Connec&#173;tion Manager</name>
+ </c>
+ <c name="Remote File Server" introduced="8.0"/>
+ <c introduced="9.0" name="Secure Backup Engine"/>
+ <c introduced="9.0" name="Backup Engine"/>
+ <c introduced="9.0" name="Secure Backup Socket Server"/>
+ <c name="Software Install Server" introduced="8.0"/>
+ <c name="C Standard Library" introduced="ER5">
+  <name>C std. Library</name>
+ </c>
+ <c name="Certificate and Key Management" introduced="6.0">
+  <name>Cert. &amp; Key Manage&#173;ment</name>
+ </c>
+ <c name="Crypto Token Framework">
+  <name>Crypto. Token Frmwk.</name>
+ </c>
+ <c name="Event Logger" introduced="6.0"/>
+ <c name="Task Scheduler" introduced="6.0">
+  <name>Task Sched&#173;uler</name>
+ </c>
+ <c name="Bit GDI">
+  <name>Bit GDI</name>
+ </c>
+ <c name="Font and Bitmap Server">
+  <name>Font &amp;Bitmp. Server</name>
+ </c>
+ <c ref="true" plugin="true" name="FreeType Font Rasteriser">
+  <name>FreeType Font Rster.</name>
+ </c>
+ <c ref="true" name="Reference Fonts"/>
+ <c ref="true" plugin="true" name="Printer Drivers"/>
+ <c removed="" ref="true" name="Reference Bitmap Fonts"/>
+ <c introduced="8.0" name="Colour Palette"/>
+ <c introduced="9.5" name="OpenVG Implementation" ref="true">
+  <name>OpenVG Implemen&#173;tation</name>
+ </c>
+ <c introduced="9.1" name="Broadcast Tuner">
+  <name>Broad&#173;cast Tuner</name>
+ </c>
+ <c name="Camera Framework" introduced="7.0s">
+  <name>Camera Frmwk.</name>
+ </c>
+ <c ref="true" name="Camera" introduced="7.0s"/>
+ <c ref="true" name="Camera Plugins" plugin="true" introduced="7.0s"/>
+ <c name="Imaging Frameworks" introduced="7.0s">
+  <name>Imaging Frmwks.</name>
+ </c>
+ <c name="Image Conversion Library" introduced="7.0s">
+  <name>Image Conv. Library</name>
+ </c>
+ <c plugin="true" name="Imaging Plugins" introduced="7.0s"/>
+ <c plugin="true" name="Image Conversion Library Plugins" introduced="7.0s">
+  <name>Image Conv. Library Plugins</name>
+ </c>
+ <c name="Multimedia Utility Library">
+  <name>Multi&#173;media Utility Library</name>
+ </c>
+ <c name="Multimedia Framework" introduced="7.0s">
+  <name>Multi&#173;media Frmwk.</name>
+ </c>
+ <c plugin="true" name="Multimedia Framework Plugins" introduced="7.0s">
+  <name>Multi&#173;media Frmwk. Plugins</name>
+ </c>
+ <c outsource="9.2" introduced="8.0" ref="true" plugin="true" name="OpenGL ES"/>
+ <c introduced="9.2" name="OpenGL ES Display Properties"/>
+ <c name="OpenGL ES Framework" introduced="8.0">
+  <name>OpenGL ES Frmwk.</name>
+ </c>
+ <c name="Control Environment">
+  <name>Control Environ&#173;ment</name>
+ </c>
+ <c name="UI Look and Feel" introduced="6.0">
+  <name>UI Look &amp;Feel</name>
+ </c>
+ <c name="UIKON" introduced="6.0">
+  <name>Uikon</name>
+ </c>
+ <c plugin="true" name="UIKON Error Resolver Plugin" ref="true"/>
+ <c name="Error Resolver Data" ref="true"/>
+ <c introduced="9.1" name="Animation"/>
+ <c name="BMP Animation" introduced="6.0"/>
+ <c plugin="true" name="Clock"/>
+ <c name="Text Formatting">
+  <name>Text Formatt&#173;ing</name>
+ </c>
+ <c name="Graphics Effects" introduced="9.2"/>
+ <c name="MUX CSY" plugin="true" ref="true"/>
+ <c name="TRP AGT" plugin="true" ref="true"/>
+ <c name="User Prompt Service" introduced="9.5"/>
+ <c name="Location Based Services" introduced="9.2"/>
+ <c name="OBEX Extension API" introduced="9.2"/>
+ <c name="Text Shaper Plugin" introduced="9.2" plugin="true"/>
+ <c name="SQL" introduced="9.3"/>
+ <c name="Open Environment Core" introduced="9.4">
+  <name>Open Environ&#173;ment Core</name>
+ </c>
+ <c name="Root Certificates" introduced="7.0s">
+  <name>Root Certif&#173;icates</name>
+ </c>
+ <c name="EGL Implementation" ref="true" introduced="9.4">
+  <name>EGL Implemen&#173;tation</name>
+ </c>
+ <c name="EGL API" ref="true" introduced="9.4"/>
+ <c introduced="8.0" ref="true" name="OpenGL ES Implementation">
+  <name>OpenGL ES Implemen&#173;tation</name>
+ </c>
+ <c introduced="8.0" ref="true" name="OpenGL ES API"/>
+ <c ref="true" plugin="true" name="iType Font Rasteriser" introduced="9.5">
+  <name>iType Font Rster.</name>
+ </c>
+ <c ref="true" introduced="9.5" name="OpenVG API"/>
+ <c name="Phonebook Access Profile" introduced="9.2"/>
+ <c name="Location Framework" introduced="9.2">
+  <name>Location Frmwrk.</name>
+ </c>
+ <c name="LBS Plugins" introduced="9.2"/>
+ <c name="LBS Network Test" introduced="9.2"/>
+ <c name="Location Server" introduced="9.2"/>
+ <c name="Network Request Handler" introduced="9.2"/>
+ <c name="A-GPS Location Manager" introduced="9.2"/>
+ <c name="Network Location Manager" introduced="9.2"/>
+ <c name="Network Gateway" introduced="9.2"/>
+ <c name="Network Protocol Module" introduced="9.2" plugin="true" ref="true"/>
+ <c name="A-GPS Adaptation Module for SIRF">
+  <name>A-GPS Adapt. Module for SIRF</name>
+ </c>
+ <c name="Certificate Store">
+  <name>Cert. Store</name>
+ </c>
+ <c name="MTP Framework" introduced="9.4">
+  <name>MTP Frmwk.</name>
+ </c>
+ <c name="MTP File and Folder Provider" introduced="9.4"/>
+ <c name="MTP USB Transport" introduced="9.4" plugin="true"/>
+ <c name="MTP Integration Test" introduced="9.4"/>
+ <c name="TRP Dispatch Layer Plugins" plugin="true"/>
+ <c name="DUMMY">
+  <name>Dummy</name>
+ </c>
+ <c name="E32TEST">
+  <name>E32 Test</name>
+ </c>
+ <c name="E32UTILS">
+  <name>E32 Utils</name>
+ </c>
+ <c name="BUILDSYSTEMTOOLS">
+  <name>Build System Tools</name>
+ </c>
+ <c name="BURTESTSERVER">
+  <name>BUR Test Server</name>
+ </c>
+ <c name="BCCOMPARATOR">
+  <name>BC Compar&#173;ator</name>
+ </c>
+ <c name="CBRTOOLS">
+  <name>CBR Tools</name>
+ </c>
+ <c name="CHATSCRIPTS">
+  <name>Chat Scripts</name>
+ </c>
+ <c name="DEPCHECK">
+  <name>Dependency Checker</name>
+ </c>
+ <c name="DEPMODEL">
+  <name>Depmodel</name>
+ </c>
+ <c name="DEVELOPERLIBRARY">
+  <name>Developer Library</name>
+ </c>
+ <c name="E32TOOLS EKA2">
+  <name>E32 Tools EKA2</name>
+ </c>
+ <c name="EVALID">
+  <name>Evalid</name>
+ </c>
+ <c name="KITCOMPARATOR">
+  <name>Kit Compar&#173;ator</name>
+ </c>
+ <c name="PLATTEST">
+  <name>Plat Test</name>
+ </c>
+ <c name="LEAVESCAN">
+  <name>Leavescan</name>
+ </c>
+ <c name="PROGRAMCHECKER">
+  <name>Program Checker</name>
+ </c>
+ <c name="RCOMP">
+  <name>Rcomp</name>
+ </c>
+ <c name="REDISTRIBUTION">
+  <name>Redistri&#173;bution</name>
+ </c>
+ <c name="RESOURCE_HANDLER">
+  <name>Resource Handler</name>
+ </c>
+ <c name="ROMKIT_EKA2">
+  <name>ROMKIT EKA2</name>
+ </c>
+ <c name="MIGRATIONTOOL">
+  <name>Migration Tool</name>
+ </c>
+ <c name="TESTDRIVER">
+  <name>Test Driver</name>
+ </c>
+ <c name="SMOKETEST">
+  <name>Smoketest</name>
+ </c>
+ <c name="STATAPI">
+  <name>Stat API</name>
+ </c>
+ <c name="STAT_DESKTOP">
+  <name>Stat Desktop</name>
+ </c>
+ <c name="TESTEXECUTE">
+  <name>Test Execute</name>
+ </c>
+ <c name="TESTTOOLS_DESKTOP">
+  <name>Testtools Desktop</name>
+ </c>
+ <c name="CINIDATA">
+  <name>CINI Data</name>
+ </c>
+ <c name="AUTOTEST">
+  <name>Autotest</name>
+ </c>
+ <c name="TESTCONFIGFILEPARSER">
+  <name>Test Config File Parser</name>
+ </c>
+ <c name="KITSETUPAPP">
+  <name>Kit Setup App</name>
+ </c>
+ <c name="NAVIGATION_PAGES">
+  <name>Navigation Pages</name>
+ </c>
+ <c name="PRODUCTINSTALLER">
+  <name>Product Installer</name>
+ </c>
+ <c name="REDISTRIBUTION_WINC_EKA2">
+  <name>Redistri&#173;bution WINC EKA2</name>
+ </c>
+ <c name="MAKEKEYS">
+  <name>Make Keys</name>
+ </c>
+ <c name="CAPTOOLS">
+  <name>Capability Tools</name>
+ </c>
+ <c name="UTRACE" introduced="9.3" deprecated="9.4">
+  <name>UTrace</name>
+ </c>
+ <c name="STLPORT">
+  <name>STL Port</name>
+ </c>
+ <c name="RUNPERL">
+  <name>Run PERL</name>
+ </c>
+ <c name="BUILD-TOOLS">
+  <name>Build Tools</name>
+ </c>
+ <c name="JAVALIBRARY">
+  <name>Java Library</name>
+ </c>
+ <c name="ASSERTION">
+  <name>Assertion</name>
+ </c>
+ <c name="ENUM">
+  <name>Enum</name>
+ </c>
+ <c name="LOGGER">
+  <name>Logger</name>
+ </c>
+ <c name="FILESYS">
+  <name>Filesys</name>
+ </c>
+ <c name="ENVVAR">
+  <name>Envvar</name>
+ </c>
+ <c name="INSTALLUTILS">
+  <name>Install Utils</name>
+ </c>
+ <c name="MNEMONICFIX">
+  <name>Mnemonic Fix</name>
+ </c>
+ <c name="PATHBROWSER">
+  <name>Path Browser</name>
+ </c>
+ <c name="SHELLEXEC">
+  <name>Shell Exec</name>
+ </c>
+ <c name="SWINGWORKER">
+  <name>Swing Worker</name>
+ </c>
+ <c name="TESTCASERUNNER">
+  <name>Test Case Runner</name>
+ </c>
+ <c name="TOOLBARPANEL">
+  <name>Toolbar Panel</name>
+ </c>
+ <c name="JAVAHELP">
+  <name>Java Help</name>
+ </c>
+ <c name="LANGCONFIG">
+  <name>Language Config</name>
+ </c>
+ <c name="MBMCODEC">
+  <name>MBM Codec</name>
+ </c>
+ <c name="SDKINFO">
+  <name>SDK Info</name>
+ </c>
+ <c name="CSHLPCMP_GUI">
+  <name>CSHLPCMP GUI</name>
+ </c>
+ <c name="SDKPKG-MANAGER">
+  <name>SDK Package Manager</name>
+ </c>
+ <c name="SDKPKG-TOOLS">
+  <name>SDK Package Tools</name>
+ </c>
+ <c name="EMULATOR_LAUNCHER">
+  <name>Emulator Launcher</name>
+ </c>
+ <c name="PKGMGRGUI">
+  <name>Mackage Manager GUI</name>
+ </c>
+ <c name="LAUNCH">
+  <name>Launch</name>
+ </c>
+ <c name="TOOLS_STUBS">
+  <name>Tools Stubs</name>
+ </c>
+ <c name="CWPLUGINS">
+  <name>CodeWarrior Plugins</name>
+ </c>
+ <c name="BSPBUILDER">
+  <name>BSP Builder</name>
+ </c>
+ <c name="ALP2CSH">
+  <name>ALP to CSH</name>
+ </c>
+ <c name="CJPEG">
+  <name>CJpeg</name>
+ </c>
+ <c name="CSHLPCMP_FRONTEND">
+  <name>CSHLPCMP Frontend</name>
+ </c>
+ <c name="PERLLIBRARY">
+  <name>PERL Library</name>
+ </c>
+ <c name="RTF2PTML">
+  <name>RTF to PTML</name>
+ </c>
+ <c name="SPLASH">
+  <name>Splash</name>
+ </c>
+ <c name="CONTACUI">
+  <name>Contacts UI</name>
+ </c>
+ <c name="AGENDA">
+  <name>Agenda UI</name>
+ </c>
+ <c name="AUDIO">
+  <name>Audio</name>
+ </c>
+ <c name="CONTACTS">
+  <name>Contacts</name>
+ </c>
+ <c name="SYNCMLAPP">
+  <name>Syncml App</name>
+ </c>
+ <c name="HELP">
+  <name>Help</name>
+ </c>
+ <c name="TIMEW">
+  <name>TimeW</name>
+ </c>
+ <c name="SECUI">
+  <name>SEC UI</name>
+ </c>
+ <c name="BLUETOOTHUI">
+  <name>Bluetooth UI</name>
+ </c>
+ <c name="PHONEUI">
+  <name>Phone UI</name>
+ </c>
+ <c name="IAPSTATUSAPP">
+  <name>IAP Status App</name>
+ </c>
+ <c name="CONNECTUI">
+  <name>Connect UI</name>
+ </c>
+ <c name="USBUI">
+  <name>USB UI</name>
+ </c>
+ <c name="MESSAGINGUI">
+  <name>Messaging UI</name>
+ </c>
+ <c name="AGENTNOTIFIER">
+  <name>Agent Notifier</name>
+ </c>
+ <c name="VPNUI">
+  <name>VPN UI</name>
+ </c>
+ <c name="STAT_DEVICE">
+  <name>Stat Device</name>
+ </c>
+ <c name="RESOURCE_HANDLER_UI">
+  <name>Resource Handler UI</name>
+ </c>
+ <c name="EXTRAS">
+  <name>Extras</name>
+ </c>
+ <c name="STATUSPANE">
+  <name>Status Pane</name>
+ </c>
+ <c name="SHELL">
+  <name>Shell</name>
+ </c>
+ <c name="STARTUP">
+  <name>Startup</name>
+ </c>
+ <c name="FEPSETUP">
+  <name>FEP Setup</name>
+ </c>
+ <c name="CCTLCOLSCHEME">
+  <name>CCTLCOL Scheme</name>
+ </c>
+ <c name="SOUNDSETUP">
+  <name>Sound Setup</name>
+ </c>
+ <c name="KEYCLICKREF">
+  <name>Key Click Ref</name>
+ </c>
+ <c name="ETHER AGT">
+  <name>Ether AGT</name>
+ </c>
+ <c name="GDITOOLS">
+  <name>GDI Tools</name>
+ </c>
+ <c name="INTEGRATIONTEST">
+  <name>Integration Test</name>
+ </c>
+ <c name="MSG TEST">
+  <name>Messaging Test</name>
+ </c>
+ <c name="MSG URLHANDLER">
+  <name>Messaging URL Handler</name>
+ </c>
+ <c name="SYSTEMMONITOR">
+  <name>System Monitor</name>
+ </c>
+ <c name="TEMPLATE_EKA2">
+  <name>Template EKA2</name>
+ </c>
+ <c name="TESTTOOLS_UTILITIES">
+  <name>Testtools Utilities</name>
+ </c>
+ <c name="WLDDATABASEKIT" introduced="6.0" deprecated="9.1">
+  <name>World Database Kit</name>
+ </c>
+ <c name="WLDTOOLS" introduced="5.0" deprecated="9.1">
+  <name>World Database Tools</name>
+ </c>
+ <c name="Trace Framework">
+  <name>Trace Frmwk.</name>
+ </c>
+ <c name="File-based Certificate and Key Stores" introduced="8.0">
+  <name>Cert. &amp; Key Stores</name>
+ </c>
+ <c name="Secure Software Install SIS Tools">
+  <name>SWI SIS Tools</name>
+ </c>
+ <c name="Surface Manager LDD" introduced="9.5"/>
+ <c name="Common Graphics Headers" introduced="9.5"/>
+ <c name="Graphics Composition Engine" introduced="9.5">
+  <name>Graphics Composi&#173;tion Eng.</name>
+ </c>
+ <c name="Composition Engine Adaptation" introduced="9.5">
+  <name>Compo&#173;sition Engine Adapt.</name>
+ </c>
+ <c name="Graphics Resource Content Update" introduced="9.5"/>
+ <c name="HTML to RichText Converter" plugin="true">
+  <name>HTML to RichText Cnvter.</name>
+ </c>
+ <c name="File Converter Plugins" plugin="true">
+  <name>File Cnvter. Plugins</name>
+ </c>
+ <c name="RichText to HTML Converter" plugin="true">
+  <name>RichText to HTML Cnvter.</name>
+ </c>
+ <c name="Number Formatting">
+  <name>Number Format&#173;ting</name>
+ </c>
+ <c introduced="9.1" name="Time Zone Server">
+  <name>Timezone Server</name>
+ </c>
+ <c introduced="9.1" name="Time Zone Compiler">
+  <name>Timezone Compiler</name>
+ </c>
+ <c introduced="9.1" name="Time Zone Database">
+  <name>Timezone Database</name>
+ </c>
+ <c introduced="9.1" name="Time Zone Localisation">
+  <name>Timezone Locali&#173;sation</name>
+ </c>
+ <c name="Time Zone Localisation Resource Factory">
+  <name>Timezone Localisa&#173;tion Rsc. Factry.</name>
+ </c>
+ <c name="Secure Software Install Device Tools" ref="true"/>
+ <c name="CAF Recogniser Configuration" ref="true">
+  <name>CAF Recog&#173;niser Config.</name>
+ </c>
+ <c plugin="true" name="POP3 and SMTP MTM">
+  <name>POP3 &amp; SMTP MTMs</name>
+ </c>
+ <c name="MMS Configuration">
+  <name>MMS Config.</name>
+ </c>
+ <c name="Front End Processor">
+  <name>Front End Proces&#173;sor</name>
+ </c>
+ <c name="Chart" introduced="5.0" deprecated="9.3"/>
+ <c name="World Server" introduced="7.0" deprecated="9.1"/>
+ <c name="World Database Kit" deprecated="9.1"/>
+ <c name="World Tools" deprecated="9.1"/>
+ <c name="Cotulla ASSP" ref="true"/>
+ <c name="E32 Utilities" ref="true"/>
+ <c name="Unistore2 Emulator Support" ref="true" introduced="9.4"/>
+ <c name="Integrator Unistore2 NAND Logic Module" ref="true">
+  <name>Integrtr. Unistore2 NAND Logic Module</name>
+ </c>
+ <c introduced="9.0" ref="true" name="OMAP H2 BSP"/>
+ <c name="Unistore2 Boot Support" ref="true"/>
+ <c ref="true" name="Emulator BSP"/>
+ <c name="User-Side Hardware Abstraction">
+  <name>User Side Hardware Abstrac&#173;tion</name>
+ </c>
+ <c name="Integrator ARM1136 Core Module" ref="true">
+  <name>Integrtr. ARM1136 Core Module</name>
+ </c>
+ <c name="Integrator ARM920 Core Module" ref="true">
+  <name>Integrtr. ARM920 Core Module</name>
+ </c>
+ <c name="Integrator Core Modules" ref="true">
+  <name>Integrtr. Core Modules</name>
+ </c>
+ <c name="Integrator Motherboard" ref="true">
+  <name>Integrtr. Mother&#173;board</name>
+ </c>
+ <c name="Integrator SSR NAND Logic Module" ref="true">
+  <name>Integrtr. SSR NAND Logic Module</name>
+ </c>
+ <c name="Integrator XX600 Logic Module" ref="true">
+  <name>Integrtr. XX600 Logic Module</name>
+ </c>
+ <c name="Integrator Panasonic Logic Module" ref="true">
+  <name>Integrtr. Panasonic Logic Module</name>
+ </c>
+ <c name="OMAP H2 SDIO" ref="true"/>
+ <c name="OMAP H4 SDIO" ref="true"/>
+ <c name="OMAP H2 Unistore2" ref="true"/>
+ <c name="OMAP H4 Unistore2" ref="true"/>
+ <c name="H4 Boot Loader" ref="true"/>
+ <c name="OMAP H4 Mini Environment Boot Loader" ref="true">
+  <name>H4 Mini Env. Boot Loader</name>
+ </c>
+ <c name="StrongArm 1100 ASSP" ref="true">
+  <name>Strong&#173;Arm 1100 ASSP</name>
+ </c>
+ <c name="System On Chip ASSP" ref="true"/>
+ <c name="Template Variant" ref="true"/>
+ <c name="Local Media Subsystem">
+  <name>Local Media Sub&#173;system</name>
+ </c>
+ <c name="OMAP H4 BSP" ref="true"/>
+ <c name="Lubbock BSP" ref="true"/>
+ <c name="SIP Params" plugin="true"/>
+ <c name="SIP Subconnection Provider" plugin="true">
+  <name>SIP Subcon. Provider</name>
+ </c>
+ <c name="SIP Connection Provider" plugin="true">
+  <name>SIP Connec&#173;tion Provider</name>
+ </c>
+ <c name="SIP Connection Plugins" plugin="true" introduced="9.5">
+  <name>SIP Connec&#173;tion Plugins</name>
+ </c>
+ <c name="MTP File and Folder Provider">
+  <name>MTP File &amp; Folder Provider</name>
+ </c>
+ <c name="OMA SyncML Common Framework">
+  <name>OMA SyncML Common Frmwk.</name>
+ </c>
+ <c name="Connectivity Services">
+  <name>Connec&#173;tivity Services</name>
+ </c>
+ <c name="Connectivity Framework">
+  <name>Connec&#173;tivity Frmwk.</name>
+ </c>
+ <c name="Data Sync Adaptors" plugin="true"/>
+ <c name="Device Management Integration Test">
+  <name>Dev Man Integration Test</name>
+ </c>
+ <c name="PLP Variant" deprecated="9.0"/>
+ <c name="PLP Remote Link" deprecated="9.0"/>
+ <c name="Event Broadcast" deprecated="9.0">
+  <name>Event Broad&#173;cast</name>
+ </c>
+ <c name="OpenMAX" introduced="9.4"/>
+ <c name="Multimedia Validation Suite Integration Tests" introduced="9.4"/>
+ <c name="Multimedia Validation Suite Agents" introduced="9.4"/>
+ <c name="Multimedia Validation Suite Application" introduced="9.4"/>
+ <c name="Assabet BSP" deprecated="8.0"/>
+ <c name="StrongArm 1100 ASSP" deprecated="8.0"/>
+ <c name="Speech Recognition Controller">
+  <name>Speech Recog&#173;nition Controller</name>
+ </c>
+ <c name="Reference DevSound Plugins" plugin="true"/>
+ <c name="Bluetooth DevSound Plugin" plugin="true"/>
+ <c name="A-GPS Reference Module" plugin="true"/>
+ <c name="SIP Dummy PRT" plugin="true"/>
+ <c name="MTP File and Folder Provider" plugin="true"/>
+ <c name="Weak Crypto SPI" introduced="9.5"/>
+ <c name="Strong Crypto SPI" introduced="9.5"/>
+ <c name="Feature Manager" introduced="9.6"/>
+ <c name="Comms Database Shim">
+  <name>Comms Dbase. Shim</name>
+ </c>
+ <c name="IP CPR Shim" plugin="true"/>
+ <c name="GPRS QOS PRT" plugin="true"/>
+ <c name="UMTS QOS PRT" plugin="true"/>
+ <c name="Predictor Compression" plugin="true">
+  <name>Predictor Compres&#173;sion</name>
+ </c>
+ <c name="Stac LZS Compression" plugin="true">
+  <name>Stac LZS Compres&#173;sion</name>
+ </c>
+ <c name="MPPC" plugin="true"/>
+ <c name="UMTS/GPRS SCPR" plugin="true"/>
+ <c name="QOS 3GPP CPR" plugin="true"/>
+ <c name="PDP SCPR" plugin="true"/>
+ <c name="QoS Framework Config">
+  <name>QoS Frmwk. Config</name>
+ </c>
+ <c name="IP CPR" plugin="true"/>
+ <c name="IP SCPR" plugin="true"/>
+ <c name="QOS IP SCPR" plugin="true"/>
+ <c name="IP Proto-CPR" plugin="true"/>
+ <c name="TCP CPR" plugin="true"/>
+ <c name="Graphics Composition Engine" introduced="9.5">
+  <name>Graphics Composi&#173;tion Engine</name>
+ </c>
+ <c name="Bluetooth HCI Proxy">
+  <name>Btooth. HCI Proxy</name>
+ </c>
+ <c name="Bluetooth HCI Implementation">
+  <name>Btooth. HCI Impl.</name>
+ </c>
+ <c name="Bluetooth Notifiers">
+  <name>Btooth. Notifiers</name>
+ </c>
+ <c name="Bluetooth Configuration">
+  <name>Btooth. Config</name>
+ </c>
+ <c name="Bluetooth GAVDP">
+  <name>Btooth. GAVDP</name>
+ </c>
+ <c name="Bluetooth ROM">
+  <name>Btooth. ROM</name>
+ </c>
+ <c name="Bluetooth User">
+  <name>Btooth. User</name>
+ </c>
+ <c name="Bluetooth Common">
+  <name>Btooth. Common</name>
+ </c>
+</model>

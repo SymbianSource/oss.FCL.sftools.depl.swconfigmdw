@@ -1,0 +1,5 @@
+<model>
+	 <sysdef href="System_Definition_Template.xml">
+	 	<info href="attr.xml" type="extra"/>
+	</sysdef>
+</model>

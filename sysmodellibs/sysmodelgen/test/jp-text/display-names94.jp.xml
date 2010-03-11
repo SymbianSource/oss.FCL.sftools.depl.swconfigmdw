@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display-names xml:lang="jp">
+  <abbrev name="Sched 12 Category" abbrev="条項12のカテゴリー"/>
+  <abbrev name="Optional Symbian" abbrev="任意でシンビアン"/>
+  <abbrev name="Common Symbian" abbrev="共通でシンビアン"/>
+  <abbrev name="Common Replace&#xad;able" abbrev="共通&#x200b;で代替可能"/>
+  <abbrev name="Optional Replace&#xad;able" abbrev="任意&#x200b;で代替可能"/>
+  <abbrev name="Refer&#xad;ence/Test" abbrev="参照/テスト"/>
+  <abbrev name="Depre&#xad;cated Compo&#xad;nent" abbrev="廃止されたコンポーネント"/>
+  <abbrev name="Reference Compo&#xad;nent" abbrev="参照コンポーネント"/>
+  <abbrev name="New in {@ver}" abbrev="{@ver} の中で新規"/>
+  <abbrev name="Plugin Compo&#xad;nent" abbrev="プラグイン コンポーネント"/>
+  <abbrev name="Technology Streams" abbrev="技術クラス"/>
+  <abbrev name="Base Services" abbrev="基礎サービス"/>
+  <abbrev name="Baseband Adaption" abbrev="ベースバンド対応"/>
+  <abbrev name="Comms Framework" abbrev="Comms フレームワーク"/>
+  <abbrev name="Crypto Services" abbrev="暗号サービス"/>
+  <abbrev name="Development Boards" abbrev="開発ボード"/>
+  <abbrev name="Kernel" abbrev="カーネル"/>
+  <abbrev name="Multimedia Protocols" abbrev="マルチメディア プロトコル"/>
+  <abbrev name="IP Networking" abbrev="IP ネットワーク"/>
+  <abbrev name="Open Environment" abbrev="オープン環境"/>
+  <abbrev name="Peripherals" abbrev="周辺機器"/>
+  <abbrev name="Persistent Data Services" abbrev="持続データ サービス"/>
+  <abbrev name="Shortlink" abbrev="ショートリンク"/>
+  <abbrev name="Telephony Services" abbrev="テレフォニー サービス"/>
+  <abbrev name="Text and I18n Services" abbrev="テキストおよび国際化サービス"/>
+  <abbrev name="Connectivity Services" abbrev="接続性サービス"/>
+  <abbrev name="Device Provisioning" abbrev="デバイスの準備"/>
+  <abbrev name="Graphics" abbrev="グラフィックス"/>
+  <abbrev name="Internet and Web Services" abbrev="インターネットおよびウェブ サービス"/>
+  <abbrev name="Location Based Services" abbrev="位置情報サービス"/>
+  <abbrev name="Java" abbrev="Java"/>
+  <abbrev name="Messaging" abbrev="メッセージング"/>
+  <abbrev name="Multimedia" abbrev="マルチメディア"/>
+  <abbrev name="PIM Application Services" abbrev="PIM アプリケーション サービス"/>
+  <abbrev name="UI Frameworks" abbrev="UI フレームワーク"/>
+  <abbrev name="Product Creation Tools" abbrev="製品開発ツール"/>
+  <abbrev name="Development Tools" abbrev="開発ツール"/>
+  <abbrev name="Technical Documentation" abbrev="技術文書"/>
+  <abbrev name="Test Product" abbrev="テスト製品"/>
+  <abbrev name="System Engineering" abbrev="システム エンジニアリング"/>
+  <abbrev name="System Model" abbrev="システム モデル"/>
+  <abbrev name="Internal" abbrev="内部"/>
+  <abbrev name="Key" abbrev="キー"/>
+  <abbrev name="HAL" abbrev="ハードウェア抽象化レイヤー"/>
+  <abbrev name="Board Support Packages" abbrev="ボード サポート パッケージ"/>
+  <abbrev name="Emulator" abbrev="エミュレータ"/>
+  <abbrev name="Emulator BSP" abbrev="エミュレータ BSP"/>
+  <abbrev name="Unistore2 Emulator Support" abbrev="ユニストア2 エミュレータ サポート"/>
+  <abbrev name="Assabet" abbrev="アサベット"/>
+  <abbrev name="Assabet BSP" abbrev="アサベット BSP"/>
+  <abbrev name="StrongArm 1100 ASSP" abbrev="ストロングアーム 1100 ASSP"/>
+  <abbrev name="Integrator BSP" abbrev="インテグレータ BSP"/>
+  <abbrev name="Integrator Motherboard" abbrev="インテグレータ マザーボード"/>
+  <abbrev name="Integrator Core Modules" abbrev="インテグレータ コア モジュール"/>
+  <abbrev name="Integrator ARM920 Core Module" abbrev="インテグレータ ARM920 コア モジュール"/>
+  <abbrev name="Integrator ARM1136 Core Module" abbrev="インテグレータ ARM1136 コア モジュール"/>
+  <abbrev name="Integrator XX600 Logic Module" abbrev="インテグレータ XX600 論理モジュール"/>
+  <abbrev name="Integrator SSR NAND Logic Module" abbrev="インテグレータ SSR NAND 論理モジュール"/>
+  <abbrev name="Integrator Panasonic Logic Module" abbrev="インテグレータ パナソニック 論理 モジュール"/>
+  <abbrev name="Integrator Unistore2 NAND Logic Module" abbrev="インテグレータ ユニストア2 NAND 論理モジュール"/>
+  <abbrev name="Lubbock" abbrev="ラボック"/>
+  <abbrev name="Lubbock BSP" abbrev="ラボック BSP"/>
+  <abbrev name="Cotulla ASSP" abbrev="コチュラ ASSP"/>
+  <abbrev name="OMAP H2" abbrev="OMAP H2"/>
+  <abbrev name="OMAP H2 BSP" abbrev="OMAP H2 BSP"/>
+  <abbrev name="OMAP H2 Unistore2" abbrev="OMAP H2 ユニストア2"/>
+  <abbrev name="OMAP H2 SDIO" abbrev="OMAP H2 SDIO"/>
+  <abbrev name="OMAP H4" abbrev="OMAP H4"/>
+  <abbrev name="OMAP H4 BSP" abbrev="OMAP H4 BSP"/>
+  <abbrev name="H4 Boot Loader" abbrev="H4 ブートローダ"/>
+  <abbrev name="OMAP H4 Mini Environment Boot Loader" abbrev="OAMP H4 ミニ環境ブートローダ"/>
+  <abbrev name="OMAP H4 Unistore2" abbrev="OMAP H4 ユニストア2"/>
+  <abbrev name="OMAP H4 SDIO" abbrev="OMAP H4 SDIO"/>
+  <abbrev name="Generic BSP" abbrev="一般 BSP"/>
+  <abbrev name="Template Variant" abbrev="テンプレート バリアント"/>
+  <abbrev name="Screen Drivers" abbrev="スクリーン ドライバー"/>
+  <abbrev name="Screen Driver" abbrev="スクリーン ドライバー"/>
+  <abbrev name="Baseband Adaptation Plugins" abbrev="ベースバンド対応プラグイン"/>
+  <abbrev name="Baseband Channel Adaptor for C32" abbrev="C32 のためのベースバンド チャネル アダプター"/>
+  <abbrev name="Baseband Channel Adaptor for ISC" abbrev="ISC のためのベースバンド チャネル アダプター"/>
+  <abbrev name="Kernel Services" abbrev="カーネル サービス"/>
+  <abbrev name="Kernel-side Services" abbrev="カーネル側のサービス"/>
+  <abbrev name="Kernel Architecture" abbrev="カーネル アーキテクチュア"/>
+  <abbrev name="Kernel Architecture 2" abbrev="カーネル アーキテクチュア 2"/>
+  <abbrev name="Boot Loader" abbrev="ブートローダ"/>
+  <abbrev name="Bootstrap" abbrev="ブートストラップ"/>
+  <abbrev name="Flash Translation Layer" abbrev="Flash 変換レイヤー"/>
+  <abbrev name="Unistore2 Drivers" abbrev="ユニストア2 ドライバー"/>
+  <abbrev name="Unistore2 Core" abbrev="ユニストア2 コア"/>
+  <abbrev name="Unistore2 Crash Logger" abbrev="ユニストア2 クラッシュ ロガー"/>
+  <abbrev name="Unistore2 Boot Support" abbrev="ユニストア2 ブート サポート"/>
+  <abbrev name="Logical Device Drivers" abbrev="論理デバイス ドライバー"/>
+  <abbrev name="Ethernet Driver" abbrev="イーサーネット ドライバー"/>
+  <abbrev name="Sound Driver" abbrev="サウンド ドライバー"/>
+  <abbrev name="Serial Port Driver" abbrev="シリアルポート ドライバー"/>
+  <abbrev name="Serial Port CSY" abbrev="シリアル ポート CSY"/>
+  <abbrev name="Legacy Drivers" abbrev="古いドライバー"/>
+  <abbrev name="Local Media Subsystem" abbrev="ローカル メディア サブシステム"/>
+  <abbrev name="Run Mode Debugger" abbrev="動作モード デバッガ"/>
+  <abbrev name="Kernel Trace Tool" abbrev="カーネル トレース ツール"/>
+  <abbrev name="Generic Driver Support" abbrev="一般ドライバー サポート"/>
+  <abbrev name="SD Card 3C Driver" abbrev="SD カード 3C ドライバー"/>
+  <abbrev name="SD Card 4C Driver" abbrev="SD カード 4C ドライバー"/>
+  <abbrev name="Media Drivers" abbrev="メディア ドライバー"/>
+  <abbrev name="Generic Board Support Packages" abbrev="一般ボード サポート パッケージ（BSP）"/>
+  <abbrev name="System On Chip ASSP" abbrev="システム オン チップ ASSP"/>
+  <abbrev name="Shortlink Logical Device Drivers" abbrev="ショートリンク論理デバイス ドライバー"/>
+  <abbrev name="USB Client Driver" abbrev="USB クライアント ドライバー"/>
+  <abbrev name="Graphics LDDs" abbrev="グラフィックス LDD"/>
+  <abbrev name="Surface Manager LDD" abbrev="サーフェス マネージャー LDD"/>
+  <abbrev name="Localisation" abbrev="現地語対応"/>
+  <abbrev name="Locale Support" abbrev="現地語サポート"/>
+  <abbrev name="User-side Services" abbrev="ユーザー側のサービス"/>
+  <abbrev name="User Library and File Server" abbrev="ユーザーライブラリとファイルサーバー"/>
+  <abbrev name="User Library" abbrev="ユーザーライブラリ"/>
+  <abbrev name="Compiler Runtime Support" abbrev="コンバイラ実行時サポート"/>
+  <abbrev name="File Server" abbrev="ファイルサーバー"/>
+  <abbrev name="FAT Filename Conversion Plugins" abbrev="FAT ファイルシステム変換プラグイン"/>
+  <abbrev name="NAND Flash Translation Layer" abbrev="NAND フラッシュ変換レイヤー"/>
+  <abbrev name="Base Starter" abbrev="ベース起動"/>
+  <abbrev name="File Systems" abbrev="ファイルシステム"/>
+  <abbrev name="ROM File System" abbrev="ROM ファイルシステム"/>
+  <abbrev name="ROFS File System" abbrev="ROFS ファイルシステム"/>
+  <abbrev name="USB Mass Storage File System" abbrev="USB 大容量記憶ファイルシステム"/>
+  <abbrev name="LFFS File System" abbrev="LFFS ファイルシステム"/>
+  <abbrev name="FAT32 File System" abbrev="FAT32 ファイルシステム"/>
+  <abbrev name="FAT File System" abbrev="FAT ファイルシステム"/>
+  <abbrev name="Composite File System" abbrev="コンポジット ファイルシステム"/>
+  <abbrev name="NTFS File System" abbrev="NTFS ファイルシステム"/>
+  <abbrev name="ISO9660 File System" abbrev="ISO9660 ファイルシステム"/>
+  <abbrev name="HAL Services" abbrev="HAL サービス"/>
+  <abbrev name="User-Side Hardware Abstraction" abbrev="ユーザー側のハードウェア抽象化"/>
+  <abbrev name="Text Mode Shell" abbrev="テキストモード シェル"/>
+  <abbrev name="Text Window Server" abbrev="テキスト ウインドウ サーバー"/>
+  <abbrev name="Text Shell" abbrev="テキスト シェル"/>
+  <abbrev name="OS Services" abbrev="OS サービス"/>
+  <abbrev name="Base Services" abbrev="ベース サービス"/>
+  <abbrev name="Generic OS Services" abbrev="一般 OS サービス"/>
+  <abbrev name="Generic Services" abbrev="一般 サービス"/>
+  <abbrev name="MIME Recognition Framework" abbrev="MIME 認識フレームワーク"/>
+  <abbrev name="System Agent" abbrev="システム エージェント"/>
+  <abbrev name="Task Scheduler" abbrev="タスク スケジューラ"/>
+  <abbrev name="Active Backup Client" abbrev="アクティブ バックアップ クライアント"/>
+  <abbrev name="System State Management" abbrev="システム状態管理"/>
+  <abbrev name="System Starter" abbrev="システム起動"/>
+  <abbrev name="Crypto Management Libraries" abbrev="暗号管理ライブラリ"/>
+  <abbrev name="Security Utils" abbrev="セキュリティ ユーティリティ"/>
+  <abbrev name="Security Config" abbrev="セキュリティ設定"/>
+  <abbrev name="Crypto Token Framework" abbrev="暗号トークン フレームワーク"/>
+  <abbrev name="File-based Certificate and Key Stores" abbrev="ファイルに基づく証明およびキー保存"/>
+  <abbrev name="Generic Open Libraries" abbrev="一般のオープン ライブラリ"/>
+  <abbrev name="C Standard Library" abbrev="C 標準ライブラリ"/>
+  <abbrev name="Open Environment Core" abbrev="オープン環境コア"/>
+  <abbrev name="Compression and Crypto Libraries" abbrev="圧縮と暗号のライブラリ"/>
+  <abbrev name="Zip Compression Library" abbrev="Zip 圧縮ライブラリ"/>
+  <abbrev name="Weak Cryptography Library" abbrev="弱い暗号のライブラリ"/>
+  <abbrev name="Strong Cryptography Library" abbrev="強力な暗号のライブラリ"/>
+  <abbrev name="Weak Crypto SPI" abbrev="弱い暗号の SPI"/>
+  <abbrev name="Strong Crypto SPI" abbrev="強力な暗号の SPI"/>
+  <abbrev name="Crypto SPI Plugins" abbrev="暗号 SPI プラグイン"/>
+  <abbrev name="Low Level Libraries and Frameworks" abbrev="ローレベル ライブラリとフレームワーク"/>
+  <abbrev name="Plugin Framework" abbrev="プラグイン フレームワーク"/>
+  <abbrev name="Application Utilities" abbrev="アプリケーション ユーティリティ"/>
+  <abbrev name="Resource Management" abbrev="リソース管理"/>
+  <abbrev name="Feature Manager" abbrev="機能マネージャー"/>
+  <abbrev name="Feature Registry" abbrev="機能レジストリ"/>
+  <abbrev name="Hardware Resources Manager" abbrev="ハードウェア リソース マネージャー"/>
+  <abbrev name="Power and Memory Notification Service" abbrev="電力とメモリー通知サービス"/>
+  <abbrev name="Domain Manager" abbrev="ドメイン マネージャー"/>
+  <abbrev name="Character Conversion Framework" abbrev="文字変換フレームワーク"/>
+  <abbrev name="Character Encoding and Conversion Framework" abbrev="文字エンコーディングと変換フレームワーク"/>
+  <abbrev name="Character Encoding and Conversion Plugins" abbrev="文字エンコーディングと変換プラグイン"/>
+  <abbrev name="Persistent Data Services" abbrev="持続データ サービス"/>
+  <abbrev name="Logging Services" abbrev="ログ サービス"/>
+  <abbrev name="Event Logger" abbrev="イベント ロガー"/>
+  <abbrev name="File Logger" abbrev="ファイル ロガー"/>
+  <abbrev name="Comms Debug Utility" abbrev="Comms デバッグ ユーティリティ"/>
+  <abbrev name="Trace Framework" abbrev="トレース フレームワーク"/>
+  <abbrev name="Content Management" abbrev="コンテンツ管理"/>
+  <abbrev name="Content Access Framework for DRM" abbrev="DRM のためのコンテンツ アクセス フレームワーク"/>
+  <abbrev name="CAF Recogniser Configuration" abbrev="CAF 認識設定"/>
+  <abbrev name="XML" abbrev="XML"/>
+  <abbrev name="XML Framework" abbrev="XML フレームワーク"/>
+  <abbrev name="XML Parser" abbrev="XML 構文解析ツール"/>
+  <abbrev name="WBXML Parser" abbrev="WBXML 構文解析ツール"/>
+  <abbrev name="Persistent Storage" abbrev="持続的格納"/>
+  <abbrev name="Store" abbrev="格納"/>
+  <abbrev name="DBMS" abbrev="DBMS"/>
+  <abbrev name="DBMS Emulation Library" abbrev="DBMS エミュレーション ライブラリ"/>
+  <abbrev name="Central Repository" abbrev="セントラル リポジトリ"/>
+  <abbrev name="SQL" abbrev="SQL"/>
+  <abbrev name="Comms Services" abbrev="Comms サービス"/>
+  <abbrev name="Communications Framework" abbrev="コミュニケーション フレームワーク"/>
+  <abbrev name="Comms Process and Settings" abbrev="Comms プロセスと設定"/>
+  <abbrev name="Comms Root Server" abbrev="Comms ルートサーバー"/>
+  <abbrev name="Comms Root Server Config" abbrev="Comms ルートサーバー設定"/>
+  <abbrev name="Comms Config. Utils" abbrev="Comms 設定ユーティリティ"/>
+  <abbrev name="Comms Database" abbrev="Comms データベース"/>
+  <abbrev name="Comms Database Shim" abbrev="Comms データベース シム"/>
+  <abbrev name="Data Comms Server" abbrev="データ Comms サーバー"/>
+  <abbrev name="ESock Server" abbrev="ESock サーバー"/>
+  <abbrev name="ESock Server Config" abbrev="ESock サーバー設定"/>
+  <abbrev name="Network Interface Manager" abbrev="ネットワーク インターフェース マネージャー"/>
+  <abbrev name="Agent Dialog" abbrev="エージェント ダイアローグ"/>
+  <abbrev name="Network Controller" abbrev="ネットワーク コントローラ"/>
+  <abbrev name="Serial Server" abbrev="シリアルサーバー"/>
+  <abbrev name="C32 Serial Server" abbrev="C32 シリアルサーバー"/>
+  <abbrev name="C32 Serial Server Config" abbrev="C32 シリアルサーバー設定"/>
+  <abbrev name="Comms Framework Utilities" abbrev="Comms フレームワーク ユーティリティ"/>
+  <abbrev name="Comms Framework" abbrev="Comms フレームワーク"/>
+  <abbrev name="Comms Elements" abbrev="Comms 要素"/>
+  <abbrev name="MBuf Manager" abbrev="MBuf マネージャー"/>
+  <abbrev name="Base Connection Providers" abbrev="ベース接続プロバイダ"/>
+  <abbrev name="Reference CPR" abbrev="リファレンス CPR"/>
+  <abbrev name="Reference SCPR" abbrev="リファレンス SCPR"/>
+  <abbrev name="Baseband Abstraction" abbrev="ベースバンド抽象化"/>
+  <abbrev name="Baseband Channel Adaptor" abbrev="ベースバンド チャンネル アダプター フレームワーク"/>
+  <abbrev name="Inter-System Communication" abbrev="内部システム通信"/>
+  <abbrev name="Telephony Services" abbrev="テレフォニー サービス"/>
+  <abbrev name="Telephony Utilities" abbrev="テレフォニー ユーティリティ"/>
+  <abbrev name="Dial" abbrev="ダイアル"/>
+  <abbrev name="Telephony Watchers" abbrev="テレフォニー ウオッチャー"/>
+  <abbrev name="ETel 3rd Party API" abbrev="ETel サードパーティ API"/>
+  <abbrev name="Fax" abbrev="ファックス"/>
+  <abbrev name="Fax Client and Server" abbrev="ファックスのクライアント＆サーバー"/>
+  <abbrev name="Telephony Server" abbrev="テレフォニー サーバー"/>
+  <abbrev name="ETel Server and Core" abbrev="ETel サーバーとコア"/>
+  <abbrev name="ETel Config" abbrev="ETel 設定"/>
+  <abbrev name="ETel Multimode" abbrev="ETel マルチモード"/>
+  <abbrev name="ETel Packet Data" abbrev="ETel パケット データ"/>
+  <abbrev name="ETel SIM Toolkit" abbrev="ETel SIM ツールキット"/>
+  <abbrev name="ETel CDMA" abbrev="ETel CDMA"/>
+  <abbrev name="SMS Protocols" abbrev="SMS プロトコル"/>
+  <abbrev name="SMS Stack" abbrev="SMS スタック"/>
+  <abbrev name="CDMA SMS Stack" abbrev="CDMA SMS スタック"/>
+  <abbrev name="Telephony Server Plugins" abbrev="テレフォニー サーバー プラグイン"/>
+  <abbrev name="MultiMode TSY" abbrev="マルチモード TSY"/>
+  <abbrev name="CDMA TSY" abbrev="CDMA TSY"/>
+  <abbrev name="SIM TSY" abbrev="SIM TSY"/>
+  <abbrev name="Telephony Reference Platform" abbrev="テレフォニー リファレンス プラットフォーム"/>
+  <abbrev name="TRP TSY" abbrev="TRP TSY"/>
+  <abbrev name="TRP AGT" abbrev="TRP エージェント"/>
+  <abbrev name="Networking Services" abbrev="ネットワーク サービス"/>
+  <abbrev name="TCP/IP Utilities" abbrev="TCP/IP ユーティリティ"/>
+  <abbrev name="DND" abbrev="DND"/>
+  <abbrev name="DND Config" abbrev="DND 設定"/>
+  <abbrev name="DHCP" abbrev="DHCP"/>
+  <abbrev name="Network Address and Port Translation" abbrev="ネットワーク アドレスとポート変換"/>
+  <abbrev name="ESock API Extensions" abbrev="ESock API 拡張"/>
+  <abbrev name="Internet Sockets" abbrev="インターネット ソケット"/>
+  <abbrev name="Network Protocols" abbrev="ネットワーク プロトコル"/>
+  <abbrev name="IP Event Notifier" abbrev="IP イベント通知"/>
+  <abbrev name="TCP/IPv4/v6 PRT" abbrev="TCP/IPv4/v6 PRT"/>
+  <abbrev name="IPv6 Config" abbrev="IPv6 設定"/>
+  <abbrev name="IP Hook" abbrev="IP フック"/>
+  <abbrev name="Mobile IP" abbrev="モバイル IP"/>
+  <abbrev name="Network Control" abbrev="ネットワーク コントロール"/>
+  <abbrev name="QoS Framework Config" abbrev="QoS フレームワーク設定"/>
+  <abbrev name="QoS Library" abbrev="QoS ライブラリ"/>
+  <abbrev name="PF QoS Library" abbrev="PF QoS ライブラリ"/>
+  <abbrev name="QoS Framework PRT" abbrev="QoS フレームワーク PRT"/>
+  <abbrev name="IP CPR" abbrev="IP CPR"/>
+  <abbrev name="IP SCPR" abbrev="IP SCPR"/>
+  <abbrev name="QOS IP SCPR" abbrev="QoS IP SCPR"/>
+  <abbrev name="IP Proto-CPR" abbrev="IP プロト CPR"/>
+  <abbrev name="TCP CPR" abbrev="TCP CPR"/>
+  <abbrev name="IP CPR Shim" abbrev="IP CPR シム"/>
+  <abbrev name="Link Layer Control" abbrev="リンク レイヤー コントロール"/>
+  <abbrev name="CSD AGT" abbrev="CSD エージェント"/>
+  <abbrev name="PSD AGT" abbrev="PSD エージェント"/>
+  <abbrev name="NULL AGT" abbrev="空のエージェント"/>
+  <abbrev name="GPRS QOS PRT" abbrev="GPRS QoS PRT"/>
+  <abbrev name="UMTS QOS PRT" abbrev="UMTS QoS PRT"/>
+  <abbrev name="QOS Extn API" abbrev="QoS 拡張 API"/>
+  <abbrev name="Secondary PDP context UMTS Driver" abbrev="セカンダリ PDP UMTS ドライバー"/>
+  <abbrev name="UMTS/GPRS SCPR" abbrev="UMTS/GPRS SCPR"/>
+  <abbrev name="QOS 3GPP CPR" abbrev="QoS 3GPP CPR"/>
+  <abbrev name="PDP SCPR" abbrev="PDP SCPR"/>
+  <abbrev name="Link Layer Protocols" abbrev="リンク レイヤー プロトコル"/>
+  <abbrev name="Ethernet NIF" abbrev="イーサーネット NIF"/>
+  <abbrev name="Ethernet Packet Driver" abbrev="イーサーネット パケット ドライバー"/>
+  <abbrev name="PPP NIF" abbrev="PPP NIF"/>
+  <abbrev name="PPP Config" abbrev="PPP 設定"/>
+  <abbrev name="SLIP NIF" abbrev="SLIP NIF"/>
+  <abbrev name="Tunnel NIF" abbrev="トンネル NIF"/>
+  <abbrev name="Raw IP NIF" abbrev="未加工の IP NIF"/>
+  <abbrev name="Wireless LAN" abbrev="ワイヤレス LAN"/>
+  <abbrev name="PPP Compression Plugins" abbrev="PPP 圧縮プラグイン"/>
+  <abbrev name="Predictor Compression" abbrev="予測圧縮"/>
+  <abbrev name="MPPC" abbrev="MPPC"/>
+  <abbrev name="Stac LZS Compression" abbrev="スタック LZS 圧縮"/>
+  <abbrev name="Link Layer Utilities" abbrev="リンクレイヤー ユーティリティ"/>
+  <abbrev name="EAP Framework" abbrev="EAP フレームワーク"/>
+  <abbrev name="Packet Logger" abbrev="パッケット ロガー"/>
+  <abbrev name="Short Link Services" abbrev="ショートリンク サービス"/>
+  <abbrev name="USB Management" abbrev="USB 管理"/>
+  <abbrev name="USB Manager" abbrev="USB マネージャー"/>
+  <abbrev name="USB Function Drivers" abbrev="USB 機能ドライバー"/>
+  <abbrev name="Mass Storage Driver" abbrev="大容量記憶ドライバー"/>
+  <abbrev name="Short Link" abbrev="ショートリンク"/>
+  <abbrev name="HCI Framework" abbrev="HCI フレームワーク"/>
+  <abbrev name="Bluetooth SDP" abbrev="ブルートゥース SDP"/>
+  <abbrev name="Remote Control Framework" abbrev="リモート コントロール フレームワーク"/>
+  <abbrev name="Host Controller Interface" abbrev="ホスト コントローラ インターフェース"/>
+  <abbrev name="Bluetooth HCI" abbrev="ブルートゥース HCI"/>
+  <abbrev name="Bluetooth HCI Proxy" abbrev="ブルートゥース HCI プロキシー"/>
+  <abbrev name="Bluetooth HCI Implementation" abbrev="ブルートゥース HCI 実装"/>
+  <abbrev name="Bluetooth" abbrev="ブルートゥース"/>
+  <abbrev name="Bluetooth Manager" abbrev="ブルートゥース マネージャー"/>
+  <abbrev name="Bluetooth Notifiers" abbrev="ブルートゥース通知"/>
+  <abbrev name="Bluetooth Config" abbrev="ブルートゥース設定"/>
+  <abbrev name="Bluetooth GAVDP" abbrev="ブルートゥース GAVDP"/>
+  <abbrev name="Bluetooth ROM" abbrev="ブルートゥース ROM"/>
+  <abbrev name="Bluetooth User" abbrev="ブルートゥース ユーザー"/>
+  <abbrev name="Bluetooth Common" abbrev="ブルートゥース共通"/>
+  <abbrev name="Short Link Protocol Plugins" abbrev="ショートリンク プロトコル プラグイン"/>
+  <abbrev name="Bluetooth Stack PRT" abbrev="ブルートゥース スタック プロトコル"/>
+  <abbrev name="IrDA PRT" abbrev="IrDA PRT"/>
+  <abbrev name="IrDA Config" abbrev="IrDA 設定"/>
+  <abbrev name="Serial Comms Server Plugins" abbrev="シリアル Comms サーバー プラグイン"/>
+  <abbrev name="Bluetooth CSY" abbrev="ブルートゥース CSY"/>
+  <abbrev name="MUX CSY" abbrev="MUX CSY"/>
+  <abbrev name="Multimedia" abbrev="マルチメディア"/>
+  <abbrev name="Multimedia APIs and Frameworks" abbrev="マルチメディア API とフレームワーク"/>
+  <abbrev name="Multimedia Framework" abbrev="マルチメディア フレームワーク"/>
+  <abbrev name="Multimedia Utility Library" abbrev="マルチメディア ユーティリティ ライブラリ"/>
+  <abbrev name="Imaging Frameworks" abbrev="イメージング フレームワーク"/>
+  <abbrev name="Camera Framework" abbrev="カメラ フレームワーク"/>
+  <abbrev name="Broadcast Radio Tuner" abbrev="ブロードキャスト ラジオ チューナー"/>
+  <abbrev name="Multimedia Plugins" abbrev="マルチメディア プラグイン"/>
+  <abbrev name="Multimedia Framework Plugins" abbrev="マルチメディア フレームワーク プラグイン"/>
+  <abbrev name="Imaging Plugins" abbrev="イメージング プラグイン"/>
+  <abbrev name="Camera Plugins" abbrev="カメラ プラグイン"/>
+  <abbrev name="Multimedia Device Framework" abbrev="マルチメディア デバイス フレームワーク"/>
+  <abbrev name="Media Device Framework" abbrev="メディア デバイス フレームワーク"/>
+  <abbrev name="Speech Recognition Controller" abbrev="スピーチ認識コントローラ"/>
+  <abbrev name="OpenMAX" abbrev="OpenMAX"/>
+  <abbrev name="Sound Device" abbrev="サウンド デバイス"/>
+  <abbrev name="DevSound API" abbrev="DevSound API"/>
+  <abbrev name="DevSound Hardware Device API" abbrev="DevSound ハードウェア デバイス API"/>
+  <abbrev name="DevSound Plugin Support" abbrev="DevSound プラグイン サポート"/>
+  <abbrev name="Reference DevSound Plugins" abbrev="リファレンス DevSound プラグイン"/>
+  <abbrev name="Bluetooth DevSound Plugin" abbrev="ブルートゥース DevSound プラグイン"/>
+  <abbrev name="Multimedia Hardware Adaptation Interfaces" abbrev="マルチメディア ハードウェア対応インターフェース"/>
+  <abbrev name="Video HAI" abbrev="ビデオ HAI"/>
+  <abbrev name="Mobile TV DVB-H Receiver HAI" abbrev="モバイル TV DVB-H レシーバー HAI"/>
+  <abbrev name="Graphics" abbrev="グラフィックス"/>
+  <abbrev name="Windowing Framework" abbrev="ウインドウ フレームワーク"/>
+  <abbrev name="Window Server" abbrev="ウインドウ サーバー"/>
+  <abbrev name="Printing Services" abbrev="印刷サービス"/>
+  <abbrev name="Printer Driver Support" abbrev="プリンター ドライバー サポート"/>
+  <abbrev name="Printer Drivers" abbrev="プリンター ドライバー"/>
+  <abbrev name="Fonts Services" abbrev="フォント サービス"/>
+  <abbrev name="Text Shaper Plugin" abbrev="テキスト形成プラグイン"/>
+  <abbrev name="Font and Bitmap Server" abbrev="フォントとビットマップ サーバー"/>
+  <abbrev name="Font Store" abbrev="フォント格納"/>
+  <abbrev name="FreeType Font Rasteriser" abbrev="フリータイプ フォント ラスタライザ"/>
+  <abbrev name="iType Font Rasteriser" abbrev="iType フォント ラスターライザー"/>
+  <abbrev name="Reference Fonts" abbrev="リファレンス フォント"/>
+  <abbrev name="Khronos APIs" abbrev="Khronos API"/>
+  <abbrev name="OpenGL ES Framework" abbrev="OpenGL ES フレームワーク"/>
+  <abbrev name="OpenGL ES API" abbrev="OpenGL ES API"/>
+  <abbrev name="OpenVG API" abbrev="OpenVG API"/>
+  <abbrev name="EGL API" abbrev="EGL API"/>
+  <abbrev name="Khronos Implementation" abbrev="Khronos 実装"/>
+  <abbrev name="OpenGL ES Implementation" abbrev="OpenGL ES 実装"/>
+  <abbrev name="OpenVG Implementation" abbrev="OpenVG 実装"/>
+  <abbrev name="EGL Implementation" abbrev="EGL 実装"/>
+  <abbrev name="Graphics Device Interface" abbrev="グラフィックス デバイス インターフェース"/>
+  <abbrev name="Bit GDI" abbrev="Bit GDI"/>
+  <abbrev name="GDI" abbrev="GDI"/>
+  <abbrev name="Colour Palette" abbrev="カラー パレット"/>
+  <abbrev name="Core Graphics Resources" abbrev="コア グラフィックス リソース"/>
+  <abbrev name="Common Graphics Headers" abbrev="共通グラフィックス ヘッダー"/>
+  <abbrev name="Graphics Surface Composition" abbrev="グラフィックス サーフェス合成"/>
+  <abbrev name="Graphics Composition Engine" abbrev="グラフィックス合成エンジン"/>
+  <abbrev name="Composition Engine Adaptation" abbrev="合成エンジン対応"/>
+  <abbrev name="Graphics Resource Content Update" abbrev="グラフィックス リソース コンテンツ更新"/>
+  <abbrev name="Location Based Services" abbrev="位置情報サービス"/>
+  <abbrev name="Location Request Management" abbrev="位置情報要求管理"/>
+  <abbrev name="Location Server" abbrev="位置情報サーバー"/>
+  <abbrev name="Network Request Handler" abbrev="ネットワーク要求ハンドラー"/>
+  <abbrev name="Location Management" abbrev="位置情報管理"/>
+  <abbrev name="A-GPS Location Manager" abbrev="A-GPS 位置情報マネージャー"/>
+  <abbrev name="Network Location Manager" abbrev="ネットワーク位置情報マネージャー"/>
+  <abbrev name="LBS Admin" abbrev="LBS 管理"/>
+  <abbrev name="Network Gateway" abbrev="ネットワーク ゲートウェイ"/>
+  <abbrev name="Network Adaptation" abbrev="ネットワーク対応"/>
+  <abbrev name="Network Protocol Module" abbrev="ネットワーク プロトコル モジュール"/>
+  <abbrev name="Privacy Protocol Module" abbrev="プライバシー プロトコル モジュール"/>
+  <abbrev name="Data Source Adaptation" abbrev="データ ソース対応"/>
+  <abbrev name="A-GPS Reference Module" abbrev="A-GPS リファレンス モジュール"/>
+  <abbrev name="Generic Middleware" abbrev="一般ミドルウェア"/>
+  <abbrev name="Generic Application Support" abbrev="一般アプリケーション サポート"/>
+  <abbrev name="File Handling" abbrev="ファイルの取り扱い"/>
+  <abbrev name="File Converter Framework" abbrev="ファイル変換フレームワーク"/>
+  <abbrev name="Other File Converter Plugins" abbrev="他のファイル変換プラグイン"/>
+  <abbrev name="HTML to RichText Converter" abbrev="HTML からリッチ テキストへのコンバータ"/>
+  <abbrev name="RichText to HTML Converter" abbrev="リッチ テキストから HTML へのコンバータ"/>
+  <abbrev name="Text Rendering" abbrev="テキスト描画"/>
+  <abbrev name="Text Handling" abbrev="テキスト操作"/>
+  <abbrev name="Text Formatting" abbrev="テキスト フォーマット"/>
+  <abbrev name="Common Application Services" abbrev="共通アプリケーション サービス"/>
+  <abbrev name="Alarm Server" abbrev="アラーム サーバー"/>
+  <abbrev name="Help" abbrev="ヘルプ"/>
+  <abbrev name="Time Zone Services" abbrev="タイムゾーン サービス"/>
+  <abbrev name="Time Zone Server" abbrev="タイムゾーン サーバー"/>
+  <abbrev name="Time Zone Localisation" abbrev="タイムゾーン現地語化"/>
+  <abbrev name="World Server" abbrev="ワールド サーバー"/>
+  <abbrev name="Content Handling" abbrev="コンテンツの取り扱い"/>
+  <abbrev name="Content Handling Framework" abbrev="コンテンツ操作フレームワーク"/>
+  <abbrev name="SMIL Parser" abbrev="SMIL 構文解析ツール"/>
+  <abbrev name="Web Recognisers" abbrev="ウェブ認識"/>
+  <abbrev name="Reference DRM Agent" abbrev="参照 DRM エージェント"/>
+  <abbrev name="Printing Support" abbrev="印刷サービス"/>
+  <abbrev name="Printing UI Support" abbrev="印刷 UI サポート"/>
+  <abbrev name="Open Environment Utilities" abbrev="オープン環境ユーティリティ"/>
+  <abbrev name="Command Shell" abbrev="コマンド シェル"/>
+  <abbrev name="Telnet Server" abbrev="Telnet サーバー"/>
+  <abbrev name="Backup and Restore" abbrev="バックアップとリストア"/>
+  <abbrev name="Backup Engine" abbrev="バックアップ エンジン"/>
+  <abbrev name="Security Management" abbrev="セキュリティ管理"/>
+  <abbrev name="Installation Services" abbrev="インストール サービス"/>
+  <abbrev name="Secure Software Install" abbrev="セキュア ソフトウェア インストール"/>
+  <abbrev name="Secure Software Install Device Tools" abbrev="セキュア ソフトウェア インストール デバイス ツール"/>
+  <abbrev name="SIS Installer" abbrev="SIS インストーラ"/>
+  <abbrev name="Java MIDlet Installer" abbrev="Java MIDlet インストーラ"/>
+  <abbrev name="Authorisation" abbrev="認可"/>
+  <abbrev name="User Prompt Service" abbrev="ユーザー プロンプト サービス"/>
+  <abbrev name="Crypto Services" abbrev="暗号サービス"/>
+  <abbrev name="Certificate and Key Management" abbrev="証明とキー管理"/>
+  <abbrev name="Root Certificates" abbrev="ルート証明"/>
+  <abbrev name="ASN PKCS" abbrev="ASN PKCS"/>
+  <abbrev name="Network Security" abbrev="ネットワーク セキュリティ"/>
+  <abbrev name="EAP Plugins for WiFi" abbrev="WiFi の EAP プラグイン"/>
+  <abbrev name="TLS" abbrev="TLS"/>
+  <abbrev name="TLS Provider" abbrev="TLS プロバイダー"/>
+  <abbrev name="IPSec" abbrev="IPSec"/>
+  <abbrev name="Security Utilities" abbrev="セキュリティ ユーティリティ"/>
+  <abbrev name="Security Common Utils" abbrev="セキュリティ共通ユーティリティ"/>
+  <abbrev name="Application Protocols" abbrev="アプリケーション プロトコル"/>
+  <abbrev name="Application Layer Protocols" abbrev="アプリケーション レイヤー プロトコル"/>
+  <abbrev name="HTTP Transport Framework" abbrev="HTTP 転送フレームワーク"/>
+  <abbrev name="HTTP Examples" abbrev="HTTP のサンプル"/>
+  <abbrev name="WAP Push Framework" abbrev="WAP プッシュ フレームワーク"/>
+  <abbrev name="WAP Push Handlers" abbrev="WAP プッシュ操作"/>
+  <abbrev name="WAP Base" abbrev="WAP ベース"/>
+  <abbrev name="FTP Engine" abbrev="FTP エンジン"/>
+  <abbrev name="Telnet Engine" abbrev="Telnet エンジン"/>
+  <abbrev name="OBEX Protocol" abbrev="OBEX プロトコル"/>
+  <abbrev name="OBEX Extension API" abbrev="OBEX 拡張 API"/>
+  <abbrev name="Application Layer Plugins and Utils" abbrev="アプリケーション レイヤー プラグインとユーティリティ"/>
+  <abbrev name="HTTP Utilities Library" abbrev="HTTP ユーティリティ ライブラリ"/>
+  <abbrev name="URI Permission Services" abbrev="URI 許可サービス"/>
+  <abbrev name="Bookmark Support" abbrev="ブックマーク サポート"/>
+  <abbrev name="HTTP Protocol Plugins" abbrev="HTTP プロトコル プラグイン"/>
+  <abbrev name="HTTP Transport Plugins" abbrev="HTTP 転送プラグイン"/>
+  <abbrev name="Bluetooth Profiles" abbrev="ブルートゥース プロファイル"/>
+  <abbrev name="Remote Control Profile" abbrev="リモート コントロール プロファイル"/>
+  <abbrev name="Phonebook Access Profile" abbrev="電話帳アクセス プロファイル"/>
+  <abbrev name="Bluetooth PAN Profile" abbrev="ブルートゥース PAN プロファイル"/>
+  <abbrev name="WAP Stack" abbrev="WAP スタック"/>
+  <abbrev name="WAP Message API" abbrev="WAP メッセージ API"/>
+  <abbrev name="WAP Short Stack" abbrev="WAP ショート スタック"/>
+  <abbrev name="Connectivity Transports" abbrev="接続性転送"/>
+  <abbrev name="m-Router" abbrev="m-ルーター"/>
+  <abbrev name="PLP Remote Link" abbrev="PLP リモート リンク"/>
+  <abbrev name="PLP Variant" abbrev="PLP バリアント"/>
+  <abbrev name="Event Broadcast" abbrev="イベント ブロードキャスト"/>
+  <abbrev name="MTP Transports" abbrev="MTP 転送"/>
+  <abbrev name="MTP USB Transport" abbrev="MTP USB 転送"/>
+  <abbrev name="Multimedia Middleware" abbrev="マルチメディア ミドルウェア"/>
+  <abbrev name="Multimedia Protocols" abbrev="マルチメディア プロトコル"/>
+  <abbrev name="MTP Framework" abbrev="MTP フレームワーク"/>
+  <abbrev name="RTP" abbrev="RTP"/>
+  <abbrev name="SIP Framework" abbrev="SIP フレームワーク"/>
+  <abbrev name="SIP Connection Provider Plugins" abbrev="SIP 接続プロバイダー プラグイン"/>
+  <abbrev name="SIP Connection Provider" abbrev="SIP 接続プロバイダー"/>
+  <abbrev name="SIP Dummy PRT" abbrev="SIP ダミー PRT"/>
+  <abbrev name="SIP State Machine" abbrev="SIP 状態マシーン"/>
+  <abbrev name="SIP Params" abbrev="SIP パラメータ"/>
+  <abbrev name="SIP Subconnection Provider" abbrev="SIP サブ接続プロバイダー"/>
+  <abbrev name="SIP Connection Plugins" abbrev="SIP 接続プラグイン"/>
+  <abbrev name="System GUI Framework" abbrev="システム GUI フレームワーク"/>
+  <abbrev name="GUI Provisioning" abbrev="GUI 供給"/>
+  <abbrev name="Common UI Support" abbrev="共通 UI サポート"/>
+  <abbrev name="UIKON" abbrev="UIKON"/>
+  <abbrev name="Error Resolver Data" abbrev="エラー リゾルバー データ"/>
+  <abbrev name="UI Look and Feel" abbrev="UI ルック &amp; フィール"/>
+  <abbrev name="Grid" abbrev="グリッド"/>
+  <abbrev name="Look-and-Feel Agnostic UI Foundation" abbrev="ルック・アンド・フィールに非依存 UI 基盤"/>
+  <abbrev name="Control Environment" abbrev="コントロール環境"/>
+  <abbrev name="Front End Processor" abbrev="フロント エンド プロセッサー"/>
+  <abbrev name="Graphics Effects" abbrev="グラフィックス効果"/>
+  <abbrev name="UI Graphics Utilities" abbrev="UI グラフィック ユーティリティ"/>
+  <abbrev name="Number Formatting" abbrev="数値フォーマット"/>
+  <abbrev name="Clock" abbrev="クロック"/>
+  <abbrev name="BMP Animation" abbrev="BMP アニメーション"/>
+  <abbrev name="Animation" abbrev="アニメーション"/>
+  <abbrev name="Application Provisioning" abbrev="アプリケーション供給"/>
+  <abbrev name="Application Framework" abbrev="アプリケーション フレームワーク"/>
+  <abbrev name="Application Architecture" abbrev="アプリケーション アーキテクチュア"/>
+  <abbrev name="View Server" abbrev="ビュー サーバー"/>
+  <abbrev name="Application Services" abbrev="アプリケーション サービス"/>
+  <abbrev name="PIM" abbrev="PIM"/>
+  <abbrev name="PIM App Services" abbrev="PIM アプリケーション サービス"/>
+  <abbrev name="Calendar" abbrev="カレンダー"/>
+  <abbrev name="Agenda Model" abbrev="アジェンダ モデル"/>
+  <abbrev name="Agenda Versit Plugin" abbrev="vCal プラグイン"/>
+  <abbrev name="Contacts Model" abbrev="コンタクト モデル"/>
+  <abbrev name="Phonebook Sync" abbrev="電話帳同期"/>
+  <abbrev name="PIM Application Support" abbrev="PIM アプリケーション サポート"/>
+  <abbrev name="vCard and vCal" abbrev="vCard &amp; vCal"/>
+  <abbrev name="Chinese Calendar Converter" abbrev="中国暦変換"/>
+  <abbrev name="Backup Restore Notification" abbrev="バックアップ・リストア通知"/>
+  <abbrev name="Office App Engines" abbrev="オフィス アプリ エンジン"/>
+  <abbrev name="Data Engine" abbrev="データ エンジン"/>
+  <abbrev name="Sheet Engine" abbrev="シート エンジン"/>
+  <abbrev name="Chart" abbrev="チャート"/>
+  <abbrev name="Word Engine" abbrev="ワード エンジン"/>
+  <abbrev name="Messaging" abbrev="メッセージング"/>
+  <abbrev name="Messaging Framework" abbrev="メッセージング フレームワーク"/>
+  <abbrev name="Message Server and Store" abbrev="メッセージサーバーと格納"/>
+  <abbrev name="BIO Messaging Framework" abbrev="BIO メッセージング フレームワーク"/>
+  <abbrev name="MMS Settings" abbrev="MMS 設定"/>
+  <abbrev name="MMS Configuration" abbrev="MMS 構成"/>
+  <abbrev name="Watcher Framework" abbrev="ウオッチャー フレームワーク"/>
+  <abbrev name="Send As" abbrev="送る"/>
+  <abbrev name="Message URL Handler" abbrev="メッセージ URL ハンドラー"/>
+  <abbrev name="Messaging Plugins" abbrev="メッセージング プラグイン"/>
+  <abbrev name="BIO Watchers" abbrev="BIO ウォッチャー"/>
+  <abbrev name="Scheduled Send MTM" abbrev="スケジュールされた送信 MTM"/>
+  <abbrev name="POP3 and SMTP MTM" abbrev="POP3 と SMTP MTM"/>
+  <abbrev name="IMAP4 MTM" abbrev="IMAP4 MTM"/>
+  <abbrev name="OBEX MTMs" abbrev="OBEX MTM"/>
+  <abbrev name="SMS MTM" abbrev="SMS MTM"/>
+  <abbrev name="Remote Management" abbrev="リモート管理"/>
+  <abbrev name="Sync and Remote Management Framework" abbrev="同期とリモート管理フレームワーク"/>
+  <abbrev name="Connectivity Framework" abbrev="接続性フレームワーク"/>
+  <abbrev name="OMA SyncML Data Sync" abbrev="OMA SyncML データ同期"/>
+  <abbrev name="OMA SyncML Common Framework" abbrev="OMA SyncML 共通フレームワーク"/>
+  <abbrev name="OMA SyncML DM Interface" abbrev="OMA SyncML DM インターフェース"/>
+  <abbrev name="Device Management Framework" abbrev="デバイス管理フレームワーク"/>
+  <abbrev name="Client Provisioning Framework" abbrev="クライアント準備フレームワーク"/>
+  <abbrev name="Sync and Remote Management Services" abbrev="同期とリモート管理サービス"/>
+  <abbrev name="Connectivity Services" abbrev="接続性サービス"/>
+  <abbrev name="Data Sync Adaptors" abbrev="データ同期アダプター"/>
+  <abbrev name="Device Management Adaptors" abbrev="デバイス管理対応"/>
+  <abbrev name="Client Provisioning Adaptors" abbrev="クライアント準備対応"/>
+  <abbrev name="Mobile Active Sync" abbrev="モバイル アクティブシンク"/>
+  <abbrev name="MTP Data Providers" abbrev="MTP データ プロバイダー"/>
+  <abbrev name="MTP File and Folder Provider" abbrev="MTP ファイルとフォルダ プロバイダー"/>
+  <abbrev name="Java J2ME" abbrev="Java J2ME"/>
+  <abbrev name="MIDP 2.0 Profile" abbrev="MIDP 2.0 プロファイル"/>
+  <abbrev name="MIDP LCDUI" abbrev="MIDP LCDUI"/>
+  <abbrev name="MIDP RMS" abbrev="MIDP RMS"/>
+  <abbrev name="MIDP IO" abbrev="MIDP IO"/>
+  <abbrev name="MIDP Device Control" abbrev="MIDP デバイス コントロール"/>
+  <abbrev name="Security Policy" abbrev="セキュリティ ポリシー"/>
+  <abbrev name="MIDP GSM Security RP" abbrev="MIDP GSM セキュリティ RP"/>
+  <abbrev name="MIDP 2.0 Packages" abbrev="MIDP 2.0 パッケージ"/>
+  <abbrev name="MIDP File GCF" abbrev="MIDP ファイル GCF"/>
+  <abbrev name="Mobile Media API 1.1" abbrev="モバイル メディア API 1.1"/>
+  <abbrev name="Mobile 3D 1.1" abbrev="モバイル 3D 1.1"/>
+  <abbrev name="JTWI 1.0" abbrev="JTWI 1.0"/>
+  <abbrev name="MIDP PIM" abbrev="MIDP PIM"/>
+  <abbrev name="Bluetooth 1.1" abbrev="ブルートゥース 1.1"/>
+  <abbrev name="WMA 1.1" abbrev="WMA 1.1"/>
+  <abbrev name="CLDC 1.1" abbrev="CLDC 1.1"/>
+  <abbrev name="Java IO" abbrev="Java IO"/>
+  <abbrev name="Java Lang" abbrev="Java 言語"/>
+  <abbrev name="Java Utilities" abbrev="Java ユーティリティ"/>
+  <abbrev name="Bluetooth and SMS Push" abbrev="ブルートゥースと SMS プッシュ"/>
+  <abbrev name="Bluetooth 1.1 Push" abbrev="プルートゥース 1.1 プッシュ"/>
+  <abbrev name="WMA 1.1 Push" abbrev="WMA 1.1 プッシュ"/>
+  <abbrev name="Low Level Plugins" abbrev="ローレベル プラグイン"/>
+  <abbrev name="LCDUI Plugin" abbrev="LCDUI プラグイン"/>
+  <abbrev name="Runtime Plugin" abbrev="実行時プラグイン"/>
+  <abbrev name="Virtual Machine" abbrev="仮想マシン"/>
+  <abbrev name="CLDC Hi 1.1" abbrev="CLDC Hi 1.1"/>
+  <abbrev name="Core OS" abbrev="コア OS"/>
+</display-names>
