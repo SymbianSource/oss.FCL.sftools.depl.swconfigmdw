@@ -1,0 +1,25 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,backup,True,False
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,rfs,True,False
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,sid_rd,0x11223344,0xAABBCCDD
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,sid_wr,0x44332211,0xDDCCBBAA
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,uid_name,RepoAttrsChanged,RepoAttrsChangedXyz
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Duplicate repositories in source:
+File,Repository UID
+
+
+Duplicate repositories in target:
+File,Repository UID

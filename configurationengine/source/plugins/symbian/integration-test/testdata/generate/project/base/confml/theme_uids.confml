@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Theme UIDs" version="1">
+  <feature ref="ThemeUids" name="Theme UIDs">
+    <desc>Feature for storing theme UIDs</desc>
+    
+    <setting ref="Theme1Uid1" name="Theme 1 UID 1" type="string"/>
+    <setting ref="Theme1Uid2" name="Theme 1 UID 2" type="string"/>
+    <setting ref="Theme1Uid3" name="Theme 1 UID 3" type="string"/>
+    
+    <setting ref="Theme2Uid1" name="Theme 2 UID 1" type="string"/>
+    <setting ref="Theme2Uid2" name="Theme 2 UID 2" type="string"/>
+  </feature>
+  <data>
+    <ThemeUids>
+      <Theme1Uid1>0x00000000</Theme1Uid1>
+      <Theme1Uid2>0x00000000</Theme1Uid2>
+      <Theme1Uid3>0x00000000</Theme1Uid3>
+      
+      <Theme2Uid1>0x00000000</Theme2Uid1>
+      <Theme2Uid2>0x00000000</Theme2Uid2>
+    </ThemeUids>
+  </data>
+</configuration>

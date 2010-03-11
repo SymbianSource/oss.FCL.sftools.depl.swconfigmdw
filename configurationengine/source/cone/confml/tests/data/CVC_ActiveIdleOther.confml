@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+  <confml:feature name="Miscelaneous Homescreen settings" ref="CVC_ActiveIdleOther">
+  <confml:setting name="Homescreen Idle Easy Dialing" ref="CVC_ActiveIdleEasyDialing" type="boolean">
+      <confml:desc>Easy Dialing allows user to start dialling from Home Screen to a contact without first starting Phonebook application. The name input is predictive (subject to restrictions by input language), and the contacts are matched so that each character only requires one key press. Typing more narrows down the options. User is able to use the number that was just typed, or select one of the name matches.</confml:desc>
+    </confml:setting>
+    
+    
+</confml:feature>
+  <confml:data>
+  </confml:data>
+</confml:configuration>

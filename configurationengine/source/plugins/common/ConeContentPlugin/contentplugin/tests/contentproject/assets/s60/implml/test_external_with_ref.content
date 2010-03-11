@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/2">
+	<desc>Copy test file</desc>
+    <output dir="content/private/12345678" file="abcdef00.cre">
+    	<externalinput dir="${CTD_Special.InputPath}">
+    		<include files="cccccc00_empty.cre"/>
+    	</externalinput>
+    </output>
+</content>

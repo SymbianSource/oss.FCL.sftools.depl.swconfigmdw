@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Scheme according to 0.84 2.6.2008 Draft s60configurationml.doc 11.08.
+		2008 initial version hajduivo 2008-08-14 hajduivo update: xlink
+		added,but generated xml files contains wrong prefix at xlink
+		attributes 2008-08-15 hajduivo update: XInclude added
+	-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.s60.com/xml/confml/2" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xi="http://www.w3.org/2001/XInclude" targetNamespace="http://www.s60.com/xml/confml/2"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import id="xlink" namespace="http://www.w3.org/1999/xlink"
+		schemaLocation="xlink.xsd" />
+	<xs:import id="xs" namespace="http://www.w3.org/2001/XMLSchema"
+		schemaLocation="XMLSchema.xsd" />
+	<xs:import namespace="http://www.w3.org/2001/XInclude"
+		schemaLocation="XInclude.xsd" />
+		
+	<!-- Fixed Elements -->
+	<xs:element name="configuration" type="tns:configurationType" />
+	<xs:element name="meta" type="tns:metaType" />
+	<xs:element name="desc" type="tns:descType" />
+	<xs:element name="icon" type="tns:iconType" />
+	<xs:element name="view" type="tns:viewType" />
+	<xs:element name="group" type="tns:groupType" />
+	<xs:element name="feature" type="tns:featureType" />
+	<xs:element name="setting" type="tns:settingType" />
+	<xs:element name="data" type="tns:dataType" />
+	<xs:element name="rfs" type="tns:rfsType" />
+	<xs:element name="link" type="tns:linkType" />
+	<xs:element name="option" type="tns:optionType" />
+	<xs:element name="property" type="tns:propertyType" />
+	<xs:element name="localPath" type="tns:localTargetPathType"/>
+	<xs:element name="targetPath" type="tns:localTargetPathType"/>
+	<xs:complexType name="configurationType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:meta" />
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:view" />
+			<xs:element ref="tns:feature" />
+			<xs:element ref="tns:link" />
+			<xs:element ref="tns:data" />
+			<xs:element ref="tns:rfs" />
+			<xs:element	ref="tns:configuration" />
+			<xs:element ref="xi:include"/>
+		</xs:choice>
+		<xs:attribute name="version" type="xs:NMTOKEN" />
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+	</xs:complexType>
+	<xs:complexType name="metaType">
+		<xs:all>
+			<xs:element name="id" type="tns:idType" minOccurs="0" />
+			<xs:element name="date" type="tns:dateType" maxOccurs="1"
+				minOccurs="0" />
+			<xs:element name="owner" type="tns:ownerType" maxOccurs="1"
+				minOccurs="0" />
+			<xs:element name="editor" type="tns:editorType" maxOccurs="1"
+				minOccurs="0" />
+			<xs:element name="product" type="tns:productType"
+				maxOccurs="1" minOccurs="0" />
+			<xs:element name="status" type="tns:statusType" maxOccurs="1"
+				minOccurs="0" />
+			<xs:element name="platform" type="tns:platformType"
+				maxOccurs="1" minOccurs="0" />
+			<xs:element name="version" minOccurs="0" type="tns:versionType" />
+			<xs:element name="release" minOccurs="0" type="tns:releaseType" />
+			<xs:element name="customer" minOccurs="0" type="tns:customerType" />
+			<xs:element name="origin" minOccurs="0" type="tns:customerType" />
+			<xs:element name="target" minOccurs="0" type="tns:customerType" />
+			<xs:element name="desc" minOccurs="0" type="tns:descType" />
+			<xs:element name="icon" minOccurs="0" type="tns:iconType" />
+			<xs:element ref="tns:link" maxOccurs="1" minOccurs="0"></xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="descType" mixed="true">
+		<xs:attribute ref="xlink:href" />
+		<xs:attribute ref="xlink:title" />
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+	</xs:complexType>
+	<xs:complexType name="iconType">
+		<xs:attribute ref="xlink:href" use="optional" />
+		<xs:attribute ref="xlink:title" />
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+	</xs:complexType>
+	<xs:complexType name="linkType">
+		<xs:attribute ref="xlink:href" use="optional" />
+		<xs:attribute ref="xlink:title" />
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+	</xs:complexType>
+	<xs:complexType name="propertyType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+		</xs:choice>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="name" type="xs:NMTOKEN" use="optional"></xs:attribute>
+		<xs:attribute name="value" type="xs:string"></xs:attribute>
+		<xs:attribute name="unit" type="xs:token"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="settingType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+			<xs:element ref="tns:option" />
+			<xs:element ref="tns:property" />
+			<xs:element ref="tns:setting" />
+			<xs:element ref="tns:localPath" />
+			<xs:element ref="tns:targetPath" />
+			<xs:element ref="xs:minInclusive"></xs:element>
+			<xs:element ref="xs:maxInclusive"></xs:element>
+			<xs:element ref="xs:minExclusive"></xs:element>
+			<xs:element ref="xs:maxExclusive"></xs:element>
+			<xs:element ref="xs:pattern"></xs:element>
+			<xs:element ref="xs:length"></xs:element>
+			<xs:element ref="xs:minLength"></xs:element>
+			<xs:element ref="xs:maxLength"></xs:element>
+			<xs:element ref="xs:totalDigits"></xs:element>
+		</xs:choice>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="relevant" type="xs:token" default="true"></xs:attribute>
+		<xs:attribute name="constraint" type="xs:token" default="true">
+		</xs:attribute>
+		<xs:attribute name="readOnly" type="xs:NMTOKEN" default="true">
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string"></xs:attribute>
+		<xs:attribute name="type" type="tns:typeType" use="optional"></xs:attribute>
+		<xs:attribute name="ref" type="xs:string" use="optional"></xs:attribute>
+		<!--
+			TODO inconsistent defaults: for generic settings this does not have a
+			sense
+		-->
+		<xs:attribute name="minOccurs" type="xs:nonNegativeInteger"
+			default="0"></xs:attribute>
+		<xs:attribute name="maxOccurs" type="xs:allNNI" default="unbounded"></xs:attribute>
+		<xs:attribute name="mapKey" type="xs:string"></xs:attribute>
+		<xs:attribute name="mapValue" type="xs:string"></xs:attribute>
+		<xs:attribute name="required" type="xs:boolean" default="false"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="featureType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+			<xs:element ref="tns:setting"></xs:element>
+		</xs:choice>
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="relevant" type="xs:string"></xs:attribute>
+		<xs:attribute name="ref" type="xs:NMTOKEN" use="required" />
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+	</xs:complexType>
+	<xs:complexType name="optionType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+		</xs:choice>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="name" type="xs:token" use="optional"></xs:attribute>
+		<xs:attribute name="value" type="xs:string" use="optional"></xs:attribute>
+		<xs:attribute name="relevant" type="xs:token" default="true"></xs:attribute>
+		<xs:attribute name="map" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="groupType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+			<xs:element ref="tns:group" />
+			<xs:element ref="tns:setting" />
+		</xs:choice>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="name" type="xs:string" use="required"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="viewType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:meta" />
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+			<xs:element ref="tns:group"></xs:element>
+		</xs:choice>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="name" type="xs:token" use="optional"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="localTargetPathType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="tns:desc" />
+			<xs:element ref="tns:icon" />
+			<xs:element ref="tns:link" />
+		</xs:choice>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="constraint" type="xs:token"/>
+		<xs:attribute name="readOnly" type="xs:NMTOKEN"/>
+		<xs:attribute name="required" type="xs:NMTOKEN"/>
+		<xs:attribute name="map" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:NMTOKEN"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dateType">
+		<xs:restriction base="xs:date"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ownerType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="editorType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="productType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="statusType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="platformType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="versionType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="releaseType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="customerType">
+		<xs:restriction base="xs:string"></xs:restriction>
+	</xs:simpleType>
+<!-- <xs:attribute name="id" type="xs:NMTOKEN" />-->
+	<!--
+		<xs:attribute name="href" type="xs:anyURI" /> <xs:attribute
+		name="title" type="xs:string" />
+	-->
+	<xs:attributeGroup name="CommonAttrs">
+		<xs:attribute name="id" type="xs:ID"></xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="dataType">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="skip" minOccurs="0"
+				maxOccurs="unbounded"></xs:any>
+		</xs:sequence>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+		<xs:attribute name="extensionPolicy" type="xs:NMTOKEN"
+			default="replace">
+		</xs:attribute>
+		<xs:attribute name="template" type="xs:NMTOKEN" default="false"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="rfsType">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="skip" minOccurs="0"
+				maxOccurs="unbounded"></xs:any>
+		</xs:sequence>
+		<xs:attributeGroup ref="tns:CommonAttrs"></xs:attributeGroup>
+	</xs:complexType>
+	<xs:simpleType name="typeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration id="int" value="int"></xs:enumeration>
+			<xs:enumeration value="boolean"></xs:enumeration>
+			<xs:enumeration value="real"></xs:enumeration>
+			<xs:enumeration value="string"></xs:enumeration>
+			<xs:enumeration value="file"></xs:enumeration>
+			<xs:enumeration value="folder"></xs:enumeration>
+			<xs:enumeration value="sequence"></xs:enumeration>
+			<xs:enumeration value="selection"></xs:enumeration>
+			<xs:enumeration value="multiSelection"></xs:enumeration>
+			<xs:enumeration value="date"></xs:enumeration>
+			<xs:enumeration value="time"></xs:enumeration>
+			<xs:enumeration value="dateTime"></xs:enumeration>
+			<xs:enumeration value="duration"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

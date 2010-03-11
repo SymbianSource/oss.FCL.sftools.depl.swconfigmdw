@@ -1,0 +1,7 @@
+<configuration name="ruleml_test_config" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xi:include href="confml/testdata.confml" />
+<xi:include href="confml/filename_testdata.confml" />
+<xi:include href="confml/arithmetic.confml" />
+<xi:include href="confml/comparison_operators.confml" />
+<xi:include href="confml/eval.confml" />
+</configuration>

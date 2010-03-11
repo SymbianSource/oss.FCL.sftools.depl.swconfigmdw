@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="DepthFromRefTest" version="1">
+  <feature ref="DepthFromRefTest">
+    <setting ref="Depth" type="string"/>
+  </feature>
+  <data>
+    <DepthFromRefTest>
+      <Depth>c16</Depth>
+    </DepthFromRefTest>
+  </data>
+</configuration>

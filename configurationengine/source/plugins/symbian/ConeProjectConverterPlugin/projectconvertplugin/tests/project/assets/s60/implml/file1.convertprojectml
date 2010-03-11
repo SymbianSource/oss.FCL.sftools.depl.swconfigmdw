@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">
+	
+	<targetProject path="/epoc32/rom" name="config_project"/>
+
+	<layer path="platforms/s60">
+		<folder path="confml/components">
+			<filter action="add" data="confml_data/s60/*.confml"/>
+			<filter action="remove" data="confml_data/s60/s60.confml"/>
+		</folder>
+		<folder path="implml">
+			<filter action="add" data="confml_data/s60/*.crml"/>
+			<filter action="add" data="confml_data/s60/*.gcfml"/>
+			<filter action="add" data="confml_data/s60/*.ibyml"/>
+		</folder>
+
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="confml/components/*.confml"/>
+			<filter action="include_file" data="confml/data.confml"/>
+		</file>
+		<file type="configuration_root" path="{CONFIG_ROOT}/s60_root.confml">
+			<filter action="include_layer" data="s60"/>
+		</file>	
+		<file type="none" path="doc/s60_layer_design.doc">
+			<filter action="add" data="/epoc32/docs/s60_layer_design.doc"/>
+		</file>				
+	</layer>		
+	
+	<layer path="ncp53">
+		<folder path="confml">
+			<filter action="add" data="ncp53/5332.confml"/>
+		</folder>
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="5332.confml"/>
+		</file>
+		<file type="configuration_root" path="{CONFIG_ROOT}/ncp53_root.confml">
+			<filter action="include_layer" data="s60"/>
+			<filter action="include_layer" data="customsw"/>
+			<filter action="include_layer" data="ncp53"/>
+		</file>
+	</layer>
+
+	<layer path="ncp53/victoria/language/{TEMPLATE}">
+		<rule type="folders" data="variants/language/victoria/*.*"/>		
+		<folder path="confml">
+			<filter action="add" data="variants/language/victoria/{TEMPLATE}/*.confml"/>
+		</folder>
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="*.confml"/>
+		</file>
+		<file type="configuration_root" name="{TEMPLATE}_root.confml">
+			<filter action="include_layer" data="s60"/>
+			<filter action="include_layer" data="customsw"/>
+			<filter action="include_layer" data="ncp53"/>
+			<filter action="include_layer" data="{TEMPLATE}"/>
+		</file>
+	</layer>			
+</convertprojectml>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="BackupTest" version="1">
+  <feature ref="BackupTest" name="Settings for testing CRML backup info parsing">
+    <setting ref="Setting1" type="int"/>
+    <setting ref="Setting2" type="int"/>
+    <setting ref="Setting3" type="int"/>
+    <setting ref="Setting4" type="int"/>
+    <setting ref="Setting5" type="int"/>
+  </feature>
+  <data>
+    <BackupTest>
+      <Setting1>1</Setting1>
+      <Setting2>2</Setting2>
+      <Setting3>3</Setting3>
+      <Setting4>4</Setting4>
+      <Setting5>5</Setting5>
+    </BackupTest>
+  </data>
+</configuration>

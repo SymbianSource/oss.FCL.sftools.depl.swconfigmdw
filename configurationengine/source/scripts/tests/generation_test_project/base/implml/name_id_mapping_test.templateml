@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <output file="name_id_mapping_test.txt" encoding="UTF-8">
+        <template>
+Selection: {{ feat_tree.NameIdMappingTestTargetSettings.Selection._value }}
+Int: {{ feat_tree.NameIdMappingTestTargetSettings.Int._value }}
+Real: {{ feat_tree.NameIdMappingTestTargetSettings.Real._value }}
+Sequence.Selection: {% for value in feat_tree.NameIdMappingTestTargetSettings.Sequence.Selection._value -%}"{{ value }}", {% endfor %}
+Sequence.Int: {% for value in feat_tree.NameIdMappingTestTargetSettings.Sequence.Int._value -%}"{{ value }}", {% endfor %}
+Sequence.Real: {% for value in feat_tree.NameIdMappingTestTargetSettings.Sequence.Real._value -%}"{{ value }}", {% endfor %}
+</template>
+    </output>
+</templateml>

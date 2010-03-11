@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+<output file="access_configuration.txt" encoding="UTF-8">
+<template>Configuration name: {{ configuration.get_path() }}
+{% for feature in configuration.get_default_view().get_features('**') %}
+{{ feature.fqr }}
+{% endfor %}
+</template>
+</output>
+</templateml>

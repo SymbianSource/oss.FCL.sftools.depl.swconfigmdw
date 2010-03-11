@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thememl xmlns="http://www.s60.com/xml/thememl/1">
+    <carbideuiPath>C:\Program Files\Nokia\Carbide.ui Theme Edition 3.4</carbideuiPath>
+    <themeDir>CVC_PreinstalledContent/CVC_PreInstalledThemesFolder</themeDir>
+    <activeTheme uid="0x101FD60A">
+		<refSetting>CVC_Theme_ref/CVC_DefaultTheme_ref</refSetting>
+    	<platformUID>KCRUidPersonalisation/KPslnActiveSkinUid</platformUID>
+    	<platformUID>KCRUidPersonalisation/KPslnActiveSkinUid1</platformUID>
+    </activeTheme>
+    <activeTheme uid="0x101FD60B">
+		<refSetting>CVC_Theme_ref/CVC_DefaultThemeMode2_ref</refSetting>
+    	<platformUID>KCRUidPersonalisation/KPslnActiveSkinUid2</platformUID>
+    	<platformUID>KCRUidPersonalisation/KPslnActiveSkinUid3</platformUID>
+    </activeTheme>
+
+</thememl>
+
+

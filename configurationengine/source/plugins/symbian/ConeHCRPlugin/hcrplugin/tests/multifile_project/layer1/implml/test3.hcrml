@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+  <category name="KTest3Category" uid="0x30001234">
+    <setting ref="HcrTest3.BoolSetting" name="KBoolSetting" type="bool" id="0">
+      <flags Uninitialised="1" Modifiable="0" Persistent="1"/>
+    </setting>
+  </category>
+</hcr>

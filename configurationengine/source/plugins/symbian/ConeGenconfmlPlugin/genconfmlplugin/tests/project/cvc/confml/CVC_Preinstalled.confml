@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2">
+	<feature name="Pre-installed Content" ref="CVC_PreinstalledContent">
+		<desc>Customer-defined pre-installed content. Please note that the total size of the User Data Area content size must not exceed 5 Mbytes.</desc>
+		<setting maxOccurs="6" name="Pre-Installed MMS Messages" ref="CVC_PreInstalledMMSs" type="sequence">
+			<desc>Max 6 mms, max size 35K. Binary format (encoding according to MMS encapsulation specification)</desc>
+			<setting name="Pre-Installed MMS" ref="CVC_PreInstalledMMS" type="file">
+				<desc>Pre-Installed MMS</desc>
+			</setting>
+		</setting>
+		<setting name="Pre-Installed Images" ref="CVC_PreInstalledImagesFolder" type="folder">
+			<desc>Pre-Installed Images. Size up to 5MP (2560x1920 pixels), format JPEG. No EXIF data allowed</desc>
+		</setting>
+		<setting name="Pre-Installed Streaming links" ref="CVC_PreInstalledStreamingLinksFolder" type="folder">
+			<desc>Pre-Installed Streaming links. Format is .ram file.</desc>
+		</setting>
+		<setting name="Pre-Installed Music Clips" ref="CVC_PreInstalledMusicClipsFolder" type="folder">
+			<desc>Pre-Installed Music Clips.</desc>
+		</setting>
+		<setting name="Pre-Installed Video Clips" ref="CVC_PreInstalledVideoClipsFolder" type="folder">
+			<desc>Pre-Installed Video Clips.</desc>
+		</setting>
+		<setting name="Default ringtone in General Profile" ref="CVC_DefaultRingtoneFile" type="file">
+			<desc>Default Ringtone in General Profile. Any supported media file.</desc>
+		</setting>
+		<setting name="Default Message Alert tone in General Profile" ref="CVC_DefaultMessageToneFile" type="file">
+			<desc>Default ringtone for incoming message event in General Profile. Any supported media file.</desc>
+		</setting>
+		<setting name="Default Video Call tone in General Profile" ref="CVC_DefaultVideoCallToneFile" type="file">
+			<desc>Default ringtone for video call event in General Profile. Any supported media file.</desc>
+		</setting>
+		<setting name="Pre-Installed Themes" ref="CVC_PreInstalledThemesFolder" type="folder">
+			<desc>Pre-Installed Themes. Format is Theme project archive zip file with extesion .tpf, containing the theme project and main .tdf file.</desc>
+		</setting>
+		<setting name="Application pre-Installed to User Data Area" ref="CVC_PreInstalledUDAApplicationsFolder" type="folder">
+			<desc>Complementary applications pre-Installed to device ROM. Will NOT be uninstallable by end-users. Format is Symbian sisgned .sis file or Java MIDP .jar + .jad. Ensure that application did pass Simbian Signed or Java Verified acceptance.</desc>
+		</setting>
+		<setting name="Application pre-Installed to Memory Card" ref="CVC_PreInstalledMMCApplicationsFolder" type="folder">
+			<desc>Complementary applications pre-Installed to device ROM. Will NOT be uninstallable by end-users. Format is Symbian	sisgned .sis file or Java MIDP .jar + .jad. Ensure that application	did pass Simbian Signed or Java Verified acceptance.</desc>
+		</setting>
+		<setting name="Pre-loaded (bundled) application installable by end-user." ref="CVC_BundledApplicationsFolder" type="folder">
+			<desc>Complementary applications pre-loaded to device. Offerecd for installation to the end-user. Format is Symbian sisgned .sis file or Java MIDP .jar + .jad. Ensure that application did pass Simbian Signed or Java Verified acceptance.</desc>
+		</setting>
+		<setting name="Symbian Certificates" ref="CVC_CertificatesSymbian" type="sequence">
+			<desc>Symbian certificates for trusted software installations.
+			</desc>
+			<setting name="Symbian Certificate file" ref="CVC_SymbianCertificateFile" type="file">
+				<desc>Certificate file. Must be in X.509 CA format.</desc>
+			</setting>
+			<setting name="Trusted installation of native Symbian OS applications" ref="CVC_AllowSWInstall" type="boolean">
+				<desc>Allows installation of native Symbian OS applications (on/off)</desc>
+			</setting>
+			<setting name="Trusted to validate OCSP revocation responses" ref="CVC_AllowOCSPRevocationResponses" type="boolean">
+				<desc>Allows to validate OCSP revocation responses (on/off)
+				</desc>
+			</setting>
+		</setting>
+		<setting name="Java MIDP2 Certificates" ref="CVC_CertificatesMIDP" type="sequence">
+			<desc>Java MIDP certificates for trusted software installations.
+			</desc>
+			<setting name="Java Certificate file" ref="CVC_JavaCertificateFile" type="file">
+				<desc>Certificate file. Must be in X.509 CA format.
+				</desc>
+			</setting>
+			<setting name="Trusted Domain" ref="CVC_TrustedDomain" type="selection">
+				<desc>Trusted application domain: Customer or Third-party.
+				</desc>
+				<option name="Customer" value="Customer"/>
+				<option name="Third Party" value="Third Party"/>
+			</setting>
+		</setting>
+		<setting name="Internet Certificates" ref="CVC_CertificatesInternet" type="sequence">
+			<desc>Certificates for Internet services: SSL/TLS (HTTPS,SecureIMAP, etc.) connections.</desc>
+			<setting name="Internet Certificate file" ref="InternetCertificateFile" type="file">
+				<desc>Certificate file. Must be in X.509 CA format.
+				</desc>
+			</setting>
+			<setting name="Trusted to validate OCSP revocation responses" ref="CVC_AllowOCSPRevocationResponses" type="boolean">
+				<desc>Allows to validate OCSP revocation responses (on/off)
+				</desc>
+			</setting>
+		</setting>
+	</feature>
+
+<data>
+
+
+<CVC_PreinstalledContent>
+
+
+<CVC_PreInstalledImagesFolder>
+</CVC_PreInstalledImagesFolder>
+
+<CVC_PreInstalledStreamingLinksFolder>
+</CVC_PreInstalledStreamingLinksFolder>
+
+<CVC_PreInstalledMusicClipsFolder>
+</CVC_PreInstalledMusicClipsFolder>
+
+<CVC_PreInstalledVideoClipsFolder>
+</CVC_PreInstalledVideoClipsFolder>
+
+<CVC_PreInstalledThemesFolder>
+</CVC_PreInstalledThemesFolder>
+
+<CVC_PreInstalledUDAApplicationsFolder>
+</CVC_PreInstalledUDAApplicationsFolder>
+
+<CVC_PreInstalledMMCApplicationsFolder>
+</CVC_PreInstalledMMCApplicationsFolder>
+
+<CVC_BundledApplicationsFolder>
+</CVC_BundledApplicationsFolder>
+
+</CVC_PreinstalledContent>
+
+</data>
+</configuration>

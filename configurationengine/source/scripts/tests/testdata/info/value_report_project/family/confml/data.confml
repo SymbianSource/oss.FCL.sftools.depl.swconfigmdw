@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="data">
+    <data>
+        <Asset1Feature1>
+            <StringSetting>string from family config</StringSetting>
+            
+            <SequenceSetting extensionPolicy="append">
+                <RealSubSetting>1.5</RealSubSetting>
+                <IntSubSetting>256</IntSubSetting>
+                <StringSubSetting>test</StringSubSetting>
+                <BooleanSubSetting>true</BooleanSubSetting>
+                <SelectionSubSetting>1</SelectionSubSetting>
+            </SequenceSetting>
+        </Asset1Feature1>
+        
+        <Asset2Feature1>
+            <IntSetting>1000</IntSetting>
+            <RealSetting>10.5</RealSetting>
+        </Asset2Feature1>
+    </data>
+</configuration>

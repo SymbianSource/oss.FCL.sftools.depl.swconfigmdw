@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2"
+               name="Option test settings">
+    <feature ref="OptionTest" name="Option test">
+        <setting ref="Selection" name="Selection setting" type="selection">
+            <option name="Option 1" value="opt 1"/>
+            <option name="Option 2" value="opt 2"/>
+            <option name="Option 3" value="Option 3"/>
+            <option name="None" value="none"/>
+        </setting>
+        
+        <setting ref="String" name="String setting" type="string">
+            <option name="String 1" value="str 1"/>
+            <option name="String 2" value="str 2"/>
+            <option name="None" value=""/>
+        </setting>
+        
+        <setting ref="Boolean" name="Boolean setting" type="boolean">
+            <option name="Yes" value="true"/>
+            <option name="No" value="false"/>
+        </setting>
+        
+        <setting ref="Int" name="Int setting" type="int">
+            <option name="Zero" value="0"/>
+            <option name="One" value="1"/>
+            <option name="Two" value="2"/>
+        </setting>
+        
+        <setting ref="Real" name="Real setting" type="real">
+            <option name="Zero" value="0"/>
+            <option name="One" value="1"/>
+            <option name="One and a half" value="1.5"/>
+            <option name="Two" value="2"/>
+        </setting>
+        
+        <setting ref="Date" name="Date setting" type="date">
+            <option name="Unix epoch" value="1970-01-01Z"/>
+        </setting>
+        
+        <setting ref="Time" name="Time setting" type="time">
+            <option name="Noon" value="12:00:00"/>
+            <option name="Midnight" value="00:00:00"/>
+        </setting>
+        
+        <setting ref="DateTime" name="Date-time setting" type="dateTime">
+            <option name="Unix epoch" value="1970-01-01-00:00:00Z"/>
+        </setting>
+        
+        <setting ref="Duration" name="Duration setting" type="duration">
+            <option name="One week" value="P7D"/>
+            <option name="One day" value="PT24H"/>
+            <option name="1½ hours" value="PT1H30M"/>
+        </setting>
+        
+        <setting ref="Sequence" name="Sequence" type="sequence">
+            <setting ref="Selection" name="Selection sub-setting" type="selection">
+                <option name="Option 1" value="opt 1"/>
+                <option name="Option 2" value="opt 2"/>
+                <option name="Option 3" value="Option 3"/>
+                <option name="None" value="none"/>
+            </setting>
+            
+            <setting ref="String" name="String sub-setting" type="string">
+                <option name="String 1" value="str 1"/>
+                <option name="String 2" value="str 2"/>
+                <option name="None" value=""/>
+            </setting>
+            
+            <setting ref="Boolean" name="Boolean sub-setting" type="boolean">
+                <option name="Yes" value="true"/>
+                <option name="No" value="false"/>
+            </setting>
+            
+            <setting ref="Int" name="Int sub-setting" type="int">
+                <option name="Zero" value="0"/>
+                <option name="One" value="1"/>
+                <option name="Two" value="2"/>
+            </setting>
+            
+            <setting ref="Real" name="Real sub-setting" type="real">
+                <option name="Zero" value="0"/>
+                <option name="One" value="1"/>
+                <option name="One and a half" value="1.5"/>
+                <option name="Two" value="2"/>
+            </setting>
+            
+            <setting ref="Date" name="Date sub-setting" type="date">
+                <option name="Unix epoch" value="1970-01-01Z"/>
+            </setting>
+            
+            <setting ref="Time" name="Time sub-setting" type="time">
+                <option name="Noon" value="12:00:00"/>
+                <option name="Midnight" value="00:00:00"/>
+            </setting>
+            
+            <setting ref="DateTime" name="Date-time sub-setting" type="dateTime">
+                <option name="Unix epoch" value="1970-01-01-00:00:00Z"/>
+            </setting>
+            
+            <setting ref="Duration" name="Duration sub-setting" type="duration">
+                <option name="One week" value="P7D"/>
+                <option name="One day" value="PT24H"/>
+                <option name="1½ hours" value="PT1H30M"/>
+            </setting>
+        </setting>
+    </feature>
+
+    <data>
+        <OptionTest>
+            <Selection>none</Selection>
+            <String>str 1</String>
+            <Boolean>true</Boolean>
+            <Int>1</Int>
+            <Real>2</Real>
+            <Date>2009-09-09</Date>
+            <Time>07:00:00</Time>
+            <DateTime>2009-09-09-12:38:00+02:00</DateTime>
+            <Duration>PT0S</Duration>
+            
+            <Sequence>
+                <Selection>none</Selection>
+                <String>str 1</String>
+                <Boolean>true</Boolean>
+                <Int>1</Int>
+                <Real>2</Real>
+                <Date>2009-09-09</Date>
+                <Time>07:00:00</Time>
+                <DateTime>2009-09-09-12:38:00+02:00</DateTime>
+                <Duration>PT0S</Duration>
+            </Sequence>
+        </OptionTest>
+    </data>
+</configuration>

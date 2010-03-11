@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implml:container xmlns:implml="http://www.symbianfoundation.org/xml/implml/1">
+    <implml:container>
+        <implml:phase name="normal"/>
+        <!-- Test using the common ImplML namespace <phase> element -->
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output dir="content/invocation_phase_test_common_ns.txt">
+                <input dir="invocation_phase_test_1.txt"/>
+            </output>
+        </content>
+    </implml:container>
+    
+    <implml:container>
+        <implml:phase name="post"/>
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output dir="content/invocation_phase_test_common_ns.txt">
+                <input dir="invocation_phase_test_2.txt"/>
+            </output>
+        </content>
+    </implml:container>
+    
+    
+    <implml:container>
+        <!-- Test using the phase attribute in the ContentML namespace -->
+        <content xmlns="http://www.s60.com/xml/content/2" phase="normal">
+            <output dir="content/invocation_phase_test_contentml_ns.txt">
+                <input dir="invocation_phase_test_1.txt"/>
+            </output>
+        </content>
+        
+        <content xmlns="http://www.s60.com/xml/content/2" phase="post">
+            <output dir="content/invocation_phase_test_contentml_ns.txt">
+                <input dir="invocation_phase_test_2.txt"/>
+            </output>
+        </content>
+    </implml:container>
+        
+</implml:container>

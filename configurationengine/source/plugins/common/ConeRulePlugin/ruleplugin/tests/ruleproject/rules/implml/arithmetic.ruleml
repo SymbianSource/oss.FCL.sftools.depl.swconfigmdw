@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+  <!-- Value1 = 5, Value2 = 20 -->
+  <rule>True configures Arithmetic.AdditionResult1 = 2 + 6</rule>
+  <rule>True configures Arithmetic.AdditionResult2 = Arithmetic.Value1 + 6</rule>
+  <rule>True configures Arithmetic.AdditionResult3 = 2 + Arithmetic.Value2</rule>
+  <rule>True configures Arithmetic.AdditionResult4 = Arithmetic.Value1 + Arithmetic.Value2</rule>
+  
+  <rule>True configures Arithmetic.SubtractionResult1 = 2 - 6</rule>
+  <rule>True configures Arithmetic.SubtractionResult2 = Arithmetic.Value1 - 6</rule>
+  <rule>True configures Arithmetic.SubtractionResult3 = 2 - Arithmetic.Value2</rule>
+  <rule>True configures Arithmetic.SubtractionResult4 = Arithmetic.Value1 - Arithmetic.Value2</rule>
+  
+  <rule>True configures Arithmetic.MultiplicationResult1 = 2 * 6</rule>
+  <rule>True configures Arithmetic.MultiplicationResult2 = Arithmetic.Value1 * 6</rule>
+  <rule>True configures Arithmetic.MultiplicationResult3 = 2 * Arithmetic.Value2</rule>
+  <rule>True configures Arithmetic.MultiplicationResult4 = Arithmetic.Value1 * Arithmetic.Value2</rule>
+  
+  <rule>True configures Arithmetic.DivisionResult1 = 6 / 2</rule>
+  <rule>True configures Arithmetic.DivisionResult2 = Arithmetic.Value2 / 4</rule>
+  <rule>True configures Arithmetic.DivisionResult3 = 10 / Arithmetic.Value1</rule>
+  <rule>True configures Arithmetic.DivisionResult4 = Arithmetic.Value2 / Arithmetic.Value1</rule>
+  
+  <rule>True configures Arithmetic.MixedResult1 = (6 / 2 + 3 * 9) - 7</rule> 
+  <rule>True configures Arithmetic.MixedResult2 = (6 / 2 + Arithmetic.Value1 * 9) - 7</rule> 
+  <rule>True configures Arithmetic.MixedResult3 = (Arithmetic.Value2 / 2 + Arithmetic.Value1 * 9) - 7</rule> 
+  <rule>True configures Arithmetic.MixedResult4 = (Arithmetic.Value2 / Arithmetic.Value1 + Arithmetic.Value1 * Arithmetic.Value1) - Arithmetic.Value2</rule> 
+  <rule>True configures Arithmetic.MixedResult5 = 4 + 6 / 2 - 3 * 9 + 10 / 5 - 8</rule>
+  
+  <rule>True configures Arithmetic.RealResult1 = 5.0 / 2.0</rule>
+  <rule>True configures Arithmetic.RealResult2 = Arithmetic.RealValue1 / 2</rule>
+  <rule>True configures Arithmetic.RealResult3 = 0.25 * Arithmetic.RealValue2</rule>
+  <rule>True configures Arithmetic.RealResult4 = Arithmetic.RealValue1 / 2.0 * Arithmetic.RealValue2</rule>
+  
+  <rule>True configures Arithmetic.RealCalcIntoIntResult = 0.25 * Arithmetic.RealValue1</rule>
+  <rule>True configures Arithmetic.IntCalcIntoRealResult = 3 * Arithmetic.Value1</rule>
+</ruleml>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="AllRfsFeature" version="1">
+  <feature ref="AllRfsFeature" name="Feature with all settings RFS=true">
+    <setting ref="RealSetting" name="Real setting" type="real"/>
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean"/>
+  </feature>
+  <data>
+    <AllRfsFeature>
+      <RealSetting>3.14</RealSetting>
+      <IntSetting>10</IntSetting>
+      <StringSetting>default string</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+    </AllRfsFeature>
+  </data>
+  
+  <rfs>
+    <AllRfsFeature>
+      <RealSetting>true</RealSetting>
+      <IntSetting>true</IntSetting>
+      <StringSetting>true</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+    </AllRfsFeature>
+  </rfs>
+</configuration>

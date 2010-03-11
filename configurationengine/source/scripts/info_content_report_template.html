@@ -1,0 +1,23 @@
+{% extends "cone_base.html" %}
+{% block title %}Content info{% endblock %}
+{% block content %}
+    <h1>Configuration content files</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">Content file</th>
+		<th class="featureName">Actual files (used one last)</th>
+    </tr>
+    {% for entry in data.content_data %}
+    <tr>
+        <td>{{ entry.file }}</td>
+		<td>
+		{%- for file in entry.actual_files -%}
+			{{file}}<br/>
+		{%- endfor -%}
+		</td>
+    </tr>
+    {% endfor %}
+    
+    </table>
+{% endblock %}

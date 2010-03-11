@@ -1,0 +1,3 @@
+usr/bin/cone*.py
+usr/bin/*.cfg etc/cone
+usr/lib/python*/site-packages/cone_scripts-*.egg-info

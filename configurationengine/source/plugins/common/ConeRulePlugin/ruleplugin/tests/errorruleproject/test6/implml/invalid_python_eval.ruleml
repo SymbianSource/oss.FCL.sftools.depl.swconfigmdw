@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+  <rule>True configures EvalTest6.StringResult = Invalid.setting</rule>
+</ruleml>

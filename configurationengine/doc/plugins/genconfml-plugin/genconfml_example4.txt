@@ -1,0 +1,5 @@
+Iby file:
+data = VARIANT\private\2000BEE5\CamcorderData.xml \private\2000BEE5\CamcorderData.xml
+
+File system:
+\output\my_variant\private\2000BEE5\CamcorderData.xml

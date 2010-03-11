@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="Basic setting types test">
+  <confml:feature ref="BasicSettingTypesTest" name="Basic setting types test">
+    <confml:desc>Feature with basic setting types (ConfML v2.0)</confml:desc>
+    <confml:setting ref="RealSetting" name="Real setting" type="real">
+      <confml:desc>A real setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="IntSetting" name="Int setting" type="int">
+      <confml:desc>An int setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="StringSetting" name="String setting" type="string">
+      <confml:desc>A string setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="BooleanSetting" name="Boolean setting" type="boolean">
+      <confml:desc>A boolean setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <confml:desc>A selection setting</confml:desc>
+      <confml:option name="Option0" value="0"/>
+      <confml:option name="Option1" value="1"/>
+      <confml:option name="Option2" value="2"/>
+      <confml:option name="Option3" value="3"/>
+      <confml:option name="Option4" value="4"/>
+    </confml:setting>
+  </confml:feature>
+  
+  <confml:data>
+    <confml:BasicSettingTypesTest>
+      <confml:RealSetting>3.14</confml:RealSetting>
+      <confml:IntSetting>10</confml:IntSetting>
+      <confml:StringSetting>default string</confml:StringSetting>
+      <confml:BooleanSetting>true</confml:BooleanSetting>
+      <confml:SelectionSetting>1</confml:SelectionSetting>
+    </confml:BasicSettingTypesTest>
+  </confml:data>
+  
+  <confml:rfs>
+    <confml:BasicSettingTypesTest>
+      <confml:RealSetting>true</confml:RealSetting>
+      <confml:IntSetting>false</confml:IntSetting>
+      <confml:StringSetting>false</confml:StringSetting>
+      <confml:BooleanSetting>true</confml:BooleanSetting>
+      <confml:SelectionSetting>true</confml:SelectionSetting>
+    </confml:BasicSettingTypesTest>
+  </confml:rfs>
+</confml:configuration>

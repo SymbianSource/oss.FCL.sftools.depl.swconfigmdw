@@ -1,0 +1,86 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000001,Setting 1,type,int,real
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000002,Setting 2,backup,True,False
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000003,Setting 3,cap_wr,AlwaysFail,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000003,Setting 3,read_only,True,False
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000004,Setting 4,cap_wr,None,AlwaysFail
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000004,Setting 4,read_only,False,True
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000007,Setting 7,ref,SimpleKeys.Setting7,SimpleKeys.Setting7RefChanged
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,sid_rd,0xAABBCCDD,0x11223344
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,sid_wr,0xDDCCBBAA,0x44332211
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,cap_rd,ReadDeviceData,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,cap_wr,WriteDeviceData,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,sid_rd,0xAABBCCDD,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,sid_wr,0xDDCCBBAA,None
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),sid_rd,0xAABBCCDD,0x11223344
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),sid_wr,0xDDCCBBAA,0x44332211
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),type,int,binary
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 2),Bitmask 1 (name changed),ref,BitmaskKeys.Bit2,BitmaskKeys.Bit2RefChanged
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 3),Bitmask 1 (name changed),invert,False,True
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),backup,True,False
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),first_index,1,2
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),index_bits,0x00000FF0,0x00001FE0
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),ref,KeyRanges.Seq1,KeyRanges.Seq1RefChanged
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),sid_rd,0x11223344,0xAABBCCDD
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF,Sequence 1 (name changed),sid_wr,0x44332211,0xDDCCBBAA
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF (sub-key 0x00000002),Sequence 1 (name changed),ref,SubSetting2,SubSetting2RefChanged
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF (sub-key 0x00000002),Sequence 1 (name changed),type,int,real
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00002000-0x00002FFF,Range 2,backup,True,False
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00002000-0x00002FFF,Range 2,read_only,True,False
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00003000-0x00003FFF,Range 3,read_only,False,True
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000001,Simple key to bitmask key,key_type,simple_key,bitmask_key
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000002,Bitmask key to simple key,key_type,bitmask_key,simple_key
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),backup,True,False
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),cap_wr,AlwaysFail,WriteUserData
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),read_only,True,False
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),sid_rd,0xAABBCCDD,0x11223344
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),sid_wr,None,0x44332211
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),type,int,binary
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,backup,True,False
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,rfs,True,False
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,sid_rd,0x11223344,0xAABBCCDD
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,sid_wr,0x44332211,0xDDCCBBAA
+Layer1/implml/00000005_repo_attrs_changed.crml,0x00000005,RepoAttrsChangedXyz,None,,uid_name,RepoAttrsChanged,RepoAttrsChangedXyz
+Layer1/implml/00000006_renamed_repo_xyz.crml,0x00000006,RenamedRepo,None,,file,Layer1/implml/00000006_renamed_repo.crml,Layer1/implml/00000006_renamed_repo_xyz.crml
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x20000001,Added setting
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 5),Bitmask 1 (name changed)
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x20000001,Added bitmask
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF (sub-key 0x00000005),Sequence 1 (name changed)
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x20001001-0x20001FFF,Added range
+Layer1/implml/20000001_added_repo.crml,0x20000001,AddedRepo,None,
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x10000001,Removed setting
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 4),Bitmask 1
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x10000001,Removed bitmask
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x00001001-0x00001FFF (sub-key 0x00000004),Sequence 1
+Layer1/implml/00000003_key_ranges.crml,0x00000003,KeyRanges,0x10001001-0x10001FFF,Removed range
+Layer1/implml/10000001_removed_repo.crml,0x10000001,RemovedRepo,None,
+
+
+Duplicate repositories in source:
+File,Repository UID
+Layer1/implml/30000000_duplicate_repo1_proj1.crml
+Layer1/implml/30000000_duplicate_repo2_proj1.crml
+
+
+Duplicate repositories in target:
+File,Repository UID
+Layer1/implml/30000000_duplicate_repo1_proj2.crml
+Layer1/implml/30000000_duplicate_repo2_proj2.crml

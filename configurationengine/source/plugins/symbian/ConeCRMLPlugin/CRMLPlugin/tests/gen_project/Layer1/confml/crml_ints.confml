@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="CrmlInts" version="1">
+  <feature ref="CrmlInts" name="Settings with CRML int implementations">
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <option name="Option0" value="0"/>
+      <option name="Option1" value="1"/>
+      <option name="Option2" value="2"/>
+      <option name="Option3" value="3"/>
+      <option name="Option4" value="4"/>
+    </setting>
+    <setting ref="IntSettingHex" name="Int setting (hex value)" type="int"/>
+  </feature>
+  <data>
+    <CrmlInts>
+      <IntSetting>10</IntSetting>
+      <SelectionSetting>1</SelectionSetting>
+      <IntSettingHex>0xA</IntSettingHex>
+    </CrmlInts>
+  </data>
+</configuration>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="TestFeature" version="1">
+  <feature ref="TestFeature" name="Settings for testing">
+    <setting ref="Value1" type="string"/>
+  
+    <setting ref="Output1File" type="string"/>
+    <setting ref="Output1Encoding" type="string"/>
+    
+    <setting ref="Output2Dir" type="string"/>
+    <setting ref="Output2Filename" type="string"/>
+  </feature>
+  <data>
+    <TestFeature>
+      <Value1>ελληνικά (unicode test), &lt;&amp;> (special char test)</Value1>
+    
+      <Output1File>some/dir/out1.txt</Output1File>
+      <Output1Encoding>UTF-16-LE</Output1Encoding>
+      
+      <Output2Dir>some/dir2</Output2Dir>
+      <Output2Filename>out2.txt</Output2Filename>
+    </TestFeature>
+  </data>
+</configuration>

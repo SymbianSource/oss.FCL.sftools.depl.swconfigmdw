@@ -1,0 +1,23 @@
+If you make changes to build-scripts/ build.xml, the related .cmd files or
+anything else that may affect the build process, you should run the following
+commands to check that everything works:
+
+install C:/cone-build-script-test/install_none
+install C:/cone-build-script-test/install_symbian symbian
+
+clean_pack C:/cone-build-script-test/clean_pack_none
+clean_pack C:/cone-build-script-test/clean_pack_symbian symbian
+
+pack C:/cone-build-script-test/clean_pack_none
+pack C:/cone-build-script-test/clean_pack_symbian symbian
+
+develop C:/cone-build-script-test/develop_none
+develop C:/cone-build-script-test/develop_symbian symbian
+
+export_bat C:/cone-build-script-test/export_bat_none
+export_bat C:/cone-build-script-test/export_bat_symbian symbian
+
+pack_bat C:/cone-build-script-test/pack_bat_none
+pack_bat C:/cone-build-script-test/pack_bat_symbian symbian
+
+ant test

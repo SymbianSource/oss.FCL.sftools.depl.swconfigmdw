@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="CrmlBinaries" version="1">
+  <feature ref="CrmlBinaries" name="Settings with CRML int implementations">
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    <setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <option name="Option0" value="0"/>
+      <option name="Option1" value="1"/>
+      <option name="Option2" value="2"/>
+      <option name="Option3" value="3"/>
+      <option name="Option4" value="4"/>
+    </setting>
+    <setting ref="EmptyStringSetting" name="Empty string setting" type="string"/>
+  </feature>
+  <data>
+    <CrmlBinaries>
+      <IntSetting>10</IntSetting>
+      <StringSetting>B371C72F3D82C38D9B8C7AAD8BF542BD</StringSetting>
+      <SelectionSetting>1</SelectionSetting>
+      <EmptyStringSetting></EmptyStringSetting>
+    </CrmlBinaries>
+  </data>
+</configuration>

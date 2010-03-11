@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+
+    <output file="test5a.txt" encoding="UTF-8" dir="output">
+       <template>'Hello {{ feat_tree.Feature1.StringSetting._value }}'</template>
+    </output>
+    <filter name="test_filter">lambda a,b: a+b</filter>
+    <filter name="test_filter2" file="../../filters/filter.py"/>
+</templateml>

@@ -1,0 +1,70 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+{% for row in data.impl_data.flat.modified|sort -%}
+{#- Only report CRML changes (but ignore changes to key names, they don't matter for DC) -#}
+{%- if row.impl_type == 'crml' and row.value_id != 'name' -%}
+
+{# Ignore changes to read-only keys. However, if a key's read-only attribute is changed, that is reported. -#}
+{%- if 'target_key' not in row.data or row.data.target_key.read_only == false or row.data.source_key.read_only != row.data.target_key.read_only -%}
+
+{%- if 'target_key' in row.data -%}
+{% set key_name = row.data.target_key.name or row.data.source_key.name -%}
+{% else -%}
+{% set key_name = '' -%}
+{% endif -%}
+{%- set repo_name = row.data.target_repo.uid_name or row.data.source_repo.uid_name -%}
+{%- if repo_name == none -%}{%- set repo_name = '' -%}{%- endif -%}
+
+{{ row.file }},{{ row.id }},{{ repo_name }},{{ row.sub_id }},{{ key_name }},{{ row.value_id }},{{ row.source_value }},{{ row.target_value }}
+{% endif -%}
+
+{% endif -%}
+{% endfor %}
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+{% for row in data.impl_data.flat.only_in_target|sort -%}
+{%- if row.impl_type == 'crml' and ('key' not in row.data or row.data.key.read_only == false) -%}
+{%- if row.data != none and 'key' in row.data -%}
+{%- set key_name = row.data.key.name -%}
+{%- else -%}
+{%- set key_name = '' -%}
+{%- endif -%}
+{%- set repo_name = row.data.repo.uid_name or '' -%}
+{{ row.file }},{{ row.id }},{{ repo_name }},{{ row.sub_id }},{{ key_name }}
+{% endif -%}
+{% endfor %}
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+{% for row in data.impl_data.flat.only_in_source|sort -%}
+{%- if row.impl_type == 'crml' and ('key' not in row.data or row.data.key.read_only == false) -%}
+{%- if row.data != none and 'key' in row.data -%}
+{%- set key_name = row.data.key.name -%}
+{%- else -%}
+{%- set key_name = '' -%}
+{%- endif -%}
+{%- set repo_name = row.data.repo.uid_name or '' -%}
+{{ row.file }},{{ row.id }},{{ repo_name }},{{ row.sub_id }},{{ key_name }}
+{% endif -%}
+{% endfor %}
+
+Duplicate repositories in source:
+File,Repository UID
+{% for row in data.impl_data.flat.duplicate|sort -%}
+{%- if row.impl_type == 'crml' -%}
+{% for file in row.files_in_source -%}
+{{ file }}{{row.impl_id}}
+{% endfor -%}
+{% endif -%}
+{% endfor %}
+
+Duplicate repositories in target:
+File,Repository UID
+{% for row in data.impl_data.flat.duplicate|sort -%}
+{%- if row.impl_type == 'crml' -%}
+{% for file in row.files_in_target -%}
+{{ file }}{{row.impl_id}}
+{% endfor -%}
+{% endif -%}
+{% endfor %}

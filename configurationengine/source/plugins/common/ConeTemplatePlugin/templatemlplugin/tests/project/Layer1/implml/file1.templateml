@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+
+    <output file="test.txt" encoding="UTF-16">
+        <template>ABC kissa kävelee</template>
+    </output>
+
+    <output file="test2.txt" encoding="UTF-16" dir="output">
+       <template file="../../templates/template.txt"/>
+    </output>
+
+    <output file="test3.txt" encoding="UTF-8">
+       <template>ABCD kissa kävelee</template>
+    </output>
+    
+    <output file="test4.txt" encoding="UTF-16" dir="output">
+       <template file="../../templates/template.xml"/>
+    </output>
+    <filter name="test_filter">lambda a,b: a+b</filter>
+    <filter name="test_filter2" file="../../filters/test_filter.filter"/>
+    
+    <output file="test5.txt" dir="some/test/path" encoding="UTF-8">
+       <template>ABCD kissa kävelee</template>
+    </output>
+</templateml>

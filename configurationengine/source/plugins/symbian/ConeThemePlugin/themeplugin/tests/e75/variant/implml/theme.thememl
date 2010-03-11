@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thememl xmlns="http://www.s60.com/xml/thememl/1">
+
+	<!--This path points to the location of the Carbide.UI.-->
+    <carbideuiPath>C:\Program Files\Nokia\Carbide.ui Theme Edition 3.4</carbideuiPath>
+    
+    
+    <!--
+    The value of this setting is directory path where the tpf files are located.
+    This tag can be more than once, if directories with tpf files is more. 
+    -->
+    <themeDir>CVC_PreinstalledContent/CVC_PreInstalledThemesFolder</themeDir>
+    
+    
+    <!-- 
+    This tag activeTheme defines theme which will be active. The tag can be more than once.
+    
+    uid: This attribute is optional. It is hexadecimal number.
+    
+    refSetting: the value of this setting is a path of tpf file which will be active.
+    
+    platformUID: UID or PID number will be set to the value of this setting.
+    If attribute UID is defined then the value of this setting will be value of this attribute 
+    in decimal format. 
+    If the uid number is not defined then PID number is got from pkg file and
+    saved to the value of this setting in decimal format. 
+    Next there is need to perform some modification with this number for reasons that AknSkinDescCompiler
+    from SDK can't work with big integer numbers
+    -->
+    <activeTheme uid="0x101FD60A">
+		<refSetting>CVC_Theme_ref/CVC_DefaultTheme_ref</refSetting>
+    	<platformUID>KCRUidPersonalisation/KPslnActiveSkinUid</platformUID>
+    </activeTheme>
+
+</thememl>

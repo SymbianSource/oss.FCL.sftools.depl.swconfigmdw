@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <output file="test_ext_temp_file.txt" encoding="UTF-8" dir="output">
+       <template file="../../templates/template2.txt"/>
+    </output>
+    <filter name="test_filter" file="../../filters/filter.py"/>
+</templateml>

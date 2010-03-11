@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:schemaLocation="http://www.w3.org/2001/XInclude http://www.s60.com/xml/confml/1#//include" name="Base layer">
+  <xi:include href="confml/basic_setting_types_test.confml"/>
+  <xi:include href="confml/bitmask_test.confml"/>
+  <xi:include href="confml/feature1.confml"/>
+  <xi:include href="confml/feature2.confml"/>
+  <xi:include href="confml/file_folder_test.confml"/>
+  <xi:include href="confml/hcr_test.confml"/>
+  <xi:include href="confml/sequence_setting_test.confml"/>
+  <xi:include href="confml/sound_file_test.confml"/>
+  <xi:include href="confml/theme_uids.confml"/>
+  <xi:include href="confml/time_types_test.confml"/>
+  <confml:meta/>
+</confml:configuration>

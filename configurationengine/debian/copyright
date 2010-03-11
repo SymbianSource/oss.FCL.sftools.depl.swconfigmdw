@@ -1,0 +1,23 @@
+This package was debianized by Zoltan Andrasi <zoltan.andrasi@nokia.com> on
+Thu, 11 Dec 2008 11:57:50 +0200.
+
+It was downloaded from http://developer.symbian.org/wiki/index.php/Software_Configuration_Middleware
+
+Upstream Author(s):
+
+    Teemu Rytkonen <teemu.rytkonen@nokia.com>
+
+Copyright:
+
+    Copyright (C) 2008 Nokia Corporation
+
+License:
+
+    Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+    All rights reserved.
+    This component and the accompanying materials are made available
+    under the terms of "Eclipse Public License v1.0"
+    which accompanies this distribution, and is available
+    at the URL "http://www.eclipse.org/legal/epl-v10.html".
+
+The Debian packaging is (C) 2008, Zoltan Andrasi <zoltan.andrasi@nokia.com>.

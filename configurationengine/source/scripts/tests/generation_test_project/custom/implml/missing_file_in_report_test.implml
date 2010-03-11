@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+
+    <container>
+        <tempVariable ref="TempFeatureMissingFile.Test1" type="string" value="testing 1"/>
+        <tempVariable ref="TempFeatureMissingFile.Test2" type="string" value="testing 2"/>
+    
+        <container>
+            <phase name="normal"/>
+            <!-- TemplateML for creating two output files -->
+            <templateml xmlns="http://www.s60.com/xml/templateml/1">
+                <output file="missing_output_file_test1.txt" dir="content" encoding="UTF-8">
+                    <template>{{ feat_tree.TempFeatureMissingFile.Test1._value }}</template>
+                </output>
+                <output file="missing_output_file_test2.txt" dir="content" encoding="UTF-8">
+                    <template>{{ feat_tree.TempFeatureMissingFile.Test2._value }}</template>
+                </output>
+            </templateml>
+        </container>
+            
+        <!--
+        Rules for removing the output files in the post phase
+        so that the output files will not be there when the report is generated
+        -->
+        <container>
+            <phase name="post"/>
+            <ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+                <rule>True configures TempFeatureMissingFile.Test1 = {% delete_file('output/content/missing_output_file_test1.txt') %}</rule>
+                <rule>True configures TempFeatureMissingFile.Test2 = {% delete_file('output/content/missing_output_file_test2.txt') %}</rule>
+                
+                <eval_globals>
+def delete_file(file):
+    import os
+    print "removing %s" % file
+    os.remove(file)
+                </eval_globals>
+            </ruleml>
+        </container>
+    </container>
+</container>

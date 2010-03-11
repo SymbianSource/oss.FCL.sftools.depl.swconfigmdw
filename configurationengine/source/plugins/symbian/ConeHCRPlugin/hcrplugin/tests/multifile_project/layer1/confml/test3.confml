@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2">
+<confml:feature ref="HcrTest3" name="HCR test 3">
+	<confml:setting ref="BoolSetting" name="Bool setting" type="boolean"/>
+</confml:feature>
+
+<confml:data>
+    <confml:HcrTest3>
+        <confml:BoolSetting>false</confml:BoolSetting>
+    </confml:HcrTest3>
+</confml:data>
+</confml:configuration>

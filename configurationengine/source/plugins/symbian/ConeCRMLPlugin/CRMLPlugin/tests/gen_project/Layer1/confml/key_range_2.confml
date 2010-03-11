@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="KeyRange2">
+  <feature ref="KeyRange2" name="Key range test 2">
+	<setting type="sequence" ref="Sequence" maxOccurs="7" name="Records">
+	    <setting ref="Int1" name="Int 1" type="int" readOnly="false"/>
+	    <setting ref="Int2" name="Int 2" type="int" readOnly="false"/>
+	    <setting ref="String1" name="String 1" type="string" readOnly="false"/>
+	    <setting ref="String2" name="String 2" type="string" readOnly="false"/>
+	</setting>
+  </feature>
+  <data>
+    <KeyRange2>
+	  <Sequence>
+		  <Int1>0x10285AA9</Int1>
+	      <Int2>0</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>0x10285AA9</Int1>
+	      <Int2>0</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>0x10285AA9</Int1>
+	      <Int2>1</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>0x10285AA9</Int1>
+	      <Int2>1</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>0x10285AA9</Int1>
+	      <Int2>1</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>0x10285AA9</Int1>
+	      <Int2>1</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>0x10285AA9</Int1>
+	      <Int2>1</Int2>
+	      <String1>127.0.0.1</String1>
+	      <String2>20080514:134400.000000</String2>
+	  </Sequence>
+    </KeyRange2>
+  </data>
+  <rfs>
+    <KeyRange2>
+	  <DefaultRecordId>false</DefaultRecordId>
+	  <Sequence>
+		  <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+	  <Sequence>
+	      <Int1>false</Int1>
+	      <Int2>false</Int2>
+	      <String1>false</String1>
+	      <String2>false</String2>
+	  </Sequence>
+    </KeyRange2>
+  </rfs>
+</configuration>

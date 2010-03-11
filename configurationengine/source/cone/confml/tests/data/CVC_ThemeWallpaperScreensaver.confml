@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2">
+
+  <feature name="Default Theme" ref="CVC_Theme_ref">
+    <desc>Default Theme to be set on device. Select from the set of pre-installed themes.</desc>
+    <setting name="Default Theme" ref="CVC_DefaultTheme_ref" type="file">
+      <desc>Default Theme to be set on device. Select from the set of pre-installed themes.</desc>
+      <localPath/>
+      <targetPath readOnly="true"/>
+    </setting>
+  </feature>
+
+    <feature name="Wallpaper" ref="CVC_Wallpaper">
+    <desc>Default wallpaper</desc>
+    <setting name="Wallpaper" ref="CVC_WallpaperFile" type="file">
+      <desc>Size: 240X234 pixels Format: SVGT (preferred) or BMP. 24 bit. The end user can select to change this to either a different single image or select multiple images to run in a wallpaper slide show.</desc>
+      <localPath/>
+      <targetPath readOnly="true"/>
+    </setting>
+  </feature>
+
+  <feature name="Screensaver" ref="CVC_Screensaver">
+    <desc>Screensaver</desc>
+    <setting name="Screensaver File" ref="CVC_ScreensaverFile" type="file">
+      <desc>Screensaver file. Format is animated GIF.</desc>
+      <localPath/>
+      <targetPath readOnly="true"/>
+    </setting>
+    <setting name="Animation Timeout (mins)" ref="CVC_AnimationTimeout" type="int">
+      <desc>Duration the animation will run before reverting to default screensaver in minutes. Min 1 minute, max 30 minutes.</desc>
+    </setting>
+    <setting name="Lights Timeout (secs)" ref="CVC_LightsTimeout" type="int">
+      <desc>Duration of display lights being turned on while the animation runs in seconds. 0 = no lights, max 30 seconds.</desc>
+    </setting>
+  </feature>
+<data>
+<CVC_Screensaver>
+<CVC_AnimationTimeout>3</CVC_AnimationTimeout>
+<CVC_LightsTimeout>15</CVC_LightsTimeout>
+</CVC_Screensaver>
+</data>
+</configuration>

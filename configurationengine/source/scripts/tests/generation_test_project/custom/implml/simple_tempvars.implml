@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <!-- Define the temporary variables and set their values -->
+    <tempVariable ref="TempFeature.String"   type="string"   value="testing"/>
+    <tempVariable ref="TempFeature.Int"      type="int"      value="500"/>
+    <tempVariable ref="TempFeature.Real"     type="real"     value="1.5"/>
+    <tempVariable ref="TempFeature.Boolean"  type="boolean"  value="true"/>
+    <tempVariable ref="TempFeature.Unused"   type="boolean"  value="false"/>
+    
+    <!-- Modify the temporary features -->
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+        <rule>True configures TempFeature.String = TempFeature.String + " and more testing"</rule>
+        <rule>True configures TempFeature.Int = TempFeature.Int + 1</rule>
+        <rule>True configures TempFeature.Real = TempFeature.Real + 0.25</rule>
+    </ruleml>
+    
+    <!-- Print out the values to a text file -->
+    <templateml xmlns="http://www.s60.com/xml/templateml/1">
+    <output file="simple_tempvars_test.txt" dir="content" encoding="UTF-8">
+<template>
+TempFeature.String:  {{ feat_tree.TempFeature.String._value }}
+TempFeature.Int:     {{ feat_tree.TempFeature.Int._value }}
+TempFeature.Real:    {{ feat_tree.TempFeature.Real._value }}
+TempFeature.Boolean: {{ feat_tree.TempFeature.Boolean._value }}
+</template>
+    </output>
+    </templateml>
+</container>

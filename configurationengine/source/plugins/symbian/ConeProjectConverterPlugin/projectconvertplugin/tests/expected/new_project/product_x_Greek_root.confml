@@ -1,0 +1,7 @@
+<configuration name="product_x_Greek_root_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xi:include href="platforms/platform1/root.confml" />
+<xi:include href="platforms/platform2/root.confml" />
+<xi:include href="family_x/root.confml" />
+<xi:include href="family_x/product_x/root.confml" />
+<xi:include href="family_x/product_x/language/Greek/root.confml" />
+</configuration>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+  <confml:feature name="Right Softkey Customization" ref="CVC_RSK">
+    <confml:desc>The right soft key (RSK) in idle mode can be configured to launch a customer defined application or URL. The RSK label can be branded with a graphic only if it is a URL. The left soft key (LSK) is always a text string and is not customizable. The end user is able to personalize both the left and right soft keys.</confml:desc>
+    <confml:setting name="Right Softkey Customization" ref="CVC_ActiveIdleRSKCustomization" type="boolean">
+      <confml:desc>Right Softkey Customization</confml:desc>
+    </confml:setting>
+    <confml:setting name="Right Softkey caption" ref="CVC_ActiveIdleRSKText" type="string">
+      <confml:desc>Right Softkey caption text (if RSK is not customized as image). 12 characters max (5 for Chinese variants).</confml:desc>
+    </confml:setting>
+    <confml:setting name="Right Softkey image" ref="CVC_ActiveIdleRSKImage" type="file">
+      <confml:desc>Size: 115 x 22 pixels Format: SVGT (preferred) or BMP</confml:desc>
+    </confml:setting>
+    <confml:setting name="Right Softkey image BMP mask" ref="CVC_ActiveIdleRSKImageBMPMask" type="file">
+      <confml:desc>Right softkey BMP mask. Applicable only if BMP format is used.</confml:desc>
+    </confml:setting>
+    <confml:setting name="Right Softkey target URL" ref="CVC_ActiveIdleRSKTargetURL" type="string">
+      <confml:desc>Right Softkey target URL (if target is defined as a web site).</confml:desc>
+    </confml:setting>
+    <confml:setting name="Right Softkey target Application UID" ref="CVC_ActiveIdleRSKTargetAppUID" type="string">
+      <confml:desc>Right Softkey target Application UID (if target is an application). Format is a hexadecimal number (0x00000000).</confml:desc>
+    </confml:setting>
+</confml:feature>
+  <confml:data>
+  </confml:data>
+</confml:configuration>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="ThemeUids" uidValue="0x20000000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="ThemeUids/Theme1Uid1" type="string" int="0x11"/>
+  <key ref="ThemeUids/Theme1Uid2" type="string" int="0x12"/>
+  <key ref="ThemeUids/Theme1Uid3" type="string" int="0x13"/>
+  
+  <key ref="ThemeUids/Theme2Uid1" type="string" int="0x21"/>
+  <key ref="ThemeUids/Theme2Uid2" type="string" int="0x22"/>
+</repository>

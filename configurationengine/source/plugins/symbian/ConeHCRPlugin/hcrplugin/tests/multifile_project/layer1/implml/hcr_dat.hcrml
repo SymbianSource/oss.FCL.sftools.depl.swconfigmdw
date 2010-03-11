@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+  <output file="hcr.dat" type="hcr" version="1" readOnly="1">
+    <include ref="*.hcrml"/>
+  </output>
+</hcr>

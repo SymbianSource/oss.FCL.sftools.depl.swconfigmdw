@@ -1,0 +1,440 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>ConE generation report</title>
+    <style type="text/css">
+        body {
+            font-family: Nokia Standard Multiscript, Tahoma, Verdana, Arial;
+            font-size: 0.8em;
+            color: #0055B7;
+        }
+
+        .red{
+            color: Red;
+        }
+        
+        h1 {
+            padding: 30px 0 0 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        #date {
+            text-align: center;
+        }
+
+        hr {
+            height: 1px;
+            background-color: cccccc;
+            color: #cccccc;
+        }
+
+        h2 h3 {
+            padding: 10px 0 10px 0;
+            margin: 0;
+        }
+
+        table.report {
+            width: 100%;
+            border: 1px solid #e0dfe3;
+            border-collapse: collapse;
+            color: #333333;
+        }
+
+        table.report th {
+            text-align: left;
+            padding: 5px;
+            background-color: #f9fafd;
+            color: #595a5f;
+            border-bottom: 1px #999999 solid;
+        }
+
+        table.report th.featureName {
+            background-color: #f2f2f3;
+            font: #595a5f Tahoma, Verdana, Arial bold;
+            font-size: 1.1em;
+            border-top: 3px #9d9da1;
+            border-top-style: double;
+            border-bottom: 3px #9d9da1;
+            border-bottom-style: double;
+        }
+
+        table.report th.header {
+            background-color: #f9fafd;
+            font: #595a5f Tahoma, Verdana, Arial bold;
+            font-size: 0.8em;
+            border-top: 1px #9d9da1;
+            border-bottom: 1px #9d9da1;
+        }
+
+        table.report td {
+            word-wrap: break-word;
+            border: 1px #EBEBEB;
+            padding: 5px;
+            border-style: solid; 
+            vertical-align: top;
+            font: Tahoma, Verdana, Arial;
+            _font-size: 0.8em;
+        }
+
+        table.summary {
+            border: 1px solid #e0dfe3;
+            border-collapse: collapse;
+            color: #333333;
+        }
+
+        table.summary th {
+            text-align: left;
+            padding: 5px;
+            background-color: #f9fafd;
+            color: #595a5f;
+            border-bottom: 1px #999999 solid;
+        }
+
+        table.summary th.featureName {
+            background-color: #f2f2f3;
+            font: #595a5f Tahoma, Verdana, Arial bold;
+            font-size: 1.1em;
+            border-top: 3px #9d9da1;
+            border-top-style: double;
+            border-bottom: 3px #9d9da1;
+            border-bottom-style: double;
+        }
+
+        table.summary td {
+            word-wrap: break-word;
+            border: 1px #EBEBEB;
+            padding: 5px;
+            border-style: solid; 
+            vertical-align: top;
+            font: Tahoma, Verdana, Arial;
+            _font-size: 0.8em;
+        }
+
+        .currentValue {
+            background-color: #e8f2fe;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generation summary:</h1>
+    <table class="summary">
+     <tr>
+        <th class="featureName" colspan="2">Statistics</th>
+     </tr>
+     <tr>
+        <td>Refs in files</td>
+        <td>{{ rep_data.nbr_of_refs }}</td>
+    </tr>
+    <tr>
+        <td>Refs with no implementation</td>
+        <td>{{ rep_data.nbr_of_refs_noimpl }}</td>
+    </tr>
+    <tr>
+        <th class="featureName" colspan="2">Details</th>
+     </tr>
+    <tr>
+        <td>Report generated</td>
+        <td>{{ rep_data.generation_time }}</td>
+    </tr>
+    <tr>
+        <td>Generation duration</td>
+        <td>{{ rep_data.duration }}</td>
+    </tr>
+    <tr>
+        <td>Generation log</td>
+        <td><a href="file:{{ rep_data.cwd|pathname_to_url }}/cone.log">cone.log</a></td>
+    </tr>
+    <tr>
+        <th class="featureName" colspan="2">Generation options</th>
+    </tr>
+    <tr>
+        <td align="left">Layers</td>
+        <td align="left">{{ rep_data.options.layers }}</td>
+    </tr>
+    <tr>
+        <td align="left">Added</td>
+        <td align="left">{{ rep_data.options.added }}</td>
+    </tr>
+    <tr>
+        <td align="left">Dryrun</td>
+        <td align="left">{{ rep_data.options.dryrun }}</td>
+    </tr>
+    <tr>
+        <td align="left">Verbose</td>
+        <td align="left">{{ rep_data.options.verbose }}</td>
+    </tr>
+    <tr>
+        <td align="left">Overrides</td>
+        <td align="left">{{ rep_data.options.overrides }}</td>
+    </tr>
+    <tr>
+        <td align="left">Project</td>
+        <td align="left">{{ rep_data.options.project }}</td>
+    </tr>
+        <tr>
+        <td align="left">Report</td>
+        <td align="left">{{ rep_data.options.report }}</td>
+    </tr>
+    <tr>
+        <td align="left">Impls</td>
+        <td align="left">{{ rep_data.options.impls }}</td>
+    </tr>
+    <tr>
+        <td align="left">Output</td>
+        <td align="left">{{ rep_data.options.output }}</td>
+    </tr>
+    <tr>
+        <td align="left">Configuration</td>
+        <td align="left">{{ rep_data.options.configuration }}</td>
+    </tr>
+    <tr>
+        <td align="left">Working directory</td>
+        <td align="left">{{ rep_data.cwd }}</td>
+    </tr>
+    </table>
+    
+    <h1>Rule execution results:</h1><br>
+    
+    <table class="report">
+        <tr>
+            <th class="featureName">File</th>
+            <th class="featureName">Rule No.</th>
+            <th class="featureName">Input refs</th>
+            <th class="featureName">Affected refs</th>
+        </tr>
+        
+        {% for result in rep_data.rule_exec_results %}
+        {#- Report only rule executions that affected something #}
+        {%- if result.affected_refs|length > 0 %}
+        <tr>
+            <a name="rule:{{result.source}}:{{result.index}}"/>
+            <td><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ result.source|pathname_to_url }}">{{ result.source }}</a></td>
+            <td>{{result.index}}</td>
+            <td>
+            {%- for ref in result.input_refs -%}
+                {{ref}}<br/>
+            {% endfor %}
+            </td>
+            <td>
+            {%- for ref in result.affected_refs -%}
+                {{ref}}<br/>
+            {% endfor %}
+            </td>
+        </tr>
+        {% endif -%}
+        {% endfor %}
+        
+    </table>
+    
+    
+    <h1>Output files:</h1><br>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">API</th>
+        <th class="featureName">Data</th>
+        <th class="featureName">Impl. file</th>
+        <th class="featureName">Impl. type</th>
+        <th class="featureName">Generated for</th>
+        <th class="featureName">Output files</th>
+    </tr>
+    {% for feat in rep_data.lines %}
+    
+        <tr>
+            <td align="left" rowspan={{ feat.nbr_impls }}>
+                {% if feat.is_temp_feature -%}
+                <b><i>{{ feat.ref }}</i></b><br>
+                {%- else -%}
+                <b>{{ feat.ref }}</b><br>
+                {%- endif %}
+                <b>Name: </b>{{ feat.feat_name }}<br>
+                <b>Type: </b>{{ feat.feat_type }}<br>
+                <b>ConfML: </b><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ feat.config_path|pathname_to_url }}">{{ feat.config_path }}</a>
+            </td>
+            <td align="left" rowspan={{ feat.nbr_impls }}>
+            <table class="report">
+            
+            {% for data in feat.datas %}
+                {% if loop.first %}
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ data.layer|pathname_to_url }}">{{ data.layer }}</a></td>
+                        <td>{{ data.value|e|xml_charref_replace }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ data.layer|pathname_to_url }}">{{ data.layer }}</a></td>
+                        <td>{{ data.value|e|xml_charref_replace  }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </table>
+
+            <table class="report">
+                {% for data in feat.seq_data %}
+                    {% if loop.first %}
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>{{ data[0]|e|xml_charref_replace }}</b></td>
+                            <td>
+                                {% for value in data[1] %}
+                                    {{ value|e|xml_charref_replace }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td><b>{{ data[0]|e|xml_charref_replace }}</b></td>
+                            <td>
+                                {% for value in data[1] %}
+                                    {{ value|e|xml_charref_replace }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            
+            {% for impl in feat.impls %}
+                {% if loop.first %}
+                    <td align="left">
+                        <a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ impl.name|pathname_to_url }}">{{ impl.name }}</a>
+                    </td>
+                    <td align="left">
+                        {{ impl.type }}
+                    </td>
+                    <td align="left">
+                        {{ ', '.join(impl.generation_runs) }}
+                    </td>
+                    <td align="left">
+                        {% for output in impl.outputfiles -%}
+                            {% if output.exists %}
+                                <a href="file:{{ output.abs_filename|pathname_to_url }}">{{ output.filename }}</a><br>
+                            {% else %}
+                                <span class="red">{{ output.filename }}</span><br>
+                            {% endif %}
+                        {%- endfor %}
+                    </td>
+                {% else %}
+                    <tr>
+                    <td align="left">
+                        <a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ impl.name|pathname_to_url }}">{{ impl.name }}</a>
+                    </td>
+                    <td align="left">
+                        {{ impl.type }}
+                    </td>
+                    <td align="left">
+                        {{ ', '.join(impl.generation_runs) }}
+                    </td>
+                    <td align="left">
+                        {% for output in impl.outputfiles %}
+                            {% if output.exists %}
+                                <a href="file:{{ output.abs_filename|pathname_to_url }}">{{ output.filename }}</a><br>
+                            {% else %}
+                                <span class="red">{{ output.filename }}</span><br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    </tr>
+                {% endif %}
+                
+            {% endfor %}
+        </tr>
+    {% endfor %}    
+    </table>
+
+    <h1>Refs with no implementation:</h1><br>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">API</th>
+        <th class="featureName">Data</th>
+    </tr>
+    {% for feat in rep_data.ref_noimpl %}
+        <tr>
+            <td align="left" >
+                {% if feat.is_temp_feature -%}
+                <b><i>{{ feat.ref }}</i></b><br>
+                {%- else -%}
+                <b>{{ feat.ref }}</b><br>
+                {%- endif %}
+                <b>Name: </b>{{ feat.feat_name|e|xml_charref_replace }}<br>
+                <b>Type: </b>{{ feat.feat_type|e|xml_charref_replace }}<br>
+                <b>ConfML: </b><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ feat.config_path|pathname_to_url }}">{{ feat.config_path }}</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            {% for data in feat.datas %}
+                {% if loop.first %}
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ data.layer|pathname_to_url }}">{{ data.layer }}</a></td>
+                        <td>{{ data.value|e|xml_charref_replace }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><a href="file:{{ rep_data.project_dir|pathname_to_url }}/{{ data.layer|pathname_to_url }}">{{ data.layer }}</a></td>
+                        <td>{{ data.value|e|xml_charref_replace }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </table>
+            
+            <table class="report">
+                {% for data in feat.seq_data %}
+                    {% if loop.first %}
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>{{ data[0] }}</b></td>
+                            <td>
+                                {% for value in data[1] %}
+                                    {{ value|e|xml_charref_replace }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td><b>{{ data[0] }}</b></td>
+                            <td>
+                                {% for value in data[1] %}
+                                    {{ value|e|xml_charref_replace }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </tr>
+    {% endfor %}    
+    </table>
+    <h1>Not generated output files:</h1><br>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">Output file</th>
+    </tr>
+    {% for file in rep_data.missing_output_files %}
+        <tr>
+            <td align="left" >
+                {{ file.filename }}
+            </td>
+    {% endfor %}
+    </table>
+    
+</body>
+</html>

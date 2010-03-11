@@ -1,0 +1,19 @@
+Refs with implementations
+=========================
+{% for feat in rep_data.lines -%}
+{% if not loop.first -%}
+-------------------------------------------------
+{%- endif %}
+Ref: {{ feat.ref }}
+Impls:
+{% for impl in feat.impls -%}
+    File = "{{ impl.name }}", type = "{{ impl.type }}", gen_runs = {{impl.generation_runs}}
+{% endfor -%}
+{% endfor %}
+
+
+Refs with no implementation
+===========================
+{% for feat in rep_data.ref_noimpl -%}
+    {{ feat.ref }}
+{% endfor %}

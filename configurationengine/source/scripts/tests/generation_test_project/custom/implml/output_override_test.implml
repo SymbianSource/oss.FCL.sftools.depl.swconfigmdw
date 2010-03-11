@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <!-- Content copy with an overridden output sub-directory -->
+    <container>
+        <outputSubDir value="test_subdir"/>
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output dir="output_subdir_test.txt">
+                <input dir="invocation_phase_test_1.txt"/>
+            </output>
+        </content>
+    </container>
+    
+    <!-- Content copy with an overridden output root directory -->
+    <container>
+        <outputRootDir value="overridden_output"/>
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output dir="output_rootdir_test.txt">
+                <input dir="invocation_phase_test_1.txt"/>
+            </output>
+        </content>
+    </container>
+    
+    <!-- Content copy with an both overridden -->
+    <container>
+        <outputRootDir value="overridden_output"/>
+        <outputSubDir value="test_subdir"/>
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output dir="output_rootdir_test.txt">
+                <input dir="invocation_phase_test_1.txt"/>
+            </output>
+        </content>
+    </container>
+</container>

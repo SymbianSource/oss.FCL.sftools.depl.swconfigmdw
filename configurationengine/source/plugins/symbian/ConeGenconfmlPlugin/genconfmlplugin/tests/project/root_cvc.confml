@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" name="product1" version="0.1">
+  <xi:include href="assets/s60/root.confml#/"/>
+  <xi:include href="family/root.confml#/"/>
+  <xi:include href="family/product/root.confml#/"/>
+  <confml:meta>
+    <confml:customer>Customer-independent</confml:customer>
+    <confml:date>2008-11-21</confml:date>
+    <confml:editor>Me</confml:editor>
+    <confml:id>cvc</confml:id>
+    <confml:owner>Me</confml:owner>
+    <confml:platform>S60</confml:platform>
+    <confml:product>P1</confml:product>
+    <confml:release>PR0</confml:release>
+    <confml:status>Draft</confml:status>
+    <confml:version>0.1</confml:version>
+  </confml:meta>
+  <confml:desc>Custom ConfMLs for P1</confml:desc>
+  <xi:include href="cvc/cvc_root.confml"/>
+</confml:configuration>

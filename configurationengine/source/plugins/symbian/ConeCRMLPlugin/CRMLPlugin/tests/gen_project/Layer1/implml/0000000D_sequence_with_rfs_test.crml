@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="SequenceWithRfsTest" uidValue="0x0000000D" owner="0xABCD0000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  
+  <keyRange ref="SequenceWithRfsTest/SequenceSetting" name="Sequence setting"
+    firstInt="0x01000000" lastInt="0x01ffffff"
+	countInt="0x01000001" indexBits="0x00ff0000" firstIndex="2">
+    <access type="R" capabilities="AlwaysPass"/>
+	<access type="W" capabilities="WriteDeviceData"/>
+	<key int="0x00000001" type="int" ref="IntSubSetting"/>
+	<key int="0x00000002" type="string" ref="StringSubSetting"/>
+  </keyRange>
+</repository>

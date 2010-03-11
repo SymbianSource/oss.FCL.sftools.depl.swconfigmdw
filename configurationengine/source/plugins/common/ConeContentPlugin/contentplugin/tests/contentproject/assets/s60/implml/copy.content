@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/1">
+  <desc>Copy content.</desc>
+  <output dir="content"/>
+  <input dir="">
+    <exclude pattern='.svn'/>
+  </input>
+</content>

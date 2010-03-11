@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/1" name="aknskins">
+  <feature name="Avkon Personalization" ref="KCRUidPersonalisation">
+    <desc/>
+    <setting constraint="" name="Active Skin Location" ref="KPslnActiveSkinLocation" type="selection">
+      <desc>The location of the active skin. Possible values are: 0 = Phone (drives C:\ and Z:\), 2 = MMC (E:\).</desc>
+      <option name="Phone Memory" value="0"/>
+      <option name="MMC" value="2"/>
+    </setting>
+    <setting constraint="" name="Active Skin Uid" ref="KPslnActiveSkinUid" type="string">
+      <desc>The UID of the active skin.</desc>
+    </setting>
+    <setting constraint="" name="Color Palette Uid" readOnly="true" ref="KPslnColorPaletteUid" type="string">
+      <desc>Active color palette Uid.</desc>
+    </setting>
+    <setting name="Dimmed Idle Background Image Index" readOnly="true" ref="KPslnDimmedIdleBackgroundImageIndex" type="int">
+      <desc>Bitmap index of the active background image in the favourites.</desc>
+    </setting>
+    <setting name="Favourites Background Image Index" readOnly="true" ref="KPslnFavouritesBackgroundImageIndex" type="int">
+      <desc>Active background image in the favourites Uid.</desc>
+    </setting>
+    <setting name="Favourites Background Image Path" ref="KPslnFavouritesBackgroundImagePath" type="string">
+      <desc>The path name of the active background image file in Favourites.</desc>
+    </setting>
+    <setting name="Icon Set Uid" readOnly="true" ref="KPslnIconSetUid" type="string">
+      <desc>Active icon set Uid.</desc>
+    </setting>
+    <setting name="Idle Background Image Index" readOnly="true" ref="KPslnIdleBackgroundImageIndex" type="int">
+      <desc>Bitmap index of the active background image in the idle state.</desc>
+    </setting>
+    <setting name="Idle Background Image Path" ref="KPslnIdleBackgroundImagePath" type="string">
+      <desc>The path name of the active background image file in the Idle state.</desc>
+    </setting>
+    <setting name="ScreenSaver Uid" readOnly="true" ref="KPslnScreenSaverUid" type="int">
+      <desc> Active screen saver's Uid.</desc>
+    </setting>
+    <setting name="Idle Background Image Uid" readOnly="true" ref="KPslnIdleBackgroundImageUid" type="string">
+      <desc>Active background image in the idle state Uid.</desc>
+    </setting>
+    <setting name="Favourites Background Image Uid" readOnly="true" ref="KPslnFavouritesBackgroundImageUid" type="string">
+      <desc> Active background image in the favourites Uid.</desc>
+    </setting>
+    <setting name="Default Skin Uid" ref="KPslnDefaultSkinUid" type="string">
+      <desc>Defines the default skin of the device. If default value is used, S60 default skin is used. Given value should be in HEX.&#13;
+Note that using 16-digit PID value here has a degrading impact on device performance. 8-digit UID is thus preferred.</desc>
+    </setting>
+    <setting name="System Default ScreenSaver" ref="KPslnSystemDefaultScreenSaver" type="string">
+      <desc>System default screen saver. Possible values are:&#13;
+DateTime (same as if the key is not set at all)  - default screensaver is Date and Time screensaver.&#13;
+Text - default screensaver is Text.&#13;
+None - by default, screensaver is off.&#13;
+Defining an incorrect value will set Date and Time screensaver as default screensaver.&#13;
+Note that active screensaver is set using repository KCRUidScreenSaver with key KScreenSaverObject.</desc>
+    </setting>
+    <setting name="Color Palette" ref="KPslnColorPalette" type="selection">
+      <desc>Active color scheme. Possible values are: 0 (blue), 1 (green), 2 (purple), 3 (red), 4 (pink), 5 (orange).</desc>
+      <option name="Blue" value="0"/>
+      <option name="Green" value="1"/>
+      <option name="Purple" value="2"/>
+      <option name="Red" value="3"/>
+      <option name="Pink" value="4"/>
+      <option name="Orange" value="5"/>
+    </setting>
+    <setting name="Available Color Palettes" ref="KPslnAvailableColorPalettes" type="string">
+      <desc>Available color schemes. Contains a space separated list of the supported color schemes. Values are the same as in above.</desc>
+    </setting>
+    <setting name="Highlight Animation Enabled" ref="KPslnHighlightAnimationEnalbled" type="selection">
+      <desc>Highlight animation status. If 0 animations are disabled, otherwise animations are enabled.</desc>
+      <option name="Disabled" value="0"/>
+      <option name="Enabled" value="1"/>
+    </setting>
+    <setting name="FullScreen Wallpaper Enabled" ref="KPslnFullScreenWallpaperEnabled" type="selection">
+      <desc>Full screen wallpaper status. Value 0 means that full screen wallpaper is off, otherwise full screen wallpaper is enabled.</desc>
+      <option name="Full Screen Wallpaper Off" value="0"/>
+      <option name="Full Screen Wallpaper On" value="1"/>
+    </setting>
+    <setting name="Wallpaper Type" ref="KPslnWallpaperType" type="selection">
+      <desc>Defines wallpaper type (none/image/slide set). Value of zero means that there is no wallpaper, value of 1 means that wallpaper is single image and value of 2 means that wallpaper is defined as image slide set.</desc>
+      <option name="No Image" value="0"/>
+      <option name="Single Image" value="1"/>
+      <option name="Slide set" value="2"/>
+    </setting>
+    <setting id="" name="Default Skin" ref="KPslnDefaultSkin" type="int">
+      <desc> Defines the default skin of the device. If default value is used, S60 default skin is used.</desc>
+    </setting>
+  </feature>
+  <feature name="Wallpaper Configuration" ref="KCRUidWallpaperConfiguration">
+    <desc/>
+    <setting name="Wallpaper Portrait Scale Priority" ref="KWpConfPortraitScalePriority" type="int">
+      <desc>Defines which operation (crop, stretch or both) should be preferred when trying to scale wallpaper to a portrait screen. &#13;
+Value of zero (0)  means stretching is preferred, value of one (1) means cropping is preferred and value of two (2) means both are preferred.(3) means nhd fullscreen is preferred</desc>
+    </setting>
+    <setting name="Wallpaper Portrait Max Crop Factor" ref="KWpConfPortraitMaxCropFactor" type="real">
+      <desc>Maximum crop factor for portrait wallpaper.</desc>
+    </setting>
+    <setting name="Wallpaper Portait Max Stretch Factor" ref="KWpConfPortaitMaxStretchFactor" type="real">
+      <desc>Maximum stretch factor for portrait wallpaper.</desc>
+    </setting>
+    <setting name="Wallpaper Landscape Scale Priority" ref="KWpConfLandscapeScalePriority" type="int">
+      <desc>Defines which operation (crop, stretch or both) should be preferred when trying to scale wallpaper to a landscape screen.&#13;
+Value of zero (0)  means stretching is preferred, value of one (1) means cropping is preferred and value of two (2) means both are preferred.(3) means nhd fullscreen is preferred</desc>
+    </setting>
+    <setting name="Wallpaper Landscape Max Crop Factor" ref="KWpConfLandscapeMaxCropFactor" type="real">
+      <desc>Maximum crop factor for landscape wallpaper.</desc>
+    </setting>
+    <setting name="Wallpaper Landscape Max Stretch Factor" ref="KWpConfLandscapeMaxStretchFactor" type="real">
+      <desc>Maximum stretch factor for landscape wallpaper.</desc>
+    </setting>
+  </feature>
+  <meta>
+    <customer/>
+    <date/>
+  </meta>
+  <data>
+    <KCRUidPersonalisation>
+      <KPslnActiveSkinLocation>0</KPslnActiveSkinLocation>
+      <KPslnActiveSkinUid>0</KPslnActiveSkinUid>
+      <KPslnColorPaletteUid>0</KPslnColorPaletteUid>
+      <KPslnDimmedIdleBackgroundImageIndex>0</KPslnDimmedIdleBackgroundImageIndex>
+      <KPslnFavouritesBackgroundImageIndex>0</KPslnFavouritesBackgroundImageIndex>
+      <KPslnFavouritesBackgroundImagePath/>
+      <KPslnIconSetUid>0</KPslnIconSetUid>
+      <KPslnIdleBackgroundImageIndex>0</KPslnIdleBackgroundImageIndex>
+      <KPslnIdleBackgroundImagePath/>
+      <KPslnScreenSaverUid>0</KPslnScreenSaverUid>
+      <KPslnIdleBackgroundImageUid>0</KPslnIdleBackgroundImageUid>
+      <KPslnFavouritesBackgroundImageUid>0</KPslnFavouritesBackgroundImageUid>
+      <KPslnDefaultSkinUid>0</KPslnDefaultSkinUid>
+      <KPslnSystemDefaultScreenSaver/>
+      <KPslnColorPalette>0</KPslnColorPalette>
+      <KPslnAvailableColorPalettes>0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19</KPslnAvailableColorPalettes>
+      <KPslnHighlightAnimationEnalbled>1</KPslnHighlightAnimationEnalbled>
+      <KPslnFullScreenWallpaperEnabled>0</KPslnFullScreenWallpaperEnabled>
+      <KPslnWallpaperType>0</KPslnWallpaperType>
+      <KPslnColorPalette>0</KPslnColorPalette>
+      <KPslnDefaultSkin>0</KPslnDefaultSkin>
+    </KCRUidPersonalisation>
+    <KCRUidWallpaperConfiguration>
+      <KWpConfPortraitScalePriority>1</KWpConfPortraitScalePriority>
+      <KWpConfPortraitMaxCropFactor>0.33</KWpConfPortraitMaxCropFactor>
+      <KWpConfPortaitMaxStretchFactor>0.23</KWpConfPortaitMaxStretchFactor>
+      <KWpConfLandscapeScalePriority>1</KWpConfLandscapeScalePriority>
+      <KWpConfLandscapeMaxCropFactor>0.131</KWpConfLandscapeMaxCropFactor>
+      <KWpConfLandscapeMaxStretchFactor>0.15</KWpConfLandscapeMaxStretchFactor>
+    </KCRUidWallpaperConfiguration>
+  </data>
+  <rfs>
+    <KCRUidPersonalisation>
+      <KPslnActiveSkinLocation>true</KPslnActiveSkinLocation>
+      <KPslnActiveSkinUid>true</KPslnActiveSkinUid>
+      <KPslnColorPaletteUid>true</KPslnColorPaletteUid>
+      <KPslnDimmedIdleBackgroundImageIndex>true</KPslnDimmedIdleBackgroundImageIndex>
+      <KPslnFavouritesBackgroundImageIndex>true</KPslnFavouritesBackgroundImageIndex>
+      <KPslnFavouritesBackgroundImagePath>true</KPslnFavouritesBackgroundImagePath>
+      <KPslnIconSetUid>true</KPslnIconSetUid>
+      <KPslnIdleBackgroundImageIndex>true</KPslnIdleBackgroundImageIndex>
+      <KPslnIdleBackgroundImagePath>true</KPslnIdleBackgroundImagePath>
+      <KPslnScreenSaverUid>true</KPslnScreenSaverUid>
+      <KPslnIdleBackgroundImageUid>true</KPslnIdleBackgroundImageUid>
+      <KPslnFavouritesBackgroundImageUid>true</KPslnFavouritesBackgroundImageUid>
+      <KPslnDefaultSkinUid>false</KPslnDefaultSkinUid>
+      <KPslnSystemDefaultScreenSaver>false</KPslnSystemDefaultScreenSaver>
+      <KPslnColorPalette>true</KPslnColorPalette>
+      <KPslnAvailableColorPalettes>true</KPslnAvailableColorPalettes>
+      <KPslnHighlightAnimationEnalbled>false</KPslnHighlightAnimationEnalbled>
+      <KPslnFullScreenWallpaperEnabled>true</KPslnFullScreenWallpaperEnabled>
+      <KPslnWallpaperType>true</KPslnWallpaperType>
+      <KPslnDefaultSkin>false</KPslnDefaultSkin>
+    </KCRUidPersonalisation>
+    <KCRUidWallpaperConfiguration>
+      <KWpConfPortraitScalePriority>false</KWpConfPortraitScalePriority>
+      <KWpConfPortraitMaxCropFactor>false</KWpConfPortraitMaxCropFactor>
+      <KWpConfPortaitMaxStretchFactor>false</KWpConfPortaitMaxStretchFactor>
+      <KWpConfLandscapeScalePriority>false</KWpConfLandscapeScalePriority>
+      <KWpConfLandscapeMaxCropFactor>false</KWpConfLandscapeMaxCropFactor>
+      <KWpConfLandscapeMaxStretchFactor>false</KWpConfLandscapeMaxStretchFactor>
+    </KCRUidWallpaperConfiguration>
+  </rfs>
+</configuration>

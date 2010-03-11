@@ -1,0 +1,11 @@
+<configuration>
+    <data>
+        <CamcorderFeatures>
+            <Setting>foobar</Setting>
+        </CamcorderFeatures>
+        <SIPFeatures>
+            <Setting>123</Setting>
+        </SIPFeatures>
+    </data>
+</configuration>
+

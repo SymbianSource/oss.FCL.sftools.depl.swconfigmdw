@@ -1,0 +1,83 @@
+<configuration name="Eval test data" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature ref="EvalTest" name="Test settings for eval blocks">
+  
+    <setting ref="StringLenResult" name="String length result" type="int" />
+    <setting ref="EvalConstantResult" name="Result set from an eval global constant" type="int" />
+	<setting ref="EvalFileImport" name="Result set from an imported pyfile" type="int" />
+    <setting ref="UnchangedValue" name="Value that should remain unchanged" type="int" />
+    <setting ref="UnicodeResult1" name="Result set with an eval block using characters outside the ASCII range" type="string" />
+    <setting ref="UnicodeResult2" name="Result set with an eval block using characters outside the ASCII range" type="string" />
+    
+    <setting ref="Bitmask" name="Bitmask int setting" type="int" />
+    
+    <setting ref="Bit0Result" name="Bitmask bit 0 result" type="boolean"/>
+    <setting ref="Bit1Result" name="Bitmask bit 1 result" type="boolean"/>
+    <setting ref="Bit2Result" name="Bitmask bit 2 result" type="boolean"/>
+    <setting ref="Bit3Result" name="Bitmask bit 3 result" type="boolean"/>
+    
+    <setting ref="EvalBuiltinResult" name="String value set from eval using the built-in configuration member" type="string"/>
+    
+    <setting ref="StrippedSequence" name="Stripped sequence" type="sequence">
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+      <setting ref="IntSubSetting" name="Int sub-setting" type="int"/>
+    </setting>
+    
+    <setting ref="FullSequence" name="Full sequence" type="sequence">
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+      <setting ref="IntSubSetting" name="Int sub-setting" type="int"/>
+      <setting ref="RealSubSetting" name="Real sub-setting" type="real"/>
+      <setting ref="BooleanSubSetting" name="Boolean sub-setting" type="boolean"/>
+    </setting>
+  </feature>
+  
+  <data>
+    <EvalTest>
+      <StringLenResult>0</StringLenResult>
+      <EvalConstantResult>0</EvalConstantResult>
+      <EvalFileImport></EvalFileImport>
+      <UnchangedValue>0</UnchangedValue>
+      <UnicodeResult1></UnicodeResult1>
+      <UnicodeResult2></UnicodeResult2>
+      
+      <Bitmask>10</Bitmask>
+      <Bit0Result>false</Bit0Result>
+      <Bit1Result>false</Bit1Result>
+      <Bit2Result>false</Bit2Result>
+      <Bit3Result>false</Bit3Result>
+      
+      <EvalBuiltinResult></EvalBuiltinResult>
+      
+      <StrippedSequence template="true">
+        <StringSubSetting>Default</StringSubSetting>
+        <IntSubSetting>0</IntSubSetting>
+      </StrippedSequence>
+      <StrippedSequence>
+        <StringSubSetting>Stripped 1</StringSubSetting>
+        <IntSubSetting>1</IntSubSetting>
+      </StrippedSequence>
+      <StrippedSequence>
+        <StringSubSetting>Stripped 2</StringSubSetting>
+        <IntSubSetting>2</IntSubSetting>
+      </StrippedSequence>
+      
+      <FullSequence template="true">
+        <StringSubSetting>Default</StringSubSetting>
+        <IntSubSetting>0</IntSubSetting>
+        <RealSubSetting>0.5</RealSubSetting>
+        <IntSubSetting>false</IntSubSetting>
+      </FullSequence>
+      <FullSequence>
+        <StringSubSetting>Full 1</StringSubSetting>
+        <IntSubSetting>10</IntSubSetting>
+        <RealSubSetting>1.5</RealSubSetting>
+        <BooleanSubSetting>true</BooleanSubSetting>
+      </FullSequence>
+      <FullSequence>
+        <StringSubSetting>Full 2</StringSubSetting>
+        <IntSubSetting>20</IntSubSetting>
+        <RealSubSetting>2.5</RealSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+      </FullSequence>
+    </EvalTest>
+  </data>
+</configuration>

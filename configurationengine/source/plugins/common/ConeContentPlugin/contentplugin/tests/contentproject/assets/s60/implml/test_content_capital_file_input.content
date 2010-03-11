@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/2">
+  <output dir="content" flatten="true">
+    <input file="test/test_CAP_letters.txt"/>
+  </output>
+</content>

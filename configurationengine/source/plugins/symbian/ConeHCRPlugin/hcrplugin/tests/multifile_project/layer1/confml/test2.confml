@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2">
+<confml:feature ref="HcrTest2" name="HCR test 2">
+	<confml:setting ref="LinAddrSetting" name="Linear address setting" type="int"/>
+	<confml:setting ref="Int64Setting" name="Int64 setting" type="int"/>
+	<confml:setting ref="Uint32ArraySetting" name="Uint32 array setting" type="sequence">
+		<confml:setting ref="Value" name="Element value" type="int"/>
+	</confml:setting>
+	<confml:setting ref="TextSetting" name="Text setting" type="string"/>
+</confml:feature>
+
+<confml:data>
+    <confml:HcrTest2>
+        <confml:LinAddrSetting>0x10203040</confml:LinAddrSetting>
+        <confml:Int64Setting>1234567890123456789</confml:Int64Setting>
+        
+        <confml:Uint32ArraySetting template="true">
+            <confml:Value>0</confml:Value>
+        </confml:Uint32ArraySetting>
+        <confml:Uint32ArraySetting><confml:Value>1</confml:Value></confml:Uint32ArraySetting>
+        <confml:Uint32ArraySetting><confml:Value>20</confml:Value></confml:Uint32ArraySetting>
+        <confml:Uint32ArraySetting><confml:Value>300</confml:Value></confml:Uint32ArraySetting>
+        <confml:Uint32ArraySetting><confml:Value>4000</confml:Value></confml:Uint32ArraySetting>
+        <confml:Uint32ArraySetting><confml:Value>50000</confml:Value></confml:Uint32ArraySetting>
+        
+        <confml:TextSetting>100€</confml:TextSetting>
+    </confml:HcrTest2>
+</confml:data>
+</confml:configuration>

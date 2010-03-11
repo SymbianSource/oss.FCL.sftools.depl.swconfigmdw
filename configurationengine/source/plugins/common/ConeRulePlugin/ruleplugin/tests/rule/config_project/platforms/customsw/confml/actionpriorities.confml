@@ -1,0 +1,37 @@
+<configuration name="actionpriorities" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature name="Contact Action Service" ref="KCRUidFsContactActionService">
+    <desc />
+  <setting name="Call GSM" ref="KFscCrUidCallGsm" type="string" />
+  </feature>
+<feature name="ar operations" ref="operations">
+    <setting name="MINUS" ref="minus" type="int" />
+  <setting name="MINUS1" ref="minus1" type="int" />
+  <setting name="MINUS2" ref="minus2" type="int" />
+  <setting name="MINUS3" ref="minus3" type="int" />
+  <setting name="MINUS4" ref="minus4" type="int" />
+  <setting name="MINUS5" ref="minus5" type="int" />
+  <setting name="MINUS6" ref="minus6" type="int" />
+  <setting name="MINUS7" ref="minus7" type="int" />
+  <setting name="MINUS8" ref="minus8" type="int" />
+  <setting name="STRING1" ref="string1" type="string" />
+  <setting name="STRING2" ref="string2" type="string" />
+  </feature>
+<data>
+    <KCRUidFsContactActionService>
+      <KFscCrUidCallGsm />
+    </KCRUidFsContactActionService>
+  <operations>
+      <minus>5</minus>
+    <minus1>25</minus1>
+    <minus2>7</minus2>
+    <minus3>5</minus3>
+    <minus4>10</minus4>
+    <minus5>2</minus5>
+    <minus6>6</minus6>
+    <minus7>10</minus7>
+    <minus8>9</minus8>
+    <string1>Hello</string1>
+    <string2>World</string2>
+    </operations>
+  </data>
+</configuration>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    
+    <!-- === -->
+    <!-- MBM -->
+    <!-- === -->
+    
+    <!-- All input files empty: No error, should just generate no output -->
+    <output file="optional1_mbm.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv'>
+        <input file="${OptionalTest.EmptyString}" depth="c24"/>
+		<input file="${OptionalTest.EmptyString}" depth="1" optional="true"/>
+    </output>
+    <!-- Empty optional input file: No error, should generate normally, just without the optional file -->
+    <output file="optional2_mbm.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv'>
+        <input file="UI/Start-up Animation/frame01.bmp" depth="c24"/>
+		<input file="${OptionalTest.EmptyString}" depth="1" optional="true"/>
+    </output>
+    <!-- Invalid optional input file: Should give an error and generate no output -->
+    <output file="optional3_mbm.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv'>
+        <input file="UI/Start-up Animation/frame01.bmp" depth="c24"/>
+		<input file="foo" depth="1" optional="true"/>
+    </output>
+    <!-- Empty non-optional input file: Should give an error and generate no output -->
+    <output file="optional4_mbm.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv'>
+        <input file="UI/Start-up Animation/frame01.bmp" depth="c24"/>
+		<input file="${OptionalTest.EmptyString}" depth="1"/>
+    </output>
+    
+    
+    <!-- === -->
+    <!-- MIF -->
+    <!-- === -->
+    
+    <output file="optional1_mif.mif" tool='../bin/mifconv'>
+        <input file="${OptionalTest.EmptyString}" depth="c24"/>
+		<input file="${OptionalTest.EmptyString}" depth="1" optional="true"/>
+    </output>
+    <output file="optional2_mif.mif" tool='../bin/mifconv'>
+        <input file="svg_files/icon.svg" depth="c24"/>
+        <!-- Using EmptyString2 for get_refs() test case -->
+		<input file="${OptionalTest.EmptyString2}" depth="1" optional="true"/>
+    </output>
+    <output file="optional3_mif.mif" tool='../bin/mifconv'>
+        <input file="svg_files/icon.svg" depth="c24"/>
+		<input file="foo" depth="1" optional="true"/>
+    </output>
+    <output file="optional4_mif.mif" tool='../bin/mifconv'>
+        <input file="svg_files/icon.svg" depth="c24"/>
+		<input file="${OptionalTest.EmptyString2}" depth="1"/>
+    </output>
+
+</imageml>

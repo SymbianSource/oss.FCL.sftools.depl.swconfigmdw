@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/ruleml/1" 
+	xmlns:rule="http://www.s60.com/xml/ruleml/1" 
+	elementFormDefault="qualified">
+
+    <xs:complexType name="ruleType"/>
+	
+    <xs:complexType name="rulemlRootType">
+        <xs:sequence>
+            <xs:element name="rule" type="rule:ruleType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

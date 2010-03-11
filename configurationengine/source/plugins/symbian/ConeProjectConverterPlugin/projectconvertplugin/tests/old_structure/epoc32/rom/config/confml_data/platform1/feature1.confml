@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Feature 1" version="1">
+  <feature ref="Feature1" name="Feature 1 (ConfML v1.0)">
+    <desc>Feature with all supported setting types for ConfML v1.0</desc>
+    <setting ref="RealSetting" name="Real setting" type="real">
+      <desc>A real setting</desc>
+    </setting>
+    <setting ref="IntSetting" name="Int setting" type="int">
+      <desc>An int setting</desc>
+    </setting>
+    <setting ref="StringSetting" name="String setting" type="string">
+      <desc>A string setting</desc>
+    </setting>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean">
+      <desc>A boolean setting</desc>
+    </setting>
+    <setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <desc>A selection setting</desc>
+      <option name="Option0" value="0"/>
+      <option name="Option1" value="1"/>
+      <option name="Option2" value="2"/>
+      <option name="Option3" value="3"/>
+      <option name="Option4" value="4"/>
+    </setting>
+    <setting ref="SequenceSetting" name="Sequence setting" type="sequence">
+      <desc>A sequence setting</desc>
+      <setting ref="RealSubSetting" name="Real sub-setting" type="real">
+        <desc>A real sub-setting</desc>
+      </setting>
+      <setting ref="IntSubSetting" name="Int sub-setting" type="int">
+        <desc>An int sub-setting</desc>
+      </setting>
+      <setting ref="StringSubSetting" name="String sub-setting" type="string">
+        <desc>A string sub-setting</desc>
+      </setting>
+      <setting ref="BooleanSubSetting" name="Boolean sub-setting" type="boolean">
+        <desc>A boolean sub-setting</desc>
+      </setting>
+      <setting ref="SelectionSubSetting" name="Selection sub-setting" type="selection">
+        <desc>A selection sub-setting</desc>
+        <option name="Op0" value="0"/>
+        <option name="Op1" value="1"/>
+        <option name="Op2" value="2"/>
+        <option name="Op3" value="3"/>
+        <option name="Op4" value="4"/>
+      </setting>
+    </setting>
+  </feature>
+  <data>
+    <Feature1>
+      <RealSetting>3.14</RealSetting>
+      <IntSetting>10</IntSetting>
+      <StringSetting>default string</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+      <SelectionSetting>1</SelectionSetting>
+      <SequenceSetting template="true">
+        <RealSubSetting>1.0</RealSubSetting>
+        <IntSubSetting>1</IntSubSetting>
+        <StringSubSetting>template</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+        <SelectionSubSetting>0</SelectionSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <RealSubSetting>1.25</RealSubSetting>
+        <IntSubSetting>128</IntSubSetting>
+        <StringSubSetting>def1</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+        <SelectionSubSetting>1</SelectionSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <RealSubSetting>1.5</RealSubSetting>
+        <IntSubSetting>256</IntSubSetting>
+        <StringSubSetting>def2</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+        <SelectionSubSetting>1</SelectionSubSetting>
+      </SequenceSetting>
+    </Feature1>
+  </data>
+  
+  <rfs>
+    <Feature1>
+      <RealSetting>true</RealSetting>
+      <IntSetting>false</IntSetting>
+      <StringSetting>false</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+      <SelectionSetting>true</SelectionSetting>
+    </Feature1>
+  </rfs>
+</configuration>

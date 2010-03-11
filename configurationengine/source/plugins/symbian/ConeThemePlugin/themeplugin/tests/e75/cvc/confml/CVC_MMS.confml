@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+  <confml:feature name="MMS Image and Message Sizes" ref="CVC_MMS">
+    <confml:desc>Additional mappings for MMS image and size settings</confml:desc>
+    <confml:setting name="Image Size" ref="CVC_MMSImageSize" type="string">
+      <confml:desc>Image size in pixels to which the picture is coverted when is transferred as part of and MMS message.</confml:desc>
+      <confml:option name="Small" value="640x480"/>
+      <confml:option name="Large" value="1600x1200"/>
+    </confml:setting>
+    <confml:setting name="Sent Message Size" ref="CVC_MMSSentMessageSize" type="int">
+      <confml:desc>Defines the maximum possible size for an MMS to be sent in bytes. It is the application's responsibility to assert this. For UI use only.</confml:desc>
+      <confml:option name="300K" value="307200"/>
+      <confml:option name="350K" value="358400"/>
+      <confml:option name="400K" value="409600"/>
+      <confml:option name="450K" value="460800"/>
+      <confml:option name="500K" value="512000"/>
+    </confml:setting>
+    <confml:setting name="Received Message Size" ref="CVC_MMSReceivedMessageSize" type="int">
+      <confml:desc>Defines the maximum possible size for a received MMS in bytes. This value should be at least 4 kilobytes larger than KMmsEngineMaximumSendSize in order to reserve space for MMS headers and attachment MIME headers.</confml:desc>
+      <confml:option name="304K" value="311296"/>
+      <confml:option name="354K" value="362496"/>
+      <confml:option name="404K" value="413696"/>
+      <confml:option name="454K" value="464896"/>
+      <confml:option name="504K" value="516096"/>
+    </confml:setting>
+</confml:feature>
+  <confml:data>
+  </confml:data>
+</confml:configuration>

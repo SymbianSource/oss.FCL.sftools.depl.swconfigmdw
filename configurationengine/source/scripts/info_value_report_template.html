@@ -1,0 +1,59 @@
+{% extends "cone_base.html" %}
+{% block title %}Data value info{% endblock %}
+{% block content %}
+    <h1>Configuration data value info</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">Name</th>
+        <th class="featureName">Type</th>
+        <th class="featureName">Possible values</th>
+        {% for config in data.value_data.configs %}
+        <th class="featureName">{{ config.path }}</th>
+        {% endfor %}
+    </tr>
+    {% for feature_group in data.value_data.feature_groups %}
+    <tr><th colspan="{{ data.value_data.configs | length + 3 }}">{{ feature_group.name }}</th></tr>
+    {% for feature in feature_group.features %}
+    {% if feature.modified %}<tr bgcolor="#CCCCFF">{% else %}<tr>{% endif %}
+        <td>{{ feature.name }}</td>
+        <td>{{ feature.type }}</td>
+        <td>
+        {%- for option in feature.options -%}
+            {{ option.get_name() }}<br/>
+        {% endfor -%}
+        </td>
+        
+        {% for config in data.value_data.configs -%}
+        {%- if feature.ref in config.values -%}
+            {%- set value = config.values[feature.ref] %}
+        {% else -%}
+            {%- set value = "" %}
+        {% endif -%}
+        <td>
+            {%- if value.is_sequence_data -%}
+                {% if value.rows|length > 0 %}
+                    <table>
+                    {%- for row in value.rows -%}
+                        <tr><td colspan="2"><b>Item {{ loop.index }}</b></td></tr>
+                        {%- for column in value.columns -%}
+                            <tr>
+                            <td><b>{{ column.name }}</b></td>
+                            <td>{{ row[column.ref] }}</td>
+                            </tr>
+                        {%- endfor -%}
+                    {%- endfor -%}
+                </table>
+                {% endif %}
+            {%- else -%}
+                {{- value -}}
+            {%- endif -%}
+        </td>
+        {% endfor %}
+        
+    </tr>
+    {% endfor -%}
+    {% endfor %}
+    
+    </table>
+{% endblock %}

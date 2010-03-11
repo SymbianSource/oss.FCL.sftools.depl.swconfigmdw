@@ -1,0 +1,15 @@
+python-cone (1.1.0-0) UNRELEASED; urgency=low
+
+  * Follow upstream versioning
+  * Update packaging to build also source/scripts
+  * Linux/Unix compatibility fixes
+
+ -- Jari Tenhunen <jari.tenhunen@nokia.com>  Thu, 23 Jul 2009 14:05:25 +0300
+
+python-cone (0.1-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Zoltan Andrasi <zoltan.andrasi@nokia.com>  Thu, 11 Dec 2008 11:57:50 +0200
+
+

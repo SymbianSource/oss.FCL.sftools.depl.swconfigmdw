@@ -1,0 +1,16 @@
+<!--****************************************************************************
+ * Configuration Engine (ConE) test build file
+ * This ant test.xml will test ConE 
+ ****************************************************************************-->
+
+<project name="cone-test" default="test">
+    
+    <target name="test">
+        <echo message="Running tests..."/>
+        <delete file="nose_unittests.xml"/>
+        <exec executable="nosetests">
+            <arg line=" -c nose_unittests.cfg"/>
+        </exec>
+    </target>
+
+</project>

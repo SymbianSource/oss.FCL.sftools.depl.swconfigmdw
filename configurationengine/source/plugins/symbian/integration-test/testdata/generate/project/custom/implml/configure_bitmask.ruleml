@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+<rule>
+CustomConfSettings.ConfigureBitmask configures
+  BitmaskTest.Bit0 = '0' and
+  BitmaskTest.Bit1 = '1' and
+  BitmaskTest.Bit2 = '0' and
+  BitmaskTest.Bit3 = '1' and
+  BitmaskTest.Bit4 = '0' and
+  BitmaskTest.Bit5 = '1'
+</rule>
+</ruleml>

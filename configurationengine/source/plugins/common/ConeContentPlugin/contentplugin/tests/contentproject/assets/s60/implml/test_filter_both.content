@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/1">
+    <desc>Copy only prod</desc>
+    <tag name='target' value='rofs3'/>
+    <tag name='target' value='uda'/>
+    <output dir="content"/>
+    <input>
+        <include pattern="prod"/>
+        <exclude pattern=".svn"/>
+    </input>
+</content>

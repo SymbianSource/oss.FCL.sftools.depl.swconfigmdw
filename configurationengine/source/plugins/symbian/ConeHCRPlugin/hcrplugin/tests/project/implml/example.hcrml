@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+<output file="hcr.dat" type="hcr">
+  <category name="KCatGPIO" uid="0x10001234">
+    <setting ref="hcrexample.DebounceInterval" name="KElmGPIO_DebounceInterval" type="int32" id="0"/>
+    <setting ref="hcrexample.GPIO_1" name="KElmGPIO_1" type="int32" id="1" comment="Pin1"/>
+    <setting ref="hcrexample.GPIO_2" name="KElmGPIO_2" type="int32" id="2" comment="Pin2"/>
+  </category>
+</output>
+</hcr>

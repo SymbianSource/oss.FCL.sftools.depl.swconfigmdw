@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Multiselection generation test" version="1">
+  <feature ref="MultiSelections" name="MultiSelections">
+    <setting ref="MultiSel1" name="MultiSel1" type="multiSelection">
+		<option name="Name1" value="first selection"/>
+		<option name="Name2" value="second selection"/>
+	</setting>
+  </feature>
+  <feature name="UDA content definition" ref="uda_content">
+        <setting name="UDA content directory" ref="uda_directory" type="string">
+                <desc>Folder containing content for UDA</desc>
+        </setting>
+        <setting name="Vanilla UDA content zipfiles" ref="vanilla_udafiles" type="sequence" mapKey="zipfile" mapValue="zipfile">
+                <setting name="Zip filename" ref="zipfile" type="string">
+                        <desc>A zip file name inside the uda content directory</desc>
+                </setting>
+        </setting>
+        <setting name="User UDA content zipfiles" ref="user_udafiles" type="sequence" mapKey="zipfile/localPath" mapValue="zipfile/localPath">
+                <setting name="Zip filename" ref="zipfile" type="file">
+                        <desc>A zip file name inside the uda content directory</desc>
+                        <localPath/>
+                        <targetPath readOnly="true"/>
+                </setting>
+        </setting>
+  </feature>
+	<feature name="UDA content selection" ref="uda_selection">
+	                <setting name="UDA content selection" ref="selectedfiles" type="multiSelection">
+	                  <option map="uda_content/vanilla_udafiles"/>
+	                </setting>
+	 </feature>  
+  
+  
+  <data>
+    <MultiSelections>
+      <MultiSel1>"first selection" "second selection"</MultiSel1>
+    </MultiSelections>
+	<uda_content>
+	      <uda_directory>/epoc32/data/uda/common001</uda_directory>
+	      <vanilla_udafiles>
+	        <zipfile>app1.zip</zipfile>
+	      </vanilla_udafiles>
+	      <vanilla_udafiles>
+	        <zipfile>app2.zip</zipfile>
+	      </vanilla_udafiles>
+	      <user_udafiles>
+	        <zipfile><localPath>user_app1.zip</localPath></zipfile>
+	      </user_udafiles>
+	</uda_content>
+    <uda_selection>
+      <selectedfiles></selectedfiles>
+    </uda_selection>   
+    
+  </data>
+</configuration>

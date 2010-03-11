@@ -1,0 +1,32 @@
+{% extends "cone_base.html" %}
+{% block title %}Data value info{% endblock %}
+{% block content %}
+    <h1>Configuration data value info (custom template)</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">Ref</th>
+        <th class="featureName">Name</th>
+        <th class="featureName">Type</th>
+        {% for config in data.value_data.configs %}
+        <th class="featureName">{{ config.path }}</th>
+        {% endfor %}
+    </tr>
+    {% for feature_group in data.value_data.feature_groups %}
+    <tr><th colspan="{{ data.value_data.configs | length + 3 }}">{{ feature_group.name }}</th></tr>
+    {% for feature in feature_group.features %}
+    {% if feature.modified %}<tr bgcolor="#CCCCFF">{% else %}<tr>{% endif %}
+        <td>{{ feature.ref }}</td>
+        <td>{{ feature.name }}</td>
+        <td>{{ feature.type }}</td>
+        
+        {% for config in data.value_data.configs %}
+        <td>{{ config.values[feature.ref] }}</td>
+        {% endfor %}
+        
+    </tr>
+    {% endfor -%}
+    {% endfor %}
+    
+    </table>
+{% endblock %}

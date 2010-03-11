@@ -1,0 +1,44 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+Create Tagfile=0
+Filter=
+Include Sub Directories=1
+Project Start=D8070B0001000A000C001B00320000004E
+Project Tagfile=
+Project Wordfile=
+Relative to Project File=1
+Use Relative Directory=1
+Working Time=427910
+[Files]
+0=C:\Users\svn\isource\cone\trunk\source\
+[Group Filter]
+.\abstract\=*.py
+.\cone\=*.py
+.\storage\=*.py
+C:\Users\svn\isource\cone\trunk\source\=*.py
+C:\Users\svn\isource\newcone\source\=*.py
+[Folders]
+.\cone\ - tests=1
+C:\Users\svn\isource\cone\trunk\source\=1
+C:\Users\svn\isource\cone\trunk\source\ - cone=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - core=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - storage=1
+C:\Users\svn\isource\cone\trunk\source\ - storage=1
+C:\Users\svn\isource\cone\trunk\source\ - storage - tests=1
+C:\Users\svn\isource\newcone\source\=1
+C:\Users\svn\isource\newcone\source\ - cone=1
+C:\Users\svn\isource\newcone\source\ - cone - storage - tests=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - confml=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - storage - tests=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - confml - tests=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - core - tests=1
+C:\Users\svn\isource\cone\trunk\source\ - cone - tests=1
+[Open Files]
+Active File Display Mode=3
+Active File Index=0
+Open File Line0=0
+Open File Pos0=0
+Open File Window Pos0=2,3,-1,-1,-4,-23,22,22,948,436
+Open File0=C:\USERS\svn\isource\cone\trunk\source\set_env_to_test.cmd
+Open File1=

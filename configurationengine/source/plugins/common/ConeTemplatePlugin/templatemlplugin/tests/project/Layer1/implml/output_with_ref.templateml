@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+<output ref="output.filename" encoding="UTF-8">
+<template>Configuration name: {{ configuration.get_path() }}
+</template>
+</output>
+</templateml>

@@ -1,0 +1,38 @@
+{% set columns = {'fqr':'Full reference',
+                  'name':'Name',
+                  'type':'Type',
+                  'desc':'Description',
+                  } -%}
+
+Changed features:
+{% for item in columns|sort -%}{{ columns[item] }}|{%- endfor -%}
+{%- for item in columns|sort -%}{{ columns[item] }}|{%- endfor %}
+
+{% for fqr in data.sourcedata.features|sort -%}
+    {%- if fqr in data.targetdata.features and not data.sourcedata.features[fqr]._compare(data.targetdata.features[fqr], columns.keys()) -%}
+        {%- for colname in columns -%}
+            {{- data.sourcedata.features[fqr][colname] }}| 
+        {%- endfor -%}
+        {%- for colname in columns -%}
+            {{- data.targetdata.features[fqr][colname] }}| 
+        {%- endfor %}
+{% endif -%}
+{%- endfor %}
+
+Only in sourcedata:
+{% for fqr in data.sourcedata.features|sort -%}
+    {%- if fqr not in data.targetdata.features -%}
+        {%- for colname in columns -%}
+            {{ data.sourcedata.features[fqr][colname] }}| 
+        {%- endfor %}
+{% endif -%}
+{%- endfor %}
+
+Only in targetdata:
+{% for fqr in data.targetdata.features|sort -%}
+    {%- if fqr not in data.sourcedata.features -%}
+        {%- for colname in columns -%}
+            {{ data.targetdata.features[fqr][colname] }}| 
+        {%- endfor %}
+{% endif -%}
+{%- endfor %}

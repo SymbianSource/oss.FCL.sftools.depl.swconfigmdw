@@ -1,0 +1,7 @@
+
+Selection: Entry 4 (new)
+Int: 140
+Real: 1.4
+Sequence.Selection: "Entry 2", "Entry 4 (new)", "Entry 5 (new)", 
+Sequence.Int: "120", "140", "150", 
+Sequence.Real: "1.2", "1.4", "1.5", 

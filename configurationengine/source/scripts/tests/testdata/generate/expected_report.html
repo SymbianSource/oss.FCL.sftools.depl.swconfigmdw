@@ -1,0 +1,1698 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>ConE generation report</title>
+    <style type="text/css">
+        body {
+            font-family: Nokia Standard Multiscript, Tahoma, Verdana, Arial;
+            font-size: 0.8em;
+            color: #0055B7;
+        }
+
+        .red{
+            color: Red;
+        }
+        
+        h1 {
+            padding: 30px 0 0 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        #date {
+            text-align: center;
+        }
+
+        hr {
+            height: 1px;
+            background-color: cccccc;
+            color: #cccccc;
+        }
+
+        h2 h3 {
+            padding: 10px 0 10px 0;
+            margin: 0;
+        }
+
+        table.report {
+            width: 100%;
+            border: 1px solid #e0dfe3;
+            border-collapse: collapse;
+            color: #333333;
+        }
+
+        table.report th {
+            text-align: left;
+            padding: 5px;
+            background-color: #f9fafd;
+            color: #595a5f;
+            border-bottom: 1px #999999 solid;
+        }
+
+        table.report th.featureName {
+            background-color: #f2f2f3;
+            font: #595a5f Tahoma, Verdana, Arial bold;
+            font-size: 1.1em;
+            border-top: 3px #9d9da1;
+            border-top-style: double;
+            border-bottom: 3px #9d9da1;
+            border-bottom-style: double;
+        }
+
+        table.report th.header {
+            background-color: #f9fafd;
+            font: #595a5f Tahoma, Verdana, Arial bold;
+            font-size: 0.8em;
+            border-top: 1px #9d9da1;
+            border-bottom: 1px #9d9da1;
+        }
+
+        table.report td {
+            word-wrap: break-word;
+            border: 1px #EBEBEB;
+            padding: 5px;
+            border-style: solid; 
+            vertical-align: top;
+            font: Tahoma, Verdana, Arial;
+            _font-size: 0.8em;
+        }
+
+        table.summary {
+            border: 1px solid #e0dfe3;
+            border-collapse: collapse;
+            color: #333333;
+        }
+
+        table.summary th {
+            text-align: left;
+            padding: 5px;
+            background-color: #f9fafd;
+            color: #595a5f;
+            border-bottom: 1px #999999 solid;
+        }
+
+        table.summary th.featureName {
+            background-color: #f2f2f3;
+            font: #595a5f Tahoma, Verdana, Arial bold;
+            font-size: 1.1em;
+            border-top: 3px #9d9da1;
+            border-top-style: double;
+            border-bottom: 3px #9d9da1;
+            border-bottom-style: double;
+        }
+
+        table.summary td {
+            word-wrap: break-word;
+            border: 1px #EBEBEB;
+            padding: 5px;
+            border-style: solid; 
+            vertical-align: top;
+            font: Tahoma, Verdana, Arial;
+            _font-size: 0.8em;
+        }
+
+        .currentValue {
+            background-color: #e8f2fe;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generation summary:</h1>
+    <table class="summary">
+     <tr>
+        <th class="featureName" colspan="2">Statistics</th>
+     </tr>
+     <tr>
+        <td>Refs in files</td>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>Refs with no implementation</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <th class="featureName" colspan="2">Details</th>
+     </tr>
+    <tr>
+        <td>Report generated</td>
+        <td>30.09.2009 15:42:50</td>
+    </tr>
+    <tr>
+        <td>Generation duration</td>
+        <td>0.547</td>
+    </tr>
+    <tr>
+        <td>Generation log</td>
+        <td><a href="file:///this_is_ignored/cone.log">cone.log</a></td>
+    </tr>
+    <tr>
+        <th class="featureName" colspan="2">Generation options</th>
+    </tr>
+    <tr>
+        <td align="left">Layers</td>
+        <td align="left">[-1]</td>
+    </tr>
+    <tr>
+        <td align="left">Added</td>
+        <td align="left">None</td>
+    </tr>
+    <tr>
+        <td align="left">Dryrun</td>
+        <td align="left">False</td>
+    </tr>
+    <tr>
+        <td align="left">Verbose</td>
+        <td align="left">3</td>
+    </tr>
+    <tr>
+        <td align="left">Overrides</td>
+        <td align="left">None</td>
+    </tr>
+    <tr>
+        <td align="left">Project</td>
+        <td align="left">this_is_ignored\generation_test_project</td>
+    </tr>
+        <tr>
+        <td align="left">Report</td>
+        <td align="left">report.html</td>
+    </tr>
+    <tr>
+        <td align="left">Impls</td>
+        <td align="left">None</td>
+    </tr>
+    <tr>
+        <td align="left">Output</td>
+        <td align="left">output</td>
+    </tr>
+    <tr>
+        <td align="left">Configuration</td>
+        <td align="left">root.confml</td>
+    </tr>
+    <tr>
+        <td align="left">Working directory</td>
+        <td align="left">this_is_ignored\source\scripts\tests\temp\gen_ll3</td>
+    </tr>
+    </table>
+    
+    <h1>Rule execution results:</h1><br>
+    
+    <table class="report">
+        <tr>
+            <th class="featureName">File</th>
+            <th class="featureName">Rule No.</th>
+            <th class="featureName">Input refs</th>
+            <th class="featureName">Affected refs</th>
+        </tr>
+        
+        
+        <tr>
+            <a name="rule:custom/implml/missing_file_in_report_test.implml:1"/>
+            <td><a href="file:///this_is_ignored/custom/implml/missing_file_in_report_test.implml">custom/implml/missing_file_in_report_test.implml</a></td>
+            <td>1</td>
+            <td>
+            </td>
+            <td>TempFeatureMissingFile.Test1<br/>
+            
+            </td>
+        </tr>
+        
+        <tr>
+            <a name="rule:custom/implml/missing_file_in_report_test.implml:2"/>
+            <td><a href="file:///this_is_ignored/custom/implml/missing_file_in_report_test.implml">custom/implml/missing_file_in_report_test.implml</a></td>
+            <td>2</td>
+            <td>
+            </td>
+            <td>TempFeatureMissingFile.Test2<br/>
+            
+            </td>
+        </tr>
+        
+        <tr>
+            <a name="rule:custom/implml/seq_tempvar.implml:1"/>
+            <td><a href="file:///this_is_ignored/custom/implml/seq_tempvar.implml">custom/implml/seq_tempvar.implml</a></td>
+            <td>1</td>
+            <td>
+            </td>
+            <td>TempFeature2.FilesToCopy<br/>
+            
+            </td>
+        </tr>
+        
+        <tr>
+            <a name="rule:custom/implml/simple_tempvars.implml:1"/>
+            <td><a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom/implml/simple_tempvars.implml</a></td>
+            <td>1</td>
+            <td>
+            </td>
+            <td>TempFeature.String<br/>
+            
+            </td>
+        </tr>
+        
+        <tr>
+            <a name="rule:custom/implml/simple_tempvars.implml:2"/>
+            <td><a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom/implml/simple_tempvars.implml</a></td>
+            <td>2</td>
+            <td>
+            </td>
+            <td>TempFeature.Int<br/>
+            
+            </td>
+        </tr>
+        
+        <tr>
+            <a name="rule:custom/implml/simple_tempvars.implml:3"/>
+            <td><a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom/implml/simple_tempvars.implml</a></td>
+            <td>3</td>
+            <td>
+            </td>
+            <td>TempFeature.Real<br/>
+            
+            </td>
+        </tr>
+        
+        
+    </table>
+    
+    
+    <h1>Output files:</h1><br>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">API</th>
+        <th class="featureName">Data</th>
+        <th class="featureName">Impl. file</th>
+        <th class="featureName">Impl. type</th>
+        <th class="featureName">Generated for</th>
+        <th class="featureName">Output files</th>
+    </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b>MultiSelectionTest.MultiSelectionSetting</b><br>
+                <b>Name: </b>Multi-selection setting<br>
+                <b>Type: </b>multiSelection<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/multiselection.confml">base\confml\multiselection.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/base/confml/multiselection.confml">base\confml\multiselection.confml</a></td>
+                        <td>&#34;opt 1&#34; &#34;opt 3&#34;</td>
+                    </tr>
+                
+            
+                
+                    <tr>
+                        <td><a href="file:///this_is_ignored/data/confml/data.confml">data\confml\data.confml</a></td>
+                        <td>&#34;opt 2&#34; &#34;opt 4&#34; &#34;opt 5&#34;</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/base/implml/multiselection.templateml">base\implml\multiselection.templateml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/multiselection.txt">output\multiselection.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b>NameIdMappingTestTargetSettings.Int</b><br>
+                <b>Name: </b>Int setting<br>
+                <b>Type: </b>int<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a></td>
+                        <td>0</td>
+                    </tr>
+                
+            
+                
+                    <tr>
+                        <td><a href="file:///this_is_ignored/data/confml/data.confml">data\confml\data.confml</a></td>
+                        <td>140</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/base/implml/name_id_mapping_test.templateml">base\implml\name_id_mapping_test.templateml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/name_id_mapping_test.txt">output\name_id_mapping_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b>NameIdMappingTestTargetSettings.Real</b><br>
+                <b>Name: </b>Real setting<br>
+                <b>Type: </b>real<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a></td>
+                        <td>0</td>
+                    </tr>
+                
+            
+                
+                    <tr>
+                        <td><a href="file:///this_is_ignored/data/confml/data.confml">data\confml\data.confml</a></td>
+                        <td>1.4</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/base/implml/name_id_mapping_test.templateml">base\implml\name_id_mapping_test.templateml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/name_id_mapping_test.txt">output\name_id_mapping_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b>NameIdMappingTestTargetSettings.Selection</b><br>
+                <b>Name: </b>Selection setting<br>
+                <b>Type: </b>selection<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a></td>
+                        <td>None</td>
+                    </tr>
+                
+            
+                
+                    <tr>
+                        <td><a href="file:///this_is_ignored/data/confml/data.confml">data\confml\data.confml</a></td>
+                        <td>Entry 4 (new)</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/base/implml/name_id_mapping_test.templateml">base\implml\name_id_mapping_test.templateml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/name_id_mapping_test.txt">output\name_id_mapping_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b>NameIdMappingTestTargetSettings.Sequence</b><br>
+                <b>Name: </b>Sequence<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+            </table>
+
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>
+                                
+                                    Entry 2<br>
+                                
+                                    Entry 4 (new)<br>
+                                
+                                    Entry 5 (new)<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>
+                                
+                                    120<br>
+                                
+                                    140<br>
+                                
+                                    150<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>
+                                
+                                    1.2<br>
+                                
+                                    1.4<br>
+                                
+                                    1.5<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/base/implml/name_id_mapping_test.templateml">base\implml\name_id_mapping_test.templateml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/name_id_mapping_test.txt">output\name_id_mapping_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b><i>TempFeature.Boolean</i></b><br>
+                <b>Name: </b>Boolean<br>
+                <b>Type: </b>boolean<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a></td>
+                        <td>true</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom\implml\simple_tempvars.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/content/simple_tempvars_test.txt">output\content\simple_tempvars_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b><i>TempFeature.Int</i></b><br>
+                <b>Name: </b>Int<br>
+                <b>Type: </b>int<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a></td>
+                        <td>501</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom\implml\simple_tempvars.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/content/simple_tempvars_test.txt">output\content\simple_tempvars_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b><i>TempFeature.Real</i></b><br>
+                <b>Name: </b>Real<br>
+                <b>Type: </b>real<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a></td>
+                        <td>1.75</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom\implml\simple_tempvars.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored/content/simple_tempvars_test.txt">output\content\simple_tempvars_test.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=3>
+                <b><i>TempFeature.String</i></b><br>
+                <b>Name: </b>String<br>
+                <b>Type: </b>string<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=3>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a></td>
+                        <td>testing and more testing</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored/custom/implml/\conditional_container.implml">custom\implml\conditional_container.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="ignored">output\content\template_string_condition_true.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+                
+                    <tr>
+                    <td align="left">
+                        <a href="file:///this_is_ignored/custom/implml/conditional_container.implml">custom\implml\conditional_container.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                            
+                                <span class="red">output\content\template_string_condition_false.txt</span><br>
+                            
+                        
+                    </td>
+                    </tr>
+                
+                
+            
+                
+                    <tr>
+                    <td align="left">
+                        <a href="file:///this_is_ignored/custom/implml/simple_tempvars.implml">custom\implml\simple_tempvars.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                            
+                                <a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/temp/gen_ll3/output/content/simple_tempvars_test.txt">output\content\simple_tempvars_test.txt</a><br>
+                            
+                        
+                    </td>
+                    </tr>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b><i>TempFeature2.FilesToCopy</i></b><br>
+                <b>Name: </b>FilesToCopy<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///C|/Users/NoBackup/wc/cone-trunk/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+            </table>
+
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>FilePath</b></td>
+                            <td>
+                                
+                                    invocation_phase_test_1.txt<br>
+                                
+                                    invocation_phase_test_2.txt<br>
+                                
+                                    overlay/overlay_folder/overlay.txt<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///C|/Users/NoBackup/wc/cone-trunk/source/scripts/tests/generation_test_project/custom/implml/seq_tempvar.implml">custom\implml\seq_tempvar.implml</a>
+                    </td>
+                    <td align="left">
+                        content
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <a href="file:///this_is_ignored">output\content\temp_seq_test\invocation_phase_test_2.txt</a><br>
+                            
+                                <a href="file:///this_is_ignored">output\content\temp_seq_test\invocation_phase_test_1.txt</a><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b><i>TempFeatureMissingFile.Test1</i></b><br>
+                <b>Name: </b>Test1<br>
+                <b>Type: </b>string<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored">autodata.confml</a></td>
+                        <td>None</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored">custom\implml\missing_file_in_report_test.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <span class="red">output\content\missing_output_file_test1.txt</span><br>
+                            
+                                <span class="red">output\content\missing_output_file_test2.txt</span><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+    
+    
+        <tr>
+            <td align="left" rowspan=1>
+                <b><i>TempFeatureMissingFile.Test2</i></b><br>
+                <b>Name: </b>Test2<br>
+                <b>Type: </b>string<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored">autodata.confml</a>
+            </td>
+            <td align="left" rowspan=1>
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored">autodata.confml</a></td>
+                        <td>None</td>
+                    </tr>
+                
+            
+            </table>
+
+            <table class="report">
+                
+            </table>
+            
+            
+                
+                    <td align="left">
+                        <a href="file:///this_is_ignored">custom\implml\missing_file_in_report_test.implml</a>
+                    </td>
+                    <td align="left">
+                        templateml
+                    </td>
+                    <td align="left">
+                        
+                    </td>
+                    <td align="left">
+                        
+                                <span class="red">output\content\missing_output_file_test1.txt</span><br>
+                            
+                                <span class="red">output\content\missing_output_file_test2.txt</span><br>
+                            
+                    </td>
+                
+                
+            
+        </tr>
+        
+    </table>
+
+    <h1>Refs with no implementation:</h1><br>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">API</th>
+        <th class="featureName">Data</th>
+    </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>BasicSettingTypesTest.IntSetting</b><br>
+                <b>Name: </b>Int setting<br>
+                <b>Type: </b>int<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/basic_setting_types_test.confml">base\confml\basic_setting_types_test.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/base/confml/basic_setting_types_test.confml">base\confml\basic_setting_types_test.confml</a></td>
+                        <td>10</td>
+                    </tr>
+                
+            
+                
+                    <tr>
+                        <td><a href="file:///this_is_ignored/data/confml/data.confml">data\confml\data.confml</a></td>
+                        <td>555</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>BasicSettingTypesTest.StringSetting</b><br>
+                <b>Name: </b>String setting<br>
+                <b>Type: </b>string<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/basic_setting_types_test.confml">base\confml\basic_setting_types_test.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/base/confml/basic_setting_types_test.confml">base\confml\basic_setting_types_test.confml</a></td>
+                        <td>default string</td>
+                    </tr>
+                
+            
+                
+                    <tr>
+                        <td><a href="file:///this_is_ignored/data/confml/data.confml">data\confml\data.confml</a></td>
+                        <td>&#12459;&#12479;&#12459;&#12490; &lt;&amp;&gt;</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b><i>Condition.Boolean</i></b><br>
+                <b>Name: </b>Boolean<br>
+                <b>Type: </b>boolean<br>
+                <b>ConfML: </b><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a></td>
+                        <td>true</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b><i>Condition.Int</i></b><br>
+                <b>Name: </b>Int<br>
+                <b>Type: </b>int<br>
+                <b>ConfML: </b><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a></td>
+                        <td>500</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b><i>Condition.Real</i></b><br>
+                <b>Name: </b>Real<br>
+                <b>Type: </b>real<br>
+                <b>ConfML: </b><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a></td>
+                        <td>1.5</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b><i>Condition.String</i></b><br>
+                <b>Name: </b>String<br>
+                <b>Type: </b>string<br>
+                <b>ConfML: </b><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a></td>
+                        <td>testing</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b><i>Condition.Unused</i></b><br>
+                <b>Name: </b>Unused<br>
+                <b>Type: </b>boolean<br>
+                <b>ConfML: </b><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///C|/Users/NoBackup/wc/cone-trunk-temp/source/scripts/tests/generation_test_project/autodata.confml">autodata.confml</a></td>
+                        <td>false</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>Feature1.SequenceSetting</b><br>
+                <b>Name: </b>Sequence setting<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/feature1.confml">base\confml\feature1.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+            </table>
+            
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>
+                                
+                                    1.25<br>
+                                
+                                    1.5<br>
+                                
+                                    1.5<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>
+                                
+                                    128<br>
+                                
+                                    256<br>
+                                
+                                    256<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>
+                                
+                                    def1<br>
+                                
+                                    def2<br>
+                                
+                                    test<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>
+                                
+                                    false<br>
+                                
+                                    false<br>
+                                
+                                    true<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>
+                                
+                                    1<br>
+                                
+                                    1<br>
+                                
+                                    1<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>NameIdMappingTestSourceSequences.StringSequence</b><br>
+                <b>Name: </b>String sequence<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+            </table>
+            
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>Value sub-setting</b></td>
+                            <td>
+                                
+                                    Entry 1<br>
+                                
+                                    Entry 2<br>
+                                
+                                    Entry 3<br>
+                                
+                                    Entry 4 (new)<br>
+                                
+                                    Entry 5 (new)<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>NameIdMappingTestSourceSequences.StringToIntSequence</b><br>
+                <b>Name: </b>String-to-int sequence<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+            </table>
+            
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>Name sub-setting</b></td>
+                            <td>
+                                
+                                    Entry 1<br>
+                                
+                                    Entry 2<br>
+                                
+                                    Entry 3<br>
+                                
+                                    Entry 4 (new)<br>
+                                
+                                    Entry 5 (new)<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Value sub-setting</b></td>
+                            <td>
+                                
+                                    100<br>
+                                
+                                    120<br>
+                                
+                                    130<br>
+                                
+                                    140<br>
+                                
+                                    150<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>NameIdMappingTestSourceSequences.StringToRealSequence</b><br>
+                <b>Name: </b>String-to-real sequence<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/name_id_mapping_test.confml">base\confml\name_id_mapping_test.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+            </table>
+            
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>Name sub-setting</b></td>
+                            <td>
+                                
+                                    Entry 1<br>
+                                
+                                    Entry 2<br>
+                                
+                                    Entry 3<br>
+                                
+                                    Entry 4 (new)<br>
+                                
+                                    Entry 5 (new)<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Value sub-setting</b></td>
+                            <td>
+                                
+                                    1.1<br>
+                                
+                                    1.2<br>
+                                
+                                    1.3<br>
+                                
+                                    1.4<br>
+                                
+                                    1.5<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b>SequenceSettingTest.SequenceSetting</b><br>
+                <b>Name: </b>Sequence setting<br>
+                <b>Type: </b>sequence<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/base/confml/sequence_setting_test.confml">base\confml\sequence_setting_test.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+            </table>
+            
+            <table class="report">
+                
+                    
+                        <tr>
+                            <th class="th.header">Setting</th>
+                            <th class="th.header">Value</th>
+                        </tr>
+                        <tr>
+                            <td><b>Folder sub-setting</b></td>
+                            <td>
+                                
+                                    [&#39;seq/default_folder&#39;, None]<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>localPath</b></td>
+                            <td>
+                                
+                                    seq/default_folder<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>targetPath</b></td>
+                            <td>
+                                
+                                    None<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>
+                                
+                                    10.10<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>File sub-setting</b></td>
+                            <td>
+                                
+                                    [&#39;seq/default_file.txt&#39;, None]<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>localPath</b></td>
+                            <td>
+                                
+                                    seq/default_file.txt<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>targetPath</b></td>
+                            <td>
+                                
+                                    None<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>
+                                
+                                    120<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>
+                                
+                                    &lt;&amp;&#12459;&#12479;&#12459;&#12490;&gt;<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>
+                                
+                                    true<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+                    
+                        <tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>
+                                
+                                    2<br>
+                                
+                            </td>
+                        </tr>
+                    
+                
+            </table>
+        </tr>
+    
+        <tr>
+            <td align="left" >
+                <b><i>TempFeature.Unused</i></b><br>
+                <b>Name: </b>Unused<br>
+                <b>Type: </b>boolean<br>
+                <b>ConfML: </b><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a>
+            </td>
+            <td align="left">
+            <table class="report">
+            
+            
+                
+                    <tr>
+                        <th class="th.header">Layer</th>
+                        <th class="th.header">Value</th>
+                    </tr>
+                    <tr>
+                        <td><a href="file:///this_is_ignored/autodata.confml">autodata.confml</a></td>
+                        <td>false</td>
+                    </tr>
+                
+            
+            </table>
+            
+            <table class="report">
+                
+            </table>
+        </tr>
+        
+    </table>
+    <h1>Not generated output files:</h1><br>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">Output file</th>
+    </tr>
+    
+        <tr>
+            <td align="left" >
+                output\content\template_string_condition_false.txt
+            </td>
+    
+        <tr>
+            <td align="left" >
+                output\content\missing_output_file_test1.txt
+            </td>
+    
+        <tr>
+            <td align="left" >
+                output\content\missing_output_file_test2.txt
+            </td>
+    
+    </table>
+    
+</body>
+</html>

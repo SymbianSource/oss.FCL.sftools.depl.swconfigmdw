@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+  <confml:feature name="Homescreen Notification components" ref="CVC_ActiveIdleNotifiers">
+      <confml:desc>Notification components: missed calls, new messages (device inbox), and new voice messages are located on one row of the device. It is possible to configure the notifiers on/off separately. If a notification component is turned off, the notifications are shown as traditional pop-up notifications.</confml:desc>  
+  <confml:setting name="E-mail notification" ref="CVC_ActiveIdleNotifiersEmail" type="boolean">
+      <confml:desc>Up to two different e-mail accounts for each mode can be configured to be visible on the Home screen. It is not possible to customize e-mail notifiers as they are only available when the e-mail account is first activated.</confml:desc>
+    </confml:setting>
+  <confml:setting name="Calendar and To-do notification" ref="CVC_ActiveIdleNotifiersCalendar" type="boolean">
+      <confml:desc>Calendar and To-do components provide dynamically updated information from Calendar entries and ToDo notes. If there is no data to show, "No calendar events for today" note is visible on the Home screen view.</confml:desc>
+    </confml:setting>
+ <confml:setting name="Music Player notification" ref="CVC_ActiveIdleNotifiersMusicPlayer" type="boolean">
+     <confml:desc>The Music Player component shows the music tracks that are being played by the Music Player. If there is no data to show, this UI area is empty.</confml:desc>
+   </confml:setting>
+ <confml:setting name="Visual Radio notification" ref="CVC_ActiveIdleNotifiersVisualRadio" type="boolean">
+     <confml:desc>The Visual radio plug-in shows the name or frequency of the radio channel that is being played by Visual radio in the background. The icon also shows whether Visual radio service is available for the current channel.</confml:desc>
+   </confml:setting>
+    <confml:setting name="WLAN notification" ref="CVC_ActiveIdleNotifiersWLAN" type="boolean">
+     <confml:desc>This component shows dynamically updated information about available WLAN networks and shortcut to WLAN wizard that enables selecting WLAN network and defining access point for it. If scanning is set to off, there is 'WLAN scanning off' in Home screen view.</confml:desc>
+   </confml:setting>
+    <confml:setting name="E-mail settings wizard" ref="CVC_ActiveIdleNotifiersEmailSettingsWizard" type="boolean">
+     <confml:desc>This component shows dynamically updated information about available WLAN networks and shortcut to WLAN wizard that enables selecting WLAN network and defining access point for it. If scanning is set to off, there is 'WLAN scanning off' in Home screen view.</confml:desc>
+   </confml:setting>
+    <confml:setting name="Internet Сall setup" ref="CVC_ActiveIdleNotifiersInternetCallSetup" type="boolean">
+     <confml:desc>This plug-in provides easy access to Voice over IP settings wizard, providing options to launch Voice over IP setup wizard or hide the plug-in from the Home screen.</confml:desc>
+   </confml:setting>
+    <confml:setting name="Mobile search" ref="CVC_ActiveIdleNotifiersMobileSearch" type="boolean">
+     <confml:desc>The Mobile search plug-in allows the user to initiate a search for content in the device or in the Internet directly from Home screen. User can click on the plug-in and write the search term.</confml:desc>
+   </confml:setting>
+    <confml:setting name="SIM Application Toolkit" ref="CVC_ActiveIdleNotifiersSIMApplicationToolkit" type="boolean">
+     <confml:desc>The SIM Application Toolkit shows messages from an application residing on the SIM card.</confml:desc>
+   </confml:setting>
+</confml:feature>
+<confml:data>
+<confml:CVC_ActiveIdleNotifiers>
+<confml:CVC_ActiveIdleNotifiersEmail>true</confml:CVC_ActiveIdleNotifiersEmail>
+<confml:CVC_ActiveIdleNotifiersCalendar>true</confml:CVC_ActiveIdleNotifiersCalendar>
+<confml:CVC_ActiveIdleNotifiersMusicPlayer>true</confml:CVC_ActiveIdleNotifiersMusicPlayer>
+<confml:CVC_ActiveIdleNotifiersVisualRadio>true</confml:CVC_ActiveIdleNotifiersVisualRadio>
+<confml:CVC_ActiveIdleNotifiersWLAN>true</confml:CVC_ActiveIdleNotifiersWLAN>
+<confml:CVC_ActiveIdleNotifiersEmailSettingsWizard>true</confml:CVC_ActiveIdleNotifiersEmailSettingsWizard>
+<confml:CVC_ActiveIdleNotifiersInternetCallSetup>true</confml:CVC_ActiveIdleNotifiersInternetCallSetup>
+<confml:CVC_ActiveIdleNotifiersMobileSearch>true</confml:CVC_ActiveIdleNotifiersMobileSearch>
+<confml:CVC_ActiveIdleNotifiersSIMApplicationToolkit>true</confml:CVC_ActiveIdleNotifiersSIMApplicationToolkit>
+</confml:CVC_ActiveIdleNotifiers>
+</confml:data>
+</confml:configuration>

@@ -1,0 +1,5 @@
+
+TempFeature.String:  testing and more testing
+TempFeature.Int:     501
+TempFeature.Real:    1.75
+TempFeature.Boolean: True

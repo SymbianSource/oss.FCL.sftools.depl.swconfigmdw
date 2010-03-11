@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="CrmlInts" uidValue="0x00000005" owner="0x12341000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="CrmlInts/IntSetting" name="Int setting" int="0x00000001" type="int" readOnly="false" backup="true"/>
+  <key ref="CrmlInts/SelectionSetting" name="Selection setting" int="0x00000002" type="int" readOnly="false"/>
+  <key ref="CrmlInts/IntSettingHex" name="Int setting hex" int="0x00000003" type="int" readOnly="false"/>
+</repository>

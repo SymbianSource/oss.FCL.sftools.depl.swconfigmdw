@@ -1,0 +1,38 @@
+{% extends "cone_base.html" %}
+{% block title %}Compare data{% endblock %}
+{% block content %}
+    <h1>Configuration data comparison</h1><br>
+    
+    <table class="report">
+      <tr>
+        <td>Source:</td>
+        <td>{{ data.sourcedata.name }}</td>
+      </tr>
+      <tr>
+        <td>Target:</td>
+        <td>{{ data.targetdata.name }}</td>
+      </tr>
+    </table>
+    
+    <br/>
+    
+    <table class="report">
+    <tr>
+        <th class="featureName">Full reference</th>
+        <th class="featureName">Name</th>
+        <th class="featureName">Source value</th>
+        <th class="featureName">Target value</th>
+    </tr>
+    {%- for fqr in data.sourcedata.features|sort -%}
+       {%- if fqr in data.targetdata.features and not data.sourcedata.features[fqr]._compare(data.targetdata.features[fqr], ['value']) -%}
+           <tr>
+              <td>{{ data.sourcedata.features[fqr]['fqr'] }}</td>
+              <td>{{ data.sourcedata.features[fqr]['name'] }}</td>
+              <td>{{ data.sourcedata.features[fqr]['value'] }}</td>
+              <td>{{ data.targetdata.features[fqr]['value'] }}</td>
+           </tr>
+       {% endif -%}
+    {%- endfor -%}
+
+    </table>
+{% endblock %}

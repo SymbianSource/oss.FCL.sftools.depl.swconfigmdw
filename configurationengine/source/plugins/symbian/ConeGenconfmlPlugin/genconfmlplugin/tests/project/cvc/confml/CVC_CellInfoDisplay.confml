@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2">
+<feature name="Cell Info Display" ref="CVC_CellInfoDisplay">
+	<desc>Cell Info Display Setting (Cell Broadcast Reception)</desc>
+	<setting name="Cell Info Display" ref="CVC_CellInfoDisplay" type="boolean">
+	<desc>Cell Info Display Setting (Cell Broadcast Reception). "On" when checked. Cell info display is "Off" by default in the standard transceiver. This setting is set "On" by default for countries in which the GSM regulatory authority requires it.</desc>
+  </setting>
+</feature>
+<data>
+</data>
+</configuration>

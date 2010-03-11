@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="RepoRfsFeature" uidValue="0x10000004" rfs="true">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="RepoRfsFeature/RealSetting"      name="Real setting"     int="0x00000001" type="real"/>
+  <key ref="RepoRfsFeature/IntSetting"       name="Int setting"      int="0x00000002" type="int"/>
+  <key ref="RepoRfsFeature/StringSetting"    name="String setting"   int="0x00000003" type="string"/>
+  <key ref="RepoRfsFeature/BooleanSetting"   name="Boolean setting"  int="0x00000004" type="int"/>
+</repository>

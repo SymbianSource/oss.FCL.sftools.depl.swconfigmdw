@@ -1,0 +1,6 @@
+
+10
+default string
+3.14
+1
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="Multi-selection test">
+  <feature ref="MultiSelectionTest" name="Multi-selection test feature">
+    <desc>Multi-selection test feature (ConfML v2.0)</desc>
+    <setting ref="MultiSelectionSetting" name="Multi-selection setting" type="multiSelection">
+      <desc>A multi-selection setting</desc>
+      <option name="Option 0" value="opt 0"/>
+      <option name="Option 1" value="opt 1"/>
+      <option name="Option 2" value="opt 2"/>
+      <option name="Option 3" value="opt 3"/>
+      <option name="Option 4" value="opt 4"/>
+      <option name="opt 5" value="opt 5"/>
+    </setting>
+  </feature>
+  
+  <data>
+    <MultiSelectionTest>
+      <MultiSelectionSetting>"opt 1" "opt 3"</MultiSelectionSetting>
+    </MultiSelectionTest>
+  </data>
+</configuration>

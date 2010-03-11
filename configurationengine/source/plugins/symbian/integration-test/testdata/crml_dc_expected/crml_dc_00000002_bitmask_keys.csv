@@ -1,0 +1,29 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),sid_rd,0xAABBCCDD,0x11223344
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),sid_wr,0xDDCCBBAA,0x44332211
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001,Bitmask 1 (name changed),type,int,binary
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 2),Bitmask 1 (name changed),ref,BitmaskKeys.Bit2,BitmaskKeys.Bit2RefChanged
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 3),Bitmask 1 (name changed),invert,False,True
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 5),Bitmask 1 (name changed)
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x20000001,Added bitmask
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x00000001 (bit 4),Bitmask 1
+Layer1/implml/00000002_bitmask_keys.crml,0x00000002,BitmaskKeys,0x10000001,Removed bitmask
+
+
+Duplicate repositories in source:
+File,Repository UID
+
+
+Duplicate repositories in target:
+File,Repository UID

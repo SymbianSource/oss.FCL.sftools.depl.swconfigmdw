@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="KeyTypeChanged" uidValue="0x00000004">
+  <access type="R" capabilities="ReadDevideData" sid="0x12344321"/>
+  <access type="W" capabilities="WriteDeviceData" sid="0x43211234"/>
+  
+  <key int="0x00000001" type="int" ref="Foo/Bar" name="Simple key to bitmask key"/>
+  <key int="0x00000002" type="int" name="Bitmask key to simple key">
+    <bit ref="Foo/Bit1">1</bit>
+  </key>
+  <key int="0x00000003" type="int" name="Bitmask key to simple key (other attrs changed also)" backup="true" readOnly="true">
+    <access type="R" capabilities="ReadDeviceData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteDeviceData" sid="0xDDCCBBAA"/>
+    <bit ref="Foo/Bit1">1</bit>
+  </key>
+</repository>

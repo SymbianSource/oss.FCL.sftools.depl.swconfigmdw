@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="AllRfsFeature" uidValue="0x10000001">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="AllRfsFeature/RealSetting"      name="Real setting"     int="0x000000D1" type="real"/>
+  <key ref="AllRfsFeature/IntSetting"       name="Int setting"      int="0x000000C2" type="int"/>
+  <key ref="AllRfsFeature/StringSetting"    name="String setting"   int="0x000000B3" type="string"/>
+  <key ref="AllRfsFeature/BooleanSetting"   name="Boolean setting"  int="0x000000A4" type="int"/>
+</repository>

@@ -1,0 +1,25 @@
+<configuration name="family_x" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <data>
+    <Feature1>
+      <IntSetting>300</IntSetting>
+    <BooleanSetting>false</BooleanSetting>
+    <RealSetting>3.1456</RealSetting>
+    <SelectionSetting>3</SelectionSetting>
+    <StringSetting>Family X</StringSetting>
+    <SequenceSetting extensionPolicy="append">
+        <RealSubSetting>50.1</RealSubSetting>
+      <IntSubSetting>1</IntSubSetting>
+      <StringSubSetting>Test 1</StringSubSetting>
+      <BooleanSubSetting>false</BooleanSubSetting>
+      <SelectionSubSetting>0</SelectionSubSetting>
+      </SequenceSetting>
+    <SequenceSetting>
+        <RealSubSetting>50.2</RealSubSetting>
+      <IntSubSetting>2</IntSubSetting>
+      <StringSubSetting>Test 2</StringSubSetting>
+      <BooleanSubSetting>true</BooleanSubSetting>
+      <SelectionSubSetting>1</SelectionSubSetting>
+      </SequenceSetting>
+    </Feature1>
+  </data>
+</configuration>

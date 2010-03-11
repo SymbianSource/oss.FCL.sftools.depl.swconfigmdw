@@ -1,0 +1,3 @@
+<configuration name="5250" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="confml/data.confml" />
+</configuration>

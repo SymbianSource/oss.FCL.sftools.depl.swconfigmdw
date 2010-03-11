@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+	<confml:feature name="2 Digit Dialing" ref="CVC_2DigitDialing">
+		<confml:desc>2 Digit Dialing.</confml:desc>
+		<confml:setting name="2 Digit Dialing" ref="CVC_2DigitDialing" type="boolean">
+			<confml:desc>2 Dialing. Default is disabled</confml:desc>
+</confml:setting>
+</confml:feature>
+	<confml:data>
+	<CVC_2DigitDialing>
+	<CVC_2DigitDialing>false</CVC_2DigitDialing>
+	</CVC_2DigitDialing>
+	</confml:data>
+</confml:configuration>

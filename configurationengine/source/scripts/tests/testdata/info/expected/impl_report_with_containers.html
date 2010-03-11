@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+
+<style type="text/css">
+    body {
+        font-family: Nokia Standard Multiscript, Tahoma, Verdana, Arial;
+        font-size: 0.8em;
+        color: #0055B7;
+    }
+
+    h1 {
+        padding: 30px 0 0 0;
+        margin: 0;
+        text-align: left;
+    }
+
+    #date {
+        text-align: center;
+    }
+
+    hr {
+        height: 1px;
+        background-color: cccccc;
+        color: #cccccc;
+    }
+
+    h2 h3 {
+        padding: 10px 0 10px 0;
+        margin: 0;
+    }
+
+    table.report {
+        width: 100%;
+        border: 1px solid #e0dfe3;
+        border-collapse: collapse;
+        color: #333333;
+    }
+
+    table.report th {
+        text-align: left;
+        padding: 5px;
+        background-color: #f9fafd;
+        color: #595a5f;
+        border-bottom: 1px #999999 solid;
+    }
+
+    table.report th.featureName {
+        background-color: #f2f2f3;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 1.1em;
+        border-top: 3px #9d9da1;
+        border-top-style: double;
+        border-bottom: 3px #9d9da1;
+        border-bottom-style: double;
+    }
+
+    table.report th.header {
+        background-color: #f9fafd;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 0.8em;
+        border-top: 1px #9d9da1;
+        border-bottom: 1px #9d9da1;
+    }
+
+    table.report td {
+        word-wrap: break-word;
+        border: 1px #EBEBEB;
+        padding: 5px;
+        border-style: solid; 
+        vertical-align: top;
+        font: Tahoma, Verdana, Arial;
+        _font-size: 0.8em;
+    }
+
+    table.summary {
+        border: 1px solid #e0dfe3;
+        border-collapse: collapse;
+        color: #333333;
+    }
+
+    table.summary th {
+        text-align: left;
+        padding: 5px;
+        background-color: #f9fafd;
+        color: #595a5f;
+        border-bottom: 1px #999999 solid;
+    }
+
+    table.summary th.featureName {
+        background-color: #f2f2f3;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 1.1em;
+        border-top: 3px #9d9da1;
+        border-top-style: double;
+        border-bottom: 3px #9d9da1;
+        border-bottom-style: double;
+    }
+
+    table.summary td {
+        word-wrap: break-word;
+        border: 1px #EBEBEB;
+        padding: 5px;
+        border-style: solid; 
+        vertical-align: top;
+        font: Tahoma, Verdana, Arial;
+        _font-size: 0.8em;
+    }
+
+    .currentValue {
+        background-color: #e8f2fe;
+    }
+</style>
+<title>Implementation info - ConE</title>
+
+</head>
+<body>
+<div id="content">
+    <h1>Implementations</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">File</th>
+		<th class="featureName">Index</th>
+		<th class="featureName">Type</th>
+		<th class="featureName">Phase</th>
+		<th class="featureName">Tags</th>
+		<th class="featureName">Refs</th>
+    </tr>
+    
+    <tr>
+        <td>base/implml/multiselection.templateml</td>
+		<td>0</td>
+		<td>templateml</td>
+		<td>normal</td>
+		<td></td>
+		<td>MultiSelectionTest.MultiSelectionSetting<br/></td>
+    </tr>
+    
+    <tr>
+        <td>base/implml/name_id_mapping_test.templateml</td>
+		<td>0</td>
+		<td>templateml</td>
+		<td>normal</td>
+		<td></td>
+		<td>NameIdMappingTestTargetSettings.Selection<br/>NameIdMappingTestTargetSettings.Int<br/>NameIdMappingTestTargetSettings.Real<br/>NameIdMappingTestTargetSettings.Sequence.Selection<br/>NameIdMappingTestTargetSettings.Sequence.Int<br/>NameIdMappingTestTargetSettings.Sequence.Real<br/></td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/conditional_container.implml</td>
+		<td>0</td>
+		<td>templateml</td>
+		<td>normal</td>
+		<td></td>
+		<td>TempFeature.String<br/></td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/conditional_container.implml</td>
+		<td>1</td>
+		<td>templateml</td>
+		<td>normal</td>
+		<td></td>
+		<td>TempFeature.String<br/></td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/conditional_container.implml</td>
+		<td>2</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/conditional_container.implml</td>
+		<td>3</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/invocation_phase_test.implml</td>
+		<td>0</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/invocation_phase_test.implml</td>
+		<td>1</td>
+		<td>content</td>
+		<td>post</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/invocation_phase_test.implml</td>
+		<td>2</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/invocation_phase_test.implml</td>
+		<td>3</td>
+		<td>content</td>
+		<td>post</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/missing_file_in_report_test.implml</td>
+		<td>0</td>
+		<td>templateml</td>
+		<td>normal</td>
+		<td></td>
+		<td>TempFeatureMissingFile.Test1<br/>TempFeatureMissingFile.Test2<br/></td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/missing_file_in_report_test.implml</td>
+		<td>1</td>
+		<td>ruleml</td>
+		<td>post</td>
+		<td></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/output_override_test.implml</td>
+		<td>0</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/output_override_test.implml</td>
+		<td>1</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/output_override_test.implml</td>
+		<td>2</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/seq_tempvar.implml</td>
+		<td>0</td>
+		<td>ruleml</td>
+		<td>pre</td>
+		<td></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/seq_tempvar.implml</td>
+		<td>1</td>
+		<td>content</td>
+		<td>normal</td>
+		<td>target = ['rofs3']<br/></td>
+		<td>TempFeature2.FilesToCopy.FilePath<br/></td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/simple_tempvars.implml</td>
+		<td>0</td>
+		<td>ruleml</td>
+		<td>pre</td>
+		<td></td>
+		<td>None</td>
+    </tr>
+    
+    <tr>
+        <td>custom/implml/simple_tempvars.implml</td>
+		<td>1</td>
+		<td>templateml</td>
+		<td>normal</td>
+		<td></td>
+		<td>TempFeature.String<br/>TempFeature.Int<br/>TempFeature.Real<br/>TempFeature.Boolean<br/></td>
+    </tr>
+    
+    
+    </table>
+</div>
+<div id="footer"></div>
+</body>
+</html>

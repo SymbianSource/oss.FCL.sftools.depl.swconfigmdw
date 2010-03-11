@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="CrmlStrings" uidValue="0x00000007" owner="0x12341000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="CrmlStrings/IntSetting" name="Int setting" int="0x00000001" type="string" readOnly="false" backup="true"/>
+  <key ref="CrmlStrings/BooleanSetting" name="Selection setting" int="0x00000002" type="string" readOnly="false"/>
+  <key ref="CrmlStrings/RealSetting" name="Selection setting" int="0x00000003" type="string" readOnly="false"/>
+  <key ref="CrmlStrings/StringSetting" name="Selection setting" int="0x00000004" type="string" readOnly="false"/>
+  <key ref="CrmlStrings/SelectionSetting" name="Selection setting" int="0x00000005" type="string" readOnly="false"/>
+  <key ref="CrmlStrings/EmptyStringSetting" name="Empty string setting" int="0x00000006" type="string" readOnly="false"/>
+</repository>

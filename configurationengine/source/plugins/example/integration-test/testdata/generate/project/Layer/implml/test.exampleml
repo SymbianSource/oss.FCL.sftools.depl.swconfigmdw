@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<exampleml xmlns="http://www.example.org/xml/exampleml/1">
+    <output file="test.txt">Value from ConfML: ${TestFeature.Value1}</output>
+    <output file="${TestFeature.Output1File}" encoding="${TestFeature.Output1Encoding}">Test test</output>
+    <output file="${TestFeature.Output2Dir}/${TestFeature.Output2Filename}" encoding="windows-1252">Test 1 output 2 €</output>
+</exampleml>

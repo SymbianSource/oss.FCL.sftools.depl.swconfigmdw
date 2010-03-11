@@ -1,0 +1,6 @@
+Feature1.FolderSetting: default_folder
+
+Feature1.RealSetting: 3.14
+
+Feature2.FileSetting: default_file.txt
+

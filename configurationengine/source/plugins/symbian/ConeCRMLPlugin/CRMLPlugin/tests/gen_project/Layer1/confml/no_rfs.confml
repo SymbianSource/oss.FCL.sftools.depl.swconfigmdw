@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="NoRfsFeature" version="1">
+  <feature ref="NoRfsFeature" name="Feature with no settings RFS=true">
+    <setting ref="RealSetting" name="Real setting" type="real"/>
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean"/>
+  </feature>
+  <data>
+    <NoRfsFeature>
+      <RealSetting>3.14</RealSetting>
+      <IntSetting>10</IntSetting>
+      <StringSetting>default string</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+    </NoRfsFeature>
+  </data>
+  
+  <rfs>
+    <NoRfsFeature>
+      <RealSetting>false</RealSetting>
+      <IntSetting>false</IntSetting>
+      <StringSetting>false</StringSetting>
+      <BooleanSetting>false</BooleanSetting>
+    </NoRfsFeature>
+  </rfs>
+</configuration>

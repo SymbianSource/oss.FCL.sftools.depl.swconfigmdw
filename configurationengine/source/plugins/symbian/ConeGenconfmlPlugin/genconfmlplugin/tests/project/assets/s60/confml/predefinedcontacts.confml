@@ -1,0 +1,164 @@
+<configuration name="predefinedcontacts" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <feature name="Contacts" ref="Contacts">
+    <setting name="Contact" ref="Contact" type="sequence">
+      <setting name="first name" ref="FirstName" type="string" />
+    <setting name="last name" ref="LastName" type="string" />
+    <setting name="company" ref="Company" type="string" />
+    <setting name="job" ref="Job" type="string" />
+    <setting name="general" ref="General" type="string" />
+    <setting name="mobile" ref="Mobile" type="string" />
+    <setting name="video number" ref="VideoNo" type="string" />
+    <setting name="fax number" ref="Fax" type="string" />
+    <setting name="e-mail" ref="Email" type="string" />
+    <setting name="WvUserId" ref="WvUserId" type="string" />
+    <setting name="URL" ref="URL" type="string" />
+    <setting name="speed dial number" ref="SpeeddialNo" type="string" />
+    <setting name="speed dial number assgin" ref="SpeeddialNoAssign" type="string" />
+    </setting>
+  </feature>
+<feature name="GenconfmlIby" ref="GenconfmlIby">
+    <setting name="TargetPath" ref="TargetPath" type="string" />
+  </feature>
+<data>
+    <Contacts extensionPolicy="append">
+      <Contact extensionPolicy="append" template="true">
+        <FirstName extensionPolicy="append" />
+      <LastName extensionPolicy="append" />
+      <Company extensionPolicy="append" />
+      <Job extensionPolicy="append" />
+      <General extensionPolicy="append" />
+      <Mobile extensionPolicy="append" />
+      <VideoNo extensionPolicy="append" />
+      <Fax extensionPolicy="append" />
+      <Email extensionPolicy="append" />
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      <SpeeddialNo extensionPolicy="append" />
+      <SpeeddialNoAssign extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append">Hao</FirstName>
+      <LastName extensionPolicy="append">Rich</LastName>
+      <Company extensionPolicy="append">Neusoft</Company>
+      <Job extensionPolicy="append" />
+      <General extensionPolicy="append">011</General>
+      <Mobile extensionPolicy="append">022</Mobile>
+      <VideoNo extensionPolicy="append">033</VideoNo>
+      <Fax extensionPolicy="append">044</Fax>
+      <Email extensionPolicy="append">rich@neusoft.com</Email>
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      <SpeeddialNo extensionPolicy="append">2</SpeeddialNo>
+      <SpeeddialNoAssign extensionPolicy="append">videono</SpeeddialNoAssign>
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append">Kevin</FirstName>
+      <LastName extensionPolicy="append">Chong</LastName>
+      <Company extensionPolicy="append">Neusoft</Company>
+      <Job extensionPolicy="append">Engineer</Job>
+      <General extensionPolicy="append">11</General>
+      <Mobile extensionPolicy="append">22</Mobile>
+      <VideoNo extensionPolicy="append">33</VideoNo>
+      <Fax extensionPolicy="append">44</Fax>
+      <Email extensionPolicy="append">Kevin@neusoft.com</Email>
+      <SpeeddialNo extensionPolicy="append">3</SpeeddialNo>
+      <SpeeddialNoAssign extensionPolicy="append">mob</SpeeddialNoAssign>
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append">Feng</FirstName>
+      <LastName extensionPolicy="append">Chen</LastName>
+      <Company extensionPolicy="append">Neusoft</Company>
+      <General extensionPolicy="append">135</General>
+      <Mobile extensionPolicy="append" />
+      <VideoNo extensionPolicy="append" />
+      <Fax extensionPolicy="append">138</Fax>
+      <SpeeddialNo extensionPolicy="append">4</SpeeddialNo>
+      <SpeeddialNoAssign extensionPolicy="append">fax</SpeeddialNoAssign>
+      <Job extensionPolicy="append" />
+      <Email extensionPolicy="append" />
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append">Heng</FirstName>
+      <LastName extensionPolicy="append">Xia</LastName>
+      <Company extensionPolicy="append">HenNuo</Company>
+      <Job extensionPolicy="append">Manager</Job>
+      <General extensionPolicy="append">010</General>
+      <Mobile extensionPolicy="append">020</Mobile>
+      <VideoNo extensionPolicy="append">040</VideoNo>
+      <Fax extensionPolicy="append">030</Fax>
+      <Email extensionPolicy="append">wllx@neusoft.com</Email>
+      <SpeeddialNo extensionPolicy="append">5</SpeeddialNo>
+      <SpeeddialNoAssign extensionPolicy="append">email</SpeeddialNoAssign>
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append">Bo</FirstName>
+      <LastName extensionPolicy="append">Zhang</LastName>
+      <General extensionPolicy="append">110</General>
+      <Mobile extensionPolicy="append">120</Mobile>
+      <SpeeddialNo extensionPolicy="append">6</SpeeddialNo>
+      <SpeeddialNoAssign extensionPolicy="append" />
+      <Company extensionPolicy="append" />
+      <Job extensionPolicy="append" />
+      <VideoNo extensionPolicy="append" />
+      <Fax extensionPolicy="append" />
+      <Email extensionPolicy="append" />
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <SpeeddialNo extensionPolicy="append">9</SpeeddialNo>
+      <FirstName extensionPolicy="append" />
+      <LastName extensionPolicy="append" />
+      <Company extensionPolicy="append" />
+      <Job extensionPolicy="append" />
+      <General extensionPolicy="append" />
+      <Mobile extensionPolicy="append" />
+      <VideoNo extensionPolicy="append" />
+      <Fax extensionPolicy="append" />
+      <Email extensionPolicy="append" />
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      <SpeeddialNoAssign extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append">Codo</FirstName>
+      <LastName extensionPolicy="append">Kiki</LastName>
+      <Company extensionPolicy="append">Neusoft</Company>
+      <General extensionPolicy="append">32</General>
+      <Mobile extensionPolicy="append">54</Mobile>
+      <VideoNo extensionPolicy="append">65</VideoNo>
+      <Fax extensionPolicy="append">65</Fax>
+      <Job extensionPolicy="append" />
+      <Email extensionPolicy="append" />
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      <SpeeddialNo extensionPolicy="append" />
+      <SpeeddialNoAssign extensionPolicy="append" />
+      </Contact>
+    <Contact extensionPolicy="append">
+        <FirstName extensionPolicy="append" />
+      <LastName extensionPolicy="append" />
+      <Company extensionPolicy="append" />
+      <Job extensionPolicy="append" />
+      <General extensionPolicy="append" />
+      <Mobile extensionPolicy="append" />
+      <VideoNo extensionPolicy="append" />
+      <Fax extensionPolicy="append" />
+      <Email extensionPolicy="append" />
+      <WvUserId extensionPolicy="append" />
+      <URL extensionPolicy="append" />
+      <SpeeddialNo extensionPolicy="append" />
+      <SpeeddialNoAssign extensionPolicy="append" />
+      </Contact>
+    </Contacts>
+  <GenconfmlIby extensionPolicy="append">
+      <TargetPath extensionPolicy="append">\private\2000BEE5\</TargetPath>
+    </GenconfmlIby>
+  </data>
+</configuration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="OptionalTest" version="1">
+  <feature ref="OptionalTest">
+    <setting ref="EmptyString" type="string"/>
+    <setting ref="EmptyString2" type="string"/>
+  </feature>
+  <data>
+    <OptionalTest>
+      <EmptyString></EmptyString>
+      <EmptyString2></EmptyString2>
+    </OptionalTest>
+  </data>
+</configuration>

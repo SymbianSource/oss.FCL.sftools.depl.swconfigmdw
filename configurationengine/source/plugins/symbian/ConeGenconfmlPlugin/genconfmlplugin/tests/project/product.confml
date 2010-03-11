@@ -1,0 +1,5 @@
+<configuration name="product" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="assets/s60/root.confml" />
+<xi:include href="family/root.confml" />
+<xi:include href="family/product/root.confml" />
+</configuration>

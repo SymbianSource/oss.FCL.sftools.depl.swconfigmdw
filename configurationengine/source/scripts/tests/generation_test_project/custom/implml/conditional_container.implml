@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <!-- Define the temporary variables and set their values -->
+    <tempVariable ref="Condition.String"   type="string"   value="testing"/>
+    <tempVariable ref="Condition.Int"      type="int"      value="500"/>
+    <tempVariable ref="Condition.Real"     type="real"     value="1.5"/>
+    <tempVariable ref="Condition.Boolean"  type="boolean"  value="true"/>
+    <tempVariable ref="Condition.Unused"   type="boolean"  value="false"/>
+    
+    <container condition="${Condition.String}" value="testing">
+        <!-- Print out the values to a text file -->
+        <templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <output file="template_string_condition_true.txt" dir="content" encoding="UTF-8">
+        <template>
+TempFeature.String:  {{ feat_tree.TempFeature.String._value }}
+        </template>
+        </output>
+        </templateml>
+    </container>
+    
+    <container condition="${Condition.String}" value="nomatch">
+        <!-- Print out the values to a text file -->
+        <templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <output file="template_string_condition_false.txt" dir="content" encoding="UTF-8">
+        <template>
+TempFeature.String:  {{ feat_tree.TempFeature.String._value }}
+        </template>
+        </output>
+        </templateml>
+    </container>
+
+    <container condition="${Condition.Boolean}">
+        <!-- Print out the values to a text file -->
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output flatten="true" dir="sis">
+                <input file="apps/app1.txt"/>
+            </output>
+        </content >
+    </container>
+
+    <container condition="${Condition.Boolean}" value="false">
+        <!-- Print out the values to a text file -->
+        <content xmlns="http://www.s60.com/xml/content/2">
+            <output dir="sis">
+                <input>
+                  <include dir="apps" pattern="app2.txt"/>
+                </input>
+            </output>
+        </content >
+    </container>
+</container>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Test features" version="1">
+  <feature ref="Feature1" name="Feature 1">
+    <setting ref="FolderSetting" name="Folder setting" type="folder">
+      <localPath/>
+    </setting>
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean"/>
+    
+    <setting ref="SequenceSetting" name="Sequence setting" type="sequence">
+      <setting ref="FileSubSetting" name="File sub-setting" type="file">
+        <localPath/>
+      </setting>
+      <setting ref="BooleanSubSetting" name="Boolean sub-setting" type="boolean"/>
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+    </setting>
+  </feature>
+  
+  <feature ref="Feature2" name="Feature 2">
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    
+    <setting ref="SequenceSetting" name="Sequence setting" type="sequence">
+      <setting ref="IntSubSetting" name="Int sub-setting" type="int"/>
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+    </setting>
+  </feature>
+  
+  <data>
+    <Feature1>
+      <FolderSetting><localPath>default_folder</localPath></FolderSetting>
+      <IntSetting>10</IntSetting>
+      <StringSetting>default string</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+      
+      <SequenceSetting template="true">
+        <FileSubSetting><localPath>seq/default_file.txt</localPath></FileSubSetting>
+        <StringSubSetting>template</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <FileSubSetting><localPath>seq/file1.txt</localPath></FileSubSetting>
+        <StringSubSetting>item 1</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+      </SequenceSetting>
+    </Feature1>
+    
+    <Feature2>
+      <StringSetting>feature 2 string</StringSetting>
+      
+      <SequenceSetting template="true">
+        <StringSubSetting>template</StringSubSetting>
+        <IntSubSetting>0</IntSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <StringSubSetting>seq1 2 item 1</StringSubSetting>
+        <IntSubSetting>1</IntSubSetting>
+      </SequenceSetting>
+    </Feature2>
+
+  </data>
+</configuration>

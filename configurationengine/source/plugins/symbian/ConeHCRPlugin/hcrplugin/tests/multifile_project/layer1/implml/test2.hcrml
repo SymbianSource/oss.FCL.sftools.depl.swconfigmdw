@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+<output file="test2.h" type="header">
+  <category name="KTest2Category" uid="0x20001234">
+    <setting ref="HcrTest2.LinAddrSetting"           name="KLinAddrSetting"      type="linaddr"      id="0"/>
+    <setting ref="HcrTest2.Int64Setting"             name="KInt64Setting"        type="int64"        id="1"/>
+    <setting ref="HcrTest2.Uint32ArraySetting.Value" name="KUint32ArraySetting"  type="arrayuint32"  id="2"/>
+    <setting ref="HcrTest2.TextSetting"              name="KText8Setting"        type="text8"        id="3"/>
+  </category>
+</output>
+</hcr>

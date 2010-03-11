@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" name="Time types test">
+  <confml:feature ref="FileFolderTest" name="File &amp; folder types test">
+    <confml:desc>Feature with file and folder setting types</confml:desc>
+    <confml:setting ref="FolderSetting" name="Folder setting" type="folder">
+      <confml:localPath/>
+      <confml:targetPath/>
+      <confml:desc>A folder setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="FileSetting" name="File setting" type="file">
+      <confml:localPath/>
+      <confml:targetPath/>
+      <confml:desc>A file setting</confml:desc>
+    </confml:setting>
+  </confml:feature>
+  <confml:data>
+    <confml:FileFolderTest>
+      <confml:FolderSetting>
+        <confml:localPath>default_folder</confml:localPath>
+        <confml:targetPath>default_target_folder/</confml:targetPath>
+      </confml:FolderSetting>
+      <confml:FileSetting>
+        <confml:localPath>default_file.txt</confml:localPath>
+        <confml:targetPath>default_target_folder/default_file_renamed.txt</confml:targetPath>
+      </confml:FileSetting>
+    </confml:FileFolderTest>
+  </confml:data>
+</confml:configuration>

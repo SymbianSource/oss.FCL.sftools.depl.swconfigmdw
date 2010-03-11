@@ -1,0 +1,1 @@
+This directory contains all library dependencies needed by any of the plug-ins as egg files.

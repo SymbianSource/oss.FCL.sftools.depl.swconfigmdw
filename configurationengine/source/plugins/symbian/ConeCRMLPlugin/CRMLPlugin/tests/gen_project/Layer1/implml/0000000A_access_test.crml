@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="AccessTest" uidValue="0x0000000A">
+  <access type="R" capabilities="TrustedUi DRM ReadDeviceData" sid="0x12344321"/>
+  <access type="W" capabilities="ProtServ NetworkControl DiskAdmin" sid="0x43211234"/>
+  
+  <!-- Access elements defined again, should not affect anything -->
+  <access type="R" capabilities="ReadDeviceData" sid="0xB0B0B0B0"/>
+  <access type="W" capabilities="WriteDeviceData" sid="0xC0C0C0C0"/>
+  
+  <key ref="AccessTest/Setting1" name="Setting 1" int="0x00000001" type="int">
+    <access type="R" capabilities="TCB CommDD PowerMgmt MultimediaDD ReadDeviceData DRM TrustedUi"/>
+    <access type="W" capabilities="ProtServ DiskAdmin NetworkControl AllFiles SwEvent NetworkServices LocalServices"/>
+  </key>
+  <key ref="AccessTest/Setting2" name="Setting 2" int="0x00000002" type="int">
+    <access type="R" capabilities="ReadDeviceData DRM TrustedUi" sid="0xA0B0C0D0"/>
+    <access type="W" capabilities="ProtServ DiskAdmin NetworkControl" sid="0x0A0B0C0D"/>
+  </key>
+  <key ref="AccessTest/Setting3" name="Setting 3" int="0x00000003" type="int">
+    <access type="R" capabilities="Location UserEnvironment ReadUserData"/>
+    <access type="W" sid="0xA0B0C0D0"/>
+  </key>
+  <key ref="AccessTest/Setting4" name="Setting 4" int="0x00000004" type="int">
+    <access type="R" sid="0xA0B0C0D0"/>
+    <access type="W" capabilities="Location,UserEnvironment,ReadUserData"/>
+  </key>
+  
+  <key ref="AccessTest/Setting5" name="Setting 5" int="0x00000005" type="int">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+  </key>
+  
+  <key ref="AccessTest/Setting6" name="Setting 6" int="0x00000006" type="int">
+    <access type="R" capabilities="ReadUserData"/>
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+  </key>
+  
+  <key ref="AccessTest/Setting7" name="Setting 7" int="0x00000007" type="int">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData"/>
+  </key>
+  
+  <!-- Read-only key, but has write capabilities -->
+  <key ref="AccessTest/Setting8" name="Setting 8" int="0x00000008" type="int" readOnly="true">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid="0xAABBCCDD"/>
+  </key>
+  
+  <!-- Keys inheriting access defs from the repository -->
+  <key ref="AccessTest/Setting9" name="Setting 9" int="0x00000009" type="int"/>
+  <key ref="AccessTest/Setting10" name="Setting 10" int="0x0000000a" type="int">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+  </key>
+  <key ref="AccessTest/Setting11" name="Setting 11" int="0x0000000B" type="int">
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+  </key>
+  
+  <!-- Read-only -->
+  <key ref="AccessTest/Setting12" name="Setting 12" int="0x0000000c" type="int" readOnly="true"/>
+  
+  <!-- Capabilities specified twice -->
+  <key ref="AccessTest/Setting13" name="Setting 13" int="0x0000000D" type="int" readOnly="true">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid="0xAABBCCDD"/>
+    <access type="R" capabilities="ReadDeviceData DRM TrustedUi" sid="0xA0B0C0D0"/>
+    <access type="W" capabilities="ProtServ DiskAdmin NetworkControl" sid="0x0A0B0C0D"/>
+  </key>
+  
+  <!-- Empty capability string -->
+  <key ref="AccessTest/Setting14" name="Setting 14" int="0x0000000e" type="int">
+    <access type="R" capabilities="" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="" sid="0xDDCCBBAA"/>
+  </key>
+  <key ref="AccessTest/Setting15" name="Setting 15" int="0x0000000f" type="int">
+    <access type="R" capabilities="" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+  </key>
+  <key ref="AccessTest/Setting16" name="Setting 16" int="0x00000010" type="int">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="" sid="0xDDCCBBAA"/>
+  </key>
+  
+  <!-- Empty SID string -->
+  <key ref="AccessTest/Setting17" name="Setting 17" int="0x00000011" type="int">
+    <access type="R" capabilities="ReadUserData" sid=""/>
+    <access type="W" capabilities="WriteUserData" sid=""/>
+  </key>
+  <key ref="AccessTest/Setting18" name="Setting 18" int="0x00000012" type="int">
+    <access type="R" capabilities="ReadUserData" sid=""/>
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+  </key>
+  <key ref="AccessTest/Setting19" name="Setting 19" int="0x00000013" type="int">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid=""/>
+  </key>
+  
+  <key ref="AccessTest/Setting20" name="Setting 20" int="0x00000014" type="int">
+    <access type="R" capabilities="" sid=""/>
+    <access type="W" capabilities="" sid=""/>
+  </key>
+  
+</repository>

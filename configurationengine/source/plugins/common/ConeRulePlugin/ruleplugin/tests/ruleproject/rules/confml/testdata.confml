@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="imaker interface" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature name="iMaker Image creation" ref="imaker">
+    <setting name="IMAGE_TARGET" ref="imagetarget" type="selection">
+      <option name="core" value="0" />
+    <option name="rofs2" value="1" />
+    <option name="rofs3" value="2" />
+    <option name="rofs4" value="3" />
+    <option name="uda" value="4" />
+    <option name="rofs3_uda" value="4" />
+    </setting>
+  <setting name="iMaker api makefile" ref="makefilename" type="string" />
+  </feature>
+<feature name="iMaker API" ref="imakerapi">
+    <setting name="IMAGE_TYPE" ref="imagetype" type="selection">
+      <option name="rnd" value="0" />
+    <option name="subcon" value="1" />
+    <option name="prd" value="2" />
+    </setting>
+  <setting name="ROFS3_VERSION" ref="rofs3version" type="string" />
+  <setting name="PRODUCT_NAME" ref="productname" type="string" />
+  <setting name="OUTPUT_LOCATION" ref="outputLocation" type="string" />
+  <setting name="OUTPUT_LOCATIONY" ref="outputLocationY" type="string" />
+  </feature>
+<feature name="ar operations" ref="operations">
+    <setting name="MINUS" ref="minus" type="int" />
+  <setting name="MINUS1" ref="minus1" type="int" />
+  <setting name="MINUS2" ref="minus2" type="int" />
+  <setting name="MINUS3" ref="minus3" type="int" />
+  <setting name="MINUS4" ref="minus4" type="int" />
+  <setting name="MINUS5" ref="minus5" type="int" />
+  <setting name="MINUS6" ref="minus6" type="int" />
+  <setting name="MINUS7" ref="minus7" type="int" />
+  <setting name="MINUS8" ref="minus8" type="int" />
+  </feature>
+<feature name="String concatenation test" ref="StringConcatenationTest">
+    <setting name="Value 1" ref="Value1" type="string" />
+  <setting name="Value 2" ref="Value2" type="string" />
+  <setting name="Result 1" ref="Result1" type="string" />
+  <setting name="Result 2" ref="Result2" type="string" />
+  <setting name="Result 3" ref="Result3" type="string" />
+  <setting name="Result 4" ref="Result4" type="string" />
+  <setting name="Result 5" ref="Result5" type="string" />
+  <setting name="Result 6" ref="Result6" type="string" />
+  </feature>
+<feature name="Unicode test feature" ref="ударения">
+    <setting name="Unicode test setting" ref="ελληνικά" type="string" />
+  </feature>
+<data>
+    <imaker>
+      <imagetarget>2</imagetarget>
+    <makefilename>image_conf_imakerapi.mk</makefilename>
+    </imaker>
+  <imakerapi>
+      <imagetype>0</imagetype>
+    <rofs3version>V .50.2009.04.0113 RND</rofs3version>
+    <productname>myProduct</productname>
+    <outputLocation>myProduct</outputLocation>
+    <outputLocationY />
+    </imakerapi>
+  <operations>
+      <minus>5</minus>
+    <minus1>25</minus1>
+    <minus2>7</minus2>
+    <minus3>5</minus3>
+    <minus4>10</minus4>
+    <minus5>2</minus5>
+    <minus6>5</minus6>
+    <minus7>10</minus7>
+    <minus8>8</minus8>
+    </operations>
+  <StringConcatenationTest>
+      <Value1>String 1</Value1>
+    <Value2>String 2</Value2>
+    <Result1>x</Result1>
+    <Result2>x</Result2>
+    <Result3>x</Result3>
+    <Result4>x</Result4>
+    <Result5>x</Result5>
+    <Result6>x</Result6>
+    </StringConcatenationTest>
+    
+    <ударения>
+      <ελληνικά>カタカナ</ελληνικά>
+    </ударения>
+  </data>
+</configuration>

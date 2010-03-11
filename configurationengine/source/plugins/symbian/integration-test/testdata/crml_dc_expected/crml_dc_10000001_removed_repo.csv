@@ -1,0 +1,19 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/10000001_removed_repo.crml,0x10000001,RemovedRepo,None,
+
+
+Duplicate repositories in source:
+File,Repository UID
+
+
+Duplicate repositories in target:
+File,Repository UID

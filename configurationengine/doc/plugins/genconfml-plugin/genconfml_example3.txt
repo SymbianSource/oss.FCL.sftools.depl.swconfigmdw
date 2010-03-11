@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+   
+<Proprietary>
+   <Something attr="246">foobar</Something>
+</Proprietary>
+

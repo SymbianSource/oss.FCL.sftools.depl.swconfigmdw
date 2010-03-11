@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2" name="OperatorLogoConf">
+  <feature name="Nokia PC Internet Access" ref="CVC_NokiaPCInternetAccess">
+<desc>Customizations of PC application "Nokia PC Internet Access"</desc>
+    <setting name="Customer logo file" ref="CVC_NokiaPCInternetAccessFile" type="file">
+      <desc>Customer logo file. Format: Portable Network Graphics with transparent background. Size 280x40.</desc>
+      <localPath/>
+      <targetPath readOnly="true"/>
+    </setting>
+		<setting name="Customer defined URL" ref="CVC_NokiaPCInternetAccessURL" type="string">
+			<desc>NPCIA autolaunches the default web browser of the PC. Default starting page of the browser can be set through NPCIA (when browser is launched by NPCIA)</desc>
+		</setting>
+		<setting name="Customer Care contact info" ref="CVC_NokiaPCInternetAccessCustomerCareInfo" type="string">
+			<desc>Located in in NPCIAs’ ‘Settings’ view. Can be phone number and/or link to operator webpage.</desc>
+		</setting>
+  </feature>
+  <data>
+  </data>
+</configuration>

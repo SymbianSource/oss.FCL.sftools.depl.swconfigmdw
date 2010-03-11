@@ -1,0 +1,7 @@
+{% if feat_tree.Feature1.StringSetting1 %}
+  feat_tree.Feature1.StringSetting1._value
+{% elif feat_tree.Feature1.StringSetting2 %}
+  feat_tree.Feature1.StringSetting2._value
+{% else %}
+  my default setting
+{% endif %}

@@ -1,0 +1,14 @@
+<configuration name="platform1_root_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xi:include href="platforms/platform1/root.confml" />
+  <xi:include href="platforms/platform2/root.confml" />
+  <xi:include href="foo/root.confml" />
+<meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+    <cv:configuration-property name="platform_name" value="plat1" />
+  <version>Version1</version>
+  <platform>Platform1</platform>
+  <date>Date1</date>
+  <release>Release1</release>
+  <editor>Editor1</editor>
+  </meta>
+<desc>Description1</desc>
+</configuration>

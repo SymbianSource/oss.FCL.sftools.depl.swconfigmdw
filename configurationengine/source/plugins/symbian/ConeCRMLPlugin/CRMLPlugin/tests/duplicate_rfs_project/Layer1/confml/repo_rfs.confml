@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="RepoRfsFeature" version="1">
+  <feature ref="RepoRfsFeature" name="Feature with the whole central repository RFS=true">
+    <setting ref="RealSetting" name="Real setting" type="real"/>
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean"/>
+  </feature>
+  <data>
+    <RepoRfsFeature>
+      <RealSetting>3.14</RealSetting>
+      <IntSetting>10</IntSetting>
+      <StringSetting>default string</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+    </RepoRfsFeature>
+  </data>
+  
+  <!--
+  The values defined here should not matter when the whole repository is
+  marked with rfs="true" in the .crml file
+  -->
+  <rfs>
+    <RepoRfsFeature>
+      <RealSetting>true</RealSetting>
+      <IntSetting>false</IntSetting>
+      <StringSetting>true</StringSetting>
+      <BooleanSetting>false</BooleanSetting>
+    </RepoRfsFeature>
+  </rfs>
+</configuration>

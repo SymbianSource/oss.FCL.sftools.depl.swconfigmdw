@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metadata xmlns="http://www.nokia.com/xml/ns/confml-core/metadata-2.0">
+  <property name="cpf.name"/>
+  <property name="cpf.description"/>
+  <property name="cpf.viewId"/>
+  <property name="cpf.rootFile" value="terra_VF_UK_101.confml"/>
+  <property name="cpf.dataFile"/>
+  <property name="cpf.author"/>
+  <property name="cpf.version"/>
+  <property name="cpf.product"/>
+  <property name="cpf.customer"/>
+  <property name="cpf.platform"/>
+  <property name="cpf.release"/>
+  <property name="cpf.date"/>
+  <property name="cpf.owner"/>
+</metadata>

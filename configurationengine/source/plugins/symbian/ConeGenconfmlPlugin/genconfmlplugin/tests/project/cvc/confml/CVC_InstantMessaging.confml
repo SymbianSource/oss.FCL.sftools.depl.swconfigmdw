@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2" name="cvc_instantmessaging">
+
+<feature name="Instant Messaging" ref="CVC_InstantMessaging">
+	<desc>IM (Instant Messaging) settings</desc>	
+	<setting name="Server name" ref="CVC_IMServerName" type="string">
+	<desc>Server name. Max 30 chars.</desc>
+  	</setting>
+  	<setting name="Access point in use" ref="CVC_IMAccessPointInUse" type="string">
+  	<desc>Max 100 chars.</desc>
+  	</setting>
+  	<setting name="Web address" ref="CVC_IMWebAddress" type="string">
+  	<desc>Max 50 chars.</desc>
+  	</setting>
+  	<setting name="User ID" ref="CVC_IMUserID" type="string">
+  	</setting>
+  	<setting name="Password " ref="CVC_IMPassword" type="string">
+  	</setting>
+  	<setting name="IM Presence" ref="CVC_IMPresence" type="selection">
+  		<option name="Active for all" value="all"/>
+		<option name="Active for contacts" value="contacts"/>
+		<option name="Not active" value="not"/>
+  	</setting>
+  	<setting name="Allow messages from" ref="CVC_IMAllowMessagesFrom" type="selection">
+  		<option name="All" value="all"/>
+		<option name="IM contacts only " value="contacts"/>
+		<option name="None" value="none"/>
+  	</setting>
+  	<setting name="Message  scrolling speed" ref="CVC_IMMessageScrollingSpeed" type="selection">
+  		<option name="Slow" value="Slow"/>
+		<option name="Medium" value="Medium"/>
+		<option name="Fast" value="Fast"/>
+  	</setting>
+  	<setting name="Sort IM contacts" ref="CVC_IMSortContacts" type="selection">
+  		<option name="Alphabetically" value="Alphabetically"/>
+		<option name="By online status" value="Bystatus"/>
+  	</setting>
+  	<setting name="Availability reloading" ref="CVC_IMAvailabilityReloading" type="selection">
+  		<option name="Automatic" value="Automatic"/>
+		<option name="Manual" value="Manual"/>
+  	</setting>
+  	<setting name="Offline contacts" ref="CVC_IMOfflineContacts" type="selection">
+  		<option name="Show" value="Show"/>
+		<option name="Hide" value="Hide"/>
+  	</setting>
+  	<setting name="Own message colour" ref="CVC_IMOwnMessageColour" type="string">
+  	</setting>
+  	<setting name="Received message colour" ref="CVC_IMReceivedMessageColour" type="string">
+  	</setting>
+  	<setting name="Show date/ time info" ref="CVC_IMShowDateTimeInfo" type="selection">
+  		<option name="Yes" value="Yes"/>
+		<option name="No" value="No"/>
+  	</setting>
+  	<setting name="IM alert tone" ref="CVC_IMAlertTone" type="file">
+		<desc>Alert tone for Instant Messaging.</desc>
+	</setting>
+  	<setting name="Default Server" ref="CVC_IMDefaultServer" type="string">
+  	</setting>
+  	<setting name="Presence login type" ref="CVC_IMPresenceLoginType" type="selection">
+  		<option name="Automatic" value="auto"/>
+		<option name="Automatic in home network On app." value="autohome"/>
+		<option name="Start-up Manual" value="manual"/>
+  	</setting>
+  	<setting name="IM login type" ref="CVC_IMLoginType" type="selection">
+  		<option name="Automatic" value="auto"/>
+		<option name="Automatic in home network" value="autohome"/>
+		<option name="Start-up" value="start"/>
+		<option name="Manual" value="manual"/>
+  	</setting>
+</feature>
+ <data>
+ </data>
+</configuration>

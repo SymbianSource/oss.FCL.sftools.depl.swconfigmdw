@@ -1,0 +1,91 @@
+<configuration name="Arithmetic operation test" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature name="Test settings for arithmetic operations" ref="Arithmetic">
+    <!-- Values used in tests -->
+    <setting name="Value 1" ref="Value1" type="int" />
+    <setting name="Value 2" ref="Value2" type="int" />
+    
+    <setting name="Real value 1" ref="RealValue1" type="real" />
+    <setting name="Real value 2" ref="RealValue2" type="real" />
+    
+    <!-- Settings for storing the result of the calculation -->
+    <setting name="Addition result 1" ref="AdditionResult1" type="int" />
+    <setting name="Addition result 2" ref="AdditionResult2" type="int" />
+    <setting name="Addition result 3" ref="AdditionResult3" type="int" />
+    <setting name="Addition result 4" ref="AdditionResult4" type="int" />
+    
+    <setting name="Subtraction result 1" ref="SubtractionResult1" type="int" />
+    <setting name="Subtraction result 2" ref="SubtractionResult2" type="int" />
+    <setting name="Subtraction result 3" ref="SubtractionResult3" type="int" />
+    <setting name="Subtraction result 4" ref="SubtractionResult4" type="int" />
+    
+    <setting name="Multiplication result 1" ref="MultiplicationResult1" type="int" />
+    <setting name="Multiplication result 2" ref="MultiplicationResult2" type="int" />
+    <setting name="Multiplication result 3" ref="MultiplicationResult3" type="int" />
+    <setting name="Multiplication result 4" ref="MultiplicationResult4" type="int" />
+    
+    <setting name="Division result 1" ref="DivisionResult1" type="int" />
+    <setting name="Division result 2" ref="DivisionResult2" type="int" />
+    <setting name="Division result 3" ref="DivisionResult3" type="int" />
+    <setting name="Division result 4" ref="DivisionResult4" type="int" />
+    
+    <setting name="Mixed result 1" ref="MixedResult1" type="int" />
+    <setting name="Mixed result 2" ref="MixedResult2" type="int" />
+    <setting name="Mixed result 3" ref="MixedResult3" type="int" />
+    <setting name="Mixed result 4" ref="MixedResult4" type="int" />
+    <setting name="Mixed result 5" ref="MixedResult5" type="int" />
+    
+    <setting name="Real result 1" ref="RealResult1" type="real" />
+    <setting name="Real result 2" ref="RealResult2" type="real" />
+    <setting name="Real result 3" ref="RealResult3" type="real" />
+    <setting name="Real result 4" ref="RealResult4" type="real" />
+    
+    <setting name="Real calculation into int setting result" ref="RealCalcIntoIntResult" type="int" />
+    <setting name="Int calculation into real setting result" ref="IntCalcIntoRealResult" type="real" />
+
+
+  </feature>
+  
+  <data>
+    <Arithmetic>
+      <Value1>5</Value1>
+      <Value2>20</Value2>
+      
+      <RealValue1>5</RealValue1>
+      <RealValue2>20</RealValue2>
+      
+      <AdditionResult1>0</AdditionResult1>
+      <AdditionResult2>0</AdditionResult2>
+      <AdditionResult3>0</AdditionResult3>
+      <AdditionResult4>0</AdditionResult4>
+      
+      <SubtractionResult1>0</SubtractionResult1>
+      <SubtractionResult2>0</SubtractionResult2>
+      <SubtractionResult3>0</SubtractionResult3>
+      <SubtractionResult4>0</SubtractionResult4>
+      
+      <MultiplicationResult1>0</MultiplicationResult1>
+      <MultiplicationResult2>0</MultiplicationResult2>
+      <MultiplicationResult3>0</MultiplicationResult3>
+      <MultiplicationResult4>0</MultiplicationResult4>
+      
+      <DivisionResult1>0</DivisionResult1>
+      <DivisionResult2>0</DivisionResult2>
+      <DivisionResult3>0</DivisionResult3>
+      <DivisionResult4>0</DivisionResult4>
+      
+      <MixedResult1>0</MixedResult1>
+      <MixedResult2>0</MixedResult2>
+      <MixedResult3>0</MixedResult3>
+      <MixedResult4>0</MixedResult4>
+      <MixedResult5>0</MixedResult5>
+      
+      <RealResult1>0</RealResult1>
+      <RealResult2>0</RealResult2>
+      <RealResult3>0</RealResult3>
+      <RealResult4>0</RealResult4>
+      
+      <RealCalcIntoIntResult>0</RealCalcIntoIntResult>
+      <IntCalcIntoRealResult>0</IntCalcIntoRealResult>
+    </Arithmetic>
+  </data>
+</configuration>

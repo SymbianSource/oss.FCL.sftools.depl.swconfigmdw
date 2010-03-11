@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+
+    <output file="has_ref_template_test.txt" encoding="UTF-8">
+        <template>
+Features in list
+{% for feat in feat_list %}
+	Feature: {{feat._name}} value: {{feat._value}}
+{% endfor %}
+		</template>
+    </output>
+</templateml>

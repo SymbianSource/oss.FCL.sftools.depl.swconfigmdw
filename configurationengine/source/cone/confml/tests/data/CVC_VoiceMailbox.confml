@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+	<confml:feature name="Voice Mailbox Number " ref="CVC_VoiceMailboxNumbers">
+		<confml:desc>The device number of the customer’s voice mailbox may be programmed into the device during production or in service. Voice mailbox feature may be activated in two different ways: CSP (Customer Service Profile) support is enabled in product profile AND voice mailbox numbers can be found from customer’s SIM card</confml:desc>
+		<confml:setting name="Number for primary ALS line" ref="CVC_VoiceMailboxNumberPrimaryALS" type="string">
+			<confml:desc>Maximum allowed length is 50 characters.</confml:desc>
+		</confml:setting>
+		<confml:setting name="Number for secondary ALS line" ref="CVC_VoiceMailboxNumberSecondaryALS" type="string">
+			<confml:desc>Maximum allowed length is 50 characters.</confml:desc>
+    </confml:setting>
+</confml:feature>
+	<confml:data>
+	</confml:data>
+</confml:configuration>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="CrmlStrings" version="1">
+  <feature ref="CrmlStrings" name="Settings with CRML string implementations">
+    <setting ref="IntSetting" name="Int setting" type="int"/>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean"/>
+    <setting ref="RealSetting" name="Real setting" type="real"/>
+    <setting ref="StringSetting" name="String setting" type="string"/>
+    <setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <option name="Option0" value="opt0"/>
+      <option name="Option1" value="opt1"/>
+      <option name="Option2" value="opt2"/>
+      <option name="Option3" value="opt3"/>
+      <option name="Option4" value="opt4"/>
+    </setting>
+    <setting ref="EmptyStringSetting" name="Empty string setting" type="string"/>
+  </feature>
+  <data>
+    <CrmlStrings>
+      <IntSetting>10</IntSetting>
+      <BooleanSetting>true</BooleanSetting>
+      <RealSetting>11.3</RealSetting>
+      <StringSetting>älämölö カタカナ &lt;&amp;&gt; \&quot;</StringSetting>
+      <SelectionSetting>opt3</SelectionSetting>
+      <EmptyStringSetting></EmptyStringSetting>
+    </CrmlStrings>
+  </data>
+</configuration>

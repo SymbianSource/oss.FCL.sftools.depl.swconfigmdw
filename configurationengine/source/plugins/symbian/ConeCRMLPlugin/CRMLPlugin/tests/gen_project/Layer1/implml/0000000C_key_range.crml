@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="BackupTest" uidValue="0x0000000C" owner="0x10101010" backup="true">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  
+  <!-- This doesn't work correctly in CT2
+  <keyRange firstInt="0x00005000" lastInt="0x00005FFF" backup="true">
+    <access type="R" capabilities="ReadUserData" sid="0x12344321"/>
+    <access type="W" capabilities="WriteUserData"  sid="0x43211234"/>
+  </keyRange>
+  -->
+  
+  <keyRange name="Range 2" firstInt="0x00002000" lastInt="0x00002FFF" backup="true"/>
+  
+  <keyRange firstInt="0x00004000" lastInt="0x00004FFF" readOnly="true" backup="false">
+    <access type="R" capabilities="TCB"/>
+  </keyRange>
+  
+  <keyRange firstInt="0x00003000" lastInt="0x00003FFF">
+    <access type="W" capabilities="WriteUserData"/>
+  </keyRange>
+  <!--
+  <keyRange ref="KeyRangeTest/SequenceSetting" name="Sequence setting"
+    firstInt="0x10000000" lastInt="0x7fffffff"
+    countInt="0x10000001" indexBits="0x0000fff0" firstIndex="5">
+        <access type="W" capabilities="WriteUserData"/>
+        <key int="0x00000001" type="int" ref="IntSubSetting"/>
+        <key int="0x00000002" type="string" ref="StringSubSetting"/>
+        <key int="0x00000005" type="real" ref="RealSubSetting"/>
+        <key int="0x00000006" type="int" ref="SelectionSubSetting"/>
+        <key int="0x00000009" type="int" ref="BooleanSubSetting"/>
+  </keyRange>-->
+  
+  <keyRange ref="KeyRangeTest/EmptySequenceSetting" backup="true" name="Empty sequence setting"
+    firstInt="0x1001" lastInt="0x1fff" indexBits="0x0ff0" firstIndex="1" countInt="0x1000">
+    <desc>History items</desc>
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="WriteDeviceData"/>
+    <key ref="StringSubSetting" name="String sub-setting" int="0x0001" type="string8"/>
+  </keyRange>
+  
+  <!-- These key ranges have the ConfML refs specified incorrectly, but they are tested here for CT2 compatibility -->
+  <keyRange ref="KeyRangeTest/SequenceSetting2/StringSubSetting" backup="true" name="Sequence setting 2"
+    firstInt="0x6001" lastInt="0x6fff" indexBits="0x0ff0" firstIndex="1" countInt="0x6000">
+    <key ref="KeyRangeTest/SequenceSetting2/StringSubSetting" name="String sub-setting" int="0x0001" type="string8"/>
+  </keyRange>
+  <keyRange ref="KeyRangeTest/SequenceSetting3" backup="true" name="Sequence setting 3"
+    firstInt="0x7001" lastInt="0x7fff" indexBits="0x0ff0" firstIndex="1" countInt="0x7000">
+    <key ref="KeyRangeTest/StringSubSetting" name="String sub-setting" int="0x0001" type="string8"/>
+  </keyRange>
+  
+</repository>

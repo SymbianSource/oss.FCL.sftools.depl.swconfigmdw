@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?><configuration xmlns="http://www.s60.com/xml/confml/2">
+  <feature name="Application Menu Customization for S60 3.2.3" ref="CVC_AppShell323">
+    <desc>Application Shell customization.</desc>
+    <setting name="Application Menu data location" ref="CVC_AppShell323" type="folder">
+      <desc>Folder containing Application Shell configuration files: appshelldata.xml, appshelldata.dtd, appshellapplications.properties</desc>
+      <localPath/>
+      <targetPath readOnly="true"/>
+    </setting>
+  </feature>
+<data>
+<CVC_AppShell323>
+<CVC_AppShell323><localPath>UI/Application Menu</localPath></CVC_AppShell323>
+</CVC_AppShell323>
+</data>
+</configuration>

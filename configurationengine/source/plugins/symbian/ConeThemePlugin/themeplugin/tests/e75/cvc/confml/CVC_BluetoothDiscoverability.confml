@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+	<confml:feature name="Default Bluetooth Discoverability" ref="CVC_BluetoothDiscoverability">
+		<confml:desc>Default state of Bluetooth in the terminal: discoverable ("Shown To All") or hidden.</confml:desc>
+		<confml:setting name="Bluetooth in Discoverable mode" ref="CVC_BluetoothDiscoverable" type="boolean">
+			<confml:desc>Default state of Bluetooth in the terminal: discoverable ("Shown To All") or hidden.</confml:desc>
+			</confml:setting>
+</confml:feature>
+	<confml:data>
+<CVC_BluetoothDiscoverability>false</CVC_BluetoothDiscoverability>
+	</confml:data>
+</confml:configuration>

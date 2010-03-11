@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="hcrexample">
+  <feature ref="hcrexample" name="Hardware configuration">
+    <desc>example hardware configuration repository confml</desc>
+    <setting ref="DebounceInterval" name="DebounceInterval" type="int"/>
+    <setting ref="GPIO_1" name="GPIO_1" type="int"/>
+    <setting ref="GPIO_2" name="GPIO_2" type="int"/>
+  </feature>
+  <data>
+    <hcrexample>
+      <DebounceInterval>0</DebounceInterval>
+      <GPIO_1>0</GPIO_1>
+      <GPIO_2>0</GPIO_2>
+    </hcrexample>
+  </data>
+</configuration>

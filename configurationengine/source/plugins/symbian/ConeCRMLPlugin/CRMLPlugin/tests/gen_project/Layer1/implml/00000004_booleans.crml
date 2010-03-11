@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidValue="0x00000004" owner="0x1234ABCD">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="WriteDeviceData" sid="0x12344321"/>
+  
+  <key ref="Booleans/IntBool1" name="IntBool1" int="0x11" type="int"/>
+  <key ref="Booleans/IntBool2" name="IntBool2" int="0x12" type="int"/>
+  <key ref="Booleans/IntBool3" name="IntBool3" int="0x13" type="int"/>
+  <key ref="Booleans/IntBool4" name="IntBool4" int="0x14" type="int"/>
+  
+  <key name="Bitmask" int="0x40" type="int" backup="true">
+    <bit ref="Booleans/BitmaskBool1">1</bit>
+    <bit ref="Booleans/BitmaskBool2">2</bit>
+    <bit ref="Booleans/BitmaskBool3">3</bit>
+    <bit ref="Booleans/BitmaskBool4">4</bit>
+  </key>
+  
+  <key ref="Booleans/StringBool1" name="StringBool1" int="0x21" type="string"/>
+  <key ref="Booleans/StringBool2" name="StringBool2" int="0x22" type="string"/>
+  <key ref="Booleans/StringBool3" name="StringBool3" int="0x23" type="string"/>
+  <key ref="Booleans/StringBool4" name="StringBool4" int="0x24" type="string"/>
+  
+  <key ref="Booleans/String8Bool1" name="String8Bool1" int="0x31" type="string8"/>
+  <key ref="Booleans/String8Bool2" name="String8Bool2" int="0x32" type="string8"/>
+  <key ref="Booleans/String8Bool3" name="String8Bool3" int="0x33" type="string8"/>
+  <key ref="Booleans/String8Bool4" name="String8Bool4" int="0x34" type="string8"/>
+  
+  <key name="Binary" int="0x50" type="binary">
+    <bit ref="Booleans/BinaryBool1">1</bit>
+    <bit ref="Booleans/BinaryBool2">2</bit>
+    <bit ref="Booleans/BinaryBool3">3</bit>
+    <bit ref="Booleans/BinaryBool4">4</bit>
+  </key>
+</repository>

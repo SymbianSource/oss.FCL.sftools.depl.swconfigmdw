@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="SpecialCharTest" uidValue="0x20000001">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="SpecialCharTest/Test1" name="Test 1" int="0x00000001" type="string"/>
+  <key ref="SpecialCharTest/Test2" name="Test 2" int="0x00000002" type="string"/>
+  <key ref="SpecialCharTest/Test3" name="Test 3" int="0x00000003" type="string"/>
+  <key ref="SpecialCharTest/Test4" name="Test 4" int="0x00000004" type="string"/>
+  <key ref="SpecialCharTest/Test5" name="Test 5" int="0x00000005" type="string"/>
+  <key ref="SpecialCharTest/Test6" name="Test 6" int="0x00000006" type="string"/>
+</repository>

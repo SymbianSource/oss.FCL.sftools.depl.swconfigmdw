@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    
+    <output file="depth_from_ref_test_mbm.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv'>
+        <input file="UI/Start-up Animation/frame01.bmp" depth="${DepthFromRefTest.Depth}"/>
+    </output>
+    
+    
+    <output file="depth_from_ref_test_mif.mif" tool='../bin/mifconv'>
+        <input file="svg_files/icon.svg" depth="${DepthFromRefTest.Depth}"/>
+    </output>
+
+</imageml>

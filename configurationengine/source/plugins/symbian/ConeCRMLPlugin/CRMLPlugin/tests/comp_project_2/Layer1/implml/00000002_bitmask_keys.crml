@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="BitmaskKeys" uidValue="0x00000002">
+  <access type="R" capabilities="ReadDevideData" sid="0x12344321"/>
+  <access type="W" capabilities="WriteDeviceData" sid="0x43211234"/>
+  
+  <key int="0x00000001" type="binary" name="Bitmask 1 (name changed)">
+    <access type="R" capabilities="ReadUserData" sid="0x11223344"/>
+    <access type="W" capabilities="WriteUserData" sid="0x44332211"/>
+    
+    <bit ref="BitmaskKeys/Bit1">1</bit>
+    <bit ref="BitmaskKeys/Bit2RefChanged">2</bit>
+    <bit ref="BitmaskKeys/Bit3" value="false">3</bit>
+    
+    <bit ref="BitmaskKeys/AddedBit">5</bit>
+  </key>
+  
+  <key int="0x20000001" type="int" name="Added bitmask">
+    <bit ref="BitmaskKeys/Bit1">1</bit>
+    <bit ref="BitmaskKeys/Bit2">2</bit>
+  </key>
+  
+  <key int="0x00000003" type="binary" readOnly="true" name="Modified read-only bitmask (name changed)">
+    <bit ref="BitmaskKeys/Bit1">1</bit>
+    <bit ref="BitmaskKeys/Bit2RefChanged">2</bit>
+    <bit ref="BitmaskKeys/Bit3" value="false">3</bit>
+    
+    <bit ref="BitmaskKeys/AddedBit">5</bit>
+  </key>
+</repository>

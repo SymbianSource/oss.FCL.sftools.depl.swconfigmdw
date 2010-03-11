@@ -1,0 +1,13 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="Setting/Data.xml" target="output">
+  <setting ref="Setting/Settings"/>
+  <setting ref="Setting/ContentSettings"/>
+  <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xi="http://www.w3.org/2001/xinclude">
+    <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+    <xsl:template match="configuration/data">
+      <Variant>
+        <xsl:copy-of select="Setting/Settings"/>
+        <xsl:copy-of select="Setting/ContentSettings"/>
+      </Variant>
+    </xsl:template>
+  </xsl:stylesheet>
+</file>

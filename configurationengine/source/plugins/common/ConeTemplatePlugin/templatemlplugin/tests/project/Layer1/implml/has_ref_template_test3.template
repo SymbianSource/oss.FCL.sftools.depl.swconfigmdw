@@ -1,0 +1,5 @@
+Value of Feature1.UnicodeValueSetting: {{ feat_tree.Feature1.UnicodeValueSetting._value }}
+Value of Feature1.StringSetting1: {{ feat_tree.Feature1.StringSetting1._value }}
+Value of Feature2: {{ feat_tree.Feature2._value }}
+Value of Feature2.set1.sub1: {{ feat_tree.Feature2.set1.sub1._value }}
+Value of Feature2.set1.sub2: {{ feat_tree.Feature2.set1.sub2 }}

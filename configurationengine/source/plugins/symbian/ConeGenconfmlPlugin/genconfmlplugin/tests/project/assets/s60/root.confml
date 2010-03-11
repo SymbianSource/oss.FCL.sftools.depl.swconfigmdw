@@ -1,0 +1,5 @@
+<configuration name="unknown" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="confml/commsdatcreator.confml" />
+<xi:include href="confml/CVC_2DigitDialing.confml" />
+<xi:include href="confml/predefinedcontacts.confml" />
+</configuration>

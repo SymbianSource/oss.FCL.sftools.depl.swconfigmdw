@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+	<confml:feature name="CPHS / ALS settings" ref="CVC_CPHSALS">
+		<confml:desc>CPHS is an extension to the GSM specification that adds several convenience and usability enhancements to the way GSM phones and SIM cards operate. Examples of CPHS enhancements include single-key access to a standard voicemail number stored on the SIM, and a message-waiting indicator to alert users to new voicemail messages. CPHS also provides carriers with greater control and flexibility over the carrier name that is displayed on the phone. CPHS also includes the ability to control certain network-based features from the phone interface, including call forwarding, call waiting, and caller-ID. CPHS is not an official part of the GSM specification. It was developed by the PCN Association rather than the GSM Association. Nonetheless, CPHS has been popular among carriers. Many European and American GSM carriers require it, and so newer GSM phones from most major manufacturers include CPHS functionality.</confml:desc>
+		<confml:setting name="CPHS / ALS mode" ref="CVC_CPHSALS" type="selection">
+			<confml:desc>If ALS is set as ON, the functionality of toggling from General to Silent profile by long press # key will be disabled. CPHS and ALS can be set ON and OFF in the customer variants of the standard transceiver. CPHS and ALS can never be both set ON at the same time.</confml:desc>
+      <confml:option name="Both OFF" value="off"/>
+      <confml:option name="CPHS" value="cphs"/>
+      <confml:option name="ALS" value="als"/>
+</confml:setting>
+</confml:feature>
+	<confml:data>
+	</confml:data>
+</confml:configuration>

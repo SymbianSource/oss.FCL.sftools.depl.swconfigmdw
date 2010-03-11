@@ -1,0 +1,22 @@
+<file xmlns=http://www.s60.com/xml/genconfml/1" version="1.0" name="CamcorderData.xml" target="\private\2000BEE5\">
+    <setting ref="CamcorderFeatures/Setting"></setting> 
+    <setting ref="SIPFeatures/Setting"></setting> 
+    <xsl:stylesheet version="1.0"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns="http://www.w3.org/TR/xhtml1/strict">
+
+        <xsl:output
+            method="xml"
+            indent="yes"
+            encoding="iso-8859-1"
+        />
+
+        <xsl:template match="configuration/data">
+            <Proprietary>
+                <Something attr="{SIPFeatures/Setting*2}">
+                    <xsl:value-of select="CamcorderFeatures/Setting"/>
+                </Something>
+            </Proprietary>
+        </xsl:template>
+    </xsl:stylesheet>
+</file>

@@ -1,0 +1,92 @@
+{% extends "cone_base.html" %}
+{% block title %}Compare API{% endblock %}
+{% block content %}
+    <h1>Configuration API compare</h1><br>
+    {% set columns = {'fqr':'Full reference',
+                       'name':'Name',
+                       'type':'Type',
+                       'desc':'Description',
+                       } %}
+    
+    <table class="report">
+    <tr>
+        <th class="featureName" colspan="{{ columns|length }}">{{ data.sourcedata.name }}</th>
+        <th class="featureName">&nbsp;</th>
+        <th class="featureName" colspan="{{ columns|length }}">{{ data.targetdata.name }}</th>
+    </tr>
+    <tr>
+        {%- for item in columns -%}
+        <th class="featureName">{{ columns[item] }}</th>
+        {%- endfor -%}
+        
+        <th class="featureName">&nbsp;</th>
+        
+        {%- for item in columns -%}
+        <th class="featureName">{{ columns[item] }}</th>
+        {%- endfor -%}
+    </tr>
+    {%- for fqr in data.sourcedata.features -%}
+       {%- if fqr in data.targetdata.features and not data.sourcedata.features[fqr]._compare(data.targetdata.features[fqr], columns.keys()) -%}
+       <!-- report all rows that have some column different  -->
+           <tr>
+           {%- for colname in columns -%} 
+              {%- if data.sourcedata.features[fqr][colname] != data.targetdata.features[fqr][colname] %}
+                <td bgcolor="yellow">"{{ data.sourcedata.features[fqr][colname] }}"</td>
+              {%- else %}
+                <td>{{ data.sourcedata.features[fqr][colname] }}</td>
+              {%- endif -%}
+           {%- endfor -%}
+           
+           <td>&nbsp;</td>
+           
+           {%- for colname in columns -%} 
+              {%- if data.sourcedata.features[fqr][colname] != data.targetdata.features[fqr][colname] %}
+                <td bgcolor="yellow">"{{ data.targetdata.features[fqr][colname] }}"</td>
+              {%- else %}
+                <td>{{ data.targetdata.features[fqr][colname] }}</td>
+              {%- endif -%}
+           {%- endfor -%}
+           </tr>
+       {% endif -%}
+    {%- endfor -%}
+    
+    
+    {#- ----------------------------------------- -#}
+    {#- Report features that are only on one side -#}
+    {#- ----------------------------------------- -#}
+    
+    {%- for fqr in data.sourcedata.features -%}
+       {%- if fqr not in data.targetdata.features -%}
+           <tr>
+           {%- for colname in columns -%} 
+                <td>{{ data.sourcedata.features[fqr][colname] }}</td>
+           {%- endfor -%}
+           
+           <td>&nbsp;</td>
+           
+           {%- for colname in columns -%} 
+              <td></td>
+           {%- endfor -%}
+           </tr>
+       {% endif -%}
+    {%- endfor -%}
+    
+    {%- for fqr in data.targetdata.features -%}
+       {%- if fqr not in data.sourcedata.features -%}
+           <tr>
+           {%- for colname in columns -%} 
+              <td></td>
+           {%- endfor -%}
+           
+           <td>&nbsp;</td>
+           
+           {%- for colname in columns -%} 
+                <td>{{ data.targetdata.features[fqr][colname] }}</td>
+           {%- endfor -%}
+           </tr>
+       {% endif -%}
+    {%- endfor -%}
+    
+    
+    </table>
+{% endblock %}

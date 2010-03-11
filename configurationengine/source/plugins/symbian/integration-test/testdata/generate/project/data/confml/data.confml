@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="data">
+  <confml:data>
+    <confml:BasicSettingTypesTest>
+      <confml:IntSetting>555</confml:IntSetting>
+      <confml:StringSetting>カタカナ &lt;&amp;></confml:StringSetting>
+    </confml:BasicSettingTypesTest>
+    <confml:CustomConfSettings>
+      <confml:ConfigureBitmask>true</confml:ConfigureBitmask>
+      <confml:BmpAnimationFolder><confml:localPath>animation</confml:localPath></confml:BmpAnimationFolder>
+      <confml:SvgAnimationFolder><confml:localPath>svg_animation</confml:localPath></confml:SvgAnimationFolder>
+      <confml:SoundFile><confml:localPath>local_sounds/test.mp3</confml:localPath></confml:SoundFile>
+      <confml:SoundFolder><confml:localPath>sound_folder</confml:localPath></confml:SoundFolder>
+      <confml:SoundFileName>test2.mp3</confml:SoundFileName>
+      <!--<confml:ThemeFolder><confml:localPath>themes</confml:localPath></confml:ThemeFolder>-->
+      <confml:Theme1File><confml:localPath>themes/mock_theme_1.tpf</confml:localPath></confml:Theme1File>
+      <confml:Theme2File><confml:localPath>themes/mock_theme_2.tpf</confml:localPath></confml:Theme2File>
+    </confml:CustomConfSettings>
+    
+      <confml:SequenceSettingTest>
+        <confml:SequenceSetting extensionPolicy="replace">
+          <confml:FolderSubSetting><confml:localPath>seq/default_folder</confml:localPath></confml:FolderSubSetting>
+          <confml:RealSubSetting>10.10</confml:RealSubSetting>
+          <confml:FileSubSetting><confml:localPath>seq/default_file.txt</confml:localPath></confml:FileSubSetting>
+          <confml:IntSubSetting>120</confml:IntSubSetting>
+          <confml:StringSubSetting>&lt;&amp;カタカナ&gt;</confml:StringSubSetting>
+          <confml:BooleanSubSetting>true</confml:BooleanSubSetting>
+          <confml:SelectionSubSetting>2</confml:SelectionSubSetting>
+        </confml:SequenceSetting>
+      </confml:SequenceSettingTest>
+      
+      <confml:Feature1>
+      <confml:SequenceSetting extensionPolicy="append">
+        <confml:RealSubSetting>1.5</confml:RealSubSetting>
+        <confml:IntSubSetting>256</confml:IntSubSetting>
+        <confml:StringSubSetting>test</confml:StringSubSetting>
+        <confml:BooleanSubSetting>true</confml:BooleanSubSetting>
+        <confml:SelectionSubSetting>1</confml:SelectionSubSetting>
+      </confml:SequenceSetting>
+      </confml:Feature1>
+     
+    <confml:HcrTest>
+      <confml:Int32Setting>1234</confml:Int32Setting>
+    </confml:HcrTest>
+  </confml:data>
+</confml:configuration>

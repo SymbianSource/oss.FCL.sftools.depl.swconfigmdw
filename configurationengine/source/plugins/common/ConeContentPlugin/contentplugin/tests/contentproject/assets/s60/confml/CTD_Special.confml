@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="CTD_Special" version="">
+<feature ref="CTD_Special" name="CTD special purposes" relevant="">
+	<setting ref="InputPath" name="Input path" type="string"/>
+</feature>
+	<data>
+		<CTD_Special>
+			<InputPath></InputPath>
+		</CTD_Special>
+	</data>
+</configuration>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="AccessTest" version="1">
+  <feature ref="AccessTest" name="Settings for testing access parsing">
+    <setting ref="Setting1" type="int"/>
+    <setting ref="Setting2" type="int"/>
+    <setting ref="Setting3" type="int"/>
+    <setting ref="Setting4" type="int"/>
+    <setting ref="Setting5" type="int"/>
+    <setting ref="Setting6" type="int"/>
+    <setting ref="Setting7" type="int"/>
+    <setting ref="Setting8" type="int"/>
+    <setting ref="Setting9" type="int"/>
+    <setting ref="Setting10" type="int"/>
+    <setting ref="Setting11" type="int"/>
+    <setting ref="Setting12" type="int"/>
+    <setting ref="Setting13" type="int"/>
+    <setting ref="Setting14" type="int"/>
+    <setting ref="Setting15" type="int"/>
+    <setting ref="Setting16" type="int"/>
+    <setting ref="Setting17" type="int"/>
+    <setting ref="Setting18" type="int"/>
+    <setting ref="Setting19" type="int"/>
+    <setting ref="Setting20" type="int"/>
+  </feature>
+  <data>
+    <AccessTest>
+      <Setting1>1</Setting1>
+      <Setting2>2</Setting2>
+      <Setting3>3</Setting3>
+      <Setting4>4</Setting4>
+      <Setting5>5</Setting5>
+      <Setting6>6</Setting6>
+      <Setting7>7</Setting7>
+      <Setting8>8</Setting8>
+      <Setting9>9</Setting9>
+      <Setting10>10</Setting10>
+      <Setting11>11</Setting11>
+      <Setting12>12</Setting12>
+      <Setting13>13</Setting13>
+      <Setting14>14</Setting14>
+      <Setting15>15</Setting15>
+      <Setting16>16</Setting16>
+      <Setting17>17</Setting17>
+      <Setting18>18</Setting18>
+      <Setting19>19</Setting19>
+      <Setting20>20</Setting20>
+    </AccessTest>
+  </data>
+</configuration>

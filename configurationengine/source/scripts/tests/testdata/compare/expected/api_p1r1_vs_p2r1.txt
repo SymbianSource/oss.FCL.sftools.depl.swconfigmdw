@@ -1,0 +1,13 @@
+Changed features:
+Description|Full reference|Name|Type|Description|Full reference|Name|Type|
+
+BasicSettingTypesTest.IntSetting|int|Int setting|An int setting|BasicSettingTypesTest.IntSetting|int|Int setting|An int setting (description changed)|
+BasicSettingTypesTest.RealSetting|real|Real setting|A real setting|BasicSettingTypesTest.RealSetting|real|Real setting (name changed)|A real setting|
+
+
+Only in sourcedata:
+BasicSettingTypesTest.BooleanSetting|boolean|Boolean setting|A boolean setting|
+
+
+Only in targetdata:
+BasicSettingTypesTest.BooleanSettingRefChanged|boolean|Boolean setting|A boolean setting|

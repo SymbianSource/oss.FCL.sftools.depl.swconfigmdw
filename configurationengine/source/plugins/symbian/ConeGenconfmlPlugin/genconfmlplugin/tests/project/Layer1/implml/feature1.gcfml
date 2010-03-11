@@ -1,0 +1,15 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="feature1.txt">
+	<setting ref="Feature1/IntSetting"/>
+	<setting ref="Feature1/StringSetting"/>
+	<setting ref="Feature1/RealSetting"/>
+	<setting ref="Feature1/SelectionSetting"/>
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/TR/xhtml1/strict">
+		<xsl:output method="text" encoding="UTF-8"/>
+		<xsl:template match="configuration/data">
+			<xsl:value-of select="Feature1/IntSetting"/><xsl:text>&#xA;</xsl:text>
+			<xsl:value-of select="Feature1/StringSetting"/><xsl:text>&#xA;</xsl:text>
+			<xsl:value-of select="Feature1/RealSetting"/><xsl:text>&#xA;</xsl:text>
+			<xsl:value-of select="Feature1/SelectionSetting"/><xsl:text>&#xA;</xsl:text>
+		</xsl:template>
+	</xsl:stylesheet>
+</file>

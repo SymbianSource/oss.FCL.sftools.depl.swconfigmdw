@@ -1,0 +1,174 @@
+
+
+                         ConE the Configuration Engine
+                              Version cone-1.1.5
+                            Release Notes, 11.1.2010
+
+Release notes:
+=============
+== Version Cone-1.1.5 ==
+ * Stories:
+     - #792: Change ConE licenses from SFL to EPL
+     - #80: As a variant engineer I want to merge my configuration so that "old" content is removed
+     - #639: As a variant engineer I want that color depth argument for bmconv and mifconv is configurable
+     - #703: As a SW developer I want to merge my confml and implml to global configuration project easily so that I don't need to manually copy the files and update the root files.
+     - #765: As a user I want to configure cone logging output so that I can use the cone logs more efficiently
+     - #785: CommandML does not support tag elements
+ * Bug fixes:
+     - #814: ERROR: Content folder in vascos "dummy" layer is not added to CPF when adding layer with -a option
+     - #763: Selection setting option map does not work properly when option map element is used
+     - #193: Different configurations open on the same project return the same setting values
+     - #737: ConE merge produces incorrect output (layer root contains all data)
+     - #762: ConE: option mapping does not store the mapKey/mapValue to confml file when confml output is written
+     - #764: ConE must not assume that the executive process will have write access to workdir
+     - #820: MultiSelection value setting does not work correctly
+ 
+== Version Cone-1.1.4 ==
+ * Stories:
+     - #663: As a variant engineer I want to get resource's size in ruleml.
+     - #700: As a variant engineer I want to have a rule which automatically sets correct color depth so that I don't need to manually do that.
+ * Bug fixes:
+     - #701: ConE crml: cenrep txt generation with sid & capabilities produces incorrect output
+
+== Version Cone-1.1.3 ==
+ * Stories:
+     - #696: Factory Settings cannot be restored as phone resets every time the security code is inserted
+     - #698: cone.cmd returns 0 even if ConE execution fails
+ * Bug fixes:
+     - #699: Remove target:core tag from existing implementations so that no content is by default generated to core image.
+
+== Version Cone-1.1.2 ==
+
+== Version Cone-1.1.2 RC2 ==
+   * Bugfixes:
+    - Fixed template plug-in bug fix
+   
+== Version Cone-1.1.2 RC1 ==
+
+    * Stories:
+     - #588: As a user I want to run the same command on several configurations in a batch mode
+     - #611: As a product integrator I want to have info report in csv format so that importing to Excel is easy to made
+     - #612: As a product integrator I want to see possible values for certain setting so that default values template is easy to made
+     - #643: Impml harmonization with container concept
+     - #652: Content plugin refactoring to enable better use
+
+    * Bug fixes:
+     - #657: Project.create_configuration takes forever with big configuration project
+     - #659: Content plugins copy operation does not do anything if the file attribute in input has capital letter
+     - #660: plugins get increased to an insane amount!
+
+== Version Cone-1.1.1 RC4 ==
+ * Bugfixes:
+    - cone.cmd fix
+    
+== Version Cone-1.1.1 RC3 ==
+ * Bugfixes:
+    - GenConfML plugin to use LXML instead of 4Suite
+    - Changed installation system to make the installation into a sub-directory depending on the current Python version (e.g. cone/2.5/lib/ instead of cone/lib/ etc.)
+    - Changed cone.cmd so that it chooses the correct base directory based on the Python version
+    - Added dep-eggs for Python 2.6
+    - Updated setuptools to version 0.6c11 from 0.6c9
+    - PYTHONCASEOK=1 added to cone.cmd
+
+== Version Cone-1.1.1 RC2 ==
+ * Bugfixes:
+  * #640: Tag definitions in TemplateML namespace do not work
+  * #645: Report generation fails if the changed data contains references to non-existent settings
+  * #648: TemplateML plug-in does not list output files correctly
+  * #589: Change ImageML get_refs() to report references used in determining input  
+== Version Cone-1.1.1 RC1 ==
+ * Features:
+   * Support for new webstorage (Carbon extapi)
+     * Export features and data. Supports exporting of features and data from carbon to Configuration project and confml files.
+     * 
+   * Known issues
+     * Carbon refs are converted to apropriate confml refs in Cone which will cause problems if the carbon ref 
+     is not a valid confml ref. e.g. refs withs dots or any unicode characters.
+     * Selection type feature cannot be created with the Carbon extapi (Creation of groups fails).
+     * Directory separators '/' in configuration names will break the loading of configurations.
+     * Carbon allows only references in lower case, which is contradicting current confml specification. 
+== Version Cone-1.1.1 ==
+  * New features
+    * Templateml plugin
+    * Command plugin
+    * CRML DC (Data Compatibility) report into compare action
+    * Implementation Language parsing changed from file name based to XML namespace based
+      * It is now possible to have multiple implementations in a single file
+      * Support for implementation tags, invocation phase and temporary ConfML features added to a common ImplML namespace
+  * Bugfixes
+  * Known issues
+
+== Version Cone-1.0.0 ==
+  * New features
+  * Bugfixes
+  * Known issues
+    * #1556: ConE: sequence prepending works incorrectly
+    * #1722: Sequence items with extension policy prefix are reversed
+    * #1726: generate --add doesn't include the included layer's data in generation
+    * #1729: CO-18: Merged variant layer inclusions are not in the correct order
+    * #1799: Empty folders are not preserved when importing from a CPF generated by Carbide.ct or Carbide.v
+    * #1884: Cone: Imageml plugin execution tool setting configuration is relative to the execution folder.
+    * #1893: ImageML mifconv command doesn't work if tooldir contains spaces
+    * #1903: ConE rules cannot contain unicode chars
+
+== Version Cone-1.0.0RC3 ==
+  * New features
+  * Bugfixes
+    * #1909: Links to GenConfML output files don't work in the generation report
+    * #1908: CPF exported with multiple roots and empty folders doesn't work correctly in Carbide.v
+
+== Version Cone-1.0.0RC2 ==
+  * New features
+  * Bugfixes
+    * #1881: Report generation fails if any of the values contains unicode values
+    * #1890: Generation report doesn't support url encoding in links
+    * #1904: Cone cannot be executed in directory that contains spaces
+    * #1889: ImageML output goes under /output/content/content/
+    * #1905: ConE: The priority for filenamejoin is incorrect
+    * #1906: ConE generation fails if report output dir doesn't exist
+    * Removed import_browserbookmarks action
+    * #1907: Empty folders are not taken into CPF if they have been defined using -a parameter
+    
+== Version Cone-0.6.1 ==
+  * New features
+    * #1780: ConE plugin filtering re-factoring, http://configurationtools.nmp.nokia.com/configurationtool/ticket/1759
+      * Add support for generic tags for plugin. Adds has_tag function to the plugin api. see http://configurationtools.nmp.nokia.com/builds/cone/docs/epydoc/cone.public.plugin.ImplBase-class.html#has_tag
+      * Add support for ini file like configuring of ConE. e.g. Plugin paths and tags can be configured in these configuration files.
+    * #1574: As a variant engineer I want to see generation report so that I know which settings are properly generated and which needs to be modified manually
+      * See http://configurationtools.nmp.nokia.com/configurationtool/ticket/1574
+      * This is a reporting functionality embedded now in generation action.
+      * Uses jinja2 to make the reporting based on template language
+    * #1684: As a customization designer I want to be able to use arithmetic operations in rule files so that I can configure MMS settings easily
+      * See http://configurationtools.nmp.nokia.com/configurationtool/ticket/1684
+    * #1104: Empty directories are omited in CPF export: Support for Cone
+      * See http://configurationtools.nmp.nokia.com/configurationtool/ticket/1104
+    * #1784: Include empty folders in ConE merge
+      * See http://configurationtools.nmp.nokia.com/configurationtool/ticket/1784
+    * #1625: Phase support to Cone Content Plugin
+      * http://configurationtools.nmp.nokia.com/configurationtool/ticket/1625
+    * #1487: ConE support for Rules / Relations
+      * Adds a ruleml implementation language and plugin
+      * See http://configurationtools.nmp.nokia.com/configurationtool/ticket/1487  
+  * Bugfixes
+    * Fixed a bug in view parsing, which expected a id instead of a name.
+    * Fixed a bug in implementation container creation to a configuration that is not in the root of the storage.
+    * Fixed file handle leak in acceptance tests.
+    * Fixed a bug in user story, As a customization designer I want to add rule also for settings that have empty default value.
+    * #1654: Default extension policy not set correctly in ConE
+    * #1532: ConE: Removing non existing configuration fails
+    * #1499: Cone: Projectconversion plugin does not remove old includes from existing data files
+
+    
+== Version Cone-0.6.0 ==
+  * Confml support:
+    * Sequence data supports subsecuences (e.g. file element under sequence)
+    * Sequence data access via column (e.g. ref fea.sequencefea.column1) returns a list of data values in the column1 of sequencefea.
+    * Python type casting  for confml elements (ConfmlIntSetting,ConfmlBooleanSetting supported)
+
+== Version Cone-0.5.2 ==
+  * Confml support:
+    * sequence data support
+    * view support
+
+== Version Cone-0.5.1 ==
+  * First version of the ConE public API

@@ -1,0 +1,29 @@
+Source: python-cone
+Section: python
+Priority: extra
+Maintainer: Jari Tenhunen <jari.tenhunen@nokia.com>
+Build-Depends: debhelper (>= 5), python (>=2.4), python-central, python-setuptools
+Standards-Version: 3.7.2
+XS-Python-Version: >= 2.4
+Homepage: http://developer.symbian.org/wiki/index.php/Software_Configuration_Middleware
+
+Package: python-cone
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python (>= 2.4), python-simplejson
+XB-Python-Version: ${python:Versions}
+Description: Configuration Engine python modules
+ Configuration Engine is a Python implementation for a common configuration 
+ tool. This tool implements support for the confml language and Configuration 
+ Project structure.
+ This package contains the python modules for cone.
+
+Package: cone-tool
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python (>= 2.4), python-cone
+XB-Python-Version: ${python:Versions}
+Description: Configuration Engine command line tool
+ Configuration Engine is a Python implementation for a common configuration 
+ tool. This tool implements support for the confml language and Configuration 
+ Project structure.
+ This package contains the cone executable command line tool.
+

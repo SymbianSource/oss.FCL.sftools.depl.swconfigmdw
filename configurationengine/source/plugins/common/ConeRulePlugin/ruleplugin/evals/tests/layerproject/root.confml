@@ -1,0 +1,7 @@
+<configuration name="layer_utils" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xi:include href="layer1/root.confml" />
+  <xi:include href="layer2/root.confml" />
+  <xi:include href="layer3/root.confml" />
+  <xi:include href="layer4/root.confml" />
+  <xi:include href="layer5/root.confml" />
+</configuration>

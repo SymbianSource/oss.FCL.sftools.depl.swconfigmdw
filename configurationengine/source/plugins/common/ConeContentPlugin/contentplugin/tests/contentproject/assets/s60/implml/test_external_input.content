@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/2">
+    <desc>Copy only prod</desc>
+    <output dir="content_external">
+    	<externalinput dir="external_content/folder1"/>
+    </output>    
+    <output dir="content_external">
+    	<externalinput dir="external_content">
+        	<include pattern=".txt"/>
+        	<exclude pattern=".svn"/>
+    	</externalinput>
+    </output>
+</content>

@@ -1,0 +1,810 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+
+<style type="text/css">
+    body {
+        font-family: Nokia Standard Multiscript, Tahoma, Verdana, Arial;
+        font-size: 0.8em;
+        color: #0055B7;
+    }
+
+    h1 {
+        padding: 30px 0 0 0;
+        margin: 0;
+        text-align: left;
+    }
+
+    #date {
+        text-align: center;
+    }
+
+    hr {
+        height: 1px;
+        background-color: cccccc;
+        color: #cccccc;
+    }
+
+    h2 h3 {
+        padding: 10px 0 10px 0;
+        margin: 0;
+    }
+
+    table.report {
+        width: 100%;
+        border: 1px solid #e0dfe3;
+        border-collapse: collapse;
+        color: #333333;
+    }
+
+    table.report th {
+        text-align: left;
+        padding: 5px;
+        background-color: #f9fafd;
+        color: #595a5f;
+        border-bottom: 1px #999999 solid;
+    }
+
+    table.report th.featureName {
+        background-color: #f2f2f3;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 1.1em;
+        border-top: 3px #9d9da1;
+        border-top-style: double;
+        border-bottom: 3px #9d9da1;
+        border-bottom-style: double;
+    }
+
+    table.report th.header {
+        background-color: #f9fafd;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 0.8em;
+        border-top: 1px #9d9da1;
+        border-bottom: 1px #9d9da1;
+    }
+
+    table.report td {
+        word-wrap: break-word;
+        border: 1px #EBEBEB;
+        padding: 5px;
+        border-style: solid; 
+        vertical-align: top;
+        font: Tahoma, Verdana, Arial;
+        _font-size: 0.8em;
+    }
+
+    table.summary {
+        border: 1px solid #e0dfe3;
+        border-collapse: collapse;
+        color: #333333;
+    }
+
+    table.summary th {
+        text-align: left;
+        padding: 5px;
+        background-color: #f9fafd;
+        color: #595a5f;
+        border-bottom: 1px #999999 solid;
+    }
+
+    table.summary th.featureName {
+        background-color: #f2f2f3;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 1.1em;
+        border-top: 3px #9d9da1;
+        border-top-style: double;
+        border-bottom: 3px #9d9da1;
+        border-bottom-style: double;
+    }
+
+    table.summary td {
+        word-wrap: break-word;
+        border: 1px #EBEBEB;
+        padding: 5px;
+        border-style: solid; 
+        vertical-align: top;
+        font: Tahoma, Verdana, Arial;
+        _font-size: 0.8em;
+    }
+
+    .currentValue {
+        background-color: #e8f2fe;
+    }
+</style>
+<title>Compare data - ConE</title>
+
+</head>
+<body>
+<div id="content">
+
+    <h1>CRML Data Compatibility Report</h1><br>
+    
+    <table class="report">
+      <tr>
+        <td>Source:</td>
+        <td>root.confml</td>
+      </tr>
+      <tr>
+        <td>Target:</td>
+        <td>this is ignored\comp_project_2;root.confml</td>
+      </tr>
+    </table>
+    
+    <br/>
+    
+    <h2>Modified keys/files:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>File</th>
+        <th>Repository UID</th>
+        <th>Repository name</th>
+        <th>Key UID</th>
+        <th>Key name</th>
+        <th>Changed value</th>
+        <th>Old value</th>
+        <th>New value</th>
+    </tr>
+    
+    <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000001</td>
+                    <td>Setting 1</td>
+                    <td>type</td>
+                    <td>int</td>
+                    <td>real</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000002</td>
+                    <td>Setting 2</td>
+                    <td>backup</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000003</td>
+                    <td>Setting 3</td>
+                    <td>cap_wr</td>
+                    <td>AlwaysFail</td>
+                    <td>None</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000003</td>
+                    <td>Setting 3</td>
+                    <td>read_only</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000004</td>
+                    <td>Setting 4</td>
+                    <td>cap_wr</td>
+                    <td>None</td>
+                    <td>AlwaysFail</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000004</td>
+                    <td>Setting 4</td>
+                    <td>read_only</td>
+                    <td>False</td>
+                    <td>True</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000007</td>
+                    <td>Setting 7</td>
+                    <td>ref</td>
+                    <td>SimpleKeys.Setting7</td>
+                    <td>SimpleKeys.Setting7RefChanged</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000008</td>
+                    <td>Setting 8</td>
+                    <td>cap_rd</td>
+                    <td>ReadDeviceData</td>
+                    <td>ReadUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000008</td>
+                    <td>Setting 8</td>
+                    <td>cap_wr</td>
+                    <td>WriteDeviceData</td>
+                    <td>WriteUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000008</td>
+                    <td>Setting 8</td>
+                    <td>sid_rd</td>
+                    <td>0xAABBCCDD</td>
+                    <td>0x11223344</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000008</td>
+                    <td>Setting 8</td>
+                    <td>sid_wr</td>
+                    <td>0xDDCCBBAA</td>
+                    <td>0x44332211</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000009</td>
+                    <td>Setting 9</td>
+                    <td>cap_rd</td>
+                    <td>ReadDeviceData</td>
+                    <td>None</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000009</td>
+                    <td>Setting 9</td>
+                    <td>cap_wr</td>
+                    <td>WriteDeviceData</td>
+                    <td>None</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000009</td>
+                    <td>Setting 9</td>
+                    <td>sid_rd</td>
+                    <td>0xAABBCCDD</td>
+                    <td>None</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000001_simple_keys.crml</td>
+                    <td>0x00000001</td>
+                    <td>SimpleKeys</td>
+                    <td>0x00000009</td>
+                    <td>Setting 9</td>
+                    <td>sid_wr</td>
+                    <td>0xDDCCBBAA</td>
+                    <td>None</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>cap_rd</td>
+                    <td>ReadDeviceData</td>
+                    <td>ReadUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>cap_wr</td>
+                    <td>WriteDeviceData</td>
+                    <td>WriteUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>sid_rd</td>
+                    <td>0xAABBCCDD</td>
+                    <td>0x11223344</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>sid_wr</td>
+                    <td>0xDDCCBBAA</td>
+                    <td>0x44332211</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>type</td>
+                    <td>int</td>
+                    <td>binary</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001 (bit 2)</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>ref</td>
+                    <td>BitmaskKeys.Bit2</td>
+                    <td>BitmaskKeys.Bit2RefChanged</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                    <td>0x00000002</td>
+                    <td>BitmaskKeys</td>
+                    <td>0x00000001 (bit 3)</td>
+                    <td>Bitmask 1 (name changed)</td>
+                    <td>invert</td>
+                    <td>False</td>
+                    <td>True</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>backup</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>cap_rd</td>
+                    <td>ReadDeviceData</td>
+                    <td>ReadUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>cap_wr</td>
+                    <td>WriteDeviceData</td>
+                    <td>WriteUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>first_index</td>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>index_bits</td>
+                    <td>0x00000FF0</td>
+                    <td>0x00001FE0</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>ref</td>
+                    <td>KeyRanges.Seq1</td>
+                    <td>KeyRanges.Seq1RefChanged</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>sid_rd</td>
+                    <td>0x11223344</td>
+                    <td>0xAABBCCDD</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>sid_wr</td>
+                    <td>0x44332211</td>
+                    <td>0xDDCCBBAA</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF (sub-key 0x00000002)</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>ref</td>
+                    <td>SubSetting2</td>
+                    <td>SubSetting2RefChanged</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00001001-0x00001FFF (sub-key 0x00000002)</td>
+                    <td>Sequence 1 (name changed)</td>
+                    <td>type</td>
+                    <td>int</td>
+                    <td>real</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00002000-0x00002FFF</td>
+                    <td>Range 2</td>
+                    <td>backup</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00002000-0x00002FFF</td>
+                    <td>Range 2</td>
+                    <td>read_only</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000003_key_ranges.crml</td>
+                    <td>0x00000003</td>
+                    <td>KeyRanges</td>
+                    <td>0x00003000-0x00003FFF</td>
+                    <td>Range 3</td>
+                    <td>read_only</td>
+                    <td>False</td>
+                    <td>True</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000001</td>
+                    <td>Simple key to bitmask key</td>
+                    <td>key_type</td>
+                    <td>simple_key</td>
+                    <td>bitmask_key</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000002</td>
+                    <td>Bitmask key to simple key</td>
+                    <td>key_type</td>
+                    <td>bitmask_key</td>
+                    <td>simple_key</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>backup</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>cap_rd</td>
+                    <td>ReadDeviceData</td>
+                    <td>ReadUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>cap_wr</td>
+                    <td>AlwaysFail</td>
+                    <td>WriteUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>read_only</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>sid_rd</td>
+                    <td>0xAABBCCDD</td>
+                    <td>0x11223344</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>sid_wr</td>
+                    <td>None</td>
+                    <td>0x44332211</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000004_key_type_changed.crml</td>
+                    <td>0x00000004</td>
+                    <td>KeyTypeChanged</td>
+                    <td>0x00000003</td>
+                    <td>Bitmask key to simple key (other attrs changed also [xyz])</td>
+                    <td>type</td>
+                    <td>int</td>
+                    <td>binary</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>backup</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>cap_rd</td>
+                    <td>ReadDeviceData</td>
+                    <td>ReadUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>cap_wr</td>
+                    <td>WriteDeviceData</td>
+                    <td>WriteUserData</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>rfs</td>
+                    <td>True</td>
+                    <td>False</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>sid_rd</td>
+                    <td>0x11223344</td>
+                    <td>0xAABBCCDD</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>sid_wr</td>
+                    <td>0x44332211</td>
+                    <td>0xDDCCBBAA</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000005_repo_attrs_changed.crml</td>
+                    <td>0x00000005</td>
+                    <td>RepoAttrsChangedXyz</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>uid_name</td>
+                    <td>RepoAttrsChanged</td>
+                    <td>RepoAttrsChangedXyz</td>
+                </tr>
+            <tr>
+                    <td>Layer1/implml/00000006_renamed_repo_xyz.crml</td>
+                    <td>0x00000006</td>
+                    <td>RenamedRepo</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>file</td>
+                    <td>Layer1/implml/00000006_renamed_repo.crml</td>
+                    <td>Layer1/implml/00000006_renamed_repo_xyz.crml</td>
+                </tr>
+            
+    </table>
+    
+    
+    <h2>Added keys/files:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>File</th>
+        <th>Repository UID</th>
+        <th>Repository name</th>
+        <th>Key UID</th>
+        <th>Key name</th>
+    </tr>
+    
+    <tr>
+                <td>Layer1/implml/00000001_simple_keys.crml</td>
+                <td>0x00000001</td>
+                <td>SimpleKeys</td>
+                <td>0x20000001</td>
+                <td>Added setting</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                <td>0x00000002</td>
+                <td>BitmaskKeys</td>
+                <td>0x00000001 (bit 5)</td>
+                <td>Bitmask 1 (name changed)</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                <td>0x00000002</td>
+                <td>BitmaskKeys</td>
+                <td>0x20000001</td>
+                <td>Added bitmask</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000003_key_ranges.crml</td>
+                <td>0x00000003</td>
+                <td>KeyRanges</td>
+                <td>0x00001001-0x00001FFF (sub-key 0x00000005)</td>
+                <td>Sequence 1 (name changed)</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000003_key_ranges.crml</td>
+                <td>0x00000003</td>
+                <td>KeyRanges</td>
+                <td>0x20001001-0x20001FFF</td>
+                <td>Added range</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/20000001_added_repo.crml</td>
+                <td>0x20000001</td>
+                <td>AddedRepo</td>
+                <td></td>
+                <td></td>
+            </tr>
+        
+    </table>
+    
+    
+    <h2>Removed keys/files:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>File</th>
+        <th>Repository UID</th>
+        <th>Repository name</th>
+        <th>Key UID</th>
+        <th>Key name</th>
+    </tr>
+    
+    <tr>
+                <td>Layer1/implml/00000001_simple_keys.crml</td>
+                <td>0x00000001</td>
+                <td>SimpleKeys</td>
+                <td>0x10000001</td>
+                <td>Removed setting</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                <td>0x00000002</td>
+                <td>BitmaskKeys</td>
+                <td>0x00000001 (bit 4)</td>
+                <td>Bitmask 1</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000002_bitmask_keys.crml</td>
+                <td>0x00000002</td>
+                <td>BitmaskKeys</td>
+                <td>0x10000001</td>
+                <td>Removed bitmask</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000003_key_ranges.crml</td>
+                <td>0x00000003</td>
+                <td>KeyRanges</td>
+                <td>0x00001001-0x00001FFF (sub-key 0x00000004)</td>
+                <td>Sequence 1</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/00000003_key_ranges.crml</td>
+                <td>0x00000003</td>
+                <td>KeyRanges</td>
+                <td>0x10001001-0x10001FFF</td>
+                <td>Removed range</td>
+            </tr>
+        <tr>
+                <td>Layer1/implml/10000001_removed_repo.crml</td>
+                <td>0x10000001</td>
+                <td>RemovedRepo</td>
+                <td></td>
+                <td></td>
+            </tr>
+        
+    </table>
+    
+    
+    <h2>Duplicate repositories:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>Repository UID</th>
+        <th>Files in source</th>
+        <th>Files in target</th>
+    </tr>
+    
+    <tr>
+                <td>0x30000000</td>
+                <td>
+                Layer1/implml/30000000_duplicate_repo1_proj1.crml<br/>Layer1/implml/30000000_duplicate_repo2_proj1.crml<br/>
+                </td>
+                <td>
+                Layer1/implml/30000000_duplicate_repo1_proj2.crml<br/>Layer1/implml/30000000_duplicate_repo2_proj2.crml<br/>
+                </td>
+            </tr>
+        
+    </table>
+</div>
+<div id="footer"></div>
+</body>
+</html>

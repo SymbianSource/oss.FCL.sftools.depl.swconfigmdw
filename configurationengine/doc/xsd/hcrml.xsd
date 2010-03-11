@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.symbianfoundation.org/xml/hcrml/1"
+    xmlns:hcr="http://www.symbianfoundation.org/xml/hcrml/1"
+    elementFormDefault="qualified">
+ 
+    <xs:simpleType name="uidType">
+        <xs:union>
+            <xs:simpleType>
+                <xs:restriction base="xs:nonNegativeInteger"/>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="0x[0-9a-fA-F]{1,8}"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+    
+    <xs:simpleType name="flagValueType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-1]{1}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="settingTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="int32"/>
+            <xs:enumeration value="int16"/>
+            <xs:enumeration value="int8"/>
+            <xs:enumeration value="bool"/>
+            <xs:enumeration value="uint32"/>
+            <xs:enumeration value="uint16"/>
+            <xs:enumeration value="uint8"/>
+            <xs:enumeration value="linaddr"/>
+            <xs:enumeration value="bindata"/>
+            <xs:enumeration value="text8"/>
+            <xs:enumeration value="arrayint32"/>
+            <xs:enumeration value="arrayuint32"/>
+            <xs:enumeration value="int64"/>
+            <xs:enumeration value="uint64"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="outputTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="hcr"/>
+            <xs:enumeration value="header"/>
+        </xs:restriction>
+    </xs:simpleType>
+ 
+    <xs:complexType name="settingFlagsType">
+        <xs:attribute name="Uninitialised"  type="hcr:flagValueType"/>
+        <xs:attribute name="Modifiable"     type="hcr:flagValueType"/>
+        <xs:attribute name="Persistent"     type="hcr:flagValueType"/>
+    </xs:complexType>
+ 
+    <xs:complexType name="settingType">
+        <xs:sequence>
+            <xs:element name="flags" type="hcr:settingFlagsType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="ref"        type="xs:string"            use="required"/>
+        <xs:attribute name="name"       type="xs:string"            use="required"/>
+        <xs:attribute name="type"       type="hcr:settingTypeType"  use="required"/>
+        <xs:attribute name="id"         type="hcr:uidType"          use="required"/>
+        <xs:attribute name="comment"    type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="categoryType">
+        <xs:sequence>
+            <xs:element name="setting" type="hcr:settingType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name"   type="xs:string"    use="required"/>
+        <xs:attribute name="uid"    type="hcr:uidType"  use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="includetype">
+        <xs:attribute name="ref" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="outputType">
+        <xs:choice>
+            <xs:element name="category" type="hcr:categoryType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="include" type="hcr:includetype" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:choice>
+        <xs:attribute name="file" type="xs:string" use="required"/>
+        <xs:attribute name="type" type="hcr:outputTypeType" use="required"/>
+        <xs:attribute name="version" type="xs:nonNegativeInteger"/>
+        <xs:attribute name="readOnly" type="hcr:flagValueType"/>
+    </xs:complexType>
+    
+    <xs:complexType name="hcrRootType">
+        <xs:choice>
+            <xs:element name="output" type="hcr:outputType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="category" type="hcr:categoryType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:complexType>
+    
+    <xs:element name="hcr" type="hcr:hcrRootType"/>
+
+</xs:schema>

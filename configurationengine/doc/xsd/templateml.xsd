@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:templ="http://www.s60.com/xml/templateml/1"
+	targetNamespace="http://www.s60.com/xml/templateml/1"
+	elementFormDefault="qualified">
+
+	 <xs:import namespace="http://www.w3.org/2001/XInclude" schemaLocation="http://www.w3.org/2001/XInclude.xsd"/> 
+
+			
+	<xs:complexType name="templateType" mixed="true">
+		<xs:sequence>
+			<xs:element ref="xi:include" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>	
+	</xs:complexType>
+
+		
+	<xs:complexType name="outputType">
+		<xs:sequence>
+			<xs:element name="template" type="templ:templateType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="file" type="xs:string"/>
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="encoding" type="xs:string"/>
+        <xs:attribute name="bom" type="xs:string" optional="true"/>
+	</xs:complexType>
+	
+	<xs:complexType name="filterType" mixed="true">
+		<xs:sequence>
+			<xs:element ref="xi:include" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="templatemlRootType">
+        <xs:sequence>
+			<xs:element name="desc" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="output" type="templ:outputType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="filter" type="templ:filterType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+	
+	<xs:element name="templateml" type="templ:templatemlRootType"/>
+		
+</xs:schema>

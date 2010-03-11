@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+  <rule>0 == 0 configures CompOperTest.LiteralsResult1 = true</rule>
+  <rule>0 != 1 configures CompOperTest.LiteralsResult2 = true</rule>
+  <rule>1 &lt; 2 configures CompOperTest.LiteralsResult3 = true</rule>
+  <rule>2 > 1 configures CompOperTest.LiteralsResult4 = true</rule>
+  <rule>1 &lt;= 1 configures CompOperTest.LiteralsResult5 = true</rule>
+  <rule>1 &lt;= 2 configures CompOperTest.LiteralsResult6 = true</rule>
+  <rule>1 >= 1 configures CompOperTest.LiteralsResult7 = true</rule>
+  <rule>2 >= 1 configures CompOperTest.LiteralsResult8 = true</rule>
+
+  <rule>CompOperTest.Zero == CompOperTest.Zero configures CompOperTest.RefsResult1 = true</rule>
+  <rule>CompOperTest.Zero != CompOperTest.One configures CompOperTest.RefsResult2 = true</rule>
+  <rule>CompOperTest.One &lt; CompOperTest.Two configures CompOperTest.RefsResult3 = true</rule>
+  <rule>CompOperTest.Two > CompOperTest.One configures CompOperTest.RefsResult4 = true</rule>
+  <rule>CompOperTest.One &lt;= CompOperTest.One configures CompOperTest.RefsResult5 = true</rule>
+  <rule>CompOperTest.One &lt;= CompOperTest.Two configures CompOperTest.RefsResult6 = true</rule>
+  <rule>CompOperTest.One >= CompOperTest.One configures CompOperTest.RefsResult7 = true</rule>
+  <rule>CompOperTest.Two >= CompOperTest.One configures CompOperTest.RefsResult8 = true</rule>
+</ruleml>

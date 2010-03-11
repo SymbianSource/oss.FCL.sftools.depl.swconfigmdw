@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<commandml xmlns="http://www.s60.com/xml/commandml/1">
+    
+    <tag name="target" value="footarget"/>
+    
+    <!-- This should be executed, since the value of RealSetting is 3.14 -->
+    <condition value="${BasicSettingTypesTest.RealSetting} &gt; 4e-3">
+        <command executable="python" bufsize="0" cwd="." env="{'MYVAR':'123'}">
+            <argument value="project/tools/print_hello.py"/>
+            <argument value="-c some_config.txt" />
+            <argument value="-d some_dir" />
+            <argument value="-x" />
+            <pipe name="stdin" value="PIPE"/>
+            <pipe name="stdout" value="hello.log"/>
+        </command>
+    </condition>
+    
+    <!-- This, on the other hand, should not -->
+    <condition value="${BasicSettingTypesTest.RealSetting} &lt; 4e-3">
+        <command executable="python" cwd="." shell="true">
+            <argument value="project/tools/print_hello.py"/>
+            <argument value="-c some_config.txt" />
+            <pipe name="stdout" value="should_not_be_created.log"/>
+        </command>
+    </condition>
+    
+    
+    
+    <!-- ====================================== -->
+    <!-- Test executing in the output directory -->
+    <!-- ====================================== -->
+    
+    <!-- Create output directory, or the next command will fail if it doesn't exist -->
+    <command executable="python" shell="true">
+        <argument value='project/tools/makedir.py "%CONE_OUT_ABSOLUTE%"'/>
+    </command>
+    
+    <!-- Execute Python in the output directory and print the working directory there -->
+    <command executable="python" cwd="%CONE_OUT_ABSOLUTE%" shell="true">
+        <argument value='-c "import os; print os.getcwd()"'/>
+        <pipe name="stdout" value="exec_in_output_test.log"/>
+    </command>
+</commandml>

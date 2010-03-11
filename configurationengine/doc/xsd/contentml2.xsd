@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/content/2" 
+	xmlns:content2="http://www.s60.com/xml/content/2" 
+	elementFormDefault="qualified">
+
+	
+	<xs:complexType name="tagType">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="includeType">
+		<xs:attribute name="files" type="xs:string"/>
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="pattern" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="excludeType">
+		<xs:attribute name="files" type="xs:string"/>
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="pattern" type="xs:string"/>
+	</xs:complexType>
+	
+		
+	<xs:complexType name="inputType">
+		<xs:sequence>
+			<xs:element name="include" type="content2:includeType"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="exclude" type="content2:excludeType"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="file" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+
+	<xs:complexType name="outputType">
+        <xs:sequence>
+            <xs:element name="input" type="content2:inputType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+		<xs:attribute name="file" type="xs:string"/>
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="flatten" type="xs:string"/>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="contentRootType">
+        <xs:sequence>
+			<xs:element name="tag" type="content2:tagType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="output" type="content2:outputType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="desc" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+	
+	<xs:element name="content" type="content2:contentRootType"/>
+		
+</xs:schema>

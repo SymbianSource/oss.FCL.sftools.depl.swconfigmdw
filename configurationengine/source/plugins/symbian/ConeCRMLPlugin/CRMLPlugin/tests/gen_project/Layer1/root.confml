@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" name="Layer 1">
+  <xi:include href="confml/booleans.confml#/"/>
+  <xi:include href="confml/bitmask_test.confml#/"/>
+  <xi:include href="confml/feature1.confml#/"/>
+  <xi:include href="confml/feature2.confml#/"/>
+  <xi:include href="confml/crml_binaries.confml#/"/>
+  <xi:include href="confml/crml_ints.confml#/"/>
+  <xi:include href="confml/crml_reals.confml#/"/>
+  <xi:include href="confml/crml_strings.confml#/"/>
+  <xi:include href="confml/crml_strings8.confml#/"/>
+  <xi:include href="confml/access_test.confml#/"/>
+  <xi:include href="confml/backup_test.confml#/"/>
+  <xi:include href="confml/key_range.confml#/"/>
+  <xi:include href="confml/key_range_2.confml#/"/>
+  <xi:include href="confml/access_test_2.confml#/"/>
+  <xi:include href="confml/sequence_with_rfs_test.confml#/"/>
+  <xi:include href="confml/special_char_test.confml#/"/>
+  
+  <xi:include href="confml/all_rfs.confml#/"/>
+  <xi:include href="confml/partial_rfs.confml#/"/>
+  <xi:include href="confml/no_rfs.confml#/"/>
+  <xi:include href="confml/repo_rfs.confml#/"/>
+  <xi:include href="confml/bitmask_rfs.confml#/"/>
+</confml:configuration>

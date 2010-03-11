@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thememl xmlns="http://www.s60.com/xml/thememl/1">
+
+    <carbideuiPath>mock_carbide_ui</carbideuiPath>
+    
+    <!-- <themeDir>CustomConfSettings/themes</themeDir> -->
+    
+    <activeTheme uid="0x12340001">
+		<refSetting>CustomConfSettings/Theme1File</refSetting>
+    	<platformUID>ThemeUids/Theme1Uid1</platformUID>
+        <platformUID>ThemeUids/Theme1Uid2</platformUID>
+        <platformUID>ThemeUids/Theme1Uid3</platformUID>
+    </activeTheme>
+    
+    <activeTheme uid="0x12340002">
+		<refSetting>CustomConfSettings/Theme2File</refSetting>
+    	<platformUID>ThemeUids/Theme2Uid1</platformUID>
+        <platformUID>ThemeUids/Theme2Uid2</platformUID>
+    </activeTheme>
+</thememl>

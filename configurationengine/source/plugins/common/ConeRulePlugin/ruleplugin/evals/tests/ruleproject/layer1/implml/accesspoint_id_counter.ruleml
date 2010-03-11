@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+	<rule>True configures APIDCTest.FullSequence.StringSubSetting = {% apid( @{APs}, @{DNs} ) %}
+    </rule>
+	<eval_globals file="../../accesspoint_id_counter.py"/>
+</ruleml>

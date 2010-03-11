@@ -1,0 +1,1 @@
+<file xmlns=http://www.s60.com/xml/genconfml/1" version="1.0" name="\private\2000BEE5\CamcorderData.xml">

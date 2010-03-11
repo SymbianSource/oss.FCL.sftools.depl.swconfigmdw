@@ -1,0 +1,17 @@
+Changed features:
+Description|Full reference|Name|Type|Description|Full reference|Name|Type|
+
+
+
+Only in sourcedata:
+
+
+Only in targetdata:
+Layer4Feature|None|Layer 4 Feature|Feature with some setting types|
+Layer4Feature.BooleanSetting|boolean|Boolean setting|A boolean setting|
+Layer4Feature.IntSetting|int|Int setting|An int setting|
+Layer4Feature.RealSetting|real|Real setting|A real setting|
+Layer4Feature.SelectionSetting|selection|Selection setting|A selection setting|
+Layer4Feature.SequenceSetting|sequence|Sequence setting|A sequence setting|
+Layer4Feature.SequenceSetting.StringSubSetting|string|String sub-setting|A string sub-setting|
+Layer4Feature.StringSetting|string|String setting|A string setting|

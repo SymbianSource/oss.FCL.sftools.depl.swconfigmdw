@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:schemaLocation="http://www.w3.org/2001/XInclude http://www.s60.com/xml/confml/1#//include" name="E75 Vanilla" version="0.51">
+  <xi:include href="s60/s60_root.confml"/>
+  <xi:include href="cvc/cvc_root.confml"/>
+  <xi:include href="variant/variant_root.confml"/>
+  <confml:meta>
+    <confml:customer>Customer-independent</confml:customer>
+    <confml:owner>Mike Smyslov</confml:owner>
+    <confml:version>0.54</confml:version>
+    <confml:platform>S60</confml:platform>
+    <confml:date>2008-12-03</confml:date>
+    <confml:release>3.2</confml:release>
+    <confml:product>E75</confml:product>
+    <confml:editor>Mike Smyslov</confml:editor>
+    <confml:status></confml:status>
+  </confml:meta>
+  <confml:desc>E75 Vanilla variant template for non-APAC regions filtered accordign to MDC model</confml:desc>
+</confml:configuration>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+  <rule>True configures EvalTest.StringLenResult = 22</rule>
+  <rule>True configures EvalTest.StringLenResult = {% SOME_VALUE %}</rule>
+  <eval_globals>SOME_VALUE = 12345</eval_globals>
+</ruleml>

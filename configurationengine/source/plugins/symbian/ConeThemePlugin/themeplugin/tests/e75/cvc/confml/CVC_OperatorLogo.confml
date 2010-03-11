@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2" name="OperatorLogoConf">
+  <feature name="Operator Logo" ref="CVC_OperatorLogo">
+<desc>The Nokia E75 supports color logos in addition to the traditional black and white customer logos. Customer logos may be predefined in the default settings for the device or downloaded by the user. The customer logo is stored together with the MNC and MCC info of the home network in the device and will be displayed when the user is in the home network. The customer logo replaces the standard customer name.</desc>
+    <setting name="Operator Mobile Country Code" ref="CVC_OperatorMCC" type="int">
+      <desc>Operator-specific Mobile Country Codes (MCCs) defined in ITU E.212 ("Land Mobile Numbering Plan") for use in identifying mobile stations in wireless telephone networks, particularly GSM and UMTS networks.</desc>
+</setting>
+    <setting name="Operator Mobile Network Code" ref="CVC_OperatorMNC" type="int">
+      <desc>Operator-specific Mobile Network Code(MNC) is used in combination with a Mobile Country Code (MCC) (also known as a "MCC / MNC tuple") to uniquely identify a mobile phone operator/carrier using the GSM, CDMA, iDEN, TETRA and UMTS public land mobile networks and some satellite mobile networks</desc>
+</setting>
+    <setting name="Operator Logo File" ref="CVC_OperatorLogoPath" type="file">
+      <desc>Operator logo file. Format: BMP or SVG. Maximum size 134x33 pixels. Name must be Logo_MCC_MNC_PROG.svg or Logo_MCC_MNC_PROG.bmp, where MCC and MNC are mobile country code and mobile network code.</desc>
+      <localPath/>
+      <targetPath readOnly="true"/>
+    </setting>
+  </feature>
+  <data>
+  </data>
+</configuration>

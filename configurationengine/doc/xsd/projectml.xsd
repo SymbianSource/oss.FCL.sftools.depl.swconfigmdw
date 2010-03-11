@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/convertprojectml/1" 
+	xmlns:project="http://www.s60.com/xml/convertprojectml/1" 
+	elementFormDefault="qualified">
+	
+    <xs:complexType name="targetProjectType">
+		<xs:attribute name="path"        type="xs:string"/>
+		<xs:attribute name="name"        type="xs:string"/>
+    </xs:complexType>
+
+	
+		
+    <xs:complexType name="filterType">
+		<xs:attribute name="action"        type="xs:string"/>
+		<xs:attribute name="data"        type="xs:string"/>
+    </xs:complexType>
+	
+    <xs:complexType name="folderType">
+        <xs:sequence>
+            <xs:element name="filter" type="project:filterType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+		<xs:attribute name="path"        type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ruleType">
+		<xs:attribute name="type"        type="xs:string"/>
+		<xs:attribute name="data"        type="xs:string"/>
+    </xs:complexType>
+
+	
+    <xs:complexType name="fileType">
+        <xs:sequence>
+            <xs:element name="filter" type="project:filterType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+		<xs:attribute name="type"        type="xs:string"/>
+		<xs:attribute name="path"        type="xs:string"/>
+		<xs:attribute name="name"        type="xs:string"/>
+    </xs:complexType>
+		
+    <xs:complexType name="layerType">
+        <xs:sequence>
+			<xs:element name="rule" type="project:ruleType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="folder" type="project:folderType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="file" type="project:fileType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+		<xs:attribute name="path"        type="xs:string"/>
+    </xs:complexType>
+	
+	
+    <xs:complexType name="convertprojectmlRootType">
+        <xs:sequence>
+            <xs:element name="targetProject" type="project:targetProjectType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="layer" type="project:layerType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+		
+    <xs:element name="convertprojectml" type="project:convertprojectmlRootType"/>
+</xs:schema>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="RepoAttrsChangedXyz" uidValue="0x00000005" rfs="false" backup="false">
+  <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+  <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+</repository>

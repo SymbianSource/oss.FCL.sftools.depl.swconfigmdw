@@ -1,0 +1,19 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+Layer1/implml/00000006_renamed_repo_xyz.crml,0x00000006,RenamedRepo,None,,file,Layer1/implml/00000006_renamed_repo.crml,Layer1/implml/00000006_renamed_repo_xyz.crml
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Duplicate repositories in source:
+File,Repository UID
+
+
+Duplicate repositories in target:
+File,Repository UID

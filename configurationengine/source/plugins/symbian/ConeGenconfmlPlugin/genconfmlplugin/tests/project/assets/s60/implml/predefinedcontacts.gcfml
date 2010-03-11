@@ -1,0 +1,31 @@
+﻿<file xmlns="http://www.s60.com/xml/genconfml/1" name="predefinedcontacts.xml" target="\private\2000BEE5\">
+	<setting ref="Contacts/Contact"/>
+	<xsl:stylesheet version="1.0" 
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+                xmlns:xi="http://www.w3.org/2001/xinclude">
+		<xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+		<xsl:template match="configuration/data">
+			<Variant>
+				<Contacts>
+					<xsl:for-each select="Contacts/Contact">
+						<Contact>
+							<FirstName><xsl:value-of select="FirstName"/></FirstName>
+							<LastName><xsl:value-of select="LastName"/></LastName>
+							<Company><xsl:value-of select="Company"/></Company>
+							<Job><xsl:value-of select="Job"/></Job>
+							<General><xsl:value-of select="General"/></General>
+							<Mobile><xsl:value-of select="Mobile"/></Mobile>
+							<VideoNo><xsl:value-of select="VideoNo"/></VideoNo>
+							<Fax><xsl:value-of select="Fax"/></Fax>
+							<Email><xsl:value-of select="Email"/></Email>
+							<WvUserId><xsl:value-of select="WvUserId"/></WvUserId>
+							<URL><xsl:value-of select="URL"/></URL>
+							<SpeeddialNo><xsl:value-of select="SpeeddialNo"/></SpeeddialNo>
+							<SpeeddialNoAssign><xsl:value-of select="SpeeddialNoAssign"/></SpeeddialNoAssign>
+						</Contact>
+					</xsl:for-each>
+				</Contacts>
+			</Variant>
+		</xsl:template>
+	</xsl:stylesheet>
+</file>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2" name="CVC_Previewable">
+	<confml:feature name="Customer Menu" ref="CVC_OperatorMenu">
+		<confml:desc>Often referred to as the Operator Menu, the Customer Menu is an application that launches the browser as an embedded application with a predefined URL as parameter. The URL defines the xHTML Startup page that is shown when the Customer Menu application is launched, for example www.customername.com/index.html. The URL also defines the customer domain URL path, for example www.customername.com/. All user-browsed xHTML pages belonging to that path are automatically stored in the Customer Menu cache.The Customer Menu application can be configured as a shortcut just like any other application. In Main menu, the Customer Menu is placed by default to 11th position. When the Customer Menu is enabled, Help moves from position 11 to 12 and Apps moves from 12 to 13, which is not visible until the user scrolls the menu cursor.</confml:desc>
+		<confml:setting name="Customer Menu icon" ref="CVC_OperatorMenuIconFile" type="file">
+			<confml:desc>Customer menu icon that will be present in Application Grid. Size: 65 x 65 pixels. Format: SVGT (preferred) or BMP. Color depth: 24 bit</confml:desc>
+		</confml:setting>
+		<confml:setting name="Customer Menu icon bitmask" ref="CVC_OperatorMenuIconMaskFile" type="file">
+			<confml:desc>Customer menu bitmask when using BMP menu icon. Size: 65 x 65 pixels. Format: BMP. Color depth: 8 bit</confml:desc>
+		</confml:setting>
+		<confml:setting name="Customer Menu icon caption" ref="CVC_OperatorMenuIconCaption" type="string">
+			<confml:desc>The text caption for Customer Menu icon </confml:desc>
+		</confml:setting>
+		<confml:setting name="Customer Menu source URL" ref="CVC_OperatorMenuURL" type="string">
+			<confml:desc>Target URL for Operator Menu. The URL defines the xHTML Start-up page that will be shown when the Customer Menu application is launched (e.g. “www.customername.com/index.htm”). The URL also defines the customer domain URL path (e.g. “www.customername.com”).</confml:desc>
+		</confml:setting>
+		<confml:setting name="Customer Menu cache" ref="CVC_OperatorMenuCache" type="folder">
+			<confml:desc>Data stored in the Customer Menu cache is preserved in the device memory and can be accessed even after the Browser session is ended and through power cycles of the device. File format: xHTML files. Customers provide the xHTML pages to be pre-installed in the Customer Menu Cache.The max. amount of data that can be stored in the Customer Menu cache is 300 KB</confml:desc>
+		</confml:setting>
+		<confml:setting name="Customer menu cache expiration date" ref="CVC_AppShellOperatorMenuCacheExpireDate" type="string">
+			<confml:desc>In “mm/yyyy” format. Customers define the expiration date of the xHTML page(s). After that date, the cache content will no longer be used and Operator icon will launch URL instead.</confml:desc>
+		</confml:setting>
+	</confml:feature>
+	<confml:data>
+	</confml:data>
+</confml:configuration>

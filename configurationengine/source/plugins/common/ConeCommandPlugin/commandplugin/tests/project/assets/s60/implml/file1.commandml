@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commandml xmlns="http://www.s60.com/xml/commandml/1">
+
+	<command executable="c:\program1\run.exe" shell="false" bufsize="0" cwd="c:\program1" env="{'MYVAR':'123'}">
+		<argument value="-c some_config.txt" />
+		<argument value="-d some_dir" />
+		<argument value="-x" />
+		<pipe name="stdin" value="PIPE"/>
+		<pipe name="stdout" value="program1.log"/>
+	</command>
+
+	<condition value="False">
+		<command executable="c:\program2\abc.exe" shell="true">
+			<argument value="-c some_config.txt" />
+		</command>
+	</condition>
+
+</commandml>

@@ -1,0 +1,424 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+
+<style type="text/css">
+    body {
+        font-family: Nokia Standard Multiscript, Tahoma, Verdana, Arial;
+        font-size: 0.8em;
+        color: #0055B7;
+    }
+
+    h1 {
+        padding: 30px 0 0 0;
+        margin: 0;
+        text-align: left;
+    }
+
+    #date {
+        text-align: center;
+    }
+
+    hr {
+        height: 1px;
+        background-color: cccccc;
+        color: #cccccc;
+    }
+
+    h2 h3 {
+        padding: 10px 0 10px 0;
+        margin: 0;
+    }
+
+    table.report {
+        width: 100%;
+        border: 1px solid #e0dfe3;
+        border-collapse: collapse;
+        color: #333333;
+    }
+
+    table.report th {
+        text-align: left;
+        padding: 5px;
+        background-color: #f9fafd;
+        color: #595a5f;
+        border-bottom: 1px #999999 solid;
+    }
+
+    table.report th.featureName {
+        background-color: #f2f2f3;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 1.1em;
+        border-top: 3px #9d9da1;
+        border-top-style: double;
+        border-bottom: 3px #9d9da1;
+        border-bottom-style: double;
+    }
+
+    table.report th.header {
+        background-color: #f9fafd;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 0.8em;
+        border-top: 1px #9d9da1;
+        border-bottom: 1px #9d9da1;
+    }
+
+    table.report td {
+        word-wrap: break-word;
+        border: 1px #EBEBEB;
+        padding: 5px;
+        border-style: solid; 
+        vertical-align: top;
+        font: Tahoma, Verdana, Arial;
+        _font-size: 0.8em;
+    }
+
+    table.summary {
+        border: 1px solid #e0dfe3;
+        border-collapse: collapse;
+        color: #333333;
+    }
+
+    table.summary th {
+        text-align: left;
+        padding: 5px;
+        background-color: #f9fafd;
+        color: #595a5f;
+        border-bottom: 1px #999999 solid;
+    }
+
+    table.summary th.featureName {
+        background-color: #f2f2f3;
+        font: #595a5f Tahoma, Verdana, Arial bold;
+        font-size: 1.1em;
+        border-top: 3px #9d9da1;
+        border-top-style: double;
+        border-bottom: 3px #9d9da1;
+        border-bottom-style: double;
+    }
+
+    table.summary td {
+        word-wrap: break-word;
+        border: 1px #EBEBEB;
+        padding: 5px;
+        border-style: solid; 
+        vertical-align: top;
+        font: Tahoma, Verdana, Arial;
+        _font-size: 0.8em;
+    }
+
+    .currentValue {
+        background-color: #e8f2fe;
+    }
+</style>
+<title>Data value info - ConE</title>
+
+</head>
+<body>
+<div id="content">
+    <h1>Configuration data value info</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">Name</th>
+        <th class="featureName">Type</th>
+        <th class="featureName">Possible values</th>
+        
+        <th class="featureName">product_root.confml</th>
+        
+    </tr>
+    
+    <tr><th colspan="4">All settings</th></tr>
+    
+    <tr>
+        <td>Real setting</td>
+        <td>real</td>
+        <td></td>
+        
+        
+        <td>3.14</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Int setting</td>
+        <td>int</td>
+        <td></td>
+        
+        
+        <td>10</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>String setting</td>
+        <td>string</td>
+        <td></td>
+        
+        
+        <td>string from product config</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Boolean setting</td>
+        <td>boolean</td>
+        <td></td>
+        
+        
+        <td>True</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Selection setting</td>
+        <td>selection</td>
+        <td>Option0<br/>
+        Option1<br/>
+        Option2<br/>
+        Option3<br/>
+        Option4<br/>
+        </td>
+        
+        
+        <td>Option1</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Sequence setting</td>
+        <td>sequence</td>
+        <td></td>
+        
+        
+        <td>
+                    <table><tr><td colspan="2"><b>Item 1</b></td></tr><tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>1.5</td>
+                            </tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>256</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>test (product)</td>
+                            </tr><tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>false</td>
+                            </tr><tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>Op1</td>
+                            </tr><tr><td colspan="2"><b>Item 2</b></td></tr><tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>1.25</td>
+                            </tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>128</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>def1</td>
+                            </tr><tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>false</td>
+                            </tr><tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>Op1</td>
+                            </tr><tr><td colspan="2"><b>Item 3</b></td></tr><tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>1.5</td>
+                            </tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>256</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>def2</td>
+                            </tr><tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>false</td>
+                            </tr><tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>Op1</td>
+                            </tr><tr><td colspan="2"><b>Item 4</b></td></tr><tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>1.5</td>
+                            </tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>256</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>test</td>
+                            </tr><tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>true</td>
+                            </tr><tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>Op1</td>
+                            </tr></table>
+                </td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Sequence setting</td>
+        <td>sequence</td>
+        <td></td>
+        
+        
+        <td>
+                    <table><tr><td colspan="2"><b>Item 1</b></td></tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>1</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>default 1</td>
+                            </tr><tr><td colspan="2"><b>Item 2</b></td></tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>2</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>default 2</td>
+                            </tr></table>
+                </td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Real setting</td>
+        <td>real</td>
+        <td></td>
+        
+        
+        <td>10.5</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Int setting</td>
+        <td>int</td>
+        <td></td>
+        
+        
+        <td>1200</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>String setting</td>
+        <td>string</td>
+        <td></td>
+        
+        
+        <td>default string</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Boolean setting</td>
+        <td>boolean</td>
+        <td></td>
+        
+        
+        <td>True</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Selection setting</td>
+        <td>selection</td>
+        <td>Option0<br/>
+        Option1<br/>
+        Option2<br/>
+        Option3<br/>
+        Option4<br/>
+        </td>
+        
+        
+        <td>Option1</td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Sequence setting</td>
+        <td>sequence</td>
+        <td></td>
+        
+        
+        <td>
+                    <table><tr><td colspan="2"><b>Item 1</b></td></tr><tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>1.25</td>
+                            </tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>128</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>def1</td>
+                            </tr><tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>false</td>
+                            </tr><tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>Op1</td>
+                            </tr><tr><td colspan="2"><b>Item 2</b></td></tr><tr>
+                            <td><b>Real sub-setting</b></td>
+                            <td>1.5</td>
+                            </tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>256</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>def2</td>
+                            </tr><tr>
+                            <td><b>Boolean sub-setting</b></td>
+                            <td>false</td>
+                            </tr><tr>
+                            <td><b>Selection sub-setting</b></td>
+                            <td>Op1</td>
+                            </tr></table>
+                </td>
+        
+        
+    </tr>
+    
+    <tr>
+        <td>Sequence setting</td>
+        <td>sequence</td>
+        <td></td>
+        
+        
+        <td>
+                    <table><tr><td colspan="2"><b>Item 1</b></td></tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>1</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>default 1</td>
+                            </tr><tr><td colspan="2"><b>Item 2</b></td></tr><tr>
+                            <td><b>Int sub-setting</b></td>
+                            <td>2</td>
+                            </tr><tr>
+                            <td><b>String sub-setting</b></td>
+                            <td>default 2</td>
+                            </tr></table>
+                </td>
+        
+        
+    </tr>
+    
+    
+    </table>
+</div>
+<div id="footer"></div>
+</body>
+</html>

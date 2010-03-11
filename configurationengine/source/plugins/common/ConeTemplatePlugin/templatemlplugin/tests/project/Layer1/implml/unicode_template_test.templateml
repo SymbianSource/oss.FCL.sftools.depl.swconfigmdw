@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+
+    <output file="unicode_template_test.txt" encoding="UTF-8">
+        <template>{# -#}
+Value of Feature1.UnicodeValueSetting: {{ feat_tree.Feature1.UnicodeValueSetting._value }}
+Unicode from template: ελληνικά</template>
+    </output>
+</templateml>

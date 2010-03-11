@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="DuplicateRepo1" uidValue="0x30000000" rfs="true" backup="true">
+  <access type="R" capabilities="ReadDevideData" sid="0x11223344"/>
+  <access type="W" capabilities="WriteDeviceData" sid="0x44332211"/>
+</repository>

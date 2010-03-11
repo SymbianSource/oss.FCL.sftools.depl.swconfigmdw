@@ -1,0 +1,21 @@
+Refs with implementations
+=========================
+
+Ref: Feature1.BooleanSetting
+Impls:
+File = "base\implml\booleansetting_rofs3.templateml", type = "templateml", gen_runs = []
+-------------------------------------------------
+Ref: Feature1.IntSetting
+Impls:
+File = "base\implml\intsetting_rofs3.templateml", type = "templateml", gen_runs = []
+-------------------------------------------------
+Ref: Feature1.RealSetting
+Impls:
+File = "base\implml\realsetting_rofs3_uda.templateml", type = "templateml", gen_runs = []
+
+
+
+Refs with no implementation
+===========================
+Feature1.SelectionSetting
+Feature1.StringSetting

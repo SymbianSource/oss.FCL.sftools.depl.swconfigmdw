@@ -1,0 +1,2 @@
+Value of Feature1.StringSetting: カタカナ カタカナ <&> (from rule: カタカナ)
+Unicode from template: ελληνικά

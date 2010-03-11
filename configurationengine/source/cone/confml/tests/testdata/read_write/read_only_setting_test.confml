@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               name="Read-only setting test">
+    <feature ref="ReadOnlySettingTest" name="Read-only setting test">
+        <desc>Feature for testing attribute 'readOnly' in settings.</desc>
+    
+        <setting ref="RealSetting" name="Real setting" type="real" readOnly="true">
+            <desc>A real setting</desc>
+        </setting>
+    
+        <setting ref="IntSetting" name="Int setting" type="int" readOnly="true">
+            <desc>An int setting</desc>
+        </setting>
+    
+        <setting ref="StringSetting" name="String setting" type="string" readOnly="true">
+            <desc>A string setting</desc>
+        </setting>
+    
+        <setting ref="BooleanSetting" name="Boolean setting" type="boolean" readOnly="true">
+            <desc>A boolean setting</desc>
+        </setting>
+    
+        <setting ref="SelectionSetting" name="Selection setting" type="selection" readOnly="true">
+            <desc>A selection setting</desc>
+            <option name="Option0" value="0"/>
+            <option name="Option1" value="1"/>
+            <option name="Option2" value="2"/>
+            <option name="Option3" value="3"/>
+            <option name="Option4" value="4"/>
+        </setting>
+    
+        <setting ref="MultiSelectionSetting" name="Multi-selection setting" type="multiSelection" readOnly="true">
+            <desc>A multi-selection setting</desc>
+            <option name="Option 0" value="opt 0"/>
+            <option name="Option 1" value="opt 1"/>
+            <option name="Option 2" value="opt 2"/>
+            <option name="Option 3" value="opt 3"/>
+            <option name="Option 4" value="opt 4"/>
+        </setting>
+    
+        <setting ref="FolderSetting" name="Folder setting" type="folder" readOnly="true">
+            <localPath readOnly="true"/>
+            <targetPath readOnly="true"/>
+            <desc>A folder setting</desc>
+        </setting>
+    
+        <setting ref="FileSetting" name="File setting" type="file" readOnly="true">
+            <localPath readOnly="true"/>
+            <targetPath readOnly="true"/>
+            <desc>A file setting</desc>
+        </setting>
+        
+        <setting ref="DateSetting" name="Date setting" type="date" readOnly="true">
+            <desc>A date setting</desc>
+        </setting>
+        <setting ref="TimeSetting" name="Time setting" type="time" readOnly="true">
+            <desc>A time setting</desc>
+        </setting>
+        <setting ref="DateTimeSetting" name="Date-time setting" type="dateTime" readOnly="true">
+            <desc>A date-time setting</desc>
+        </setting>
+        <setting ref="DurationSetting" name="Duration setting" type="duration" readOnly="true">
+            <desc>A duration setting</desc>
+        </setting>
+    
+        <setting ref="SequenceSetting" name="Sequence setting" type="sequence" readOnly="true">
+            <desc>A sequence setting</desc>
+
+            <setting ref="RealSubSetting" name="Real sub-setting" type="real">
+                <desc>A real sub-setting</desc>
+            </setting>
+
+            <setting ref="IntSubSetting" name="Int sub-setting" type="int">
+                <desc>An int sub-setting</desc>
+            </setting>
+
+            <setting ref="StringSubSetting" name="String sub-setting" type="string">
+                <desc>A string sub-setting</desc>
+            </setting>
+
+            <setting ref="BooleanSubSetting" name="Boolean sub-setting" type="boolean">
+                <desc>A boolean sub-setting</desc>
+            </setting>
+
+            <setting ref="SelectionSubSetting" name="Selection sub-setting" type="selection">
+                <desc>A selection sub-setting</desc>
+                <option name="Op0" value="0"/>
+                <option name="Op1" value="1"/>
+                <option name="Op2" value="2"/>
+                <option name="Op3" value="3"/>
+                <option name="Op4" value="4"/>
+            </setting>
+
+            <setting ref="MultiSelectionSubSetting" name="Multi-selection sub-setting" type="multiSelection">
+                <desc>A multi-selection sub-setting</desc>
+                <option name="Option 0" value="opt 0"/>
+                <option name="Option 1" value="opt 1"/>
+                <option name="Option 2" value="opt 2"/>
+                <option name="Option 3" value="opt 3"/>
+                <option name="Option 4" value="opt 4"/>
+            </setting>
+            
+            <setting ref="FolderSubSetting" name="Folder sub-setting" type="folder">
+                <localPath/>
+                <targetPath/>
+                <desc>A folder sub-setting</desc>
+            </setting>
+            
+            <setting ref="FileSubSetting" name="File sub-setting" type="file">
+                <localPath/>
+                <targetPath/>
+                <desc>A file sub-setting</desc>
+            </setting>
+            
+            <setting ref="DateSubSetting" name="Date sub-setting" type="date">
+                <desc>A date sub-setting</desc>
+            </setting>
+            <setting ref="TimeSubSetting" name="Time sub-setting" type="time">
+                <desc>A time sub-setting</desc>
+            </setting>
+            <setting ref="DateTimeSubSetting" name="Date-time sub-setting" type="dateTime">
+                <desc>A date-time sub-setting</desc>
+            </setting>
+            <setting ref="DurationSubSetting" name="Duration sub-setting" type="duration">
+                <desc>A duration sub-setting</desc>
+            </setting>
+
+        </setting>
+        
+    </feature>
+  
+  <data>
+    <ReadOnlySettingTest>
+        <RealSetting>3.14</RealSetting>
+        <IntSetting>10</IntSetting>
+        <StringSetting>default string</StringSetting>
+        <BooleanSetting>true</BooleanSetting>
+        <SelectionSetting>1</SelectionSetting>
+        <MultiSelectionSetting>"opt 0" "opt 2" "opt 4"</MultiSelectionSetting>
+        
+        <FolderSetting>
+            <localPath>default_folder</localPath>
+            <targetPath>default_target_folder/</targetPath>
+        </FolderSetting>
+        <FileSetting>
+            <localPath>default_file.txt</localPath>
+            <targetPath>default_target_folder/default_file_renamed.txt</targetPath>
+        </FileSetting>
+        
+        <DateSetting>2009-02-02</DateSetting>
+        <TimeSetting>07:30:15</TimeSetting>
+        <DateTimeSetting>2009-02-02-07:00:00</DateTimeSetting>
+        <DurationSetting>P5Y4M3DT12H25M15S</DurationSetting>
+        
+        <SequenceSetting>
+            <RealSubSetting>1.25</RealSubSetting>
+            <IntSubSetting>128</IntSubSetting>
+            <StringSubSetting>def1</StringSubSetting>
+            <BooleanSubSetting>false</BooleanSubSetting>
+            <SelectionSubSetting>1</SelectionSubSetting>
+            <MultiSelectionSubSetting>"opt 1"</MultiSelectionSubSetting>
+            <FolderSubSetting><localPath>seq/def1_folder</localPath></FolderSubSetting>
+            <FileSubSetting><localPath>seq/def1_file.txt</localPath></FileSubSetting>
+            <DateSubSetting>2009-02-02</DateSubSetting>
+            <TimeSubSetting>07:30:15</TimeSubSetting>
+            <DateTimeSubSetting>2009-02-02-07:00:00</DateTimeSubSetting>
+            <DurationSubSetting>P5Y4M3DT12H25M15S</DurationSubSetting>
+        </SequenceSetting>
+    </ReadOnlySettingTest>
+  </data>
+</configuration>

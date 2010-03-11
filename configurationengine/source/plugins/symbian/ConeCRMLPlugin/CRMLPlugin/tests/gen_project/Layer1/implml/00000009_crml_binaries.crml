@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="CrmlBinaries" uidValue="0x00000009" owner="0x12341000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="CrmlBinaries/IntSetting" name="Int setting" int="0x00000001" type="binary" readOnly="false" backup="true"/>
+  <key ref="CrmlBinaries/StringSetting" name="String setting" int="0x00000002" type="binary" readOnly="false"/>
+  <key ref="CrmlBinaries/SelectionSetting" name="Selection setting" int="0x00000003" type="binary" readOnly="false"/>
+  <key ref="CrmlBinaries/EmptyStringSetting" name="Empty string setting" int="0x00000004" type="binary" readOnly="false"/>
+</repository>

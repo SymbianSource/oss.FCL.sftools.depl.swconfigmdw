@@ -1,0 +1,33 @@
+<!--****************************************************************************
+ * ConE document generation
+ * This ant build.xml will generate all ConE related documents
+ ****************************************************************************-->
+ 
+<project name="ConE generatedoc" default="doc-all">
+	<!-- import common properties for this plugin -->
+	<property file="common.properties"/>
+	<property file="install.properties"/>
+    
+	<target name="doc-all" depends="epydoc, sphinx"/>
+    
+	<target name="init-generatedoc">
+	  <mkdir dir="${document.output}"/>
+	  <mkdir dir="${document.output}/epydoc"/>
+	</target>
+      
+	<target name="epydoc" depends="init-generatedoc">
+		<exec executable="cmd">
+            <arg line='/c "epydoc source/cone -o ${document.output}/epydoc --exclude tests"'/>
+		</exec>
+	</target>
+
+	<target name="sphinx" depends="init-generatedoc">
+        <exec executable="cmd">
+            <arg line='/c "sphinx-build -b html ./doc ${document.output}"'/>
+		</exec>
+	</target>
+  	
+</project>
+     
+     
+     

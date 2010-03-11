@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Feature 1" version="1">
+  <feature ref="output" name="Output">
+    <setting ref="filename" name="Output filename" type="string">
+    </setting>
+  </feature>
+  <data>
+    <output>
+      <filename>confmlref_filename.txt</filename>
+    </output>
+  </data>
+</configuration>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="AccessTest2" uidValue="0x000000F1">
+  <access type="R" capabilities="AlwaysPass"/>
+  <key ref="AccessTest2/Setting1" name="AccessTestSetting1" int="0x00000001" type="int">
+    <access type="W" capabilities="WriteDeviceData"/>
+  </key>
+  <key ref="AccessTest2/Setting2" readOnly="true" name="AccessTestSetting2" int="0x00000002" type="int"/>
+</repository>

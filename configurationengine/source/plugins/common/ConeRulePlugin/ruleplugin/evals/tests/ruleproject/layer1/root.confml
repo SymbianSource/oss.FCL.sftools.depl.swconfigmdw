@@ -1,0 +1,5 @@
+<configuration name="imaker" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xi:include href="confml/testdata.confml" />
+  <xi:include href="confml/ap.confml" />
+  <xi:include href="confml/commsdatcreator.confml" />
+</configuration>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="EmptyRepo7" uidValue="0x000000E7">
+  <access type="R" capabilities="" sid="0xAABBCCDD"/>
+  <access type="W" capabilities="" sid="0xDDCCBBAA"/>
+</repository>

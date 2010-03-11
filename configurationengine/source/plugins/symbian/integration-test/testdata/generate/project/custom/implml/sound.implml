@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    
+    <container>
+        <phase name="pre"/>
+        <ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+            <rule>CustomConfSettings.SoundFile.localPath configures SoundFileTest.SoundFilePath = SoundFileTest.SoundFilePath filenamejoin CustomConfSettings.SoundFile.localPath</rule>
+        </ruleml>
+    </container>
+    
+    <content xmlns="http://www.s60.com/xml/content/2">
+        <output dir="content/${SoundFileTest.SoundFilePath}">
+            <input dir="${CustomConfSettings.SoundFile.localPath}"/>
+        </output>
+    </content>
+</container>

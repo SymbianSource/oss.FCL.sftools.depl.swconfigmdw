@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+<output file="hcr_test.h" type="header">
+  <category name="KTestCategory" uid="0xABCDDCBA">
+    <setting ref="HcrTest.Int32Setting"     name="KInt32Setting"    type="int32"    id="0"/>
+    <setting ref="HcrTest.BoolSetting"      name="KBoolSetting"     type="bool"     id="1"/>
+    <setting ref="HcrTest.TextSetting"      name="KTextSetting"     type="text8"    id="2"/>
+  </category>
+</output>
+</hcr>

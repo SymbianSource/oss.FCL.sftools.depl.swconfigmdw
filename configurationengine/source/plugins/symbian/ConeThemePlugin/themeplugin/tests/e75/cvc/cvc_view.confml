@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <confml:view id="E75_CVC" name="Custom modeled ConfMLs for E75 customization">
+    <confml:desc>Custom modeled ConfMLs for E75 customization according to E75 Customization Guidelines</confml:desc>
+    <confml:group name="Applications">
+      <confml:desc>Settings for standard S60 Platform applications</confml:desc>
+      <confml:icon xlink:href="applications_48_nav.png"/>
+      <confml:group name="Browser">
+        <confml:desc>Browser (xHTML) settings</confml:desc>
+      </confml:group>
+      <confml:group name="Calendar">
+        <confml:desc>Calendar</confml:desc>
+      </confml:group>
+      <confml:group name="Device Manager">
+        <confml:desc>Settings for Device Manager application.</confml:desc>
+      </confml:group>
+      <confml:group name="Media Player">
+        <confml:desc>Media Player</confml:desc>
+      </confml:group>
+      <confml:group name="Voice Recorder">
+        <confml:desc>Voice Recorder</confml:desc>
+      </confml:group>
+      <confml:group name="Phonebook">
+        <confml:desc>Phonebook</confml:desc>
+      </confml:group>
+      <confml:group name="Logs">
+        <confml:desc>Logs</confml:desc>
+      </confml:group>
+      <confml:group name="Camcorder">
+        <confml:desc>Camcorder</confml:desc>
+      </confml:group>
+      <confml:group name="Clock">
+        <confml:desc>Clock</confml:desc>
+      </confml:group>
+      <confml:group name="Profiles">
+        <confml:desc>Profiles</confml:desc>
+      </confml:group>
+      <confml:group name="Positioning">
+        <confml:desc>Positioning</confml:desc>
+      </confml:group>
+      <confml:group name="Instant Messaging">
+        <confml:desc>Instant Messaging</confml:desc>
+        <confml:setting ref="CVC_InstantMessaging/*"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="Connectivity">
+      <confml:desc>Settings for personal communication and connection methods</confml:desc>
+      <confml:icon xlink:href="connectivity_48_nav.png"/>
+      <confml:group name="Access Points">
+        <confml:desc>Nokia NXX has StartUp Settings application. It configures access point settings based on a SIM card�s MCC and MNC and the access point information supplied to Nokia by the network operators.</confml:desc>
+      </confml:group>
+      <confml:group name="MMS">
+        <confml:desc>If the Customer specifies MMS settings (including Access points) in their variant then the transceiver will be able to receive MMS messages straight away after having been powered-up.</confml:desc>
+      </confml:group>
+      <confml:group name="SMS">
+        <confml:desc>SMS Settings</confml:desc>
+      </confml:group>
+      <confml:group name="Postcard">
+        <confml:desc>Postcard settings</confml:desc>
+      </confml:group>
+      <confml:group name="E-mail">
+        <confml:desc>Customers may choose to define one set of common settings for the e-mail client in the Messaging application of the device.</confml:desc>
+      </confml:group>
+      <confml:group name="Messaging">
+        <confml:desc>Messaging</confml:desc>
+      </confml:group>
+      <confml:group name="Bluetooth">
+        <confml:desc>Bluetooth</confml:desc>
+      </confml:group>
+      <confml:group name="Streaming">
+        <confml:desc>Streaming</confml:desc>
+        <confml:setting ref="CVC_streaming/*"/>
+      </confml:group>
+      <confml:group name="Mobile TV">
+        <confml:desc>Mobile TV</confml:desc>
+      </confml:group>
+      <confml:group name="Voice and Video Mail">
+        <confml:desc>Settings for voice and video mailboxes</confml:desc>
+        <confml:setting ref="CVC_VoiceMailboxNumbers/*"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="System">
+      <confml:desc>System settings of S60 platform</confml:desc>
+      <confml:icon xlink:href="system_48_nav.png"/>
+      <confml:group name="Accessory Profiles">
+        <confml:desc>Accessory Profiles</confml:desc>
+      </confml:group>
+      <confml:group name="SyncML">
+        <confml:desc>SyncML</confml:desc>
+        <confml:setting ref="CVC_SyncML/*"/>
+        <confml:setting ref="CVC_SyncMLDataSync/*"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/*"/>
+      </confml:group>
+      <confml:group name="Light Sensor">
+        <confml:desc>Light Senso</confml:desc>
+      </confml:group>
+      <confml:group name="Java">
+        <confml:desc>Java Application Settings</confml:desc>
+      </confml:group>
+      <confml:group name="Other">
+        <confml:desc>Other</confml:desc>
+        <confml:setting ref="CVC_CellInfoDisplay/*"/>
+        <confml:setting ref="CVC_ZeroPlusSend/*"/>
+        <confml:setting ref="CVC_2DigitDialing/*"/>
+        <confml:setting ref="CVC_CPHSALS/*"/>
+      </confml:group>
+      <confml:group name="Telephony">
+        <confml:desc>Telephony</confml:desc>
+      </confml:group>
+      <confml:group name="FOTA">
+        <confml:desc>Firmware update Over The Air</confml:desc>
+      </confml:group>
+      <confml:group name="Keyguard">
+        <confml:desc>Keypad lock settings</confml:desc>
+      </confml:group>
+      <confml:group name="Service Messages">
+        <confml:desc>Service Messages</confml:desc>
+      </confml:group>
+      <confml:group name="Vibra">
+        <confml:desc>Vibra</confml:desc>
+      </confml:group>
+      <confml:group name="TV-out">
+        <confml:desc>TV-out</confml:desc>
+      </confml:group>
+      <confml:group name="Software Install">
+        <confml:desc>Software Install</confml:desc>
+      </confml:group>
+    </confml:group>
+    <confml:group name="UI">
+      <confml:desc>Settings for branding, user interface and look &amp; feel</confml:desc>
+      <confml:icon xlink:href="userinterface_48_nav.png"/>
+      <confml:group name="Customer Menu">
+        <confml:desc>Often referred to as the Operator Menu, the Customer Menu is an application that launches the browser as an embedded application with a predefined URL as parameter.</confml:desc>
+        <confml:setting ref="CVC_OperatorMenu/*"/>
+      </confml:group>
+      <confml:group name="Customer Logo">
+        <confml:desc>The Nokia NXX supports colour logos in addition to the traditional black and white Customer logos.</confml:desc>
+        <confml:setting ref="CVC_OperatorLogo/*"/>
+      </confml:group>
+      <confml:group name="Ring Tones">
+        <confml:desc>Nokia NXX supports the following types of ring tones and alert tones. The Customer may select to include tones of their own in any of the listed formats. The Customer can specify one as the default ringing tone in the General profile.</confml:desc>
+      </confml:group>
+      <confml:group name="Start-up and shutdown animations">
+        <confml:desc>Start-up and shutdown animations</confml:desc>
+        <confml:setting ref="CVC_ShutdownAnimationSequence/*"/>
+        <confml:setting ref="CVC_StartupAnimationSequence/*"/>
+      </confml:group>
+      <confml:group name="Application Menu">
+        <confml:desc>Application Menu</confml:desc>
+        <confml:setting ref="CVC_AppShell323/*"/>
+      </confml:group>
+      <confml:group name="Themes">
+        <confml:desc>Themes</confml:desc>
+        <confml:setting ref="CVC_Theme_ref/*"/>
+      </confml:group>
+      <confml:group name="General">
+        <confml:desc>General</confml:desc>
+        <confml:setting ref="CVC_RSK/*"/>
+        <confml:setting ref="CVC_Wallpaper/*"/>
+        <confml:setting ref="CVC_Screensaver/*"/>
+      </confml:group>
+      <confml:group name="Nokia PC Internet Access">
+        <confml:desc>Nokia PC Internet Access a.k.a. Phone a modem</confml:desc>
+        <confml:setting ref="CVC_NokiaPCInternetAccess/*"/>
+      </confml:group>
+      <confml:group name="Homescreen">
+        <confml:desc>Homescreen or Active Idle customizations</confml:desc>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/*"/>
+        <confml:setting ref="CVC_ActiveIdleOther/*"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="Pre-Installed Content">
+      <confml:desc>Applications, music, video and other files preinstalled to device</confml:desc>
+      <confml:icon xlink:href="preinstalledcontent_48_nav.png"/>
+      <confml:group name="Customer Applications">
+        <confml:desc>Customer specific Symbian and Java applications can be pre-installed to device memory (UDA).</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledMMCApplicationsFolder"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledUDAApplicationsFolder"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_BundledApplicationsFolder"/>
+      </confml:group>
+      <confml:group name="Pre-loaded MMS">
+        <confml:desc>Maximum amount of 3 Customer specific MMS messages may be pre-installed in the Device memory.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledMMSs"/>
+      </confml:group>
+      <confml:group name="Pre-loaded Video">
+        <confml:desc>Customer specific video clips may be pre-installed in the User Data Area or Memory card. The end user is able to delete them.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledVideoClipsFolder"/>
+      </confml:group>
+      <confml:group name="Pre-loaded Music">
+        <confml:desc>Customer can pre-load Music content in the User Data Area and/or memory card. They will be seen in Nseries Music Player. The end user is able to delete them.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledMusicClipsFolder"/>
+      </confml:group>
+      <confml:group name="Pre-loaded Images">
+        <confml:desc>Customer can pre-load images in the User Data Area and/or memory card. They will be seen in Photos application. The end user is able to delete them.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledImagesFolder"/>
+      </confml:group>
+      <confml:group name="Pre-installed Ringtones">
+        <confml:desc>Pre-installed ringtones</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_DefaultMessageToneFile"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_DefaultRingtoneFile"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_DefaultVideoCallToneFile"/>
+      </confml:group>
+      <confml:group name="Pre-installed Certificates">
+        <confml:desc>Pre-installed security certificates (X.509)</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_CertificatesInternet"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_CertificatesMIDP"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_CertificatesSymbian"/>
+      </confml:group>
+      <confml:group name="Pre-installed Themes">
+        <confml:desc>Pre-installed Themes</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledThemesFolder"/>
+      </confml:group>
+      <confml:group name="Pre-defined Streaming Links">
+        <confml:desc>Pre-defined Streaming Links</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledStreamingLinksFolder"/>
+      </confml:group>
+    </confml:group>
+  </confml:view>
+</confml:configuration>

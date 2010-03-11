@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="BitmaskRfsFeature" uidValue="0x10000005">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  
+  <key name="Bitmask1" type="int" int="0x0000BDCA">
+    <bit ref="BitmaskRfsFeature/Mask1Bit0">1</bit>
+    <bit ref="BitmaskRfsFeature/Mask1Bit1">2</bit>
+    <bit ref="BitmaskRfsFeature/Mask1Bit2">3</bit>
+    <bit ref="BitmaskRfsFeature/Mask1Bit3">4</bit>
+  </key>
+  
+  <key name="Bitmask2" type="int" int="0x0000ABCD">
+    <bit ref="BitmaskRfsFeature/Mask2Bit0">1</bit>
+    <bit ref="BitmaskRfsFeature/Mask2Bit1">2</bit>
+    <bit ref="BitmaskRfsFeature/Mask2Bit2">3</bit>
+    <bit ref="BitmaskRfsFeature/Mask2Bit3">4</bit>
+  </key>
+</repository>

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <confml:view id="variant_E75" name="Variant view for E75">
+    <confml:desc>This view combines both S60 platfrom ConfML content and custom modeled ConfMLs in CVC layer</confml:desc>
+    <confml:group name="Applications">
+      <confml:desc>Settings for standard S60 Platform applications</confml:desc>
+      <confml:icon xlink:href="applications_48_nav.png"/>
+      <confml:group name="Browser">
+        <confml:desc>Browser (xHTML) settings</confml:desc>
+        <confml:setting ref="KCRUidBrowser/KWmlBrowserAccessPointSelectionMode"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserConnectionDialogs"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserDefaultAccessPoint"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserFormDataSaving"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGImagesEnabled"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGFontSize"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGEncoding"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGAdaptiveBookmarks"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGFullScreen"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGCookiesEnabled"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGECMAScriptSupport"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGShowSecurityWarnings"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGPageOverview"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGPopupBlocking"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGHomepageType"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGHomepageURL"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGBackList"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGAutoRefresh"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGAutomaticUpdating"/>
+        <confml:setting ref="KCRUidBrowser/KBrowserNGDefaultSnapId"/>
+        <confml:setting ref="KCRUidBrowser1/KBrowserNGAutomaticUpdatingAccessPoint"/>
+        <confml:setting ref="KCRUidBrowser1/KBrowserNGOpenDownloads"/>
+        <confml:setting ref="KCRUidBrowser1/KBrowserNGSmartLink"/>
+      </confml:group>
+      <confml:group name="Calendar">
+        <confml:desc>Calendar</confml:desc>
+      </confml:group>
+      <confml:group name="Device Manager">
+        <confml:desc>Settings for Device Manager application.</confml:desc>
+        <confml:setting ref="factorydmprofile/DMFactorySettings"/>
+      </confml:group>
+      <confml:group name="Media Player">
+        <confml:desc>Media Player</confml:desc>
+        <confml:setting ref="MediaPlayerSettings/AutoDisconnectedTime"/>
+        <confml:setting ref="MediaPlayerFeatureSettings/Bitmask_bit4"/>
+      </confml:group>
+      <confml:group name="Voice Recorder">
+        <confml:desc>Voice Recorder</confml:desc>
+      </confml:group>
+      <confml:group name="Phonebook">
+        <confml:desc>Phonebook</confml:desc>
+      </confml:group>
+      <confml:group name="Logs">
+        <confml:desc>Logs</confml:desc>
+      </confml:group>
+      <confml:group name="Camcorder">
+        <confml:desc>Camcorder</confml:desc>
+      </confml:group>
+      <confml:group name="Clock">
+        <confml:desc>Clock</confml:desc>
+        <confml:setting ref="ClockAppSettings/NetworkOperatorTime"/>
+      </confml:group>
+      <confml:group name="Positioning">
+        <confml:desc>Positioning</confml:desc>
+        <confml:setting ref="KCRUidSuplSettings/KSuplSettingsHSLPAddress"/>
+        <confml:setting ref="KCRUidSuplSettings/KSuplSettingsIAP"/>
+      </confml:group>
+      <confml:group name="Instant Messaging">
+        <confml:desc>Instant Messaging</confml:desc>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMServerName"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMAccessPointInUse"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMWebAddress"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMUserID"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMPassword"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMPresence"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMAllowMessagesFrom"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMMessageScrollingSpeed"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMSortContacts"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMAvailabilityReloading"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMOfflineContacts"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMShowDateTimeInfo"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMAlertTone"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMDefaultServer"/>
+        <confml:setting ref="CVC_InstantMessaging/CVC_IMLoginType"/>
+      </confml:group>
+      <confml:group name="Profiles: General">
+        <confml:desc>Settings for General Profile</confml:desc>
+        <confml:setting ref="Generalprofilesettings/RingingType"/>
+        <confml:setting ref="Generalprofilesettings/KeypadVolume"/>
+        <confml:setting ref="Generalprofilesettings/RingingVolume"/>
+        <confml:setting ref="Generalprofilesettings/VibratingAlert"/>
+        <confml:setting ref="Generalprofilesettings/WarningAndGameTones"/>
+      </confml:group>
+      <confml:group name="Profiles: Silent">
+        <confml:desc>Settings for Silent Profile</confml:desc>
+        <confml:setting ref="Silentprofilesettings/VibratingAlert"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="Connectivity">
+      <confml:desc>Settings for personal communication and connection methods</confml:desc>
+      <confml:icon xlink:href="connectivity_48_nav.png"/>
+      <confml:group name="Access Points">
+        <confml:desc>Nokia NXX has StartUp Settings application. It configures access point settings based on a SIM card�s MCC and MNC and the access point information supplied to Nokia by the network operators.</confml:desc>
+        <confml:setting ref="WLAN_APs/WLAN_AP"/>
+        <confml:setting ref="DNs/DN"/>
+        <confml:setting ref="APs/AP"/>
+      </confml:group>
+      <confml:group name="MMS">
+        <confml:desc>If the Customer specifies MMS settings (including Access points) in their variant then the transceiver will be able to receive MMS messages straight away after having been powered-up.</confml:desc>
+        <confml:setting ref="MMSEngineSettings/FirstAccessPoint"/>
+        <confml:setting ref="MMSEngineSettings/AllowAdvertisement"/>
+        <confml:setting ref="MMSEngineSettings/AllowAnonymousMessages"/>
+        <confml:setting ref="MMSEngineSettings/DeliveryReport"/>
+        <confml:setting ref="MMSEngineSettings/SendDeliveryReport"/>
+        <confml:setting ref="MMSEngineSettings/ValidityPeriod"/>
+        <confml:setting ref="CVC_MMS/CVC_MMSReceivedMessageSize"/>
+        <confml:setting ref="CVC_MMS/CVC_MMSSentMessageSize"/>
+        <confml:setting ref="CVC_MMS/CVC_MMSImageSize"/>
+        <confml:setting ref="MMSEngineSettings/CreationMode"/>
+        <confml:setting ref="MMSEngineSettings/ReceivingModeInRoaming"/>
+        <confml:setting ref="MMSEngineSettings/ReceivingModeInHome"/>
+      </confml:group>
+      <confml:group name="SMS">
+        <confml:desc>SMS Settings</confml:desc>
+        <confml:setting ref="SMSUI/DeliveryReportRequest"/>
+        <confml:setting ref="SMSUI/MessageComversion"/>
+        <confml:setting ref="SMSUI/SMSBearer"/>
+        <confml:setting ref="SMSUI/RequestReplyViaSameSMSC"/>
+        <confml:setting ref="SMSUI/SMSResendingPeriod"/>
+        <confml:setting ref="SMSUI/CharacterSupport"/>
+      </confml:group>
+      <confml:group name="Postcard">
+        <confml:desc>Postcard settings</confml:desc>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit1"/>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit2"/>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit3"/>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit4"/>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit5"/>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit6"/>
+        <confml:setting ref="KCRUidPostcard1/KPocaKeyMandatoryFields_bit7"/>
+        <confml:setting ref="Postcard/ServiceProvider"/>
+        <confml:setting ref="Postcard/GreetingTextLength"/>
+        <confml:setting ref="Postcard/NameLength"/>
+        <confml:setting ref="Postcard/InfoLength"/>
+        <confml:setting ref="Postcard/StreetLength"/>
+        <confml:setting ref="Postcard/ZipLength"/>
+        <confml:setting ref="Postcard/CityLength"/>
+        <confml:setting ref="Postcard/StateLength"/>
+        <confml:setting ref="Postcard/CountryLength"/>
+        <confml:setting ref="Postcard/ServiceSpecialFormat"/>
+        <confml:setting ref="Postcard/ServiceSeparator"/>
+      </confml:group>
+      <confml:group name="E-mail">
+        <confml:desc>Customers may choose to define one set of common settings for the e-mail client in the Messaging application of the device.</confml:desc>
+        <confml:setting ref="Mailbox2/APOPSupport"/>
+        <confml:setting ref="Mailbox2/CopyToOwn"/>
+        <confml:setting ref="Mailbox2/FetchAttachment"/>
+        <confml:setting ref="Mailbox2/FetchHeadersNumber"/>
+        <confml:setting ref="Mailbox2/AccessPointID"/>
+        <confml:setting ref="Mailbox2/MailboxName"/>
+        <confml:setting ref="Mailbox2/Address"/>
+        <confml:setting ref="Mailbox2/Protocol"/>
+        <confml:setting ref="Mailbox2/SendingScheduler"/>
+        <confml:setting ref="Mailbox2/IncomingMailServerAddress"/>
+        <confml:setting ref="Mailbox2/Security"/>
+        <confml:setting ref="Mailbox2/OutgoingMailServerAddress"/>
+        <confml:setting ref="Mailbox2/KImumSmtpSecurity"/>
+        <confml:setting ref="Mailbox2/KImumOmaEmnEnabled"/>
+        <confml:setting ref="Mailbox2/UNameIncomingServer"/>
+        <confml:setting ref="Mailbox2/PasswordIncomingServer"/>
+        <confml:setting ref="Mailbox2/PortIncomingServer"/>
+        <confml:setting ref="Mailbox2/UNameOutgoingServer"/>
+        <confml:setting ref="Mailbox2/PasswordOutgoingServer"/>
+        <confml:setting ref="Mailbox2/PortOutgoingServer"/>
+        <confml:setting ref="Mailbox1/APOPSupport"/>
+        <confml:setting ref="Mailbox1/CopyToOwn"/>
+        <confml:setting ref="Mailbox1/FetchAttachment"/>
+        <confml:setting ref="Mailbox1/FetchHeadersNumber"/>
+        <confml:setting ref="Mailbox1/AccessPointID"/>
+        <confml:setting ref="Mailbox1/MailboxName"/>
+        <confml:setting ref="Mailbox1/Address"/>
+        <confml:setting ref="Mailbox1/Protocol"/>
+        <confml:setting ref="Mailbox1/IncomingMailServerAddress"/>
+        <confml:setting ref="Mailbox1/Security"/>
+        <confml:setting ref="Mailbox1/SendingScheduler"/>
+        <confml:setting ref="Mailbox1/OutgoingMailServerAddress"/>
+        <confml:setting ref="Mailbox1/KImumSmtpSecurity"/>
+        <confml:setting ref="Mailbox1/KImumOmaEmnEnabled"/>
+        <confml:setting ref="Mailbox1/UNameIncomingServer"/>
+        <confml:setting ref="Mailbox1/PasswordIncomingServer"/>
+        <confml:setting ref="Mailbox1/UNameOutgoingServer"/>
+        <confml:setting ref="Mailbox1/PasswordOutgoingServer"/>
+        <confml:setting ref="Mailbox1/PortIncomingServer"/>
+        <confml:setting ref="Mailbox1/PortOutgoingServer"/>
+        <confml:setting ref="Mailbox3/APOPSupport"/>
+        <confml:setting ref="Mailbox3/CopyToOwn"/>
+        <confml:setting ref="Mailbox3/FetchAttachment"/>
+        <confml:setting ref="Mailbox3/FetchHeadersNumber"/>
+        <confml:setting ref="Mailbox3/AccessPointID"/>
+        <confml:setting ref="Mailbox3/MailboxName"/>
+        <confml:setting ref="Mailbox3/Address"/>
+        <confml:setting ref="Mailbox3/Protocol"/>
+        <confml:setting ref="Mailbox3/SendingScheduler"/>
+        <confml:setting ref="Mailbox3/IncomingMailServerAddress"/>
+        <confml:setting ref="Mailbox3/Security"/>
+        <confml:setting ref="Mailbox3/OutgoingMailServerAddress"/>
+        <confml:setting ref="Mailbox3/KImumSmtpSecurity"/>
+        <confml:setting ref="Mailbox3/KImumOmaEmnEnabled"/>
+        <confml:setting ref="Mailbox3/UNameIncomingServer"/>
+        <confml:setting ref="Mailbox3/PasswordIncomingServer"/>
+        <confml:setting ref="Mailbox3/PortIncomingServer"/>
+        <confml:setting ref="Mailbox3/UNameOutgoingServer"/>
+        <confml:setting ref="Mailbox3/PasswordOutgoingServer"/>
+        <confml:setting ref="Mailbox3/PortOutgoingServer"/>
+        <confml:setting ref="Mailbox4/APOPSupport"/>
+        <confml:setting ref="Mailbox4/CopyToOwn"/>
+        <confml:setting ref="Mailbox4/FetchAttachment"/>
+        <confml:setting ref="Mailbox4/FetchHeadersNumber"/>
+        <confml:setting ref="Mailbox4/AccessPointID"/>
+        <confml:setting ref="Mailbox4/MailboxName"/>
+        <confml:setting ref="Mailbox4/Address"/>
+        <confml:setting ref="Mailbox4/Protocol"/>
+        <confml:setting ref="Mailbox4/SendingScheduler"/>
+        <confml:setting ref="Mailbox4/IncomingMailServerAddress"/>
+        <confml:setting ref="Mailbox4/Security"/>
+        <confml:setting ref="Mailbox4/OutgoingMailServerAddress"/>
+        <confml:setting ref="Mailbox4/KImumSmtpSecurity"/>
+        <confml:setting ref="Mailbox4/KImumOmaEmnEnabled"/>
+        <confml:setting ref="Mailbox4/UNameIncomingServer"/>
+        <confml:setting ref="Mailbox4/PasswordIncomingServer"/>
+        <confml:setting ref="Mailbox4/PortIncomingServer"/>
+        <confml:setting ref="Mailbox4/UNameOutgoingServer"/>
+        <confml:setting ref="Mailbox4/PasswordOutgoingServer"/>
+        <confml:setting ref="Mailbox4/PortOutgoingServer"/>
+        <confml:setting ref="Mailbox5/APOPSupport"/>
+        <confml:setting ref="Mailbox5/CopyToOwn"/>
+        <confml:setting ref="Mailbox5/FetchAttachment"/>
+        <confml:setting ref="Mailbox5/FetchHeadersNumber"/>
+        <confml:setting ref="Mailbox5/AccessPointID"/>
+        <confml:setting ref="Mailbox5/MailboxName"/>
+        <confml:setting ref="Mailbox5/Address"/>
+        <confml:setting ref="Mailbox5/Protocol"/>
+        <confml:setting ref="Mailbox5/SendingScheduler"/>
+        <confml:setting ref="Mailbox5/IncomingMailServerAddress"/>
+        <confml:setting ref="Mailbox5/Security"/>
+        <confml:setting ref="Mailbox5/OutgoingMailServerAddress"/>
+        <confml:setting ref="Mailbox5/KImumSmtpSecurity"/>
+        <confml:setting ref="Mailbox5/KImumOmaEmnEnabled"/>
+        <confml:setting ref="Mailbox5/UNameIncomingServer"/>
+        <confml:setting ref="Mailbox5/PasswordIncomingServer"/>
+        <confml:setting ref="Mailbox5/PortIncomingServer"/>
+        <confml:setting ref="Mailbox5/UNameOutgoingServer"/>
+        <confml:setting ref="Mailbox5/PasswordOutgoingServer"/>
+        <confml:setting ref="Mailbox5/PortOutgoingServer"/>
+        <confml:setting ref="Mailbox6/APOPSupport"/>
+        <confml:setting ref="Mailbox6/CopyToOwn"/>
+        <confml:setting ref="Mailbox6/FetchAttachment"/>
+        <confml:setting ref="Mailbox6/FetchHeadersNumber"/>
+        <confml:setting ref="Mailbox6/AccessPointID"/>
+        <confml:setting ref="Mailbox6/MailboxName"/>
+        <confml:setting ref="Mailbox6/Address"/>
+        <confml:setting ref="Mailbox6/Protocol"/>
+        <confml:setting ref="Mailbox6/SendingScheduler"/>
+        <confml:setting ref="Mailbox6/IncomingMailServerAddress"/>
+        <confml:setting ref="Mailbox6/Security"/>
+        <confml:setting ref="Mailbox6/OutgoingMailServerAddress"/>
+        <confml:setting ref="Mailbox6/KImumSmtpSecurity"/>
+        <confml:setting ref="Mailbox6/KImumOmaEmnEnabled"/>
+        <confml:setting ref="Mailbox6/UNameIncomingServer"/>
+        <confml:setting ref="Mailbox6/PasswordIncomingServer"/>
+        <confml:setting ref="Mailbox6/PortIncomingServer"/>
+        <confml:setting ref="Mailbox6/UNameOutgoingServer"/>
+        <confml:setting ref="Mailbox6/PasswordOutgoingServer"/>
+        <confml:setting ref="Mailbox6/PortOutgoingServer"/>
+      </confml:group>
+      <confml:group name="Messaging">
+        <confml:desc>Messaging</confml:desc>
+        <confml:setting ref="Bitmasks/SMSUIFlags_bit5"/>
+        <confml:setting ref="Bitmasks/SMSUIFlags_bit6"/>
+        <confml:setting ref="CommonMessagingUI/NumberOfMsgInSentItem"/>
+        <confml:setting ref="CommonMessagingUI/SaveSentMessages"/>
+      </confml:group>
+      <confml:group name="Bluetooth">
+        <confml:desc>Bluetooth</confml:desc>
+        <confml:setting ref="KCRUidBluetoothLocalDeviceAddress/KBTLocalDeviceAddress"/>
+      </confml:group>
+      <confml:group name="Streaming">
+        <confml:desc>Streaming</confml:desc>
+        <confml:setting ref="CVC_streaming/CVC_streamingUseProxy"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingProxyServerAddress"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingProxyPortNumber"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingAccessPoint"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingOnlineTime"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingOnlineTimeValue"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingLowestUDPPort"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingHighestUDPPort"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingGPRSBandwidth"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingGPRSBandwidthValue"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingEGPRSBandwidth"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingEGPRSBandwidthValue"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingUMTSBandwidth"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingUMTSBandwidthValue"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingWLANBandwidth"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingWLANBandwidthValue"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingHSDPABandwidth"/>
+        <confml:setting ref="CVC_streaming/CVC_streamingHSDPABandwidthValue"/>
+      </confml:group>
+      <confml:group name="Mobile TV">
+        <confml:desc>Mobile TV</confml:desc>
+      </confml:group>
+      <confml:group name="Voice and Video Mail">
+        <confml:desc>Settings for voice and video mailboxes</confml:desc>
+        <confml:setting ref="KCRUidVoiceMailbox/KVmbxNumberLineAuxiliary"/>
+        <confml:setting ref="KCRUidVoiceMailbox/KVmbxNumberLinePrimary"/>
+        <confml:setting ref="KCRUidVoiceMailbox/KVmUsesSimMemory"/>
+        <confml:setting ref="KCRUidVoiceMailbox/KVideoMbxSupport"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="System">
+      <confml:desc>System settings of S60 platform</confml:desc>
+      <confml:icon xlink:href="system_48_nav.png"/>
+      <confml:group name="Accessory Profiles">
+        <confml:desc>Accessory Profiles</confml:desc>
+      </confml:group>
+      <confml:group name="SyncML">
+        <confml:desc>SyncML</confml:desc>
+        <confml:setting ref="CVC_SyncML/CVC_SMLSyncProfileName"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLServerVersion"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLServerID"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLDataBearer"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLAccessPoint"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLHostAddress"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLPort"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLUserName"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLPassword"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLAllowSyncRequests"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLNetworkUserName"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLNetworkPassword"/>
+        <confml:setting ref="CVC_SyncML/CVC_SMLSyncronisationType"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLContacts"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLCalendar"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLNotes"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLSyncEmail"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLMusicMetadata"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLMSyncService"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLImage"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLMMS"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLVideo"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLSMS"/>
+        <confml:setting ref="CVC_SyncMLDataSync/CVC_SyncMLBookmarks"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLDataSyncRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLCalendarRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLNotesRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLSyncEmailRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLMusicMetadataRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLMSyncServiceRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLImageRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLMMSRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLVideoRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLSMSRemoteDatabase"/>
+        <confml:setting ref="CVC_SyncMLDataSyncRemoteDatabases/CVC_SyncMLBookmarksRemoteDatabase"/>
+      </confml:group>
+      <confml:group name="Light Sensor">
+        <confml:desc>Light Senso</confml:desc>
+      </confml:group>
+      <confml:group name="Java">
+        <confml:desc>Java Application Settings</confml:desc>
+      </confml:group>
+      <confml:group name="Other">
+        <confml:desc>Other</confml:desc>
+        <confml:setting ref="CVC_CellInfoDisplay/CVC_CellInfoDisplay"/>
+        <confml:setting ref="CVC_ZeroPlusSend/CVC_ZeroPlusSend"/>
+        <confml:setting ref="CVC_2DigitDialing/CVC_2DigitDialing"/>
+        <confml:setting ref="CVC_CPHSALS/CVC_CPHSALS"/>
+      </confml:group>
+      <confml:group name="Telephony">
+        <confml:desc>Telephony</confml:desc>
+        <confml:setting ref="CommonTelephony/SummaryAfterCall"/>
+        <confml:setting ref="CallSettings/AnyKeyAnswer"/>
+        <confml:setting ref="CallSettings/AutomaticRedial"/>
+        <confml:setting ref="CallSettings/OneKeyDialling"/>
+        <confml:setting ref="CallSettings/DialPrefixChangeMode"/>
+        <confml:setting ref="CallSettings/DialPrefixText"/>
+        <confml:setting ref="CallSettings/SoftReject"/>
+        <confml:setting ref="CallSettings/StillImageForVideoCalls"/>
+        <confml:setting ref="KCRUidTelConfiguration/KTelMatchDigits"/>
+        <confml:setting ref="KCRUidTelVariation/DefaultEmergencyNumbers"/>
+        <confml:setting ref="KCRUidTelVariation/KTelephonyLVFlagUssdTone"/>
+        <confml:setting ref="KCRUidTelVariation/KTelephonyLVFlagMannerMode"/>
+        <confml:setting ref="KCRUidTelVariation/KTelephonyLVFlagUUS"/>
+        <confml:setting ref="NumberGroupingSettings/NumberGrouping"/>
+      </confml:group>
+      <confml:group name="FOTA">
+        <confml:desc>Firmware update Over The Air</confml:desc>
+      </confml:group>
+      <confml:group name="Keyguard">
+        <confml:desc>Keypad lock settings</confml:desc>
+      </confml:group>
+      <confml:group name="Service Messages">
+        <confml:desc>Service Messages</confml:desc>
+      </confml:group>
+      <confml:group name="Vibra">
+        <confml:desc>Vibra</confml:desc>
+      </confml:group>
+      <confml:group name="Software Install">
+        <confml:desc>Software Install</confml:desc>
+        <confml:setting ref="SWInstallerUISettings/PolicyForOnlineCertificate"/>
+        <confml:setting ref="SWInstallerUISettings/URLToOCSPServer"/>
+        <confml:setting ref="SWInstallerUISettings/SoftwareInstallation"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="UI">
+      <confml:desc>Settings for branding, user interface and look &amp; feel</confml:desc>
+      <confml:icon xlink:href="userinterface_48_nav.png"/>
+      <confml:group name="Customer Menu">
+        <confml:desc>Often referred to as the Operator Menu, the Customer Menu is an application that launches the browser as an embedded application with a predefined URL as parameter.</confml:desc>
+        <confml:setting ref="OperatorMenuSettings/DefaultAccessPoint"/>
+        <confml:setting ref="CacheManagerSettings/OperatorDomainURL"/>
+        <confml:setting ref="CVC_OperatorMenu/CVC_OperatorMenuIconFile"/>
+        <confml:setting ref="CVC_OperatorMenu/CVC_OperatorMenuIconMaskFile"/>
+        <confml:setting ref="CVC_OperatorMenu/CVC_OperatorMenuIconCaption"/>
+        <confml:setting ref="CVC_OperatorMenu/CVC_OperatorMenuURL"/>
+        <confml:setting ref="CVC_OperatorMenu/CVC_OperatorMenuCache"/>
+        <confml:setting ref="CVC_OperatorMenu/CVC_AppShellOperatorMenuCacheExpireDate"/>
+      </confml:group>
+      <confml:group name="Customer Logo">
+        <confml:desc>The Nokia NXX supports colour logos in addition to the traditional black and white Customer logos.</confml:desc>
+        <confml:setting ref="CVC_OperatorLogo/CVC_OperatorMCC"/>
+        <confml:setting ref="CVC_OperatorLogo/CVC_OperatorMNC"/>
+        <confml:setting ref="CVC_OperatorLogo/CVC_OperatorLogoPath"/>
+      </confml:group>
+      <confml:group name="Ring Tones">
+        <confml:desc>Nokia NXX supports the following types of ring tones and alert tones. The Customer may select to include tones of their own in any of the listed formats. The Customer can specify one as the default ringing tone in the General profile.</confml:desc>
+      </confml:group>
+      <confml:group name="Start-up and shutdown animations">
+        <confml:desc>Start-up and shutdown animations</confml:desc>
+        <confml:setting ref="CVC_ShutdownAnimationSequence/CVC_ShutdownAnimationDuration"/>
+        <confml:setting ref="CVC_ShutdownAnimationSequence/CVC_ShutdownAnimationTone"/>
+        <confml:setting ref="CVC_ShutdownAnimationSequence/CVC_ShutdownFrameLocation"/>
+        <confml:setting ref="CVC_StartupAnimationSequence/CVC_StartupAnimationDuration"/>
+        <confml:setting ref="CVC_StartupAnimationSequence/CVC_StartupAnimationTone"/>
+        <confml:setting ref="CVC_StartupAnimationSequence/CVC_StartupFrameLocation"/>
+      </confml:group>
+      <confml:group name="Application Menu">
+        <confml:desc>Application Menu</confml:desc>
+      </confml:group>
+      <confml:group name="Themes">
+        <confml:desc>Themes</confml:desc>
+        <confml:setting ref="CVC_Theme_ref/CVC_DefaultTheme_ref"/>
+      </confml:group>
+      <confml:group name="General">
+        <confml:desc>General</confml:desc>
+        <confml:setting ref="KCRUidWallpaperConfiguration/KWpConfPortraitScalePriority"/>
+        <confml:setting ref="KCRUidWallpaperConfiguration/KWpConfPortraitMaxCropFactor"/>
+        <confml:setting ref="KCRUidWallpaperConfiguration/KWpConfPortaitMaxStretchFactor"/>
+        <confml:setting ref="KCRUidWallpaperConfiguration/KWpConfLandscapeScalePriority"/>
+        <confml:setting ref="KCRUidWallpaperConfiguration/KWpConfLandscapeMaxCropFactor"/>
+        <confml:setting ref="KCRUidWallpaperConfiguration/KWpConfLandscapeMaxStretchFactor"/>
+        <confml:setting ref="PeripheralSettings/DisplayLightTimeout"/>
+        <confml:setting ref="ScreensaverAnimation/FilePath"/>
+        <confml:setting ref="ScreensaverAnimation/AnimationTimeout"/>
+        <confml:setting ref="ScreensaverAnimation/LightsTimeout"/>
+        <confml:setting ref="ScreensaverSettings/PluginImplementationUID"/>
+        <confml:setting ref="ScreensaverSettings/Object"/>
+        <confml:setting ref="ScreensaverSettings/KScreenSaverText"/>
+        <confml:setting ref="KCRUidActiveIdle2/UNKNOWN0"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAiStatusPaneLayout"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAiMainUIControllerKey"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIFirstKeyLockKey"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAISecondKeyLockKey"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAISecondKeyLockKey2"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIKeyLockTimeout"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIVoiceDialLaunchKey"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIVoiceDialKeyTimeout"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAISPNAndEONS"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIVHZInMainpane"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIExternalStatusScreen"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAINTInTheme"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName1"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId1"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue1"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName2"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId2"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue2"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName3"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId3"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue3"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName4"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId4"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue4"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName5"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId5"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue5"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName6"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId6"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue6"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName7"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId7"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue7"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName8"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId8"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue8"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName9"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId9"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue9"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName10"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId10"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue10"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName11"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId11"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue11"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName12"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId12"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue12"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName13"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId13"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue13"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName14"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId14"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue14"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsPluginName15"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsId15"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIPluginSettingsValue15"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAISettingsExtraURLShortcut1"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAISettingsExtraURLShortcut2"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAISettingsExtraURLShortcut3"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup1"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup2"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup3"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup4"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup5"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup6"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup7"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackup8"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupNaviLeft"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupNaviRight"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupNaviUp"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupNaviDown"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupNaviKey"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupLSK"/>
+        <confml:setting ref="KCRUidActiveIdle2/KAIShortcutBackupRSK"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnActiveSkinLocation"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnActiveSkinUid"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnFavouritesBackgroundImagePath"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnIdleBackgroundImagePath"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnDefaultSkinUid"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnSystemDefaultScreenSaver"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnColorPalette"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnAvailableColorPalettes"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnHighlightAnimationEnalbled"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnFullScreenWallpaperEnabled"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnWallpaperType"/>
+        <confml:setting ref="KCRUidPersonalisation/KPslnDefaultSkin"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsBackgroundImage"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsBackgroundImagePath"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsDisplayOperatorLogo"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsShowOperatorLogoSetting"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsWelcomeNoteSupported"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsActiveIdleState"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsConfirmSatOperationsSupported"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsScreenSaverPeriod"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsConfirmSatOperations"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsDisplayTurnoffTimeout"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsOperatorActiveIdle"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsWritingSpeed"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsPenWidth"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsPenColor"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsDefaultVkbPrc"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsDefaultVkbTw"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsDefaultVkbHk"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsPenInputLang"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsHearingAidMode"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsPenInputGuideLine"/>
+        <confml:setting ref="KCRUidPersonalizationSettings/KSettingsOperatorVariantActiveIdleText"/>
+        <confml:setting ref="CVC_RSK/CVC_ActiveIdleRSKCustomization"/>
+        <confml:setting ref="CVC_RSK/CVC_ActiveIdleRSKText"/>
+        <confml:setting ref="CVC_RSK/CVC_ActiveIdleRSKImage"/>
+        <confml:setting ref="CVC_RSK/CVC_ActiveIdleRSKImageBMPMask"/>
+        <confml:setting ref="CVC_RSK/CVC_ActiveIdleRSKTargetURL"/>
+        <confml:setting ref="CVC_RSK/CVC_ActiveIdleRSKTargetAppUID"/>
+        <confml:setting ref="CVC_Wallpaper/CVC_WallpaperFile"/>
+        <confml:setting ref="CVC_Screensaver/CVC_ScreensaverFile"/>
+        <confml:setting ref="CVC_Screensaver/CVC_AnimationTimeout"/>
+        <confml:setting ref="CVC_Screensaver/CVC_LightsTimeout"/>
+      </confml:group>
+      <confml:group name="Nokia PC Internet Access">
+        <confml:desc>Nokia PC Internet Access a.k.a. Phone a modem</confml:desc>
+        <confml:setting ref="CVC_NokiaPCInternetAccess/CVC_NokiaPCInternetAccessFile"/>
+        <confml:setting ref="CVC_NokiaPCInternetAccess/CVC_NokiaPCInternetAccessURL"/>
+        <confml:setting ref="CVC_NokiaPCInternetAccess/CVC_NokiaPCInternetAccessCustomerCareInfo"/>
+      </confml:group>
+      <confml:group name="Homescreen">
+        <confml:desc>Homescreen or Active Idle customizations</confml:desc>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersEmail"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersCalendar"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersMusicPlayer"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersVisualRadio"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersWLAN"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersEmailSettingsWizard"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersInternetCallSetup"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersMobileSearch"/>
+        <confml:setting ref="CVC_ActiveIdleNotifiers/CVC_ActiveIdleNotifiersSIMApplicationToolkit"/>
+        <confml:setting ref="CVC_ActiveIdleOther/CVC_ActiveIdleEasyDialing"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="Pre-Installed Content">
+      <confml:desc>Applications, music, video and other files preinstalled to device</confml:desc>
+      <confml:icon xlink:href="preinstalledcontent_48_nav.png"/>
+      <confml:group name="Customer Applications">
+        <confml:desc>Customer specific Symbian and Java applications can be pre-installed to device memory (UDA).</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledMMCApplicationsFolder"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledUDAApplicationsFolder"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_BundledApplicationsFolder"/>
+      </confml:group>
+      <confml:group name="Pre-loaded MMS">
+        <confml:desc>Maximum amount of 3 Customer specific MMS messages may be pre-installed in the Device memory.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledMMSs"/>
+      </confml:group>
+      <confml:group name="Pre-loaded Video">
+        <confml:desc>Customer specific video clips may be pre-installed in the User Data Area or Memory card. The end user is able to delete them.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledVideoClipsFolder"/>
+      </confml:group>
+      <confml:group name="Pre-loaded Music">
+        <confml:desc>Customer can pre-load Music content in the User Data Area and/or memory card. They will be seen in Nseries Music Player. The end user is able to delete them.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledMusicClipsFolder"/>
+      </confml:group>
+      <confml:group name="Pre-loaded Images">
+        <confml:desc>Customer can pre-load images in the User Data Area and/or memory card. They will be seen in Photos application. The end user is able to delete them.</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledImagesFolder"/>
+      </confml:group>
+      <confml:group name="Pre-installed Ringtones">
+        <confml:desc>Pre-installed ringtones</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_DefaultMessageToneFile"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_DefaultRingtoneFile"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_DefaultVideoCallToneFile"/>
+      </confml:group>
+      <confml:group name="Pre-installed Certificates">
+        <confml:desc>Pre-installed security certificates (X.509)</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_CertificatesInternet"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_CertificatesMIDP"/>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_CertificatesSymbian"/>
+      </confml:group>
+      <confml:group name="Pre-installed Themes">
+        <confml:desc>Pre-installed Themes</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledThemesFolder"/>
+      </confml:group>
+      <confml:group name="Pre-defined Streaming Links">
+        <confml:desc>Pre-defined Streaming Links</confml:desc>
+        <confml:setting ref="CVC_PreinstalledContent/CVC_PreInstalledStreamingLinksFolder"/>
+      </confml:group>
+      <confml:group name="Pre-defined Bookmarks">
+        <confml:desc>Pre-defined Bookmarks</confml:desc>
+        <confml:setting ref="BookmarkItems/BookmarkItem"/>
+      </confml:group>
+      <confml:group name="Pre-defined Contacts">
+        <confml:desc>Pre-defined Contacts</confml:desc>
+        <confml:setting ref="Contacts/Contact"/>
+      </confml:group>
+    </confml:group>
+  </confml:view>
+</confml:configuration>

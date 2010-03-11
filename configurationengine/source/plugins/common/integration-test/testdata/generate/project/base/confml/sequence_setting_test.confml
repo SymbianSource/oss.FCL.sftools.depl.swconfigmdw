@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="Basic setting types test">
+  <confml:feature ref="SequenceSettingTest" name="Sequence setting test">
+    <confml:desc>Feature with a sequence setting (ConfML v2.0)</confml:desc>
+    <confml:setting ref="SequenceSetting" name="Sequence setting" type="sequence">
+      <confml:desc>A sequence setting</confml:desc>
+      <confml:setting ref="FolderSubSetting" name="Folder sub-setting" type="folder">
+        <confml:desc>A folder sub-setting</confml:desc>
+        <confml:localPath/>
+        <confml:targetPath readOnly="true"/>
+      </confml:setting>
+      <confml:setting ref="RealSubSetting" name="Real sub-setting" type="real">
+        <confml:desc>A real sub-setting</confml:desc>
+      </confml:setting>
+      <confml:setting ref="FileSubSetting" name="File sub-setting" type="file">
+        <confml:desc>A file sub-setting</confml:desc>
+        <confml:localPath/>
+        <confml:targetPath readOnly="true"/>
+      </confml:setting>
+      <confml:setting ref="IntSubSetting" name="Int sub-setting" type="int">
+        <confml:desc>An int sub-setting</confml:desc>
+      </confml:setting>
+      <confml:setting ref="StringSubSetting" name="String sub-setting" type="string">
+        <confml:desc>A string sub-setting</confml:desc>
+      </confml:setting>
+      <confml:setting ref="BooleanSubSetting" name="Boolean sub-setting" type="boolean">
+        <confml:desc>A boolean sub-setting</confml:desc>
+      </confml:setting>
+      <confml:setting ref="SelectionSubSetting" name="Selection sub-setting" type="selection">
+        <confml:desc>A selection sub-setting</confml:desc>
+        <confml:option name="Op0" value="0"/>
+        <confml:option name="Op1" value="1"/>
+        <confml:option name="Op2" value="2"/>
+        <confml:option name="Op3" value="3"/>
+        <confml:option name="Op4" value="4"/>
+      </confml:setting>
+    </confml:setting>
+  </confml:feature>
+  
+  <confml:data>
+    <confml:SequenceSettingTest>
+      <confml:SequenceSetting template="true">
+        <confml:FolderSubSetting><confml:localPath>seq/default_folder</confml:localPath></confml:FolderSubSetting>
+        <confml:RealSubSetting>1.0</confml:RealSubSetting>
+        <confml:FileSubSetting><confml:localPath>seq/default_file.txt</confml:localPath></confml:FileSubSetting>
+        <confml:IntSubSetting>1</confml:IntSubSetting>
+        <confml:StringSubSetting>template</confml:StringSubSetting>
+        <confml:BooleanSubSetting>false</confml:BooleanSubSetting>
+        <confml:SelectionSubSetting>0</confml:SelectionSubSetting>
+      </confml:SequenceSetting>
+      <confml:SequenceSetting>
+        <confml:FolderSubSetting><confml:localPath>seq/def1_folder</confml:localPath></confml:FolderSubSetting>
+        <confml:RealSubSetting>1.25</confml:RealSubSetting>
+        <confml:FileSubSetting><confml:localPath>seq/def1_file.txt</confml:localPath></confml:FileSubSetting>
+        <confml:IntSubSetting>128</confml:IntSubSetting>
+        <confml:StringSubSetting>def1</confml:StringSubSetting>
+        <confml:BooleanSubSetting>false</confml:BooleanSubSetting>
+        <confml:SelectionSubSetting>1</confml:SelectionSubSetting>
+      </confml:SequenceSetting>
+      <confml:SequenceSetting>
+        <confml:FolderSubSetting><confml:localPath>seq/def2_folder</confml:localPath></confml:FolderSubSetting>
+        <confml:RealSubSetting>1.5</confml:RealSubSetting>
+        <confml:FileSubSetting><confml:localPath>seq/def2_file.txt</confml:localPath></confml:FileSubSetting>
+        <confml:IntSubSetting>256</confml:IntSubSetting>
+        <confml:StringSubSetting>def2</confml:StringSubSetting>
+        <confml:BooleanSubSetting>false</confml:BooleanSubSetting>
+        <confml:SelectionSubSetting>1</confml:SelectionSubSetting>
+      </confml:SequenceSetting>
+    </confml:SequenceSettingTest>
+  </confml:data>
+</confml:configuration>

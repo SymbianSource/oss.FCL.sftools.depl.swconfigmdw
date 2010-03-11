@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/1" name="startup">
+  <feature name="CRUidStartup" ref="KCRUidStartup">
+    <desc/>
+    <setting name="Startup Reason" ref="KStartupReason" type="int">
+      <desc>Used by Starter to set the additional startup reason (lang switch, RFS, etc.)</desc>
+    </setting>
+    <setting name="Startup First Boot" ref="KStartupFirstBoot" type="int">
+      <desc>Used by Starter to check whether this is the first boot. The value is set by Startup Application.</desc>
+    </setting>
+    <setting name="Startup Sim Language" ref="KStartupSimLanguage" type="int">
+      <desc>Used by automatic language selection to store the last automatically selected language code.</desc>
+    </setting>
+  </feature>
+  <feature name="Startup Configuration Settings" ref="StartupSettings">
+    <desc/>
+    <setting name="SIMless Offline Mode" ref="SIMlessOfflineMode" type="selection">
+      <desc>Enable/disable the SIMless Offline mode. The value must reflect the Cellular Modem implementation.</desc>
+      <option name="Disable" value="0"/>
+      <option name="Enable" value="1"/>
+    </setting>
+    <setting name="Welcome Note Image" ref="WelcomeNoteImage" type="string">
+      <desc>The welcome note image (user selection in General Settings).</desc>
+    </setting>
+    <setting name="Welcome Note Text" ref="WelcomeNoteText" type="string">
+      <desc>The welcome note text (user selection in General Settings).</desc>
+    </setting>
+    <setting name="Welcome Note Type" ref="WelcomeNoteType" type="selection">
+      <desc>The welcome note type (user selection in General Settings).</desc>
+      <option name="Default" value="0"/>
+      <option name="Text" value="1"/>
+      <option name="Image" value="2"/>
+    </setting>
+    <setting name="Operator Note Image" ref="OperatorNoteImage" type="string">
+      <desc>The operator note image. Will overrule the user selection, if defined.</desc>
+    </setting>
+    <setting name="Operator Note Text" ref="OperatorNoteText" type="string">
+      <desc>The operator note text. Will overrule the user selection, if defined.</desc>
+    </setting>
+    <setting name="Plugin Timeout" ref="PluginTimeout" type="int">
+      <desc>Indicates the timeout for plug-in calls in milliseconds.</desc>
+    </setting>
+    <setting name="Startup Reset Counter" ref="KStartupResetCounter" type="int">
+      <desc>Indicates the amount of subsequent resets.</desc>
+    </setting>
+    <setting name="Reset Limit" ref="ResetLimit" type="int">
+      <desc>Indicates the maximum number of subsequent resets allowed.</desc>
+    </setting>
+    <setting name="Startup Animation Scaling" ref="KStartupAnimationScaling" type="int">
+      <desc>Indicates whether to try to scale the image to better fit the screen size or just use the target size of the animation as it is.&#13;
+The value is only used if the animation format supports enabling/disabling scaling.&#13;
+0 - disable scaling&#13;
+1 - enable scaling</desc>
+    </setting>
+    <setting name="Startup Tone Path" ref="StartupTonePath" type="string">
+      <desc>A string that defines the path to the startup tone MIDI file.</desc>
+    </setting>
+    <setting name="Startup Tone Volume" ref="StartupToneVolume" type="int">
+      <desc>The volume level used when playing the startup tone. Possible values range from 0 to 10.</desc>
+    </setting>
+    <setting name="Startup Operator Animation Scaling" ref="KStartupOperatorAnimationScaling" type="int">
+      <desc>Indicates whether to try to scale the image to better fit the screen size or just use the target size of the animation as it is.&#13;
+The value is only used if the animation format supports enabling/disabling scaling.&#13;
+0 - disable scaling&#13;
+1 - enable scaling</desc>
+    </setting>
+    <setting name="Operator Startup MIDI File" ref="OperatorStartupMIDIFile" type="string">
+      <desc>A string that defines the path to the operator specific startup tone MIDI file.</desc>
+    </setting>
+    <setting name="Shutdown Animation Scaling" ref="KShutdownAnimationScaling" type="int">
+      <desc>Indicates whether to try to scale the image to better fit the screen size or just use the target size of the animation as it is.&#13;
+The value is only used if the animation format supports enabling/disabling scaling.&#13;
+0 - disable scaling&#13;
+1 - enable scaling</desc>
+    </setting>
+  </feature>
+  <feature name="Starter Server Configuration" ref="KCRUidStarterConf">
+    <desc>Starter server configuration</desc>
+    <setting name="Starter Monitoring TimeLimit" readOnly="true" ref="KStarterMonitoringTimeLimit" type="int">
+      <desc>Used for determining if a component has been running for a long time or if it has been started just recently. This information is required when deciding whether to try to re-start the component if it dies for some reason. Key value is a time limit (in seconds) which determines whether the item has been started recently or a while ago.</desc>
+    </setting>
+    <setting name="Starter Startup Completion Time Limit" readOnly="true" ref="KStarterStartupCompletionTimeLimit" type="int"/>
+    <setting name="Starter Local Variantion Flags" readOnly="true" ref="KStarterLocalVariantionFlags" type="int"/>
+  </feature>
+  <feature name="Startup Configuration Settings" ref="StartupConfigurationSettings">
+    <setting name="Startup default time" ref="startupDefaultTime" type="string">
+      <desc>Default date and time value to propose to user during first boot.Format is YYYYMMDD:HHMMSS. The month and day values are offset from zero.Example: 20070000:090000 - 01.01.2007 09:00 AM.</desc>
+    </setting>
+    <setting name="Startup Animation Path" ref="StartupAnimationPath" type="string">
+      <desc>A string that defines the path and file name of the startup animation file. This is the first animation shown during the system start-up.The value is mandatory, and it has to be a file name and a path of a valid animation file.The animation file should be stored in a location where system applications have read access.Supported formats are SVG-T (.svg, .svgb), MIF (.mif) and GIF (.gif).The length of the startup animation should be 3 seconds.Example: Z:\\resource\\apps\\startup.svg</desc>
+    </setting>
+    <setting name="Startup Animation Frame Delay" ref="StartupAnimationFrameDelay" type="int">
+      <desc>A frame delay value in microseconds for fine-tuning the startup animation.The value is only used if:a) The animation file contains an animation format, which does not contain frame delay information in it (MIF), or b) The animation file contains a still image, and no startup tone has been specified, in which case this value defines how long the image is shown.</desc>
+    </setting>
+    <setting name="Startup Operator Animation Path" ref="StartupOperatorAnimationPath" type="string">
+      <desc>A string that defines the path and file name of the operator-specific startup animation file.The operator-specific startup animation is shown after the startup animation.The value is optional. If defined, it has to be a file name and a path of a valid animation file. The animation file should be stored in a location where system applications have read access. Supported formats are SVG-T (.svg, .svgb), MIF (.mif) and GIF (.gif). The length of the operator-specific startup animation should be 3-5 seconds. Animations longer than that may cause performance problems.Example: Z:\\resource\\apps\\operatorstartup.svg </desc>
+    </setting>
+    <setting name="Startup Operator Animation Frame Delay" ref="StartupOperatorAnimationFrameDelay" type="int">
+      <desc>A frame delay value in microseconds for fine-tuning the operator-specific startup animation. The value is only used if: a) The operator-specific startup animation file contains an animation format, which does not contain frame delay information in it (MIF), or b) The operator-specific startup animation file contains a still image, and no operator-specific startup tone has been specified, in which case this value defines how long the image is shown.</desc>
+    </setting>
+    <setting name="Startup Operator Tone Volume" ref="StartupOperatorToneVolume" type="int">
+      <desc>The volume level used when playing the operator-specific startup tone.Possible values range from 0 to 10. If the ringing tone is silent, the tone is not played.</desc>
+    </setting>
+    <setting name="Shutdown Animation Path" ref="ShutdownAnimationPath" type="string">
+      <desc>A string that defines the path and file name of the shutdown animation file. The shutdown animation is shown during the system shutdown. The value is optional. If defined, it has to be a file name and a path of a valid animation file. The animation file should be stored in a location where system applications have read access. Supported formats are SVG-T (.svg, .svgb), MIF (.mif) and GIF (.gif). The length of the shutdown animation should be at most 3 seconds. Example: Z:\\resource\\apps\\shutdown.svg</desc>
+    </setting>
+    <setting name="Shutdown Animation Frame Delay" ref="ShutdownAnimationFrameDelay" type="int">
+      <desc>A frame delay value in microseconds for fine-tuning the shutdown animation. The value is only used if: a) The shutdown animation file contains an animation format, which does not contain frame delay information in it (MIF), or b) The shutdown animation file contains a still image, and no shutdown tone has been specified, in which case this value defines how long the image is shown.</desc>
+    </setting>
+    <setting name="Shutdown Tone Path" ref="ShutdownTonePath" type="string">
+      <desc>A string that defines the path to the shutdown tone MIDI file.The tone is played at the same time as the shutdown animation is shown. The value is optional. The tone file should be stored in a location where system applications have read access.The shutdown tone should be at most 3 seconds long. The tone will be played to the end before continuing the shutdown.Example: Z:\\resource\\apps\\shutdown.wav </desc>
+    </setting>
+    <setting name="Shutdown Tone Volume" ref="ShutdownToneVolume" type="int">
+      <desc>The volume level used when playing the shutdown tone.Possible values range from 0 to 10.If the ringing tone is silent, the tone is not played.</desc>
+    </setting>
+  </feature>
+  <feature name="Startup Settings" ref="KCRUidStartupConf">
+    <setting name="Startup Queries" ref="KStartupQueries" type="selection">
+      <desc>Enable / disable startup queries (city, date, time)</desc>
+      <option name="Startup Queries Disabled" value="0"/>
+      <option name="Startup Queries Enabled" value="1"/>
+    </setting>
+    <setting name="Path of 1. Startup List Extension" ref="KStartupListExtension1Path" type="string">
+      <desc>String that defines the path to first startup list extension resource file. Empty values indicates that there is no startup list extension resource file.</desc>
+    </setting>
+    <setting name="Path of 2. Startup List Extension" ref="KStartupListExtension2Path" type="string">
+      <desc>String that defines the path to second startup list extension resource file. Empty values indicates that there is no startup list extension resource file.</desc>
+    </setting>
+  </feature>
+  <feature name="Starter Server Stored Values" ref="KCRUidStarterVals">
+    <desc/>
+    <setting name="Starter Stored Imsi" ref="KStarterStoredImsi" type="string"/>
+  </feature>
+  <data>
+    <KCRUidStartup>
+      <KStartupReason>100</KStartupReason>
+      <KStartupFirstBoot>0</KStartupFirstBoot>
+      <KStartupSimLanguage>0</KStartupSimLanguage>
+    </KCRUidStartup>
+    <StartupSettings>
+      <SIMlessOfflineMode>1</SIMlessOfflineMode>
+      <WelcomeNoteImage/>
+      <WelcomeNoteText/>
+      <WelcomeNoteType>0</WelcomeNoteType>
+      <OperatorNoteImage/>
+      <OperatorNoteText/>
+      <PluginTimeout>30000</PluginTimeout>
+      <KStartupResetCounter>0</KStartupResetCounter>
+      <ResetLimit>5</ResetLimit>
+      <KStartupAnimationScaling>0</KStartupAnimationScaling>
+      <StartupTonePath/>
+      <StartupToneVolume>4</StartupToneVolume>
+      <KStartupOperatorAnimationScaling>0</KStartupOperatorAnimationScaling>
+      <OperatorStartupMIDIFile/>
+      <KShutdownAnimationScaling>0</KShutdownAnimationScaling>
+    </StartupSettings>
+    <KCRUidStarterConf>
+      <KStarterMonitoringTimeLimit>60</KStarterMonitoringTimeLimit>
+      <KStarterStartupCompletionTimeLimit>20</KStarterStartupCompletionTimeLimit>
+      <KStarterLocalVariantionFlags>0x00000001</KStarterLocalVariantionFlags>
+    </KCRUidStarterConf>
+    <StartupConfigurationSettings>
+      <startupDefaultTime/>
+      <StartupAnimationPath>Z:\\resource\\apps\\startup.mbm</StartupAnimationPath>
+      <StartupAnimationFrameDelay>135000</StartupAnimationFrameDelay>
+      <StartupOperatorAnimationPath/>
+      <StartupOperatorAnimationFrameDelay>100000</StartupOperatorAnimationFrameDelay>
+      <StartupOperatorToneVolume>4</StartupOperatorToneVolume>
+      <ShutdownAnimationPath/>
+      <ShutdownAnimationFrameDelay>100000</ShutdownAnimationFrameDelay>
+      <ShutdownTonePath/>
+      <ShutdownToneVolume>4</ShutdownToneVolume>
+    </StartupConfigurationSettings>
+    <KCRUidStartupConf>
+      <KStartupQueries>1</KStartupQueries>
+      <KStartupListExtension1Path/>
+      <KStartupListExtension2Path/>
+    </KCRUidStartupConf>
+    <KCRUidStarterVals>
+      <KStarterStoredImsi/>
+    </KCRUidStarterVals>
+  </data>
+  <rfs>
+    <KCRUidStartup>
+      <KStartupReason>false</KStartupReason>
+      <KStartupFirstBoot>false</KStartupFirstBoot>
+      <KStartupSimLanguage>true</KStartupSimLanguage>
+    </KCRUidStartup>
+    <StartupSettings>
+      <SIMlessOfflineMode>false</SIMlessOfflineMode>
+      <WelcomeNoteImage>true</WelcomeNoteImage>
+      <WelcomeNoteText>true</WelcomeNoteText>
+      <WelcomeNoteType>true</WelcomeNoteType>
+      <OperatorNoteImage>false</OperatorNoteImage>
+      <OperatorNoteText>false</OperatorNoteText>
+      <PluginTimeout>false</PluginTimeout>
+      <KStartupResetCounter>false</KStartupResetCounter>
+      <ResetLimit>false</ResetLimit>
+      <KStartupAnimationScaling>false</KStartupAnimationScaling>
+      <StartupTonePath>false</StartupTonePath>
+      <StartupToneVolume>false</StartupToneVolume>
+      <KStartupOperatorAnimationScaling>false</KStartupOperatorAnimationScaling>
+      <OperatorStartupMIDIFile>false</OperatorStartupMIDIFile>
+      <KShutdownAnimationScaling>false</KShutdownAnimationScaling>
+    </StartupSettings>
+    <KCRUidStarterConf>
+      <KStarterMonitoringTimeLimit>false</KStarterMonitoringTimeLimit>
+      <KStarterStartupCompletionTimeLimit>false</KStarterStartupCompletionTimeLimit>
+      <KStarterLocalVariantionFlags>false</KStarterLocalVariantionFlags>
+    </KCRUidStarterConf>
+    <StartupConfigurationSettings>
+      <startupDefaultTime>false</startupDefaultTime>
+      <StartupAnimationPath>false</StartupAnimationPath>
+      <StartupAnimationFrameDelay>false</StartupAnimationFrameDelay>
+      <StartupOperatorAnimationPath>false</StartupOperatorAnimationPath>
+      <StartupOperatorAnimationFrameDelay>false</StartupOperatorAnimationFrameDelay>
+      <StartupOperatorToneVolume>false</StartupOperatorToneVolume>
+      <ShutdownAnimationPath>false</ShutdownAnimationPath>
+      <ShutdownAnimationFrameDelay>false</ShutdownAnimationFrameDelay>
+      <ShutdownTonePath>false</ShutdownTonePath>
+      <ShutdownToneVolume>false</ShutdownToneVolume>
+    </StartupConfigurationSettings>
+    <KCRUidStartupConf>
+      <KStartupQueries>false</KStartupQueries>
+      <KStartupListExtension1Path>false</KStartupListExtension1Path>
+      <KStartupListExtension2Path>false</KStartupListExtension2Path>
+    </KCRUidStartupConf>
+    <KCRUidStarterVals>
+      <KStarterStoredImsi>false</KStarterStoredImsi>
+    </KCRUidStarterVals>
+  </rfs>
+</configuration>

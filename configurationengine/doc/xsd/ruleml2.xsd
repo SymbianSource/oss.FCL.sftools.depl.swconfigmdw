@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.s60.com/xml/ruleml/2" xmlns:xs="http://www.s60.com/xml/ruleml/2" elementFormDefault="qualified">
+	<xs:element name="ruleml">
+		<xs:attribute name="xmlns" type="xs:string"/>
+		<xs:element name="rule">
+    </xs:element>
+    </xs:element>
+    <xs:element name="eval_globals">
+        <xs:attribute name="xmlns" type="xs:string"/>
+        <xs:attribute name="file" type="xs:string"/>
+    </xs:element>
+</schema>

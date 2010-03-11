@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+  <output file="multi_header.h" type="header">
+    <include ref="*.hcrml"/>
+  </output>
+</hcr>

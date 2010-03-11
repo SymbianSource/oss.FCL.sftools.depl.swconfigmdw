@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="data">
+    <data>
+        <Feature1>
+            <RealSetting>5.555</RealSetting>
+            <IntSetting>5555</IntSetting>
+            <StringSetting>Test test</StringSetting>
+            <BooleanSetting>false</BooleanSetting>
+            <SelectionSetting>2</SelectionSetting>
+        </Feature1>
+    </data>
+</configuration>

@@ -1,0 +1,35 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000001,Setting 1,type,int,real
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000002,Setting 2,backup,True,False
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000003,Setting 3,cap_wr,AlwaysFail,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000003,Setting 3,read_only,True,False
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000004,Setting 4,cap_wr,None,AlwaysFail
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000004,Setting 4,read_only,False,True
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000007,Setting 7,ref,SimpleKeys.Setting7,SimpleKeys.Setting7RefChanged
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,cap_wr,WriteDeviceData,WriteUserData
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,sid_rd,0xAABBCCDD,0x11223344
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000008,Setting 8,sid_wr,0xDDCCBBAA,0x44332211
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,cap_rd,ReadDeviceData,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,cap_wr,WriteDeviceData,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,sid_rd,0xAABBCCDD,None
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x00000009,Setting 9,sid_wr,0xDDCCBBAA,None
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x20000001,Added setting
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+Layer1/implml/00000001_simple_keys.crml,0x00000001,SimpleKeys,0x10000001,Removed setting
+
+
+Duplicate repositories in source:
+File,Repository UID
+
+
+Duplicate repositories in target:
+File,Repository UID

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="BackupTest" uidValue="0x0000000B" owner="0x10101010" backup="true">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="BackupTest/Setting1" name="Setting 1" int="0x00000001" type="int" readOnly="false" backup="true"/>
+  <key ref="BackupTest/Setting2" name="Setting 2" int="0x00000002" type="int" readOnly="false" backup="false"/>
+  <key ref="BackupTest/Setting3" name="Setting 3" int="0x00000003" type="int" readOnly="true" backup="false"/>
+  <key ref="BackupTest/Setting4" name="Setting 4" int="0x00000004" type="int" backup="true"/>
+  <key ref="BackupTest/Setting5" name="Setting 5" int="0x00000005" type="int" readOnly="true"/>
+</repository>

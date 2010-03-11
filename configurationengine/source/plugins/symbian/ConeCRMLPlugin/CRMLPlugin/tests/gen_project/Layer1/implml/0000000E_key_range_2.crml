@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="KeyRange2" uidValue="0x0000000E" owner="0xA1B2C3D4" initialisationFileVersion="2">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="WriteDeviceData"/>
+	<keyRange firstInt="0x00000000" lastInt="0xB00000FF" ref="KeyRange2/Sequence" indexBits="0xff" countInt="0x00000001" firstIndex="0">
+		<key ref="Int1" name="Int 1" int="0x10000000">
+		</key>
+		<key ref="Int2" name="Int 2" int="0x20000000">
+		</key>
+		<key ref="String1" name="String 1" type="string8" int="0x40000000">
+		</key>
+		<key ref="String2" name="String 2" type="string" int="0xA0000000">
+		</key>
+	</keyRange>
+</repository>

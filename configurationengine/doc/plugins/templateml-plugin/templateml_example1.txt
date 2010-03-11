@@ -1,0 +1,3 @@
+{% for feature in feat_list %}
+{{ feature._fqr }}: {{ feature._value }}
+{% endfor %}

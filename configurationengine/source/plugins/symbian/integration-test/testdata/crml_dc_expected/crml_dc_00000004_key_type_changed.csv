@@ -1,0 +1,27 @@
+Modified:
+File,Repository UID,Repository name,Key UID,Key name,Changed value,Old value,New value
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000001,Simple key to bitmask key,key_type,simple_key,bitmask_key
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000002,Bitmask key to simple key,key_type,bitmask_key,simple_key
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),backup,True,False
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),cap_rd,ReadDeviceData,ReadUserData
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),cap_wr,AlwaysFail,WriteUserData
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),read_only,True,False
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),sid_rd,0xAABBCCDD,0x11223344
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),sid_wr,None,0x44332211
+Layer1/implml/00000004_key_type_changed.crml,0x00000004,KeyTypeChanged,0x00000003,Bitmask key to simple key (other attrs changed also [xyz]),type,int,binary
+
+
+Added:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Removed:
+File,Repository UID,Repository name,Key UID,Key name
+
+
+Duplicate repositories in source:
+File,Repository UID
+
+
+Duplicate repositories in target:
+File,Repository UID

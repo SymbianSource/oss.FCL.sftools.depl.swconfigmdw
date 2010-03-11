@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1">
+    
+    <!-- ISO-8859-15 is included to make sure that the BOM definitions do not affect it -->
+    
+    <output file="default.txt"><template>100€</template></output>
+    
+    <output file="utf8_default.txt"         encoding="UTF-8"><template>100€</template></output>
+    <output file="utf16be_default.txt"      encoding="UTF-16-BE"><template>100€</template></output>
+    <output file="utf16le_default.txt"      encoding="UTF-16-LE"><template>100€</template></output>
+    <output file="utf16_default.txt"        encoding="UTF-16"><template>100€</template></output>
+    <output file="iso_8859_15_default.txt"  encoding="ISO-8859-15"><template>100€</template></output>
+    
+    <output file="utf8_with_bom.txt"        encoding="UTF-8"        bom="true"><template>100€</template></output>
+    <output file="utf16be_with_bom.txt"     encoding="UTF-16-BE"    bom="true"><template>100€</template></output>
+    <output file="utf16le_with_bom.txt"     encoding="UTF-16-LE"    bom="true"><template>100€</template></output>
+    <output file="utf16_with_bom.txt"       encoding="UTF-16"       bom="true"><template>100€</template></output>
+    <output file="iso_8859_15_with_bom.txt" encoding="ISO-8859-15"  bom="true"><template>100€</template></output>
+    
+    <output file="utf8_no_bom.txt"          encoding="UTF-8"        bom="false"><template>100€</template></output>
+    <output file="utf16be_no_bom.txt"       encoding="UTF-16-BE"    bom="false"><template>100€</template></output>
+    <output file="utf16le_no_bom.txt"       encoding="UTF-16-LE"    bom="false"><template>100€</template></output>
+    <output file="utf16_no_bom.txt"         encoding="UTF-16"       bom="false"><template>100€</template></output>
+    <output file="iso_8859_15_no_bom.txt"   encoding="ISO-8859-15"  bom="false"><template>100€</template></output>
+    
+</templateml>

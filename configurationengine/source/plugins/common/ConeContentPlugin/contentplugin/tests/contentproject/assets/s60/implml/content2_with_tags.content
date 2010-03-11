@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/2">
+  <tag name='target' value='rofs3'/>
+  <tag name='target' value='uda'/>
+  <output dir="content">
+    <input>
+      <include files="test/override.txt, test/s60.txt"/>
+    </input>
+  </output>
+</content>

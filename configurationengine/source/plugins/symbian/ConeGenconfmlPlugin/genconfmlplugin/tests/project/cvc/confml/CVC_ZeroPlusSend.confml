@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+	<confml:feature name="0+ Send" ref="CVC_ZeroPlusSend">
+		<confml:desc>0 + SEND is used in the US as access number to national operator assistance both in landline and wireless networks.</confml:desc>
+		<confml:setting name="0+ Send" ref="CVC_ZeroPlusSend" type="boolean">
+			<confml:desc>0 + SEND is used in the US as access number to national operator assistance both in landline and wireless networks. Default is off.</confml:desc>
+</confml:setting>
+</confml:feature>
+	<confml:data>
+	</confml:data>
+</confml:configuration>

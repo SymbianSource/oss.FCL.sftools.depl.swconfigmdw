@@ -1,0 +1,1667 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/1" name="Default CommsDat settings" version="1">
+  <feature name="CommsDat generation" ref="KCRUidCommsDatCreator">
+    <desc>Used to configure whether CommsDat generation from these settings is enabled.</desc>    
+    <setting name="CommsDat generation enabled" ref="KCommsDatCreatorInputFileName" type="string">
+      <desc>This is the master switch that determines whether CommsDat is created in the first boot 
+    	of the device based on Configuration Tool output. Set this to Yes if you are creating variant 
+    	and need to configure anything under Default CommsDat settings.</desc>
+      <option name="No" value=""/>
+      <option name="Yes" value="VariantData_commsdat.xml"/>
+    </setting>
+    <setting name="CommsDatCreator startup status flag" readOnly="true" ref="KCommsDatCreatorStartupStatus">
+      <desc>Read-only flag that indicates the CommsDatCreator start-up status in runtime.</desc>
+    </setting>
+  </feature>
+  <feature name="Global settings" ref="Global">
+    <desc>
+  	Global networking related settings not tied to individual connection methods.
+  	</desc>
+    <setting name="Attachmode" ref="Attachmode" type="selection">
+      <desc>
+      GPRS attach mode (attach when needed/when available).
+      </desc>
+      <option name="When available" value="whenavailable"/>
+      <option name="When needed" value="whenneeded"/>
+    </setting>
+    <setting name="Default access point" ref="DefaultAP" type="string">
+      <desc>
+    	Default GPRS access point. Used when the phone is used as a modem for a PC.
+    	The corresponding UI setting is Connection-Packet data-Access point.
+    	</desc>
+    </setting>
+    <setting name="Default icon for DNs" ref="DefaultDnIcon" type="selection">
+      <desc>
+      Default icon for destination networks.
+      </desc>
+      <option name="internet" value="0"/>
+      <option name="wap" value="1"/>
+      <option name="mms" value="2"/>
+      <option name="intranet" value="3"/>
+      <option name="operator" value="4"/>
+      <option name="icon1" value="5"/>
+      <option name="icon2" value="6"/>
+      <option name="icon3" value="7"/>
+      <option name="icon4" value="8"/>
+      <option name="icon5" value="9"/>
+      <option name="icon6" value="10"/>
+      <option name="default" value="11"/>
+    </setting>
+    <setting name="LAN bearer default priority" ref="PriorityLan" type="string">
+      <desc>
+    	Default priority for LAN bearer type.
+    	</desc>
+    </setting>
+    <setting name="WLAN bearer default priority" ref="PriorityWlan" type="string">
+      <desc>
+    	Default priority for WLAN bearer type.
+    	</desc>
+    </setting>
+    <setting name="PAN bearer default priority" ref="PriorityPan" type="string">
+      <desc>
+    	Default priority for PAN bearer type.
+    	</desc>
+    </setting>
+    <setting name="Outgoing GPRS bearer default priority" ref="PriorityGprsOut" type="string">
+      <desc>
+    	Default priority for outgoing GPRS bearer type.
+    	</desc>
+    </setting>
+    <setting name="Incoming GPRS bearer default priority" ref="PriorityGprsIn" type="string">
+      <desc>
+    	Default priority for incoming GPRS bearer type.
+    	</desc>
+    </setting>
+    <setting name="CDMA2000 bearer default priority" ref="PriorityCdma2k" type="string">
+      <desc>
+    	Default priority for CDMA 2000 bearer type.
+    	</desc>
+    </setting>
+    <setting name="DialOut ISP bearer default priority" ref="PriorityDialOut" type="string">
+      <desc>
+    	Default priority for outgoing dial bearer type.
+    	</desc>
+    </setting>
+    <setting name="DialIn ISP bearer default priority" ref="PriorityDialIn" type="string">
+      <desc>
+    	Default priority for incoming dial bearer type.
+    	</desc>
+    </setting>
+    <setting name="VPN bearer default priority" ref="PriorityVpn" type="string">
+      <desc>
+    	Default priority for VPN bearer type.
+    	</desc>
+    </setting>
+    <setting name="MIP bearer default priority" ref="PriorityMip" type="string">
+      <desc>
+    	Default priority for MIP bearer type.
+    	</desc>
+    </setting>
+    <setting name="LAN bearer default UI priority" ref="UIPriorityLan" type="string">
+      <desc>
+    	Default UI priority of LAN connection.
+    	</desc>
+    </setting>
+    <setting name="WLAN bearer default UI priority" ref="UIPriorityWlan" type="string">
+      <desc>
+    	Default UI priority for WLAN bearer type.
+    	</desc>
+    </setting>
+    <setting name="PAN bearer default UI priority" ref="UIPriorityPan" type="string">
+      <desc>
+    	Default UI priority for PAN bearer type.
+    	</desc>
+    </setting>
+    <setting name="Outgoing GPRS bearer default UI priority" ref="UIPriorityGprsOut" type="string">
+      <desc>
+    	Default UI priority for outgoing GPRS bearer type.
+    	</desc>
+    </setting>
+    <setting name="Incoming GPRS bearer default UI priority" ref="UIPriorityGprsIn" type="string">
+      <desc>
+    	Default UI priority for incoming GPRS bearer type.
+    	</desc>
+    </setting>
+    <setting name="CDMA2000 bearer default UI priority" ref="UIPriorityCdma2k" type="string">
+      <desc>
+    	Default UI priority for CDMA 2000 bearer type.
+    	</desc>
+    </setting>
+    <setting name="DialOut ISP bearer default UI priority" ref="UIPriorityDialOut" type="string">
+      <desc>
+    	Default UI priority for outgoing dial bearer type.
+    	</desc>
+    </setting>
+    <setting name="DialIn ISP bearer default UI priority" ref="UIPriorityDialIn" type="string">
+      <desc>
+    	Default UI priority for incoming dial bearer type.
+    	</desc>
+    </setting>
+    <setting name="VPN bearer default UI priority" ref="UIPriorityVpn" type="string">
+      <desc>
+    	Default UI priority for VPN bearer type.
+    	</desc>
+    </setting>
+    <setting name="MIP bearer default UI priority" ref="UIPriorityMip" type="string">
+      <desc>
+    	Default UI priority for MIP bearer type.
+    	</desc>
+    </setting>
+    <setting name="Default connection type" ref="DefaultConnectionType" type="selection">
+      <desc>
+      Specifies how the applications' default connection is specified.
+      </desc>
+      <option name="Ask once" value="Ask once"/>
+      <option name="Always ask" value="Always ask"/>
+      <option name="Destination" value="Destination"/>
+      <option name="Connection method" value="Connection method"/>
+    </setting>
+    <setting name="Default connection name" ref="DefaultConnectionName" type="string">
+      <desc>
+    	The name of the default connection (connection method or destination network). 
+    	Default connection type parameter needs to be set accordingly.
+    	</desc>
+    </setting>
+    <setting name="GPRS last socket activity timeout" ref="GprsLastSocketActivityTimeout">
+      <desc>
+    	For GPRS the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="GPRS last session closed timeout" ref="GprsLastSessionClosedTimeout">
+      <desc>
+    	For GPRS the time (in seconds) to stay online when session has closed. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="GPRS last socket closed timeout" ref="GprsLastSocketClosedTimeout">
+      <desc>
+    	For GPRS the time (in seconds) to stay online when socket has closed. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="CSD last socket activity timeout" ref="CsdLastSocketActivityTimeout">
+      <desc>
+    	For CSD the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="CSD last session closed timeout" ref="CsdLastSessionClosedTimeout">
+      <desc>
+    	For CSD the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="CSD last socket closed timeout" ref="CsdLastSocketClosedTimeout">
+      <desc>
+    	For CSD the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="WLAN last socket activity timeout" ref="WlanLastSocketActivityTimeout">
+      <desc>
+    	For WLAN the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="WLAN last session closed timeout" ref="WlanLastSessionClosedTimeout">
+      <desc>
+    	For WLAN the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="WLAN last socket closed timeout" ref="WlanLastSocketClosedTimeout">
+      <desc>
+    	For WLAN the time (in seconds) to stay online when all socket activity has ceased. -1 for unlimited time.
+    	Leave empty to use the product default value.
+    	</desc>
+    </setting>
+    <setting name="WLAN background scan interval" ref="WlanBGScanInterval" type="selection">
+      <desc>
+      How often WLAN networks are scanned when idle.
+      </desc>
+      <option name="Never" value="0"/>
+      <option name="Every minute" value="60"/>
+      <option name="Every 2 minutes" value="120"/>
+      <option name="Every 5 minutes" value="300"/>
+      <option name="Every 10 minutes" value="600"/>
+    </setting>
+    <setting name="WLAN use default settings" ref="WlanUseDefSettings" type="selection">
+      <desc>Defines whether default values are being used for the advanced WLAN settings (recommended). </desc>
+      <option name="No" value="0"/>
+      <option name="Yes" value="1"/>
+    </setting>
+    <setting name="WLAN long retry limit" ref="WlanLongRetry">
+      <desc>Defines how many times packets bigger than RTS Threshold are been resent.</desc>
+    </setting>
+    <setting name="WLAN short retry limit" ref="WlanShortRetry">
+      <desc>Defines how many times packets smaller than RTS Threshold are been resent.</desc>
+    </setting>
+    <setting name="WLAN RTS threshold" ref="WlanRTS">
+      <desc>Minimum size of a packet for which CTS/RTS handshake has been used.</desc>
+    </setting>
+    <setting name="WLAN TX power level" ref="WlanTxPowerLevel" type="selection">
+      <desc>Transmission power level in use. In mWs. 4, 10 or 100 mW.</desc>
+      <option name="100 mW" value="100"/>
+      <option name="10 mW" value="10"/>
+      <option name="4 mW" value="4"/>
+    </setting>
+    <setting name="WLAN allow radio measurements" ref="WlanRadioMeasurements" type="selection">
+      <desc>Defines whether the CCX radio measurements are allowed.</desc>
+      <option name="No" value="0"/>
+      <option name="Yes" value="1"/>
+    </setting>
+    <setting name="WLAN power save" ref="WlanPowerMode" type="selection">
+      <desc>Defines whether power saving methods are active. Disabling WLAN
+      power save might increase interoperability but will dramatically shorten battery life.</desc>
+      <option name="On" value="1"/>
+      <option name="Off" value="0"/>
+    </setting>
+  </feature>
+  <feature name="GPRS Access Points" ref="APs" relevant="">
+    <desc>GPRS connection method (CM) definitions</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="GPRS" ref="AP" relevant="" type="sequence">
+      <setting name="Connection Name" ref="ConnectionName" type="string">
+        <desc>The CM name that is visible to the user.</desc>
+      </setting>
+      <setting name="Connection ID" ref="ConnectionId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Protected" ref="Protected" type="selection">
+        <desc>Defines whether connection method is protected (= cannot be edited by the user).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Defines whether connection method is hidden.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Connection method is hidden in CConnDlg or not (used to divide MMS and non-MMS CMs).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Connection method is highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Seamlessness" ref="Seamlessness" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="ConfirmFirst"/>
+        <option name="Show Progress" value="ShowProgress"/>
+      </setting>
+      <setting name="Network type" ref="NetworkType" type="selection">
+        <desc>Addressing that the network uses.</desc>
+        <option name="IPv4" value="IPv4"/>
+        <option name="IPv6" value="IPv6"/>
+      </setting>
+      <setting name="GPRS Access Point Name" ref="GPRS_AP_Name" type="string">
+        <desc>The access point name for this GPRS connection</desc>
+      </setting>
+      <setting name="User Name" ref="UserName" type="string">
+        <desc>User name</desc>
+      </setting>
+      <setting name="Prompt Password" ref="PromptPassword" type="selection">
+        <desc>Prompt password at connection time.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Password" ref="Password" type="string">
+        <desc>Password.</desc>
+      </setting>
+      <setting name="Password authentication type" ref="PasswordAuthenticationType" type="selection">
+        <desc>Password authentication method.</desc>
+        <option name="Normal" value="Normal"/>
+        <option name="Secure" value="Secure"/>
+      </setting>
+      <setting name="WAP Gateway IP" ref="WAPGatewayIP" type="string">
+        <desc>WAP gateway IP address.</desc>
+      </setting>
+      <setting name="Starting Page" ref="StartingPage" type="string">
+        <desc>Start page of the connection method. In URL format.</desc>
+      </setting>
+      <setting name="WTLS Security" ref="WTLS_Security" type="selection">
+        <desc>Attempts a secure WTLS connection to the gateway.</desc>
+        <option name="On" value="On"/>
+        <option name="Off" value="Off"/>
+      </setting>
+      <setting name="Connection type" ref="WAP_ConnectionType" type="selection">
+        <desc>Indicates whether a connection-oriented or connectionless API should be used.</desc>
+        <option name="Continuous" value="Continuous"/>
+        <option name="Temporary" value="Temporary"/>
+      </setting>
+      <setting name="IPv4 Phone IP address" ref="PhoneIP" type="string">
+        <desc>IP address of the interface. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Primary Name Server" ref="PrimaryNameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Secondary Name Server" ref="SecondaryNameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Primary Name Server" ref="PrimaryIP6NameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Secondary Name Server" ref="SecondaryIP6NameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="Proxy Server Address" ref="ProxyServerAddress" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy Port Number" ref="ProxyPortNumber" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy protocol Name" ref="ProxyProtocolName" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting name="GPRS Use EDGE" ref="GprsUseEdge" type="selection">
+        <desc>Allow EDGE usage.</desc>
+        <option name="Yes" value="Yes"/>
+        <option name="No" value="No"/>
+      </setting>
+      <setting name="ISP Type" ref="IspType" type="selection">
+      <desc>Specifies the service provider type. Used when filtering connection methods for certain purpose.</desc>
+         	<option name="Internet" value="0"/> 
+          <option name="WAP" value="1"/> 
+      		<option name="Both" value="2"/> 
+      </setting>
+    </setting>
+  </feature>
+  <feature name="WLAN Access Points" ref="WLAN_APs" relevant="">
+    <desc>WLAN connection method (CM) definitions</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="WLAN" ref="WLAN_AP" relevant="" type="sequence">
+      <setting constraint="" name="Connection Name" ref="ConnectionName" required="" type="string">
+        <desc>The CM name that is visible to the user.</desc>
+      </setting>
+      <setting name="Connection ID" ref="ConnectionId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Protected" ref="Protected" type="selection">
+        <desc>Defines whether connection method is protected (= cannot be edited by the user).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Defines whether connection method is hidden.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Connection method is hidden in CConnDlg or not (used to divide MMS and non-MMS CMs).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Connection method is highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Seamlessness" ref="Seamlessness" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="ConfirmFirst"/>
+        <option name="Show Progress" value="ShowProgress"/>
+      </setting>
+      <setting name="Network Name" ref="NetworkName" type="string">
+        <desc>Service set identifier (SSID) of the primary WLAN network.</desc>
+      </setting>
+      <setting name="Starting Page" ref="StartingPage" type="string">
+        <desc>Start page of the connection method. In URL format.</desc>
+      </setting>
+      <setting name="Network Mode" ref="NetworkMode" type="string">
+        <desc>Determines the network infrastructure. 
+        If there is a WLAN access point in the network then this should be Infrastructure.</desc>
+        <option name="Infrastructure" value="Infrastructure"/>
+        <option name="Ad-hoc" value="Ad-hoc"/>
+      </setting>
+      <setting name="Security Mode" ref="SecurityMode" type="selection">
+        <desc>Security mode of the WLAN network.</desc>
+        <option name="Open" value="Open"/>
+        <option name="WEP" value="WEP"/>
+        <option name="802.1x" value="802.1x"/>
+        <option name="WPA" value="WPA"/>
+        <option name="WPA2" value="WPA2"/>
+      </setting>
+      <setting name="IPv4 Primary Name Server" ref="PrimaryNameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting name="IPv4 Secondary Name Server" ref="SecondaryNameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting name="IPv6 Primary Name Server" ref="PrimaryIP6NameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting name="IPv6 Secondary Name Server" ref="SecondaryIP6NameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting name="WLAN IP Gateway Address" ref="WlanIpGatewayAddress" type="string">
+      <desc>The gateway IP address. 
+      Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting name="Wlan IP Net Mask" ref="WlanIpNetMask" type="string">
+      	<desc>Network mask. Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting name="Proxy Server Address" ref="ProxyServerAddress" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy Port Number" ref="ProxyPortNumber" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy protocol Name" ref="ProxyProtocolName" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting name="WLAN Scan SSID" ref="WLANScanSSID" type="selection">
+        <desc>Defines whether the SSID should be actively scanned. 
+        This is needed if the SSID is hidden (not broadcasted by the AP) </desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="WLAN Channel ID" ref="WlanChannelId" type="string">
+        <desc>
+      	802.11 Channel ID (1-14). Used only when connecting/setting up adhoc network.
+      	</desc>
+      </setting>
+      <setting name="IPv4 Phone IP address" ref="PhoneIP" type="string">
+        <desc>IP address of the interface.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="WEP Key In Use" ref="WEPKeyInUse" type="selection">
+        <desc>Index of default WEP key. Used only when security mode is WEP.</desc>
+        <option name="key1" value="key1"/>
+        <option name="key2" value="key2"/>
+        <option name="key3" value="key3"/>
+        <option name="key4" value="key4"/>
+      </setting>
+      <setting name="WEP Auth Type" ref="WEPAuthType" type="selection">
+        <desc>WEP authentication mode. Only used when security mode is WEP.</desc>
+        <option name="Shared" value="Shared"/>
+        <option name="Open" value="Open"/>
+      </setting>
+      <setting name="WEP Key1 Length" ref="WEPKey1Length" type="selection">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting name="WEP Key1 Format" ref="WEPKey1Format" type="selection">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting name="WEP Key1 Data" ref="WEPKey1Data" type="string">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting name="WEP Key2 Length" ref="WEPKey2Length" type="selection">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting name="WEP Key2 Format" ref="WEPKey2Format" type="selection">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting name="WEP Key2 Data" ref="WEPKey2Data" type="string">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting name="WEP Key3 Length" ref="WEPKey3Length" type="selection">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting name="WEP Key3 Format" ref="WEPKey3Format" type="selection">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting name="WEP Key3 Data" ref="WEPKey3Data" type="string">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting name="WEP Key4 Length" ref="WEPKey4Length" type="selection">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting name="WEP Key4 Format" ref="WEPKey4Format" type="selection">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting name="WEP Key4 Data" ref="WEPKey4Data" type="string">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting name="WPA Pre-shared Key" ref="WPAPresharedKey" type="string">
+        <desc>WPA/WPA2 pre-shared key in plain text. ASCII character set values between 32-126 must be used. Minimum length is 8 characters and maximum 63.
+        You need to also define the WPA pre-shared key length field accordingly</desc>
+      </setting>
+      <setting name="WPA Use of Pre-shared Key" ref="WPAUseOfPresharedKey" type="selection">
+        <desc>Specifies that when the security mode is WPA or WPA2 if the PSK mode is enabled. 
+        If this is off then EAP mode is used and the list of EAPs needs to be defined.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="WPA Pre-shared key length" ref="WPAKeyLength">
+        <desc>The length of the specified pre-shared key (in WPA pre-shared key field)</desc>
+      </setting>
+      <setting name="WPA List Of EAPs" ref="WPAListOfEAPs" type="string">
+        <desc>
+      	A list of Extensible Authentication Protocols (EAPs) in use. The format is +xxx,+xxx,+xxx where xxx indicates the enabled EAP method ID as
+      	specified in the IANA registry: http://www.iana.org/assignments/eap-numbers. For example to enable EAP-SIM the string needs to be "+018". 
+      	The list is in priority order, highest priority first.      	
+      	</desc>
+      </setting>
+      <setting name="EAP-GTC user name" ref="EapGtcUsername" type="string">
+        <desc>The username used with EAP-GTC.</desc>
+      </setting>
+      <setting name="EAP-GTC session validity time" ref="EapGtcSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear).</desc>
+      </setting>
+      <setting name="EAP-GTC tunneling method" ref="EapGtcEncapsulation" type="selection">
+        <desc>Defines which EAP tunneling method is used with EAP-GTC.</desc>
+        <option name="EAP-PEAP" value="25"/>
+        <option name="EAP-TTLS" value="21"/>
+        <option name="EAP-FAST" value="43"/>
+      </setting>
+      <setting name="EAP-TLS user name" ref="EapTlsUsername" type="string">
+        <desc>The username used with EAP-TLS.</desc>
+      </setting>
+      <setting name="EAP-TLS realm" ref="EapTlsRealm" type="string">
+        <desc>The realm used for device identification to the server.</desc>
+      </setting>
+      <setting name="EAP-TLS verify server realm" ref="EapTlsVerifyServerRealm" type="selection">
+        <desc>Specifies whether the server's realm is compared with own realm. 
+      	This provides extra security but it depends on the network infrastructure and set-up whether this will work.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-TLS require client authentication" ref="EapTlsRequireClientAuth" type="selection">
+        <desc>Specifies whether TLS requires that the server authenticates it (the client).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-TLS session validity time" ref="EapTlsSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear)</desc>
+      </setting>
+      <setting name="EAP-TLS cipher suites" ref="EapTlsCipherSuites" type="string">
+        <desc>The list of allowed cipher suites. In the format +xxx,+xxx,+xxx... where xxx is the cipher suite identifier.
+      	004: TLS_RSA_WITH_RC4_128_MD5, 005: TLS_RSA_WITH_RC4_128_SHA, 010: TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+				019:	TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA, 022: TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA, 047: TLS_RSA_WITH_AES_128_CBC_SHA
+				050:	TLS_DHE_DSS_WITH_AES_128_CBC_SHA, 051:	TLS_DHE_RSA_WITH_AES_128_CBC_SHA, 052: TLS_DH_anon_WITH_AES_128_CBC_SHA 
+				For example +004 enables only RSA with RC4 and MD5.
+				</desc>
+      </setting>
+      <setting name="EAP-TLS user certificate subject key id" ref="EapTlsUserCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the user certificate. 
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-TLS user certificate issuer" ref="EapTlsUserCertIssuerName" type="string">
+        <desc>The issuer of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TLS user certificate serial number" ref="EapTlsUserCertSerialNumber" type="string">
+        <desc>The serial number of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TLS CA certificate subject key id" ref="EapTlsCaCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the CA certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-TLS CA certificate issuer" ref="EapTlsCaCertIssuerName" type="string">
+        <desc>The issuer of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TLS CA certificate serial number" ref="EapTlsCaCertSerialNumber" type="string">
+        <desc>The serial number of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TLS tunneling method" ref="EapTlsEncapsulation" type="selection">
+        <desc>Defines which EAP tunneling method is used with EAP-TLS.</desc>
+        <option name="None" value=""/>
+        <option name="EAP-PEAP" value="25"/>
+        <option name="EAP-TTLS" value="21"/>
+        <option name="EAP-FAST" value="43"/>
+      </setting>
+      <setting name="EAP-LEAP user name" ref="EapLeapUsername" type="string">
+        <desc>The username used with EAP-LEAP.</desc>
+      </setting>
+      <setting name="EAP-LEAP password" ref="EapLeapPassword" type="string">
+        <desc>The password used with EAP-LEAP.</desc>
+      </setting>
+      <setting name="EAP-LEAP session validity time" ref="EapLeapSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear).</desc>
+      </setting>
+      <setting name="EAP-SIM user name" ref="EapSimUsername" type="string">
+        <desc>The username used with EAP-SIM.</desc>
+      </setting>
+      <setting name="EAP-SIM realm" ref="EapSimRealm" type="string">
+        <desc>The realm used for device identification to the server.</desc>
+      </setting>
+      <setting name="EAP-SIM pseudonyms allowed" ref="EapSimUsePseudonyms" type="selection">
+        <desc>Specifies whether IMSI is sent always when authentication or is pseudonym usage allowed.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-SIM session validity time" ref="EapSimSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear)</desc>
+      </setting>
+      <setting name="EAP-SIM tunneling method" ref="EapSimEncapsulation" type="selection">
+        <desc>Defines which EAP tunneling method is used with EAP-SIM.</desc>
+        <option name="None" value=""/>
+        <option name="EAP-PEAP" value="25"/>
+        <option name="EAP-TTLS" value="21"/>
+        <option name="EAP-FAST" value="43"/>
+      </setting>
+      <setting name="EAP-TTLS user name" ref="EapTtlsUsername" type="string">
+        <desc>The username used with EAP-TTLS.</desc>
+      </setting>
+      <setting name="EAP-TTLS realm" ref="EapTtlsRealm" type="string">
+        <desc>The realm used for device identification to the server.</desc>
+      </setting>
+      <setting name="EAP-TTLS verify server realm" ref="EapTtlsVerifyServerRealm" type="selection">
+        <desc>Specifies whether the server's realm is compared with own realm. 
+      	This provides extra security but it depends on the network infrastructure and set-up whether this will work.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-TTLS require client authentication" ref="EapTtlsRequireClientAuth" type="selection">
+        <desc>Specifies whether TTLS requires that the server authenticates it (the client).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-TTLS session validity time" ref="EapTtlsSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear).</desc>
+      </setting>
+      <setting name="EAP-TTLS cipher suites" ref="EapTtlsCipherSuites" type="string">
+        <desc>The list of allowed cipher suites. In the format +xxx,+xxx,+xxx... where xxx is the cipher suite identifier.
+      	004: TLS_RSA_WITH_RC4_128_MD5, 005: TLS_RSA_WITH_RC4_128_SHA, 010: TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+				019:	TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA, 022: TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA, 047: TLS_RSA_WITH_AES_128_CBC_SHA
+				050:	TLS_DHE_DSS_WITH_AES_128_CBC_SHA, 051:	TLS_DHE_RSA_WITH_AES_128_CBC_SHA, 052: TLS_DH_anon_WITH_AES_128_CBC_SHA 
+				For example +004 enables only RSA with RC4 and MD5.
+				</desc>
+      </setting>
+      <setting name="EAP-TTLS tunneled methods" ref="EapTtlsEncapsulatedTypes" type="string">
+        <desc>A list of Extensible Authentication Protocols (EAPs) in tunneled by EAP-TTLS. The format is +xxx,+xxx,+xxx where xxx indicates the enabled EAP method ID as
+      	specified in the IANA registry: http://www.iana.org/assignments/eap-numbers. For example to enable EAP-SIM encapsulation the string needs to be "+018". 
+      	The list is in priority order, highest priority first. Note that the encapsulate type's encapsulation parameter needs to be configured accordingly. </desc>
+      </setting>
+      <setting name="EAP-TTLS user certificate subject key id" ref="EapTtlsUserCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the user certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-TTLS user certificate issuer" ref="EapTtlsUserCertIssuerName" type="string">
+        <desc>The issuer of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TTLS user certificate serial number" ref="EapTtlsUserCertSerialNumber" type="string">
+        <desc>The serial number of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TTLS CA certificate subject key id" ref="EapTtlsCaCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the CA certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-TTLS CA certificate issuer" ref="EapTtlsCaCertIssuerName" type="string">
+        <desc>The issuer of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-TTLS CA certificate serial number" ref="EapTtlsCaCertSerialNumber" type="string">
+        <desc>The serial number of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-AKA user name" ref="EapAkaUsername" type="string">
+        <desc>The username used with EAP-AKA.</desc>
+      </setting>
+      <setting name="EAP-AKA realm" ref="EapAkaRealm" type="string">
+        <desc>The realm used for device identification to the server.</desc>
+      </setting>
+      <setting name="EAP-AKA pseudonyms allowed" ref="EapAkaUsePseudonyms" type="selection">
+        <desc>Specifies whether IMSI is sent always when authentication or is pseudonym usage allowed.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-AKA session validity time" ref="EapAkaSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear).</desc>
+      </setting>
+      <setting name="EAP-AKA tunneling method" ref="EapAkaEncapsulation" type="selection">
+        <desc>Defines which EAP tunneling method is used with EAP-AKA.</desc>
+        <option name="None" value=""/>
+        <option name="EAP-PEAP" value="25"/>
+        <option name="EAP-TTLS" value="21"/>
+        <option name="EAP-FAST" value="43"/>
+      </setting>
+      <setting name="EAP-PEAP user name" ref="EapPeapUsername" type="string">
+        <desc>The username used with EAP-PEAP.</desc>
+      </setting>
+      <setting name="EAP-PEAP realm" ref="EapPeapRealm" type="string">
+        <desc>The realm used for device identification to the server.</desc>
+      </setting>
+      <setting name="EAP-PEAP verify server realm" ref="EapPeapVerifyServerRealm" type="selection">
+        <desc>Specifies whether the server's realm is compared with own realm. 
+      	This provides extra security but it depends on the network infrastructure and set-up whether this will work.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-PEAP require client authentication" ref="EapPeapRequireClientAuth" type="selection">
+        <desc>Specifies whether PEAP requires that the server authenticates it (the client).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-PEAP session validity time" ref="EapPeapSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear)</desc>
+      </setting>
+      <setting name="EAP-PEAP cipher suites" ref="EapPeapCipherSuites" type="string">
+        <desc>The list of allowed cipher suites. In the format +xxx,+xxx,+xxx... where xxx is the cipher suite identifier.
+      	004: TLS_RSA_WITH_RC4_128_MD5, 005: TLS_RSA_WITH_RC4_128_SHA, 010: TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+				019:	TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA, 022: TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA, 047: TLS_RSA_WITH_AES_128_CBC_SHA
+				050:	TLS_DHE_DSS_WITH_AES_128_CBC_SHA, 051:	TLS_DHE_RSA_WITH_AES_128_CBC_SHA, 052: TLS_DH_anon_WITH_AES_128_CBC_SHA 
+				For example +004 enables only RSA with RC4 and MD5.
+				</desc>
+      </setting>
+      <setting name="EAP-PEAP version 0 allowed" ref="EapPeapV0Allowed" type="selection">
+        <desc>Is PEAP version 0 allowed. If in doubt enable only this one.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-PEAP version 1 allowed" ref="EapPeapV1Allowed" type="selection">
+        <desc>Is PEAP version 1 allowed.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-PEAP version 2 allowed" ref="EapPeapV2Allowed" type="selection">
+        <desc>Is PEAP version 2 allowed.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-PEAP tunneled methods" ref="EapPeapEncapsulatedTypes" type="string">
+        <desc>A list of Extensible Authentication Protocols (EAPs) in tunneled by EAP-PEAP. The format is +xxx,+xxx,+xxx where xxx indicates the enabled EAP method ID as
+      	specified in the IANA registry: http://www.iana.org/assignments/eap-numbers. For example to enable EAP-SIM encapsulation the string needs to be "+018". 
+      	The list is in priority order, highest priority first. Note that the encapsulate type's encapsulation parameter needs to be configured accordingly. </desc>
+      </setting>
+      <setting name="EAP-PEAP user certificate subject key id" ref="EapPeapUserCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the user certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-PEAP user certificate issuer" ref="EapPeapUserCertIssuerName" type="string">
+        <desc>The issuer of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-PEAP user certificate serial number" ref="EapPeapUserCertSerialNumber" type="string">
+        <desc>The serial number of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-PEAP CA certificate subject key id" ref="EapPeapCaCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the CA certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-PEAP CA certificate issuer" ref="EapPeapCaCertIssuerName" type="string">
+        <desc>The issuer of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-PEAP CA certificate serial number" ref="EapPeapCaCertSerialNumber" type="string">
+        <desc>The serial number of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-MSCHAPv2 user name" ref="EapMschapv2Username" type="string">
+        <desc>The username used with EAP-MSCHAPv2.</desc>
+      </setting>
+      <setting name="EAP-MSCHAPv2 password" ref="EapMschapv2Password" type="string">
+        <desc>The password used with EAP-MSCHAPv2.</desc>
+      </setting>
+      <setting name="EAP-MSCHAPv2 session validity time" ref="EapMschapv2SessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear)</desc>
+      </setting>
+      <setting name="EAP-MSCHAPv2 tunneling method" ref="EapMschapv2Encapsulation" type="selection">
+        <desc>Defines which EAP tunneling method is used with EAP-MSCHAPv2.</desc>
+        <option name="EAP-PEAP" value="25"/>
+        <option name="EAP-TTLS" value="21"/>
+        <option name="EAP-FAST" value="43"/>
+      </setting>
+      <setting name="EAP-FAST user name" ref="EapFastUsername" type="string">
+        <desc>The username used with EAP-FAST.</desc>
+      </setting>
+      <setting name="EAP-FAST realm" ref="EapFastRealm" type="string">
+        <desc>The realm used for device identification to the server.</desc>
+      </setting>
+      <setting name="EAP-FAST verify server realm" ref="EapFastVerifyServerRealm" type="selection">
+        <desc>Specifies whether the server's realm is compared with own realm. 
+      	This provides extra security but it depends on the network infrastructure and set-up whether this will work.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST require client authentication" ref="EapFastRequireClientAuth" type="selection">
+        <desc>Specifies whether TTLS requires that the server authenticates it (the client).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST session validity time" ref="EapFastSessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear)</desc>
+      </setting>
+      <setting name="EAP-FAST cipher suites" ref="EapFastCipherSuites" type="string">
+        <desc>The list of allowed cipher suites. In the format +xxx,+xxx,+xxx... where xxx is the cipher suite identifier.
+      	004: TLS_RSA_WITH_RC4_128_MD5, 005: TLS_RSA_WITH_RC4_128_SHA, 010: TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+				019:	TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA, 022: TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA, 047: TLS_RSA_WITH_AES_128_CBC_SHA
+				050:	TLS_DHE_DSS_WITH_AES_128_CBC_SHA, 051:	TLS_DHE_RSA_WITH_AES_128_CBC_SHA, 052: TLS_DH_anon_WITH_AES_128_CBC_SHA 
+				For example +004 enables only RSA with RC4 and MD5.
+				</desc>
+      </setting>
+      <setting name="EAP-FAST tunneled methods" ref="EapFastEncapsulatedTypes" type="string">
+        <desc>A list of Extensible Authentication Protocols (EAPs) in tunneled by EAP-FAST. The format is +xxx,+xxx,+xxx where xxx indicates the enabled EAP method ID as
+      	specified in the IANA registry: http://www.iana.org/assignments/eap-numbers. For example to enable EAP-SIM encapsulation the string needs to be "+018". 
+      	The list is in priority order, highest priority first. Note that the encapsulate type's encapsulation parameter needs to be configured accordingly. </desc>
+      </setting>
+      <setting name="EAP-FAST authenticated provisioning mode allowed" ref="EapFastAuthProvModeAllowed" type="selection">
+        <desc>EAP-FAST authenticated provisioning mode allowed</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST unauthenticated provisioning mode allowed" ref="EapFastUnauthProvModeAllowed" type="selection">
+        <desc>EAP-FAST unauthenticated provisioning mode allowed</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST warn ADHP no PAC" ref="EapFastWarnADHPNoPAC" type="selection">
+        <desc>EAP-FAST warn ADHP no PAC</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST warn ADHP no matching PAC" ref="EapFastWarnADHPNoMatchingPAC" type="selection">
+        <desc>EAP-FAST warn ADHP no matching PAC</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST warn not default server" ref="EapFastWarnNotDefaultServer" type="selection">
+        <desc>EAP-FAST warn not default server</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="EAP-FAST user certificate subject key id" ref="EapFastUserCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the user certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-FAST user certificate issuer" ref="EapFastUserCertIssuerName" type="string">
+        <desc>The issuer of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-FAST user certificate serial number" ref="EapFastUserCertSerialNumber" type="string">
+        <desc>The serial number of the user certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-FAST CA certificate subject key id" ref="EapFastCaCertSubjectKeyId" type="string">
+        <desc>The subject key id value of the CA certificate.
+        Currently this field is the only one that can be used to identify the certificate.</desc>
+      </setting>
+      <setting name="EAP-FAST CA certificate issuer" ref="EapFastCaCertIssuerName" type="string">
+        <desc>The issuer of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="EAP-FAST CA certificate serial number" ref="EapFastCaCertSerialNumber" type="string">
+        <desc>The serial number of the CA certificate. Ignored by the implementation currently!</desc>
+      </setting>
+      <setting name="MSCHAPv2 user name" ref="Mschapv2Username" type="string">
+        <desc>The username used with MSCHAPv2.</desc>
+      </setting>
+      <setting name="MSCHAPv2 password" ref="Mschapv2Password" type="string">
+        <desc>The password used with MSCHAPv2.</desc>
+      </setting>
+      <setting name="MSCHAPv2 session validity time" ref="Mschapv2SessionValidityTime">
+        <desc>Specifies how long single session is kept in memory (so no new password queries or similar appear).</desc>
+      </setting>
+      <setting name="MSCHAPv2 tunneling method" ref="Mschapv2Encapsulation" type="selection">
+        <desc>Defines which EAP tunneling method is used with MSCHAPv2. Needs to be EAP-TTLS.</desc>
+        <option name="EAP-TTLS" value="21"/>
+      </setting>
+    </setting>
+  </feature>
+  <feature name="CSD Access Points" ref="CSD_APs" relevant="">
+    <desc>Circuit-Switched Data connection methods</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="CSD" ref="CSD_AP" relevant="" type="sequence">
+      <setting name="Connection Name" ref="ConnectionName" type="string">
+        <desc>The CM name that is visible to the user.</desc>
+      </setting>
+      <setting name="Connection ID" ref="ConnectionId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Protected" ref="Protected" type="selection">
+        <desc>Defines whether connection method is protected (= cannot be edited by the user).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Defines whether connection method is hidden.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Connection method is hidden in CConnDlg or not (used to divide MMS and non-MMS CMs).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Connection method is highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Seamlessness" ref="Seamlessness" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="ConfirmFirst"/>
+        <option name="Show Progress" value="ShowProgress"/>
+      </setting>
+      <setting name="User Name" ref="UserName" type="string">
+        <desc>Username for the connection.</desc>
+      </setting>
+      <setting name="Prompt Password" ref="PromptPassword" type="selection">
+        <desc>Prompt password on connection set-up time.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Password" ref="Password" type="string">
+        <desc>Password.</desc>
+      </setting>
+      <setting name="Password Authentication type" ref="PasswordAuthenticationType" type="selection">
+        <desc>Password authentication type.</desc>
+        <option name="Normal" value="Normal"/>
+        <option name="Secure" value="Secure"/>
+      </setting>
+      <setting name="WAP Gateway IP" ref="WAPGatewayIP" type="string">
+        <desc>WAP gateway IP.</desc>
+      </setting>
+      <setting name="Starting Page" ref="StartingPage" type="string">
+        <desc>Starting page.</desc>
+      </setting>
+      <setting name="WTLS Security" ref="WTLS_Security" type="selection">
+        <desc>WTLS security.</desc>
+        <option name="On" value="On"/>
+        <option name="Off" value="Off"/>
+      </setting>
+      <setting name="Connection type" ref="WAP_ConnectionType" type="selection">
+        <desc>Connection type.</desc>
+        <option name="Continuous" value="Continuous"/>
+        <option name="Temporary" value="Temporary"/>
+      </setting>
+      <setting name="IPv4 Phone IP address" ref="PhoneIP" type="string">
+        <desc>IP address of the interface. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Primary Name Server" ref="PrimaryNameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Secondary Name Server" ref="SecondaryNameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Primary Name Server" ref="PrimaryIP6NameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Secondary Name Server" ref="SecondaryIP6NameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="Proxy Server Address" ref="ProxyServerAddress" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy Port Number" ref="ProxyPortNumber" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy protocol Name" ref="ProxyProtocolName" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting name="Default Tel Number (Mandatory)" ref="DefaultTelNumber" type="string">
+        <desc>Default telephone number.</desc>
+      </setting>
+      <setting name="Bearer Speed" ref="BearerSpeed" type="selection">
+        <desc>Bearer speed</desc>
+        <option name="Autodetect" value="Autodetect"/>
+        <option name="9600" value="9600"/>
+        <option name="14400" value="14400"/>
+        <option name="19200" value="19200"/>
+        <option name="28800" value="28800"/>
+        <option name="38400" value="38400"/>
+        <option name="43200" value="43200"/>
+        <option name="56000" value="56000"/>
+      </setting>
+      <setting name="Bearer Call Type Isdn" ref="BearerCallTypeIsdn" type="selection">
+        <desc>Bearer Call Type Isdn</desc>
+        <option name="Analogue" value="Analogue"/>
+        <option name="Isdn v110" value="Isdn v110"/>
+        <option name="Isdn v120" value="Isdn v120"/>
+      </setting>
+      <setting name="Call back Enabled" ref="CallbackEnabled" type="selection">
+        <desc>Is callback enabled.</desc>
+        <option name="Yes" value="Yes"/>
+        <option name="No" value="No"/>
+      </setting>
+      <setting name="Call back type" ref="CallbackType" type="selection">
+        <desc>Callback type.</desc>
+        <option name="Server Number" value="Server Number"/>
+        <option name="Other Number" value="Other Number"/>
+      </setting>
+      <setting name="Call back number" ref="CallbackInfo" type="string">
+        <desc>Callback number.</desc>
+      </setting>
+      <setting name="Enable PPP Compression" ref="EnableSWCompression" type="selection">
+        <desc>Enable compression</desc>
+        <option name="Yes" value="Yes"/>
+        <option name="No" value="No"/>
+      </setting>
+      <setting name="Use Login Script" ref="UseLoginScript" type="selection">
+        <desc>Use login script</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Login Script" ref="LoginScript" type="string">
+        <desc>Login script</desc>
+      </setting>
+      <setting name="Modem init string" ref="InitString" type="string">
+        <desc>Modem init string</desc>
+      </setting>
+    </setting>
+  </feature>
+  <feature name="HSCD Access Points" ref="HSCSD_APs" relevant="">
+    <desc>High-speed Circuit-Switched Data connection methods</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="HSCSD" ref="HSCSD_AP" relevant="" type="sequence">
+      <setting name="Connection Name" ref="ConnectionName" type="string">
+        <desc>The CM name that is visible to the user.</desc>
+      </setting>
+      <setting name="Connection ID" ref="ConnectionId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Protected" ref="Protected" type="selection">
+        <desc>Defines whether connection method is protected (= cannot be edited by the user).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Defines whether connection method is hidden.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Connection method is hidden in CConnDlg or not (used to divide MMS and non-MMS CMs).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Connection method is highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Seamlessness" ref="Seamlessness" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="ConfirmFirst"/>
+        <option name="Show Progress" value="ShowProgress"/>
+      </setting>
+      <setting name="User Name" ref="UserName" type="string">
+        <desc>User name</desc>
+      </setting>
+      <setting name="Prompt Password" ref="PromptPassword" type="selection">
+        <desc>Prompt password at connection time.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Password" ref="Password" type="string">
+        <desc>Password.</desc>
+      </setting>
+      <setting name="Password authentication type" ref="PasswordAuthenticationType" type="selection">
+        <desc>Password authentication method.</desc>
+        <option name="Normal" value="Normal"/>
+        <option name="Secure" value="Secure"/>
+      </setting>
+      <setting name="WAP Gateway IP" ref="WAPGatewayIP" type="string">
+        <desc>WAP gateway IP address.</desc>
+      </setting>
+      <setting name="Starting Page" ref="StartingPage" type="string">
+        <desc>Start page of the connection method.</desc>
+      </setting>
+      <setting name="WTLS Security" ref="WTLS_Security" type="selection">
+        <desc>Attempts a secure WTLS connection to the gateway.</desc>
+        <option name="On" value="On"/>
+        <option name="Off" value="Off"/>
+      </setting>
+      <setting name="Connection type" ref="WAP_ConnectionType" type="selection">
+        <desc>Indicates whether a connection-oriented or connectionless API should be used.</desc>
+        <option name="Continuous" value="Continuous"/>
+        <option name="Temporary" value="Temporary"/>
+      </setting>
+      <setting name="IPv4 Phone IP address" ref="PhoneIP" type="string">
+        <desc>IP address of the interface. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Primary Name Server" ref="PrimaryNameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Secondary Name Server" ref="SecondaryNameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Primary Name Server" ref="PrimaryIP6NameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Secondary Name Server" ref="SecondaryIP6NameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="Proxy Server Address" ref="ProxyServerAddress" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy Port Number" ref="ProxyPortNumber" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy protocol Name" ref="ProxyProtocolName" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting name="Default Tel Number (Mandatory)" ref="DefaultTelNumber" type="string">
+        <desc>Default telephone number.</desc>
+      </setting>
+      <setting name="Bearer Speed" ref="BearerSpeed" type="selection">
+        <desc>Bearer speed</desc>
+        <option name="Autodetect" value="Autodetect"/>
+        <option name="9600" value="9600"/>
+        <option name="14400" value="14400"/>
+        <option name="19200" value="19200"/>
+        <option name="28800" value="28800"/>
+        <option name="38400" value="38400"/>
+        <option name="43200" value="43200"/>
+        <option name="56000" value="56000"/>
+      </setting>
+      <setting name="Bearer Call Type Isdn" ref="BearerCallTypeIsdn" type="selection">
+        <desc>Bearer Call Type Isdn</desc>
+        <option name="Analogue" value="Analogue"/>
+        <option name="Isdn v110" value="Isdn v110"/>
+        <option name="Isdn v120" value="Isdn v120"/>
+      </setting>
+      <setting name="Call back Enabled" ref="CallbackEnabled" type="selection">
+        <desc>Is callback enabled.</desc>
+        <option name="Yes" value="Yes"/>
+        <option name="No" value="No"/>
+      </setting>
+      <setting name="Call back type" ref="CallbackType" type="selection">
+        <desc>Callback type.</desc>
+        <option name="Server Number" value="Server Number"/>
+        <option name="Other Number" value="Other Number"/>
+      </setting>
+      <setting name="Call back number" ref="CallbackInfo" type="string">
+        <desc>Callback number.</desc>
+      </setting>
+      <setting name="Enable PPP Compression" ref="EnableSWCompression" type="selection">
+        <desc>Enable compression</desc>
+        <option name="Yes" value="Yes"/>
+        <option name="No" value="No"/>
+      </setting>
+      <setting name="Use Login Script" ref="UseLoginScript" type="selection">
+        <desc>Use login script</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Login Script" ref="LoginScript" type="string">
+        <desc>Login script</desc>
+      </setting>
+      <setting name="Modem init string" ref="InitString" type="string">
+        <desc>Modem init string</desc>
+      </setting>
+    </setting>
+  </feature>
+  <feature name="LAN Access Points" ref="LAN_APs" relevant="">
+    <desc>LAN connection methods</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="LAN" ref="LAN_AP" relevant="" type="sequence">
+      <setting name="Connection Name" ref="ConnectionName" type="string">
+        <desc>The CM name that is visible to the user.</desc>
+      </setting>
+      <setting name="Connection ID" ref="ConnectionId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Protected" ref="Protected" type="selection">
+        <desc>Defines whether connection method is protected (= cannot be edited by the user).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Defines whether connection method is hidden.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Connection method is hidden in CConnDlg or not (used to divide MMS and non-MMS CMs).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Connection method is highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Seamlessness" ref="Seamlessness" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="ConfirmFirst"/>
+        <option name="Show Progress" value="ShowProgress"/>
+      </setting>
+      <setting name="WAP Gateway IP" ref="WAPGatewayIP" type="string">
+        <desc>WAP gateway IP address.</desc>
+      </setting>
+      <setting name="Starting Page" ref="StartingPage" type="string">
+        <desc>Start page of the connection method.</desc>
+      </setting>
+      <setting name="WTLS Security" ref="WTLS_Security" type="selection">
+        <desc>Attempts a secure WTLS connection to the gateway.</desc>
+        <option name="On" value="On"/>
+        <option name="Off" value="Off"/>
+      </setting>
+      <setting name="Connection type" ref="WAP_ConnectionType" type="selection">
+        <desc>Indicates whether a connection-oriented or connectionless API should be used.</desc>
+        <option name="Continuous" value="Continuous"/>
+        <option name="Temporary" value="Temporary"/>
+      </setting>
+      <setting name="Proxy Server Address" ref="ProxyServerAddress" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy Port Number" ref="ProxyPortNumber" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy protocol Name" ref="ProxyProtocolName" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting name="LAN If Networks" ref="LanIfNetworks" type="string">
+        <desc>LAN interface networks.</desc>
+      </setting>
+      <setting name="LAN IP Netmask" ref="LanIpNetmask" type="string">
+        <desc>LAN interface netmask.</desc>
+      </setting>
+      <setting name="LAN IP Gateway" ref="LanIpGateway" type="string">
+        <desc>LAN IP Gateway.</desc>
+      </setting>
+      <setting name="IPv4 Phone IP address" ref="PhoneIP" type="string">
+        <desc>IP address of the interface. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Primary Name Server" ref="PrimaryNameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv4 Secondary Name Server" ref="SecondaryNameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Primary Name Server" ref="PrimaryIP6NameServer" type="string">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting name="IPv6 Secondary Name Server" ref="SecondaryIP6NameServer" type="string">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+    </setting>
+  </feature>
+  <feature name="VPN Access Points" ref="VPN_APs" relevant="">
+    <desc>Virtual Private Network connection methods</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="VPN" ref="VPN_AP" relevant="" type="sequence">
+      <setting name="Connection Name" ref="ConnectionName" type="string">
+        <desc>The CM name that is visible to the user.</desc>
+      </setting>
+      <setting name="Connection ID" ref="ConnectionId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Protected" ref="Protected" type="selection">
+        <desc>Defines whether connection method is protected (= cannot be edited by the user).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Defines whether connection method is hidden.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Connection method is hidden in CConnDlg or not (used to divide MMS and non-MMS CMs).</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Connection method is highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Seamlessness" ref="Seamlessness" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="ConfirmFirst"/>
+        <option name="Show Progress" value="ShowProgress"/>
+      </setting>
+      <setting name="Proxy Server Address" ref="ProxyServerAddress" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy Port Number" ref="ProxyPortNumber" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting name="Proxy protocol Name" ref="ProxyProtocolName" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting name="Underlying IAP Name" ref="IAP_Name" type="string">
+        <desc>The network connection provider IAP name.</desc>
+      </setting>
+      <setting name="Service Policy" ref="ServicePolicy" type="string">
+        <desc>Service policy.</desc>
+      </setting>
+    </setting>
+  </feature>
+  <feature name="Destination Networks" ref="DNs">
+    <desc>Destination network (SNAP) definitions.</desc>
+    <setting constraint="" maxOccurs="99" minOccurs="0" name="DN" ref="DN" relevant="" type="sequence">
+      <setting name="Name" ref="Name" type="string">
+        <desc>The name that is visible to the user</desc>
+      </setting>
+      <setting name="Destination Network ID" ref="DNId">
+        <desc>The CommsDat record id can be manually specified here. If left empty it is allocated automatically.
+      	Note: It needs to be verified carefully that the IDs are globally unique if allocated manually! 
+      	So a good idea is to either specify all the IDs manually or none at all.</desc>
+      </setting>
+      <setting name="Metadata" ref="Metadata" type="selection">
+        <desc>Metadata that specifies a few default destination networks that applications can use</desc>
+        <option name="User Defined" value="UserDefined"/>
+        <option name="Internet" value="Internet"/>
+        <option name="Operator" value="Operator"/>
+        <option name="MMS" value="MMS"/>
+        <option name="Intranet" value="Intranet"/>
+      </setting>
+      <setting name="Protection Level" ref="Protection" type="selection">
+        <desc>DN protection level. Destination contents mean the connection methods inside the destination and their priorities. </desc>
+        <option name="No protection" value="0"/>
+        <option name="Destination and contents" value="1"/>
+        <option name="Destination" value="2"/>
+      </setting>
+      <setting name="Hidden" ref="Hidden" type="selection">
+        <desc>Is DN hidden or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Hidden Agent" ref="HiddenAgent" type="selection">
+        <desc>Is DN hidden in CConnDlg or not</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Highlighted" ref="Highlighted" type="selection">
+        <desc>Is DN highlighted or not.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting name="Icon" ref="Icon" type="selection">
+        <desc>Icon to be assigned to DN.</desc>
+        <option name="internet" value="0"/>
+        <option name="wap" value="1"/>
+        <option name="mms" value="2"/>
+        <option name="intranet" value="3"/>
+        <option name="operator" value="4"/>
+        <option name="icon1" value="5"/>
+        <option name="icon2" value="6"/>
+        <option name="icon3" value="7"/>
+        <option name="icon4" value="8"/>
+        <option name="icon5" value="9"/>
+        <option name="icon6" value="10"/>
+        <option name="default" value="11"/>
+      </setting>
+      <setting name="EmbeddedDN" ref="EmbeddedDN" type="string">
+        <desc>
+	    	Name of an embedded DN that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 1" ref="IAP" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 2" ref="IAP2" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 3" ref="IAP3" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 4" ref="IAP4" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 5" ref="IAP5" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 6" ref="IAP6" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 7" ref="IAP7" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 8" ref="IAP8" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 9" ref="IAP9" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+      <setting name="IAP Name 10" ref="IAP10" type="string">
+        <desc>
+	    	Name of the Connection Method that is bound to DN.
+	    	</desc>
+      </setting>
+    </setting>
+  </feature>
+  <data>
+    <CSD_APs>
+      <CSD_AP template="true">
+        <Protected>No</Protected>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Seamlessness>ConfirmFirst</Seamlessness>
+        <PasswordAuthenticationType>Normal</PasswordAuthenticationType>
+        <WTLS_Security>On</WTLS_Security>
+        <WAP_ConnectionType>Continuous</WAP_ConnectionType>
+        <BearerSpeed>Autodetect</BearerSpeed>
+        <BearerCallTypeIsdn>Analogue</BearerCallTypeIsdn>
+        <CallbackEnabled>Yes</CallbackEnabled>
+        <CallbackType>Server Number</CallbackType>
+        <EnableSWCompression>No</EnableSWCompression>
+        <UseLoginScript>No</UseLoginScript>
+      </CSD_AP>
+    </CSD_APs>
+    <DNs>
+      <DN template="true">
+        <Metadata>User Defined</Metadata>
+        <Protection>0</Protection>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Icon>11</Icon>
+      </DN>
+      <DN extensionPolicy="replace">
+        <Name>Internet</Name>
+        <DNId>1</DNId>
+        <Metadata>Internet</Metadata>
+        <Protection>2</Protection>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>Yes</Highlighted>
+        <Icon>0</Icon>
+      </DN>
+      <DN>
+        <Name>MMS</Name>
+        <DNId>2</DNId>
+        <Metadata>MMS</Metadata>
+        <Protection>2</Protection>
+        <Hidden>No</Hidden>
+        <HiddenAgent>Yes</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Icon>2</Icon>
+      </DN>
+      <DN>
+        <Name>Operator</Name>
+        <DNId>3</DNId>
+        <Metadata>Operator</Metadata>
+        <Protection>2</Protection>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Icon>4</Icon>
+      </DN>
+    </DNs>
+    <Global>
+      <Attachmode>whenavailable</Attachmode>
+      <DefaultDnIcon>11</DefaultDnIcon>
+      <DefaultConnectionType>Ask once</DefaultConnectionType>
+      <DefaultConnectionName/>
+      <DefaultAP/>
+      <WlanUseDefSettings>1</WlanUseDefSettings>
+      <WlanBGScanInterval>0</WlanBGScanInterval>
+      <WlanTxPowerLevel>100</WlanTxPowerLevel>
+      <WlanRadioMeasurements>1</WlanRadioMeasurements>
+      <WlanPowerMode>1</WlanPowerMode>
+      <PriorityLan>0</PriorityLan>
+      <PriorityWlan>1</PriorityWlan>
+      <PriorityPan>2</PriorityPan>
+      <PriorityGprsOut>3</PriorityGprsOut>
+      <PriorityGprsIn>4</PriorityGprsIn>
+      <PriorityCdma2k>5</PriorityCdma2k>
+      <PriorityDialOut>6</PriorityDialOut>
+      <PriorityDialIn>7</PriorityDialIn>
+      <PriorityVpn>253</PriorityVpn>
+      <PriorityMip>254</PriorityMip>
+      <UIPriorityLan>9</UIPriorityLan>
+      <UIPriorityWlan>0</UIPriorityWlan>
+      <UIPriorityPan>8</UIPriorityPan>
+      <UIPriorityGprsOut>1</UIPriorityGprsOut>
+      <UIPriorityGprsIn>2</UIPriorityGprsIn>
+      <UIPriorityCdma2k>3</UIPriorityCdma2k>
+      <UIPriorityDialOut>4</UIPriorityDialOut>
+      <UIPriorityDialIn>5</UIPriorityDialIn>
+      <UIPriorityVpn>6</UIPriorityVpn>
+      <UIPriorityMip>7</UIPriorityMip>
+      <WlanLongRetry>4</WlanLongRetry>
+      <WlanShortRetry>7</WlanShortRetry>
+      <WlanRTS>2347</WlanRTS>
+      <CsdLastSocketActivityTimeout>300</CsdLastSocketActivityTimeout>
+      <CsdLastSessionClosedTimeout>1</CsdLastSessionClosedTimeout>
+      <CsdLastSocketClosedTimeout>300</CsdLastSocketClosedTimeout>
+      <WlanLastSocketActivityTimeout>-1</WlanLastSocketActivityTimeout>
+      <WlanLastSessionClosedTimeout>1</WlanLastSessionClosedTimeout>
+      <WlanLastSocketClosedTimeout>-1</WlanLastSocketClosedTimeout>
+      <GprsLastSocketActivityTimeout>-1</GprsLastSocketActivityTimeout>
+      <GprsLastSessionClosedTimeout>1</GprsLastSessionClosedTimeout>
+      <GprsLastSocketClosedTimeout>-1</GprsLastSocketClosedTimeout>
+    </Global>
+    <APs>
+      <AP template="true">
+        <Protected>No</Protected>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Seamlessness>ConfirmFirst</Seamlessness>
+        <NetworkType>IPv4</NetworkType>
+        <PromptPassword>No</PromptPassword>
+        <PasswordAuthenticationType>Normal</PasswordAuthenticationType>
+        <WTLS_Security>On</WTLS_Security>
+        <WAP_ConnectionType>Continuous</WAP_ConnectionType>
+        <GprsUseEdge>Yes</GprsUseEdge>
+      </AP>
+    </APs>
+    <HSCSD_APs>
+      <HSCSD_AP template="true">
+        <Protected>No</Protected>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Seamlessness>ConfirmFirst</Seamlessness>
+        <PromptPassword>No</PromptPassword>
+        <PasswordAuthenticationType>Normal</PasswordAuthenticationType>
+        <WTLS_Security>On</WTLS_Security>
+        <WAP_ConnectionType>Continuous</WAP_ConnectionType>
+        <BearerSpeed>Autodetect</BearerSpeed>
+        <BearerCallTypeIsdn>Analogue</BearerCallTypeIsdn>
+        <CallbackEnabled>Yes</CallbackEnabled>
+        <CallbackType>Server Number</CallbackType>
+        <EnableSWCompression>No</EnableSWCompression>
+        <UseLoginScript>No</UseLoginScript>
+      </HSCSD_AP>
+    </HSCSD_APs>
+    <LAN_APs>
+      <LAN_AP template="true">
+        <Protected>No</Protected>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Seamlessness>Confirm first</Seamlessness>
+        <WTLS_Security>On</WTLS_Security>
+        <WAP_ConnectionType>Continuous</WAP_ConnectionType>
+      </LAN_AP>
+    </LAN_APs>
+    <WLAN_APs>
+      <WLAN_AP template="true">
+        <Protected>No</Protected>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Seamlessness>ConfirmFirst</Seamlessness>
+        <NetworkMode>Infrastructure</NetworkMode>
+        <SecurityMode>Open</SecurityMode>
+        <WLANScanSSID>No</WLANScanSSID>
+        <WEPKeyInUse>key1</WEPKeyInUse>
+        <WEPAuthType>Shared</WEPAuthType>
+        <WEPKey1Length>64</WEPKey1Length>
+        <WEPKey1Format>ASCII</WEPKey1Format>
+        <WEPKey2Length>64</WEPKey2Length>
+        <WEPKey2Format>ASCII</WEPKey2Format>
+        <WEPKey3Length>64</WEPKey3Length>
+        <WEPKey3Format>ASCII</WEPKey3Format>
+        <WEPKey4Length>64</WEPKey4Length>
+        <WEPKey4Format>ASCII</WEPKey4Format>
+        <WPAUseOfPresharedKey>No</WPAUseOfPresharedKey>
+        <WPAKeyLength>0</WPAKeyLength>
+      </WLAN_AP>
+    </WLAN_APs>
+    <VPN_APs>
+      <VPN_AP template="true">
+        <Protected>No</Protected>
+        <Hidden>No</Hidden>
+        <HiddenAgent>No</HiddenAgent>
+        <Highlighted>No</Highlighted>
+        <Seamlessness>ConfirmFirst</Seamlessness>
+      </VPN_AP>
+    </VPN_APs>
+    <KCRUidCommsDatCreator>
+      <KCommsDatCreatorStartupStatus>0</KCommsDatCreatorStartupStatus>
+      <KCommsDatCreatorInputFileName>VariantData_commsdat.xml</KCommsDatCreatorInputFileName>
+    </KCRUidCommsDatCreator>
+  </data>
+  <rfs>
+    <KCRUidCommsDatCreator>
+      <KCommsDatCreatorStartupStatus>false</KCommsDatCreatorStartupStatus>
+      <KCommsDatCreatorInputFileName>false</KCommsDatCreatorInputFileName>
+    </KCRUidCommsDatCreator>
+  </rfs>
+</configuration>

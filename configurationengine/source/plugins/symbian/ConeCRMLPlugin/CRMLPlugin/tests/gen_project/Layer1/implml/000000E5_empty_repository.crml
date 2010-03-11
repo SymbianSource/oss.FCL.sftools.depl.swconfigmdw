@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="EmptyRepo5" uidValue="0x000000E5" owner="0xABCDDCBA">
+  <access type="R" capabilities="ReadDeviceData"/>
+  <access type="W" capabilities="WriteDeviceData"/>
+</repository>

@@ -1,0 +1,21 @@
+<configuration name="Eval test data" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature ref="APIDCTest" name="Test settings for accesspoint id count">
+    <setting ref="FullSequence" name="Full sequence" type="sequence">
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+    </setting>
+  </feature>
+  
+  <data>
+    <APIDCTest>
+      <FullSequence template="true">
+        <StringSubSetting>Default</StringSubSetting>
+      </FullSequence>
+      <FullSequence>
+        <StringSubSetting>Full 1</StringSubSetting>
+      </FullSequence>
+      <FullSequence>
+        <StringSubSetting>Full 2</StringSubSetting>
+      </FullSequence>
+    </APIDCTest>
+  </data>
+</configuration>

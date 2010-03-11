@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="NoRfsFeature" uidValue="0x10000003">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="NoRfsFeature/RealSetting"      name="Real setting"     int="0x00000001" type="real"/>
+  <key ref="NoRfsFeature/IntSetting"       name="Int setting"      int="0x00000002" type="int"/>
+  <key ref="NoRfsFeature/StringSetting"    name="String setting"   int="0x00000003" type="string"/>
+  <key ref="NoRfsFeature/BooleanSetting"   name="Boolean setting"  int="0x00000004" type="int"/>
+</repository>

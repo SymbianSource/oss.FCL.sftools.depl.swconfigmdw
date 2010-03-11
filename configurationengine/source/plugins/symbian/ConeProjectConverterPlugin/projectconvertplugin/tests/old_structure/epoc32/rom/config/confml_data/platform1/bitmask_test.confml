@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Bitmask test" version="1">
+  <feature ref="BitmaskTest" name="Bitmask test">
+    <desc>Feature with bitmask flags</desc>
+    <setting ref="Bit0" name="Bit 0" type="boolean">
+      <desc>A boolean setting for bit 0</desc>
+    </setting>
+    <setting ref="Bit1" name="Bit 1" type="boolean">
+      <desc>A boolean setting for bit 1</desc>
+    </setting>
+    <setting ref="Bit2" name="Bit 2" type="boolean">
+      <desc>A boolean setting for bit 2</desc>
+    </setting>
+    <setting ref="Bit3" name="Bit 3" type="boolean">
+      <desc>A boolean setting for bit 3</desc>
+    </setting>
+    <setting ref="Bit4" name="Bit 4" type="boolean">
+      <desc>A boolean setting for bit 4</desc>
+    </setting>
+    <setting ref="Bit5" name="Bit 5" type="boolean">
+      <desc>A boolean setting for bit 5</desc>
+    </setting>
+  </feature>
+  <data>
+    <BitmaskTest>
+      <Bit0>true</Bit0>
+      <Bit1>false</Bit1>
+      <Bit2>true</Bit2>
+      <Bit3>false</Bit3>
+      <Bit4>true</Bit4>
+      <Bit5>false</Bit5>
+    </BitmaskTest>
+  </data>
+  
+  <rfs>
+    <BitmaskTest>
+      <Bit0>false</Bit0>
+      <Bit1>true</Bit1>
+      <Bit2>false</Bit2>
+      <Bit3>true</Bit3>
+      <Bit4>false</Bit4>
+      <Bit5>true</Bit5>
+    </BitmaskTest>
+  </rfs>
+</configuration>

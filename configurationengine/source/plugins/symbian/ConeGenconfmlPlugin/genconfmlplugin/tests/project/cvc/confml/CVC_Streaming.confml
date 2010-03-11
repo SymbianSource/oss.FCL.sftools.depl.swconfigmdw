@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2" name="cvc_streaming">
+	<feature name="Streaming Settings" ref="CVC_streaming">
+		<desc>Streaming Settings</desc>
+		<setting name="Use proxy" ref="CVC_streamingUseProxy" type="selection">
+			<desc>Use proxy for streaming</desc>
+			<option name="Yes" value="Yes"/>
+			<option name="No" value="No"/>
+		</setting>
+		<setting name="Proxy server address" ref="CVC_streamingProxyServerAddress" type="string">
+			<desc>Programmed (max.length 1000 characters)</desc>
+		</setting>
+		<setting name="Proxy port number" ref="CVC_streamingProxyPortNumber" type="int">
+			<desc>Programmed (1-9999)</desc>
+		</setting>
+		<setting name="Default access point" ref="CVC_streamingAccessPoint" type="string">
+			<desc>Programmed (max.length 100 characters)</desc>
+		</setting>
+		<setting name="Online time" ref="CVC_streamingOnlineTime" type="selection">
+			<desc>Limit for online time spent in streaming</desc>			
+			<option name="Unlimited" value="Unlimited"/>
+			<option name="User defined" value="UD"/>
+		</setting>
+		<setting name="User defined time" ref="CVC_streamingOnlineTimeValue" type="int">
+			<desc>User-selectable value for online streaming time (if limiting is enabled)</desc>
+			<desc>(1 – 30 minutes)</desc>
+		</setting>
+		<setting name="Lowest UDP port" ref="CVC_streamingLowestUDPPort" type="int">
+			<desc>1024 (equal or smaller than Highest UDP port) (default 6970)</desc>
+		</setting>
+		<setting name="Highest UDP port" ref="CVC_streamingHighestUDPPort" type="int">
+			<desc>65535 (equal or bigger than Lowest UDP port)(default 32000)</desc>
+		</setting>
+		<setting name="GPRS bandwidth" ref="CVC_streamingGPRSBandwidth" type="selection">
+			<desc>GPRS bandwidth limit for streaming</desc>
+			<option name="9.05 kbit/s" value="9"/>
+			<option name="13.40 kbit/s" value="13"/>
+			<option name="18.10 kbit/s" value="18"/>
+			<option name="27.15 kbit/s" value="27"/>
+			<option name="40.20 kbit/s" value="40"/>
+			<option name="User defined" value="user"/>
+		</setting>
+		<setting name="User defined GPRS bandwidth" ref="CVC_streamingGPRSBandwidthValue" type="real">
+			<desc>User defined (5 – 99.99 kbps)</desc>
+		</setting>
+		<setting name="EGPRS bandwidth" ref="CVC_streamingEGPRSBandwidth" type="selection">
+			<desc>EGPRS bandwidth limit for streaming</desc>
+			<option name="44.80 kbit/s" value="44"/>
+			<option name="59.20 kbit/s" value="59"/>
+			<option name="89.60 kbit/s" value="89"/>
+			<option name="108.80 kbit/s" value="108"/>
+			<option name="User defined" value="user"/>
+		</setting>
+		<setting name="User defined EGPRS bandwidth" ref="CVC_streamingEGPRSBandwidthValue" type="real">
+			<desc>User defined (5 – 199.99 kbps)</desc>
+		</setting>
+		<setting name="UMTS bandwidth" ref="CVC_streamingUMTSBandwidth" type="selection">
+			<desc>UMTS bandwidth limit for streaming</desc>
+			<option name="64.00 kbit/s" value="64"/>
+			<option name="128.00 kbit/s" value="128"/>
+			<option name="192.00 kbit/s" value="192"/>
+			<option name="256.00 kbit/s" value="256"/>
+			<option name="320.00 kbit/s" value="320"/>
+			<option name="384.00 kbit/s" value="384"/>
+			<option name="User defined" value="user"/>
+		</setting>
+		<setting name="User defined UMTS bandwidth" ref="CVC_streamingUMTSBandwidthValue" type="real">
+			<desc>User defined (5 – 999.99 kbps)</desc>
+		</setting>
+		<setting name="WLAN bandwidth" ref="CVC_streamingWLANBandwidth" type="selection">
+			<desc>WLAN bandwidth limit for streaming</desc>
+			<option name="64.00 kbit/s" value="64"/>
+			<option name="128.00 kbit/s" value="128"/>
+			<option name="192.00 kbit/s" value="192"/>
+			<option name="256.00 kbit/s" value="256"/>
+			<option name="320.00 kbit/s" value="320"/>
+			<option name="384.00 kbit/s" value="384"/>
+			<option name="768.00 kbit/s" value="768"/>
+			<option name="1.05 Mbit/s" value="1050"/>
+			<option name="1.43 Mbit/s" value="1430"/>
+			<option name="1.92 Mbit/s" value="1920"/>
+			<option name="3.00 Mbit/s" value="3000"/>
+			<option name="User defined" value="user"/>
+		</setting>
+		<setting name="User defined WLAN bandwidth" ref="CVC_streamingWLANBandwidthValue" type="real">
+			<desc>User defined (kbps)</desc>
+		</setting>
+		<setting name="HSDPA bandwidth" ref="CVC_streamingHSDPABandwidth" type="selection">
+			<desc>HSDPA bandwidth limit for streaming</desc>
+			<option name="600.00 kbit/s" value="600"/>
+			<option name="1.20 Mbit/s" value="1200"/>
+			<option name="1.80 Mbit/s" value="1800"/>
+			<option name="2.40 Mbit/s" value="2400"/>
+			<option name="3.00 Mbit/s" value="3000"/>
+			<option name="3.60 Mbit/s" value="3600"/>
+			<option name="User defined" value="user"/>
+		</setting>
+		<setting name="User defined HSDPA bandwidth" ref="CVC_streamingHSDPABandwidthValue" type="real">
+			<desc>User defined (5 – 3999.99 kbps)</desc>
+		</setting>
+	</feature>
+	<data>
+		<CVC_streaming>
+			<CVC_streamingUseProxy>No</CVC_streamingUseProxy>
+			<CVC_streamingProxyServerAddress/>
+			<CVC_streamingProxyPortNumber>554</CVC_streamingProxyPortNumber>
+			<CVC_streamingAccessPoint/>
+			<CVC_streamingOnlineTime>Unlimited</CVC_streamingOnlineTime>
+			<CVC_streamingOnlineTimeValue>1</CVC_streamingOnlineTimeValue>
+			<CVC_streamingLowestUDPPort>6970</CVC_streamingLowestUDPPort>
+			<CVC_streamingHighestUDPPort>32000</CVC_streamingHighestUDPPort>
+			<CVC_streamingGPRSBandwidth>40</CVC_streamingGPRSBandwidth>
+			<CVC_streamingGPRSBandwidthValue>5</CVC_streamingGPRSBandwidthValue>
+			<CVC_streamingEGPRSBandwidth>89</CVC_streamingEGPRSBandwidth>
+			<CVC_streamingEGPRSBandwidthValue>5</CVC_streamingEGPRSBandwidthValue>
+			<CVC_streamingUMTSBandwidth>384</CVC_streamingUMTSBandwidth>
+			<CVC_streamingUMTSBandwidthValue>5</CVC_streamingUMTSBandwidthValue>
+			<CVC_streamingWLANBandwidth>1430</CVC_streamingWLANBandwidth>
+			<CVC_streamingWLANBandwidthValue>5</CVC_streamingWLANBandwidthValue>
+			<CVC_streamingHSDPABandwidth>user</CVC_streamingHSDPABandwidth>
+			<CVC_streamingHSDPABandwidthValue>5</CVC_streamingHSDPABandwidthValue>
+		</CVC_streaming>
+	</data>
+</configuration>

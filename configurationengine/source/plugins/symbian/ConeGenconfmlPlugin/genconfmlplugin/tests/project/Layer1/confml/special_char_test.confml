@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Special char test" version="1">
+  <feature ref="SpecialCharTest" name="Special char test">
+    <setting ref="Test1" name="Test 1" type="string"/>
+    <setting ref="Test2" name="Test 2" type="string"/>
+    <setting ref="Test3" name="Test 3" type="string"/>
+    <setting ref="Test4" name="Test 4" type="string"/>
+    <setting ref="Test5" name="Test 5" type="string"/>
+    <setting ref="Test6" name="Test 6" type="string"/>
+  </feature>
+  <data>
+    <SpecialCharTest>
+      <Test1>älämölö</Test1>
+      <Test2>ударения</Test2>
+      <Test3>ελληνικά</Test3>
+      <Test4>カタカナ</Test4>
+      <Test5>中國話</Test5>
+      <Test6>&lt;&amp;&gt;</Test6>
+    </SpecialCharTest>
+  </data>
+</configuration>

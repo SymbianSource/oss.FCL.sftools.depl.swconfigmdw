@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="DuplicateRepo1" uidValue="0x30000000" rfs="true" backup="true">
+
+  <keyRange ref="KeyRanges/Seq1RefChanged" name="Sequence 1 (name changed)"
+    firstInt="0x1001" lastInt="0x1fff" indexBits="0x1fe0" firstIndex="2" countInt="0x1001" backup="false">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+    
+    <key ref="SubSetting1" name="Sub-setting 1" int="0x0001" type="int"/>
+    <key ref="SubSetting2RefChanged" name="Sub-setting 2 (name changed)" int="0x0002" type="real"/>
+    
+    <key ref="AddedSubSetting" name="Added sub-setting" int="0x0005" type="int"/>
+  </keyRange>
+  
+  <keyRange name="Range 2" firstInt="0x00002000" lastInt="0x00002FFF" backup="false" readOnly="false"/>
+  <keyRange name="Range 3" firstInt="0x00003000" lastInt="0x00003FFF" backup="true" readOnly="true"/>
+  
+  <keyRange ref="KeyRanges/AddedSeq" name="Added range"
+    firstInt="0x20001001" lastInt="0x20001fff" indexBits="0x0ff0" firstIndex="1" countInt="0x20001000">
+    <key ref="SubSetting1" name="Sub-setting 1" int="0x0001" type="int"/>
+    <key ref="SubSetting2" name="Sub-setting 2" int="0x0002" type="int"/>
+  </keyRange>
+  
+  <keyRange ref="KeyRanges/ReadOnlySeqRefChanged" name="Read-only sequence (name changed)"
+    firstInt="0x3001" lastInt="0x3fff" indexBits="0x1fe0" firstIndex="2" countInt="0x3000" readOnly="true">
+    <access type="R" capabilities="ReadUserData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteUserData" sid="0xDDCCBBAA"/>
+    
+    <key ref="SubSetting1" name="Sub-setting 1" int="0x0001" type="int"/>
+    <key ref="SubSetting2RefChanged" name="Sub-setting 2 (name changed)" int="0x0002" type="real"/>
+    
+    <key ref="AddedSubSetting" name="Added sub-setting" int="0x0005" type="int"/>
+  </keyRange>
+  
+</repository>

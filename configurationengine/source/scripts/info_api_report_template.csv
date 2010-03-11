@@ -1,0 +1,4 @@
+{% for item in data.api_data.columns %}{{ item }},{% endfor %}
+{% for row in data.api_data.data %}{% for colname in data.api_data.columns %}"{{ row[colname] }}",{% endfor %}
+{% endfor %}
+

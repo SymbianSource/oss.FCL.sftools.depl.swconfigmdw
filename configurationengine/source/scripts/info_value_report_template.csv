@@ -1,0 +1,25 @@
+﻿{#- Note: The empty comments are used for removing line feeds -#}
+Name,Type,Possible values,{% for config in data.value_data.configs %}{{ config.path | csv_escape }},{% endfor %}
+{# -#}
+{% for feature_group in data.value_data.feature_groups %}
+{{ feature_group.name }}
+{% for feature in feature_group.features -%}
+{{ feature.name | csv_escape }},{{ feature.type | csv_escape }},{#- -#}
+"{%- for option in feature.options -%}
+    {{- option.get_name() | csv_escape_partial }}
+{% endfor -%}",
+
+{%- for config in data.value_data.configs -%}
+    {%- if feature.ref in config.values -%}
+        {%- set value = config.values[feature.ref] -%}
+    {%- else -%}
+        {%- set value = "" -%}
+    {%- endif -%}
+    {%- if value.is_sequence_data -%}
+        <sequence data>,
+    {%- else -%}
+        {{ value | csv_escape }},
+    {%- endif -%}
+{%- endfor %}
+{% endfor -%}
+{%- endfor %}

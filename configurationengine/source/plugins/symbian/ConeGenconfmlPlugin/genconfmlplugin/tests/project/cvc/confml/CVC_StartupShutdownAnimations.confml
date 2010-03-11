@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2" name="Operator Startup Animation">
+	<confml:feature name="Operator Startup Animation" ref="CVC_StartupAnimationSequence">
+		<confml:desc>Startup animation. The customer specific startup element can contain either a still image or an animation with or without a customer specified tone.</confml:desc>
+		<confml:setting name="Startup Animation Duration, seconds" ref="CVC_StartupAnimationDuration" type="int">
+			<confml:desc>Display time for still image is max 3 seconds, for animation 2.5 max seconds.</confml:desc>
+		</confml:setting>
+		<confml:setting name="Startup Audio" ref="CVC_StartupAnimationTone" type="file">
+			<confml:desc>Sound tone played during animation. Animation is displayed at speed of 10 fps. If the optional tone is longer than 2.5 seconds, the last image will be displayed until the tone has finished.</confml:desc>
+
+		</confml:setting>
+		<confml:setting name="Startup Frames Location" ref="CVC_StartupFrameLocation" type="folder">
+			<confml:desc>Folder with animation frames. Filenames must be ordered by numbering frames in the correct sequence. Frame delay is fixed at 100ms to 250ms depending on phone model. Last frame will be displayed for duration remaining to defined Animation Duration setting.</confml:desc>
+		</confml:setting>
+	</confml:feature>
+	<confml:feature name="Operator Shutdown Animation" ref="CVC_ShutdownAnimationSequence">
+		<confml:desc>Shutdown animation. The customer specific shutdown element can contain either a still image or an animation with or without a customer specified tone.</confml:desc>
+		<confml:setting name="Shutdown Animation Duration" ref="CVC_ShutdownAnimationDuration" type="int">
+			<confml:desc>Display time for still image is max 3 seconds, for animation 2.5 max seconds.</confml:desc>
+		</confml:setting>
+		<confml:setting name="Shutdown Audio" ref="CVC_ShutdownAnimationTone" type="file">
+			<confml:desc>Sound tone played during animation. Animation is displayed at speed of 10 fps. If the optional tone is longer than 2.5 seconds, the last image will be displayed until the tone has finished.</confml:desc>
+		</confml:setting>
+		<confml:setting name="Shutdown Frames Location" ref="CVC_ShutdownFrameLocation" type="folder">
+			<confml:desc>Folder with animation frames. Filenames must be ordered by numbering frames in the correct sequence. Frame delay is fixed at 100ms to 250ms depending on phone model. Last frame will be displayed for duration remaining to defined Animation Duration setting.</confml:desc>
+		</confml:setting>
+	</confml:feature>
+	<confml:data>
+		<confml:CVC_StartupAnimationSequence>
+			<confml:CVC_StartupAnimationDuration>3000</confml:CVC_StartupAnimationDuration>
+			<confml:CVC_StartupAnimationTone>
+			</confml:CVC_StartupAnimationTone>
+			<confml:CVC_StartupFrameLocation>
+			</confml:CVC_StartupFrameLocation>
+		</confml:CVC_StartupAnimationSequence>
+		<confml:CVC_ShutdownAnimationSequence>
+			<confml:CVC_ShutdownAnimationDuration>3000</confml:CVC_ShutdownAnimationDuration>
+			<confml:CVC_ShutdownAnimationTone>
+			</confml:CVC_ShutdownAnimationTone>
+			<confml:CVC_ShutdownFrameLocation>
+			</confml:CVC_ShutdownFrameLocation>
+		</confml:CVC_ShutdownAnimationSequence>
+	</confml:data>
+</confml:configuration>

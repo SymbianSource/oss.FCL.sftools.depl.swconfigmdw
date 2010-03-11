@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" name="Time types test">
+  <confml:feature ref="TimeTypesTest" name="Time types test">
+    <confml:desc>Feature with date-time etc. setting types</confml:desc>
+    <confml:setting ref="DateSetting" name="Date setting" type="date">
+      <confml:desc>A date setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="TimeSetting" name="Time setting" type="time">
+      <confml:desc>A time setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="DateTimeSetting" name="Date-time setting" type="dateTime">
+      <confml:desc>A date-time setting</confml:desc>
+    </confml:setting>
+    <confml:setting ref="DurationSetting" name="Duration setting" type="duration">
+      <confml:desc>A duration setting</confml:desc>
+    </confml:setting>
+  </confml:feature>
+  <confml:data>
+    <confml:TimeTypesTest>
+      <confml:DateSetting>2009-02-02</confml:DateSetting>
+      <confml:TimeSetting>07:30:15</confml:TimeSetting>
+      <confml:DateTimeSetting>2009-02-02-07:00:00</confml:DateTimeSetting>
+      <confml:DurationSetting>P5Y4M3DT12H25M15S</confml:DurationSetting>
+    </confml:TimeTypesTest>
+  </confml:data>
+</confml:configuration>

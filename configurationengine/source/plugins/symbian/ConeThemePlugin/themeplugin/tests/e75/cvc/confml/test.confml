@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<configuration xmlns="http://www.s60.com/xml/confml/1" name="test">
+		<feature name="Test" ref="Test">
+			<setting constraint="" name="SubOne for testing" readOnly="true" ref="SubOne" type="string">
+			<desc>Testing for deference</desc>
+			</setting>
+		</feature>
+		<data>
+			<Test>
+				<SubOne>Hello world</SubOne>
+			</Test>
+		</data>
+	</configuration>

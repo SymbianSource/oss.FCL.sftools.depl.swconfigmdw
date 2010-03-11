@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="EmptyRepo3" uidValue="0x000000E3" owner="0xABCDDCBA">
+  <access type="W" capabilities="AlwaysPass"/>
+</repository>

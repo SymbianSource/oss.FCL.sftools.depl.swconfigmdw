@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2">
+<feature ref="HcrTest1" name="HCR test 1">
+	<setting ref="Int8Setting" name="Int8 setting" type="int" />
+	<setting ref="Uint32Setting" name="Uint32 setting" type="int" />
+	<setting ref="Int32ArraySetting" name="Int32 array setting" type="sequence">
+		<setting ref="Value" name="Element value" type="int"/>
+	</setting>
+	<setting ref="BinDataSetting" name="Binary data setting" type="string"/>
+</feature>
+
+<data>
+	<HcrTest1>
+		<Int8Setting>125</Int8Setting>
+		<Uint32Setting>4000000000</Uint32Setting>
+		
+		<Int32ArraySetting template="true">
+			<Value>0</Value>
+		</Int32ArraySetting>
+		<Int32ArraySetting><Value>-1</Value></Int32ArraySetting>
+		<Int32ArraySetting><Value>-20</Value></Int32ArraySetting>
+		<Int32ArraySetting><Value>-300</Value></Int32ArraySetting>
+		<Int32ArraySetting><Value>-4000</Value></Int32ArraySetting>
+		<Int32ArraySetting><Value>-50000</Value></Int32ArraySetting>
+		
+		<BinDataSetting>00112233 DEADBEEF CAFE 50</BinDataSetting>
+	</HcrTest1>
+</data>
+</configuration>

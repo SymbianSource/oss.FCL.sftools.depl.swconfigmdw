@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2 http://www.w3.org/2001/XInclude http://www.s60.com/xml/confml/1#//include">
+  <xi:include href="CVC_2DigitDialing.confml"/>
+  <xi:include href="CVC_ActiveIdleNotifiers.confml"/>
+  <xi:include href="CVC_ActiveIdleOther.confml"/>
+  <xi:include href="CVC_CellInfoDisplay.confml"/>
+  <xi:include href="CVC_CPHSALS.confml"/>
+  <xi:include href="CVC_CustomerMenu.confml"/>
+  <xi:include href="CVC_InstantMessaging.confml"/>
+  <xi:include href="CVC_NokiaPCInternetAccess.confml"/>
+  <xi:include href="CVC_OperatorLogo.confml"/>
+  <xi:include href="CVC_Preinstalled.confml"/>
+  <xi:include href="CVC_RightSoftkey.confml"/>
+  <xi:include href="CVC_StartupShutdownAnimations.confml"/>
+  <xi:include href="CVC_Streaming.confml"/>
+  <xi:include href="CVC_SyncML.confml"/>
+  <xi:include href="CVC_ThemeWallpaperScreensaver.confml"/>
+  <xi:include href="CVC_VoiceMailbox.confml"/>
+  <xi:include href="CVC_AppShell323.confml"/>
+  <xi:include href="CVC_ZeroPlusSend.confml"/>
+  <xi:include href="cvc_view.confml"/>
+</confml:configuration>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/iby/1" 
+	xmlns:iby="http://www.s60.com/xml/iby/1" 
+	elementFormDefault="qualified">
+	
+    <xs:complexType name="entryType">
+		<xs:attribute name="value"        type="xs:string"            use="required"/>
+    </xs:complexType>
+	
+	
+    <xs:complexType name="ibyfileRootType">
+        <xs:sequence>
+            <xs:element name="entry" type="iby:entryType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name"       type="xs:string"/>
+		<xs:attribute name="rom_image"       type="xs:string"/>
+    </xs:complexType>
+		
+    <xs:element name="ibyfile" type="iby:ibyfileRootType"/>
+</xs:schema>

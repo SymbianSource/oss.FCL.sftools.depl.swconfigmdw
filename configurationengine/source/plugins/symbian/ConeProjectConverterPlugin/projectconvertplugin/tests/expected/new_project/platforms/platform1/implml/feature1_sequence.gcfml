@@ -1,0 +1,11 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="sequence_setting_test.txt" target="data\">
+	<setting ref="Feature1/SequenceSetting"/>
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/TR/xhtml1/strict">
+		<xsl:output method="text" encoding="UTF-16"/>
+		<xsl:template match="configuration/data">
+			<xsl:for-each select="Feature1/SequenceSetting">
+				<xsl:value-of select="FolderSubSetting"/>,<xsl:value-of select="RealSubSetting"/>,<xsl:value-of select="FileSubSetting"/>,<xsl:value-of select="IntSubSetting"/>,<xsl:value-of select="StringSubSetting"/>,<xsl:value-of select="BooleanSubSetting"/>,<xsl:value-of select="SelectionSubSetting"/><xsl:text>&#xA;</xsl:text>
+			</xsl:for-each>
+		</xsl:template>
+	</xsl:stylesheet>
+</file>

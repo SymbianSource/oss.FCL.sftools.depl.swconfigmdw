@@ -1,0 +1,27 @@
+﻿Name,Type,Possible values,product_langpack_01_root.confml,product_langpack_02_root.confml,product_langpack_03_root.confml,
+
+All settings
+Real setting,real,"",3.14,3.14,3.14,
+Int setting,int,"",10,10,10,
+String setting,string,"",string from product (langpack 01) config,string from product (langpack 02) config,string from product (langpack 03) config,
+Boolean setting,boolean,"",True,True,True,
+Selection setting,selection,"Option0
+Option1
+Option2
+Option3
+Option4
+",Option1,Option1,Option1,
+Sequence setting,sequence,"",<sequence data>,<sequence data>,<sequence data>,
+Sequence setting,sequence,"",<sequence data>,<sequence data>,<sequence data>,
+Real setting,real,"",10.5,10.5,10.5,
+Int setting,int,"",1001,1002,1003,
+String setting,string,"",langpack 01 string,langpack 02 string,langpack 03 string,
+Boolean setting,boolean,"",True,True,True,
+Selection setting,selection,"Option0
+Option1
+Option2
+Option3
+Option4
+",Option1,Option1,Option1,
+Sequence setting,sequence,"",<sequence data>,<sequence data>,<sequence data>,
+Sequence setting,sequence,"",<sequence data>,<sequence data>,<sequence data>,

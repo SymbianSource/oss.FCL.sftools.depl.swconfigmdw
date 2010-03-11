@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/1">
+  <input dir="overlay">
+    <exclude pattern='.svn'/>
+  </input>
+  <output dir="content"/>
+</content>

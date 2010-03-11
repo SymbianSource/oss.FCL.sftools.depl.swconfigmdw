@@ -1,0 +1,19 @@
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <output file="startup.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv'>
+        <input dir="UI/Start-up Animation">
+            <include pattern="bmp$"/>
+            <exclude pattern=".svn"/>
+        </input>
+    </output>
+    <output file="nocompress.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv' compress='false'>
+        <input dir="UI/Start-up Animation" depth="c8">
+            <include pattern="bmp$"/>
+            <exclude pattern=".svn"/>
+        </input>
+    </output>
+    <output file="${StartupConfigurationSettings.StartupAnimationPath}" tool='../bin/mifconv'> 
+        <input dir="${CVC_StartupAnimationSequence.CVC_StartupFrameLocation.localPath}" depth="c8">
+            <include pattern="bmp$"/>
+        </input>
+    </output>
+</imageml>

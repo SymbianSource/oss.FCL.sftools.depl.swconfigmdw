@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/1" name="dlmgr">
+  <feature name="Access test 2" ref="AccessTest2">
+    <setting name="Setting 1" ref="Setting1" type="int">
+      <desc>Test setting 1</desc>
+    </setting>
+    <setting name="Setting 2" ref="Setting2" type="int">
+      <desc>Test setting 2</desc>
+    </setting>
+  </feature>
+  <data>
+    <AccessTest2>
+      <Setting1>0</Setting1>
+      <Setting2>0</Setting2>
+    </AccessTest2>
+  </data>
+  <rfs>
+    <AccessTest2>
+      <Setting1>false</Setting1>
+      <Setting2>false</Setting2>
+    </AccessTest2>
+  </rfs>
+</configuration>

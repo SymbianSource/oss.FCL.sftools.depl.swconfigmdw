@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+
+    <output file="test6a.txt" encoding="UTF-8" dir="output">
+       <template>'Hello {{ feat_tree.Feature1._name }} {{ feat_tree.Feature1.StringSetting._value }} {{ feat_tree.Feature1.SequenceSetting.RealSubSetting._value }}!'</template>
+    </output>
+
+    <output file="test6b.txt" encoding="UTF-8" dir="output">
+       <template>{% for feature in feat_list %}
+            {{ feature._fqr }}:{{ feature._value }}
+{% endfor %}</template>
+    </output>
+
+    <filter name="test_filter">lambda a,b: a+b</filter>
+    <filter name="test_filter2" file="../../filters/filter.py"/>
+</templateml>

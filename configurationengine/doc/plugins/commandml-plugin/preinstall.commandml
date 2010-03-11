@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commandml xmlns="http://www.s60.com/xml/commandml/1">
+
+	<condition value="${preinstallmeta.input} != ''">
+		<command executable="\Preinstallation\preinstallation.exe" cwd="x:\" shell="true">
+			<argument value="${preinstallmeta.product}"/>
+			<argument value="${preinstallmeta.input}" />
+			<argument value="%CONE_OUT_ABSOLUTE%\content" />
+			<argument value="01" />
+			<pipe name="stdout" value="x:\\logia.txt"/>
+			<pipe name="stderr" value="STDOUT"/>
+		
+			<filter severity="info" condition="\s*\'(?P&lt;name&gt;.*)\' => \'(?P&lt;uid&gt;.*)\'" input="stdout" formatter="Installed %(name)s using UID: %(uid)s"/>
+			<filter severity="debug" condition=".*successfully.*" input="stdout"/>
+			<filter severity="error" condition="Installation of \'(?P&lt;name&gt;.*)\' failed! See the log for details and contact Delevopment team." input="stdout" formatter="Install manually %(name)s!"/>		
+		</command>
+	
+		<command executable="notepad.exe">
+			<argument value="x:\\logia.txt"/>		
+		</command>
+	</condition>
+
+</commandml>

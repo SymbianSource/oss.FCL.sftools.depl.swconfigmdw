@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.s60.com/xml/cenrep/1" xmlns:cenrep="http://www.s60.com/xml/cenrep/1">
+  <xs:element name="repository">
+    <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element minOccurs="0" maxOccurs="2" ref="cenrep:access" />
+      	<xs:element minOccurs="0" maxOccurs="1" ref="cenrep:desc" />
+      	<xs:element minOccurs="0" maxOccurs="unbounded" ref="cenrep:key" />
+      	<xs:element minOccurs="0" maxOccurs="unbounded" ref="cenrep:keyRange" />
+      </xs:choice>
+      <xs:attribute name="backup" type="xs:boolean"/>
+      <xs:attribute name="rfs" type="xs:boolean"/>
+      <xs:attribute name="initialialisationFileVersion" type="xs:integer"/>
+      <xs:attribute name="owner" type="xs:string"/>
+      <xs:attribute name="uidName" type="xs:string"/>
+      <xs:attribute name="uidValue" type="xs:string"/>
+      <xs:attribute name="version" type="xs:decimal" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="desc" type="xs:string"/>
+  <xs:element name="key">
+    <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+            	<xs:element minOccurs="0" maxOccurs="2"
+            		ref="cenrep:access" />
+            	<xs:element minOccurs="0" maxOccurs="unbounded"
+            		ref="cenrep:value" />
+            	<xs:element minOccurs="0" maxOccurs="unbounded"
+            		ref="cenrep:bit" />
+            	<xs:element ref="cenrep:desc" minOccurs="0" maxOccurs="1"></xs:element>
+            </xs:choice>
+            
+      <xs:attribute name="backup" type="xs:boolean"/>
+      <xs:attribute name="int" type="xs:string"/>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="readOnly" type="xs:boolean"/>
+      <xs:attribute name="ref" type="xs:string"/>
+      <xs:attribute name="type" type="cenrep:typeType"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="value">
+    <xs:complexType mixed="true">
+      <xs:attribute name="desc" />
+      <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="bit">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:attribute name="ref" type="xs:string"/>
+          <xs:attribute name="value" type="xs:boolean"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="keyRange">
+    <xs:complexType>
+      <xs:sequence>
+      	<xs:element minOccurs="0" maxOccurs="unbounded"
+      		ref="cenrep:access" />
+      	<xs:element ref="cenrep:desc" minOccurs="0" maxOccurs="1"></xs:element>
+      </xs:sequence>
+      <xs:attribute name="backup" type="xs:boolean"/>
+      <xs:attribute name="countInt" type="xs:int"/>
+      <xs:attribute name="firstIndex" type="xs:int"/>
+      <xs:attribute name="firstInt" type="xs:string"/>
+      <xs:attribute name="indexBits" type="xs:string"/>
+      <xs:attribute name="int" type="xs:int"/>
+      <xs:attribute name="lastInt" type="xs:string"/>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="ref" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="access">
+    <xs:complexType>
+    	<xs:choice>
+    		<xs:element ref="cenrep:desc" minOccurs="0" maxOccurs="1"></xs:element>
+    	</xs:choice>
+    	<xs:attribute name="capabilities" type="xs:string" />
+    	<xs:attribute name="sid" type="xs:string" />
+    	<xs:attribute name="type" type="xs:NMTOKEN" />
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="typeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration id="int" value="int"></xs:enumeration>
+			<xs:enumeration value="binary"></xs:enumeration>
+			<xs:enumeration value="real"></xs:enumeration>
+			<xs:enumeration value="string"></xs:enumeration>
+			<xs:enumeration value="string8"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

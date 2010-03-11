@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="RepoRfsFeature" version="1">
+  <feature ref="BitmaskRfsFeature" name="Feature for testing RFS with bitmask CenRep keys">
+    <setting ref="Mask1Bit0" name="Boolean setting" type="boolean"/>
+    <setting ref="Mask1Bit1" name="Boolean setting" type="boolean"/>
+    <setting ref="Mask1Bit2" name="Boolean setting" type="boolean"/>
+    <setting ref="Mask1Bit3" name="Boolean setting" type="boolean"/>
+    
+    <setting ref="Mask2Bit0" name="Boolean setting" type="boolean"/>
+    <setting ref="Mask2Bit1" name="Boolean setting" type="boolean"/>
+    <setting ref="Mask2Bit2" name="Boolean setting" type="boolean"/>
+    <setting ref="Mask2Bit3" name="Boolean setting" type="boolean"/>
+  </feature>
+  <data>
+    <BitmaskRfsFeature>
+      <Mask1Bit0>0</Mask1Bit0>
+      <Mask1Bit1>1</Mask1Bit1>
+      <Mask1Bit2>1</Mask1Bit2>
+      <Mask1Bit3>0</Mask1Bit3>
+      
+      <Mask2Bit0>1</Mask2Bit0>
+      <Mask2Bit1>0</Mask2Bit1>
+      <Mask2Bit2>0</Mask2Bit2>
+      <Mask2Bit3>1</Mask2Bit3>
+    </BitmaskRfsFeature>
+  </data>
+  
+  <rfs>
+    <BitmaskRfsFeature>
+      <Mask1Bit0>false</Mask1Bit0>
+      <Mask1Bit1>false</Mask1Bit1>
+      <Mask1Bit2>false</Mask1Bit2>
+      <Mask1Bit3>false</Mask1Bit3>
+      
+      <Mask2Bit0>false</Mask2Bit0>
+      <Mask2Bit1>true</Mask2Bit1>
+      <Mask2Bit2>false</Mask2Bit2>
+      <Mask2Bit3>false</Mask2Bit3>
+    </BitmaskRfsFeature>
+  </rfs>
+</configuration>

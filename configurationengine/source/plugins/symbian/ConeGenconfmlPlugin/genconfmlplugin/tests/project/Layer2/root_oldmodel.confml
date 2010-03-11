@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" name="Layer 2">
+  <confml:data>
+  
+	<confml:Feature1>
+	<confml:IntSetting>200</confml:IntSetting>
+	<confml:StringSetting>layer 2 string</confml:StringSetting>
+	<confml:RealSetting>2.005</confml:RealSetting>
+	<confml:SelectionSetting>2</confml:SelectionSetting>
+	</confml:Feature1>
+  
+	<confml:Feature2>
+	  <confml:SequenceSetting extensionPolicy="append">
+	    <confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>layer2 (1)</confml:StringSubSetting>
+	  </confml:SequenceSetting>
+	  <confml:SequenceSetting>
+	    <confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>layer2 (2)</confml:StringSubSetting>
+	  </confml:SequenceSetting>
+	  <confml:SequenceSetting>
+	    <confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>layer2 (3)</confml:StringSubSetting>
+	  </confml:SequenceSetting>
+	</confml:Feature2>
+	
+  </confml:data>
+  <xi:include href="../Layer1/root.confml#/"/>
+</confml:configuration>

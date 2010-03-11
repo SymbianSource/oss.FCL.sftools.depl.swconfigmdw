@@ -1,0 +1,152 @@
+{% extends "cone_base.html" %}
+{% block title %}Compare data{% endblock %}
+{% block content %}
+
+    <h1>CRML Data Compatibility Report</h1><br>
+    
+    <table class="report">
+      <tr>
+        <td>Source:</td>
+        <td>{{ data.sourcedata.name }}</td>
+      </tr>
+      <tr>
+        <td>Target:</td>
+        <td>{{ data.targetdata.name }}</td>
+      </tr>
+    </table>
+    
+    <br/>
+    
+    <h2>Modified keys/files:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>File</th>
+        <th>Repository UID</th>
+        <th>Repository name</th>
+        <th>Key UID</th>
+        <th>Key name</th>
+        <th>Changed value</th>
+        <th>Old value</th>
+        <th>New value</th>
+    </tr>
+    
+    {% for row in data.impl_data.flat.modified|sort -%}
+        {#- Only report CRML changes (but ignore changes to key names, they don't matter for DC) -#}
+        {%- if row.impl_type == 'crml' and row.value_id != 'name' -%}
+            {# Ignore changes to read-only keys. However, if a key's read-only attribute is changed, that is reported. -#}
+            {%- if 'target_key' not in row.data or row.data.target_key.read_only == false or row.data.source_key.read_only != row.data.target_key.read_only -%}
+                
+                {%- if 'target_key' in row.data -%}
+                    {% set key_name = row.data.target_key.name or row.data.source_key.name -%}
+                {% else -%}
+                    {% set key_name = '' -%}
+                {% endif -%}
+                {%- set repo_name = row.data.target_repo.uid_name or row.data.source_repo.uid_name -%}
+                {%- if repo_name == none -%}{%- set repo_name = '' -%}{%- endif -%}
+                
+                <tr>
+                    <td>{{ row.file }}</td>
+                    <td>{{ row.id }}</td>
+                    <td>{{ repo_name }}</td>
+                    <td>{{ row.sub_id }}</td>
+                    <td>{{ key_name }}</td>
+                    <td>{{ row.value_id }}</td>
+                    <td>{{ row.source_value }}</td>
+                    <td>{{ row.target_value }}</td>
+                </tr>
+            {% endif -%}
+
+        {% endif -%}
+    {% endfor %}
+    </table>
+    
+    
+    <h2>Added keys/files:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>File</th>
+        <th>Repository UID</th>
+        <th>Repository name</th>
+        <th>Key UID</th>
+        <th>Key name</th>
+    </tr>
+    
+    {% for row in data.impl_data.flat.only_in_target|sort -%}
+        {%- if row.impl_type == 'crml' and ('key' not in row.data or row.data.key.read_only == false) -%}
+            {%- if row.data != none and 'key' in row.data -%}
+                {%- set key_name = row.data.key.name -%}
+            {%- else -%}
+                {%- set key_name = '' -%}
+            {%- endif -%}
+            {%- set repo_name = row.data.repo.uid_name or '' -%}
+            
+            <tr>
+                <td>{{ row.file }}</td>
+                <td>{{ row.id or '' }}</td>
+                <td>{{ repo_name }}</td>
+                <td>{{ row.sub_id or '' }}</td>
+                <td>{{ key_name }}</td>
+            </tr>
+        {% endif -%}
+    {% endfor %}
+    </table>
+    
+    
+    <h2>Removed keys/files:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>File</th>
+        <th>Repository UID</th>
+        <th>Repository name</th>
+        <th>Key UID</th>
+        <th>Key name</th>
+    </tr>
+    
+    {% for row in data.impl_data.flat.only_in_source|sort -%}
+        {%- if row.impl_type == 'crml' and ('key' not in row.data or row.data.key.read_only == false) -%}
+            {%- if row.data != none and 'key' in row.data -%}
+                {%- set key_name = row.data.key.name -%}
+            {%- else -%}
+                {%- set key_name = '' -%}
+            {%- endif -%}
+            {%- set repo_name = row.data.repo.uid_name or '' -%}
+            
+            <tr>
+                <td>{{ row.file }}</td>
+                <td>{{ row.id or '' }}</td>
+                <td>{{ repo_name }}</td>
+                <td>{{ row.sub_id or '' }}</td>
+                <td>{{ key_name }}</td>
+            </tr>
+        {% endif -%}
+    {% endfor %}
+    </table>
+    
+    
+    <h2>Duplicate repositories:</h2>
+    
+    <table class="report">
+    <tr>
+        <th>Repository UID</th>
+        <th>Files in source</th>
+        <th>Files in target</th>
+    </tr>
+    
+    {% for row in data.impl_data.flat.duplicate|sort -%}
+        {%- if row.impl_type == 'crml' -%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>
+                {% for file in row.files_in_source %}{{ file }}<br/>{% endfor %}
+                </td>
+                <td>
+                {% for file in row.files_in_target %}{{ file }}<br/>{% endfor %}
+                </td>
+            </tr>
+        {% endif -%}
+    {% endfor %}
+    </table>
+{% endblock %}

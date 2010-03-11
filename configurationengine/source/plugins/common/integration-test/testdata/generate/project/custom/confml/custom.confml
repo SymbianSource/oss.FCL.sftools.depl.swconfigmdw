@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2"
+ name="Custom configuration settings">
+  <confml:feature ref="CustomConfSettings" name="Custom configuration settings">
+    <confml:desc>Settings for configuring the base layer's settings via rules and other implementation files on this layer</confml:desc>
+    
+    <confml:setting ref="ConfigureBitmask" name="Configure bitmask" type="boolean">
+      <confml:desc>Sets whether the feature BitmaskTest is configured with pre-defined values</confml:desc>
+    </confml:setting>
+    
+    <confml:setting ref="FileCopyList" name="File copy list" type="sequence">
+      <confml:desc>Sequence for listing files to be copied</confml:desc>
+      <confml:setting ref="File" name="File to copy" type="file">
+        <confml:desc>The file to copy</confml:desc>
+        <confml:localPath/>
+        <confml:targetPath readOnly="true"/>
+      </confml:setting>
+    </confml:setting>
+    
+    <confml:setting ref="BmpAnimationFolder" name="BMP animation images folder" type="folder">
+      <confml:desc>The folder used for generating an .mbm file</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+    <confml:setting ref="SvgAnimationFolder" name="SVG animation images folder" type="folder">
+      <confml:desc>The folder used for generating a .mif file</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+    <confml:setting ref="SoundFile" name="Sound file" type="file">
+      <confml:desc>Sound file.</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+    <confml:setting ref="SoundFolder" name="Sound folder (for copying sound file to)" type="folder">
+      <confml:desc>Sound folder.</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+    <confml:setting ref="SoundFileName" name="Sound file name (for copying sound file to)" type="string"/>
+    
+    <confml:setting ref="ThemeFolder" name="Theme folder" type="folder">
+      <confml:desc>Folder containing themes</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+    <confml:setting ref="Theme1File" name="Theme 1 file" type="file">
+      <confml:desc>TPF file for theme 1</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+    <confml:setting ref="Theme2File" name="Theme 2 file" type="file">
+      <confml:desc>TPF file for theme 2</confml:desc>
+      <confml:localPath/>
+      <confml:targetPath readOnly="true"/>
+    </confml:setting>
+    
+  </confml:feature>
+  
+  <confml:data>
+    <confml:CustomConfSettings>
+      <confml:ConfigureBitmask>false</confml:ConfigureBitmask>
+      
+      <confml:FileCopyList template="true">
+        <confml:File><confml:localPath></confml:localPath></confml:File>
+      </confml:FileCopyList>
+      
+      <confml:BmpAnimationFolder><confml:localPath></confml:localPath></confml:BmpAnimationFolder>
+      <confml:SvgAnimationFolder><confml:localPath></confml:localPath></confml:SvgAnimationFolder>
+      <confml:SoundFile><confml:localPath></confml:localPath></confml:SoundFile>
+      <confml:SoundFolder><confml:localPath></confml:localPath></confml:SoundFolder>
+      <confml:SoundFileName>default.mp3</confml:SoundFileName>
+      <confml:ThemeFolder><confml:localPath></confml:localPath></confml:ThemeFolder>
+      <confml:Theme1File><confml:localPath></confml:localPath></confml:Theme1File>
+      <confml:Theme2File><confml:localPath></confml:localPath></confml:Theme2File>
+      
+    </confml:CustomConfSettings>
+  </confml:data>
+</confml:configuration>

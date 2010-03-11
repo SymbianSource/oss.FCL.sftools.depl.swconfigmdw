@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<hcr xmlns="http://www.symbianfoundation.org/xml/hcrml/1">
+<output file="test1.h" type="header">
+  <category name="KTest1Category" uid="0x10001234">
+    <setting ref="HcrTest1.Int8Setting"             name="KInt8Setting"         type="int8"         id="0x0"/>
+    <setting ref="HcrTest1.Uint32Setting"           name="KUint32Setting"       type="uint32"       id="0x1" comment="Test setting 2"/>
+    <setting ref="HcrTest1.Int32ArraySetting.Value" name="KInt32ArraySetting"   type="arrayint32"   id="0x2"/>
+    <setting ref="HcrTest1.BinDataSetting"          name="KBinDataSetting"      type="bindata"      id="0x3"/>
+  </category>
+</output>
+</hcr>

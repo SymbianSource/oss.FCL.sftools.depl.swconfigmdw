@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:implml="http://www.symbianfoundation.org/xml/implml/1">
+    <tag name="target" value="rofs3"/>
+    <tag name="target" value="uda"/>
+    <output file="realsetting_rofs3_uda.txt" encoding="UTF-8">
+<template>
+Feature1.RealSetting: {{ feat_tree.Feature1.RealSetting._value }}
+</template>
+    </output>
+</templateml>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2">
+  <confml:view name="Test view">
+    <confml:desc>Testing view located on layer 1.</confml:desc>
+    <confml:group name="ConfML v1.0 settings">
+      <confml:setting ref="Feature1/RealSetting"/>
+      <confml:setting ref="Feature1/IntSetting"/>
+      <confml:setting ref="Feature1/StringSetting"/>
+      <confml:setting ref="Feature1/BooleanSetting"/>
+      <confml:setting ref="Feature1/SelectionSetting"/>
+      <confml:setting ref="Feature1/SequenceSetting"/>
+      <confml:setting ref="Feature2/SequenceSetting"/>
+      <confml:setting ref="StringToIntSequenceFeature/SequenceSetting"/>
+      <confml:setting ref="NameIdMappingTest/StringToInt"/>
+    </confml:group>
+    <confml:group name="ConfML v2.0 settings">
+      <confml:setting ref="BasicSettingTypesTest/RealSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/IntSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/StringSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/BooleanSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/SelectionSetting"/>
+      <confml:setting ref="FileFolderTest/FolderSetting"/>
+      <confml:setting ref="FileFolderTest/FileSetting"/>
+      <confml:setting ref="SequenceSettingTest/SequenceSetting"/>
+    </confml:group>
+    <confml:group name="Custom ConfML settings">
+      <confml:setting ref="CustomConfSettings/*"/>
+    </confml:group>
+    <confml:group name="Name-ID mapping test settings">
+      <confml:group name="Source sequences">
+        <confml:setting ref="NameIdMappingTestSourceSequences/*"/>
+      </confml:group>
+      <confml:group name="Target settings">
+        <confml:setting ref="NameIdMappingTestTargetSettings/*"/>
+      </confml:group>
+    </confml:group>
+  </confml:view>
+</confml:configuration>

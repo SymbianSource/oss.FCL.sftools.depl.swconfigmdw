@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+  <rule>True configures Feature1.StringSetting = Feature1.StringSetting + " " + BasicSettingTypesTest.StringSetting + u" (from rule: カタカナ)"</rule>
+</ruleml>

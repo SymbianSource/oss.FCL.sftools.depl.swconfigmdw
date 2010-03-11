@@ -1,0 +1,25 @@
+{% extends "cone_base.html" %}
+{% block title %}API info{% endblock %}
+{% block content %}
+    <h1>Configuration API info</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">File</th>
+        {% for item in data.api_data.columns %}
+        <th class="featureName">{{ data.api_data.columns[item] }}</th>
+        {% endfor %}
+    </tr>
+    {% for row in data.api_data.data %}
+    {% if row['type'] != '' %}
+    <tr>
+        <td><a href="file://{{row['file']}}">{{row['file']}}</a></td>
+        {% for colname in data.api_data.columns %}
+        <td>{{ row[colname]|replace('\n', '<br/>') }}</td>
+        {% endfor %}
+    </tr>
+    {% endif %}
+    {% endfor %}
+    
+    </table>
+{% endblock %}

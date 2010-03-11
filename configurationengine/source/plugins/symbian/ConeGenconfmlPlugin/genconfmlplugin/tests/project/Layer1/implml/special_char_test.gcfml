@@ -1,0 +1,19 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="special_char_test.txt">
+	<setting ref="SpecialCharTest/Test1"/>
+	<setting ref="SpecialCharTest/Test2"/>
+	<setting ref="SpecialCharTest/Test3"/>
+	<setting ref="SpecialCharTest/Test4"/>
+    <setting ref="SpecialCharTest/Test5"/>
+    <setting ref="SpecialCharTest/Test6"/>
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/TR/xhtml1/strict">
+		<xsl:output method="text" encoding="UTF-16"/>
+		<xsl:template match="configuration/data">
+			<xsl:value-of select="SpecialCharTest/Test1"/><xsl:text>&#xA;</xsl:text>
+			<xsl:value-of select="SpecialCharTest/Test2"/><xsl:text>&#xA;</xsl:text>
+			<xsl:value-of select="SpecialCharTest/Test3"/><xsl:text>&#xA;</xsl:text>
+			<xsl:value-of select="SpecialCharTest/Test4"/><xsl:text>&#xA;</xsl:text>
+            <xsl:value-of select="SpecialCharTest/Test5"/><xsl:text>&#xA;</xsl:text>
+            <xsl:value-of select="SpecialCharTest/Test6"/><xsl:text>&#xA;</xsl:text>
+		</xsl:template>
+	</xsl:stylesheet>
+</file>

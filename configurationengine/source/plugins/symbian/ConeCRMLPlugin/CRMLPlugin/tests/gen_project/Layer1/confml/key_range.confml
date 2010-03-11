@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Key range test" version="1">
+  <feature ref="KeyRangeTest" name="Key range test">
+    <setting ref="SequenceSetting" name="Sequence setting" type="sequence">
+      <setting ref="FolderSubSetting" name="Folder sub-setting" type="folder"/>
+      <setting ref="RealSubSetting" name="Real sub-setting" type="real"/>
+      <setting ref="FileSubSetting" name="File sub-setting" type="file"/>
+      <setting ref="IntSubSetting" name="Int sub-setting" type="int"/>
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+      <setting ref="BooleanSubSetting" name="Boolean sub-setting" type="boolean"/>
+      <setting ref="SelectionSubSetting" name="Selection sub-setting" type="selection">
+        <option name="Op0" value="0"/>
+        <option name="Op1" value="1"/>
+        <option name="Op2" value="2"/>
+        <option name="Op3" value="3"/>
+        <option name="Op4" value="4"/>
+      </setting>
+    </setting>
+    
+    <setting ref="EmptySequenceSetting" name="Empty sequence setting" type="sequence">
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+    </setting>
+    
+    <setting ref="SequenceSetting2" name="Sequence setting 2" type="sequence">
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+    </setting>
+    <setting ref="SequenceSetting3" name="Sequence setting 3" type="sequence">
+      <setting ref="StringSubSetting" name="String sub-setting" type="string"/>
+    </setting>
+  </feature>
+  <data>
+    <KeyRangeTest>
+      <SequenceSetting template="true">
+        <FolderSubSetting>seq/default_folder</FolderSubSetting>
+        <RealSubSetting>1.0</RealSubSetting>
+        <FileSubSetting>seq/default_file.txt</FileSubSetting>
+        <IntSubSetting>1</IntSubSetting>
+        <StringSubSetting>template</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+        <SelectionSubSetting>0</SelectionSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <FolderSubSetting>seq/def1_folder</FolderSubSetting>
+        <RealSubSetting>1.25</RealSubSetting>
+        <FileSubSetting>seq/def1_file.txt</FileSubSetting>
+        <IntSubSetting>128</IntSubSetting>
+        <StringSubSetting>def1</StringSubSetting>
+        <BooleanSubSetting>false</BooleanSubSetting>
+        <SelectionSubSetting>1</SelectionSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <FolderSubSetting>seq/def2_folder</FolderSubSetting>
+        <RealSubSetting>1.5</RealSubSetting>
+        <FileSubSetting>seq/def2_file.txt</FileSubSetting>
+        <IntSubSetting>256</IntSubSetting>
+        <StringSubSetting>def2</StringSubSetting>
+        <BooleanSubSetting>true</BooleanSubSetting>
+        <SelectionSubSetting>1</SelectionSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <FolderSubSetting>seq/def3_folder</FolderSubSetting>
+        <RealSubSetting>1.75</RealSubSetting>
+        <FileSubSetting>seq/def3_file.txt</FileSubSetting>
+        <IntSubSetting>512</IntSubSetting>
+        <StringSubSetting>def3</StringSubSetting>
+        <BooleanSubSetting>1</BooleanSubSetting>
+        <SelectionSubSetting>3</SelectionSubSetting>
+      </SequenceSetting>
+      
+      <EmptySequenceSetting template="true">
+        <StringSubSetting></StringSubSetting>
+      </EmptySequenceSetting>
+      
+      <SequenceSetting2 template="true">
+        <StringSubSetting>template</StringSubSetting>
+      </SequenceSetting2>
+      <SequenceSetting2>
+        <StringSubSetting>test 1</StringSubSetting>
+      </SequenceSetting2>
+      <SequenceSetting2>
+        <StringSubSetting>test 2</StringSubSetting>
+      </SequenceSetting2>
+      
+      <SequenceSetting3 template="true">
+        <StringSubSetting>template</StringSubSetting>
+      </SequenceSetting3>
+      <SequenceSetting3>
+        <StringSubSetting>test 1</StringSubSetting>
+      </SequenceSetting3>
+      <SequenceSetting3>
+        <StringSubSetting>test 2</StringSubSetting>
+      </SequenceSetting3>
+    </KeyRangeTest>
+  </data>
+</configuration>

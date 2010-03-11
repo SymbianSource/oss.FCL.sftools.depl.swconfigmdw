@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?><configuration xmlns="http://www.s60.com/xml/confml/2" name="cvc_SyncML">
+	<feature name="SyncML Settings" ref="CVC_SyncML">
+		<desc>SyncML Settings.</desc>
+		<setting name="Sync profile name" ref="CVC_SMLSyncProfileName" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+		<setting name="Server version" ref="CVC_SMLServerVersion" type="selection">
+			<desc>1.1, 1.2 (default)</desc>
+			<option name="1.2" value="1.2"/>
+			<option name="1.1" value="1.1"/>
+		</setting>
+		<setting name="Server ID" ref="CVC_SMLServerID" type="string">
+			<desc>Server ID</desc>
+		</setting>
+		<setting name="Data bearer" ref="CVC_SMLDataBearer" type="selection">
+			<desc>Data bearer for server connection</desc>
+			<option name="Internet" value="Internet"/>
+			<option name="Bluetooth" value="BT"/>
+		</setting>
+<!-- if Data bearer = internet-->
+		<setting name="Access point" ref="CVC_SMLAccessPoint" type="selection">
+			<desc>Access point to use for server connetion</desc>
+			<option name="Always ask" value="ask"/>
+			<option name="User defined" value="user"/>
+		</setting>
+		<setting name="Host Address" ref="CVC_SMLHostAddress" type="string">
+			<desc>Maximum length 150 characters.</desc>
+		</setting>
+		<setting name="Port" ref="CVC_SMLPort" type="int">
+			<desc>80 (default), 1-65535</desc>
+		</setting>
+		<setting name="User name" ref="CVC_SMLUserName" type="string">
+			<desc>Server account: username</desc>
+		</setting>
+		<setting name="Password" ref="CVC_SMLPassword" type="string">
+			<desc>Server account: password</desc>
+		</setting>
+		<setting name="Allow sync requests" ref="CVC_SMLAllowSyncRequests" type="selection">
+			<desc>Policy for sync requests</desc>
+			<option name="Automatically accept" value="auto"/>
+			<option name="Ask first" value="ask"/>
+			<option name="Not allowed" value="no"/>
+		</setting>
+		<setting name="Network user name" ref="CVC_SMLNetworkUserName" type="string">
+			<desc>Username for Access Point connection</desc>
+		</setting>
+		<setting name="Network password" ref="CVC_SMLNetworkPassword" type="string">
+			<desc>Password for Access Point connection</desc>
+		</setting>
+		<setting name="Syncronisation type" ref="CVC_SMLSyncronisationType" type="selection">
+			<desc>Type of syncronization</desc>
+			<option name="Both ways" value="both"/>
+			<option name="To server only" value="server"/>
+			<option name="To phone only" value="phone"/>
+		</setting>
+	</feature>
+	
+	<feature name="SyncML Data Syncronization" ref="CVC_SyncMLDataSync">
+
+		<setting name="Syncronize Contacts" ref="CVC_SyncMLContacts" type="boolean">
+			<desc>Include Contacts in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize Calendar" ref="CVC_SyncMLCalendar" type="boolean">
+			<desc>Include Calendar in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize Notes" ref="CVC_SyncMLNotes" type="boolean">
+			<desc>Include Notes in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize E-mail" ref="CVC_SyncMLSyncEmail" type="boolean">
+			<desc>Include E-mail in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize Music" ref="CVC_SyncMLMusicMetadata" type="boolean">
+			<desc>Include Music in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize MSyncService" ref="CVC_SyncMLMSyncService" type="boolean">
+			<desc>Include MSyncService in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize Images" ref="CVC_SyncMLImage" type="boolean">
+			<desc>Include Images in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Synchronize MMS" ref="CVC_SyncMLMMS" type="boolean">
+			<desc>Include MMS in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize Video" ref="CVC_SyncMLVideo" type="boolean">
+			<desc>Include Video in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize SMS" ref="CVC_SyncMLSMS" type="boolean">
+			<desc>Include SMS in Sync ON/OFF</desc>
+		</setting>
+
+		<setting name="Syncronize Bookmarks" ref="CVC_SyncMLBookmarks" type="boolean">
+			<desc>Include Bookmarks in Sync ON/OFF</desc>
+		</setting>
+	</feature>
+
+
+
+
+	<feature name="SyncML Remote Databases" ref="CVC_SyncMLDataSyncRemoteDatabases">
+
+		<setting name="Remote database for Contacts" ref="CVC_SyncMLDataSyncRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for Calendar" ref="CVC_SyncMLCalendarRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for Notes" ref="CVC_SyncMLNotesRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for E-mail" ref="CVC_SyncMLSyncEmailRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for Music" ref="CVC_SyncMLMusicMetadataRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for MSyncService" ref="CVC_SyncMLMSyncServiceRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for Images" ref="CVC_SyncMLImageRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for MMS" ref="CVC_SyncMLMMSRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for Video" ref="CVC_SyncMLVideoRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for SMS" ref="CVC_SyncMLSMSRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+
+		<setting name="Remote database for Bookmarks" ref="CVC_SyncMLBookmarksRemoteDatabase" type="string">
+			<desc>Maximum length 50 characters.</desc>
+		</setting>
+	</feature>
+
+
+<data>
+<CVC_SyncML>
+<CVC_SMLPort>80</CVC_SMLPort>
+</CVC_SyncML>
+</data>
+</configuration>

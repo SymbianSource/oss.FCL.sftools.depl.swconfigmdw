@@ -1,0 +1,2 @@
+Changed values:
+BasicSettingTypesTest.StringSetting | default string | value changed

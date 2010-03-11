@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+    <output file="output_file1.txt" encoding="UTF-8" dir="output">
+       <template><xi:include href="template.txt" parse="text"/></template>
+    </output>
+    <output file="output_file2.txt" encoding="UTF-8">
+       <template>
+          This template uses custom filter to count the sum of 2 and 3:
+            2+3={{ 2|example_filter(3) }}
+        </template>
+    </output>
+    <filter name="example_filter">lambda a,b: a+b</filter>
+    <filter name="example_filter2"><xi:include href="example.filter" parse="text"/></filter>
+</templateml>

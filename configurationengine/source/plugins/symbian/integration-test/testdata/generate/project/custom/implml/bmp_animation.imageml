@@ -1,0 +1,7 @@
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <output file="animations/anim1.mbm"  palette='bin/ThirdPartyBitmap.pal' tooldir="bin"> 
+        <input dir="${CustomConfSettings.BmpAnimationFolder.localPath}" depth="c8">
+            <include pattern="bmp$"/>
+        </input>
+    </output>
+</imageml>

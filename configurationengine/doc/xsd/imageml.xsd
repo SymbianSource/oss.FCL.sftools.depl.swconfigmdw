@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/imageml/1" 
+	xmlns:image="http://www.s60.com/xml/imageml/1" 
+	elementFormDefault="qualified">
+
+	
+    <xs:complexType name="includeType">
+        <xs:attribute name="pattern"        type="xs:string"            use="required"/>
+    </xs:complexType>
+
+	 <xs:complexType name="excludeType">
+        <xs:attribute name="pattern"        type="xs:string"            use="required"/>
+    </xs:complexType>
+	
+    <xs:complexType name="inputType">
+        <xs:sequence>
+            <xs:element name="include" type="image:includeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="exclude" type="image:excludeType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+
+		<xs:attribute name="dir"        type="xs:string"            use="required"/>
+        <xs:attribute name="depth"       type="xs:string"/>
+    </xs:complexType>
+	
+	
+	
+    <xs:complexType name="outputType">
+        <xs:sequence>
+            <xs:element name="input" type="image:inputType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="file"        type="xs:string"            use="required"/>
+        <xs:attribute name="tool"       type="xs:string"/>
+		<xs:attribute name="tooldir"       type="xs:string"/>
+		<xs:attribute name="compress"       type="xs:string"/>
+		<xs:attribute name="palette"       type="xs:string"/>
+    </xs:complexType>
+
+		
+    <xs:complexType name="imagemlRootType">
+        <xs:sequence>
+            <xs:element name="output" type="image:outputType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="imageml" type="image:imagemlRootType"/>
+</xs:schema>

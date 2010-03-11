@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+  <rule>True configures EvalTest.StringLenResult = {% len("faklskjh") %}</rule>
+  <rule>True configures EvalTest.EvalConstantResult = {% SOME_VALUE %}</rule>
+  <rule>True configures EvalTest.EvalFileImport = {% do_something(SOME_VALUE) %}</rule>
+  
+  <rule>{% ${EvalTest.Bitmask} &amp; 0x1 %} configures EvalTest.Bit0Result = True</rule>
+  <rule>{% ${EvalTest.Bitmask} &amp; 0x2 %} configures EvalTest.Bit1Result = True</rule>
+  <rule>True configures EvalTest.Bit2Result = {% 
+    bool(${EvalTest.Bitmask} &amp; 0x4) 
+    %}
+    </rule>
+  
+  <rule>True configures EvalTest.Bit3Result = {% bool(${EvalTest.Bitmask} &amp; 0x8) %}</rule>
+  
+  <rule>
+    True configures EvalTest.FullSequence = {% append_stripped_seq_to_full_seq(
+        @{EvalTest.StrippedSequence},
+        @{EvalTest.FullSequence})
+    %}
+  </rule>
+  
+  <!-- The eval block here should not be executed -->
+  <rule>False configures {% @{EvalTest.UnchangedValue}.set_value(54321) %}</rule>
+  
+  <rule>True configures EvalTest.UnicodeResult1 = {% u'100€' %}</rule>
+  <rule>True configures EvalTest.UnicodeResult2 = {% @{ударения.ελληνικά}.get_value() %}</rule>
+  
+  <rule>True configures EvalTest.EvalBuiltinResult = {% ruleml.configuration.get_name() %}</rule>
+  
+  <eval_globals>SOME_VALUE = 12345</eval_globals>
+  
+<eval_globals>
+def append_stripped_seq_to_full_seq(stripped_seq, full_seq):
+    stripped_values = stripped_seq.get_value()
+    full_values = full_seq.get_value()
+    for sv in stripped_values:
+        full_values.append([sv[0], sv[1], '0.1', 'false'])
+    return full_values
+</eval_globals>
+<eval_globals file="scripts/test_eval.py"/>
+</ruleml>

@@ -1,0 +1,40 @@
+{% extends "cone_base.html" %}
+{% block title %}Implementation info{% endblock %}
+{% block content %}
+    <h1>Implementations</h1><br>
+
+    <table class="report">
+    <tr>
+        <th class="featureName">File</th>
+		<th class="featureName">Index</th>
+		<th class="featureName">Type</th>
+		<th class="featureName">Phase</th>
+		<th class="featureName">Tags</th>
+		<th class="featureName">Refs</th>
+    </tr>
+    {% for impl in data.impl_data %}
+    <tr>
+        <td>{{ impl.ref }}</td>
+		<td>{{ impl.index }}</td>
+		<td>{{ impl.IMPL_TYPE_ID }}</td>
+		<td>{{ impl.invocation_phase() }}</td>
+		<td>
+		{%- for name, value in impl.get_tags().iteritems() -%}
+			{{name}} = {{value}}<br/>
+		{%- endfor -%}
+		</td>
+		<td>
+		{%- set refs = impl.get_refs() -%}
+		{%- if refs == None -%}
+			None
+		{%- else -%}
+			{%- for ref in refs -%}
+				{{ref}}<br/>
+			{%- endfor -%}
+		{%- endif -%}
+		</td>
+    </tr>
+    {% endfor %}
+    
+    </table>
+{% endblock %}

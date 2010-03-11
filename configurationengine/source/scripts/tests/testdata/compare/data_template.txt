@@ -1,0 +1,6 @@
+Changed values:
+{% for fqr in data.sourcedata.features|sort -%}
+{%- if fqr in data.targetdata.features and data.sourcedata.features[fqr]['value'] != data.targetdata.features[fqr]['value'] -%}
+{{ data.sourcedata.features[fqr]['fqr'] }} | {{ data.sourcedata.features[fqr]['value'] }} | {{ data.targetdata.features[fqr]['value'] }}
+{% endif -%}
+{%- endfor -%}

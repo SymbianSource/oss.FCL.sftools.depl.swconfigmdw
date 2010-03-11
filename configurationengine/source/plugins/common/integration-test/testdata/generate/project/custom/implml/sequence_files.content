@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/1">
+  <input>
+    <include files="${CustomConfSettings.FileCopyList.File.localPath}"/>
+  </input> 
+  <output dir="content\files_from_copy_list\" flatten="true" />
+</content>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:confml="http://www.s60.com/xml/confml/2">
+  <view id="test_view" name="Test view">
+    <group name="Asset 1 settings">
+        <setting ref="Asset1Feature1/BooleanSetting"/>
+        
+        <group name="Sub-group 1">
+            <setting ref="Asset1Feature1/RealSetting"/>
+            <setting ref="Asset1Feature1/IntSetting"/>
+        </group>
+        <group name="Sub-group 2">
+            <setting ref="Asset1Feature1/SelectionSetting"/>
+            <setting ref="Asset1Feature1/StringSetting"/>
+        </group>
+    </group>
+    <group name="Asset 2 settings">
+        <group name="Sub-group 1">
+            <setting ref="Asset2Feature1/RealSetting"/>
+            <setting ref="Asset2Feature1/IntSetting"/>
+        </group>
+        <group name="Sub-group 2">
+            <setting ref="Asset2Feature1/SelectionSetting"/>
+            <setting ref="Asset2Feature1/BooleanSetting"/>
+            <setting ref="Asset2Feature2/*"/>
+            <!-- Non-existent settings should not make the report generation fail -->
+            <setting ref="Asset2Feature2/NonexistentSetting"/>
+        </group>
+    </group>
+  </view>
+</configuration>

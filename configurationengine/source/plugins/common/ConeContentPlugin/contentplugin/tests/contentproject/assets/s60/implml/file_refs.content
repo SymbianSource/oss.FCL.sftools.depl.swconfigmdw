@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/1">
+    <input file="${content.outputfile_1}"/>
+    <output file="${content.inputfile_1}" someother="sss"/>
+</content>

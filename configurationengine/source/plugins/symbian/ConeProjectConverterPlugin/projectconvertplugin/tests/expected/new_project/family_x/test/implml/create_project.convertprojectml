@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">
+	
+	<!-- Using empty target project tag so that output goes to generation output dir -->
+	<targetProject/>
+
+	<!-- =============== -->
+	<!-- Platform layers -->
+	<!-- =============== -->
+	<layer path="platforms/platform1">
+		<folder path="confml">
+			<filter action="add" data="confml_data/platform1/*.confml"/>
+			<filter action="remove" data="confml_data/platform1/platform1.confml"/>
+		</folder>
+		<folder path="implml">
+			<filter action="add" data="confml_data/platform1/*.crml"/>
+			<filter action="add" data="confml_data/platform1/*.gcfml"/>
+			<filter action="add" data="confml_data/platform1/*.ibyml"/>
+		</folder>
+
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="confml/*.confml"/>
+		</file>
+		<file type="configuration_root" path="platform1_root.confml">
+			<filter action="include_layer" data="platforms/platform1/root.confml"/>
+			<meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+				<cv:configuration-property name="platform_name" value="plat1"/>
+				<version>Version1</version>
+				<platform>Platform1</platform>
+				<date>Date1</date>
+				<release>Release1</release>
+				<editor>Editor1</editor>
+			</meta>
+			<desc>Description1</desc>
+		</file>
+		<!-- What is this? -->
+		<file type="none" path="doc/s60_layer_design.doc">
+			<filter action="add" data="/epoc32/docs/s60_layer_design.doc"/>
+		</file>				
+	</layer>
+	
+	<layer path="platforms/platform2">
+		<folder path="confml">
+			<filter action="add" data="confml_data/platform2/*.confml"/>
+			<filter action="remove" data="confml_data/platform2/platform2.confml"/>
+		</folder>
+		<folder path="implml">
+			<filter action="add" data="confml_data/platform2/*.crml"/>
+			<filter action="add" data="confml_data/platform2/*.gcfml"/>
+			<filter action="add" data="confml_data/platform2/*.ibyml"/>
+		</folder>
+
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="confml/*.confml"/>
+		</file>
+		<file type="configuration_root" path="platform2_root.confml">
+			<filter action="include_layer" data="platforms/platform1/root.confml"/>
+			<filter action="include_layer" data="platforms/platform2/root.confml"/>
+		</file>
+	</layer>
+	
+	<!-- ============ -->
+	<!-- Family layer -->
+	<!-- ============ -->
+	
+	<layer path="family_x">
+		<folder path="confml">
+			<filter action="add" data="family_x/family_x.confml"/>
+		</folder>
+		<folder path="test">
+			<filter action="add" data="convertpluginlayer" recursive="true"/>
+		</folder>
+		<folder path="test2">
+			<filter action="add" data="family_x/*.iby" recursive="true"/>
+		</folder>
+		<folder path="test3">
+			<filter action="add" data="convertpluginlayer/*" recursive="true"/>
+		</folder>
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="confml/family_x.confml" remove_includes="true"/>
+		</file>
+		<file type="configuration_root" path="family_x_root.confml">
+			<filter action="include_layer" data="platforms/platform1/root.confml"/>
+			<filter action="include_layer" data="platforms/platform2/root.confml"/>
+			<filter action="include_layer" data="family_x/root.confml"/>
+		</file>
+	</layer>
+	
+	
+	<!-- ============= -->
+	<!-- Product layer -->
+	<!-- ============= -->
+	
+	<layer path="family_x/product_x">
+		<folder path="confml">
+			<filter action="add" data="family_x/product_x/product_x.confml"/>
+		</folder>
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="confml/product_x.confml" remove_includes="true"/>
+		</file>
+		<file type="configuration_root" path="product_x_root.confml">
+			<filter action="include_layer" data="platforms/platform1/root.confml"/>
+			<filter action="include_layer" data="platforms/platform2/root.confml"/>
+			<filter action="include_layer" data="family_x/root.confml"/>
+			<filter action="include_layer" data="family_x/product_x/root.confml"/>
+		</file>
+	</layer>
+	
+	
+	<!-- ================================= -->
+	<!-- Product X language variant layers -->
+	<!-- ================================= -->
+
+	<foreach variable="{TEMPLATE}" data="variants/language/product_x">
+		<layer path="family_x/product_x/language/{TEMPLATE}">
+			<folder path="confml">
+				<filter action="add" data="variants/language/product_x/{TEMPLATE}/*.confml"/>
+			</folder>
+			<folder>
+				<filter action="add" data="variants/language/product_x/{TEMPLATE}/*.*"/>
+				<filter action="remove" data="variants/language/product_x/{TEMPLATE}/*.confml"/>
+			</folder>
+			
+			<file type="layer_root" path="root.confml">
+				<filter action="include_file" data="confml/*.confml" remove_includes="true"/>
+			</file>
+			<file type="configuration_root" path="product_x_{TEMPLATE}_root.confml">
+				<filter action="include_layer" data="platforms/platform1/root.confml"/>
+				<filter action="include_layer" data="platforms/platform2/root.confml"/>
+				<filter action="include_layer" data="family_x/root.confml"/>
+				<filter action="include_layer" data="family_x/product_x/root.confml"/>
+				<filter action="include_layer" data="family_x/product_x/language/{TEMPLATE}/root.confml"/>
+			</file>
+		</layer>
+	</foreach>
+</convertprojectml>

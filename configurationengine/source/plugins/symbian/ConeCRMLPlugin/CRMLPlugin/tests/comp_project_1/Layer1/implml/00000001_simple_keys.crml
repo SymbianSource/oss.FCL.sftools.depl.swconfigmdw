@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="SimpleKeys" uidValue="0x00000001">
+  <access type="R" capabilities="ReadDevideData" sid="0x12344321"/>
+  <access type="W" capabilities="WriteDeviceData" sid="0x43211234"/>
+  
+  <key int="0x00000001" type="int" ref="SimpleKeys/Setting1" name="Setting 1"/>
+  <key int="0x00000002" type="int" ref="SimpleKeys/Setting2" name="Setting 2" backup="true"/>
+  <key int="0x00000003" type="int" ref="SimpleKeys/Setting3" name="Setting 3" readOnly="true"/>
+  <key int="0x00000004" type="int" ref="SimpleKeys/Setting4" name="Setting 4" readOnly="false"/>
+  <key int="0x00000005" type="int" ref="SimpleKeys/Setting5" name="Setting 5" readOnly="true"/>
+  <key int="0x00000006" type="int" ref="SimpleKeys/Setting6" name="Setting 6"/>
+  <key int="0x00000007" type="int" ref="SimpleKeys/Setting7" name="Setting 7"/>
+  <key int="0x00000008" type="int" ref="SimpleKeys/Setting8" name="Setting 8">
+    <access type="R" capabilities="ReadDeviceData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteDeviceData" sid="0xDDCCBBAA"/>
+  </key>
+  <key int="0x00000009" type="int" ref="SimpleKeys/Setting9" name="Setting 9">
+    <access type="R" capabilities="ReadDeviceData" sid="0xAABBCCDD"/>
+    <access type="W" capabilities="WriteDeviceData" sid="0xDDCCBBAA"/>
+  </key>
+  
+  <key int="0x10000001" type="int" ref="SimpleKeys/RemovedSetting" name="Removed setting"/>
+  <key int="0x10000002" type="int" ref="SimpleKeys/RemovedReadOnlySetting"  readOnly="true" name="Removed read-only setting"/>
+</repository>
