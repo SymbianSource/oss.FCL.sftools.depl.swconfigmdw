@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <phase name="normal"/>
+    <tag name="target" value="rofs2"/>
+    
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>${Feature1.IntSetting} configures ${Feature1.StringSetting} = 'set from rule'</rule>
+        <eval_globals>
+        def test_function2(foo):
+            return foo
+        </eval_globals>
+    </ruleml>
+    
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+        <rule>Feature1.IntSetting configures Feature1.SelectionSetting = '0'</rule>
+        <eval_globals>
+        def test_function2(foo):
+            return foo
+        </eval_globals>
+    </ruleml>
+    
+    <templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <output file="test.txt" encoding="UTF-8">
+            <template>Test output: {{ feat_tree.Feature1.StringSetting._value }}</template>
+        </output>
+    </templateml>
+</container>

@@ -22,6 +22,7 @@ setup(
     name = "conecommandplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'commandplugin': ['xsd/*.xsd']},
     test_suite = "commandplugin.tests.collect_suite",
 
     # metadata for upload to PyPI

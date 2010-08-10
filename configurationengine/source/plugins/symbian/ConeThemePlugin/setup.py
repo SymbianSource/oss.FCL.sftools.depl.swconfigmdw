@@ -22,6 +22,7 @@ setup(
     name = "conethemeplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'themeplugin': ['xsd/*.xsd']},
 
     # metadata for upload to PyPI
     author = "",

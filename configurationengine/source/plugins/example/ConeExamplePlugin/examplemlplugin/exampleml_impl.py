@@ -39,7 +39,7 @@ class ExamplemlImpl(plugin.ImplBase):
     def generate(self, context=None):
         for output in self.output_objects:
             self.logger.debug("Generating '%s'" % output.get_output_file(self.output, self.configuration))
-            output.write_to_file(self.output, self.configuration)
+            output.write_to_file(self.output, context)
     
     def list_output_files(self):
         files = []
@@ -51,4 +51,8 @@ class ExamplemlImpl(plugin.ImplBase):
         refs = []
         for output in self.output_objects:
             refs.extend(output.get_refs())
+        # return None in case there are no refs in the implementations 
+        # to prevent filtering based on refs
+        if not refs:
+            refs = None
         return refs

@@ -19,27 +19,17 @@ Test the CPF root file parsing routines
 """
 
 import unittest
-import string
-import sys
 import os
 import shutil
-import __init__
-try:
-    from cElementTree import ElementTree
-except ImportError:
-    try:    
-        from elementtree import ElementTree
-    except ImportError:
-        try:
-            from xml.etree import cElementTree as ElementTree
-        except ImportError:
-            from xml.etree import ElementTree
 
-from cone.public import api, exceptions, persistence
+
+from cone.public import api, persistence, utils
 from cone.storage import filestorage
-from cone.confml import persistentconfml, model
+from cone.confml import persistentconfml, model, confmltree
 from testautomation.base_testcase import BaseTestCase
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+ElementTree = utils.etree
 
 testdata  = os.path.join(ROOT_PATH,'data')
 
@@ -65,7 +55,7 @@ complexrootxml = '''<?xml version="1.0" encoding="UTF-8"?>
 
 
 morestuff='''<?xml version="1.0" encoding="UTF-8"?>
-<configuration xmlns="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/xinclude" name="foobar" version="1">
+<configuration id="conf_id" xmlns="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/xinclude" name="foobar" version="1">
   <meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
     <cv:configuration-property name="coreplat_name" value="abc_123" />
     <cv:configuration-property name="product_name" value="qwerty" />
@@ -201,13 +191,237 @@ simpleview = \
   </data>
   <confml:view id="imakerimage" name="Image creation">
     <confml:desc>Image creation related settings</confml:desc>
-    <confml:group name="Imageproperties">
+    <confml:group name="Imageproperties / test">
       <confml:desc>Sample Description</confml:desc>
-      <confml:setting ref="imakerapi/*"/>
+      <confml:setting ref="imakerapi/imagetype"/>
+      <confml:setting ref="imakerapi/rofs3version"/>
+      <confml:setting ref="imakerapi/productname"/>
+      <confml:setting ref="imakerapi/outputLocation"/>
       <confml:setting ref="imaker/*"/>
     </confml:group>
   </confml:view>
 </confml:configuration>
+'''
+
+overrideview = \
+'''<?xml version="1.0" encoding="UTF-8"?>
+<configuration  xmlns="http://www.s60.com/xml/confml/2" schemaLocation="http://www.s60.com/xml/confml/1 http://www.s60.com/xml/confml/1#//confml2">
+  <feature ref="imakerapi" name="iMaker API">
+    <setting ref="imagetype" name="IMAGE_TYPE" type="selection">
+      <option name="rnd" value="0"/>
+      <option name="subcon" value="1"/>
+      <option name="prd" value="2"/>
+    </setting>
+    <setting ref="productname" name="PRODUCT_NAME" type="string"/>
+    <setting ref="outputLocation" name="OUTPUT_LOCATION" type="string"/>
+  </feature>
+  <data>
+    <imakerapi>
+      <imagetype>0</imagetype>
+      <productname>myProduct</productname>
+      <outputLocation>myProduct</outputLocation>
+    </imakerapi>
+  </data>
+  <view id="imakerimage" name="Image creation">
+    <desc>Image creation related settings</desc>
+    <group name="Imageproperties">
+      <desc>Sample Description</desc>
+      <setting ref="imakerapi/imagetype">
+          <option name="prd_renamed" value="2"/>
+      </setting>
+      <setting ref="imakerapi/productname" name="New Product Name">
+        <desc>test desc override</desc>
+        <minLength value="2" />
+      </setting>
+      <setting ref="imakerapi/outputLocation" minOccurs="2"/>
+    </group>
+  </view>
+</configuration>
+'''
+
+
+option_overrideview = \
+'''<?xml version="1.0" encoding="UTF-8"?>
+<configuration  xmlns="http://www.s60.com/xml/confml/2" schemaLocation="http://www.s60.com/xml/confml/1 http://www.s60.com/xml/confml/1#//confml2">
+  <feature ref="imakerapi" name="iMaker API">
+    <setting ref="imagetype" name="IMAGE_TYPE" type="selection">
+      <option name="rnd" value="0"/>
+      <option name="subcon" value="1"/>
+      <option name="prd" value="2"/>
+    </setting>
+    <setting ref="productname" name="PRODUCT_NAME" type="string"/>
+    <setting ref="outputLocation" name="OUTPUT_LOCATION" type="string"/>
+  </feature>
+  <data>
+    <imakerapi>
+      <imagetype>0</imagetype>
+      <productname>myProduct</productname>
+      <outputLocation>myProduct</outputLocation>
+    </imakerapi>
+  </data>
+  <view id="imakerimage" name="Image creation">
+    <desc>Image creation related settings</desc>
+    <group name="Imageproperties">
+      <desc>Sample Description</desc>
+      <setting ref="imakerapi/imagetype">
+          <option name="prd2" value="2"/>
+          <option name="newoption" value="5"/>
+      </setting>
+      <setting ref="imakerapi/productname" name="New Product Name">
+        <desc>test desc override</desc>
+        <minLength value="2" />
+      </setting>
+      <setting ref="imakerapi/outputLocation" minOccurs="2"/>
+    </group>
+  </view>
+</configuration>
+'''
+
+properties_overrideview = \
+'''<?xml version="1.0" encoding="UTF-8"?>
+<configuration  xmlns="http://www.s60.com/xml/confml/2" schemaLocation="http://www.s60.com/xml/confml/1 http://www.s60.com/xml/confml/1#//confml2">
+  <feature ref="imakerapi" name="iMaker API">
+    <setting ref="imagetype" name="IMAGE_TYPE" type="selection">
+      <option name="rnd" value="0"/>
+      <option name="subcon" value="1"/>
+      <option name="prd" value="2"/>
+      <property name="mime" value="image/svgt image/bmp"/>
+      
+    </setting>
+    <setting ref="productname" name="PRODUCT_NAME" type="string"/>
+    <setting ref="outputLocation" name="OUTPUT_LOCATION" type="string"/>
+  </feature>
+  <data>
+    <imakerapi>
+      <imagetype>0</imagetype>
+      <productname>myProduct</productname>
+      <outputLocation>myProduct</outputLocation>
+    </imakerapi>
+  </data>
+  <view id="imakerimage" name="Image creation">
+    <desc>Image creation related settings</desc>
+    <group name="Imageproperties">
+      <desc>Sample Description</desc>
+      <setting ref="imakerapi/imagetype">
+      <property name="mime" value="image/svgt image/jpg"/>
+      <property name="mime2" value="image/svgt image/bmp"/>
+      </setting>
+      <setting ref="imakerapi/productname" name="New Product Name">
+        <desc>test desc override</desc>
+        <minLength value="2" />
+      </setting>
+      <setting ref="imakerapi/outputLocation" minOccurs="2"/>
+    </group>
+  </view>
+</configuration>
+'''
+
+selectionsetting = \
+'''<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Test features for testing name-ID mappings"><feature ref="CTD_APs" name="GPRS Access Points" ><desc>GPRS connection method (CM) definitions</desc>
+        <setting ref="AP"
+                name="GPRS"
+                type="sequence"
+                minOccurs="0"
+                maxOccurs="99"
+                displayName="ConnectionName"
+                mapValue="DestinationNetwork"
+                mapKey="GPRS_AP_Name">
+            <setting ref="GPRS_AP_Name" name="GPRS Access Point Name" type="string">
+                <desc>The access point name for this GPRS connection</desc>
+            </setting>
+            <setting ref="ConnectionName" name="Connection Name" type="string">
+                <desc>The access point name that is visible to the user.</desc>
+            </setting>
+            <setting ref="DestinationNetwork" name="Destination Network" type="selection">
+                <desc>Select destination network for access point</desc>
+                <option name="Internet" value="1"/>
+                <option name="MMS" value="2"/>
+                <option name="Wap Services" value="3"/>
+            </setting>
+            <setting ref="NetworkType" name="Network type" type="selection">
+                <desc>Addressing that the network uses.</desc>
+                <option name="IPv4" value="IPv4"/>
+                <option name="IPv6" value="IPv6"/>
+            </setting>
+        </setting>
+    </feature>
+    <feature ref="TestApplication" name="Test internet application">
+        <setting ref="ConfirmFromUser" name="Confirm internet access" type="boolean">
+            <desc>Confirm the internet access from user?</desc>
+        </setting>
+        <setting ref="DefaultAP" name="Default access point" type="selection">
+            <option map="CTD_APs/AP"></option>
+        </setting>
+    </feature>
+    <data>
+        <CTD_APs>
+            <AP template="true">
+                <DestinationNetwork>Internet</DestinationNetwork>
+                <NetworkType>IPv4</NetworkType>
+            </AP>
+            <AP>
+                <GPRS_AP_Name>Operator 1</GPRS_AP_Name>
+                <ConnectionName>Operator Internet</ConnectionName>
+                <DestinationNetwork>Internet</DestinationNetwork>
+                <NetworkType>IPv4</NetworkType>
+            </AP>
+            <AP>
+                <GPRS_AP_Name>Test</GPRS_AP_Name>
+                <ConnectionName>Test Connection</ConnectionName>
+                <DestinationNetwork>Internet</DestinationNetwork>
+                <NetworkType>IPv4</NetworkType>
+            </AP>
+        </CTD_APs>
+        <TestApplication>
+            <ConfirmFromUser>true</ConfirmFromUser>
+            <DefaultAP map="CTD_APs/AP[@key='Operator 1']"></DefaultAP>
+        </TestApplication>
+    </data>
+</configuration>
+'''
+
+multiselection = \
+'''<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Test features for testing name-ID mappings">
+  <feature ref="aFeature">
+    <setting type="sequence" ref="exampleSequence" mapKey="id" mapValue="someName">
+      <setting type="int" ref="id"/>
+      <setting type="string" ref="someName"/>
+      <setting type="string" ref="someData"/>
+    </setting>
+    <setting ref="selectionSetting" name="Selection Setting" type="selection">
+      <option map="aFeature/exampleSequence"/>
+    </setting>
+    <setting ref="multiselectionSetting" name="Multi-selection Setting" type="multiSelection">
+      <option name="default selection" value=""/>
+      <option map="aFeature/exampleSequence"/>
+    </setting>
+    <setting ref="multiselectionSettingOverride" name="Multi-selection Setting with options override" type="multiSelection">
+      <option map="aFeature/exampleSequence" displayName="someName" mapValue="someData"/>
+    </setting>
+  </feature>
+  <data>
+    <aFeature>
+    <exampleSequence>
+      <id>12</id>
+      <someName>foo</someName>
+      <someData>Real data is here!</someData>
+    </exampleSequence>
+    <exampleSequence>
+      <id>34</id>
+      <someName>bar</someName>
+      <someData>I am not FOO!</someData>
+    </exampleSequence>
+    <selectionSetting map="aFeature/exampleSequence[@key='12']"/>
+    <multiselectionSetting>0</multiselectionSetting>
+    <multiselectionSetting map="aFeature/exampleSequence[@key='12']"/>
+    <multiselectionSetting map="aFeature/exampleSequence[@key='34']"/>
+    <multiselectionSettingOverride map="aFeature/exampleSequence[@key='12']"/>
+    <multiselectionSettingOverride map="aFeature/exampleSequence[@key='34']"/>
+    </aFeature>
+  </data>
+</configuration>
 '''
 
 class TestModuleGetters(unittest.TestCase):
@@ -240,11 +454,16 @@ class TestModuleGetters(unittest.TestCase):
         elem = ElementTree.fromstring(dump)
         self.assertEquals(elem.get('name'),"test_confml")
 
-class TestConfigurationParser(unittest.TestCase):    
+class TestConfigurationParser(unittest.TestCase):
+    def tearDown(self):
+        if os.path.exists(os.path.join(ROOT_PATH,'temp')):
+            shutil.rmtree(os.path.join(ROOT_PATH,'temp'))
+    
     def test_load_simple(self):
         reader = persistentconfml.get_reader_for_elem("configuration")
         obj = reader.loads(ElementTree.fromstring(simplerootxml))
         self.assertEquals(obj.get_ref(),'simple')
+        self.assertEquals(obj.id,None)
         self.assertEquals(obj._list(),['platform__s60__confml__test_confml'])
 
     def test_load_new_include_confml(self):
@@ -263,6 +482,7 @@ class TestConfigurationParser(unittest.TestCase):
     def test_load_morestuff(self):
         reader = persistentconfml.get_reader_for_elem("configuration")
         obj = reader.loads(ElementTree.fromstring(morestuff))
+        self.assertEquals(obj.id, "conf_id")
         self.assertEquals(obj._list(),['_meta','_desc','platform__s60__confml__root_confml', 'ncp11__confml__jallaa_confml', 'ncp11__prodX__confml__root_confml', 'regional__japan__confml__root_confml'])
         met = obj.meta
         self.assertEquals(obj.meta[2].value,'Variant1 creator')
@@ -311,8 +531,8 @@ class TestConfigurationParser(unittest.TestCase):
         self.assertEquals(obj.get_feature('CVC_OperatorMenu.CVC_OperatorMenuIconFile.localPath').get_value(),'UI/Customer Menu/Cache')
 
     def test_create_features_with_rfs_data_and_dump_and_load(self):
-        conf = api.Configuration("foo/foo.confml")
-        conf.add_feature(api.Feature('feature1'))
+        conf = api.Configuration("foo/foo.confml", id="foo_conf")
+        conf.add_feature(api.Feature('feature1', id="feature1_id"))
         conf.add_feature(api.Feature('child1'),'feature1')
         conf.add_feature(api.Feature('child2'),'feature1')
         conf.add_feature(api.Feature('child3'),'feature1')
@@ -326,10 +546,58 @@ class TestConfigurationParser(unittest.TestCase):
         
         dumped = persistentconfml.dumps(conf)
         conf2 = persistentconfml.loads(dumped)
+        self.assertEquals(conf2.id, "foo_conf")
         dview = conf2.get_default_view()
+        self.assertEquals(dview.get_feature('feature1').id, "feature1_id")
+        self.assertEquals(dview.get_feature('feature1.child1').id, None)
         self.assertEquals(dview.get_feature('feature1.child1').get_value(), None)
         self.assertEquals(dview.get_feature('feature1.child1').get_value('rfs'), 'true')
         self.assertEquals(dview.get_feature('feature1.child2').get_value('rfs'), 'false')
+
+    def test_create_confml_features_and_dump_and_load(self):
+        conf = model.ConfmlConfiguration("foo/foo.confml", id="foo_conf")
+        fea = conf.create_feature('feature1', id="feature1_id")
+        fea.add_feature(model.ConfmlBooleanSetting("boolset", id="bool", name="testname", desc="desriptions"))
+        fea.add_feature(model.ConfmlIntSetting("intset", id="int"))
+        fea.add_feature(model.ConfmlStringSetting("stringset", id="string"))
+        fea.add_feature(model.ConfmlSelectionSetting("selset", id="sel"))
+        fea.add_feature(model.ConfmlSequenceSetting("seqset", id="seq"))
+        fea.add_feature(model.ConfmlFileSetting("fileset", id="file", desc="testdesc"))
+
+        dumped = persistentconfml.dumps(conf)
+        conf2 = persistentconfml.loads(dumped)
+        self.assertEquals(conf2.id, "foo_conf")
+        dview = conf2.get_default_view()
+        self.assertEquals(dview.get_feature('feature1').id, "feature1_id")
+        self.assertEquals(dview.get_feature('feature1.boolset').id, "bool")
+        self.assertEquals(dview.get_feature('feature1.boolset').desc, "desriptions")
+        self.assertEquals(dview.get_feature('feature1.intset').id, "int")
+        self.assertEquals(dview.get_feature('feature1.stringset').id, "string")
+        self.assertEquals(dview.get_feature('feature1.selset').id, "sel")
+        self.assertEquals(dview.get_feature('feature1.seqset').id, "seq")
+        self.assertEquals(dview.get_feature('feature1.fileset').id, "file")
+        self.assertEquals(dview.get_feature('feature1.fileset').desc, "testdesc")
+
+    def test_create_confml_view_and_dump_and_load(self):
+        conf = model.ConfmlConfiguration("foo/view.confml", id="view_conf")
+        view = conf.create_view('view1')
+        group1 = view.create_group("group one", id="g1")
+        group2 = view.create_group("group two", id="g2")
+        group2.create_featurelink("test/foo", id="fea1", name="Jee", desc="testdesc", readOnly="true")
+
+        dumped = persistentconfml.dumps(conf)
+        conf2 = persistentconfml.loads(dumped)
+        self.assertEquals(conf2.id, "view_conf")
+        v1 = conf2.get_view('view1')
+        self.assertEquals(v1.name, "view1")
+        self.assertEquals(v1.id, None)
+        self.assertEquals(v1.list_groups(), ['group one', 'group two'])
+        self.assertEquals(v1.get_group('group one').id, "g1")
+        self.assertEquals(v1.get_group('group two').id, "g2")
+        self.assertEquals(v1.get_group('group two').get_featurelink("test/foo").id, "fea1")
+        self.assertEquals(v1.get_group('group two').get_featurelink("test/foo").name, "Jee")
+        self.assertEquals(v1.get_group('group two').get_featurelink("test/foo").desc, "testdesc")
+        self.assertEquals(v1.get_group('group two').get_featurelink("test/foo").readOnly, True)
 
     def test_load_actualconfml_test_rfs_settings(self):
         reader = persistentconfml.get_reader_for_elem("configuration")
@@ -364,8 +632,8 @@ class TestConfigurationParser(unittest.TestCase):
         obj = reader.loads(etree)
         dview = obj.get_default_view()
         dnsfea = dview.get_feature('DNs.DN')
-        self.assertEquals(dnsfea.list_features(),['Name', 'DNId', 'Metadata', 'Protection', 'Hidden', 'HiddenAgent', 'Highlighted', 'Icon', 'EmbeddedDN', 'IAP', 'IAP2', 'IAP3', 'IAP4', 'IAP5', 'IAP6', 'IAP7', 'IAP8', 'IAP9', 'IAP10'])
-        self.assertEquals(dnsfea.get_template(),['User Defined', '0', 'No', 'No', 'No', '11', None, None, None, None, None, None, None, None, None, None, None, None, None])
+        self.assertEquals(dnsfea.list_features(),['Name', 'DNId', 'Metadata',     'Protection', 'Hidden', 'HiddenAgent', 'Highlighted', 'Icon', 'EmbeddedDN', 'IAP', 'IAP2', 'IAP3', 'IAP4', 'IAP5', 'IAP6', 'IAP7', 'IAP8', 'IAP9', 'IAP10'])
+        self.assertEquals(dnsfea.get_template(), [None,   None,   'User Defined', '0',          'No',     'No',          'No',          '11',   None,         None,  None,  None,    None,   None,   None,   None,    None,   None,   None])
         self.assertEquals(dnsfea.get_value(),
         [['Internet', '1', 'Internet', '2', 'No', 'No', 'Yes', '0', None, None, None, None, None, None, None, None, None, None, None],
          ['MMS', '2', 'MMS', '2', 'No', 'Yes', 'No', '2', None, None, None, None, None, None, None, None, None, None, None], 
@@ -389,9 +657,8 @@ class TestConfigurationParser(unittest.TestCase):
         config = p.get_configuration('multiselection.confml')
         dview = config.get_default_view()
         multisel1 = dview.get_feature('MultiSelections.MultiSel1')
-        self.assertEquals(multisel1.value,["first selection","second selection"])
-        self.assertEquals(multisel1.get_data_cast(multisel1.get_value()),["first selection","second selection"])
-        self.assertEquals(multisel1.get_value(),["first selection","second selection"])
+        self.assertEquals(multisel1.value,("first selection","second selection"))
+        self.assertEquals(multisel1.get_value(),("first selection","second selection"))
         self.assertEquals(multisel1.get_data().get_value(),'"first selection" "second selection"')
         
         
@@ -401,20 +668,20 @@ class TestConfigurationParser(unittest.TestCase):
         config = p.get_configuration('multiselection.confml')
         dview = config.get_default_view()
         multisel1 = dview.get_feature('uda_selection.selectedfiles')
-        self.assertEquals(multisel1.get_value(),None)
+        self.assertEquals(multisel1.get_value(), ())
         self.assertEquals(multisel1.get_data().get_value(),None)
         
         
         
     def test_add_sequence_data_to_separate_confml(self):
-        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'data'),"w"))
+        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp'),"w"))
         config = prj.create_configuration('test2.confml')
         seqconfig = config.create_configuration('sequence.confml')
         config.create_configuration('testdata.confml')
         seqconfig.add_feature(api.FeatureSequence('feature1'))
-        seqconfig.add_feature(api.Feature('child1'),'feature1')
-        seqconfig.add_feature(api.Feature('child2'),'feature1')
-        seqconfig.add_feature(api.Feature('child3'),'feature1')
+        seqconfig.add_feature(api.Feature('child1', name="child1"),'feature1')
+        seqconfig.add_feature(api.Feature('child2', name="child2"),'feature1')
+        seqconfig.add_feature(api.Feature('child3', name="child3"),'feature1')
         dview = config.get_default_view()
         self.assertEquals(dview.get_feature('feature1').get_type(),'sequence')
         dview.get_feature('feature1').set_template(['c1','c2','c3'])
@@ -426,7 +693,7 @@ class TestConfigurationParser(unittest.TestCase):
         dview.get_feature('feature1').get_data()[1].set_value(['row 2 updated', 'foo', '56'])
         config.save()
         prj.close()
-        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'data')))
+        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp')))
         config = prj.get_configuration('test2.confml')
         dview = config.get_default_view()
         self.assertEquals(dview.get_feature('feature1').get_template(),['c1','c2','c3'])
@@ -440,14 +707,14 @@ class TestConfigurationParser(unittest.TestCase):
         
         
     def test_add_sequence_data_to_separate_confml_with_append_policy(self):
-        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'data'),"w"))
+        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp'),"w"))
         config = prj.create_configuration('test1.confml')
         seqconfig = config.create_configuration('sequence.confml')
         config.create_configuration('testdata.confml')
         seqconfig.add_feature(api.FeatureSequence('feature1'))
-        seqconfig.add_feature(api.Feature('child1'),'feature1')
-        seqconfig.add_feature(api.Feature('child2'),'feature1')
-        seqconfig.add_feature(api.Feature('child3'),'feature1')
+        seqconfig.add_feature(api.Feature('child1', name="child1"),'feature1')
+        seqconfig.add_feature(api.Feature('child2', name="child2"),'feature1')
+        seqconfig.add_feature(api.Feature('child3', name="child3"),'feature1')
         dview = config.get_default_view()
         self.assertEquals(dview.get_feature('feature1').get_type(),'sequence')
         dview.get_feature('feature1').set_template(['c1','c2','c3'])
@@ -459,7 +726,7 @@ class TestConfigurationParser(unittest.TestCase):
         dview.get_feature('feature1').get_data()[1].set_value(['row 2 updated', 'foo', '56'])
         config.save()
         prj.close()
-        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'data')))
+        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp')))
         config = prj.get_configuration('test1.confml')
         dview = config.get_default_view()
         self.assertEquals(dview.get_feature('feature1').get_template(),['c1','c2','c3'])
@@ -475,23 +742,75 @@ class TestConfigurationParser(unittest.TestCase):
         reader = persistentconfml.get_reader_for_elem("configuration")
         etree = ElementTree.fromstring(simpleview)
         obj = reader.loads(etree)
-        self.assertEquals(obj.get_name(), 'unknown')
+        self.assertEquals(obj.get_name(), None)
         self.assertEquals(obj.list_views(), ['Image creation'])
         self.assertEquals(obj.get_view('Image creation').get_name(),'Image creation')
         self.assertEquals(obj.get_view('Image creation').desc,'Image creation related settings')
         self.assertEquals(obj.get_view('Image creation').list_features(),[])
-        self.assertEquals(obj.get_view('Image creation').list_groups(),['Imageproperties'])
-        self.assertEquals(obj.get_view('Image creation').list_all_features(),['Imageproperties.imagetype', 
-                                                                           'Imageproperties.rofs3version', 
-                                                                           'Imageproperties.productname', 
-                                                                           'Imageproperties.outputLocation', 
-                                                                           'Imageproperties.imagetarget'])
-        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties.imagetype').get_value(), '0') 
-        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties.rofs3version').get_value(), 'V .50.2009.04.0113 RND') 
-        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties.productname').get_value(), 'myProduct') 
-        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties.outputLocation').get_value(), 'myProduct') 
-        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties.imagetarget').get_value(), '2') 
+        self.assertEquals(obj.get_view('Image creation').list_groups(),['Imageproperties _ test'])
+        self.assertEquals(obj.get_view('Image creation').list_all_features(),['Imageproperties _ test.proxy_imakerapi_imagetype', 
+                                                                           'Imageproperties _ test.proxy_imakerapi_rofs3version', 
+                                                                           'Imageproperties _ test.proxy_imakerapi_productname', 
+                                                                           'Imageproperties _ test.proxy_imakerapi_outputLocation', 
+                                                                           'Imageproperties _ test.proxy_imaker_imagetarget'])
+        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties _ test.proxy_imakerapi_imagetype').get_value(), '0') 
+        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties _ test.proxy_imakerapi_rofs3version').get_value(), 'V .50.2009.04.0113 RND') 
+        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties _ test.proxy_imakerapi_productname').get_value(), 'myProduct') 
+        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties _ test.proxy_imakerapi_outputLocation').get_value(), 'myProduct') 
+        self.assertEquals(obj.get_view('Image creation').get_feature('Imageproperties _ test.proxy_imaker_imagetarget').get_value(), '2') 
         
+    def test_load_view_with_overrides(self):
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        etree = ElementTree.fromstring(overrideview)
+        obj = reader.loads(etree)
+        self.assertEquals(obj.get_name(), None)
+        self.assertEquals(obj.list_views(), ['Image creation'])
+        view = obj.get_view('Image creation')
+        self.assertEquals(view.get_name(),'Image creation')
+        self.assertEquals(view.list_all_features(),['Imageproperties.proxy_imakerapi_imagetype', 
+                                                    'Imageproperties.proxy_imakerapi_productname', 
+                                                    'Imageproperties.proxy_imakerapi_outputLocation'
+                                                    ])
+        
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').name, "New Product Name")
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').desc, "test desc override")
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_outputLocation').minOccurs, 2)
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').minLength, 2)
+
+    def test_load_view_with_option_overrides(self):
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        etree = ElementTree.fromstring(option_overrideview)
+        obj = reader.loads(etree)
+        self.assertEquals(obj.get_name(), None)
+        self.assertEquals(obj.list_views(), ['Image creation'])
+        view = obj.get_view('Image creation')
+        self.assertEquals(view.get_name(),'Image creation')
+        self.assertEquals(view.list_all_features(),['Imageproperties.proxy_imakerapi_imagetype', 
+                                                    'Imageproperties.proxy_imakerapi_productname', 
+                                                    'Imageproperties.proxy_imakerapi_outputLocation'
+                                                    ])
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_option('value_2').get_name(), 'prd2')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').options['2'].get_name(), 'prd2')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').list_options(), ['value_0', 'value_1', 'value_2', 'value_2', 'value_5'])
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_option('value_5').get_value(), '5')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_outputLocation').minOccurs, 2)
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').minLength, 2)
+
+    def test_load_view_with_properties_overrides(self):
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        etree = ElementTree.fromstring(properties_overrideview)
+        obj = reader.loads(etree)
+        view = obj.get_view('Image creation')
+        
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_property('mime').get_name(), 'mime')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_property('mime').get_value(), 'image/svgt image/jpg')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_property('mime2').name, 'mime2')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_property('mime2').value, 'image/svgt image/bmp')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').properties['mime'].get_name(), 'mime')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').properties['mime'].get_value(), 'image/svgt image/jpg')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').properties['mime2'].name, 'mime2')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').properties['mime2'].value, 'image/svgt image/bmp')
+
     def test_load_cvc_view(self):
         prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'data')))
         config = prj.get_configuration('cvc_root.confml')
@@ -522,7 +841,7 @@ class TestConfigurationParser(unittest.TestCase):
         obj = reader.loads(etree)
         fea = obj.get_feature('CVC_StartupAnimationSequence.CVC_StartupAnimationTone')
         self.assertEquals(fea.list_properties(),['maxSize'])
-        self.assertEquals(fea.properties['maxSize'].value,'100')
+        self.assertEquals(fea.property_maxSize.value,'100')
 
         conffile = open(os.path.join(ROOT_PATH,"data/CVC_Preinstalled.confml"))
         reader = persistentconfml.get_reader_for_elem("configuration")
@@ -530,7 +849,7 @@ class TestConfigurationParser(unittest.TestCase):
         obj = reader.loads(etree)
         fea = obj.get_feature('CVC_PreinstalledContent.CVC_PreInstalledMMSs.CVC_PreInstalledMMS')
         self.assertEquals(fea.list_properties(),['maxFileSize'])
-        self.assertEquals(fea.properties['maxFileSize'].value,'35')
+        self.assertEquals(fea.property_maxFileSize.value,'35')
 
     def test_load_voicemailbox_confml_from_file(self):
         conffile = open(os.path.join(ROOT_PATH,"data/voicemailbox.confml"))
@@ -548,21 +867,55 @@ class TestConfigurationParser(unittest.TestCase):
         etree = ElementTree.fromstring(conffile.read())
         obj = reader.loads(etree)
         setting = obj.get_feature('Facets.MessageSize')
-        self.assertEquals(setting.minInclusive,'0')
-        self.assertEquals(setting.maxInclusive,'10')
+        self.assertEquals(setting.minInclusive,0)
+        self.assertEquals(setting.maxInclusive,10)
         setting = obj.get_feature('Facets.MessageSize2')
-        self.assertEquals(setting.minExclusive,'-1')
-        self.assertEquals(setting.maxExclusive,'11')
+        self.assertEquals(setting.minExclusive,-1)
+        self.assertEquals(setting.maxExclusive,11)
         setting = obj.get_feature('Facets.StringPattern')
         self.assertEquals(setting.pattern,"[a-zA-Z]{5,10}")        
         setting = obj.get_feature('Facets.TotalDigits')
-        self.assertEquals(setting.totalDigits,'3')
+        self.assertEquals(setting.totalDigits,3)
         dview = obj.get_default_view()
         intfea = dview.get_feature('Facets.MessageSize')
         self.assertEquals(intfea.type,'int')
         self.assertEquals(intfea.value,9)
-             
-class TestConfigurationWriter(unittest.TestCase):    
+    
+    def test_load_sequence_setting_test_confml_from_file(self):
+        conffile = open(os.path.join(ROOT_PATH,"testdata/read_write/sequence_setting_test.confml"))
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        etree = ElementTree.fromstring(conffile.read())
+        obj = reader.loads(etree)
+        dview = obj.get_default_view()
+        fea = dview.get_feature('SequenceSettingTest.SequenceSetting')
+        self.assertEquals(fea.get_template(),
+                          [['seq/default_folder', None],
+                           '1.0',
+                           ['seq/default_file.txt', None],
+                           '1',
+                           'template',
+                           'false',
+                           '0',
+                           '"opt 0"',
+                           '2009-02-02',
+                           '07:30:15',
+                           '2009-02-02-07:00:00',
+                           'P5Y4M3DT12H25M15S'])
+
+    def test_load_selection_with_name_id_mapping(self):
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        obj = reader.loads(ElementTree.fromstring(selectionsetting))
+        self.assertEquals(obj._list(),['CTD_APs',
+                                        'TestApplication', 
+                                        'data'])
+        self.assertEquals(obj.get_data('TestApplication.DefaultAP').get_map(), "CTD_APs/AP[@key='Operator 1']")
+        
+        #
+class TestConfigurationWriter(unittest.TestCase):
+    def tearDown(self):
+        if os.path.exists(os.path.join(ROOT_PATH,'temp/configwriter')):
+            shutil.rmtree(os.path.join(ROOT_PATH,'temp/configwriter'))
+    
     def test_dump_simple_configuration(self):
         config = api.Configuration("test.confml")
         writer = persistentconfml.get_writer_for_class("Configuration")
@@ -645,12 +998,12 @@ class TestConfigurationWriter(unittest.TestCase):
     def test_configuration_with_features_and_properties(self):
         config = model.ConfmlConfiguration("test.confml")
         config.add_feature(model.ConfmlSetting('testfea11'))
-        config.testfea11.add_property(name='smaller',value='10')
-        config.testfea11.add_property(name='bigger',value='1', unit='B')
+        config.testfea11.create_property(name='smaller',value='10')
+        config.testfea11.create_property(name='bigger',value='1', unit='B')
         elem = persistentconfml.dumps(config)
         config2 =  persistentconfml.loads(elem)
-        self.assertEquals(config2.testfea11.properties['smaller'].value,'10')
-        self.assertEquals(config2.testfea11.properties['bigger'].value,'1')
+        self.assertEquals(config2.testfea11.property_smaller.value,'10')
+        self.assertEquals(config2.testfea11.property_bigger.value,'1')
 
     def test_configuration_with_features_and_minoccurs(self):
         config = model.ConfmlConfiguration("test.confml")
@@ -719,19 +1072,6 @@ class TestConfigurationWriter(unittest.TestCase):
         self.assertEquals(config2.testfea2.maxLength,None)
         self.assertEquals(config2.testfea3.maxLength,100)
 
-    def test_configuration_with_features_and_maxlength(self):
-        config = model.ConfmlConfiguration("test.confml")
-        config.add_feature(model.ConfmlSetting('testfea1', type='int'))
-        config.add_feature(model.ConfmlSetting('testfea2', type='int'))
-        config.add_feature(model.ConfmlSetting('testfea3', type='int',minLength=100))
-        config.testfea1.minLength = 10
-
-        elem = persistentconfml.dumps(config)
-        config2 =  persistentconfml.loads(elem)
-        self.assertEquals(config2.testfea1.minLength,'10')
-        self.assertEquals(config2.testfea3.minLength,'100')
-        self.assertEquals(config2.testfea2.minLength,None)
-
     def test_configuration_with_features(self):
         config = model.ConfmlConfiguration("test.confml")
         config.add_feature(api.Feature('testfea1'))
@@ -746,7 +1086,7 @@ class TestConfigurationWriter(unittest.TestCase):
         config.add_feature(api.Feature('testfea5'))
         config.add_feature(api.Feature('testfea6'))
         set1.set_value('pre')
-        config.testfea1.set_value('foo:bar')
+        config.testfea1.testfea11.set_value('foo:bar')
         config.testfea4.set_value('4')
         writer = persistentconfml.get_writer_for_class("Configuration")
         elem = writer.dumps(config)
@@ -777,11 +1117,12 @@ class TestConfigurationWriter(unittest.TestCase):
         config.add_feature(api.Feature('testfea4'))
         config.add_feature(api.Feature('testfea5'))
         config.add_feature(api.Feature('testfea6'))
-        set1.value = ["pre","post"]       
-        self.assertEquals(set1.get_data().get_value(), '"pre" "post"')
+        set1.value = ["pre","post"]
+        self.assertEquals(set1.get_datas()[0].get_value(), 'pre')
+        self.assertEquals(set1.get_datas()[1].get_value(), 'post')
         writer = persistentconfml.get_writer_for_class("Configuration")
         elem = writer.dumps(config)
-        self.assertEquals(ElementTree.tostring(elem), '<configuration name="test_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema"><feature name="testfea1" ref="testfea1"><setting name="testfea11" ref="testfea11" /></feature><feature name="testfea2" ref="testfea2"><setting name="testfea21" ref="testfea21" type="multiSelection"><option name="pre" value="1" /><option name="normal" value="2" /><option name="post" value="3" /></setting></feature><feature name="testfea4" ref="testfea4" /><feature name="testfea5" ref="testfea5" /><feature name="testfea6" ref="testfea6" /><data><testfea2><testfea21>"pre" "post"</testfea21></testfea2></data></configuration>')
+        self.assertEquals(ElementTree.tostring(elem), '<configuration name="test_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema"><feature ref="testfea1"><setting ref="testfea11" /></feature><feature ref="testfea2"><setting ref="testfea21" type="multiSelection"><option name="pre" value="1" /><option name="normal" value="2" /><option name="post" value="3" /></setting></feature><feature ref="testfea4" /><feature ref="testfea5" /><feature ref="testfea6" /><data><testfea2><testfea21>pre</testfea21><testfea21>post</testfea21></testfea2></data></configuration>')
         etree = ElementTree.fromstring(ElementTree.tostring(elem))
         fea1 = etree.find('{http://www.s60.com/xml/confml/2}feature')
         self.assertEquals(fea1.get('ref'),'testfea1')
@@ -789,17 +1130,19 @@ class TestConfigurationWriter(unittest.TestCase):
         config2 =  persistentconfml.get_reader_for_elem('configuration').loads(etree)
         self.assertEquals(config2.testfea2.list_features(),['testfea21'])
         self.assertEquals(config2.testfea2.testfea21.get_type(),'multiSelection')
-        self.assertEquals(config2.testfea2.testfea21.get_value(), ['pre', 'post'])
+        self.assertEquals(config2.testfea2.testfea21.get_value(), ('pre', 'post'))
 
     def test_configuration_with_view(self):
-        config = api.Configuration("view.confml")
-        config.add_view('testing')
+        config = model.ConfmlConfiguration("view.confml")
+        config.create_view('testing')
         view = config.get_view('testing')
-        view.add_group('group1')
-        view.add_group('group2')
-        view.add_group('group3')
-        view.group1.add(api.FeatureLink('test.foo'))
-        view.group2.add(api.FeatureLink('foo.*'))
+        view.create_group('group1')
+        view.create_group('group2')
+        view.create_group('group3')
+        fl = model.ConfmlFeatureLink('test.foo')
+        fl.desc = "test desc"
+        view.group1.add(fl)
+        view.group2.create_featurelink('foo.*')
         writer = persistentconfml.get_writer_for_class("Configuration")
         elem = writer.dumps(config)
         etree = ElementTree.fromstring(ElementTree.tostring(elem))
@@ -813,36 +1156,57 @@ class TestConfigurationWriter(unittest.TestCase):
         settings = [elem for elem in etree.getiterator('{http://www.s60.com/xml/confml/2}setting')]
         self.assertEquals(settings[0].get('ref'), 'test/foo')
         self.assertEquals(settings[1].get('ref'), 'foo/*')
-
-    def test_load_dump_reload_configuration_with_view(self):
+        
+    def test_load_dump_reload_configuration_with_view_and_overrides(self):
         reader = persistentconfml.get_reader_for_elem("configuration")
-        etree = ElementTree.fromstring(simpleview)
+        etree = ElementTree.fromstring(overrideview)
         obj = reader.loads(etree)
         # Getting the view populates it and check that the writing still works
-        self.assertEquals(obj.get_view('Image creation').get_name(),'Image creation')
-        self.assertEquals(obj.get_view('Image creation').id,'imakerimage')
-        self.assertEquals(obj.get_view('Image creation').list_groups(), ['Imageproperties'])
+        view = obj.get_view('Image creation')
+        self.assertEquals(view.get_name(),'Image creation')
+        self.assertEquals(view.id,'imakerimage')
+        self.assertEquals(view.list_groups(), ['Imageproperties'])
+        viewfea = view.get_feature('Imageproperties.proxy_imakerapi_productname')
+        self.assertEquals(viewfea.name, "New Product Name")
         writer = persistentconfml.get_writer_for_class("Configuration")
         elem = writer.dumps(obj)
         # Reload the configuration with view after dumping it to ensure data stays the same
         elemstr = ElementTree.tostring(elem)      
         etree = ElementTree.fromstring(elemstr)
         obj = reader.loads(etree)
-        self.assertEquals(obj.get_view('Image creation').get_name(),'Image creation')
-        self.failUnlessEqual(obj.get_view('Image creation').id,'imakerimage', 'Known bug (#564)')
-        self.assertEquals(obj.get_view('Image creation').id,'imakerimage')
+        view = obj.get_view('Image creation')
+        self.assertEquals(view.get_name(),'Image creation')
+        self.failUnlessEqual(view.id,'imakerimage')
+        self.assertEquals(view.id,'imakerimage')
+        # Check that the override parameters are also saved / loaded
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').name, 'New Product Name')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').has_attribute('name'), True)
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').desc, "test desc override")
+        
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').get_option('value_2').get_name(), 'prd_renamed')
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_imagetype').list_options(), ['value_0', 'value_1', 'value_2', 'value_2'])
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_outputLocation').minOccurs, 2)
+        fea = view.get_feature('Imageproperties.proxy_imakerapi_outputLocation')
+        self.assertEquals(fea.has_attribute('name'), False)
+        
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname').minLength, 2)
+        # check that the original attributes are still valid
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname')._obj.name, "PRODUCT_NAME")
+        self.assertEquals(view.get_feature('Imageproperties.proxy_imakerapi_productname')._obj.desc, None)
         
     def test_load_configuration_and_create_copy_and_dump(self):
         conffile = open(os.path.join(ROOT_PATH,"data/commsdatcreator.confml"))
         #reader = persistentconfml.get_reader_for_elem("configuration")
         #etree = ElementTree.fromstring(conffile.read())
         obj = persistentconfml.loads(conffile.read())
-        copyconfig = api.Configuration('data/copy_commsdatcreator.confml')
+        copyconfig = api.Configuration('temp/copy_commsdatcreator.confml')
         
         for child in obj._objects():
             copyconfig._add(child)
         output = persistentconfml.dumps(copyconfig)
-        ofile = open(os.path.join(ROOT_PATH,'data/copy_commsdatcreator.confml'),"wb")
+        if not os.path.exists(os.path.join(ROOT_PATH,'temp')):
+            os.mkdir(os.path.join(ROOT_PATH,'temp'))
+        ofile = open(os.path.join(ROOT_PATH,'temp/copy_commsdatcreator.confml'),"wb")
         ofile.write(output)
         ofile.close()
         newconfig = persistentconfml.loads(output)
@@ -856,7 +1220,7 @@ class TestConfigurationWriter(unittest.TestCase):
         
     def test_create_configuration_with_meta_and_dump(self):
         prj = api.Project(api.Storage.open('dump','w'))
-        testconf = prj.create_configuration('test.confml')
+        testconf = prj.create_configuration('test.confml', True)
         testconf.include_configuration('test/foo.confml')
         testconf.save()
         prj.close()
@@ -883,6 +1247,65 @@ class TestConfigurationWriter(unittest.TestCase):
         prj.close()
         shutil.rmtree('dump')
 
+    def test_write_selection_with_nameid_mapping(self):
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        obj = reader.loads(ElementTree.fromstring(selectionsetting))
+        
+        self.assertEquals(obj.get_data('TestApplication.DefaultAP').get_map(), "CTD_APs/AP[@key='Operator 1']")
+        self.assertEquals(obj.get_data('TestApplication.DefaultAP').get_fearef(), "TestApplication.DefaultAP")
+        
+        writer = persistentconfml.get_writer_for_class("Configuration")
+        elem = writer.dumps(obj)
+        etree = ElementTree.fromstring(ElementTree.tostring(elem))
+        
+        self.assertEquals(
+                          etree.find('{http://www.s60.com/xml/confml/2}data')
+                          .find('{http://www.s60.com/xml/confml/2}TestApplication')
+                          .find('{http://www.s60.com/xml/confml/2}DefaultAP')
+                          .get('map'),
+                          "CTD_APs/AP[@key='Operator 1']")
+        
+    def test_write_multiselection_with_name_id_mapping(self):
+        reader = persistentconfml.get_reader_for_elem("configuration")
+        obj = reader.loads(ElementTree.fromstring(multiselection))
+
+        self.assertEquals(obj.get_data('aFeature.selectionSetting').get_map(), "aFeature/exampleSequence[@key='12']")
+        self.assertEquals(obj.get_data('aFeature.multiselectionSetting')[0].get_value(), '0')
+        self.assertEquals(obj.get_data('aFeature.multiselectionSetting')[1].get_map(), "aFeature/exampleSequence[@key='12']")
+        self.assertEquals(obj.get_data('aFeature.multiselectionSetting')[2].get_map(), "aFeature/exampleSequence[@key='34']")
+        self.assertEquals(obj.get_data('aFeature.multiselectionSettingOverride')[0].get_map(), "aFeature/exampleSequence[@key='12']")
+        self.assertEquals(obj.get_data('aFeature.multiselectionSettingOverride')[1].get_map(), "aFeature/exampleSequence[@key='34']")
+        
+        writer = persistentconfml.get_writer_for_class("Configuration")
+        elem = writer.dumps(obj)
+        etree = ElementTree.fromstring(ElementTree.tostring(elem))
+        
+        self.assertEquals(
+                          etree.find('{http://www.s60.com/xml/confml/2}data')
+                          .find('{http://www.s60.com/xml/confml/2}aFeature')
+                          .find('{http://www.s60.com/xml/confml/2}selectionSetting')
+                          .get('map'), "aFeature/exampleSequence[@key='12']")
+        self.assertEquals(
+                  etree.find('{http://www.s60.com/xml/confml/2}data')
+                  .find('{http://www.s60.com/xml/confml/2}aFeature')
+                  .find('{http://www.s60.com/xml/confml/2}multiselectionSetting')
+                  .text, "0")
+
+        mss = []
+        for data_elem in etree.getiterator('{http://www.s60.com/xml/confml/2}data'):
+            for mss_elem in data_elem.getiterator('{http://www.s60.com/xml/confml/2}multiselectionSetting'):
+                mss.append(mss_elem.get('map'))
+        
+        self.assertEquals(mss, [None, "aFeature/exampleSequence[@key='12']", "aFeature/exampleSequence[@key='34']"])
+
+        msso = []
+        for data_elem in etree.getiterator('{http://www.s60.com/xml/confml/2}data'):
+            for msso_elem in data_elem.getiterator('{http://www.s60.com/xml/confml/2}multiselectionSettingOverride'):
+                msso.append(msso_elem.get('map'))
+        
+        self.assertEquals(msso, ["aFeature/exampleSequence[@key='12']", "aFeature/exampleSequence[@key='34']"])
+
+        
 class TestMeta(unittest.TestCase):
     def test_get_reader_for_meta(self):
         reader = persistentconfml.get_reader_for_elem("meta")
@@ -955,7 +1378,7 @@ class TestFeature(unittest.TestCase):
         celem = api.Feature('testing')
         etree = writer.dumps(celem)
         self.assertEquals(etree.get('ref'),'testing')
-        self.assertEquals(etree.get('name'),'testing')
+        self.assertEquals(etree.get('name'), None)
 
 
 class TestSetting(unittest.TestCase):
@@ -980,7 +1403,7 @@ class TestSetting(unittest.TestCase):
         celem = model.ConfmlSetting('testing')
         etree = writer.dumps(celem)
         self.assertEquals(etree.get('ref'),'testing')
-        self.assertEquals(etree.get('name'),'testing')
+        self.assertEquals(etree.get('name'), None)
         self.assertEquals(etree.get('type'),None)
 
     def test_write_setting_with_options(self):
@@ -993,7 +1416,7 @@ class TestSetting(unittest.TestCase):
         etree = writer.dumps(elem)
 
         self.assertEquals(etree.get('ref'),'testing')
-        self.assertEquals(etree.get('name'),'testing')
+        self.assertEquals(etree.get('name'), None)
         self.assertEquals(etree.get('type'),'selection')
         self.assertEquals(etree.find('option').get('name'),'one')
         self.assertEquals(etree.find('option').get('value'),'1')
@@ -1008,13 +1431,15 @@ class TestSetting(unittest.TestCase):
         setting.totalDigits = 3
         setting.pattern = "\d*{3}"
         etree = writer.dumps(setting)
+        strxml = confmltree.tostring(etree, {'http://xs.com' : 'xs'} )
+        etree = ElementTree.fromstring(strxml)
         
-        self.assertEquals(etree.find('xs:minInclusive').get('value'),'0')
-        self.assertEquals(etree.find('xs:maxInclusive').get('value'),'10')
-        self.assertEquals(etree.find('xs:minExclusive').get('value'),'0')
-        self.assertEquals(etree.find('xs:maxExclusive').get('value'),'10')
-        self.assertEquals(etree.find('xs:totalDigits').get('value'),'3')
-        self.assertEquals(etree.find('xs:pattern').get('value'),'\d*{3}')
+        self.assertEquals(etree.find('{http://xs.com}minInclusive').get('value'),'0')
+        self.assertEquals(etree.find('{http://xs.com}maxInclusive').get('value'),'10')
+        self.assertEquals(etree.find('{http://xs.com}minExclusive').get('value'),'0')
+        self.assertEquals(etree.find('{http://xs.com}maxExclusive').get('value'),'10')
+        self.assertEquals(etree.find('{http://xs.com}totalDigits').get('value'),'3')
+        self.assertEquals(etree.find('{http://xs.com}pattern').get('value'),'\d*{3}')
         
         conffile = open(os.path.join(ROOT_PATH,"data/facets.confml"))
         obj = persistentconfml.loads(conffile.read())
@@ -1073,8 +1498,8 @@ class TestSetting(unittest.TestCase):
                                                'name': 'strme',
                                                'type': 'string'}))
         setobj = reader.loads(elem)
-        self.assertEqual(setobj.get_map_key().name,"intme")
-        self.assertEqual(setobj.get_map_value().name,"strme")
+        self.assertEqual(setobj.mapKey, "intsetting")
+        self.assertEqual(setobj.mapValue, "strsetting")
 
 class TestSettingData(unittest.TestCase):
     def test_get_reader_for_data(self):
@@ -1131,6 +1556,193 @@ class TestSettingData(unittest.TestCase):
         obj = reader.loads(etree)
         self.assertEquals(obj.meta.get('type'), 'featurelist')
 
+class TestWriteSequenceTemplates(BaseTestCase):
+    EXPECTED_DIR = os.path.join(ROOT_PATH, 'testdata/seq_template/expected')
+    TEMP_DIR = os.path.join(ROOT_PATH, 'temp/')
+    
+    def _add_simple_sequence(self, config):
+        """
+        Add a feature with a simple sequence setting into the given
+        configuration.
+        @return: The added sequence setting object.
+        """
+        fea = api.Feature('TestFeature', name='Test feature')
+        seq_fea = model.ConfmlSequenceSetting('SequenceSetting', name='Sequence setting')
+        fea.add_feature(seq_fea)
+        config.add_feature(fea)
+    
+        seq_fea.add_feature(model.ConfmlStringSetting('String1', name="String 1"))
+        seq_fea.add_feature(model.ConfmlFileSetting('File', name="File setting"))
+        seq_fea.add_feature(model.ConfmlStringSetting('String2', name="String 2"))
+        
+        return seq_fea
+    
+    def _add_complex_sequence(self, config):
+        """
+        Add a feature with a complex sequence setting into the given
+        configuration.
+        @return: The added sequence setting object.
+        """
+        fea = api.Feature('TestFeature', name='Test feature')
+        seq_fea = model.ConfmlSequenceSetting('SequenceSetting', name='Sequence setting')
+        fea.add_feature(seq_fea)
+        config.add_feature(fea)
+    
+        seq_fea.add_feature(model.ConfmlFileSetting('File', name="File setting"))
+        seq_fea.add_feature(model.ConfmlFolderSetting('Folder', name="Folder setting"))
+        seq_fea.add_feature(model.ConfmlStringSetting('String', name="String setting"))
+        seq_fea.add_feature(model.ConfmlIntSetting('Int', name="Int setting"))
+        seq_fea.add_feature(model.ConfmlRealSetting('Real', name="Real setting"))
+        seq_fea.add_feature(model.ConfmlBooleanSetting('Boolean', name="Boolean setting"))
+        seq_fea.add_feature(model.ConfmlDateSetting('Date', name="Date setting"))
+        seq_fea.add_feature(model.ConfmlTimeSetting('Time', name="Time setting"))
+        seq_fea.add_feature(model.ConfmlDateTimeSetting('DateTime', name="Date-time setting"))
+        seq_fea.add_feature(model.ConfmlDurationSetting('Duration', name="Duration setting"))
+        
+        return seq_fea
+    
+    def test_write_simple_seq_no_template(self):
+        FILE_NAME = 'write_simple_seq_no_template.confml'
+        prj = api.Project(api.Storage.open(self.TEMP_DIR, "w"))
+        config = prj.create_configuration(FILE_NAME)
+        
+        seq = self._add_simple_sequence(config)
+    
+        seq.add_sequence(['row 1', ['lp1', 'tp1'], 'x'])
+        seq.add_sequence(['row 2', ['lp2', 'tp2'], 'y'])
+    
+        config.save()
+        prj.close()
+        
+        self.assert_file_contents_equal(
+            os.path.join(self.TEMP_DIR, FILE_NAME),
+            os.path.join(self.EXPECTED_DIR, 'simple_seq_no_template.confml'))
+    
+    def test_write_simple_seq(self):
+        FILE_NAME = 'write_simple_seq.confml'
+        prj = api.Project(api.Storage.open(self.TEMP_DIR, "w"))
+        config = prj.create_configuration(FILE_NAME)
+        config.name = 'foo'
+        
+        seq = self._add_simple_sequence(config)
+    
+        seq.set_template(['c1', ['lp', 'tp'], 'c2'])
+        seq.add_sequence(['row 1', ['lp1', 'tp1'], 'x'])
+        seq.add_sequence(['row 2', ['lp2', 'tp2'], 'y'])
+    
+        config.save()
+        prj.close()
+        
+        self.assert_file_contents_equal(
+            os.path.join(self.TEMP_DIR, FILE_NAME),
+            os.path.join(self.EXPECTED_DIR, 'simple_seq.confml'))
+    
+    def test_write_simple_seq_2(self):
+        FILE_NAME = 'write_simple_seq_2.confml'
+        prj = api.Project(api.Storage.open(self.TEMP_DIR, "w"))
+        config = prj.create_configuration(FILE_NAME)
+        config.name = 'foo'
+        
+        seq = self._add_simple_sequence(config)
+    
+        # It shouldn't matter if the template is reset in the middle
+        seq.set_template(['x1', ['lp', 'tp'], 'x2'])
+        seq.add_sequence(['row 1', ['lp1', 'tp1'], 'x'])
+        seq.set_template(['c1', ['lp', 'tp'], 'c2'])
+        seq.add_sequence(['row 2', ['lp2', 'tp2'], 'y'])
+    
+        config.save()
+        prj.close()
+        
+        self.assert_file_contents_equal(
+            os.path.join(self.TEMP_DIR, FILE_NAME),
+            os.path.join(self.EXPECTED_DIR, 'simple_seq.confml'))
+    
+    def test_write_simple_seq_3(self):
+        FILE_NAME = 'write_simple_seq_3.confml'
+        prj = api.Project(api.Storage.open(self.TEMP_DIR, "w"))
+        config = prj.create_configuration(FILE_NAME)
+        config.name = 'foo'
+        
+        seq = self._add_simple_sequence(config)
+        
+        # Add multiple templates into the data section to make
+        # sure that they are all replaced when set_template() is called
+        def create_template_data():
+            template_data = api.Data(fqr='TestFeature.SequenceSetting', template=True)
+            template_data.add(api.Data(ref='String1', value='t1'))
+            data_a1 = api.Data(ref='File')
+            data_a1.add(api.Data(ref='localPath', value='lp'))
+            data_a1.add(api.Data(ref='targetPath', value='tp'))
+            template_data.add(data_a1)
+            template_data.add(api.Data(ref='String2', value='t2'))
+            return template_data
+        from cone.public import container
+        config.add_data(create_template_data(), policy=container.APPEND)
+        config.add_data(create_template_data(), policy=container.APPEND)
+        config.add_data(create_template_data(), policy=container.APPEND)
+        seq = config.get_default_view().get_feature('TestFeature.SequenceSetting')
+        self.assertEquals(seq.get_template(), ['t1', ['lp', 'tp'], 't2'])
+        
+        # Add some data and set the template
+        seq.add_sequence(['row 1', ['lp1', 'tp1'], 'x'])
+        seq.add_sequence(['row 2', ['lp2', 'tp2'], 'y'])
+        seq.set_template(['c1', ['lp', 'tp'], 'c2'])
+    
+        config.save()
+        prj.close()
+        
+        self.assert_file_contents_equal(
+            os.path.join(self.TEMP_DIR, FILE_NAME),
+            os.path.join(self.EXPECTED_DIR, 'simple_seq.confml'))
+    
+    def test_write_complex_seq(self):
+        FILE_NAME = 'write_complex_seq.confml'
+        prj = api.Project(api.Storage.open(self.TEMP_DIR, "w"))
+        config = prj.create_configuration(FILE_NAME)
+        
+        seq = self._add_complex_sequence(config)
+        
+        seq.set_template([['file lp', 'file tp'], ['folder lp', 'folder tp'],
+                          'string', '0', '0.1', 'false',
+                          '2010-02-10', '00:00:00', '2010-02-10-00:00:00', 'P5Y4M3DT12H25M15S'])
+        
+        seq.add_sequence([['file lp1', 'file tp1'], ['folder lp1', 'folder tp1'],
+                          'string1', '1', '1.1', 'true',
+                          '2009-02-01', '01:30:15', '2009-02-01-01:00:00', 'PT1S'])
+        seq.add_sequence([['file lp2', 'file tp2'], ['folder lp2', 'folder tp2'],
+                          'string2', '2', '1.2', 'false',
+                          '2009-02-02', '02:30:15', '2009-02-02-02:00:00', 'PT2S'])
+        
+        config.save()
+        prj.close()
+        
+        self.assert_file_contents_equal(
+            os.path.join(self.TEMP_DIR, FILE_NAME),
+            os.path.join(self.EXPECTED_DIR, 'complex_seq.confml'))
+    
+    def test_write_complex_seq_with_nones(self):
+        FILE_NAME = 'write_complex_seq_with_nones.confml'
+        prj = api.Project(api.Storage.open(self.TEMP_DIR, "w"))
+        config = prj.create_configuration(FILE_NAME)
+        
+        seq = self._add_complex_sequence(config)
+        
+        seq.set_template([['file lp', None], [None, 'folder tp'],
+                          'string', None, 0.1, None,
+                          '2010-02-10', None, '2010-02-10-00:00:00', None])
+        
+        seq.add_sequence([['file lp1', None], [None, 'folder tp1'],
+                          'string1', None, 1.1, None,
+                          '2009-02-01', None, '2009-02-01-01:00:00', None])
+        
+        config.save()
+        prj.close()
+        
+        self.assert_file_contents_equal(
+            os.path.join(self.TEMP_DIR, FILE_NAME),
+            os.path.join(self.EXPECTED_DIR, 'complex_seq_with_nones.confml'))
+
 class TestReadWriteConfml(BaseTestCase):
     """
     Test case for ensuring that reading in a ConfML file and then writing
@@ -1176,7 +1788,7 @@ class TestReadWriteConfml(BaseTestCase):
             
             write(PATH_ORIGINAL, original_data_normalized)
             write(PATH_DUMPED, model_data_normalized)
-            self.fail("Known bug (#506)")
+            #self.fail("Known bug (#506)")
             self.fail("Read-write output for file '%s' is different, see the files in '%s'" % (file_name, output_dir))
         else:
             # Test was successful, remove any old files that might have been there,
@@ -1190,6 +1802,38 @@ class TestReadWriteConfml(BaseTestCase):
             file_name  = os.path.basename(file_path),
             input_dir  = os.path.dirname(file_path),
             output_dir = os.path.normpath(os.path.join(ROOT_PATH, 'temp/read_write_results')))
+    
+    def test_create_configuration_with_view_includes_to_storage(self):
+        prj = api.Project(api.Storage.open("temp/testprojectviews", "w"))
+        test = prj.create_configuration("testview.confml")
+        fea1 = test.create_feature("fea1")
+        set1 =  fea1.create_feature('set1', type="int")
+        view = test.create_view("Testing")
+        test1 = prj.create_configuration("testview1.confml")
+        view1 = test1.create_view("subview1")
+        test2 = prj.create_configuration("testview2.confml")
+        view2 = test2.create_view("subview2")
+        group = view.create_group("group1")
+        group.create_featurelink("fea1/set1")
+        group2 = view2.create_group("group2")
+        group2.create_featurelink("fea1/set1")
+        view.add(api.ConfigurationProxy("testview1.confml"))
+        group.add(api.ConfigurationProxy("testview2.confml"))
+        prj.save()
+        prj.close()
+        
+        prj = api.Project(api.Storage.open("temp/testprojectviews", "w"))
+        test = prj.get_configuration("testview.confml")
+        self.assertEquals(test.list_views(), ['Testing', 
+                                              'Testing.group1.testview2_confml.subview2',
+                                              'Testing.testview1_confml.subview1'])
+        
+        view = test.get_view('Testing')
+        
+        self.assertEquals(view.list_all_features(), ['group1.proxy_fea1_set1']) 
+        
+        self.assertTrue(os.path.exists("temp/testprojectviews"))
+        shutil.rmtree("temp")
 
 # Create a separate test method for each ConfML file in the read-write test data
 _READ_WRITE_TESTDATA_DIR = os.path.join(ROOT_PATH, 'testdata/read_write')
@@ -1205,7 +1849,7 @@ for filename in filter(lambda fn: fn.endswith('.confml'), os.listdir(_READ_WRITE
         method.__name__ = test_method_name
         setattr(TestReadWriteConfml, test_method_name, method)
     _register_test_method(path)
-
+    
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,10 @@
+﻿<configuration name="Eval test data" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature ref="EvalTest2" name="Test settings for eval blocks">
+    <setting ref="StringResult" name="String result" type="string" />
+  </feature>
+  <data>
+    <EvalTest2>
+      <StringResult>0</StringResult>
+    </EvalTest2>
+  </data>
+</configuration>

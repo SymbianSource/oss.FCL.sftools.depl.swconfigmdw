@@ -24,9 +24,9 @@
         -->
         <container>
             <phase name="post"/>
-            <ruleml xmlns="http://www.s60.com/xml/ruleml/2">
-                <rule>True configures TempFeatureMissingFile.Test1 = {% delete_file('output/content/missing_output_file_test1.txt') %}</rule>
-                <rule>True configures TempFeatureMissingFile.Test2 = {% delete_file('output/content/missing_output_file_test2.txt') %}</rule>
+            <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+                <rule>True configures ${TempFeatureMissingFile.Test1} = {% delete_file('output/content/missing_output_file_test1.txt') %}</rule>
+                <rule>True configures ${TempFeatureMissingFile.Test2} = {% delete_file('output/content/missing_output_file_test2.txt') %}</rule>
                 
                 <eval_globals>
 def delete_file(file):

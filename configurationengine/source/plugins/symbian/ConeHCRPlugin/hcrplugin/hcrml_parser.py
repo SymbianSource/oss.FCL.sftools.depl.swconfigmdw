@@ -18,29 +18,15 @@
 
 
 import re
-import os
-import sys
 import logging
-import xml.parsers.expat
-import codecs
+import pkg_resources
+
 from hcrplugin.hcr_exceptions import *
 from hcrplugin.hcrrepository import HcrRecord, HcrRepository
 from hcrplugin.hcr_writer import HcrWriter
 from hcrplugin.header_writer import *
-try:
-    from cElementTree import ElementTree
-except ImportError:
-    try:    
-        from elementtree import ElementTree
-    except ImportError:
-        try:
-            from xml.etree import cElementTree as ElementTree
-        except ImportError:
-            from xml.etree import ElementTree
 
-import __init__
-
-from cone.public import exceptions,plugin,utils,api
+from cone.public import plugin
 
 class HcrmlImpl(plugin.ImplBase):
     """
@@ -62,25 +48,20 @@ class HcrmlImpl(plugin.ImplBase):
         @return: 
         """
         outputfile = self.__get_output_filename()
-        if outputfile != None:
-            # Create the path to the output file
-            output_path = os.path.dirname(outputfile)
-            if output_path != '' and not os.path.exists(output_path):
-                os.makedirs(output_path)
-        
         # For output type 'hcr', write the binary repository file
         if self.output_obj.type == 'hcr':
             self.logger.info("Generating binary repository to '%s'" % outputfile)
             writer = HcrWriter()
             repo = self.output_obj.get_hcr_repository()
             data = writer.get_repository_bindata(repo)
-            f = open(outputfile,'wb')
+            f = context.create_file(outputfile, mode='wb')
+            #f = open(outputfile,'wb')
             try:        f.write(data)
             finally:    f.close()
         elif self.output_obj.type == 'header':
             self.logger.info("Generating header file to '%s'" % outputfile)
             writer = HeaderWriter(outputfile, self.output_obj)
-            writer.write()
+            writer.write(context)
         elif self.output_obj.type == None:
             # The HCRML file contains no <output> element, so no output should
             # be generated
@@ -105,6 +86,8 @@ class HcrmlImpl(plugin.ImplBase):
 
 class HcrmlReader(plugin.ReaderBase):
     NAMESPACE = 'http://www.symbianfoundation.org/xml/hcrml/1'
+    NAMESPACE_ID = 'hcrml'
+    ROOT_ELEMENT_NAME = 'hcr'
     FILE_EXTENSIONS = ['hcrml']
     
     def __init__(self, resource_ref, configuration):
@@ -123,7 +106,11 @@ class HcrmlReader(plugin.ReaderBase):
         impl.output_obj = reader.read_hcrml_output()
         impl.refs = reader.refs
         return impl
-
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('hcrplugin', 'xsd/hcrml.xsd')
+    
     def read_hcrml_output(self, ignore_includes=False):
         output = Output()
         

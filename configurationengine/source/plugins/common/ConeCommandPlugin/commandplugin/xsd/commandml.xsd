@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/commandml/1" 
+	xmlns:commandml="http://www.s60.com/xml/commandml/1" 
+	elementFormDefault="qualified">
+	
+	<xs:complexType name="tagType">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="filterType">
+		<xs:attribute name="severity" type="xs:string"/>
+		<xs:attribute name="condition" type="xs:string"/>
+		<xs:attribute name="input" type="xs:string"/>
+        <xs:attribute name="formatter" type="xs:string"/>
+	</xs:complexType>
+
+	
+	<xs:complexType name="pipeType">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="required"/>
+	</xs:complexType>
+    
+    <xs:complexType name="argumentType">
+        <xs:attribute name="value" type="xs:string" use="required"/>
+	</xs:complexType>
+	
+    <xs:complexType name="commandType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="argument" type="commandml:argumentType"/>
+            <xs:element name="pipe" type="commandml:pipeType"/>
+            <xs:element name="filter" type="commandml:filterType"/>
+		</xs:choice>
+		<xs:attribute name="executable" type="xs:string" use="required"/>
+        <xs:attribute name="cwd" type="xs:string"/>
+        <xs:attribute name="shell" type="xs:string"/>
+        <xs:attribute name="bufsize" type="xs:string"/>
+        <xs:attribute name="env" type="xs:string"/>
+	</xs:complexType>
+    
+    <xs:complexType name="conditionType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="command" type="commandml:commandType"/>
+		</xs:choice>
+		<xs:attribute name="value" type="xs:string" use="required"/>
+	</xs:complexType>
+	
+	<xs:element name="commandml">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="tag" type="commandml:tagType"/>
+                <xs:element name="condition" type="commandml:conditionType"/>
+                <xs:element name="command" type="commandml:commandType"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+		
+</xs:schema>

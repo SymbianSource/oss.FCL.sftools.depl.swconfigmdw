@@ -14,19 +14,17 @@
 # Description: 
 #
 
-import unittest, os, shutil, sys
+import unittest, os, sys
 
-import __init__	
 from genconfmlplugin import xslttransformer
-from cone.public import exceptions,plugin,api
-from cone.storage import filestorage
-from cone.confml import implml
 
 # Hardcoded value of testdata folder that must be under the current working dir
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 testdata  = os.path.join(ROOT_PATH,'project')
+expected = u'<html><body>\r\n<h2>My CD Collection</h2>\r\n<table border="1">\r\n<tr bgcolor="#9acd32">\r\n<th>Title</th>\r\n<th>Artist</th>\r\n</tr>\r\n<tr>\r\n<td>.</td>\r\n<td>.</td>\r\n</tr>\r\n</table>\r\n</body></html>\r\n\r\n'.replace('\r\n', os.linesep)
 
-class TestGenconfmlPlugin(unittest.TestCase):    
+
+class TestXstlTransformer(unittest.TestCase):    
     def setUp(self):
         self.curdir = os.getcwd()
         self.output = 'output'
@@ -40,12 +38,11 @@ class TestGenconfmlPlugin(unittest.TestCase):
         Test that the xslt transformation works
         '''
         transformer = xslttransformer.XsltTransformer()
-        transformer.transform_lxml(os.path.join(ROOT_PATH,"xslt\cdcatalog.xml"), 
-                                 os.path.join(ROOT_PATH,"xslt\cdcatalog_ex1.xsl"), 
-                                 "testioutput.xml",
+        result = transformer.transform_lxml(os.path.join(ROOT_PATH,"xslt/cdcatalog.xml"), 
+                                 os.path.join(ROOT_PATH,"xslt/cdcatalog_ex1.xsl"), 
                                  sys.getdefaultencoding())
-        os.unlink("testioutput.xml")
+        self.assertEquals(result, expected)
 
         
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

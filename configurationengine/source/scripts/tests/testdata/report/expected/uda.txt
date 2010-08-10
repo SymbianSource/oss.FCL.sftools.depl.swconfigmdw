@@ -3,15 +3,20 @@ Refs with implementations
 
 Ref: Feature1.BooleanSetting
 Impls:
-File = "base\implml\booleansetting_uda.templateml", type = "templateml", gen_runs = []
+File = "base/implml/booleansetting_rofs3.templateml", type = "templateml"
+File = "base/implml/booleansetting_uda.templateml", type = "templateml"
+-------------------------------------------------
+Ref: Feature1.IntSetting
+Impls:
+File = "base/implml/intsetting_rofs3.templateml", type = "templateml"
 -------------------------------------------------
 Ref: Feature1.RealSetting
 Impls:
-File = "base\implml\realsetting_rofs3_uda.templateml", type = "templateml", gen_runs = []
+File = "base/implml/realsetting_rofs3_uda.templateml", type = "templateml"
 -------------------------------------------------
 Ref: Feature1.StringSetting
 Impls:
-File = "base\implml\stringsetting_uda.templateml", type = "templateml", gen_runs = []
+File = "base/implml/stringsetting_uda.templateml", type = "templateml"
 
 
 
@@ -19,3 +24,9 @@ Refs with no implementation
 ===========================
 Feature1.IntSetting
 Feature1.SelectionSetting
+Feature1.SequenceSetting
+Feature1.SequenceSetting.BooleanSubSetting
+Feature1.SequenceSetting.IntSubSetting
+Feature1.SequenceSetting.RealSubSetting
+Feature1.SequenceSetting.SelectionSubSetting
+Feature1.SequenceSetting.StringSubSetting

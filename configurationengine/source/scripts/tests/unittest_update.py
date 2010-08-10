@@ -23,7 +23,7 @@ import sys
 import os
 import subprocess
 import shutil
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from testautomation import unzip_file
 from scripttest_common import get_cmd
@@ -49,7 +49,7 @@ class TestUpdate(BaseTestCase):
     def test_get_help(self):
         cmd = '%s -h' % get_cmd('update')
         out = self.run_command(cmd)
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Options:' in lines)
         self.assertTrue('  Update options:' in lines)
 

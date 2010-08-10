@@ -24,8 +24,10 @@ except ImportError:
             from xml.etree import cElementTree as ElementTree
         except ImportError:
             from xml.etree import ElementTree
+
 import StringIO
 import os
+import logging
 
 from cone.public import exceptions, persistence
 
@@ -42,13 +44,13 @@ class Metadata(object):
         self.data = {}
         if copyobj != None:
             self.data = copyobj.data.copy()
-        pass
 
     def get_root_file(self):
-        return self.data.get(self.META_ROOT_FILE,"")
+        return self.data.get(self.META_ROOT_FILE, None)
 
     def set_root_file(self,filename):
-        self.data[self.META_ROOT_FILE] = filename
+        if filename:
+            self.data[self.META_ROOT_FILE] = filename
 
 class MetadataReader(persistence.ConeReader):
     """
@@ -56,16 +58,16 @@ class MetadataReader(persistence.ConeReader):
     """ 
     class_type = "Metadata"
     NAMESPACES = ['http://www.nokia.com/xml/ns/confml-core/metadata-2.0']
-    def __init__(self):
-        return
     
     def fromstring(self, xml_as_string):
         meta = Metadata()
-        etree = ElementTree.fromstring(xml_as_string)
-        iter = etree.getiterator("{%s}property" % self.NAMESPACES[0])
-        for elem in iter:
-            (key,value) = self.get_property(elem)
-            meta.data[key] = value
+        try:
+            etree = ElementTree.fromstring(xml_as_string)
+            for elem in etree.getiterator("{%s}property" % self.NAMESPACES[0]):
+                (key,value) = self.get_property(elem)
+                meta.data[key] = value
+        except Exception,e:
+            logging.getLogger('cone').warning("Could not read metadata! Exception %s" % (e))
         return meta
 
     def get_property(self, elem):
@@ -82,6 +84,7 @@ class MetadataWriter(persistence.ConeWriter):
     NAMESPACES = ['http://www.nokia.com/xml/ns/confml-core/metadata-2.0']
     DEFAULT_ENCODING = "ASCII"
     def __init__(self):
+        super(MetadataWriter, self).__init__()
         self.encoding = self.DEFAULT_ENCODING
         return
     
@@ -100,6 +103,18 @@ class MetadataWriter(persistence.ConeWriter):
             self.set_property(prop, key, obj.data[key])
         if indent:
             persistence.indent(root)
+        
+        # To make the output the same in linux and windows
+        # (needed to make testing easier)
+        class LinesepNormalizerResource(object):
+            def __init__(self, resource):
+                self.resource = resource
+            def write(self, data):
+                if os.linesep != '\r\n':
+                    data = data.replace(os.linesep, '\r\n')
+                self.resource.write(data)
+        res = LinesepNormalizerResource(res)
+        
         # some smarter way to implement adding of the encoding to the beginning of file
         res.write('<?xml version="1.0" encoding="%s"?>%s' % (self.encoding,os.linesep))
         ElementTree.ElementTree(root).write(res)

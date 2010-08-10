@@ -1,0 +1,80 @@
+<configuration name="write_complex_seq_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <feature name="Test feature" ref="TestFeature">
+    <setting name="Sequence setting" ref="SequenceSetting" type="sequence">
+      <setting name="File setting" ref="File" type="file">
+        <localPath />
+      <targetPath />
+      </setting>
+    <setting name="Folder setting" ref="Folder" type="folder">
+        <localPath />
+      <targetPath />
+      </setting>
+    <setting name="String setting" ref="String" type="string" />
+    <setting name="Int setting" ref="Int" type="int" />
+    <setting name="Real setting" ref="Real" type="real" />
+    <setting name="Boolean setting" ref="Boolean" type="boolean" />
+    <setting name="Date setting" ref="Date" type="date" />
+    <setting name="Time setting" ref="Time" type="time" />
+    <setting name="Date-time setting" ref="DateTime" type="dateTime" />
+    <setting name="Duration setting" ref="Duration" type="duration" />
+    </setting>
+  </feature>
+<data>
+    <TestFeature>
+      <SequenceSetting template="true">
+        <File>
+          <localPath>file lp</localPath>
+        <targetPath>file tp</targetPath>
+        </File>
+      <Folder>
+          <localPath>folder lp</localPath>
+        <targetPath>folder tp</targetPath>
+        </Folder>
+      <String>string</String>
+      <Int>0</Int>
+      <Real>0.1</Real>
+      <Boolean>false</Boolean>
+      <Date>2010-02-10</Date>
+      <Time>00:00:00</Time>
+      <DateTime>2010-02-10-00:00:00</DateTime>
+      <Duration>P5Y4M3DT12H25M15S</Duration>
+      </SequenceSetting>
+    <SequenceSetting>
+        <File>
+          <localPath>file lp1</localPath>
+        <targetPath>file tp1</targetPath>
+        </File>
+      <Folder>
+          <localPath>folder lp1</localPath>
+        <targetPath>folder tp1</targetPath>
+        </Folder>
+      <String>string1</String>
+      <Int>1</Int>
+      <Real>1.1</Real>
+      <Boolean>true</Boolean>
+      <Date>2009-02-01</Date>
+      <Time>01:30:15</Time>
+      <DateTime>2009-02-01-01:00:00</DateTime>
+      <Duration>PT1S</Duration>
+      </SequenceSetting>
+    <SequenceSetting>
+        <File>
+          <localPath>file lp2</localPath>
+        <targetPath>file tp2</targetPath>
+        </File>
+      <Folder>
+          <localPath>folder lp2</localPath>
+        <targetPath>folder tp2</targetPath>
+        </Folder>
+      <String>string2</String>
+      <Int>2</Int>
+      <Real>1.2</Real>
+      <Boolean>false</Boolean>
+      <Date>2009-02-02</Date>
+      <Time>02:30:15</Time>
+      <DateTime>2009-02-02-02:00:00</DateTime>
+      <Duration>PT2S</Duration>
+      </SequenceSetting>
+    </TestFeature>
+  </data>
+</configuration>

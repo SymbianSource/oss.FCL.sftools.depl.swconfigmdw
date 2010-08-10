@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <output file="time_types.txt" encoding="UTF-8">
+<template>
+Date setting:      {{ feat_tree.TimeTypesTest.DateSetting._value }}
+Time setting:      {{ feat_tree.TimeTypesTest.TimeSetting._value }}
+Date-time setting: {{ feat_tree.TimeTypesTest.DateTimeSetting._value }}
+Duration setting:  {{ feat_tree.TimeTypesTest.DurationSetting._value }}
+</template>
+    </output>
+</templateml>

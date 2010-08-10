@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/xml/exampleml/1"
+	xmlns:exampleml="http://www.example.org/xml/exampleml/1"
+	elementFormDefault="qualified">
+
+    <xs:element name="exampleml">
+        <xs:annotation>
+            <xs:documentation>
+                ExampleML implementation for demonstration/template purposes.
+            </xs:documentation>
+        </xs:annotation>
+        
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                
+                <xs:element name="output">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The output element specifies a single output file, its template (text) and encoding.
+                        </xs:documentation>
+                    </xs:annotation>
+                    
+                    <xs:complexType mixed="true">
+                        <xs:attribute name="file" type="xs:string" use="required">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Specifies the location of the output file.
+                                    ConfML setting references can be used with the ${} notation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        
+                        <xs:attribute name="encoding" type="xs:string" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Specifies the encoding of the output file, defaults to UTF-8.
+                                    ConfML setting references can be used with the ${} notation.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+        
+    </xs:element>
+    
+</xs:schema>

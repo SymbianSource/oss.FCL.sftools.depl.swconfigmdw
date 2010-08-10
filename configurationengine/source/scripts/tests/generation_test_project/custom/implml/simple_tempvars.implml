@@ -8,10 +8,10 @@
     <tempVariable ref="TempFeature.Unused"   type="boolean"  value="false"/>
     
     <!-- Modify the temporary features -->
-    <ruleml xmlns="http://www.s60.com/xml/ruleml/1">
-        <rule>True configures TempFeature.String = TempFeature.String + " and more testing"</rule>
-        <rule>True configures TempFeature.Int = TempFeature.Int + 1</rule>
-        <rule>True configures TempFeature.Real = TempFeature.Real + 0.25</rule>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>True configures ${TempFeature.String} = ${TempFeature.String} + " and more testing"</rule>
+        <rule>True configures ${TempFeature.Int} = ${TempFeature.Int} + 1</rule>
+        <rule>True configures ${TempFeature.Real} = ${TempFeature.Real} + 0.25</rule>
     </ruleml>
     
     <!-- Print out the values to a text file -->

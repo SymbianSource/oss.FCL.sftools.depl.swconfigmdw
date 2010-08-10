@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1">
+    <output file="access_context.txt" encoding="UTF-8">
+        <template>Tags: {{ gen_context.tags }}</template>
+    </output>
+</templateml>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.s60.com/xml/ruleml/3"
+	xmlns:ruleml="http://www.s60.com/xml/ruleml/3"
+	elementFormDefault="qualified">
+
+    <xs:element name="ruleml">
+        <xs:annotation>
+            <xs:documentation>
+                RuleML v3 implementation for specifying rules to execute.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="rule" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <![CDATA[
+                            <p>The rule element specifies a single rule to execute.</p><br/>
+                            
+                            <p>
+                            For example:<br/>
+                            <b>&lt;rule>${MyFeature.MySetting1} == 'test' configures ${MyFeature.MySetting2} = '1'&lt;/rule></b><br/>
+                            This would cause the value '1' to be assigned to the setting 'MyFeature.MySetting2'
+                            if the value of the setting 'MyFeature.MySetting1' is 'test'.
+                            </p><br/>
+                            
+                            <p>
+                            Arbitrary Python code can also be executed in the rule by enclosing the eval block
+                            with {% %}. For example:<br/>
+                            <b>&lt;rule>True configures ${MyFeature.MySetting} = {% get_some_value() %}&lt;/rule></b><br/>
+                            This would cause the value got from evaluating the Python function call
+                            get_some_value() to be assigned to the setting 'MyFeature.MySetting'.
+                            </p><br/>
+                            
+                            <p>
+                            Any settings referenced inside an eval block must be enclosed with ${ }
+                            to differentiate them from the Python code. For example:<br/>
+                              <b>&lt;rule>True configures ${MyFeature.MySetting} = {% get_some_value(${MyFeature.MySetting1}) %}&lt;/rule></b><br/>
+                            This would cause the value of the setting 'MyFeature.MySetting1' to be passed as a
+                            parameter to the function call.
+                            The actual feature object handled by ConE can be accessed by enclosing the setting
+                            reference with @{ }.
+                            </p><br/>                            
+                            
+                            <p>
+                            Any functions or variables (like get_some_value() in the above examples) need
+                            to be defined using eval_globals elements inside the ruleml element.
+                            </p>
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="eval_globals" type="ruleml:evalGlobalsType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An eval_globals block can be used to add Python variables
+                            or functions to the evaluation context of the rules contained
+                            within the current ruleml implementation. The Python code can be contained
+                            either directly inside the XML element or inside a file pointed by the
+                            'file' attribute.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="evalGlobalsType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="file" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Path to the file containing the Python code of the eval_globals element.
+                            Should be a path relative to the current implementation file.
+                            Specifying the 'file' attribute causes the text content of the eval_globals
+                            element to be ignored.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

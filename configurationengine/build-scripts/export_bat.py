@@ -30,13 +30,12 @@ assert os.path.exists(SCRIPTS_SOURCE_ROOT)
 assert os.path.exists(PLUGIN_SOURCE_ROOT)
 assert os.path.exists(TESTAUTOMATION_ROOT)
 
-sys.path.append(PLUGIN_SOURCE_ROOT)
-import plugin_utils
+
 
 sys.path.append(TESTAUTOMATION_ROOT)
 import testautomation
 from testautomation.copy_dir import copy_dir
-
+from testautomation import plugin_utils
 import utils
 utils.setup_logging('export_bat.log')
 
@@ -124,7 +123,7 @@ def main(argv):
     # --------------------------------------
     
     log.info("Exporting plug-in integration test files...")
-    subpaths_by_package = plugin_utils.find_plugin_package_subpaths('integration-test', PLUGIN_PACKAGE)
+    subpaths_by_package = plugin_utils.find_plugin_package_subpaths(PLUGIN_SOURCE_ROOT, 'integration-test', PLUGIN_PACKAGE)
     for package_name, tests_path in subpaths_by_package:
         log.debug("  Package: %s" % package_name)
         log.debug("  Path:    %s" % tests_path)

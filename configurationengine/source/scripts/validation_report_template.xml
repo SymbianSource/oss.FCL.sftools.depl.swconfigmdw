@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<diamonds-build>
+	<quality aspect="SW Configurability">
+		<summary message="Total Problems" value="{{ problems | length }}"/>
+		<summary message="Total Errors" value="{{ problems | filter_by_severity('error') | length }}"/>
+		<summary message="Total Warnings" value="{{ problems | filter_by_severity('warning') | length  }}"/>
+    {% for problem in problems %}
+		<message severity="{{ problem.severity }}" type="{{ problem.type }}" message="{{ problem.msg | escape}}" />
+    {% endfor %}
+	</quality> 
+</diamonds-build>

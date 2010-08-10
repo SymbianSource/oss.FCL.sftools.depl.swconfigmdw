@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="ValidationTest"  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <feature ref="ValidationTest" name="Settings for ConfML model-level validation test">
+        <setting ref="Foo" name="Foo" type="string">
+            <xs:maxLength value="3"/>
+        </setting>
+    </feature>
+    <data>
+        <ValidationTest>
+            <Foo>foobar</Foo>
+            <Bar>baz</Bar>
+        </ValidationTest>
+    </data>
+</configuration>

@@ -29,11 +29,6 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-try:
-	pkg_resources.require('ConeContentPlugin')
-except pkg_resources.DistributionNotFound:
-	import __init__
-		
 from contentplugin import contentmlparser
 
 
@@ -319,6 +314,8 @@ class TestContentOutput(unittest.TestCase):
         conout = contentmlparser.ContentOutput()
         self.assertEquals(conout.path_convert('z:\\test\\foo\\bar.txt'), 'test\\foo\\bar.txt')
         self.assertEquals(conout.path_convert('z:/test/foo/bar.txt'), 'test/foo/bar.txt')
+        self.assertEquals(conout.path_convert('/test/foo/bar.txt'), 'test/foo/bar.txt')
+        self.assertEquals(conout.path_convert('foo/bar.txt'), 'foo/bar.txt')
 
 class TestContentInput(unittest.TestCase):    
     def test_content_input_dir(self):

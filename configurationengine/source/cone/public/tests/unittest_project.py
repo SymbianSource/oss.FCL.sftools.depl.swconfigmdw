@@ -21,10 +21,7 @@ import unittest
 import string
 import sys,os,shutil
 
-import __init__
-
 from cone.public import *
-#from cone.public import stringstorage
 from cone.storage import persistentdictionary
 
 class TestProjectOpen(unittest.TestCase):    
@@ -37,7 +34,7 @@ class TestProjectOpen(unittest.TestCase):
     def test_open_project_of_non_storage(self):
         fs = ""
         try:
-            p = api.Project(fs)
+            p = api.Project("")
             self.fail("Opening on top of non storage succeeds!!")
         except exceptions.StorageException:
             self.assertTrue(True)
@@ -50,6 +47,25 @@ class TestProjectConfigurations(unittest.TestCase):
         self.prj.create_configuration("test.confml")
         self.assertTrue(self.prj.test_confml)
         self.assertEquals(self.prj.test_confml.get_path(),"test.confml")
+
+    def test_create_configuration_already_existing(self):
+        self.prj.create_configuration("test.confml")
+        try:
+            self.prj.create_configuration("test.confml")
+            self.fail("Succeeded to create already existing configuration")
+        except exceptions.AlreadyExists:
+            pass
+        try:
+            self.prj.add_configuration(api.Configuration("test.confml"))
+            self.fail("Succeeded to create already existing configuration")
+        except exceptions.AlreadyExists:
+            pass
+
+    def test_create_configuration_already_existing_with_overwrite(self):
+        self.prj.create_configuration("test.confml")
+        self.prj.create_configuration("test.confml", True)
+        self.prj.add_configuration(api.Configuration("test.confml"), True)
+
         
     def test_create_and_getconfiguration(self):
         self.prj.create_configuration("test.confml")
@@ -101,7 +117,10 @@ class TestProjectConfigurations(unittest.TestCase):
         self.prj.create_configuration("test3.confml")
         self.prj.test2_confml.create_configuration("foo/root.confml")
         conf = self.prj.test2_confml.create_configuration("fii/root.confml")
-        #self.assertEquals(conf.get_full_path(),'')
+        conf.add_configuration(api.Configuration("confml/data.confml"))
+        self.assertEquals(conf.get_full_path(),'fii/root.confml')
+        self.assertEquals(conf.get_configuration("confml/data.confml").get_path(),'confml/data.confml')
+        self.assertEquals(conf.get_configuration("confml/data.confml").get_full_path(),'fii/confml/data.confml')
         self.assertTrue(self.prj.is_configuration("test3.confml"))
         # TODO: this is not working at the moment due to performance problem in
         # Project.list_all_configurations()
@@ -110,9 +129,17 @@ class TestProjectConfigurations(unittest.TestCase):
         self.assertEquals(self.prj.list_configurations(), ["test1.confml",
                                                            "test2.confml",
                                                            "test3.confml"])
-        
+        self.assertEquals(self.prj.list_all_configurations(), ['test1.confml', 
+                                                               'test2.confml', 
+                                                               'foo/root.confml', 
+                                                               'fii/root.confml', 
+                                                               'fii/confml/data.confml', 
+                                                               'test3.confml'])
         self.assertEquals(self.prj.test2_confml.list_configurations(), ["foo/root.confml",
                                                                  "fii/root.confml",])
+        self.assertEquals(self.prj.test2_confml.list_all_configurations(), ["foo/root.confml",
+                                                                            "fii/root.confml",
+                                                                            "fii/confml/data.confml"])
 
     def test_create_multi_and_add_subconfigurations_and_features(self):
         self.prj.create_configuration("test1.confml")
@@ -132,7 +159,6 @@ class TestProjectConfigurations(unittest.TestCase):
                                                            'testfea3', 
                                                            'testfea3.testfea31', 
                                                            'testfea4'])
-
 
 class TestProjectConfigurationsStorage(unittest.TestCase):    
     def test_create_configuration_and_store_storage(self):
@@ -242,6 +268,7 @@ class TestProjectConfigurationsStorage(unittest.TestCase):
         prj.test_confml.include_configuration("foo/foo.confml")
         prj.test_confml.include_configuration("s60/root.confml")
         prj.test_confml.foo__foo_confml.create_configuration("data.confml")
+        prj.test_confml.foo__foo_confml.add_configuration(api.Configuration("confml/test.confml"))
         foofea = api.Feature("foofea")
         foofea.add_feature(api.Feature("foofea_setting1"))
         foofea.add_feature(api.Feature("foofea_setting2"))
@@ -255,13 +282,19 @@ class TestProjectConfigurationsStorage(unittest.TestCase):
         res = layer.content_folder().open_resource("foobar.txt","w")
         res.write("foo bar")
         res.close()
-        self.assertEquals(layer.list_confml(), ['confml/component.confml', 'confml/component1.confml'])
+        self.assertEquals(layer.list_confml(), ['confml/component.confml', 'confml/component1.confml', 'confml/test.confml'])
         self.assertEquals(layer.list_content(), ['content/foobar.txt'])
-        self.assertEquals(layer.list_all_resources(), ['confml/component.confml', 'confml/component1.confml', 'content/foobar.txt'])
-        self.assertEquals(foo_config.list_resources(), ['foo/foo.confml','foo/data.confml', 'foo/confml/component.confml', 'foo/confml/component1.confml', 'foo/content/foobar.txt'])
+        self.assertEquals(layer.list_all_resources(), ['confml/component.confml', 'confml/component1.confml', 'confml/test.confml', 'content/foobar.txt'])
+        self.assertEquals(foo_config.list_resources(), ['foo/foo.confml',
+                                                        'foo/data.confml', 
+                                                        'foo/confml/test.confml', 
+                                                        'foo/confml/component.confml', 
+                                                        'foo/confml/component1.confml', 
+                                                        'foo/content/foobar.txt'])
         self.assertEquals(prj.test_confml.list_resources(), ['test.confml',
                                                       'foo/foo.confml',
                                                       'foo/data.confml',
+                                                      'foo/confml/test.confml',
                                                       's60/root.confml',
                                                       'foo/confml/component.confml', 
                                                       'foo/confml/component1.confml', 
@@ -285,7 +318,6 @@ class TestProjectConfigurationsStorage(unittest.TestCase):
         self.assertEquals(prj.test_confml.layered_content().get_values('foobar.txt'), ['foo/content/foobar.txt', 's60/content/foobar.txt'])
         prj.close()
         shutil.rmtree("temp")
-
 
 
 if __name__ == '__main__':

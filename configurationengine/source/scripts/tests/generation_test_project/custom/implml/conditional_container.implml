@@ -17,7 +17,7 @@ TempFeature.String:  {{ feat_tree.TempFeature.String._value }}
         </output>
         </templateml>
     </container>
-    
+
     <container condition="${Condition.String}" value="nomatch">
         <!-- Print out the values to a text file -->
         <templateml xmlns="http://www.s60.com/xml/templateml/1">

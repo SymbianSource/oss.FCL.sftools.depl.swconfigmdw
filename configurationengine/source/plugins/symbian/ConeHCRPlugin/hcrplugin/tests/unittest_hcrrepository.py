@@ -15,13 +15,9 @@
 #
 
 import unittest
-import os, shutil
-import sys
-
-import __init__
+import os
 
 from hcrplugin.hcrrepository import HcrRepository, HcrRecord
-from cone.public import api
 
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))

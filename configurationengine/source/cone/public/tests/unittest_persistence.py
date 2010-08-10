@@ -20,7 +20,6 @@ Test the configuration
 import unittest
 import string
 import sys,os
-import __init__
 
 from cone.public import persistence, exceptions
 

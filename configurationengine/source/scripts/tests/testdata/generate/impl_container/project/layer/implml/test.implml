@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <phase name="normal"/>
+    
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>${TestFeature.Trigger} configures ${TestFeature.Target} = 'set from rule'</rule>
+    </ruleml>
+    
+    <templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <output file="test.txt" encoding="UTF-8">
+            <template>TestFeature.Target: {{ feat_tree.TestFeature.Target._value }}</template>
+        </output>
+    </templateml>
+</container>

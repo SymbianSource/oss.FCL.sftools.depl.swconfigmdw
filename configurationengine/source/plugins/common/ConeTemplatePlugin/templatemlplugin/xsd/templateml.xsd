@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:templ="http://www.s60.com/xml/templateml/1"
+	targetNamespace="http://www.s60.com/xml/templateml/1"
+	elementFormDefault="qualified">
+
+	 <xs:import namespace="http://www.w3.org/2001/XInclude" schemaLocation="XInclude.xsd"/>
+    
+    <xs:simpleType name="boolType">
+		<xs:restriction base="xs:string">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+        </xs:restriction>
+	</xs:simpleType>
+    
+    <xs:complexType name="tagType">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+    
+	<xs:complexType name="templateType" mixed="true">
+		<xs:sequence>
+			<xs:element ref="xi:include" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>	
+        <xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Path to the file where the template's text is defined.
+                    Should be relative to the current implementation file.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+	</xs:complexType>
+
+		
+	<xs:complexType name="outputType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="template" type="templ:templateType">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[
+                        Specifies the template used to generate the current output file.<br/>
+                        <br/>
+                        The template text can either be specified directly in the element, or
+                        in a file specified by the 'file' attribute.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="filter" type="templ:filterType">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[
+                        Defines a filter usable in the Jinja template of the current output file.<br/>
+                        <br/>
+                        The filter is defined as a Python lambda function either directly in the element, or
+                        in a file specified by the 'file' attribute.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+		</xs:choice>
+		<xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    The name of the output file.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+		<xs:attribute name="dir" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    The directory where the output file is generated.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    The ConfML setting reference from where the output file's path and name are
+                    taken from.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+		<xs:attribute name="encoding" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Defines the encoding of the output file. Can be any of the encodings supported
+                    by the Python codecs module (see http://docs.python.org/library/codecs.html#standard-encodings).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="bom" type="templ:boolType" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <![CDATA[
+                    Defines the BOM scheme for Unicode encodings.<br/>
+                    <br/>
+                    If set to 'true', a BOM will always be written to the output file,
+                    if to 'false', it will never be. If the bom attribute is not defined
+                    at all, the BOM scheme is left up to the used encoding, e.g. UTF-16
+                    writes the BOM, but UTF-16-BE doesn't.<br/>
+                    <br/>
+                    For encodings other than Unicode, this attribute does nothing.
+                    ]]>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="filterType" mixed="true">
+		<xs:sequence>
+			<xs:element ref="xi:include" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:NCName">
+            <xs:annotation>
+                <xs:documentation>
+                    The name of the filter, used to reference it from the Jinja template.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Path to the file where the filter's Python code is defined.
+                    Should be relative to the current implementation file.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+	</xs:complexType>
+	
+    <xs:element name="templateml">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="desc" type="xs:string"/>
+                <xs:element name="tag" type="templ:tagType"/>
+                <xs:element name="output" type="templ:outputType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Defines an output file, its properties and the template used to generate it.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="filter" type="templ:filterType">
+                    <xs:annotation>
+                        <xs:documentation><![CDATA[
+                            Defines a filter usable in any template in the current TemplateML implementation.<br/>
+                            <br/>
+                            The filter is defined as a Python lambda function either directly in the element, or
+                            in a file referenced by the 'file' attribute.
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

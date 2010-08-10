@@ -1,0 +1,19 @@
+<configuration name="view_tests-cpf_root_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xi:include href="unit-test/root.confml" />
+  <xi:include href="customisation/root_standard.confml" />
+<meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+    <version>234</version>
+  <release>031.001</release>
+  <platform>S60 / 3.2</platform>
+  <product>tiger</product>
+  <date>2009-11-17</date>
+  <cv:configuration-property name="coreplat_name" value="ncp71" />
+  <cv:configuration-property name="coreplat_version" value="71" />
+  <cv:configuration-property name="s60_version" value="32" />
+  <cv:configuration-property name="sos_version" value="9.3" />
+  <cv:configuration-property name="product_name" value="tiger" />
+  <cv:configuration-property name="product_type" value="tiger-576" />
+  <cv:configuration-property name="sw_version" value="031.001" />
+  <cv:configuration-property name="based_on_ctr" value="0589266" />
+  </meta>
+</configuration>

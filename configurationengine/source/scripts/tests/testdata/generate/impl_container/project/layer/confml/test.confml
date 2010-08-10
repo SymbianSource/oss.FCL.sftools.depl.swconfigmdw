@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Test feature">
+  <feature ref="TestFeature" name="Test feature">
+    <setting ref="Trigger" name="String setting (trigger)" type="string"/>
+    <setting ref="Target" name="String setting (target)" type="string"/>
+  </feature>
+  
+  <data>
+    <TestFeature>
+      <Trigger>foo</Trigger>
+      <Target>bar</Target>
+    </TestFeature>
+  </data>
+</configuration>

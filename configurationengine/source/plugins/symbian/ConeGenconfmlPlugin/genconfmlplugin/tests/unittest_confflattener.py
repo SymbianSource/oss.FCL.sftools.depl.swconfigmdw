@@ -14,14 +14,12 @@
 # Description: 
 #
 
-import unittest, os, shutil
+import unittest, os
 import copy
 
-import __init__	
 from genconfmlplugin import confflattener
-from cone.public import exceptions,plugin,api
+from cone.public import api
 from cone.storage import filestorage
-from cone.confml import implml
 
 # Hardcoded value of testdata folder that must be under the current working dir
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))

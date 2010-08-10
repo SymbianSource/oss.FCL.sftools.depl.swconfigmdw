@@ -1,0 +1,62 @@
+<configuration name="Arithmetic operation test" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature name="Test settings for comparison operators" ref="CompOperTest">
+    <setting name="Value zero" ref="Zero" type="int" />
+    <setting name="Value one" ref="One" type="int" />
+    <setting name="Value two" ref="Two" type="int" />
+    
+    <setting name="Literals result" ref="LiteralsResult1" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult2" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult3" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult4" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult5" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult6" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult7" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult8" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult9" type="boolean" />
+    <setting name="Literals result" ref="LiteralsResult10" type="boolean" />
+    
+    <setting name="Refs result" ref="RefsResult1" type="boolean" />
+    <setting name="Refs result" ref="RefsResult2" type="boolean" />
+    <setting name="Refs result" ref="RefsResult3" type="boolean" />
+    <setting name="Refs result" ref="RefsResult4" type="boolean" />
+    <setting name="Refs result" ref="RefsResult5" type="boolean" />
+    <setting name="Refs result" ref="RefsResult6" type="boolean" />
+    <setting name="Refs result" ref="RefsResult7" type="boolean" />
+    <setting name="Refs result" ref="RefsResult8" type="boolean" />
+    <setting name="Refs result" ref="RefsResult9" type="boolean" />
+    <setting name="Refs result" ref="RefsResult10" type="boolean" />
+
+
+  </feature>
+  
+  <data>
+    <CompOperTest>
+      <Zero>0</Zero>
+      <One>1</One>
+      <Two>2</Two>
+      
+      <LiteralsResult1>0</LiteralsResult1>
+      <LiteralsResult2>0</LiteralsResult2>
+      <LiteralsResult3>0</LiteralsResult3>
+      <LiteralsResult4>0</LiteralsResult4>
+      <LiteralsResult5>0</LiteralsResult5>
+      <LiteralsResult6>0</LiteralsResult6>
+      <LiteralsResult7>0</LiteralsResult7>
+      <LiteralsResult8>0</LiteralsResult8>
+      <LiteralsResult9>0</LiteralsResult9>
+      <LiteralsResult10>0</LiteralsResult10>
+      
+      <RefsResult1>0</RefsResult1>
+      <RefsResult2>0</RefsResult2>
+      <RefsResult3>0</RefsResult3>
+      <RefsResult4>0</RefsResult4>
+      <RefsResult5>0</RefsResult5>
+      <RefsResult6>0</RefsResult6>
+      <RefsResult7>0</RefsResult7>
+      <RefsResult8>0</RefsResult8>
+      <RefsResult9>0</RefsResult9>
+      <RefsResult10>0</RefsResult10>
+      
+    </CompOperTest>
+  </data>
+</configuration>

@@ -2,11 +2,13 @@
   <xi:include href="platforms/platform1/root.confml" />
 <meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
     <cv:configuration-property name="platform_name" value="plat1" />
-  <version>Version1</version>
+  <version>001</version>
   <platform>Platform1</platform>
   <date>Date1</date>
-  <release>Release1</release>
+  <release>001.009</release>
   <editor>Editor1</editor>
+  <cv:configuration-property name="sw_version" value="001.009" />
+  <cv:configuration-property name="sos_version" value="123.456" />
   </meta>
 <desc>Description1</desc>
 </configuration>

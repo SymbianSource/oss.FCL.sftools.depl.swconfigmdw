@@ -20,7 +20,6 @@ Test Respource
 import unittest
 import string
 import sys,os
-import __init__
 
 from cone.public.api import Resource
 from cone.storage.stringstorage import StringResource

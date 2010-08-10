@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/2">
+    <tag name="target" value="uda"/>
+    <content xmlns="http://www.s60.com/xml/content/2">
+	  <output dir="content/layer10_output" flatten="true">
+	    <input file="layer10/foo.txt" />
+	  </output>
+	</content>
+</content>

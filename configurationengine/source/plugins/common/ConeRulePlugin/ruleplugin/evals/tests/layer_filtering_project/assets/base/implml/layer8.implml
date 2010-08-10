@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1"
+           condition="${TestFeature.EnableLayer8Impl}">
+    <!-- The ref used in this implementation has been changed, but it should not
+         trigger layer_used(), because the condition evaluates to False -->
+	<templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <tag name="target" value="uda"/>
+        <output file="layer8.txt" encoding="UTF-8">
+            <template>Value: {{ feat_tree.TestFeature.Layer8Setting._value }}</template>
+        </output>
+    </templateml>
+</container>

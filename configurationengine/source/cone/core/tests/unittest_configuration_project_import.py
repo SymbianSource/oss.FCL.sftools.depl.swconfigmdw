@@ -32,7 +32,6 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
             
-import __init__
 from testautomation import unzip_file
 
 from cone.public import exceptions, utils, api
@@ -115,7 +114,7 @@ class TestConeProjectImport(unittest.TestCase):
         p2.import_configuration(conf)
         p2.close()
         self.assertTrue(os.path.exists("temp/imported"))
-        files = fs2.list_resources("/",True)
+        files = fs2.list_resources("/",recurse=True)
         
         conf_files = utils.distinct_array(conf_files)
         conf_files.append('.metadata')
@@ -136,7 +135,7 @@ class TestConeProjectImport(unittest.TestCase):
         p.close()
         self.assertTrue(os.path.exists(imported_folder))
         store = api.Storage.open(imported_folder)
-        files = store.list_resources('',True)
+        files = store.list_resources('',recurse=True)
         conf_files.sort()
         files.sort()
         self.assertEquals(conf_files,files)

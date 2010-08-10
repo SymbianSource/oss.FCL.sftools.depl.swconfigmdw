@@ -23,7 +23,6 @@ import string
 import sys
 import os
 import shutil
-import __init__
 
 from cone.public import api, exceptions, persistence
 from cone.storage import filestorage

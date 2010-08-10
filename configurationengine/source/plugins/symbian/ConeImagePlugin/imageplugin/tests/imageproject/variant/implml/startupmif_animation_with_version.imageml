@@ -1,0 +1,16 @@
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <output file="startup_mif.mif" tool="../bin/mifconv" extraparams="/V3">
+        <input dir="svg_files">
+            <include pattern="svg$"/>
+        </input>
+    </output>
+    <output file="startup_mif.mif" tool="../bin/mifconv" extraparams="${StartupSettings.PluginTimeout}">
+        <input dir="svg_files">
+            <include pattern="svg$"/>
+        </input>
+    </output>
+    <output file="optional1_mbm.mbm" palette='../bin/ThirdPartyBitmap.pal' tool='../bin/bmconv' extraparams="${StartupSettings.PluginTimeout}">
+        <input file="${OptionalTest.EmptyString}" depth="c24"/>
+        <input file="${OptionalTest.EmptyString}" depth="1" optional="true"/>
+    </output>
+</imageml>

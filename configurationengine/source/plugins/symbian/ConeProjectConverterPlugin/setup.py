@@ -22,6 +22,7 @@ setup(
     name = "projectconvertplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'projectconvertplugin': ['xsd/*.xsd']},
     test_suite = "projectconvertplugin.tests.collect_suite",
 
     # metadata for upload to PyPI

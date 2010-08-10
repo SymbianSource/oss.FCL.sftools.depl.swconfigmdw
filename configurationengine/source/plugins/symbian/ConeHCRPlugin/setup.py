@@ -22,6 +22,7 @@ setup(
     name = "conehcrplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'hcrplugin': ['xsd/*.xsd']},
     author = "",
     author_email = "",
     description = "Configuration Engine Hardware configuration repository generation",

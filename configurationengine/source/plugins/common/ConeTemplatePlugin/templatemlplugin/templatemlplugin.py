@@ -19,11 +19,10 @@ Template plugin for ConE that handles templateml files. Utilizes Jinja template 
 
 import re
 import os
-import sys
 import logging
 import codecs
-import xml.parsers.expat
-from jinja2 import Environment, PackageLoader, FileSystemLoader, Template, DictLoader
+import pkg_resources
+from jinja2 import Environment, DictLoader
 import traceback
 try:
     from cElementTree import ElementTree
@@ -47,10 +46,8 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementInclude
 
-import __init__
 
-from cone.public import exceptions,plugin,utils,api 
-from cone.confml import persistentconfml
+from cone.public import exceptions,plugin,utils 
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -62,8 +59,7 @@ class TemplatemlImpl(plugin.ImplBase):
     Implementation class of template plugin.
     """
     
-    IMPL_TYPE_ID = "templateml" 
-    
+    IMPL_TYPE_ID = "templateml"
     
     def __init__(self,ref,configuration, reader=None):
         """
@@ -75,24 +71,35 @@ class TemplatemlImpl(plugin.ImplBase):
         self.reader = reader
         if self.reader and self.reader.tags:
             self.set_tags(self.reader.tags)
+    
+    def __getstate__(self):
+        state = super(TemplatemlImpl, self).__getstate__()
+        state['reader'] = self.reader
+        return state
 
-    def get_context(self):
-        if TemplatemlImpl.context == None:
-            TemplatemlImpl.context = self.create_dict()
-        
-        return TemplatemlImpl.context
+    def get_context(self, generation_context):
+        ddict = generation_context.impl_data_dict 
+        if ddict.get('templateml_context', None) is None:
+            ddict['templateml_context'] = self.create_dict()
+        return ddict['templateml_context']
     
     def generate(self, context=None):
         """
         Generate the given implementation.
         """
-
-        self.create_output()
+        self.context = context
+        self.logger.debug('Generating from %s:%s' % (self.ref, self.lineno))
+        self.create_output(context)
         return 
     
-    def create_output(self, layers=None):
-        generator = Generator(self.reader.outputs, self.reader.filters, self.get_context(), self.configuration)
-        generator.generate(self.output, self.ref)
+    def create_output(self, generation_context):
+        templateml_context = self.get_context(generation_context)
+        templateml_context['gen_context'] = generation_context
+        if not generation_context.configuration:
+            generation_context.configuration = self.configuration
+        self.reader.expand_output_refs_by_default_view()
+        generator = Generator(self.reader.outputs, self.reader.filters, templateml_context, self)
+        generator.generate(generation_context, self.ref)
         return
     
     def get_refs(self):
@@ -100,6 +107,22 @@ class TemplatemlImpl(plugin.ImplBase):
         for output in self.reader.outputs:
             template = output.template.template
             refs.extend(self._extract_refs_from_template(template))
+            refs_oa = self._extract_refs_from_output_attribs(output)
+            for r in refs_oa:
+                if refs.count(r) < 1:
+                    refs.append(r)
+        return refs
+    
+    def _extract_refs_from_output_attribs(self, output):
+        refs = [] 
+        pattern = re.compile(r'\$\{(.*)\}', re.UNICODE)
+        for key, value in vars(output).iteritems():
+            m = pattern.search(str(value))
+            if m:
+                ref = m.group(1)
+                refs.append(ref)
+            if key == 'ref':
+                refs.append(value)
         return refs
     
     @classmethod
@@ -132,20 +155,19 @@ class TemplatemlImpl(plugin.ImplBase):
         for output in self.reader.outputs:
             if re.search("feat_list.*", output.template.template) != None:
                 return True
-        
-        refs_in_templates = self.get_refs()
-            
-        for ref in refs:
-            if ref in refs_in_templates:
-                return True
-        return False
+        return plugin.uses_ref(refs, self.get_refs())
     
     
     def list_output_files(self):
         """ Return a list of output files as an array. """
         result = []
         for output in self.reader.outputs:
-            result.append(os.path.normpath(os.path.join(self.output, output.path, output.filename)))
+            filename = ""
+            if output.fearef != None:
+                filename = self.configuration.get_default_view().get_feature(output.fearef).value
+            else:
+                filename = output.filename
+            result.append(os.path.normpath(os.path.join(self.output, output.path, filename)))
         return result
     
     def create_dict(self):
@@ -158,7 +180,7 @@ class TemplatemlImpl(plugin.ImplBase):
         if self.configuration:
             dview = self.configuration.get_default_view()
             feat_list = []
-            feat_tree = {}
+            feat_tree = FeatureDictProxy(None)
             
             def add_feature(feature, feature_dict):
                 fea_dict = FeatureDictProxy(feature)
@@ -202,7 +224,10 @@ class TemplatemlImplReader(plugin.ReaderBase):
     Parses a single templateml file
     """ 
     NAMESPACE = 'http://www.s60.com/xml/templateml/1'
+    NAMESPACE_ID = 'templateml'
+    ROOT_ELEMENT_NAME = 'templateml'
     FILE_EXTENSIONS = ['templateml']
+    NEWLINE_WIN_PARSE_OPTIONS = ['win', 'windows', 'dos', 'symbian', 'symbianos', 'cr+lf', 'crlf']
     
     def __init__(self, resource_ref=None, configuration=None):
         self.desc = None
@@ -219,6 +244,10 @@ class TemplatemlImplReader(plugin.ReaderBase):
         reader = TemplatemlImplReader(resource_ref, configuration)
         reader.from_elementtree(etree)
         return TemplatemlImpl(resource_ref, configuration, reader)
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('templatemlplugin', 'xsd/templateml.xsd')
     
     def fromstring(self, xml_string):
         etree = ElementTree.fromstring(xml_string)
@@ -289,6 +318,7 @@ class TemplatemlImplReader(plugin.ReaderBase):
                     logging.getLogger('cone.templateml').warning("In template element file attribute and text defined. Using template found from file attribute.")
                 template_text = _read_relative_file(self.configuration, file, self.resource_ref)
                 tempfile.set_template(template_text)
+        
         return tempfile
     
     def parse_outputs(self, etree):
@@ -297,51 +327,73 @@ class TemplatemlImplReader(plugin.ReaderBase):
         for output_elem in output_elems:
             if output_elem != None:
                 outputfile = OutputFile()
+                outputfile.set_output_elem(output_elem)
                 if output_elem.get('encoding') != None:
                     encoding = output_elem.get('encoding')
-                    # Check the encoding
-                    try:
-                        codecs.lookup(encoding)
-                    except LookupError:
-                        raise exceptions.ParseError("Invalid output encoding: %s" % encoding)
-                    
-                    if self.configuration != None:
-                        encoding = utils.expand_refs_by_default_view(encoding, self.configuration.get_default_view())
                     outputfile.set_encoding(encoding)
                 if output_elem.get('file') != None:
                     file = output_elem.get('file')
-                    
-                    if self.configuration != None:
-                        file = utils.expand_refs_by_default_view(file, self.configuration.get_default_view())
                     outputfile.set_filename(file)
                 if output_elem.get('dir') != None:
                     dir = output_elem.get('dir')
-                    if self.configuration != None:
-                        dir = utils.expand_refs_by_default_view(dir, self.configuration.get_default_view())
                     outputfile.set_path(dir)
                 if output_elem.get('ref'):
                     # Fetch the output value from a configuration reference
-                    fea = self.configuration.get_default_view().get_feature(output_elem.get('ref'))
-                    outputfile.set_filename(fea.value) 
+                    outputfile.set_fearef(output_elem.get('ref'))
                 if output_elem.get('bom'):
-                    outputfile.bom = output_elem.get('bom').lower() in ('1', 'true', 't', 'yes', 'y')
+                    outputfile.set_bom(output_elem.get('bom'))
+                if output_elem.get('newline', ''):
+                    outputfile.set_newline(output_elem.get('newline', ''))
+                
                 outputfile.set_template(self.parse_template(output_elem))
                 outputfile.set_filters(self.parse_filters(output_elem))
                 outputs.append(outputfile)
+                            
         return outputs
+
+    def expand_output_refs_by_default_view(self):
+        for output in self.outputs:     
+            if output.encoding:
+                if self.configuration != None:
+                    output.set_encoding(utils.expand_refs_by_default_view(output.encoding, self.configuration.get_default_view()))
+                try:
+                    codecs.lookup(output.encoding)
+                except LookupError:
+                    raise exceptions.ParseError("Invalid output encoding: %s" % output.encoding)
+            if output.filename:
+                if self.configuration != None:
+                    output.set_filename(utils.expand_refs_by_default_view(output.filename, self.configuration.get_default_view()))
+            if output.path:
+                if self.configuration != None:
+                    output.set_path(utils.expand_refs_by_default_view(output.path, self.configuration.get_default_view()))
+            if output.newline:
+                newline = output.newline
+                if self.configuration != None:
+                    newline = utils.expand_refs_by_default_view(output.newline, self.configuration.get_default_view())
+                if newline.lower() in self.NEWLINE_WIN_PARSE_OPTIONS:
+                    output.set_newline(OutputFile.NEWLINE_WIN)
+            if output.bom:
+                bom = output.bom
+                if self.configuration != None:
+                    bom = utils.expand_refs_by_default_view(output.bom, self.configuration.get_default_view())
+                output.bom = bom.lower() in ('1', 'true', 't', 'yes', 'y')
+            if output.fearef:
+                if self.configuration != None:
+                    fea = self.configuration.get_default_view().get_feature(output.fearef)
+                    output.set_filename(fea.value)
 
 class Generator(object):
     """
     Class that generates
     """
     
-    def __init__(self, outputs, filters, context, configuration=None):
+    def __init__(self, outputs, filters, context, implementation=None):
         self.outputs = outputs
         self.filters = filters
         self.context = context
-        self.configuration = configuration
+        self.implementation = implementation
     
-    def generate(self, output_path, ref):
+    def generate(self, generation_context, ref):
         """ 
         Generates output based on templates 
         """
@@ -349,35 +401,37 @@ class Generator(object):
         
             for output in self.outputs:
                 try:
-                    logging.getLogger('cone.templateml').debug(output)
-                    out_path = os.path.abspath(os.path.join(output_path, output.path))
-                    if out_path != '':
-                        if not os.path.exists(out_path):
-                            os.makedirs(out_path)
+                    out_path = output.path
+                    out_filepath = os.path.join(out_path, output.filename)
+                    logging.getLogger('cone.templateml').debug("Output file '%s', encoding '%s'" % (out_filepath, output.encoding))
                     
-                    out_file = open(os.path.join(out_path, output.filename), 'wb')
+                    out_file = generation_context.create_file(out_filepath, implementation=self.implementation)
                     
                     if output.template.path:
-                        output.template.template = _read_relative_file(self.configuration, output.template.path, ref)
+                        output.template.template = _read_relative_file(generation_context.configuration, output.template.path, ref)
                     
                     dict_loader = DictLoader({'template': output.template.template})
-                    env = Environment(loader=dict_loader)
+                    
+                    if output.newline == OutputFile.NEWLINE_WIN:
+                        env = Environment(loader=dict_loader, newline_sequence='\r\n')
+                    else:
+                        env = Environment(loader=dict_loader)
 
                     # Common filters
                     for filter in self.filters:
                         
                         if filter.path:
-                            filter.code = _read_relative_file(self.configuration, filter.path, ref)
+                            filter.code = _read_relative_file(generation_context.configuration, filter.path, ref)
                         
                         if not filter.code:
                             logging.getLogger('cone.templateml').warning("Skipping empty filter definition.")
                         else:
-                            env.filters[str(filter.name)] = eval(filter.code)
+                            env.filters[str(filter.name)] = eval(filter.code.replace('\r', ''))
                     
                     # Output file specific filters
                     for filter in output.filters:
                         if filter.path:
-                           filter.code = _read_relative_file(self.configuration, filter.path, ref)
+                            filter.code = _read_relative_file(generation_context.configuration, filter.path, ref)
                         
                         if not filter.code:
                             logging.getLogger('cone.templateml').warning("Skipping empty filter definition.")
@@ -391,7 +445,9 @@ class Generator(object):
                     out_file.close()
                     
                 except Exception, e:
-                    logging.getLogger('cone.templateml').error('Failed to generate template: %s %s\n%s' % (type(e), e, traceback.format_exc()) )
+                    utils.log_exception(
+                        logging.getLogger('cone.templateml'),
+                        '%r: Failed to generate output: %s: %s' % (self.implementation, type(e).__name__, e))
         else:
             logging.getLogger('cone.templateml').info('No (valid) templates found.')
     
@@ -426,6 +482,9 @@ class Generator(object):
         
 
 class OutputFile(object):
+    NEWLINE_UNIX = "unix"
+    NEWLINE_WIN = "win" 
+    
     def __init__(self):
         self.filename = ''
         self.path = ''
@@ -433,6 +492,12 @@ class OutputFile(object):
         self.template = TempFile()
         self.filters = []
         self.bom = None
+        self.newline = self.NEWLINE_UNIX
+        self.fearef = None
+        self.output_elem = None
+
+    def set_newline(self, newline):
+        self.newline = newline
 
     def set_filename(self, filename):
         self.filename = filename
@@ -447,14 +512,24 @@ class OutputFile(object):
         self.template = template
 
     def add_filter(self, filter):
-        self.filters.append(filters)
+        self.filters.append(filter)
     
     def set_filters(self, filters):
         self.filters = filters
     
+    def set_bom(self, bom):
+        self.bom = bom
+        
+    def set_fearef(self, ref):
+        self.fearef = ref
+        
+    def set_output_elem(self, output_elem):
+        self.output_elem = output_elem
+    
     def __eq__(self, other):
-        if (self.template == other.template and self.encoding == other.encoding and self.path == other.path and self.filename == other.filename and self.filters == other.filters):
-            return True
+        if other:
+            if (self.template == other.template and self.newline == other.newline and self.encoding == other.encoding and self.path == other.path and self.filename == other.filename and self.filters == other.filters):
+                return True
         return False
     
     def __repr__(self):
@@ -483,16 +558,13 @@ class TempFile(object):
         self.filters.append(Filter(name, code))
         
     def __eq__(self, other):
-        if self.template == other.template and self.filters == other.filters and self.extensions == other.extensions and self.path == other.path:
-            return True
+        if other:
+            if self.template == other.template and self.filters == other.filters and self.extensions == other.extensions and self.path == other.path:
+                return True
         return False
+    
         
 class Filter(object):
-    def __init__(self, name, code):
-        self.name = name
-        self.code = code
-        self.path = None
-    
     def __init__(self):
         self.name = None
         self.code = None
@@ -522,14 +594,15 @@ class FeatureDictProxy(object):
         self._children = {}
     
     def _get_dict(self):
-        result = {
-            '_name'        : self._feature.name,
-            '_namespace'   : self._feature.namespace,
-            '_value'       : self._feature.get_value(),
-            '_fqr'         : self._feature.fqr,
-            '_type'        : self._feature.type}
-        for ref, obj in self._children.iteritems():
-            result[ref] = obj
+        result = {}
+        if self._feature is not None:
+            result.update({
+                '_name'        : self._feature.name,
+                '_namespace'   : self._feature.namespace,
+                '_value'       : self._feature.get_value(),
+                '_fqr'         : self._feature.fqr,
+                '_type'        : self._feature.type})
+        result.update(self._children)
         return result
     
     def items(self):
@@ -539,12 +612,21 @@ class FeatureDictProxy(object):
         return self._get_dict().iteritems()
     
     def __getitem__(self, name):
-        if name == '_name':         return self._feature.name        
-        elif name == '_namespace':  return self._feature.namespace
-        elif name == '_value':      return self._feature.get_value()
-        elif name == '_fqr':        return self._feature.fqr
-        elif name == '_type':       return self._feature.type
-        else:                       return self._children[name]
+        if self._feature is not None:
+            if name == '_name':         return self._feature.name
+            elif name == '_namespace':  return self._feature.namespace
+            elif name == '_value':      return self._feature.get_value()
+            elif name == '_fqr':        return self._feature.fqr
+            elif name == '_type':       return self._feature.type
+        
+        try:
+            return self._children[name]
+        except KeyError:
+            if self._feature:
+                msg = "Feature '%s.%s' not found" % (self._feature.fqr, name)
+            else:
+                msg = "Feature '%s' not found" % name
+            raise exceptions.NotFound(msg)
     
     def __setitem__(self, name, value):
         self._children[name] = value

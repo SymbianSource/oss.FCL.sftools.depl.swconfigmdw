@@ -17,4 +17,3 @@ import os, sys
 
 print "Hello"
 print "Cmd line args: %r" % sys.argv[1:]
-print "Env: %r" % os.environ

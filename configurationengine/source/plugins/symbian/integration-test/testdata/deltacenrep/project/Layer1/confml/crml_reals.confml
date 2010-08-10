@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="CrmlReals" version="1">
+  <feature ref="CrmlReals" name="Settings with CRML real implementations">
+    <setting ref="RealSetting" name="Real setting" type="real"/>
+    <setting ref="RealSetting2" name="Real setting 2" type="real"/>
+    <setting ref="RealSetting3" name="Real setting 3" type="real"/>
+    <setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <desc>A selection setting</desc>
+      <option name="Option0" value="0.5"/>
+      <option name="Option1" value="1.5"/>
+      <option name="Option2" value="2.5"/>
+      <option name="Option3" value="3.5"/>
+      <option name="Option4" value="4.5"/>
+    </setting>
+  </feature>
+  <data>
+    <CrmlReals>
+      <RealSetting>1.2345</RealSetting>
+      <RealSetting2>0.0000</RealSetting2>
+      <RealSetting3>0</RealSetting3>
+      <SelectionSetting>1.5</SelectionSetting>
+    </CrmlReals>
+  </data>
+</configuration>

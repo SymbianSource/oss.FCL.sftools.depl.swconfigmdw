@@ -21,6 +21,7 @@ import logging
 import xml.parsers.expat
 import unzip
 import shutil
+import pkg_resources
 
 try:
     from cElementTree import ElementTree
@@ -84,13 +85,13 @@ class ThemeImpl(plugin.ImplBase):
         plugin.ImplBase.__init__(self,ref,configuration)
         self.logger = logging.getLogger('cone.thememl')
         
-    def build(self):
+    def build(self, context):
         """
         Building process of themes
         """
         # Get absolute path so that copying works correctly
         # despite working directory changing
-        abs_output = os.path.abspath(os.path.join(self.output, "content"))
+        abs_output = os.path.abspath(os.path.join(context.output, self.output, "content"))
         
         # get *.tpf files from the configuration
         list_tpf = self.list_tpf_files(self.list_active_theme, self.list_theme_dir)
@@ -172,8 +173,15 @@ class ThemeImpl(plugin.ImplBase):
         """
         Generate the given implementation.
         """
-        self.parse_impl()
-        self.build()
+        # Make sure autoconfig is the last layer, since theme conversion
+        # may change the values of some settings
+        autoconfig = plugin.get_autoconfig(self.configuration)
+        
+        self.build(context)
+        
+        # Add changed refs if necessary
+        if context:
+            context.add_changed_refs(autoconfig.list_leaf_datas())
         
         return 
     
@@ -191,24 +199,6 @@ class ThemeImpl(plugin.ImplBase):
         Otherwise return False.
         """
         return None
-
-    def parse_impl(self):
-        if self.configuration:
-            resource =self.configuration.get_resource(self.ref)
-            reader = ThemeImplReader()
-            try:
-                self.logger.info('Parses %s' % self.ref)
-                reader.fromstring(resource.read())
-                self.carbide = reader.carbide
-            except (SyntaxError),e:
-                logging.getLogger('cone.thememl(%s)' % resource.get_path()).error('Invalid xml in layer root file. Exception: %s' % (e))
-                raise exceptions.ParseError('Invalid xml in layer root file (%s). Exception: %s' % (resource.get_path(),e))
-            self.list_theme_dir=reader.list_theme_dir
-            self.list_active_theme=reader.list_active_theme
-            self.theme_version = reader.theme_version
-            resource.close()
-
-        return 
     
     def list_output_files(self):
         """
@@ -223,6 +213,8 @@ class ThemeImplReader(plugin.ReaderBase):
     Parses a single thememl file
     """ 
     NAMESPACE = 'http://www.s60.com/xml/thememl/1'
+    NAMESPACE_ID = 'thememl'
+    ROOT_ELEMENT_NAME = 'thememl'
     FILE_EXTENSIONS = ['thememl']
     
     def __init__(self):
@@ -242,7 +234,12 @@ class ThemeImplReader(plugin.ReaderBase):
         impl.list_theme_dir     = reader.list_theme_dir
         impl.list_active_theme  = reader.list_active_theme
         impl.theme_version      = reader.theme_version
+        impl.carbide            = reader.carbide
         return impl
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('themeplugin', 'xsd/thememl.xsd')
     
     def fromstring(self, xml_as_string):
         etree = ElementTree.fromstring(xml_as_string)

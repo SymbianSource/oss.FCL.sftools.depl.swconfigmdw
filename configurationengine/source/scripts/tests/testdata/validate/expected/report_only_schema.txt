@@ -1,0 +1,17 @@
+Validation problems
+-------------------
+File: assets/invalid/confml/invalid_element.confml
+Line: 8
+Type: schema.confml
+Msg:  Element '{http://www.s60.com/xml/confml/2}foo': This element is not expected. Expected is one of ( {http://www.s60.com/xml/confml/2}desc, {http://www.s60.com/xml/confml/2}icon, {http://www.s60.com/xml/confml/2}link, {http://www.s60.com/xml/confml/2}option, {http://www.s60.com/xml/confml/2}property, {http://www.s60.com/xml/confml/2}setting, {http://www.s60.com/xml/confml/2}localPath, {http://www.s60.com/xml/confml/2}targetPath, {http://www.w3.org/2001/XMLSchema}minInclusive, {http://www.w3.org/2001/XMLSchema}maxInclusive ).
+
+File: assets/invalid/confml/invalid_type.confml
+Line: 4
+Type: schema.confml
+Msg:  Element '{http://www.s60.com/xml/confml/2}setting', attribute 'type': 'invalid_type' is not a valid value of the atomic type '{http://www.s60.com/xml/confml/2}typeType'.
+
+File: assets/invalid/implml/invalid_attribute.implml
+Line: 4
+Type: schema.implml.implml
+Msg:  Element '{http://www.symbianfoundation.org/xml/implml/1}container', attribute 'foo': The attribute 'foo' is not allowed.
+

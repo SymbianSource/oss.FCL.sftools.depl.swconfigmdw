@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <content xmlns="http://www.s60.com/xml/content/2">
     <desc>Copy only prod</desc>
-    <output dir="content_external">
+    <output dir="content_external2">
     	<externalinput dir="external_content/folder1"/>
     </output>    
     <output dir="content_external">

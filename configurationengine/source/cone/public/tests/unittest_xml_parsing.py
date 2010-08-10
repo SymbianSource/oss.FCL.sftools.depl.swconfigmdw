@@ -18,7 +18,6 @@
 import sys, os
 import unittest
 import StringIO
-import __init__
 
 from cone.public import utils, exceptions
 
@@ -62,6 +61,12 @@ class ElementTreeBackendTester(object):
         else:
             self.assertEquals(actual, None)
     
+    def assert_elem_tag(self, actual, expected):
+        if self.LINE_NUMBERS:
+            self.assertEquals(actual.tag, expected)
+        else:
+            self.assertEquals(actual, None)
+    
     def test_correct_parser_set(self):
         self.assertEquals(utils.etree.get_backend_id(), self.BACKEND_ID)
     
@@ -79,7 +84,8 @@ class ElementTreeBackendTester(object):
         self.assert_lineno_equals(utils.etree.get_lineno(children[0]), 4)
         self.assert_lineno_equals(utils.etree.get_lineno(children[1]), 5)
         self.assert_lineno_equals(utils.etree.get_lineno(children[2]), 6)
-    
+        self.assert_elem_tag(utils.etree.get_elem_from_lineno(root, 5), '{http://www.test.com/xml/1}elem2')
+
     def test_tostring_ascii(self):
         root = utils.etree.fromstring(self.DATA)
         output = utils.etree.tostring(root)
@@ -102,7 +108,7 @@ class ElementTreeBackendTester(object):
             etree = utils.etree.fromstring(data)
             self.fail("XmlParseError not raised!")
         except exceptions.XmlParseError, e:
-            self.assertEquals(e.lineno, 4)
+            self.assertEquals(e.problem_lineno, 4)
 
 # ============================================================================
 # Actual test cases

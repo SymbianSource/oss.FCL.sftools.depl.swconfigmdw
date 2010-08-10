@@ -14,10 +14,7 @@
 # Description: 
 #
 
-import logging
-import __init__
 
-from cone.public import exceptions,plugin,utils,api
 
 class HcrRepository(object):
     FLAG_READ_ONLY    = 1

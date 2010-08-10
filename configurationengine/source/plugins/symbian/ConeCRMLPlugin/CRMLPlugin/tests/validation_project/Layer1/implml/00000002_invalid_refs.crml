@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="InvalidRefs" uidValue="0x00000002">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="AlwaysPass"/>
+    
+    <key ref="Foo/Bar" name="Foobar" int="0x00000001" type="int"/>
+    
+    <key name="Bitmask" type="int" int="0x00000002">
+        <bit ref="Foo/Bit0">1</bit>
+        <bit ref="Foo/Bit1">2</bit>
+    </key>
+
+    <keyRange firstInt="0x00010000" lastInt="0x0001FFFF" ref="Foo/Sequence" indexBits="0xFF00" firstIndex="0">
+        <key ref="Bar" name="Foo int" int="0x00000001"/>
+    </keyRange>
+</repository>

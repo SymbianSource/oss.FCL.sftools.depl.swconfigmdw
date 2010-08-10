@@ -21,19 +21,141 @@ import unittest
 import string
 import sys,os
 
-import __init__
 from cone.public import api, plugin
 from cone.core import *
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 test_project        = os.path.join(ROOT_PATH,"testdata/test_project.cpf")
 multiroot_project   = os.path.join(ROOT_PATH,"testdata/multiroot_test.zip")
+LAYERED_RES_PROJECT = os.path.join(ROOT_PATH,"testdata/layered_res_test.zip")
+
 
 class TestConfiguration(unittest.TestCase):    
     def setUp(self):
         pass
 
-    # @test 
+    def test_layered_resources_invalid_resource_type(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        self.assertRaises(ValueError, config.layered_resources, resource_type='foo')
+    
+    def test_layered_resource_invalid_params(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        # Both folder and resource_type specified
+        self.assertRaises(ValueError, config.layered_resources, folder='foo', resource_type='implml')
+        
+        # Neither folder nor resource_type specified
+        self.assertRaises(ValueError, config.layered_resources, folder=None, resource_type=None)
+    
+    def test_layered_resources(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        data = config.layered_resources(resource_type='confml').data
+        self.assertEquals(data, {'test.confml': ['layer1/confml/test.confml',
+                                                 'layer2/confml/test.confml']})
+        
+        data = config.layered_resources(resource_type='implml').data
+        self.assertEquals(data, {'test.implml': ['layer1/implml/test.implml',
+                                                 'layer2/implml/test.implml']})
+        
+        data = config.layered_resources(resource_type='content').data
+        self.assertEquals(data, {'foo.txt': ['layer1/content/foo.txt',
+                                             'layer2/content/foo.txt']})
+        
+        data = config.layered_resources(resource_type='doc').data
+        self.assertEquals(data, {'bar.txt': ['layer1/doc/bar.txt',
+                                             'layer2/doc/bar.txt']})
+    
+    def test_layered_resources_custom_folder(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        data = config.layered_resources(folder='foo').data
+        self.assertEquals(data, {'bar.txt': ['layer1/foo/bar.txt',
+                                             'layer2/foo/bar.txt']})
+    
+    def test_layered_resources_directly_from_layer(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('layer1/root.confml')
+        
+        self.assertEquals(config.layered_resources(resource_type='confml').data,
+                          {'test.confml': ['layer1/confml/test.confml']})
+        
+        self.assertEquals(config.layered_resources(resource_type='implml').data,
+                          {'test.implml': ['layer1/implml/test.implml']})
+    
+    def test_layered_resources_with_empty_folders(self):
+        p  = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        data = config.layered_resources(empty_folders=True, resource_type='confml').data
+        self.assertEquals(data, {'test.confml': ['layer1/confml/test.confml',
+                                                 'layer2/confml/test.confml'],
+                                 'empty':       ['layer1/confml/empty',
+                                                 'layer2/confml/empty']})
+        
+        data = config.layered_resources(empty_folders=True, resource_type='implml').data
+        self.assertEquals(data, {'test.implml': ['layer1/implml/test.implml',
+                                                 'layer2/implml/test.implml'],
+                                 'empty':       ['layer1/implml/empty',
+                                                 'layer2/implml/empty']})
+        
+        data = config.layered_resources(empty_folders=True, resource_type='content').data
+        self.assertEquals(data, {'foo.txt': ['layer1/content/foo.txt',
+                                             'layer2/content/foo.txt'],
+                                 'empty':   ['layer1/content/empty',
+                                             'layer2/content/empty']})
+        
+        data = config.layered_resources(empty_folders=True, resource_type='doc').data
+        self.assertEquals(data, {'bar.txt': ['layer1/doc/bar.txt',
+                                             'layer2/doc/bar.txt'],
+                                 'empty':   ['layer1/doc/empty',
+                                             'layer2/doc/empty']})
+    
+    def test_layered_resources_specific_layers(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        self.assertEquals(config.layered_resources(layers=[-1], resource_type='confml').data,
+                          {'test.confml': ['layer2/confml/test.confml']})
+        self.assertEquals(config.layered_resources(layers=[0], resource_type='confml').data,
+                          {'test.confml': ['layer1/confml/test.confml']})
+    
+    def test_layered_resources_shortcuts(self):
+        p = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        data = config.layered_confml().data
+        self.assertEquals(data, {'test.confml': ['layer1/confml/test.confml',
+                                                 'layer2/confml/test.confml']})
+        
+        data = config.layered_implml().data
+        self.assertEquals(data, {'test.implml': ['layer1/implml/test.implml',
+                                                 'layer2/implml/test.implml']})
+        
+        data = config.layered_content().data
+        self.assertEquals(data, {'foo.txt': ['layer1/content/foo.txt',
+                                             'layer2/content/foo.txt']})
+        
+        data = config.layered_doc().data
+        self.assertEquals(data, {'bar.txt': ['layer1/doc/bar.txt',
+                                             'layer2/doc/bar.txt']})
+        
+    
+    def test_implml_override(self):
+        p  = api.Project(api.Storage.open(LAYERED_RES_PROJECT))
+        config = p.get_configuration('root.confml')
+        
+        impl_set = plugin.get_impl_set(config)
+        self.assertEquals([impl.ref for impl in impl_set], ['layer2/implml/test.implml'])
+        
+        impl_set = plugin.filtered_impl_set(config)
+        self.assertEquals([impl.ref for impl in impl_set], ['layer2/implml/test.implml'])
+         
+    
     def test_create_configuration(self):
         conf = api.Configuration("foobar/testmee.confml")
         self.assertTrue(conf)
@@ -62,12 +184,13 @@ class TestConfiguration(unittest.TestCase):
         config = p.get_configuration('root5.confml')
         view = config.get_default_view()
         print "Fealist %s." % len(view.list_all_features())
-        self.assertEquals(len(view.list_all_features()), 62)
+        self.assertEquals(len(view.list_all_features()), 99)
         for feaname in view.list_all_features():
             fea = view.get_feature(feaname)
             if fea.get_type() == 'sequence':
                 print "%s" % feaname,
-                print " = %s" % fea.get_value()
+                print "Value = %s" % fea.get_value()
+                print "RFS = %s" % fea.get_value(attr='rfs')
 
     def test_get_implml_container(self):
         fs = api.Storage.open(test_project)

@@ -18,17 +18,22 @@
 Test the configuration
 """
 import unittest
-import string
-import sys
 import os
-import subprocess
-import __init__
+import re
+
 from testautomation.base_testcase import BaseTestCase
 from scripttest_common import get_cmd
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class TestConeHelp(BaseTestCase):    
+    
+    def test_get_version(self):
+        cmd = '%s --version' % get_cmd('')
+        out = self.run_command(cmd)
+        print "output from version %s" % out
+        lines = out.split(os.linesep)
+        self.assertTrue(re.match(r'^ConE\s+\d+\.\d+\.\d+.*$', lines[0]))
 
     def test_get_help(self):
         cmd = '%s -h' % get_cmd('')
@@ -40,7 +45,7 @@ class TestConeHelp(BaseTestCase):
         cmd = '%s info --print-runtime-info --verbose=5' % get_cmd('')
         out = self.run_command(cmd)
         # Check that there are debug messages in the output
-        self.assertTrue('DEBUG   : cone' in out)
+        self.assertTrue('DEBUG: cone' in out)
         self.assertTrue('sys.path contents:' in out)
     
     def test_empty_verbose_level(self):
@@ -97,6 +102,14 @@ class TestConeHelp(BaseTestCase):
         out = self.run_command(cmd)
         self.assertTrue("Level:DEBUG, Logger:cone, Message:sys.path contents:" in out, out)
 
+    def test_custom_log_config_with_escaping(self):
+        CONF_FILE = os.path.join(ROOT_PATH, 'testdata', 'log_config.ini')
+        LOG_FILE = os.path.join(ROOT_PATH, 'testdata', "log\\x\\cone.log")
+        cmd = '%s --log-config "%s" --log-file "%s"' % (get_cmd('info'), CONF_FILE, LOG_FILE)
+        out = self.run_command(cmd)
+        self.assertTrue("Level:DEBUG, Logger:cone, Message:sys.path contents:" in out, out)
+
+
 if __name__ == '__main__':
-      unittest.main()
-      
+    unittest.main()
+    

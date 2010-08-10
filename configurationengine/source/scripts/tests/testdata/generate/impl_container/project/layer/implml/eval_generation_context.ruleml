@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>True configures {% test_add_file_to_output_folder() %}</rule>
+  
+  <eval_globals file="scripts/test_eval_generation_context.py"/>
+</ruleml>

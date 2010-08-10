@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Configuration API info</h1><br>
 
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName">File</th>
         {% for item in data.api_data.columns %}
@@ -22,4 +22,10 @@
     {% endfor %}
     
     </table>
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
 {% endblock %}

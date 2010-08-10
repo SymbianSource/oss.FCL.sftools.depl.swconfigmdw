@@ -15,19 +15,14 @@
 #
 
 import unittest
-import string
-import sys,os
-import pickle
-import time
-import __init__
+import os
 
-from cone.public import api, exceptions
 from cone.storage import webstorage
 from cone.carbon import model
 import simplewebserver
 
 ROOT_PATH   = os.path.dirname(os.path.abspath(__file__))
-TEST_SERVER = simplewebserver.SimpleWebServer(os.path.join(ROOT_PATH,'carbondata'), 8001)
+#TEST_SERVER = simplewebserver.SimpleWebServer(os.path.join(ROOT_PATH,'carbondata'), 8001)
 #
 #def runserver():
 #    if not TEST_SERVER.active:
@@ -102,8 +97,14 @@ class TestResourceCache(unittest.TestCase):
         self.assertEquals(rc.get_resource_link('test.confml'), 'test.configurationroot')
         self.assertEquals(rc.get_resource_link('featurelists/test.confml'), 'test.featurelist')
         self.assertEquals(rc.get_resource_link('test/root.confml'), 'test.configurationlayer')
-    
 
+
+class TestCarbonExtapi(unittest.TestCase):
+    def test_username_password(self):
+        extapi = webstorage.CarbonExtapi("/")
+        self.assertNotEqual(extapi,None)
+        self.assertNotEqual(extapi.get_username(),"")
+    
 
 if __name__ == '__main__':
     unittest.main()

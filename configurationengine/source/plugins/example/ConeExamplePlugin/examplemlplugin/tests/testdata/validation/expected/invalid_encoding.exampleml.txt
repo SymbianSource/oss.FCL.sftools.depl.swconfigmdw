@@ -1,0 +1,3 @@
+Problem(msg=u"Invalid encoding 'foobar'", type='model.implml.exampleml.invalid_encoding', line=7, file='Layer1/implml/invalid_encoding.exampleml', severity='error')
+Problem(msg=u"Invalid encoding 'foocode'", type='model.implml.exampleml.invalid_encoding', line=6, file='Layer1/implml/invalid_encoding.exampleml', severity='error')
+Problem(msg=u"Setting 'Foo.Bar' not found in configuration", type='model.implml.exampleml.invalid_ref', line=10, file='Layer1/implml/invalid_encoding.exampleml', severity='error')

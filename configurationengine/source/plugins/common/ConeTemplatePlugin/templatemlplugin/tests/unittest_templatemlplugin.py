@@ -15,7 +15,8 @@
 # Description: 
 #
 
-import unittest, os, shutil, sys
+import unittest, os, sys
+import logging
 
 try:
     from cElementTree import ElementTree, ElementInclude
@@ -28,9 +29,7 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-import __init__	
 from templatemlplugin import templatemlplugin
-from types import NoneType
 from testautomation.base_testcase import BaseTestCase
 from testautomation.utils import hex_to_bindata
 
@@ -77,8 +76,12 @@ TEMPML_DOC4 = "<?xml version=\"1.0\" encoding=\"ascii\"?> " \
              "<filter name=\"test_filter\" file=\"../../filter/filter.py\"/>" \
           "</templateml>"
 
-TEMPML1 = "<ns0:output encoding=\"ASCII\" file=\"test.txt\" xmlns:ns0=\"http://www.s60.com/xml/templateml/1\">" \
+TEMPML1 = "<ns0:output encoding=\"ASCII\" file=\"test.txt\" xmlns:ns0=\"http://www.s60.com/xml/templateml/1\" newline=\"win\">" \
           "<ns0:template extension=\"foo/foobar:MyClass\">ABCDF</ns0:template>" \
+          "</ns0:output>"
+
+TEMPML1_LINUX = "<ns0:output encoding=\"ASCII\" file=\"test.txt\" xmlns:ns0=\"http://www.s60.com/xml/templateml/1\">" \
+          "<ns0:template extension=\"foo/foobar:MyClass\" newline=\"unix\">ABCDF</ns0:template>" \
           "</ns0:output>"
 
 TEMPML2 = "<ns0:output encoding=\"ASCII\" file=\"test.txt\" xmlns:ns0=\"http://www.s60.com/xml/templateml/1\" xmlns:xi=\"http://www.w3.org/2001/XInclude\">" \
@@ -101,13 +104,9 @@ TEMPML4 = "<ns0:output encoding=\"ASCII\" file=\"test.txt\" xmlns:ns0=\"http://w
           
           
 def impl_from_resource(resource_ref, configuration):
-    doc_root = plugin.ReaderBase._read_xml_doc_from_resource(resource_ref, configuration)
-    readers = { templateml.TemplatemlImplReader.NAMESPACE: templateml.TemplatemlImplReader }
-    ns = utils.xml.split_tag_namespace(doc_root.tag)[0]
-    if ns in readers:
-        return readers[ns].read_impl(resource_ref, configuration, doc_root)
-    else:
-        return None
+    impls = plugin.ImplFactory.get_impls_from_file(resource_ref, configuration)
+    assert len(impls) == 1
+    return impls[0]
           
 class TestTemplatemlPlugin(BaseTestCase):    
     def setUp(self):
@@ -130,23 +129,24 @@ class TestTemplatemlPlugin(BaseTestCase):
         impls.output = self.output
         impl_list = impls.get_implementations_by_file(resource_ref)
         self.assertEquals(1, len(impl_list))
-        return impl_list[0]
+        return (configuration,impl_list[0])
     
     def test_parse_desc(self):
-        impl = self.load_impl('Layer1/implml/file1.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/file1.templateml')
         self.assertEqual("Description field text", impl.reader.desc)
 
     def test_parse_output_with_file_ref(self):
-        impl = self.load_impl('Layer1/implml/output_with_ref.templateml')
-        self.assertEquals(impl.list_output_files(), [os.path.normpath('output/confmlref_filename.txt')])
+        (config,impl) = self.load_impl('Layer1/implml/output_with_ref.templateml')
+        self.assertEquals(impl.list_output_files(), [os.path.normpath('confmlref_filename.txt')])
         
     def test_parse_outputs(self):
-        impl = self.load_impl('Layer1/implml/file1.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/file1.templateml')
         outputs = []
         output1 = templatemlplugin.OutputFile()
         output1.set_encoding("UTF-16")
         output1.set_filename("test.txt")
         output1.set_path('')
+        output1.set_newline('unix')
         temp1 = templatemlplugin.TempFile()
         temp1.set_template(u'ABC kissa k\xe4velee')
         output1.set_template(temp1)
@@ -156,6 +156,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         output2.set_encoding("UTF-16")
         output2.set_filename("test2.txt")
         output2.set_path("output")
+        output2.set_newline('win')
         temp2 = templatemlplugin.TempFile()
         temp2.set_template('AABBCC')
         output2.set_template(temp2)
@@ -175,6 +176,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.assertEqual(outputs[0].encoding, impl.reader.outputs[0].encoding)
         self.assertEqual(outputs[0].filename, impl.reader.outputs[0].filename)
         self.assertEqual(outputs[0].path, impl.reader.outputs[0].path)
+        self.assertEqual(outputs[0].newline, impl.reader.outputs[0].newline)
         self.assertEqual(outputs[0].template.template, impl.reader.outputs[0].template.template)
         self.assertEqual(outputs[0].template.extensions, impl.reader.outputs[0].template.extensions)
         self.assertEqual(outputs[0].template.filters, impl.reader.outputs[0].template.filters)
@@ -184,6 +186,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.assertEqual(outputs[1].encoding, impl.reader.outputs[1].encoding)
         self.assertEqual(outputs[1].filename, impl.reader.outputs[1].filename)
         self.assertEqual(outputs[1].path, impl.reader.outputs[1].path)
+        self.assertEqual(outputs[1].newline, impl.reader.outputs[1].newline)
         #self.assertEqual(outputs[1].template.template, impl.reader.outputs[1].template.template)
         self.assertEqual(outputs[1].template.extensions, impl.reader.outputs[1].template.extensions)
         self.assertEqual(outputs[1].template.filters, impl.reader.outputs[1].template.filters)
@@ -265,7 +268,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.assertEqual(filters1[0].code, filter2.code)
         self.assertEqual(filters1[0], filter2)
         
-    def test_parse_template_filter(self):
+    def test_parse_template_filter_2(self):
         class DummyConfiguration(object):
             def get_resource(self, ref):
                 class DummyResource(object):
@@ -299,9 +302,10 @@ class TestTemplatemlPlugin(BaseTestCase):
         
         self.remove_if_exists(os.path.normpath("output/output/test.txt"))
         
-        impl = self.load_impl('Layer1/implml/file2.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/file2.templateml')
         #impl.context = {'name' : 'some value'}
-        impl.generate()
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
         
         self.assertTrue(os.path.exists(os.path.normpath("output/output/test.txt")))
         result_file = None
@@ -312,12 +316,41 @@ class TestTemplatemlPlugin(BaseTestCase):
         finally:
             if result_file != None: result_file.close()
     
+    def test_simple_generate_newline(self):
+        
+        self.remove_if_exists(os.path.normpath("output/output/test_newline_win.txt"))
+        self.remove_if_exists(os.path.normpath("output/output/test_newline_unix.txt"))
+        
+        (config,impl) = self.load_impl('Layer1/implml/newline.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
+        
+        self.assertTrue(os.path.exists(os.path.normpath("output/output/test_newline_win.txt")))
+        self.assertTrue(os.path.exists(os.path.normpath("output/output/test_newline_unix.txt")))
+
+        result_file_win = None
+        try:
+            result_file_win = open(os.path.normpath("output/output/test_newline_win.txt"),'rb')
+            line = result_file_win.read()
+            self.assertEquals(line, "line1\r\nline2")
+        finally:
+            if result_file_win != None: result_file_win.close()
+
+        result_file_unix = None
+        try:
+            result_file_unix = open(os.path.normpath("output/output/test_newline_unix.txt"), 'rb')
+            line = result_file_unix.read()
+            self.assertEquals(line, "line1\nline2")
+        finally:
+            if result_file_unix != None: result_file_unix.close()
+
     def test_simple_generate_prj3(self):
         
         self.remove_if_exists(os.path.normpath("output/output/test3.txt"))
         
-        impl = self.load_impl('Layer1/implml/file3.templateml')
-        impl.generate()
+        (config,impl) = self.load_impl('Layer1/implml/file3.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
         
         self.assertTrue(os.path.exists(os.path.normpath("output/output/test3.txt")))
         result_file = None
@@ -328,6 +361,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         finally:
             if result_file != None: result_file.close()
 
+
     def test_simple_generate_prj4_with_filters(self):
         
         self.remove_if_exists(os.path.normpath("output/output/test4a.txt"))
@@ -335,9 +369,10 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.remove_if_exists(os.path.normpath("output/output/test4c.txt"))
         self.remove_if_exists(os.path.normpath("output/output/test4d.txt"))
         
-        impl = self.load_impl('Layer1/implml/file4.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/file4.templateml')
         #impl.context = {'name' : 'John Doe'}
-        impl.generate()
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
         
         self.assertTrue(os.path.exists(os.path.normpath("output/output/test4a.txt")))
         self.assertTrue(os.path.exists(os.path.normpath("output/output/test4b.txt")))
@@ -389,9 +424,9 @@ class TestTemplatemlPlugin(BaseTestCase):
         
         self.remove_if_exists(os.path.normpath("output/output/test_ext_temp_file.txt"))
         
-        impl = self.load_impl('Layer1/implml/external_tempfile.templateml')
-        
-        impl.generate()
+        (config,impl) = self.load_impl('Layer1/implml/external_tempfile.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
         
         self.assertTrue(os.path.exists(os.path.normpath("output/output/test_ext_temp_file.txt")))
         
@@ -417,8 +452,9 @@ class TestTemplatemlPlugin(BaseTestCase):
         
         self.remove_if_exists(os.path.normpath("output/output/test5a.txt"))
         
-        impl = self.load_impl('Layer1/implml/file5.templateml')
-        impl.generate()
+        (config,impl) = self.load_impl('Layer1/implml/file5.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
         self.assertTrue(os.path.exists(os.path.normpath("output/output/test5a.txt")))
         
         result_file1 = None
@@ -437,8 +473,9 @@ class TestTemplatemlPlugin(BaseTestCase):
         
         self.remove_if_exists(os.path.normpath("output/access_configuration.txt"))
         
-        impl = self.load_impl('Layer1/implml/access_configuration.templateml')
-        impl.generate()
+        (config,impl) = self.load_impl('Layer1/implml/access_configuration.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
         self.assertTrue(os.path.exists(os.path.normpath("output/access_configuration.txt")))
         
         result_file1 = None
@@ -453,12 +490,13 @@ class TestTemplatemlPlugin(BaseTestCase):
             if result_file1 != None: result_file1.close()
     
     def test_create_context_dict1(self):
-        impl = self.load_impl('Layer1/implml/file6.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/file6.templateml')
         impl.context = impl.create_dict()
-        impl.generate()
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
     
     def test_list_output_files(self):
-        impl = self.load_impl('Layer1/implml/file1.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/file1.templateml')
         impl.set_output_root('outdir')
         output_files = impl.list_output_files()
         expected = map(lambda n: os.path.normpath(n), [
@@ -471,7 +509,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.assertEquals(sorted(output_files), sorted(expected))
     
     def test_has_ref(self):
-        impl = self.load_impl('Layer1/implml/has_ref_template_test2.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/has_ref_template_test2.templateml')
         self.assertEquals(impl.has_ref('Feature1.StringSetting_not_found'), False)
         self.assertEquals(impl.has_ref('Feature1.StringSetting1'), True)
         self.assertEquals(impl.has_ref('Feature2'), True)
@@ -480,7 +518,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.assertEquals(impl.has_ref('Feature1.UnicodeValueSetting'), True)
     
     def test_has_ref_external_template(self):
-        impl = self.load_impl('Layer1/implml/has_ref_template_test3.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/has_ref_template_test3.templateml')
         self.assertEquals(impl.has_ref('Feature1.StringSetting_not_found'), False)
         self.assertEquals(impl.has_ref('Feature1.StringSetting1'), True)
         self.assertEquals(impl.has_ref('Feature2'), True)
@@ -489,7 +527,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         self.assertEquals(impl.has_ref('Feature1.UnicodeValueSetting'), True)
 
     def test_has_ref_with_featree(self):
-        impl = self.load_impl('Layer1/implml/has_ref_template_test.templateml')
+        (config,impl) = self.load_impl('Layer1/implml/has_ref_template_test.templateml')
         self.assertEquals(impl.has_ref('Feature1.StringSetting'), True)
         self.assertEquals(impl.has_ref('Feature2.StringSetting'), True)
     
@@ -501,8 +539,9 @@ class TestTemplatemlPlugin(BaseTestCase):
         p = api.Project(fs)
         config = p.get_configuration('root1.confml')
         impls = plugin.get_impl_set(config,'unicode_template_test\.templateml$')
-        impls.output = OUTPUT_DIR
-        impls.generate()
+        gc = plugin.GenerationContext(output=OUTPUT_DIR,
+                                      configuration=config)
+        impls.generate(gc)
         self.assert_exists_and_contains_something(os.path.join(OUTPUT_DIR, "unicode_template_test.txt"))
         
         # Check that the output exists and contains expected lines
@@ -544,7 +583,7 @@ class TestTemplatemlPlugin(BaseTestCase):
             self.write_data_to_file(filename, self.feature_list_to_str(expected_list))
             filename = os.path.join(dir, "actual.txt")
             self.write_data_to_file(filename, self.feature_list_to_str(feat_list))
-            self.fail("Feature tree is not what was expected, see the files in '%s'" % dir)
+            self.fail("Feature list is not what was expected, see the files in '%s'" % dir)
     
     def feature_tree_to_str(self, d, indent_amount=0):
         """
@@ -566,7 +605,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         
         for key, value in sorted(d.items(), key=key_func):
             temp.append(indent)
-            if isinstance(value, dict):
+            if isinstance(value, (dict, templatemlplugin.FeatureDictProxy)):
                 temp.append("%r: %s," % (key, self.feature_tree_to_str(value, indent_amount + INDENT_AMOUNT)))
             else:
                 temp.append("%r: %r," % (key, value))
@@ -582,7 +621,7 @@ class TestTemplatemlPlugin(BaseTestCase):
         """
         temp = ['[\n']
         for item in lst:
-            if isinstance(item, dict):  temp.append(self.feature_tree_to_str(item))
+            if isinstance(item, (dict, templatemlplugin.FeatureDictProxy)):  temp.append(self.feature_tree_to_str(item))
             else:                       temp.append(repr(item))
             temp.append(',\n')
         temp.append(']')
@@ -592,9 +631,10 @@ class TestTemplatemlPlugin(BaseTestCase):
     def test_utf_bom_support(self):
         OUTPUT_DIR = os.path.join(ROOT_PATH, 'temp/utf_bom_test')
         self.recreate_dir(OUTPUT_DIR)
-        impl = self.load_impl('Layer1/implml/utf_bom_test.templateml')
-        impl.set_output_root(OUTPUT_DIR)
-        impl.generate()
+        (config,impl) = self.load_impl('Layer1/implml/utf_bom_test.templateml')
+        gc = plugin.GenerationContext(output=OUTPUT_DIR,
+                                      configuration=config)
+        impl.generate(gc)
         
         def check(file, contents):
             FILE = os.path.join(OUTPUT_DIR, file)
@@ -635,8 +675,78 @@ class TestTemplatemlPlugin(BaseTestCase):
             <output file="test.txt" encoding="foocode">foo</output>
           </templateml>"""
         reader = templatemlplugin.TemplatemlImplReader()
-        self.assertRaises(exceptions.ParseError, reader.fromstring, DATA)
+        reader.fromstring(DATA)
+        self.assertRaises(exceptions.ParseError, reader.expand_output_refs_by_default_view)
     
+    def test_generate_from_template_with_feat_tree_iteration(self):
+        OUTPUT_DIR = os.path.join(ROOT_PATH, 'temp/feat_tree_iteration')
+        self.recreate_dir(OUTPUT_DIR)
+        (config,impl) = self.load_impl('Layer1/implml/feat_tree_iteration_test.templateml')
+        gc = plugin.GenerationContext(output=OUTPUT_DIR,
+                                      configuration=config)
+        impl.generate(gc)
+        
+        OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'feat_tree_iteration_test.txt')
+        self.assert_exists_and_contains_something(OUTPUT_FILE)
+        self.assert_file_content_equals(OUTPUT_FILE,
+            u"\n"\
+            u"Boolean setting = True\n"\
+            u"File setting = default_file.txt\n"\
+            u"Folder setting = default_folder\n"\
+            u"Int setting = 10\n"\
+            u"Real setting = 3.14\n"\
+            u"Selection setting = 1\n"\
+            u"Sequence setting = [[[None, None], 1.25, [None, None], 128, 'def1', False, '1'], [[None, None], 1.5, [None, None], 256, 'def2', False, '1']]\n"\
+            u"String setting = John Doe\n"\
+            u"String for unicode value test = カタカナ\n".encode('utf-8'))
+    
+    def test_generate_from_template_generation_context_accessed(self):
+        OUTPUT_DIR = os.path.join(ROOT_PATH, 'temp/access_context')
+        self.recreate_dir(OUTPUT_DIR)
+        (config,impl) = self.load_impl('Layer1/implml/access_context.templateml')
+        context = plugin.GenerationContext(output=OUTPUT_DIR,
+                                           configuration=config)
+        context.tags = {'sometag': ['foo', 'bar']}
+        impl.generate(context)
+        
+        OUTPUT_FILE = os.path.join(OUTPUT_DIR, 'access_context.txt')
+        self.assert_exists_and_contains_something(OUTPUT_FILE)
+        self.assert_file_content_equals(OUTPUT_FILE,
+            "Tags: {'sometag': ['foo', 'bar']}")
+    
+    def test_invalid_ref_in_template(self):
+        OUTPUT_DIR = os.path.join(ROOT_PATH, 'temp/invalid_ref')
+        self.recreate_dir(OUTPUT_DIR)
+        (config,impl) = self.load_impl('Layer1/implml/invalid_ref.templateml')
+        context = plugin.GenerationContext(output=OUTPUT_DIR,
+                                           configuration=config)
+        
+        log_file, handler, logger = self._prepare_log('invalid_refs.log')
+        impl.generate(context)
+        logger.removeHandler(handler)
+        
+        self.assert_file_content_equals(os.path.join(OUTPUT_DIR, 'invalid_ref_1.txt'), "")
+        self.assert_file_content_equals(os.path.join(OUTPUT_DIR, 'invalid_ref_2.txt'), "")
+        self.assert_file_content_equals(os.path.join(OUTPUT_DIR, 'invalid_ref_3.txt'), "")
+        
+        self.assert_file_contains(log_file,
+            ["TemplatemlImpl(ref='Layer1/implml/invalid_ref.templateml', type='templateml', lineno=2): Failed to generate output: NotFound: Feature 'Foo' not found",
+             "TemplatemlImpl(ref='Layer1/implml/invalid_ref.templateml', type='templateml', lineno=2): Failed to generate output: NotFound: Feature 'Feature1.Nonexistent' not found",
+             "TemplatemlImpl(ref='Layer1/implml/invalid_ref.templateml', type='templateml', lineno=2): Failed to generate output: NotFound: Feature 'Feature1.SequenceSetting.Nonexistent' not found"])
+    
+    def _prepare_log(self, log_file, level=logging.DEBUG, formatter="%(levelname)s - %(name)s - %(message)s", logger='cone'):
+        FULL_PATH = os.path.join(ROOT_PATH, "temp/logs", log_file)
+        self.remove_if_exists(FULL_PATH)
+        self.create_dir_for_file_path(FULL_PATH)
+        
+        handler = logging.FileHandler(FULL_PATH)
+        handler.setLevel(level)
+        frm = logging.Formatter(formatter)
+        handler.setFormatter(frm)
+        logger = logging.getLogger(logger)
+        logger.addHandler(handler)
+        
+        return [FULL_PATH, handler, logger]
 
 class TestExtractRefsFromTemplate(unittest.TestCase):
     def test_extract_refs_from_template(self):

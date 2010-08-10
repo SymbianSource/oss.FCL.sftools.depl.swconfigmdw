@@ -1,0 +1,7 @@
+Problem(msg='Duplicate key UID 0x00000001 (duplicate with keys on lines 6, 7 and 8)', type='model.implml.crml.duplicate_uid', line=13, file='Layer1/implml/00000003_duplicate_uids.crml', severity='error')
+Problem(msg='Duplicate key UID 0x00000002 (duplicate with key on line 10)', type='model.implml.crml.duplicate_uid', line=11, file='Layer1/implml/00000003_duplicate_uids.crml', severity='error')
+# TODO: Validation for these is still missing
+#api.Problem(msg='Duplicate bit 1 (duplicate with bits on lines 14, 15 and 16)', type=TYPE, line=17, file=FILE, severity='error'),
+#api.Problem(msg='Duplicate bit 2 (duplicate with bit on line 19)', type=TYPE, line=20, file=FILE, severity='error'),
+#api.Problem(msg='Duplicate sub-key UID 0x00000001 (duplicate with sub-keys on lines 24, 25 and 26)', type=TYPE, line=27, file=FILE, severity='error'),
+#api.Problem(msg='Duplicate sub-key UID 0x00000002 (duplicate with sub-key on line 29)', type=TYPE, line=30, file=FILE, severity='error')

@@ -2,15 +2,7 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="data">
     <data>
         <Asset1Feature1>
-            <StringSetting>string from product (langpack 02) config</StringSetting>
-            
-            <SequenceSetting extensionPolicy="prefix">
-                <RealSubSetting>10002.5</RealSubSetting>
-                <IntSubSetting>10002</IntSubSetting>
-                <StringSubSetting>test (product, lang 02)</StringSubSetting>
-                <BooleanSubSetting>false</BooleanSubSetting>
-                <SelectionSubSetting>1</SelectionSubSetting>
-            </SequenceSetting>
+            <RealSetting>2.5</RealSetting>
         </Asset1Feature1>
         
         <Asset2Feature1>

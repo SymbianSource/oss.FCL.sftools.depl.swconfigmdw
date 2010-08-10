@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.s60.com/xml/ruleml/1"
+	xmlns:ruleml="http://www.s60.com/xml/ruleml/1"
+	elementFormDefault="qualified">
+
+    <xs:element name="ruleml">
+        <xs:annotation>
+            <xs:documentation>
+                RuleML v1 implementation for specifying rules to execute.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="rule" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <![CDATA[
+                            <p>The rule element specifies a single rule to execute.</p><br/>
+                            
+                            <p>
+                            For example:<br/>
+                            <b>&lt;rule>MyFeature.MySetting1 == 'test' configures MyFeature.MySetting2 = '1'&lt;/rule></b><br/>
+                            This would cause the value '1' to be assigned to the setting 'MyFeature.MySetting2'
+                            if the value of the setting 'MyFeature.MySetting1' is 'test'.
+                            </p>
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

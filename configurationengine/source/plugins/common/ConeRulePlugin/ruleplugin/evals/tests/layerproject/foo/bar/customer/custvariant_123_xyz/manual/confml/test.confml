@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="testdata" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<data>
+		<TestFeature>
+			<CustvariantManual>false</CustvariantManual>
+		</TestFeature>
+	</data>
+</configuration>

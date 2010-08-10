@@ -21,7 +21,6 @@ import unittest
 import string
 import StringIO
 import sys,os
-import __init__
 
 from cone.public import api,exceptions,settings
 
@@ -76,13 +75,13 @@ class TestConfigParser(unittest.TestCase):
         settings.SettingsFactory.defaultconfig = os.path.join(ROOT_PATH,'test_defaults.cfg')
         s = settings.SettingsFactory.cone_parser()
         cs = settings.ConeSettings(s)
-        self.assertEquals(s.get('DEFAULT','output'),'output//')
+        self.assertEquals(s.get('DEFAULT','output'),'//')
 
     def test_cone_settings(self):
         settings.SettingsFactory.defaultconfig = os.path.join(ROOT_PATH,'test_defaults.cfg')
         s = settings.SettingsFactory.cone_parser()
         cs = settings.ConeSettings(s)
-        self.assertEquals(cs.get('output'),'output//')
+        self.assertEquals(cs.get('output'),'//')
         self.assertEquals(cs.get('foobar'),None)
         self.assertEquals(cs.get('foobar', 'test'),'test')
 
@@ -91,11 +90,11 @@ class TestConfigParser(unittest.TestCase):
         settings.SettingsFactory.configsettings = None
         s = settings.SettingsFactory.cone_parser()
         cs = settings.ConeSettings(s,'FOOBAR')
-        self.assertEquals(cs.get('output'),'output//')
+        self.assertEquals(cs.get('output'),'//')
         self.assertEquals(cs.get('foobar'),None)
         self.assertEquals(cs.get('foobar', 'test'),'test')
         self.assertEquals(cs.get('output','',{'output_subdir':'content',
-                                              'output_subdir':'content'}),'output/content/')
+                                              'output_subdir':'content'}),'/content/')
 
 if __name__ == '__main__':
       unittest.main()

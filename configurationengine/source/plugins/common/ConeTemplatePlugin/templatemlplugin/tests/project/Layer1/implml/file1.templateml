@@ -2,11 +2,11 @@
 <templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
     <desc>Description field text</desc>
 
-    <output file="test.txt" encoding="UTF-16">
+    <output file="test.txt" encoding="UTF-16" newline="unix">
         <template>ABC kissa kävelee</template>
     </output>
 
-    <output file="test2.txt" encoding="UTF-16" dir="output">
+    <output file="test2.txt" encoding="UTF-16" dir="output" newline="win">
        <template file="../../templates/template.txt"/>
     </output>
 

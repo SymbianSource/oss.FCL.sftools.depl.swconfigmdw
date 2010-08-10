@@ -1,2 +1,2 @@
-{% for feat in rep_data.ref_noimpl %}{{ feat.ref }}
+{% for feat in merged_context.features.get_features(merged_context.get_refs_with_no_output()) %}{{ feat.fqr }}
 {% endfor %}

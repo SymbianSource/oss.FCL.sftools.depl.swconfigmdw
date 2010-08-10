@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="InvalidCapabilities">
+    <feature ref="InvalidCapabilities" name="Settings for invalid capabilities test">
+        <setting ref="Int1" name="Int 1" type="int"/>
+        <setting ref="Int2" name="Int 2" type="int"/>
+        <setting ref="Int3" name="Int 3" type="int"/>
+    </feature>
+    <data>
+        <InvalidCapabilities>
+            <Int1>1</Int1>
+            <Int2>2</Int2>
+            <Int3>3</Int3>
+        </InvalidCapabilities>
+    </data>
+</configuration>

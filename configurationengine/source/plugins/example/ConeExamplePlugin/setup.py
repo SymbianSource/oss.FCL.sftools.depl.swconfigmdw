@@ -22,6 +22,7 @@ setup(
     name = "coneexamplemlplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'examplemlplugin': ['xsd/*.xsd']},
     test_suite = "examplemlplugin.tests.collect_suite",
 
     # metadata for upload to PyPI
@@ -35,13 +36,20 @@ setup(
     
     # Entry point info.
     # Plug-ins can register ImplML reader classes by adding entry points
-    # pointing to reader classes under 'cone.plugins.implmlreaders'
+    # pointing to reader classes under 'cone.plugins.implmlreaders', and
+    # validator classes under 'cone.plugins.implvalidators'
     entry_points = {
         'cone.plugins.implmlreaders': [
             'exampleml = examplemlplugin.exampleml_reader:ExamplemlReader',
              # More readers (e.g. different versions of the same ImplML)
              # could also be registered:
              #'exampleml_v2 = examplemlplugin.exampleml_reader:ExamplemlReader2',
-        ]
+        ],
+        
+        'cone.plugins.implvalidators': [
+            # Each entry point is expected to be an iterable of reader
+            # classes, here it points to a list defined in exampleml_validators.py
+            'exampleml = examplemlplugin.exampleml_validators:VALIDATOR_CLASSES'
+        ],
     }
 )

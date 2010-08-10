@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<exampleml xmlns="http://www.example.org/xml/exampleml/1">
+    <output file="foo1.txt" encoding="utf-16">Test</output>
+    <output file="foo2.txt" encoding="${InvalidEncodingTest.EncodingOk}">Test</output>
+    
+    <output file="foo3.txt" encoding="foocode">Test</output>
+    <output file="foo4.txt" encoding="${InvalidEncodingTest.EncodingNotOk}">Test</output>
+    
+    <!-- If the encoding comes from a setting, it should not be validated if the setting doesn't exist -->
+    <output file="foo5.txt" encoding="${Foo.Bar}">Test</output>
+</exampleml>

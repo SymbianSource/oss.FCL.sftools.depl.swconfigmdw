@@ -16,7 +16,8 @@
 
 import copy
 import logging
-import plugin, exceptions, api, utils
+from cone.public import exceptions, api, utils
+import plugin
 import cone.confml.model
 
 log = logging.getLogger('cone')
@@ -33,10 +34,11 @@ class TempVariableDefinition(object):
     Class representing a temporary variable definition in an implementation file.
     """
     
-    def __init__(self, ref, type, value):
+    def __init__(self, ref, type, value, lineno=None):
         self.ref = ref
         self.type = type
         self.value = value
+        self.lineno = lineno
     
     def create_feature(self, config):
         """
@@ -54,7 +56,8 @@ class TempVariableDefinition(object):
                    'int'    : cone.confml.model.ConfmlIntSetting,
                    'real'   : cone.confml.model.ConfmlRealSetting,
                    'boolean': cone.confml.model.ConfmlBooleanSetting}
-        feature = mapping[self.type](ref)
+        # Create temp variables always name being also the ref
+        feature = mapping[self.type](ref, name=ref)
         setattr(feature, TEMP_FEATURE_MARKER_VARNAME, True)
         config.add_feature(feature, namespace)
         
@@ -81,9 +84,10 @@ class TempVariableSequenceDefinition(object):
     Class representing a temporary variable sequence definition in an implementation file.
     """
     
-    def __init__(self, ref, sub_items):
+    def __init__(self, ref, sub_items, lineno=None):
         self.ref = ref
         self.sub_items = sub_items
+        self.lineno = lineno
     
     def create_feature(self, config):
         if '.' in self.ref:
@@ -95,7 +99,8 @@ class TempVariableSequenceDefinition(object):
             namespace = ''
         
         # Creature the sequence feature
-        seq_fea = api.FeatureSequence(ref)
+        # Create temp variables always name being also the ref
+        seq_fea = api.FeatureSequence(ref, name=ref)
         setattr(seq_fea, TEMP_FEATURE_MARKER_VARNAME, True)
         config.add_feature(seq_fea, namespace)
         
@@ -106,7 +111,7 @@ class TempVariableSequenceDefinition(object):
                    'boolean': cone.confml.model.ConfmlBooleanSetting}
         sub_features = []
         for sub_item in self.sub_items:
-            sub_feature = mapping[sub_item[1]](sub_item[0])
+            sub_feature = mapping[sub_item[1]](sub_item[0], name=sub_item[0])
             seq_fea.add_feature(sub_feature)
     
     def __eq__(self, other):
@@ -183,11 +188,13 @@ class CommonImplmlData(object):
         """
         Extend this object with the contents of another CommonImplmlData object.
         """
+        if other is None:
+            return
+        
         if other.phase:
             self.phase = other.phase
         if other.tags:
             self.tags = other.tags
-        self.tempvar_defs.extend(other.tempvar_defs)
         if other.setting_refs_override:
             self.setting_refs_override = other.setting_refs_override
         if other.output_root_dir:
@@ -198,7 +205,7 @@ class CommonImplmlData(object):
     def copy(self):
         result = CommonImplmlData()
         result.phase = self.phase
-        if result.tags is not None:
+        if self.tags is not None:
             result.tags = self.tags.copy()
         result.tempvar_defs = list(self.tempvar_defs)
         result.setting_refs_override = copy.deepcopy(self.setting_refs_override)
@@ -453,8 +460,7 @@ class CommonImplmlDataReader(object):
     def read_data(cls, etree):
         """
         Read common ImplML data from the given XML element.
-        @return: A CommonImplmlData instance or None if no common namespace
-            elements were found.
+        @return: A CommonImplmlData instance.
         """
         result = CommonImplmlData()
         
@@ -466,17 +472,14 @@ class CommonImplmlDataReader(object):
                           'outputRootDir'           : cls._read_output_root_dir,
                           'outputSubDir'            : cls._read_output_sub_dir}
         
-        found = False
         for elem in etree:
             ns, tag = utils.xml.split_tag_namespace(elem.tag)
             if ns != COMMON_IMPLML_NAMESPACE:   continue
             if tag not in reader_methods:       continue
             
             reader_methods[tag](elem, result)
-            found = True
         
-        if found:   return result
-        else:       return None
+        return result
     
     @classmethod
     def _read_phase(cls, elem, result):
@@ -502,13 +505,14 @@ class CommonImplmlDataReader(object):
         ref = elem.get('ref')
         type = elem.get('type', 'string')
         value = elem.get('value', '')
+        lineno = utils.etree.get_lineno(elem)
         
         if ref is None:
             cls._raise_missing_attr(elem, 'ref')
         if type not in cls.VALID_TYPES:
             cls._raise_invalid_type(ref, type)
         
-        result.tempvar_defs.append(TempVariableDefinition(ref, type, value))
+        result.tempvar_defs.append(TempVariableDefinition(ref, type, value, lineno))
     
     @classmethod
     def _read_tempvarseq(cls, elem, result):
@@ -531,7 +535,9 @@ class CommonImplmlDataReader(object):
         if not sub_items:
             raise exceptions.ParseError("Temporary variable sequence '%s' does not have any sub-items" % ref)
         
-        result.tempvar_defs.append(TempVariableSequenceDefinition(ref, sub_items))
+        lineno = utils.etree.get_lineno(elem)
+        
+        result.tempvar_defs.append(TempVariableSequenceDefinition(ref, sub_items, lineno))
     
     @classmethod
     def _read_setting_refs_override(cls, elem, result):

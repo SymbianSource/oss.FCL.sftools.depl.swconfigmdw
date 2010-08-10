@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <container>
+        <phase name="pre"/>
+        <rules:ruleml xmlns:rules="http://www.s60.com/xml/ruleml/1">
+          <rules:rule>imaker.imagetarget configures imakerapi.outputLocation = imaker.imagetarget</rules:rule>
+          <rules:rule>True configures StringConcatenationTest.Result1 = "Test " + "test"</rules:rule>
+          <rules:rule>True configures StringConcatenationTest.Result2 = StringConcatenationTest.Value1 + " Literal 2"</rules:rule>
+        </rules:ruleml>
+    </container>
+    <container>
+        <phase name="normal"/>
+        <rules:ruleml xmlns:rules="http://www.s60.com/xml/ruleml/1">
+          <rules:rule>True configures StringConcatenationTest.Result3 = "Literal 1 " + StringConcatenationTest.Value2</rules:rule>
+          <rules:rule>True configures StringConcatenationTest.Result4 = StringConcatenationTest.Value1 + StringConcatenationTest.Value2</rules:rule>
+          <rules:rule>True configures StringConcatenationTest.Result5 = StringConcatenationTest.Value1 + " &amp; " + StringConcatenationTest.Value2</rules:rule>
+          <rules:rule>True configures StringConcatenationTest.Result6 = StringConcatenationTest.Value1 + u" € カタカナ"</rules:rule>      
+        </rules:ruleml>
+    </container>
+</container>

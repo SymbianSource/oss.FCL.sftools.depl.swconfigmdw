@@ -1,3 +1,4 @@
+from __future__ import with_statement
 #
 # Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
@@ -18,14 +19,15 @@ Cone public API.
 The core interface to the ConE functionality.
 """
 
-import os
 import re
 import sys
 import logging
-import copy
-import sets
+import mimetypes
 
-import exceptions, utils, container, mapping
+from cone.public import exceptions, utils, container, mapping
+
+def get_file_logger():
+    return logger
 
 class Base(container.ObjectContainer):
     """
@@ -38,14 +40,34 @@ class Base(container.ObjectContainer):
             raise exceptions.InvalidRef("Invalid reference for Base object %s!" % ref)
         self.ref = ref
         container.ObjectContainer.__init__(self, ref)
-        for arg in kwargs.keys():
-            if kwargs.get(arg) != None:
-                setattr(self, arg, kwargs.get(arg))
-
+        try:
+            for arg in kwargs.keys():
+                if kwargs.get(arg) != None:
+                    setattr(self, arg, kwargs.get(arg))
+        except AttributeError,e:
+            raise e
+        
     def __repr__(self):
         dict = self._dict()
         return "%s(%s)" % (self.__class__.__name__, dict)
 
+#    def __reduce_ex__(self, protocol_version):
+#        tpl = super(Base, self).__reduce_ex__(protocol_version)
+#        return tpl
+
+#    def __getstate__(self):
+#        state = self._dict(internals=True, ignore_empty=True)
+#        # pop out the _name so that it wont appear as redundant data (ref is the same)
+#        state.pop('_name', None)
+#        state.pop('_parent', None)
+#        return state
+#
+#    def __setstate__(self, state):
+#        super(Base, self).__setstate__(state)
+#        self.ref = state.get('ref','')
+#        for arg in state.keys():
+#            self.__dict__.setdefault(arg, state.get(arg))
+        
     def _get_mapper(self,modelname):
         """
         Return a instance of appropriate mapper for given model.
@@ -108,16 +130,23 @@ class Base(container.ObjectContainer):
                     obj._add(child._clone(**kwargs), container.APPEND)
         return obj
 
-    def _dict(self):
+    def _dict(self, **kwargs):
         """
         Return the public variables in a dictionary
         """
         dict = {}
-        for key in self.__dict__.keys():
-            if key.startswith('_'):
+        # loop through the items in this object internal __dict__
+        # and add all except internal variables and function overrides  
+        for (key,value) in self.__dict__.items():
+            if not kwargs.get('internals', False) and key.startswith('_'):
                 continue
+            elif not kwargs.get('callables', False) and callable(value):
+                continue
+            elif kwargs.get('ignore_empty') and not value:
+                # ignore empty values
+                pass
             else:
-                dict[key] = self.__dict__[key]
+                dict[key] = value
         return dict
 
     def _default_object(self, name):
@@ -151,6 +180,27 @@ class Base(container.ObjectContainer):
             paths.append(parentcontainer.namespace)
         paths.reverse()
         return utils.dottedref.join_refs(paths)
+
+    def path(self, toparent=None):
+        """
+        Get the path to this Base object..
+        @param toparent: the _parent object up to which the path is relative. Default value is None.,
+        which gives the fully qualified path in the topology.
+        @return: The path to this Base object from toparent
+        """
+        return self._path(toparent)
+
+    def parent_path(self, toparent=None):
+        """
+        Get the path to the parent of this Base object..
+        @param toparent: the _parent object up to which the path is relative. Default value is None.,
+        which gives the fully qualified path in the topology.
+        @return: The path to this Base object from toparent
+        """
+        if self._parent != None:
+            return self._parent.path(toparent)
+        else:
+            return ''
 
     def get_fullref(self):
         """
@@ -240,6 +290,23 @@ class Base(container.ObjectContainer):
         else:
             return None
 
+    def get_configuration(self):
+        """
+        Return the containing configuration of this object.
+        """
+        parent = self._find_parent_or_default(type=Configuration)
+        return parent
+
+    def get_configuration_path(self):
+        """
+        Return the path of containing configuration of this object.
+        """
+        parent = self._find_parent_or_default(type=Configuration)
+        try:
+            return parent.get_full_path()
+        except AttributeError:
+            return None
+    
     def get_index(self):
         """
         @return : the index of the data element for sequential data defined inside the same configuration.
@@ -293,6 +360,27 @@ class Base(container.ObjectContainer):
         """
         return None
 
+    def get_store_interface(self):
+        # if the project cannot be retrieved return None
+        try:
+            return self.get_project()
+        except exceptions.NotFound:
+            return None
+    
+    def get_id(self): 
+        try:
+            return self._id
+        except AttributeError:
+            return None
+
+    def set_id(self,value): 
+        self._id = value
+
+    def del_id(self): 
+        delattr(self,'_id')
+
+    """ The id as a property """
+    id = property(get_id,set_id, del_id)
 
 class Project(Base):
     """
@@ -309,10 +397,17 @@ class Project(Base):
             self._model = storage.persistentmodule.MODEL
         except AttributeError:
             self._model = None
-        
+        self.loaded = {}
         self.set_storage(storage)
         self.update()
-        self.loaded = {}
+
+    def __getstate__(self):
+        state = {}
+        state['storage'] = self.storage
+        return state
+
+    def __setstate__(self, state):
+        self.__init__(state['storage'])
 
     def __add_loaded__(self, ref, obj):
         """
@@ -353,8 +448,10 @@ class Project(Base):
                 return True
             else: 
                 return False
-        else: 
-            return True
+        else:
+            # Return False in case the object is loaded at all in this project 
+            # increases performance as unloading is not done on unchanged objects
+            return False
         
     def _supported_type(self, obj):
         if isinstance(obj, Configuration) \
@@ -383,10 +480,9 @@ class Project(Base):
         """
         Set the Storage instance of this Project.
         """
-        if isinstance(storage, Storage):
-            self.storage = storage
-        else:
+        if storage != None and not isinstance(storage, Storage):
             raise exceptions.StorageException("The given storage is not a instance of Storage!")
+        self.storage = storage
 
     def list_configurations(self, filter_or_filters=None):
         """
@@ -418,7 +514,9 @@ class Project(Base):
         List all configuration objects of the project (all configurations)
         @return: a list for configuration file paths
         """
-        return [obj.get_path() for obj in self._traverse(type=(Configuration, ConfigurationProxy))]
+        # TODO
+        # huge performance problem 
+        return [obj.get_full_path() for obj in self._traverse(type=(Configuration, ConfigurationProxy))]
 
     def get_configuration(self, path):
         """
@@ -445,27 +543,44 @@ class Project(Base):
         """
         # Changed from list_all_configurations to list_configurations
         # (list_all_configurations causes a insane performance problem with _traverse)
-        return path in self.list_configurations()
-
-    def add_configuration(self, config):
+        #
+        try:
+            return self.storage.is_resource(path)
+        except exceptions.NotSupportedException:
+            return path in self.list_configurations()
+        
+    def add_configuration(self, config, overwrite_existing=False):
         """
         Add a Configuration object to this project
-        """
+        @param config: The configuration object to add
+        @param overwrite_existing: When this is set true any existing configuration is 
+        overwritten. 
+        """ 
         if isinstance(config, Configuration):
-            if self.is_configuration(config.get_path()):
+            if not overwrite_existing and self.is_configuration(config.get_path()):
                 raise exceptions.AlreadyExists("%s" % config.get_path())
-            self._add(config)
+            
+            proxy = ConfigurationProxy(config.path)
+            proxy._set_obj(config)
+            self._add(proxy)
+            #self._add(config)
             self.__add_loaded__(config.get_path(), config)
             self.__loaded__(config.get_path())
         else:
             raise exceptions.IncorrectClassError("Only Configuration instance can be added to Project!")
 
-    def create_configuration(self, path, namespace=""):
+    def create_configuration(self, path, overwrite_existing=False, **kwargs):
         """
         Create a Configuration object to this project
+        @param path: The path of the new configuration file
+        @param overwrite_existing: When this is set true any existing configuration is 
+        overwritten. 
+        @param **kwargs: normal keyword arguments that are passed on to the newly 
+        created Configuration object. See Configuration object constructor description on what
+        you can pass on here.  
         """
-        config = self.get_configuration_class()(utils.resourceref.norm(path), namespace=namespace)
-        self.add_configuration(config)
+        config = self.get_configuration_class()(utils.resourceref.norm(path), **kwargs)
+        self.add_configuration(config, overwrite_existing)
         return config
 
     def remove_configuration(self, path):
@@ -487,7 +602,7 @@ class Project(Base):
         self.storage.import_resources(configuration.list_resources(), configuration.get_storage())
         return
 
-    def export_configuration(self, configuration, export_storage, empty_folders=False):
+    def export_configuration(self, configuration, export_storage, **kwargs):
         """
         Export a configuration object to another storage
         """
@@ -504,8 +619,9 @@ class Project(Base):
         #l = []
         cpath = utils.resourceref.get_path(configuration.get_path()) 
         resr = [utils.resourceref.join_refs([cpath,related]) \
-                for related in configuration.get_layer().list_all_related(empty_folders)]        
-        self.storage.export_resources(resr ,export_storage, empty_folders)
+                for related in configuration.get_layer().list_all_related(**kwargs)]
+        
+        self.storage.export_resources(resr ,export_storage, kwargs.get("empty_folders", False))
         return
 
     def get_configuration_class(self):
@@ -545,7 +661,7 @@ class Project(Base):
         if not self.__get_loaded__(path):
             configuration = self.get_storage().load(path)
             if configuration.get_ref() == 'unknown':
-                 configuration.set_ref(utils.resourceref.to_dref(path))
+                configuration.set_ref(utils.resourceref.to_dref(path))
             self.__add_loaded__(path, configuration)
         """ increase the ref counter """
         self.__loaded__(path)
@@ -560,6 +676,15 @@ class Project(Base):
         """
         if self.__unloaded__(path):
             self.get_storage().unload(path, object)
+            # remove the configuration from this this project, 
+            # with proxy set the _obj reference to None
+            try:
+                conf =  self.get_configuration(path)
+                if isinstance(conf, ConfigurationProxy):
+                    conf._set_obj(None)
+            except exceptions.NotFound:
+                # if the configuration is not found at all then ignore the resetting
+                pass
 
     def get_path(self):
         """
@@ -578,6 +703,9 @@ class CompositeConfiguration(Base):
         super(CompositeConfiguration, self).__init__(ref, **kwargs)
         self.container = True
 
+    def _configuration_class(self):
+        return Configuration
+
     def add_configuration(self, config):
         """
         Add an existing Configuration to this configuration
@@ -587,9 +715,23 @@ class CompositeConfiguration(Base):
         """
         Merge the default view features from added config to this configs _default_view.
         """
-        self._add(config)
+        # if the Configuration has a separate resource path, add it automatically behind proxy 
+        if utils.resourceref.is_path(config.path) and isinstance(config, Configuration):
+            proxy = ConfigurationProxy(config.path)
+            proxy._set_obj(config)
+            self._add(proxy)
+            # Add the new configuration to the list of "modified/loaded" configurations
+            try:
+                prj = self.get_project()
+                prj.__add_loaded__(config.get_full_path(), config)
+                prj.__loaded__(config.get_full_path())
+            except exceptions.NotFound:
+                # if the parent is not found this configuration is not (yet) a part of project and cant be stored 
+                pass
+        else:
+            self._add(config)
 
-    def include_configuration(self, configref):
+    def include_configuration(self, configref, policy=0):
         """
         Add an existing Configuration to this configuration by its resource reference
         @param config: A Configuration instance:
@@ -597,7 +739,7 @@ class CompositeConfiguration(Base):
         """
         # add the configuration load proxy to this configuration instead 
         # adding the configuration directly
-        self._add(ConfigurationProxy(configref))
+        self._add(ConfigurationProxy(configref), policy)
 
     def create_configuration(self, path):
         """
@@ -611,11 +753,9 @@ class CompositeConfiguration(Base):
         """
         # normalise the path
         normpath = utils.resourceref.norm(path)
-        cklass = self.get_configuration_class()
+        cklass = self._configuration_class()
         conf = cklass(normpath, namespace=self.namespace)
-        proxy = ConfigurationProxy(normpath)
-        self.add_configuration(proxy)
-        proxy._set_obj(conf)
+        self.add_configuration(conf)
         return conf
 
     def remove_configuration(self, path):
@@ -636,9 +776,7 @@ class CompositeConfiguration(Base):
         List all Layer objects in the Configuration
         @return: a copy array of layer references.
         """
-        # TODO
-        # huge performance problem 
-        return [config.get_path() for config in self._traverse(type=(Configuration, ConfigurationProxy))] 
+        return [config.get_path_for_parent(self) for config in self._traverse(type=(Configuration, ConfigurationProxy))] 
 
     def get_configuration(self, path):
         """
@@ -667,17 +805,6 @@ class CompositeConfiguration(Base):
         except IndexError:
             return self 
 
-    def get_configuration_class(self):
-        """
-        return the default configuration class retrieved from the project if it is found.
-        Otherwise return cone.public.api.Configuration. 
-        """
-        try:
-            return self.get_project().get_configuration_class()
-        # catch the Parent/Project NotFound exception
-        except exceptions.NotFound:
-            return Configuration
-
     def add(self, child, policy=container.REPLACE):
         """
         A generic add function to add child objects. The function is intended to act as
@@ -690,18 +817,41 @@ class CompositeConfiguration(Base):
         if isinstance(child, Configuration):
             self.add_configuration(child)
         elif isinstance(child, ConfigurationProxy):
-            self.add_configuration(child)
+            self._add(child)
         elif isinstance(child, Base):
             self._add(child)
         else:
             raise exceptions.IncorrectClassError("Cannot add %s to %s" % (child, self))
 
-    def layered_content(self, layers=None):
+    def layered_resources(self, layers=None, empty_folders=False, folder=None, resource_type=None):
         """
-        fetch content from first to last and override content 
-        if it is found from a later layer 
-        Create an array of the layers based on the layer indexes.
+        Fetch resource paths by layers so that if a resource with the same name
+        exists on multiple layers, the one on the latest layer is the active one.
+        @param layers: List of layer indices to specify the layer to use, None
+            for all layers.
+        @param empty_folders: If True, empty folders are returned also.
+        @param folder: Name of a specific folder from which to get resources, or None.
+            If None, resource_type must be specified.
+        @param resource_type: Type of the resources to find. Must be one of
+            ('confml', 'implml', 'content', 'doc') or None.
+            If None, folder must be specified.
+        @return: A container.DataContainer instance containing the resource paths.
+            For example: {'foo.txt': ['layer1/content/foo.txt',
+                                      'layer2/content/foo.txt'],
+                          'bar.txt': ['layer1/content/bar.txt']}
         """
+        MAPPING = {'confml':    lambda layer: layer.confml_folder(),
+                   'implml':    lambda layer: layer.implml_folder(),
+                   'content':   lambda layer: layer.content_folder(),
+                   'doc':       lambda layer: layer.doc_folder()}
+        if resource_type is not None and resource_type not in MAPPING:
+            raise ValueError("Invalid resource type %r, should be one of %r" % (resource_type, MAPPING.keys()))
+        
+        if folder and resource_type:
+            raise ValueError('Only one of folder and resource_type must be specified!')
+        if not folder and not resource_type:
+            raise ValueError('Either folder or resource_type must be specified!')
+        
         configuration_array = []
         if layers == None:
             configuration_array = self.list_configurations()
@@ -709,18 +859,43 @@ class CompositeConfiguration(Base):
             all = self.list_configurations()
             for i in layers:
                 configuration_array.append(all[i])
-
-        content = container.DataContainer()
+        
+        # Add the current configuration as the last one in the list, in case
+        # the current configuration happens to be a layer root itself
+        configuration_array.append('')
+        
+        # Set up the get_folder function based on the parameters
+        if resource_type:
+            get_folder = MAPPING[resource_type]
+        else:
+            def get_folder(layer):
+                cpath = layer.get_current_path()
+                return Folder(layer.storage, utils.resourceref.join_refs([cpath, folder]))
+        
+        result = container.DataContainer()
         for configuration_path in configuration_array:
-            content_folder = self.get_configuration(configuration_path).get_layer().content_folder()
-            content_path = content_folder.get_current_path()
-            for content_file in content_folder.list_resources("", True):
-                source_file = utils.resourceref.join_refs([content_path, content_file])
-                content.add_value(content_file, source_file)
-                
-        return content
-
-
+            folder_obj = get_folder(self.get_configuration(configuration_path).get_layer())
+            folder_path = folder_obj.get_current_path()
+            for res_path in folder_obj.list_resources("", recurse=True, empty_folders=empty_folders):
+                if res_path == '': continue # ZipStorage sometimes returns empty paths
+                res_fullpath = utils.resourceref.join_refs([folder_path, res_path])
+                result.add_value(res_path, res_fullpath)
+        return result
+    
+    def layered_confml(self, layers=None, empty_folders=False):
+        return self.layered_resources(layers, empty_folders, resource_type='confml')
+    
+    def layered_implml(self, layers=None, empty_folders=False):
+        return self.layered_resources(layers, empty_folders, resource_type='implml')
+    
+    def layered_content(self, layers=None, empty_folders=False):
+        return self.layered_resources(layers, empty_folders, resource_type='content')
+    
+    def layered_doc(self, layers=None, empty_folders=False):
+        return self.layered_resources(layers, empty_folders, resource_type='doc')
+    
+    
+    
 class Configuration(CompositeConfiguration):
     """
     A Configuration is a container that can hold several Layer objects.
@@ -729,12 +904,33 @@ class Configuration(CompositeConfiguration):
     def __init__(self, ref="", **kwargs):
         self.path = kwargs.get('path') or ref
         self.namespace = kwargs.get('namespace', '')
-        self.name = utils.resourceref.to_objref(self.path)
-        super(Configuration, self).__init__(utils.resourceref.to_objref(self.path))
+        self.name = kwargs.get('name',utils.resourceref.to_objref(self.path))
+        self.version = kwargs.get('version')
+        super(Configuration, self).__init__(utils.resourceref.to_objref(self.path), **kwargs)
         self.container = True
 
+    def __reduce_ex__(self, protocol_version):
+        """
+        Make the Configuration pickle a ConfigurationProxy object that would load this configuration
+        """
+        proxy = ConfigurationProxy(self.path, store_interface = self.get_project())
+        tpl = proxy.__reduce_ex__(protocol_version)
+        return tpl
+
+    def __getstate__(self):
+        return None
+
     def _default_object(self, name):
-        return Feature(name)
+        return self._default_class()(name)
+
+    def _default_class(self):
+        return self._feature_class()
+
+    def _feature_class(self):
+        return Feature
+
+    def _view_class(self):
+        return View
 
     def _supported_type(self, obj):
         if isinstance(obj, Configuration) \
@@ -747,16 +943,11 @@ class Configuration(CompositeConfiguration):
         else:
             return False
 
-    def _dict(self):
+    def _dict(self, **kwargs):
         """
         Return the public variables in a dictionary
         """
-        dict = {}
-        for key in self.__dict__.keys():
-            if key.startswith('_'):
-                continue
-            else:
-                dict[key] = self.__dict__[key]
+        dict = super(Configuration, self)._dict(**kwargs)
         dict['namespace'] = self.namespace
         return dict
     
@@ -783,10 +974,8 @@ class Configuration(CompositeConfiguration):
         Set the path of the configuration resource, and update the name and ref to correspond
         """
         self.path = path
-        #self.name = utils.resourceref.to_objref(self.path)
         self.set_ref(utils.resourceref.to_objref(self.path))
 
-    #@property
     def get_full_path(self):
         """
         Return the path of the configuration resource
@@ -796,7 +985,19 @@ class Configuration(CompositeConfiguration):
             parent_path = utils.resourceref.get_path(parentconfig.get_path()) 
         except exceptions.NotFound:
             parent_path = ""
+        return utils.resourceref.join_refs([parent_path, self.path])
 
+    def get_path_for_parent(self, parent):
+        """
+        Return the path to this configuration for a defined parent Configuration object.
+        """
+        parent_path = ""
+        try:
+            parentconfig = self._find_parent(type=Configuration)
+            if parent != parentconfig:
+                parent_path = utils.resourceref.get_path(parentconfig.get_path_for_parent(parent)) 
+        except exceptions.NotFound:
+            pass
         return utils.resourceref.join_refs([parent_path, self.path])
 
     def get_layer(self):
@@ -821,7 +1022,6 @@ class Configuration(CompositeConfiguration):
         @param namespace: The new namespace of the object
         """
         self._namespace =  namespace
-        #self.root.set_namespace(namespace)
 
     def get_namespace(self):
         """
@@ -836,7 +1036,7 @@ class Configuration(CompositeConfiguration):
         self._namespace = None
     namespace = property(get_namespace, set_namespace, del_namespace)
 
-    def list_resources(self, empty_folders=False):
+    def list_resources(self, **kwargs):
         """
         List all resources used in this configuration
         """
@@ -848,10 +1048,10 @@ class Configuration(CompositeConfiguration):
         
         
         resources = [self.get_full_path()]
-        for config in self._traverse(type=Configuration):
+        for config in self._traverse(type=(Configuration,ConfigurationProxy)):
             resources.append(config.get_full_path())
         layer = self.get_layer()
-        for resref in layer.list_all_resources(empty_folders):
+        for resref in layer.list_all_resources():
             resources.append(utils.resourceref.join_refs([layer.get_current_path(), resref]))
     
         return utils.distinct_array(resources)
@@ -891,6 +1091,18 @@ class Configuration(CompositeConfiguration):
         """
         return self._get(ref)
 
+    def create_feature(self, ref, **kwargs):
+        """
+        Create a feature object to the configuration.
+        @param ref: The ref for the Feature object.
+        @param **kwargs: keyword arguments  
+        e.g. to add fea2 under fea1 add_feature(fea2, 'fea1')
+        @return: the new feature object.
+        """
+        fea = self._feature_class()(ref, **kwargs)
+        self._add(fea)
+        return fea
+
     def add_feature(self, feature, namespace=""):
         """
         Add a feature object to the configuration.
@@ -899,7 +1111,11 @@ class Configuration(CompositeConfiguration):
         e.g. to add fea2 under fea1 add_feature(fea2, 'fea1')
         @return: None
         """
-        self._add_to_path(namespace, feature)
+        if namespace and self._has(namespace):
+            # Add the feature directly with an existing feature's add_feature functionality
+            self.get_feature(namespace).add_feature(feature)
+        else:
+            self._add_to_path(namespace, feature)
 
     def remove_feature(self, ref):
         """
@@ -927,13 +1143,27 @@ class Configuration(CompositeConfiguration):
     def add_data(self, data, policy=container.REPLACE):
         """
         Add a data object to this configuration object.
-        @param data: The Data object to add.
+        @param data: The Data object or list of Data objects to add.
         @return: None
-        """ 
-        if not self._has(data.attr):
-            self._add(DataContainer(data.attr, container=True))
-        (namespace, name) = utils.dottedref.psplit_ref(data.get_fearef())
-        self._get(data.attr)._add_to_path(namespace, data, policy)
+        """
+        data_objs = utils.get_list(data)
+        
+        if policy == container.PREPEND:
+            data_objs = reversed(data_objs)
+            policy_first = container.PREPEND
+            policy_rest = container.PREPEND
+        else:
+            policy_first = policy
+            policy_rest = container.APPEND
+        
+        for i, data_obj in enumerate(data_objs):
+            if not self._has(data_obj.attr):
+                self._add(DataContainer(data_obj.attr, container=True))
+            (namespace, name) = utils.dottedref.psplit_ref(data_obj.get_fearef())
+            
+            if i == 0:  p = policy_first
+            else:       p = policy_rest
+            self._get(data_obj.attr)._add_to_path(namespace, data_obj, p)
 
     def get_data(self, ref):
         """
@@ -1009,13 +1239,24 @@ class Configuration(CompositeConfiguration):
         view.populate()
         return view
 
-    def add_view(self, viewname):
+    def create_view(self, viewname):
+        """
+        Create a view object to the configuration.
+        @param viewname: The name of the view to add. 
+        @return: view object
+        """
+        viewobj = self._view_class()(viewname)
+        self.add_view(viewobj)
+        return viewobj
+
+    def add_view(self, viewobj):
         """
         Add a view object to the configuration.
-        @param viewname: The name of the view to add. 
+        @param viewobj: The existing view object to add. 
         @return: None
         """
-        return self._add(View(viewname))
+        assert(isinstance(viewobj, View))
+        return self._add(viewobj)
 
     def remove_view(self, ref):
         """
@@ -1038,10 +1279,13 @@ class Configuration(CompositeConfiguration):
         Save the object to the permanent Storage object. Calls the save operation of 
         all the children.
         """
+        # Change the recursion order so that the current object 
+        # is saved first and then its childen.
+        # This increases performance in cases where this object requires information about its childen (no unload -> load cases)
+        self.get_project().unload(self.get_full_path(), self)
         for child in self._objects():
             if isinstance(child, (Configuration,ConfigurationProxy)):
                 child.save()
-        self.get_project().unload(self.get_full_path(), self)
 
     def close(self):
         """
@@ -1077,13 +1321,13 @@ class Configuration(CompositeConfiguration):
         This returns always the view from the Root configuration point of view.
         """
         try:
-            parent = self._find_parent_or_default() 
+            parent = self._find_parent_or_default()
             if parent and isinstance(parent, Configuration):
                 return parent.get_default_view()
             else:
-                if not hasattr(self, '_default_view'):
+                if not self._has('?default_view'):
                     self._create_default_view()
-                return self._default_view
+                return self._get('?default_view')
         except exceptions.NotFound, e:
             raise e
         # raise exceptions.NotFound("Default View is not found! No root configuration?")
@@ -1101,17 +1345,19 @@ class Configuration(CompositeConfiguration):
     
     def _create_default_view(self):
         # Rebuild the default view for this Configuration
-        self._default_view = View("_default_view", data=True)
-        self._default_view._parent= self
+        default_view = View("?default_view", data=True)
+        #self._default_view._parent= self
+        self._add(default_view)
         # First add all features of the configuration to the view. 
         # Then add all data elements under the features
         for child in self._traverse(type=Feature):
-            self._default_view.add_feature(child, child.namespace)
+            # TODO print "Adding : %s -> %s" % (child.namespace, child)
+            default_view.add_feature(child, child.namespace)
         for child in self._traverse(type=Data):
             #parent_config = child._find_parent_or_default(type=Configuration)
             #print "Adding data %s: fqr: %s from file %s." % (child.get_value(), child.fqr, parent_config.get_path())
             try:
-                fea = self._default_view.get_feature(child.fqr)
+                fea = default_view.get_feature(child.fqr)
                 fea.add_data(child)
             except exceptions.NotFound, e:
                 data_parent_config = child._find_parent_or_default(type=Configuration)
@@ -1128,9 +1374,15 @@ class ConfigurationProxy(container.LoadProxy):
         The ConfigurationProxy trust to get the store_interface from the parent object with get_storage() function.
         
         """
-        container.LoadProxy.__init__(self, path)
+        super(ConfigurationProxy,self).__init__(path, **kwargs)
         self.set('_name', utils.resourceref.to_objref(path))
 
+    def __reduce_ex__(self, protocol_version):
+        """
+        Make the Configuration pickle a ConfigurationProxy object that would load this configuration
+        """
+        return super(ConfigurationProxy, self).__reduce_ex__(protocol_version)
+    
     def _clone(self, **kwargs):
         """
         A ConfigurationProxy specific implementation for cloning.
@@ -1152,7 +1404,7 @@ class ConfigurationProxy(container.LoadProxy):
                 newobj = self._get_obj()._clone(**kwargs) 
                 obj._set_obj(newobj)
         return obj
-
+    
     def _dict(self):
         """
         Return the public variables in a dictionary
@@ -1164,7 +1416,7 @@ class ConfigurationProxy(container.LoadProxy):
             else:
                 dict[key] = self.__dict__[key]
         return dict
-
+    
     def _get_mapper(self,modelname):
         """
         Return a instance of appropriate mapper for given model.
@@ -1177,32 +1429,27 @@ class Group(Base):
     """
     def __init__(self, ref="", **kwargs):
         super(Group, self).__init__(ref, **kwargs)
-        self.name = ref
+        self.name = kwargs.get('name', ref)
         self.support_data = kwargs.get("data", False)
 
     def _supported_type(self, obj):
         if isinstance(obj, (Group, \
                            Base, \
                            _FeatureProxy, \
-                           FeatureLink)): 
+                           FeatureLink, \
+                           ConfigurationProxy)): 
             return True
         else:
             return False
 
     def _default_object(self, name):
-        return Group(name)
+        return self._group_class()(name)
 
-    def get_name(self):
-        """
-        Return the name of the configuration
-        """
-        return self.name
+    def _group_class(self):
+        return Group
 
-    def set_name(self, name):
-        """
-        Set the name
-        """
-        self.name
+    def _featurelink_class(self):
+        return FeatureLink
 
     def add(self, child, policy=container.REPLACE):
         """
@@ -1213,10 +1460,7 @@ class Group(Base):
         @param child: the child object to add
         @raise IncorrectClassError: if the given class cannot be added to this object.  
         """
-        if isinstance(child, (Group, \
-                              Base, \
-                              _FeatureProxy, \
-                              FeatureLink)):
+        if self._supported_type(child):
             self._add(child)
         else:
             raise exceptions.IncorrectClassError("Cannot add %s to %s" % (child, self))
@@ -1233,6 +1477,21 @@ class Group(Base):
         """
         self.name = name
 
+    def create_featurelink(self, feature_ref, **kwargs):
+        """
+        create a feature link object to this element, with the given ref
+        @param feature_ref: the reference for the featurelink which should
+        point to a exising feature in the configuration.
+        @param **kwargs: keyword arguments are passed to the featurelink object 
+        directly.
+        """
+        fealink = self._featurelink_class()(feature_ref, **kwargs)
+        self.add(fealink)
+        return fealink
+
+    def get_featurelink(self, ref):
+        return self._get(FeatureLink.get_featurelink_ref(ref))
+    
     def add_feature(self, feature, path=""):
         """
         Add feature to this Group.
@@ -1260,26 +1519,65 @@ class Group(Base):
         except exceptions.NotFound:
             raise exceptions.NotFound("Feature '%s' not found." % ref)
 
-    def get_features(self, ref, **kwargs):
+    def get_features(self, refs, **kwargs):
         """
         Get a list of features that match the ref. 
+        
+        @param refs: The paths (refs) to the given feature or xpath like expression. The refs
+        argument can be a single reference or a list of references to features. 
+        @return: A list of features.
+        
+        NOTE! the invalid references will not raise an exception.
+         
         Example1: get_features('foo.bar') would be the same as get_feature('foo.bar'), but this returns 
         always a list [<Feature>].
         Example2: get_features('foo.*') would try to retrieve a list of all foo children.
         Example3: get_features('foo.*', type='') would try to retrieve a list of all foo children, 
         that have a defined type.
-        @param path: The path (ref) to the given feature or xpath like expression 
-        @return: A list of features.
+        Example4: get_features(['foo','bar.set1']) would try to retrieve a foo and then bar.set1.
+        
         """
-        (startref, last) = utils.dottedref.psplit_ref(ref)
-        startelem = self._get(startref)
-        if last == '**':
-            return [fea for fea in startelem._traverse(**kwargs)]
-        elif last == '*':
-            return [fea for fea in startelem._objects(**kwargs)] 
+        
+        if utils.is_list(refs):
+            features = []
+            for ref in refs:
+                features += self.get_matching_features(ref, **kwargs)
+            return features
         else:
-            return [self._get(ref)]
+            return self.get_matching_features(refs, **kwargs)
 
+    def get_matching_features(self, ref, **kwargs):
+        """
+        Get a list of features that match the ref. 
+        
+        @param refs: The paths (refs) to the given feature or xpath like expression. The refs
+        argument can be a single reference or a list of references to features. 
+        @return: A list of features.
+
+        NOTE! the invalid references will not raise an exception but return an empty list.
+        
+        Example1: get_features('foo.bar') would be the same as get_feature('foo.bar'), but this returns 
+        always a list [<Feature>].
+        Example2: get_features('foo.*') would try to retrieve a list of all foo children.
+        Example3: get_features('foo.*', type='') would try to retrieve a list of all foo children, 
+        that have a defined type.
+        
+        """
+        try:
+            (startref, last) = utils.dottedref.psplit_ref(ref)
+            startelem = self._get(startref)
+            kwargs['type'] = _FeatureProxy
+            if last == '**':
+                return [fea for fea in startelem._traverse(**kwargs)]
+            elif last == '*':
+                return [fea for fea in startelem._objects(**kwargs)] 
+            elif ref != "":
+                return [self._get(ref)]
+            else:
+                return []
+        except exceptions.NotFound:
+            return []
+         
     def list_features(self):
         """
         Return a array of all Feature children references under this object.
@@ -1292,10 +1590,20 @@ class Group(Base):
         """
         return [fea.fqr for fea in self._traverse(type=(_FeatureProxy))]
 
-    def add_group(self, groupname):
+    def create_group(self, groupname, **kwargs):
+        """
+        create a group object to this element with given group name.
+        @param groupname: the name for the new group
+        @param **kwargs: keyword arguments are passed on to the new group object.  
+        """
+        grp = self._group_class()(groupname, **kwargs)
+        self.add_group(grp)
+        return grp
+
+    def add_group(self, grp):
         """
         """
-        self._add(Group(groupname))
+        self._add(grp)
 
     def remove_group(self, ref):
         """
@@ -1313,7 +1621,7 @@ class Group(Base):
     def list_groups(self):
         """
         """
-        return [group.get_name() for group in self._objects(type=Group)]
+        return [group.ref for group in self._objects(type=Group)]
 
     def populate(self):
         """
@@ -1332,7 +1640,6 @@ class View(Group):
     """
     def __init__(self, ref="", **kwargs):
         super(View, self).__init__(self.to_ref(ref), **kwargs)
-        self.name = ref
         self.container = True
 
     @classmethod
@@ -1350,8 +1657,10 @@ class Feature(Base):
     PROPERTIES = ['value']
     def __init__(self, ref="", **kwargs):
         super(Feature, self).__init__(ref, **kwargs)
-        self.name = kwargs.get('name', ref)
+        self.name = kwargs.get('name', None)
         self.type = kwargs.get('type', None)
+        self.relevant = kwargs.get('relevant', None)
+        self.constraint = kwargs.get('constraint', None)
         self._dataproxy = None
 
     def __copy__(self):
@@ -1364,13 +1673,26 @@ class Feature(Base):
         fea = self.__class__(self.ref, **dict)
         return fea
 
+    def __getstate__(self):
+        state = super(Feature, self).__getstate__()
+        # remove the dataproxy value so that it is not stored in serializings
+        state.pop('_dataproxy', None)
+        return state
 
+    def __setstate__(self, state):
+        super(Feature, self).__setstate__(state)
+        self._dataproxy = None
+
+        
     def _supported_type(self, obj):
         # For now support added for desc element via support for Base
         if isinstance(obj, (Feature, Option, Base)):
             return True
         else:
             return False
+
+    def _feature_class(self):
+        return Feature
 
     def add(self, child, policy=container.REPLACE):
         """
@@ -1387,6 +1709,8 @@ class Feature(Base):
             self._add(child, policy)
         elif isinstance(child, Base):
             self._add(child, policy)
+        elif isinstance(child, Property):
+            self._add(child, policy)
         else:
             raise exceptions.IncorrectClassError("Cannot add %s to %s" % (child, self))
 
@@ -1402,22 +1726,53 @@ class Feature(Base):
         """
         self.name = name
 
+    def get_relevant(self):
+        """
+        Return the relevant attribute of the feature
+        """
+        return self.relevant
+
+    def set_relevant(self, relevant):
+        """
+        Set the relevant attribute
+        """
+        self.relevant = relevant
+
+    def get_constraint(self):
+        """
+        Return the constraint attribute of the feature
+        """
+        return self.constraint
+
+    def set_constraint(self, constraint):
+        """
+        Set the constraint attribute
+        """
+        self.constraint = constraint
+
     def get_type(self):
         return self.type
 
     def set_type(self, type):
         self.type = type
 
+    def create_feature(self, ref, **kwargs):
+        """
+        Create a feature object to the configuration.
+        @param ref: The ref for the Feature object.
+        @param **kwargs: keyword arguments  
+        e.g. to add fea2 under fea1 add_feature(fea2, 'fea1')
+        @return: the new feature object.
+        """
+        fea = self._feature_class()(ref, **kwargs)
+        self.add_feature(fea)
+        return fea
+
     def add_feature(self, feature, path=""):
         """
         @param feature: The Feature object to add 
         """
-        configuration = self.find_parent(type=Configuration)
-        if configuration:
-            feapath = utils.dottedref.join_refs([self._path(configuration), path])
-            configuration.add_feature(feature, feapath)
-        else:
-            self._add_to_path(path, feature)
+        self._add_to_path(path, feature)
 
     def get_feature(self, path):
         """
@@ -1430,12 +1785,7 @@ class Feature(Base):
         remove a given feature from this view by reference. 
         @param ref: 
         """
-        configuration = self.find_parent(type=Configuration)
-        if configuration:
-            fullfqr = utils.dottedref.join_refs([self._path(configuration), ref])
-            configuration.remove_feature(fullfqr)
-        else:
-            self._remove(ref)
+        self._remove(ref)
 
     def list_features(self):
         """
@@ -1491,40 +1841,107 @@ class Feature(Base):
         # Return option refs without the leading 'opt_'
         return [opt.ref[4:] for opt in self._objects(type=Option)]
 
+    def add_property(self, property):
+        """
+        @param property: property object to add
+        """
+        if not isinstance(property, Property):
+            raise TypeError("%r is not an instance of Property!" % property)
+        self._add(property)
+
+    def create_property(self, **kwargs):
+        """
+        @param name=str: property name 
+        @param value=str: property value
+        @param unit=str: property unit, e.g. kB
+        """
+        self._add(Property(**kwargs))
+
+
+    def get_property(self, ref):
+        """
+        @param ref: The ref of the property
+        """
+        obj = self._get(Property.to_propertyref(ref))
+        
+        if not isinstance(obj, Property):
+            raise TypeError('Object %r is not an instance of Property (%r instead)' % (Property.to_propertyref(ref), type(obj)))
+        return obj
+
+    def remove_property(self, ref):
+        """
+        remove a given property from this feature by ref. 
+        @param ref: 
+        """
+        obj = self._get(Property.to_propertyref(ref))
+        if not isinstance(obj, Property):
+            raise TypeError('Trying to remove property with ref %r, but object with ref %r is not an instance of Property (%s instead)' % (ref, Property.to_propertyref(ref), type(obj)))
+        self._remove(Property.to_propertyref(ref))
+
+    def list_properties(self):
+        """
+        Return a array of all Feature properties under this object.
+        """
+        
+        return [Property.to_normref(property.ref) for property in self._objects(type=Property)]
+
     def get_value(self, attr=None):
         """
-        Get the current value of the feature
+        Get the current value of the feature. 
         @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
         """
-        # Do not allow getting of setting of sequence values directly with Feature object
-        if not self.is_sequence():
-            return self.get_value_cast(self.dataproxy._get_value(attr), attr)
-        else:
-            """ get the feature specific data from sequence => a column of data table """
-            coldata =  []
-            feasequence = self.get_sequence_parent()
-            feapath = self._path(feasequence)
-            for row in feasequence.data:
-                feadata = row.get_feature(feapath)
-                coldata.append(feadata.value)
-            return coldata
+        return self.convert_data_to_value(self.dataproxy._get_datas(attr=attr), cast=True, attr=attr)
 
     def set_value(self, value, attr=None):
         """
         Set the current value for this feature. Set the value on the topmost layer.
         @param value: the value to set
         """
-        # Do not allow setting of setting of sequence values directly with Feature object
-        if not self.is_sequence():
-            value = self.set_value_cast(value, attr)
-            self.dataproxy._set_value(value, attr)
-
+        data_objs = self.convert_value_to_data(value, attr)
+        
+        # Set the created data objects to the dataproxy and the
+        # last configuration, overriding any existing elements
+        self.dataproxy._set_datas(data_objs, attr)
+        last_config = self.get_root_configuration().get_last_configuration()
+        last_config.add_data(data_objs, container.REPLACE)
+    
+    def convert_data_to_value(self, data_objects, cast=True, attr=None):
+        """
+        Convert the given list of Data objects into a suitable value
+        for this setting.
+        @param data_objects: The Data object list.
+        @param cast: If True, the value should be cast to its correct Python type
+            (e.g. int), if False, the value should remain in the string form
+            it was in the data objects.
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs'
+        @return: The converted value.
+        """
+        if not data_objects:    return None
+        
+        data_obj = data_objects[-1]
+        if data_obj.map:
+            value = self._resolve_name_id_mapped_value(data_obj.map, cast_value=cast)
+        else:
+            value = data_obj.value
+            if cast: value = self.get_value_cast(value, attr)
+        return value
+    
+    def convert_value_to_data(self, value, attr=None):
+        """
+        Convert the given value to a list of Data objects that can be placed
+        in the configuration's last layer's data section (DataContainer object).
+        @param value: The value to convert.
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs'
+        @return: The converted Data objects.
+        """
+        value = self.set_value_cast(value, attr)
+        return [Data(fqr=self.fqr, value=value, attr=attr)]
+    
     def del_value(self, attr=None):
         """
         Delete the topmost value for this feature.
         """
-        if not self.is_sequence():
-            self.dataproxy._del_value(attr)
+        self.dataproxy._del_value(attr)
 
     def get_value_cast(self, value, attr=None):
         """
@@ -1547,18 +1964,7 @@ class Feature(Base):
         Get the current value of the feature
         @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
         """
-        # Do not allow getting of setting of sequence values directly with Feature object
-        if not self.is_sequence():
-            return self.dataproxy._get_value(attr)
-        else:
-            """ get the feature specific data from sequence => a column of data table """
-            coldata =  []
-            feasequence = self.get_sequence_parent()
-            feapath = self._path(feasequence.data)
-            for row in feasequence.data:
-                feadata = row.get_feature(feapath)
-                coldata.append(feadata.value)
-            return coldata
+        return self.convert_data_to_value(self.dataproxy._get_datas(attr=attr), cast=False, attr=attr)
 
     def add_data(self, data):
         """
@@ -1616,6 +2022,10 @@ class Feature(Base):
         except AttributeError:
             return False
 
+    def is_sequence_root(self):
+        """ Return true if this feature is a sequence object it self """
+        return False
+
     def get_sequence_parent(self):
         """ Try to get a FeatureSequence object for this Feature if it is found """
         try:
@@ -1630,7 +2040,163 @@ class Feature(Base):
     def setdataproxy(self, value): self._dataproxy = value
     def deldataproxy(self): self._dataproxy = None
     dataproxy = property(getdataproxy, setdataproxy, deldataproxy)
-    value = property(get_value, set_value, del_value)
+    """ Use custom OProperty to enable overriding value methods in subclasses """
+    value = utils.OProperty(get_value, set_value, del_value)
+
+    def get_column_value(self, attr=None):
+        """
+        Get the value of the featuresequence column
+        @param ref: the reference to the column   
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+        """
+        """ get the feature specific data from sequence => a column of data table """
+        seq_parent = self.get_sequence_parent()
+        if seq_parent._has_empty_sequence_marker():
+            return []
+        
+        coldata =  []
+        colref = self.path(seq_parent)
+        for row in seq_parent.data:
+            feadata = row.get_feature(colref)
+            coldata.append(feadata.get_value(attr))
+        return coldata
+    
+    def get_column_original_value(self, attr=None):
+        """
+        Get the value of the featuresequence column
+        @param feasequence: the feature sequence object
+        @param ref: the reference to the column   
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+        """
+        """ get the feature specific data from sequence => a column of data table """
+        seq_parent = self.get_sequence_parent()
+        if seq_parent._has_empty_sequence_marker():
+            return []
+        
+        coldata =  []
+        colref = self.path(seq_parent)
+        for row in seq_parent.data:
+            feadata = row.get_feature(colref)
+            coldata.append(feadata.get_original_value(attr))
+        return coldata
+    
+    def set_column_value(self, value, attr=None):
+        """
+        Get the value of the featuresequence column
+        @param feasequence: the feature sequence object
+        @param ref: the reference to the column   
+        @param value: the value to set. This must be a list instance. 
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+        """
+        seq_parent = self.get_sequence_parent()
+        colref = self.path(seq_parent)
+        
+        if not isinstance(value,list): 
+            raise exceptions.ConeException("The value for feature sequence '%s' column '%s' must be a list instance. Got %r" % (self.get_sequence_parent().fqr, colref, value))
+        
+        # Handle the special case where the sequence is marked as empty
+        # with the empty sequence marker (single empty data element)
+        if seq_parent._has_empty_sequence_marker():
+            seqrows = []
+        else:
+            seqrows = seq_parent.data
+        
+        if len(seqrows) < len(value):
+            raise exceptions.ConeException("Too many values for feature sequence '%s' column '%s'. Sequence holds only %d rows. Got %d data values in %r" % (self.get_sequence_parent().fqr, colref, len(seqrows), len(value), value))
+        for i in range(0, len(value)):
+            feadata = seqrows[i].get_feature(colref)
+            feadata.set_value(value[i])
+
+    def add_sequence_feature(self, feature, path=""):
+        """
+        Override of the add_feature function in sequence to set the sequence childs to act 
+        as columns of the feature sequence
+        @param feature: The Feature object to add 
+        @param path: path to feature if it not added directly under parent_fea 
+        """
+        # modify all possible children of feature
+        for fea in feature._traverse(type=Feature):
+            to_sequence_feature(fea)
+            
+        # Finally modify and add this feature to parent_feat
+        to_sequence_feature(feature)
+        self._add_to_path(path, feature)
+    
+    def _resolve_name_id_mapped_value(self, mapping_string, cast_value=True):
+        """
+        Resolve the name-ID mapped value based on the given mapping string.
+        @param mapping_string: The name-ID mapping string in the data element, e.g.
+            "FooFeature/FooSequence[@key='123']"
+        @param cast_value: If True, the resolved value will be cast to the corresponding
+            Python type, otherwise the raw string representation of the value in the
+            data element will be returned.
+        @return: The resolved value.
+        """
+        def fail(msg): raise exceptions.NameIdMappingError(msg)
+        
+        pattern = r"^([\w/]+)\[@key='(.*)'\]$"
+        m = re.match(pattern, mapping_string)
+        if m is None: fail("Malformed mapping expression: %s" % mapping_string)
+        
+        source_seq_ref = m.group(1).replace('/', '.')
+        mapping_key = m.group(2)
+        
+        dview = self.get_root_configuration().get_default_view()
+        
+        try:
+            source_seq = dview.get_feature(source_seq_ref)
+        except exceptions.NotFound:
+            fail("Mapping source sequence '%s' does not exist" % source_seq_ref)
+        
+        if source_seq.type != 'sequence':
+            fail("Mapping source setting '%s' is not a sequence setting" % source_seq_ref)
+        if not source_seq.mapKey or not source_seq.mapValue:
+            fail("Source sequence '%s' must have both mapKey and mapValue specified" % source_seq_ref)
+        
+        def get_subsetting(ref):
+            """
+            Return the sub-setting by the given mapKey or mapValue ref from the
+            source sequence.
+            @param ref: The reference in the format it is in the ConfML file.
+                E.g. 'SubSetting', 'FileSubSetting/localPath', 'FileSubSetting/targetPath'
+            """
+            subsetting = source_seq.get_feature(ref.replace('/', '.'))
+            # Use localPath for file and folder settings by default
+            if subsetting.type in ('file', 'folder'):
+                subsetting = subsetting.get_feature('localPath')
+            return subsetting
+        
+        try:
+            key_subsetting = get_subsetting(source_seq.mapKey)
+        except exceptions.NotFound:
+            fail("Invalid mapKey in source sequence '%s': no sub-setting with ref '%s'" % (source_seq_ref, source_seq.mapKey))
+        
+        
+        # Get possible override for mapValue from options
+        value_subsetting_ref = source_seq.mapValue
+        value_subsetting_ref_overridden = False
+        for opt in self._objects(type=Option):
+            if not opt.map or not opt.map_value: continue
+            if opt.map.replace('/', '.') == source_seq_ref:
+                value_subsetting_ref = opt.map_value
+                value_subsetting_ref_overridden = True
+        
+        try:
+            value_subsetting = get_subsetting(value_subsetting_ref)
+        except exceptions.NotFound:
+            if value_subsetting_ref_overridden:
+                fail("Invalid mapValue override in option: sub-setting '%s' does not exist under source sequence '%s'" % (value_subsetting_ref, source_seq_ref))
+            else:
+                fail("Invalid mapValue in source sequence '%s': no sub-setting with ref '%s'" % (source_seq_ref, value_subsetting_ref))
+        
+        key_list = key_subsetting.get_original_value()
+        if mapping_key not in key_list:
+            fail("No item-setting in source sequence '%s' matches key '%s'" % (source_seq_ref, mapping_key))
+        
+        if cast_value:  value_list = value_subsetting.get_value()
+        else:           value_list = value_subsetting.get_original_value()
+        return value_list[key_list.index(mapping_key)]
+
 
 class FeatureSequence(Feature):
     POLICY_REPLACE = 0
@@ -1642,11 +2208,9 @@ class FeatureSequence(Feature):
     dataelem_name = '?datarows'
     template_name = '?template'
     def __init__(self, ref="", **kwargs):
-        super(FeatureSequence, self).__init__(ref)
+        super(FeatureSequence, self).__init__(ref, **kwargs)
         self.name = kwargs.get('name', ref)
         self.type = 'sequence'
-        self.mapKey   = kwargs.get('mapKey')
-        self.mapValue = kwargs.get('mapValue')
         self._templatedata = None
 
     def _get_policy(self, data):
@@ -1665,8 +2229,8 @@ class FeatureSequence(Feature):
         elif firstdata.policy == 'prefix':
             return self.POLICY_PREPEND
         elif firstdata == data:
-             # otherwise the policy is either replace or undefined
-             # (firstdata.policy == 'replace' or firstdata.policy == ''):
+            # otherwise the policy is either replace or undefined
+            # (firstdata.policy == 'replace' or firstdata.policy == ''):
             return self.POLICY_REPLACE
         else:
             return self.POLICY_APPEND
@@ -1675,7 +2239,6 @@ class FeatureSequence(Feature):
         """
         Set the template of the feature sequence  
         """
-        # If template data is not existing, create it
         if data != None:
             self._templatedata = data
             for feaname in self.list_features():
@@ -1690,11 +2253,19 @@ class FeatureSequence(Feature):
         """
         Add a feature data row for a new data in this sequence 
         """
+        create_sub_data_objs = True
         if dataobj == None:
             dataobj = Data(fqr=self.fqr)
         elif dataobj.attr != 'data':
             # Add data rows only for data objects (not e.g. RFS)
             return
+        else:
+            # If the data object is given, but it doesn't contain any child
+            # elements, don't add them automatically. This is to account for the
+            # case where there is only one empty data element that specifies
+            # that the sequence is set to be empty
+            if len(dataobj._order) == 0:
+                create_sub_data_objs = False
         fea = FeatureSequenceSub(self.dataelem_name)
         rowproxy = _FeatureDataProxy(fea._name, fea)
         """ the imaginary features share the parent relation of the proxy objects """
@@ -1707,13 +2278,32 @@ class FeatureSequence(Feature):
         # add a data element under each feature.
         for feaname in self.list_all_features():
             (pathto_fea, fearef) = utils.dottedref.psplit_ref(feaname)
-            rowproxy.add_feature(FeatureSequenceSub(fearef), pathto_fea)
+            subfea = self.get_feature(feaname)
+            cellfea = FeatureSequenceSub(fearef)
+            cellfea.set_value_cast = subfea.set_value_cast
+            cellfea.get_value_cast = subfea.get_value_cast
+            cellfea.convert_data_to_value = subfea.convert_data_to_value
+            cellfea.convert_value_to_data = subfea.convert_value_to_data
+            rowproxy.add_feature(cellfea, pathto_fea)
             subproxy = rowproxy.get_feature(feaname)
-            subproxy._obj._parent = subproxy._parent 
-            if not dataobj._has(feaname):
+            subproxy._obj._parent = subproxy._parent
+            if create_sub_data_objs and not dataobj._has(feaname):
                 dataobj._add_to_path(pathto_fea, Data(ref=fearef))
             subproxy._add_data(dataobj._get(feaname))
-
+        return dataobj
+    
+    def _has_empty_sequence_marker(self):
+        """
+        Return True if the sequence setting has the empty sequence marker (a single
+        empty data element), which denotes that the sequence is set to empty.
+        """
+        datatable = self.get_data()
+        if len(datatable) == 1:
+            data_elem = datatable[0].get_datas()[0]
+            if len(data_elem._order) == 0:
+                return True
+        return False
+    
     def add(self, child, policy=container.REPLACE):
         """
         A generic add function to add child objects. The function is intended to act as
@@ -1731,38 +2321,83 @@ class FeatureSequence(Feature):
             self._add(child)
         else:
             raise exceptions.IncorrectClassError("Cannot add %s to %s" % (child, self))
+    
+    def add_feature(self, feature, path=""):
+        """
+        Override of the add_feature function in sequence to set the sequence childs to act 
+        as columns of the feature sequence
+        @param feature: The Feature object to add 
+        """
+        add_sequence_feature(self, feature, path)
 
     def add_sequence(self, data=None, policy=POLICY_APPEND):
         """
         Add a feature data row for a new data in this sequence 
         """
-        self._add_datarow(None, policy)
+        if self._has_empty_sequence_marker():
+            # We currently have the empty sequence marker (single empty data
+            # element), so this one that we are adding should replace it
+            policy = self.POLICY_REPLACE
+            
+        datarow = self._add_datarow(None, policy)
+        # add the new data sequence/row to the last configuration layer
+        last_config = self.get_root_configuration().get_last_configuration()
+        
+        container_policy = {self.POLICY_REPLACE: container.REPLACE,
+                            self.POLICY_APPEND:  container.APPEND,
+                            self.POLICY_PREPEND: container.PREPEND}[policy]
+        last_config.add_data(datarow, container_policy)
+        
         # set the initial data if it is given
         rowproxy = utils.get_list(self.dataproxy._get(self.dataelem_name))[-1]
         if data != None:
             for index in range(len(data)):
-                rowproxy[index].set_value(data[index])
-        # add the new data sequence/row to the last configuration layer
-        dataobj = rowproxy._get_data()
-        last_config = self.get_root_configuration().get_last_configuration()
-        last_config.add_data(dataobj, container.APPEND)
-        return dataobj
+                if data[index] != None:
+                    rowproxy[index].set_value(data[index])
 
     def set_template(self, data=None):
         """
         Set the template of the feature sequence  
         """
-        # If template data is not existing, create it
-        if self._templatedata == None:
-            self._set_template_data(Data(ref=self.ref, template=True))
-            # Add the template data to parent config
-            pconfig = self.find_parent(type=Configuration)
-            pconfig.add_data(self._templatedata)
-
-        if data != None:
-            templdatas = self._templatedata._objects()
-            for index in range(len(data)):
-                templdatas[index].set_value(data[index])
+        if data is None:
+            self._templatedata = None
+            return
+        
+        if not isinstance(data, list):
+            raise TypeError('data must be a list (got %r)' % data)
+        
+        # Create the new template data object
+        templatedata = Data(fqr=self.fqr, template=True)
+        
+        # Add all sub-objects to the data object
+        def add_data_objects(feature, data_obj, value_list):
+            refs = feature.list_features()
+            if len(refs) != len(value_list):
+                raise ValueError("Data value list is invalid")
+            for i, ref in enumerate(refs):
+                value = value_list[i]
+                subfea = feature.get_feature(ref)
+                if isinstance(value, list):
+                    subdata = Data(ref=ref)
+                    data_obj.add(subdata)
+                    add_data_objects(feature.get_feature(ref), subdata, value)
+                else:
+                    if value is not None:
+                        subdata = Data(ref=ref, value=subfea.set_value_cast(value))
+                        data_obj.add(subdata)
+        add_data_objects(self, templatedata, data)
+        
+        self._set_template_data(templatedata)
+        
+        # Remove any existing template data
+        pconfig = self.find_parent(type=Configuration)
+        dataobjs = pconfig._traverse(type=Data, filters=[lambda x: x.template and x.fqr == self.fqr])
+        if dataobjs:
+            for dataobj in dataobjs:
+                dataobj._parent._remove(dataobj.get_fullref())
+        
+        # Add the template data to the parent config (beginning of the data section)
+        pconfig.add_data(self._templatedata, policy=container.PREPEND)
 
     def get_template(self):
         """
@@ -1771,7 +2406,19 @@ class FeatureSequence(Feature):
         #self._set_template(None)
         # set the initial data if it is given
         if self._templatedata:
-            return [data.get_value() for data in self._templatedata._objects()]
+            def get_data_items(feature, data_obj):
+                refs = feature.list_features()
+                if refs:
+                    result = []
+                    for ref in refs:
+                        if data_obj._has(ref):
+                            result.append(get_data_items(feature.get_feature(ref), data_obj._get(ref)))
+                        else:
+                            result.append(None)
+                    return result
+                else:
+                    return data_obj.value
+            return get_data_items(self, self._templatedata)
         else:
             return None
 
@@ -1796,68 +2443,72 @@ class FeatureSequence(Feature):
             # Get the data index
             self._add_datarow(data, self._get_policy(data))
         return
-    
-    def get_map_key(self):
-        """
-        Returns the setting that corresponds to mapKey attribute of this sequence feature.
-        """
-        if self.mapKey != None:
-            mapkey = self.get_feature(self.mapKey)
-            return mapkey
-        else:
-            return None
-
-    def get_map_key_value(self,key):
-        """
-        Returns the setting that corresponds to mapKey attribute of this sequence feature.
-        """
-        value = None
-        if self.mapKey != None and self.mapValue != None:
-            data = self.get_data()
-            for item in data:
-                kv = item.get_feature(self.mapKey).get_value()
-                if kv == key:
-                    value = item.get_feature(self.mapValue).get_value()
-        return value
-
-    def get_map_value(self):
-        """
-        Returns the setting that corresponds to mapValue attribute of this sequence feature.
-        """
-        if self.mapValue != None:
-            mapvalue = self.get_feature(self.mapValue)
-            return mapvalue
-        else:
-            return None
         
     def get_value(self, attr=None):
         """
         Helper function to get the topmost data value from the default view.
         """
+        if self._has_empty_sequence_marker():
+            return []
+        
         datatable =  self.get_data()
-        rettable = [] 
+        rettable = []
         for row in datatable:
             rowvalues = row.value
             rettable.append(rowvalues)
         return rettable
 
+    def get_original_value(self, attr=None):
+        """
+        Get the current value of the feature
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+        """
+        if self._has_empty_sequence_marker():
+            return []
+        
+        datatable =  self.get_data()
+        rettable = []
+        for row in datatable:
+            rowvalues = row.get_original_value()
+            rettable.append(rowvalues)
+        return rettable
+    
     def set_value(self, value, attr=None):
         """
         Set the current value for this feature. Set the value on the topmost layer.
         @param value: the value to set. The value must be a two dimensional array (e.g. matrix)
         """
-        # sets the first data element to replace policy
-        try:
-            self.add_sequence(value.pop(0), self.POLICY_REPLACE)
-        # ignore the index error of an empty list
-        except IndexError:
-            pass
-        for row in value:
-            self.add_sequence(row)
+        if value:
+            # Add the first item with replace policy
+            self.add_sequence(value[0], self.POLICY_REPLACE)
+            for row in value[1:]:
+                self.add_sequence(row)
+        else:
+            # Setting the sequence to empty, so add one empty item-setting
+            # to signify that
+            self.add_sequence(None, self.POLICY_REPLACE)
+            
+            # Strip all sub-elements from the data element just created,
+            # since the ConfML spec says that an empty sequence is denoted
+            # by a single empty data element
+            data_elem = self.get_data()[0].get_datas()[0]
+            for r in list(data_elem._order):
+                data_elem._remove(r)
 
     def is_sequence(self):
         """ Return always true from a sequence object """
         return True
+
+    def is_sequence_root(self):
+        """ Return true if this feature is a sequence object it self """
+        return True
+
+    def get_column_features(self):
+        """ Return a list of sequence subfeature, which are the columns of the sequence """
+        columns = []
+        for subref in self.list_features():
+            columns.append(self.get_feature(subref))
+        return columns
 
     def get_sequence_parent(self):
         """ Return this object as a sequence parent """
@@ -1866,12 +2517,84 @@ class FeatureSequence(Feature):
     value = property(get_value, set_value)
     data = property(get_data)
 
+
+def add_sequence_feature(parent_feature, feature, path=""):
+    """
+    Override of the add_feature function in sequence to set the sequence childs to act 
+    as columns of the feature sequence
+    @param parent_feature: The parent feature where the feature object is added 
+    @param feature: The Feature object to add 
+    @param path: path to feature if it not added directly under parent_fea 
+    """
+    # modify all possible children of feature
+    for fea in feature._traverse(type=Feature):
+        to_sequence_feature(fea)
+        
+    # Finally modify and add this feature to parent_feat
+    to_sequence_feature(feature)
+    parent_feature._add_to_path(path, feature)
+
+def to_sequence_feature(feature):
+    """
+    modify a Feature object to sequence feature that will return column like data from a sequence.
+    @param feature: The Feature object for which is modified.
+    """
+    feature.get_value = feature.get_column_value 
+    feature.get_original_value = feature.get_column_original_value
+    feature.set_value = feature.set_column_value
+    feature.add_feature = feature.add_sequence_feature
+
+def get_column_value(feasequence, ref, attr=None):
+    """
+    Get the value of the featuresequence column
+    @param feasequence: the feature sequence object
+    @param ref: the reference to the column   
+    @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+    """
+    """ get the feature specific data from sequence => a column of data table """
+    coldata =  []
+    for row in feasequence.data:
+        feadata = row.get_feature(ref)
+        coldata.append(feadata.get_value(attr))
+    return coldata
+
+def get_column_original_value(feasequence, ref, attr=None):
+    """
+    Get the value of the featuresequence column
+    @param feasequence: the feature sequence object
+    @param ref: the reference to the column   
+    @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+    """
+    """ get the feature specific data from sequence => a column of data table """
+    coldata =  []
+    for row in feasequence.data:
+        feadata = row.get_feature(ref)
+        coldata.append(feadata.get_original_value(attr))
+    return coldata
+
+def set_column_value(feasequence, ref, value, attr=None):
+    """
+    Get the value of the featuresequence column
+    @param feasequence: the feature sequence object
+    @param ref: the reference to the column   
+    @param value: the value to set. This must be a list instance. 
+    @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+    """
+    if not isinstance(value,list): 
+        raise exceptions.ConeException("The value for feature sequence '%s' column '%s' must be a list instance. Got %r" % (feasequence.fqr, ref, value))
+    seqrows = feasequence.data
+    if len(seqrows) < len(value): 
+        raise exceptions.ConeException("Too many values for feature sequence '%s' column '%s'. Sequence holds only %d rows. Got %d data values in %r" % (feasequence.fqr, ref, len(seqrows), len(value), value))
+    for i in range(0, len(value)):
+        feadata = seqrows[i].get_feature(ref)
+        feadata.set_value(value[i])
+
 class FeatureSequenceCell(Feature):
     """
     A Feature class. Feature is the base for all Configurable items in a Configuration.
     """
     def __init__(self, ref="", **kwargs):
-        super(Feature, self).__init__(ref)
+        super(FeatureSequenceCell, self).__init__(ref)
         self.name = kwargs.get('name', ref)
         self.type = 'seqcell'
  
@@ -1897,10 +2620,15 @@ class FeatureSequenceSub(Feature):
     A Feature class. Feature is the base for all Configurable items in a Configuration.
     """
     def __init__(self, ref="", **kwargs):
-        super(Feature, self).__init__(ref)
+        super(FeatureSequenceSub, self).__init__(ref)
         self.name = kwargs.get('name', ref)
         self.type = 'subseq'
         self._index = 0
+
+    def __getstate__(self):
+        state = super(FeatureSequenceSub,self).__getstate__()
+        state['_children'].pop('?datarows', None)
+        return state
 
     def get_index(self):
         """
@@ -1915,24 +2643,46 @@ class FeatureSequenceSub(Feature):
         @param value: the value row to set
         """
         if utils.is_list(value):
-            for subindex in range(0, len(value)):  
+            for subindex in range(0, len(value)):
                 self.dataproxy[subindex].get_data().set_value(value[subindex])
-        else: 
-            self.dataproxy.get_data().set_value(value)
+        else:
+            data_objs = self.convert_value_to_data(value)
+            data_object_where_to_add = self._parent._get_data()
+            
+            self.dataproxy._set_datas(data_objs, attr)
+            data_object_where_to_add._add(data_objs, container.REPLACE)
 
     def get_value(self, attr=None):
         """
         Set the current value for this feature. Set the value on the topmost layer.
         @param value: the value to set
         """
-        # dataproxy = self.get_default_view().get_feature(self.get_fullfqr())
+        # Handle empty sequences
+        if self.get_sequence_parent()._has_empty_sequence_marker():
+            return []
+        
         # The sequence cell only updates the latest value in the proxy
         childdatas = self.dataproxy._objects()
         if len(childdatas) > 0:
             return [subdata.value for subdata in childdatas]
         else: 
-            return self.dataproxy._get_value(attr=attr)
+            return super(FeatureSequenceSub,self).get_value(attr)
 
+    def get_original_value(self, attr=None):
+        """
+        Get the current value of the feature
+        @param attr: The attribute name of the data. E.g. attr='data', attr='rfs' 
+        """
+        # Handle empty sequences
+        if self.get_sequence_parent()._has_empty_sequence_marker():
+            return []
+        
+        childdatas = self.dataproxy._objects()
+        if len(childdatas) > 0:
+            return [subdata.get_original_value() for subdata in childdatas]
+        else:
+            return self.dataproxy._get_value(attr)
+        
     value = property(get_value, set_value)
 
 
@@ -1941,13 +2691,48 @@ class FeatureLink(Base):
     A _FeatureProxy class. _FeatureProxy is the object that is added to View as a 
     link to the actual Feature object. 
     """
-    def __init__(self, link="", **kwargs):
+    """ class variable for defining the override attributes"""
+    override_attributes = ['name']
+    ref_prefix = 'link_'
+    PROXYREF_PREFIX = 'proxy_'
+    
+    def __init__(self, ref="", **kwargs):
         # Store the fully qualified reference to this object
-        self.link = link
-        ref = link.replace('.', '_')
-        super(FeatureLink, self).__init__(ref)
+        self.link = kwargs.get('link', ref)
+        self.name = kwargs.get('name', None)
+        ref = self.get_featurelink_ref(self.link)
+        # the reference of this particular object
+        super(FeatureLink, self).__init__(ref, **kwargs)
         self._obj = None
         self._populated = False
+
+    def add(self, child, policy=container.REPLACE):
+        """
+        Add an override to enable adding any override attribute to a featurelink object.
+        
+        A generic add function to add child objects. The function is intended to act as
+        proxy function that call the correct add function based on the child objects class.
+        
+        Example: obj.add(Feature("test")), actually obj.add_feature(Feature("test"))
+        @param child: the child object to add
+        @raise IncorrectClassError: if the given class cannot be added to this object.  
+        """
+        if isinstance(child, Base):
+            self._add(child, policy)
+        else:
+            raise exceptions.IncorrectClassError("Cannot add %s to %s" % (child, self))
+
+    def get_name(self):
+        """
+        Return the name of the featurelink
+        """
+        return self.name
+
+    def set_name(self, name):
+        """
+        Set the name
+        """
+        self.name = name
 
     @property
     def fqr(self):
@@ -1962,14 +2747,58 @@ class FeatureLink(Base):
         try:
             if not self._populated:
                 feas = self.get_default_view().get_features(self.link)
+                # get the non wildcard part of ref
+                static_ref = utils.dottedref.get_static_ref(self.link)
                 # add the found features to the parent
                 for fea in feas:
-                    self._get_parent().add_feature(fea._obj)
+                    override_attrs = {}
+                    # override the FeatureProxy object with exactly same reference 
+                    # (in feat/* case dont override the children features)
+                    if fea.fqr == static_ref:
+                        override_attrs = self.get_attributes()
+                    feature = fea._obj
+                    proxy_ref = self.get_featureproxy_ref(feature.fqr)
+                    proxy = _FeatureProxy(proxy_ref, feature, **override_attrs)
+                    self._get_parent()._add(proxy)
+                    
         except exceptions.NotFound, e:
                 parent_view = self._find_parent_or_default(type=View)
                 view_name = parent_view.get_name()
                 logging.getLogger('cone').info("Warning: Feature '%s' in view '%s' not found." % (self.link, view_name))
 
+    def get_attributes(self):
+        """
+        Returns a list of FeatureLink attributes that override settings of the original feature.
+        @return: a dictionary of attribute key : value pairs.
+        """
+        attrs = {}
+        for attr in self.override_attributes:
+            # try to get the attribute from this object
+            # and set it to the attribute list if it not None
+            try:
+                value = getattr(self, attr)
+                if value != None: attrs[attr] = value
+            except AttributeError:
+                pass
+        return attrs
+
+    @classmethod
+    def get_featurelink_ref(cls, ref):
+        """
+        return a featurelink ref from a feature ref. 
+        This is needed to make the featurelink object refs unique in a container
+        that has Features. 
+        """
+        return cls.ref_prefix + ref.replace('.', '_').replace('/','_')
+    
+    @classmethod
+    def get_featureproxy_ref(cls, ref):
+        """
+        Return a ref for a given setting fqr to be used under a group.
+        This is needed to make the featureproxy object refs unique in a container
+        that has Features. 
+        """
+        return cls.PROXYREF_PREFIX + ref.replace('.', '_').replace('/','_')
 
 class _FeatureProxy(container.ObjectProxyContainer, Base):
     """
@@ -1977,10 +2806,10 @@ class _FeatureProxy(container.ObjectProxyContainer, Base):
     link to the actual Feature object. 
     """
     def __init__(self, ref="", obj=None, **kwargs):
-        super(_FeatureProxy, self).__init__(obj, ref)
-        Base.__init__(self, ref)
+        container.ObjectProxyContainer.__init__(self, obj, ref)
+        Base.__init__(self, ref, **kwargs)
         self.support_data = False
-
+        
     def __getattr__(self, name):
         """
         First check if the requested attr is a children then 
@@ -1995,7 +2824,7 @@ class _FeatureProxy(container.ObjectProxyContainer, Base):
         return self._objects()[index]
 
     def __setitem__(self, index, value):
-        raise exceptions.NotSupported()
+        raise exceptions.NotSupportedException()
 
     def __delitem__(self, index):
         item = self.__getitem__(index)
@@ -2019,6 +2848,12 @@ class _FeatureProxy(container.ObjectProxyContainer, Base):
         @return: None
         """
         self._parent = newparent
+
+    def get_proxied_obj(self):
+        """
+        @return: Returns proxied object.
+        """
+        return self._obj
 
     def add_feature(self, feature, path=""):
         """
@@ -2061,7 +2896,65 @@ class _FeatureProxy(container.ObjectProxyContainer, Base):
         """
         pass
 
+    def has_attribute(self, name):
+        """
+        Perform a check whether an attribute with given name is stored inside the 
+        _FeatureProxy. The check does not extend to the proxied (_obj) insanses or 
+        children of this proxy.
+        
+        @return: True when an attribute is a real attribute in this _FeatureProxy object. 
+        """
+        return self.__dict__.has_key(name)
 
+    def get_option(self, ref):
+        """
+        @param name: The option reference of the option (as returned by list_options()) 
+        """
+        real_ref = 'opt_' + ref
+        for op in self.options.values():
+            if op.ref == real_ref:
+                return op
+        else:
+            
+            obj = self.get_proxied_obj()._get(real_ref)
+            if not isinstance(obj, Option):
+                raise TypeError('Object %r is not an instance of Option (%r instead)' % (real_ref, type(obj)))
+            return obj
+
+    def list_options(self):
+        """
+        Return a array of all Option children references under this object.
+        """
+        opts = self.get_proxied_obj().list_options()
+        
+        for opt in self.options:
+            opts.append(self.options[opt].ref[4:])
+        
+        return opts
+
+    def get_property(self, ref):
+        """
+        @param name: The property reference of the property (as returned by list_properties()) 
+        """
+        for prop in self.properties.values():
+            if prop.ref == Property.to_propertyref(ref):
+                return prop
+        else:
+            obj = self.get_proxied_obj()._get(Property.to_propertyref(ref))
+            return obj
+
+    def list_properties(self):
+        """
+        Return a array of all Property children references under this object.
+        """
+        props = self.get_proxied_obj().list_properties()
+        
+        for pr in self.properties:
+            props.append(Property.to_normref(self.properties[pr].ref))
+        
+        return props
+
+    
 class _FeatureDataProxy(_FeatureProxy):
     """
     A Feature class. Feature is the base for all Configurable items in a Configuration.
@@ -2085,10 +2978,10 @@ class _FeatureDataProxy(_FeatureProxy):
         """
         """
         if object.__getattribute__(self, '_obj') is not None:
-            self._obj.dataproxy = self
+            self.get_proxied_obj().dataproxy = self
         
         if name in Feature.PROPERTIES:
-            return getattr(self._obj, name)
+            return getattr(self.get_proxied_obj(), name)
         else:
             return super(_FeatureDataProxy, self).__getattr__(name)
     
@@ -2096,10 +2989,10 @@ class _FeatureDataProxy(_FeatureProxy):
         """
         """
         if object.__getattribute__(self, '_obj') is not None:
-            self._obj.dataproxy = self
+            self.get_proxied_obj().dataproxy = self
             
         if name in Feature.PROPERTIES:
-            return setattr(self._obj, name, value)
+            return setattr(self.get_proxied_obj(), name, value)
         else:
             super(_FeatureDataProxy, self).__setattr__(name, value)
 
@@ -2107,15 +3000,19 @@ class _FeatureDataProxy(_FeatureProxy):
         """
         """
         if name in Feature.PROPERTIES:
-            return delattr(self._obj, name)
+            return delattr(self.get_proxied_obj(), name)
         else:
             return super(_FeatureDataProxy, self).__delattr__(name)
 
     def _add_data(self, data):
         """
-        Add a data value.
+        Add a data value or a list of data values.
         @param data: A Data object  
         """
+        if isinstance(data, list):
+            for d in data: self._add_data(d)
+            return
+        
         try:
             self.datas[data.attr].append(data)
         except KeyError:
@@ -2142,7 +3039,14 @@ class _FeatureDataProxy(_FeatureProxy):
         Get the entire data array.
         """
         dataattr = attr or self.defaultkey
-        return self.datas[dataattr]
+        return self.datas.get(dataattr, [])
+    
+    def _set_datas(self, datas, attr=None):
+        """
+        Set the entire data array.
+        """
+        dataattr = attr or self.defaultkey
+        self.datas[dataattr] = list(datas)
 
     def _get_value(self, attr=None):
         """
@@ -2152,7 +3056,7 @@ class _FeatureDataProxy(_FeatureProxy):
             return self._get_data(attr).get_value()
         else:
             return None
-
+    
     def _set_value(self, datavalue, attr=None):
         """
         Set the value for the feature the last configuration in the current hierarchy
@@ -2253,6 +3157,18 @@ class Data(DataBase):
         self.policy = kwargs.get('policy', '')
         self.template = kwargs.get('template', False)
         self.map    = kwargs.get('map')
+        self.empty  = kwargs.get('empty', False)
+        self.lineno = None
+
+    def __setstate__(self, state):
+        super(Data, self).__setstate__(state)
+        self.value = state.get('value', None)
+        self.attr = state.get('attr', None)
+        self.policy = state.get('policy', '')
+        self.map = state.get('map', None)
+        self.template = state.get('template', False)
+        self.lineno = state.get('lineno', None)
+        self.fearef = state.get('fearef', None)
 
     def get_fearef(self):
         if self.fearef:
@@ -2261,14 +3177,7 @@ class Data(DataBase):
             return self.fqr
 
     def get_value(self):
-        if self.map != None:
-            ref = utils.resourceref.to_dref(self.get_map_ref())
-            key = self.get_map_key_value()
-            dview = self.get_root_configuration().get_default_view()
-            fea = dview.get_feature(ref)
-            return fea.get_map_key_value(key)
-        else:
-            return self.value
+        return self.value
 
     def get_map(self):
         return self.map
@@ -2278,18 +3187,6 @@ class Data(DataBase):
         if self.value:
             #Either value or mapping can be defined. Not both.
             self.value = None
-
-    def get_map_ref(self):
-        if self.map != None:
-            return utils.DataMapRef.get_feature_ref(self.map)
-        else:
-            return None
-
-    def get_map_key_value(self):
-        if self.map != None:
-            return utils.DataMapRef.get_key_value(self.map)
-        else:
-            return None
 
     def set_value(self, value):
         self.value = value
@@ -2303,7 +3200,7 @@ class Data(DataBase):
     policy = property(get_policy, set_policy, del_policy)
 
 
-class ValueSet(sets.Set):
+class ValueSet(set):
     """
     A value set object to indicate a set of possible values for a feature. 
     e.g. A boolean feature ValueSet([True, False])
@@ -2337,6 +3234,51 @@ class ValueRe(object):
             return False
     
 
+class Property(Base):
+    """
+    Confml property class
+    """
+    def __init__(self, **kwargs):
+        """
+        @param name=str: name string (mandatory)
+        @param value=str: value for the property, string 
+        @param unit=str: unit of the property
+        """
+        if kwargs.get('name',None) == None:
+            raise ValueError("Property name cannot be None!")
+        super(Property,self).__init__(Property.to_propertyref(kwargs.get('name',None)))
+        self.name = kwargs.get('name',None)
+        self.value = kwargs.get('value',None)
+        self.unit = kwargs.get('unit',None)
+
+    @classmethod
+    def to_propertyref(cls, name):
+        """ 
+        @param name: name of the property 
+        @return: A property reference.
+        """
+        if name is not None:
+            return "property_%s" % name
+        else:
+            raise ValueError("Property name cannot be None!")
+    
+    @classmethod
+    def to_normref(cls, ref):
+        """
+        @param ref: a property reference 
+        @return: normalized property reference
+        """
+        return ref[9:]
+
+    def get_name(self):
+        return self.name
+
+    def get_value(self):
+        return self.value
+
+    def get_unit(self):
+        return self.unit
+
 class Option(Base):
     """
     Confml option class.
@@ -2347,6 +3289,8 @@ class Option(Base):
         self.value = value
         self.map = kwargs.get('map', None)
         self.relevant = kwargs.get('relevant', None)
+        self.map_value = kwargs.get('map_value', None)
+        self.display_name = kwargs.get('display_name', None)
 
     @classmethod
     def to_optref(cls, value, map):
@@ -2391,7 +3335,7 @@ class Storage(object):
     MODE_APPEND = 3
     MODE_DELETE = 4
 
-    def __init__(self, path):
+    def __init__(self, path, mode=''):
         """
         @param path: the reference to the root of the storage.
         """
@@ -2399,7 +3343,16 @@ class Storage(object):
         self.curpath = ""
         self.container = True
         self.__opened_res__ = {}
-
+        self.mode = mode
+        self.cpath_stack = []
+    
+    def __reduce_ex__(self, protocol_version):
+        return  (open_storage, 
+                 (self.path, self.mode),
+                 None,
+                 None,
+                 None)
+        
     def __opened__(self, res):
         """
         Internal function to add a newly opened Resource object to the list of open resources.
@@ -2496,6 +3449,34 @@ class Storage(object):
         """
         return self.rootpath
 
+    def push(self, path):
+        """
+        Set the current path under the Storage to the given path and push the possible existing path to a stack. 
+        The current path can be reverted with pop method.
+        
+        @return: None 
+        @param path: The path which is set as current path.
+        """
+        self.cpath_stack.append(self.curpath)
+        self.curpath = path
+
+    def pop(self):
+        """
+        Pop a path from path stack and set the current path to the popped element. The path can be pushed to the 
+        current path stack with push. 
+        
+        NOTE! if the pop is called when the current path stack is empty, the path will just remain is empty path 
+        keeping the active path in the storages root path. 
+        
+        @return: The new path.
+        """
+        try:
+            path = self.cpath_stack.pop()
+            self.curpath = path
+        except IndexError:
+            pass
+        return self.curpath
+
     def set_current_path(self, path):
         """
         @param path: the current path under the Storage. 
@@ -2556,7 +3537,7 @@ class Storage(object):
         """
         raise exceptions.NotSupportedException()
 
-    def list_resources(self, path, recurse=False):
+    def list_resources(self, path, **kwargs):
         """
         find the resources under certain ref/path 
         @param ref : reference to path where resources are searched
@@ -2579,14 +3560,6 @@ class Storage(object):
         @param path : a list of resource paths in this storage (references).
         @param storage : the external storage where to export.
         """  
-        raise exceptions.NotSupportedException()
-
-    def close_resource(self, path):
-        """
-        Close a given resource instance. Normally this is called by the Resource object 
-        in its own close.
-        @param ref the reference to the resource to close. 
-        """
         raise exceptions.NotSupportedException()
 
     def save_resource(self, path):
@@ -2691,13 +3664,13 @@ class Resource(object):
         Trunkate this resource data to the given size.
         @param size: The size to trunkate. Default value is zero, which make the resource empty. 
         """
-        raise NotSupportedException()
+        raise exceptions.NotSupportedException()
 
     def save(self, size=0):
         """
         Save all changes to data to storage.
         """
-        raise NotSupportedException()
+        raise exceptions.NotSupportedException()
 
     def get_mode(self):
         return self.storage.get_mode(self.mode)
@@ -2768,27 +3741,208 @@ class BmpImageContentInfo(ImageContentInfo):
             except Exception, e:
                 self.logger.warning("Invalid BMP-file: %s" % resource.get_path())
         
+
+class currentdir(object):
+    def __init__(self, storage, curdir):
+        self.storage = storage
+        # make sure that the curdir does not contain path prefix
+        self.curdir = curdir.lstrip('/')
+
+    def __enter__(self):
+        self.storage.push(self.curdir)
+
+    def __exit__(self, type, value, tb):
+        self.storage.pop()
+
+
 class Folder(object):
     """
     A Folder object is a subfolder of a Storage, offering access to part of the Storages resources.
     """
-    def __init__(self, storage, path):
+    def __init__(self, storage, path, **kwargs):
         """
         Create a layer folder to the storage if it does not exist.
         """
-        #if not storage.is_folder(path):
-        #    storage.create_folder(path)
-        self.storage = copy.copy(storage)
-        self.storage.set_current_path(path)
+        self.curpath = path
+        self.storage = storage
 
-    def __getattr__(self, name):
-        return getattr(self.storage, name)
+    def set_path(self, path):
+        """
+        """
+        self.curpath = path
 
-class CompositeLayer(object):
+    def get_path(self):
+        """
+        """
+        return self.curpath
+
+    def set_current_path(self, path):
+        """
+        @param path: the current path under the Storage. 
+        """
+        self.curpath = utils.resourceref.remove_end_slash(utils.resourceref.remove_begin_slash(path))
+
+    def get_current_path(self):
+        """
+        get the current path under the Storage. 
+        """
+        return self.curpath
+
+    def close(self):
+        """
+        Close the repository, which will save and close all open resources.  
+        """
+        self.storage.close()
+
+    def save(self):
+        """
+        Flush changes from all resources to the repository.  
+        """        
+        return self.storage.save()
+
+    def open_resource(self, path, mode="r"):
+        """
+        Open the given resource and return a File object.
+        @param path : reference to the resource 
+        @param mode : the mode in which to open. Can be one of r = read, w = write, a = append.
+        raises a NotResource exception if the ref item is not a resource.
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.open_resource(path, mode)
+            return res
+        
+    def delete_resource(self, path):
+        """
+        Delete the given resource from storage
+        @param path: reference to the resource 
+        raises a NotSupportedException exception if delete operation is not supported by the storage
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.delete_resource(path)
+            return res
+
+    def close_resource(self, path):
+        """
+        Close a given resource instance. Normally this is called by the Resource object 
+        in its own close.
+        @param path the reference to the resource to close. 
+        """
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.close_resource(path)
+            return res
+
+    def is_resource(self, path):
+        """
+        Return true if the ref is a resource
+        @param ref : reference to path where resources are searched
+        """
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.is_resource(path)
+            return res
+
+    def list_resources(self, path, **kwargs):
+        """
+        find the resources under certain ref/path 
+        @param ref : reference to path where resources are searched
+        @param recurse : defines whether to return resources directly under the path or does the listing recurse to subfolders. 
+        Default value is False. Set to True to enable recursion.
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.list_resources(path, **kwargs)
+            return res
+
+    def import_resources(self, paths, storage):
+        """
+        import resources from a list of resources to this storage
+        @param paths : a list of Resourse objects.
+        @param storage : the external storage from which files are imported.
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.import_resources(paths, storage)
+            return res
+
+    def export_resources(self, paths, storage):
+        """
+        export resources from this storage based on a list of reference to this storage
+        @param path : a list of resource paths in this storage (references).
+        @param storage : the external storage where to export.
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.export_resources(paths, storage)
+            return res
+
+    def save_resource(self, path):
+        """
+        Flush the changes of a given resource instance. Normally this is called by the Resource object 
+        in its own save.
+        @param ref the reference to the resource to close. 
+        """
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.save_resource(path)
+            return res
+
+    def create_folder(self, path):
+        """
+        Create a folder entry to a path
+        @param path : path to the folder
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.create_folder(path)
+            return res
+
+    def delete_folder(self, path):
+        """
+        Delete a folder entry from a path. The path must be empty.
+        @param path : path to the folder
+        """  
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.delete_folder(path)
+            return res
+
+    def is_folder(self, path):
+        """
+        Check if the given path is an existing folder in the storage
+        @param path : path to the folder
+        """
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.is_folder(path)
+            return res
+
+    def get_mode(self, mode_str):
+        return self.storage.get_mode()
+
+    def unload(self, path, object):
+        """
+        Dump a given object to the storage 
+        @param object: The object to dump to the storage, which is expected to be an instance 
+        of Base class.
+        @param path: The reference where to store the object 
+        @param object: The object instance to dump 
+        @raise StorageException: if the given object cannot be dumped to this storage 
+        """
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.unload(path, object)
+            return res
+
+    def load(self, path):
+        """
+        Load an object from a reference.
+        @param path: The reference where to load the object 
+        @raise StorageException: if the given object cannot be loaded as an object from this storage 
+        """
+        with currentdir(self.storage, self.curpath):
+            res = self.storage.load(path)
+            return res
+
+    path = property(get_path, set_path)
+
+
+class CompositeLayer(Folder):
     """
     A base class for composite Configuration objects.  
     """
-    def __init__(self, path="", **kwargs):
+    def __init__(self, storage, path="", **kwargs):
+        super(CompositeLayer, self).__init__(storage, path, **kwargs)
         self.layers = kwargs.get('layers', [])
         self.path = path
 
@@ -2850,18 +4004,29 @@ class CompositeLayer(object):
                 lres.append(utils.resourceref.join_refs([layerpath, respath]))
         return lres
 
-    def list_all_resources(self, empty_folders=False):
+    def list_all_resources(self, **kwargs):
         """
         Returns a list of all layer related resource paths with full path in the storage.
         """
         lres = []
         for layerpath in self.list_layers():
             sublayer = self.get_layer(layerpath)
-            for respath in sublayer.list_all_resources(empty_folders):
+            for respath in sublayer.list_all_resources(**kwargs):
                 lres.append(utils.resourceref.join_refs([layerpath, respath]))
-                
         return lres
-
+    
+    def list_all_related(self, **kwargs):
+        """
+        Returns a list of all (non confml) layer related resource paths with full path in the storage.
+        """
+        lres = []
+        for layerpath in self.list_layers():
+            sublayer = self.get_layer(layerpath)
+            for respath in sublayer.list_all_related(**kwargs):                
+                lres.append(utils.resourceref.join_refs([layerpath, respath]))
+        
+        return lres
+    
 class Layer(CompositeLayer):
     """
     A Layer object is a subfolder of a Storage, offering access to part of the Storages resources.
@@ -2876,11 +4041,9 @@ class Layer(CompositeLayer):
         @param content_path: optional parameter for content files path (give in content_path="something")
         @param doc_path: optional parameter for doc files path (give in doc_path="something")
         """
-        super(Layer, self).__init__(path, **kwargs)
+        super(Layer, self).__init__(storage, path, **kwargs)
         #if not storage.is_folder(path):
         #    storage.create_folder(path)
-        self.storage = copy.copy(storage)
-        self.storage.set_current_path(path)
         self.predefined = {'confml_path' : 'confml', 
                            'implml_path' : 'implml', 
                            'content_path' : 'content', 
@@ -2894,11 +4057,26 @@ class Layer(CompositeLayer):
     def __getattr__(self, name):
         return getattr(self.storage, name)
 
+    def __getstate__(self):
+        state = {}
+        state['predefined'] = self.predefined
+        state['path'] = self.path
+        state['layers'] = self.layers
+        return state
+
+    def __setstate__(self, state):
+        state = {}
+        self.predefined = state.get('predefined',{})
+        self.path = state.get('path','')
+        self.layers = state.get('layers',[])
+        
+        return state
+    
     def list_confml(self):
         """
         @return: array of confml file references.
         """
-        res = self.storage.list_resources(self.predefined['confml_path'], True)
+        res = self.list_resources(self.predefined['confml_path'], recurse=True)
         res += super(Layer, self).list_confml()
         return res 
 
@@ -2906,7 +4084,7 @@ class Layer(CompositeLayer):
         """
         @return: array of implml file references.
         """
-        res = self.storage.list_resources(self.predefined['implml_path'], True)
+        res = self.list_resources(self.predefined['implml_path'], recurse=True)
         res += super(Layer, self).list_implml()
         return res 
 
@@ -2914,7 +4092,7 @@ class Layer(CompositeLayer):
         """
         @return: array of content file references.
         """
-        res = self.storage.list_resources(self.predefined['content_path'], True)
+        res = self.list_resources(self.predefined['content_path'], recurse=True)
         res += super(Layer, self).list_content()
         return res
 
@@ -2922,57 +4100,83 @@ class Layer(CompositeLayer):
         """
         @return: array of document file references.
         """
-        res = self.storage.list_resources(self.predefined['doc_path'], True)
+        res = self.list_resources(self.predefined['doc_path'], recurse=True)
         res += super(Layer, self).list_doc()
         return res
 
     def confml_folder(self):
-        cpath = self.storage.get_current_path()
+        cpath = self.get_current_path()
         spath = self.predefined['confml_path']
         return Folder(self.storage,  utils.resourceref.join_refs([cpath, spath]))
 
     def implml_folder(self):
-        cpath = self.storage.get_current_path()
+        cpath = self.get_current_path()
         spath = self.predefined['implml_path']
         return Folder(self.storage,  utils.resourceref.join_refs([cpath, spath]))
 
     def content_folder(self):
-        cpath = self.storage.get_current_path()
+        cpath = self.get_current_path()
         spath = self.predefined['content_path']
         return Folder(self.storage,  utils.resourceref.join_refs([cpath, spath]))
 
     def doc_folder(self):
-        cpath = self.storage.get_current_path()
+        cpath = self.get_current_path()
         spath = self.predefined['doc_path']
         return Folder(self.storage,  utils.resourceref.join_refs([cpath, spath]))
 
-    def list_all_resources(self, empty_folders=False):
+    def list_all_resources(self, **kwargs):
         """
         Returns a list of all layer related resource paths with full path in the storage.
         """
         lres = []
-        mypath = self.get_current_path()
-        
         for folderpath in sorted(self.predefined.values()):
-            lres += self.storage.list_resources(folderpath, recurse=True, empty_folders=empty_folders)
+            lres += self.list_resources(folderpath, recurse=True)
                  
-        lres += super(Layer, self).list_all_resources(empty_folders)
-        
+        lres += super(Layer, self).list_all_resources()
         return lres
 
-    def list_all_related(self, empty_folders=False):
+    def list_all_related(self, **kwargs):
         """
         Returns a list of all (non confml) layer related resource paths with full path in the storage.
         """
+        
         lres = []
+        exclude_filters = kwargs.get('exclude_filters', {})
+        kwargs['recurse'] = True
         predef = self.predefined.copy()
         del predef['confml_path']
-        mypath = self.get_current_path()
         for folderpath in sorted(predef.values()):
-            lres += self.storage.list_resources(folderpath, recurse=True, empty_folders=empty_folders)
-        lres += super(Layer, self).list_all_resources(empty_folders=empty_folders)
+            filter = exclude_filters.get(folderpath, None)
+            resources = self.list_resources(folderpath, **kwargs)
+            if filter:
+                lres += [res for res in resources if not re.search(filter, res, re.IGNORECASE)]
+            else:            
+                lres += resources
+        lres += super(Layer, self).list_all_related(**kwargs)
        
         return lres
+
+
+class Include(Base, container.LoadLink):
+    """
+    A common include element that automatically loads a resource 
+    and its object under this include element.
+    """
+    def __init__(self, ref="", **kwargs):
+        path = kwargs.get('path') or ref
+        store_interface = kwargs.get('store_interface',None)
+        ref = utils.resourceref.to_objref(path)
+        container.LoadLink.__init__(self, path, store_interface)
+        Base.__init__(self, ref)
+    
+    def get_store_interface(self):
+        if not self._storeint and self._parent:
+            try:
+                self._storeint = self._parent.get_store_interface()
+            except exceptions.NotFound:
+                # If project is not found, let the store interface be None 
+                pass
+        return self._storeint
 
 
 class Rule(object):
@@ -3007,7 +4211,104 @@ def get_mapper(modelname):
     return mapmodule.public.mapping.BaseMapper()
 
 
-##################################################################
+class Problem(object):
+    SEVERITY_ERROR      = "error"
+    SEVERITY_WARNING    = "warning"
+    SEVERITY_INFO       = "info"
+    
+    def __init__(self, msg, **kwargs):
+        self.msg = msg
+        self.type = kwargs.get('type', '')
+        self.line = kwargs.get('line', None)
+        self.file = kwargs.get('file', None)
+        self.severity = kwargs.get('severity', self.SEVERITY_ERROR)
+        self.traceback = kwargs.get('traceback', None)
+        # A slot for any problem specific data 
+        self.problem_data = kwargs.get('problem_data', None)
+    
+    def log(self, logger, current_file=None):
+        """
+        Log this problem with the given logger.
+        """
+        file = self.file or current_file
+        if self.line is None:
+            msg = "(%s) %s" % (file, self.msg)
+        else:
+            msg = "(%s:%d) %s" % (file, self.line, self.msg)
+        
+        mapping = {self.SEVERITY_ERROR:   logging.ERROR,
+                   self.SEVERITY_WARNING: logging.WARNING,
+                   self.SEVERITY_INFO:    logging.INFO}
+        level = mapping.get(self.severity, logging.ERROR)
+        logger.log(level, msg)
+        
+        if self.traceback:
+            logger.debug(self.traceback)
+    
+    @classmethod
+    def from_exception(cls, ex):
+        """
+        Create a Problem object from an exception instance.
+        
+        If the exception is a sub-class of ConeException, then it may contain
+        extra information (like a line number) for the problem.
+        """
+        if isinstance(ex, exceptions.ConeException):
+            return Problem(msg      = ex.problem_msg or unicode(ex),
+                           type     = ex.problem_type or '',
+                           line     = ex.problem_lineno,
+                           severity = cls.SEVERITY_ERROR)
+        else:
+            return Problem(msg      = unicode(ex),
+                           severity = cls.SEVERITY_ERROR)
+    
+    def __repr__(self):
+        var_data = []
+        for varname in ('msg', 'type', 'line', 'file', 'severity'):
+            var_data.append("%s=%r" % (varname, getattr(self, varname)))
+        return "%s(%s)" % (self.__class__.__name__, ', '.join(var_data))
+    
+    def __eq__(self, other):
+        if not isinstance(other, Problem):
+            return False
+        for varname in ('msg', 'type', 'line', 'file', 'severity'):
+            self_val = getattr(self, varname)
+            other_val = getattr(other, varname)
+            if self_val != other_val:
+                return False
+        return True
+    
+    def __ne__(self, other):
+        return self == other
+    
+    def __lt__(self, other):
+        if not isinstance(other, Problem):
+            return False
+        return (self.file, self.line) < (other.file, other.line)
+
+def make_content_info(resource, data):
+    """
+    Factory for ContentInfo
+    """
+    cnt_inf = None
+    
+    if resource != None:
+        guessed_type = mimetypes.guess_type(resource.get_path())
+        mimetype = None
+        mimesubtype = None
+        
+        if guessed_type != None:
+            mimetype, mimesubtype = guessed_type[0].split('/') 
+        
+        if mimetype == 'image' and mimesubtype == 'x-ms-bmp':
+            cnt_inf = BmpImageContentInfo(resource, data)
+        else:
+            cnt_inf = ContentInfo(mimetype, mimesubtype)
+    return cnt_inf
+
+def open_storage(path, mode="r", **kwargs):
+    return Storage.open(path, mode="r", **kwargs)
+
 class NullHandler(logging.Handler):
     """
     Default handler that does not do anything.

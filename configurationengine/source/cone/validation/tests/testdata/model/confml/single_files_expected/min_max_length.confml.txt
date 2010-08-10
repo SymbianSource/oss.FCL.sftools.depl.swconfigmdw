@@ -1,0 +1,4 @@
+Problem(msg='Setting MinMaxLengthNotOk.Exact1: Exact number of characters must be 3 (value has 5)', type='model.confml.invalid_value.length', line=43, file='min_max_length.confml', severity='error')
+Problem(msg='Setting MinMaxLengthNotOk.Exact2: Exact number of characters must be 3 (value has 1)', type='model.confml.invalid_value.length', line=44, file='min_max_length.confml', severity='error')
+Problem(msg='Setting MinMaxLengthNotOk.Max: Maximum number of characters is 3 (value has 6)', type='model.confml.invalid_value.maxlength', line=41, file='min_max_length.confml', severity='error')
+Problem(msg='Setting MinMaxLengthNotOk.Min: Minimum number of characters is 3 (value has 2)', type='model.confml.invalid_value.minlength', line=42, file='min_max_length.confml', severity='error')

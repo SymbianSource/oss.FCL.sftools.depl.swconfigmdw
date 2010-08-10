@@ -15,7 +15,7 @@
 #
 
 import sys, os, shutil, unittest
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from testautomation import zip_dir
 from scripttest_common import get_cmd
@@ -31,7 +31,7 @@ class TestReport(BaseTestCase):
     def _test_get_help(self):
         cmd = '%s -h' % get_cmd('report')
         out = self.run_command(cmd)
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Options:' in lines)
         self.assertTrue('  Report options:' in lines)
     
@@ -65,8 +65,8 @@ class TestReport(BaseTestCase):
         REPORT_DATA_FILE = os.path.join(TEMP_DIR, report_data_file)
         self.remove_if_exists(OUTPUT_DIR)
         
-        cmd = '%s -p "%s" -o "%s" --report-data-output "%s" --impl-tag target:%s' \
-            % (get_cmd('generate'), TEST_PROJECT, OUTPUT_DIR, REPORT_DATA_FILE, target_tag)
+        cmd = '%s -p "%s" -o "%s" --log-file="%s" --report-data-output "%s" --impl-tag target:%s' \
+            % (get_cmd('generate'), TEST_PROJECT, OUTPUT_DIR, os.path.join(OUTPUT_DIR,'cone.log'), REPORT_DATA_FILE, target_tag)
         self.run_command(cmd)
         self.assert_exists_and_contains_something(OUTPUT_DIR)
         self.assert_exists_and_contains_something(REPORT_DATA_FILE)
@@ -82,7 +82,10 @@ class TestReport(BaseTestCase):
         REPORT_FILE = os.path.join(TEMP_DIR, report_file)
         self.remove_if_exists(REPORT_FILE)
         
-        cmd = '%s --report "%s" --template "%s" ' % (get_cmd('report'), REPORT_FILE, TEMPLATE_FILE)
+        cmd = '%s --report "%s" --log-file="%s" --template "%s" ' % (get_cmd('report'),
+                                                                     REPORT_FILE,
+                                                                     os.path.join(TEMP_DIR,'cone_report.log'),
+                                                                     TEMPLATE_FILE)
         cmd += ' '.join(['--input-data "%s"' % f for f in report_data_files])
         self.run_command(cmd)
         self.assert_exists_and_contains_something(REPORT_FILE)
@@ -97,11 +100,15 @@ class TestReport(BaseTestCase):
         REPORT_FILE = os.path.join(TEMP_DIR, report_file)
         self.remove_if_exists(REPORT_FILE)
         
-        cmd = '%s --report "%s" --template "%s" --input-data-dir "%s"' \
-            % (get_cmd('report'), REPORT_FILE, TEMPLATE_FILE, report_data_dir)
+        cmd = '%s --report "%s" --log-file="%s" --template "%s" --input-data-dir "%s"' \
+            % (get_cmd('report'), REPORT_FILE, 
+                                  os.path.join(TEMP_DIR,'cone_report_from_dir.log'),
+                                  TEMPLATE_FILE, 
+                                  report_data_dir)
         self.run_command(cmd)
         self.assert_exists_and_contains_something(REPORT_FILE)
         return REPORT_FILE
 
+
 if __name__ == '__main__':
-      unittest.main()
+    unittest.main()

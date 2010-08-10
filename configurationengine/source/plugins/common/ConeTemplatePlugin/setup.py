@@ -22,6 +22,7 @@ setup(
     name = "conetemplateplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'templatemlplugin': ['xsd/*.xsd']},
     test_suite = "plugintemplate.tests.collect_suite",
 
     # metadata for upload to PyPI

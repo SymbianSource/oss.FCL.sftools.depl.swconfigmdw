@@ -14,13 +14,12 @@
 # Description: 
 #
 
-import unittest, os, shutil
+import unittest, os
 
-import __init__	
 from genconfmlplugin import genconfmlplugin
-from cone.public import exceptions,plugin,api
+from cone.public import plugin,api
 from cone.storage import filestorage
-from cone.confml import implml
+
 
 try:
     from cElementTree import ElementTree
@@ -154,6 +153,16 @@ class TestGenconfmlPlugin(unittest.TestCase):
         self.assertTrue(impl.has_ref(['Contacts.Contact.FirstName']))
         self.assertFalse(impl.has_ref(['Contacts.OtherSetting']))
         
+    def test_get_refs(self):
+        fs = filestorage.FileStorage(testdata)
+        p = api.Project(fs)
+        config = p.get_configuration('product.confml')
+        impls = plugin.get_impl_set(config,'\.gcfml$')
+        impls.output = self.output
+        impl = impls.get_implementations_by_file('assets/s60/implml/commsdatcreator_01.gcfml')[0]
+        self.assertEquals(impl.get_refs(), ['APs.AP', 'WLAN_APs.WLAN_AP'])
+        self.assertTrue(impl.has_ref(['APs.AP']))
+        
     def test_list_output_files(self):
         fs = filestorage.FileStorage(testdata)
         p = api.Project(fs)
@@ -161,7 +170,10 @@ class TestGenconfmlPlugin(unittest.TestCase):
         impls = plugin.get_impl_set(config,'\.gcfml$')
         impls.output = self.output
         impl = impls.get_implementations_by_file('assets/s60/implml/predefinedcontacts.gcfml')[0]
-        self.assertEquals(impl.list_output_files(), ['output\\private\\2000BEE5\\predefinedcontacts.xml'])
+        
+        normalize_slash = lambda l: map(lambda p: p.replace('\\', '/'), l)
+        self.assertEquals(normalize_slash(impl.list_output_files()),
+                          ['private/2000BEE5/predefinedcontacts.xml'])
 
     
 if __name__ == '__main__':

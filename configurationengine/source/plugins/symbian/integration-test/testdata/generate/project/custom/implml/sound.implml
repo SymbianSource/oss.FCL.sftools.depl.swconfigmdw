@@ -3,8 +3,8 @@
     
     <container>
         <phase name="pre"/>
-        <ruleml xmlns="http://www.s60.com/xml/ruleml/1">
-            <rule>CustomConfSettings.SoundFile.localPath configures SoundFileTest.SoundFilePath = SoundFileTest.SoundFilePath filenamejoin CustomConfSettings.SoundFile.localPath</rule>
+        <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+            <rule>${CustomConfSettings.SoundFile.localPath} configures ${SoundFileTest.SoundFilePath} = ${SoundFileTest.SoundFilePath} filenamejoin ${CustomConfSettings.SoundFile.localPath}</rule>
         </ruleml>
     </container>
     

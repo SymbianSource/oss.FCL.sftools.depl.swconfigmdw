@@ -1,0 +1,27 @@
+Validation problems
+-------------------
+File: assets/invalid/confml/model_level_validation_test.confml
+Line: 10
+Type: model.confml.invalid_value.maxlength
+Msg:  Setting ValidationTest.Foo: Maximum number of characters is 3 (value has 6)
+
+File: assets/invalid/confml/model_level_validation_test.confml
+Line: 11
+Type: model.confml.missing_feature_for_data
+Msg:  Feature 'ValidationTest.Bar' not found
+
+File: assets/invalid/implml/duplicate_tempvar_ref.implml
+Line: 6
+Type: model.implml.container.duplicate_tempvar
+Msg:  Duplicate temporary variable ref 'Temp.Foo'
+
+File: assets/invalid/implml/duplicate_tempvar_ref.implml
+Line: 10
+Type: model.implml.container.duplicate_tempvar
+Msg:  Duplicate temporary variable ref 'Temp.Foo'
+
+File: assets/invalid/confml/invalid_element.confml
+Line: 8
+Type: model.confml.unknown_element
+Msg:  Unknown element '{http://www.s60.com/xml/confml/2}foo'
+

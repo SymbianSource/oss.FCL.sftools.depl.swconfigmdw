@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="test1"  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <feature ref="Feature" name="SampleFea">
+        <setting ref="One" name="One" type="string">
+        </setting>
+        <setting ref="Two" name="Two" type="int">
+        </setting>
+        <setting ref="Three" name="Three" type="selection">
+            <option name="1" value="1"/>
+        </setting>
+        <setting ref="NoData" name="No data" type="string">
+        </setting>
+        <setting ref="TestSequence" name="Test Sequence" type="sequence">
+            <setting ref="SeqTwo" name="SeqTwo" type="int">
+            </setting>
+            <setting ref="SeqThree" name="SeqThree" type="selection">
+                <option name="seqone" value="1"/>
+            </setting>
+        </setting>
+    </feature>
+    
+    
+    <data>
+        <Feature>
+            <One>fo</One>
+            <Two>1</Two>
+            <Three>1</Three>
+            <TestSequence template="true" />
+            <TestSequence>
+                <SeqTwo>123</SeqTwo>
+            </TestSequence>
+        </Feature>
+    </data>
+</configuration>

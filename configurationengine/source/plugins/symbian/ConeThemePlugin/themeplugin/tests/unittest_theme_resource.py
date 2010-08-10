@@ -14,14 +14,9 @@
 # Description: 
 #
 
-import unittest, os, shutil
+import unittest, os, sys
 
-import __init__    
-from cone.public import exceptions,plugin,api
-from cone.storage import filestorage
-from cone.confml import implml
 from themeplugin import theme_resource
-from cone.storage.filestorage import FileStorage
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -50,6 +45,9 @@ class TestThemePlugin(unittest.TestCase):
         else:
             self.assertFalse()
 
+# Only run these tests on Windows
+if sys.platform != 'win32':
+    del TestThemePlugin
         
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

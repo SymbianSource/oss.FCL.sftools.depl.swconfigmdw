@@ -22,6 +22,7 @@ import simplejson
 """ cone specific imports """
 from cone.public import persistence, exceptions, api, utils, container
 from cone.carbon import model
+from cone.carbon.resourcemapper import CarbonResourceMapper
 
 MODEL                    = model
 
@@ -36,50 +37,6 @@ def dumps(obj, indent=True):
 def loads(jsonstr):
     return CarbonReader().loads(jsonstr)
 
-
-class CarbonResourceMapper(object):
-    def __init__(self):
-        self.CARBON_RESOURCE_TYPE_MAP = {'configurationroot' : self.map_carbon_configurationroot,
-                             'configurationlayer' : self.map_carbon_configurationlayer,
-                             'featurelist' : self.map_carbon_featurelist}
-        self.CONFML_RESOURCE_TYPE_MAP = {'configurationroot' : self.map_confml_configurationroot,
-                             'configurationlayer' : self.map_confml_configurationlayer,
-                             'featurelist' : self.map_confml_featurelist}
-
-    def map_carbon_resource(self, resourcepath):
-        for resourceext in self.CARBON_RESOURCE_TYPE_MAP:
-            if resourcepath.endswith(resourceext):
-                return self.CARBON_RESOURCE_TYPE_MAP[resourceext](resourcepath)
-        return resourcepath
-
-    def map_confml_resource(self, resourcetype, resourcepath):
-        return self.CONFML_RESOURCE_TYPE_MAP[resourcetype](resourcepath)
-
-    def map_carbon_configurationroot(self, resourcepath):
-        return resourcepath.replace('.configurationroot', '.confml')
-
-    def map_carbon_configurationlayer(self, resourcepath):
-        return resourcepath.replace('.configurationlayer', '/root.confml')
-
-    def map_carbon_featurelist(self, resourcepath):
-        return "featurelists/%s" % resourcepath.replace('.featurelist', '.confml')
-
-    def map_confml_configurationroot(self, resourcepath):
-        return resourcepath.replace('.confml', '.configurationroot')
-
-    def map_confml_configurationlayer(self, resourcepath):
-        return resourcepath.replace('/root.confml', '.configurationlayer')
-
-    def map_confml_featurelist(self, resourcepath):
-        path = resourcepath.replace('featurelists/','').replace('.confml', '')
-        version_identifier = 'WORKING'
-        m = re.match('^(.*) \((.*)\)', path)
-        # if the resourcepath does not have version information 
-        # use default WORKING
-        if m:
-            path = m.group(1)
-            version_identifier = m.group(2)
-        return '%s (%s).featurelist' % (path, version_identifier)
 
 class ResourceListReader(persistence.ConeReader):
     """
@@ -230,7 +187,7 @@ class ConfigurationWriter(CarbonWriter):
         @param obj: The Configuration object 
         """
         configuration_dict = {'version_identifier': obj.version_identifier}
-
+        
         datawriter = DataWriter()
         data = datawriter.dumps(obj)
         configuration_dict['data'] =  data
@@ -295,7 +252,7 @@ class ConfigurationLayerReader(CarbonReader):
         @param obj: The Configuration object 
         """
         name = dict.get('configuration_name')
-        path = name + ".confml"
+        path = name + "/root.confml"
         conf = model.CarbonConfiguration(dict.get('ref'), path=path, type='configurationlayer')
         conf.name = name
         
@@ -304,10 +261,7 @@ class ConfigurationLayerReader(CarbonReader):
         """ Last read the data of this configuration and add it as a configuration """
         data_reader = DataReader()
         datacont = data_reader.loads(dict.get('data', {}))
-        proxy = api.ConfigurationProxy(datacont.path)
-        conf.add_configuration(proxy)
-        proxy._set_obj(datacont)
-        
+        conf.add_configuration(datacont)
         return conf
 
 class FeatureListCreateWriter(CarbonWriter):
@@ -455,7 +409,7 @@ class FeatureWriter(CarbonWriter):
                        'value_type' : self.CONFML_TO_CARBON_TYPE[mobj.type],
                        'children' : []}
         if featuredict['value_type'] != None:
-            featuredict['type_object'] = 'carbon_feature_type_normal'
+            featuredict['type_object'] = 's60_feature'
         if mobj.type == 'selection':
             featuredict['options'] = mobj.options.keys() 
 
@@ -504,8 +458,8 @@ class FeatureReader(CarbonReader):
             fea = model.CarbonStringSetting(ref, type=value_type)
         elif value_type == 'selection':
             fea = model.CarbonSelectionSetting(ref, type=value_type)
-            for option in dict.get('options'):
-                fea.add_option(option,option)
+            for option_name in dict.get('options'):
+                fea.create_option(option_name, option_name)
         elif value_type == '':
             fea = model.CarbonFeature(ref, type=value_type)
         else:

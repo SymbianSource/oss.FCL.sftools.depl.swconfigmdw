@@ -20,7 +20,6 @@ import string
 import sys
 import os
 import shutil
-import __init__
 import datetime
 
 from cone.public import api, exceptions
@@ -80,11 +79,12 @@ class TestFeatureListResource(unittest.TestCase):
 
 class TestCarbonConfiguration(unittest.TestCase):
     def test_create_carbon_configuration(self):
-        config = model.CarbonConfiguration(path='foo/bar/test.confml', version_identifier='testing')
+        config = model.CarbonConfiguration(path='foo/bar/test.confml', version_identifier='testing', type="confroot")
         self.assertEquals(config.version_identifier,'testing')
         self.assertEquals(config.path,'foo/bar/test.confml')
         self.assertEquals(config.ref,'foo__bar__test_confml')
         self.assertEquals(config.name,'test')
+        self.assertEquals(config.type,'confroot')
 
         config = model.CarbonConfiguration(ref='foo/bar/test.confml')
         self.assertEquals(config.path,'foo/bar/test.confml')
@@ -125,19 +125,28 @@ class TestFeatureList(unittest.TestCase):
         self.assertTrue(c)
         self.assertEquals(c.name, 'test')
         self.assertEquals(c.meta.get('type'), 'featurelist')
-        self.assertEquals(c.path, 'test.confml')
+        self.assertEquals(c.path, 'featurelists/test (working).confml')
+        self.assertEquals(c.get_ref(), 'featurelists__test_working__confml')
+
+    def test_create_with_ref(self):
+        c = model.FeatureList('test_foo.confml')
+        self.assertTrue(c)
+        self.assertEquals(c.name, 'test_foo (working)')
+        self.assertEquals(c.meta.get('type'), 'featurelist')
+        self.assertEquals(c.path, 'featurelists/test_foo (working).confml')
+        self.assertEquals(c.get_ref(), 'featurelists__test_foo_working__confml')
 
     def test_create_with_path(self):
         c = model.FeatureList(path='featurelists/test.confml')
         self.assertTrue(c)
-        self.assertEquals(c.name, '')
+        self.assertEquals(c.name, 'test (working)')
         self.assertEquals(c.meta.get('type'), 'featurelist')
-        self.assertEquals(c.path, 'featurelists/test.confml')
-        self.assertEquals(c.version_identifier, 'WORKING')
+        self.assertEquals(c.path, 'featurelists/test (working).confml')
+        self.assertEquals(c.version_identifier, 'working')
 
 class TestFeature(unittest.TestCase):
     def test_create(self):
-        c = model.CarbonFeature(ref='test')
+        c = model.CarbonFeature(ref='test', name="test1")
         self.assertTrue(c)
-        self.assertEquals(c.name, 'test')
+        self.assertEquals(c.name, 'test1')
         self.assertEquals(c.ref, 'test')

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="MultipleAccessDefinitions" uidValue="0x00000005">
+    <access type="R" capabilities="AlwaysFail"/>
+    <access type="W" capabilities="AlwaysFail"/>
+    
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="AlwaysPass"/>
+    
+    <key ref="MultipleAccessDefinitions/Int1" name="Int 1" int="0x00000001" type="int">
+        <access type="R" capabilities="AlwaysFail"/>
+        <access type="W" capabilities="AlwaysFail"/>
+        
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="AlwaysPass"/>
+    </key>
+    
+    <key name="Bitmask" type="int" int="0x00000002">
+        <access type="R" capabilities="AlwaysFail"/>
+        <access type="W" capabilities="AlwaysFail"/>
+        
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="AlwaysPass"/>
+        
+        <bit ref="MultipleAccessDefinitions/Boolean1">1</bit>
+        <bit ref="MultipleAccessDefinitions/Boolean2">2</bit>
+    </key>
+
+    <keyRange firstInt="0x00010000" lastInt="0x0001FFFF" ref="MultipleAccessDefinitions/Sequence" indexBits="0xFF00" firstIndex="0">
+        <access type="R" capabilities="AlwaysFail"/>
+        <access type="W" capabilities="AlwaysFail"/>
+        
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="AlwaysPass"/>
+        
+        <key ref="Int1" name="Int 1" int="0x00000001"/>
+    </keyRange>
+</repository>

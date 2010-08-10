@@ -1,0 +1,92 @@
+<configuration name="accessoryserver" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <feature name="Accessory Server Settings" ref="KCRUidAccServerSettings">
+    <desc>Central repository for accessory related UI settings.</desc>
+  <setting relevant="false" name="Accessory Server HW Devices" ref="KAccServerHWDevices" type="int">
+      <desc>Setting used to detect properly some connected accessories (e.g. TTY, Loopset).
+
+Phone may support some HW devices that are not properly identified when they are connected to phone. To properly identify such devices user has to tell by using appropriate user interface setting the type of connected device.</desc>
+    </setting>
+  <setting name="Accessory Server Wired HS Lights" ref="KAccServerWiredHSLights" type="int">
+      <desc>Lights setting for wired headset mode. User may force lights on when wired headset is connected to phone. 
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Wireless HS Lights" ref="KAccServerWirelessHSLights" type="int">
+      <desc>Lights setting for wireless headset mode. User may force lights on when wireless headset is connected to phone. 
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Wired Car Kit Lights" ref="KAccServerWiredCarKitLights" type="int">
+      <desc>Lights setting for wired car kit mode. User may force lights on when wired car kit is connected to phone. 
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Wireless Car Kit Lights" ref="KAccServerWirelessCarKitLights" type="int">
+      <desc>Lights setting for wireless car kit mode. User may force lights on when wireless car kit is connected to phone. 
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Text Device Lights" ref="KAccServerTextDeviceLights" type="int">
+      <desc>Lights setting for text device mode. User may force lights on when text device is connected to phone.
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Loopset Lights" ref="KAccServerLoopsetLights" type="int">
+      <desc>Lights setting for loopset. User may force lights on when loopset is connected to phone.
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Music Stand Lights" ref="KAccServerMusicStandLights" type="int">
+      <desc>Lights setting for music stand. User may force lights on when music stand is connected to phone.
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  <setting name="Accessory Server Sync Stand Lights" ref="KAccServerSyncStandLights" type="int">
+      <desc>Lights setting for synchronization stand. User may force lights on when synchronization stand is connected to phone.
+Possible integer values:
+0 lights off
+1 lights on
+</desc>
+    </setting>
+  </feature>
+<data>
+    <KCRUidAccServerSettings>
+      <KAccServerHWDevices>8</KAccServerHWDevices>
+    <KAccServerWiredHSLights>0</KAccServerWiredHSLights>
+    <KAccServerWirelessHSLights>0</KAccServerWirelessHSLights>
+    <KAccServerWiredCarKitLights>0</KAccServerWiredCarKitLights>
+    <KAccServerWirelessCarKitLights>0</KAccServerWirelessCarKitLights>
+    <KAccServerTextDeviceLights>0</KAccServerTextDeviceLights>
+    <KAccServerLoopsetLights>0</KAccServerLoopsetLights>
+    <KAccServerMusicStandLights>0</KAccServerMusicStandLights>
+    <KAccServerSyncStandLights>0</KAccServerSyncStandLights>
+    </KCRUidAccServerSettings>
+  </data>
+<rfs>
+    <KCRUidAccServerSettings>
+      <KAccServerHWDevices>true</KAccServerHWDevices>
+    <KAccServerWiredHSLights>true</KAccServerWiredHSLights>
+    <KAccServerWirelessHSLights>true</KAccServerWirelessHSLights>
+    <KAccServerWiredCarKitLights>true</KAccServerWiredCarKitLights>
+    <KAccServerWirelessCarKitLights>true</KAccServerWirelessCarKitLights>
+    <KAccServerTextDeviceLights>true</KAccServerTextDeviceLights>
+    <KAccServerLoopsetLights>true</KAccServerLoopsetLights>
+    <KAccServerMusicStandLights>true</KAccServerMusicStandLights>
+    <KAccServerSyncStandLights>true</KAccServerSyncStandLights>
+    </KCRUidAccServerSettings>
+  </rfs>
+</configuration>

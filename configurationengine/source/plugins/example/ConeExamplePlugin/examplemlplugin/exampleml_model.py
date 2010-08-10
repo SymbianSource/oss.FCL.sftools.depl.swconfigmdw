@@ -25,10 +25,11 @@ class Output(object):
     Class representing an ExampleML output element.
     """
     
-    def __init__(self, file, encoding, text):
+    def __init__(self, file, encoding, text, lineno=None):
         self.file = file
         self.encoding = encoding
         self.text = text
+        self.lineno = lineno
     
     def get_refs(self):
         """
@@ -44,26 +45,22 @@ class Output(object):
         file = utils.expand_refs_by_default_view(self.file, config.get_default_view())
         return os.path.normpath(os.path.join(output_dir, file))
     
-    def write_to_file(self, output_dir, config):
+    def write_to_file(self, output_dir, context):
         """
         Write the text file specified by this output object to the
         given output directory.
         """
         # Get the actual output path and encoding
-        file_path = self.get_output_file(output_dir, config)
-        encoding = utils.expand_refs_by_default_view(self.encoding, config.get_default_view())
+        file_path = self.get_output_file(output_dir, context.configuration)
+        encoding = utils.expand_refs_by_default_view(self.encoding, context.configuration.get_default_view())
         
         # Generate the binary data to write
-        text = utils.expand_refs_by_default_view(self.text, config.get_default_view())
+        text = utils.expand_refs_by_default_view(self.text, context.configuration.get_default_view())
         data = text.encode(encoding)
         
-        # Make sure that the output directory exists
-        dir = os.path.dirname(file_path)
-        if dir != '' and not os.path.exists(dir):
-            os.makedirs(dir)
         
         # Write the file.
-        f = open(file_path, "wb")
+        f = context.create_file(file_path, mode="wb")
         try:        f.write(data)
         finally:    f.close()
     

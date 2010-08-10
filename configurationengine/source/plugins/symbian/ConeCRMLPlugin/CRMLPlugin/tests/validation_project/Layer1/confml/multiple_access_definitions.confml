@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="MultipleAccessDefinitions">
+    <feature ref="MultipleAccessDefinitions" name="Settings for duplicate UIDs test">
+        <setting ref="Int1" name="Int 1" type="int"/>
+        <setting ref="Int2" name="Int 2" type="int"/>
+        <setting ref="Int3" name="Int 3" type="int"/>
+        
+        <setting ref="Boolean1" name="Boolean 1" type="boolean"/>
+        <setting ref="Boolean2" name="Boolean 2" type="boolean"/>
+        <setting ref="Boolean3" name="Boolean 3" type="boolean"/>
+        
+        <setting ref="Sequence" name="Sequence setting" type="sequence">
+            <setting ref="Int1" name="Int 1" type="int"/>
+            <setting ref="Int2" name="Int 2" type="int"/>
+            <setting ref="Int3" name="Int 3" type="int"/>
+        </setting>
+    </feature>
+    <data>
+        <MultipleAccessDefinitions>
+            <Int1>1</Int1>
+            <Int2>2</Int2>
+            <Int3>3</Int3>
+            
+            <Boolean1>true</Boolean1>
+            <Boolean2>false</Boolean2>
+            <Boolean3>true</Boolean3>
+            
+            <Sequence>
+                <Int1>1</Int1>
+                <Int2>2</Int2>
+                <Int3>3</Int3>
+            </Sequence>
+        </MultipleAccessDefinitions>
+    </data>
+</configuration>

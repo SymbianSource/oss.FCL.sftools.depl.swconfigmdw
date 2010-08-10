@@ -1,14 +1,21 @@
+.. _cone-api-howto:
+
 How to use cone APIs
 ====================
 
 The ConE public usage is described here with few common use cases as HowTo guides. 
 
+* See `Cone API epydoc <../epydoc/index.html>`_ for reference guide of api functions.
+
 How to open a Configuration project
 -----------------------------------
+
+* See reference of `Project class <../epydoc/cone.public.api.Project-class.html>`_
 
 To open a project with ConE the api offers a Storage and Project classes. The Storage is the storage 
 agostic implemenetation for cpf/zip, filestorage and soon also a webstorage. To access anything in ConE 
 you must a project open. 
+
 
 .. code-block:: python 
 
@@ -32,6 +39,8 @@ you must a project open.
 
 How to access and manipulate Configurations
 -------------------------------------------
+
+* See reference of `Configuration class <../epydoc/cone.public.api.Configuration-class.html>`_
 
 A Configuration normally is presented inside the Configuration project as a .confml file. So when you
 are accessing configurations your are actually accessing confml files. The project offers funtionality to 
@@ -92,8 +101,51 @@ To include a one Configuration to an other call ``include_configuration()`` meth
     myconfig = prj.get_configuration('myconfig.confml')
     myconfig.include_configuration('../data.confml')
 
+
+How to set / write metadata to a Configuration root file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The metadata element is currently confml model specific, so you need to import the confml.model to enable metadata writing.
+The ConfmlMeta element is desinged so that it can contain several ConfmlMetaProperty elements, each of which can be in 
+different xml namespaces.
+
+.. code-block:: python
+
+    from cone.public import api
+    from cone.confml import model
+    
+    store  = api.Storage.open(".","w")
+    prj = api.Project(store)
+    config = prj.create_configuration("test_meta.confml")
+    
+    prop1 = model.ConfmlMetaProperty("test", 'testing string')
+    prop2 = model.ConfmlMetaProperty("testName", 'testing string2', \
+                                     "http://www.nokia.com/xml/cpf-id/1", \
+                                     attrs={"name":"name1", "value": "value1"})            
+    prop3 = model.ConfmlMetaProperty("configuration-property", None, \
+                                     "http://www.nokia.com/xml/cpf-id/1", \
+                                     attrs={"name":"sw_version", "value": "1.0.0"})            
+    metaelem = model.ConfmlMeta([prop1, prop2, prop3])
+    
+    config.meta = metaelem
+    config.save()
+    prj.close()
+
+The output file *test_meta.confml* should look like this..
+
+.. code-block:: xml
+
+    <configuration name="test_meta_confml" xmlns="http://www.s60.com/xml/confml/2" ...>
+      <meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+        <test>testing string</test>
+        <cv:testName name="name1" value="value1">testing string2</cv:testName>
+        <cv:configuration-property name="sw_version" value="1.0.0" />
+      </meta>
+    </configuration>
+
 Feature Access and manipulation
 -------------------------------
+* See reference of `Feature class <../epydoc/cone.public.api.Feature-class.html>`_
 
 How to add a Feature to Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -130,6 +182,12 @@ Features can be removed from Configuration by a following way:
     prj.save()
     prj.close()
 
+
+Feature acces via Views 
+-----------------------
+* See reference of `View class <../epydoc/cone.public.api.View-class.html>`_
+* See reference of `Group class <../epydoc/cone.public.api.Group-class.html>`_
+* See reference of `FeatureLink class <../epydoc/cone.public.api.FeatureLink-class.html>`_
 
 How to get a Feature from Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -268,6 +326,61 @@ To set value for a specific Feature can be done by calling ``set_value()`` metho
     """ finally save and close project """
     prj.save()
     prj.close()
+
+
+How to Create a View
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    from cone.public import api
+    from cone.confml import model
+    
+    store  = api.Storage.open(".","w")
+    prj = api.Project(store)
+    """ First create the configuration with two features """
+    if prj.is_configuration("test_override.confml"):
+        config = prj.get_configuration("test_override.confml")
+    else:
+        config = prj.create_configuration("test_override.confml")
+    fea1 = config.create_feature("foo", name="foo name")
+    fea2 = fea1.create_feature("bar", name="bar name")
+    
+    """ Create the view and group to it """
+    view = config.create_view('testview')
+    group = view.create_group('group1')
+    
+    """ 
+    Create a featurelink.
+    Note! the featurelink now overrides the name attribute of the original feature.
+    """
+    link = group.create_featurelink('foo', name="foo name overridden")
+    """ override the description attribute of the view link """
+    link.desc = "override desc" 
+    config.save()
+
+How to Get a view and test attribute overrides
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In this example we assume that the previous example was stored to a file *test_override.confml*.
+
+.. code-block:: python
+
+    from cone.public import api
+    from cone.confml import model
+    
+    store  = api.Storage.open(".","w")
+    prj = api.Project(store)
+    config = prj.get_configuration("test_override.confml")
+    """ get the view and a feature from it """
+    view = config.get_view('testview')
+    fea = view.get_feature('group1.foo')
+    """ assert that the feature attributes have been overridden in the view """ 
+    assert(fea.has_attribute('name'))
+    assert(fea.has_attribute('desc'))
+    assert(fea.has_attribute('minLength') == False)
+    assert(fea._obj.name == 'foo name')
+    prj.close()
+
 
 Data access and manipulation
 ----------------------------

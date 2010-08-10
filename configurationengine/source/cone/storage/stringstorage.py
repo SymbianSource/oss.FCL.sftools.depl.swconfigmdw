@@ -62,9 +62,12 @@ class StringStorage(api.Storage, container.ObjectContainer):
     A general base class for all storage type classes
     @param path : the reference to the root of the storage.
     """
-    def __init__(self, path):
+    def __init__(self, path, mode='r'):
         container.ObjectContainer.__init__(self,"")
-        api.Storage.__init__(self,path)
+        api.Storage.__init__(self, path, mode)
+
+    def __reduce_ex__(self, protocol_version):
+        return  super(container.ObjectContainer, self).__reduce_ex__(protocol_version)
 
     def __getstate__(self):
         dict = self.__dict__.copy()
@@ -189,7 +192,7 @@ class StringStorage(api.Storage, container.ObjectContainer):
             if not res.get_mode() == api.Storage.MODE_READ:
                 self._get(utils.resourceref.to_dref(res.path)).data = res.getvalue()
         except KeyError,e:
-            raise StorageException("No such %s open resource! %s" % (res.path,e))
+            raise exceptions.StorageException("No such %s open resource! %s" % (res.path,e))
             
 
     def save_resource(self, res):
@@ -213,7 +216,7 @@ class StringStorage(api.Storage, container.ObjectContainer):
         path = utils.resourceref.join_refs([self.get_current_path(), path])
         return self._has(utils.resourceref.to_dref(path))
 
-    def list_resources(self,path,recurse=False,empty_folders=False):
+    def list_resources(self, path, **kwargs):
         """
         find the resources under certain path/path 
         @param path : reference to path where resources are searched
@@ -224,14 +227,17 @@ class StringStorage(api.Storage, container.ObjectContainer):
         try:
             curelem = self._get(utils.resourceref.to_dref(self.get_current_path()))
             dref = utils.resourceref.to_dref(path)
-            if recurse:
-                return sorted([child.path_to_elem(curelem) for child in curelem._get(dref)._traverse(type=_StringStorageObject)])
-            else:
-                return sorted([child.path_to_elem(curelem) for child in curelem._get(dref)._objects(type=_StringStorageObject)])
+            elems = sorted([child.path_to_elem(curelem) for child in curelem._get(dref)._objects(type=_StringStorageObject)])
+            if kwargs.get('recurse', False):
+                # Recursively call list_resources to subelements that are of 'folder' type
+                folders = [child._name for child in curelem._get(dref)._objects() if child.__class__  == container.ObjectContainer]
+                for folderpath in sorted(folders):
+                    elems += self.list_resources(utils.resourceref.join_refs([path,folderpath]), **kwargs)
+            return elems
         except exceptions.NotFound:
             return []
         
-    def import_resources(self,paths,storage,empty_folders=False):
+    def import_resources(self, paths, storage, **kwargs):
         for path in paths:
             if not storage.is_resource(path):
                 logging.getLogger('cone').warning("The given path is not a Resource in the storage %s! Ignoring from export!" % path)
@@ -328,11 +334,11 @@ class StringResource(api.Resource):
         else:
             self.handle.write(string)
 
-    def read(self, bytes=0):
-        if self.get_mode() == api.Storage.MODE_WRITE:
-            raise exceptions.StorageException("Reading attempted to %s in write-only mode." % self.path)
-        else:
-            self.handle.read(string)
+#    def read(self, length=0):
+#        if self.get_mode() == api.Storage.MODE_WRITE:
+#            raise exceptions.StorageException("Reading attempted to %s in write-only mode." % self.path)
+#        else:
+#            self.handle.read(length)
 
     def save(self):
         self.storage.save_resource(self)
@@ -348,6 +354,6 @@ class StringResource(api.Resource):
 
     def get_content_info(self):
         if self.content_info == None:
-            self.content_info = utils.make_content_info(self, self.handle.getvalue())
+            self.content_info = api.make_content_info(self, self.handle.getvalue())
         
         return self.content_info

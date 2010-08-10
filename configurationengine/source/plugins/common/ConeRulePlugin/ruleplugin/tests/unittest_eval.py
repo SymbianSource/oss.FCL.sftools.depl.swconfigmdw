@@ -20,8 +20,6 @@ import os, shutil
 import sys
 import re
 
-import __init__
-
 from ruleplugin import ruleml, relations
 from cone.public import api, exceptions
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -42,10 +40,10 @@ class MockFeature(object):
 
 class MockConfigurationContext(object):
     def __init__(self, feature_values):
-        self.data = MockObject()
+        self.configuration = MockObject()
         default_view = MockObject()
         default_view.get_feature = lambda ref: MockFeature(ref, feature_values)
-        self.data.get_default_view = lambda: default_view
+        self.configuration.get_default_view = lambda: default_view
         self.ref_eval_callback = None
 
 class MockExpression(object):
@@ -85,7 +83,7 @@ class TestEvalExpression(unittest.TestCase):
 
 class TestReplaceEvalBlocks(unittest.TestCase):
     def test_replace_eval_blocks(self):
-        replace = ruleml.RuleImplReader2._replace_eval_blocks
+        replace = ruleml.RuleImplReader._replace_eval_blocks
         
         orig = """some.setting configures x = y"""
         self.assertEquals(replace(orig), orig)

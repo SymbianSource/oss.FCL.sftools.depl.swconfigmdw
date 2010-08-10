@@ -18,7 +18,7 @@
 # @author Teemu Rytkonen
 
 import sys, os, shutil, unittest
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -27,7 +27,7 @@ TEMP_DIR        = os.path.normpath(os.path.join(ROOT_PATH, 'temp/crml_dc'))
 if sys.platform == "win32":
     CONE_SCRIPT = "cone.cmd"
 else:
-    CONE_SCRIPT = "cone.sh"
+    CONE_SCRIPT = "cone"
 
 def get_cmd(action='compare'):
     """Return the command used to run the ConE sub-action"""

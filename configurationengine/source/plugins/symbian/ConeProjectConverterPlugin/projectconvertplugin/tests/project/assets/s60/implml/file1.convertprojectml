@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">
 	
-	<targetProject path="/epoc32/rom" name="config_project"/>
+	<targetProject path="/epoc32/rom/config_project"/>
 
 	<layer path="platforms/s60">
 		<folder path="confml/components">
@@ -41,14 +41,13 @@
 	</layer>
 
 	<layer path="ncp53/victoria/language/{TEMPLATE}">
-		<rule type="folders" data="variants/language/victoria/*.*"/>		
 		<folder path="confml">
 			<filter action="add" data="variants/language/victoria/{TEMPLATE}/*.confml"/>
 		</folder>
 		<file type="layer_root" path="root.confml">
 			<filter action="include_file" data="*.confml"/>
 		</file>
-		<file type="configuration_root" name="{TEMPLATE}_root.confml">
+		<file type="configuration_root" path="{TEMPLATE}_root.confml">
 			<filter action="include_layer" data="s60"/>
 			<filter action="include_layer" data="customsw"/>
 			<filter action="include_layer" data="ncp53"/>

@@ -18,7 +18,6 @@ import unittest
 import os, shutil
 import sys
 import logging
-import __init__
 
 from cone.public import exceptions,plugin,api,container
 from cone.storage import filestorage
@@ -58,9 +57,9 @@ class TestErrorReporting(BaseTestCase):
     def _execute_rules(self, project_location):
         project = api.Project(api.Storage.open(os.path.join(ROOT_PATH, project_location)))
         config = project.get_configuration('root.confml')
-        
+        context = plugin.GenerationContext(configuration=config)
         implcontainer = plugin.get_impl_set(config, r'\.ruleml$')
-        implcontainer.get_relation_container().execute()
+        implcontainer.get_relation_container().execute(context)
         lastconfig = config.get_last_configuration()
         project.close()
     
@@ -75,9 +74,7 @@ class TestErrorReporting(BaseTestCase):
         log_file, handler, logger = self._prepare_log('test2.log')
         self._execute_rules('errorruleproject/test2')
         logger.removeHandler(handler)
-        self.assert_file_contains(log_file, "INFO - cone.ruleml - Set u'EvalTest2.StringResult' = None from '-> this is invalid python code'")
         self.assert_file_contains(log_file, "WARNING - cone.ruleml - Invalid syntax in eval: -> this is invalid python code")
-        self.assert_file_contains(log_file, "ERROR - cone.ruleml_relation_container(implml/invalid_python_eval.ruleml) - '-> this is invalid python code'")
 
     def test_invalid_python_code_eval_globals(self):
         log_file, handler, logger = self._prepare_log('test3.log')
@@ -96,7 +93,7 @@ class TestErrorReporting(BaseTestCase):
         log_file, handler, logger = self._prepare_log('test5.log')
         self._execute_rules('errorruleproject/test5')
         logger.removeHandler(handler)
-
+        
         self.assert_file_contains(log_file, "Execution failed for eval: 7/0 <type 'exceptions.ZeroDivisionError'>: integer division or modulo by zero")
 
     def test_references_non_existent_settings(self):

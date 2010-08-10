@@ -42,35 +42,86 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 import cone
 import cone_subaction
-from cone.public import settings
+import cone_common
+from cone.public import settings, utils
 
-CONE_SCRIPT_PATTERN = 'conesub_*.py'
-ROOT_PATH           = os.path.dirname(os.path.abspath(__file__))
-SUBS                = cone_subaction.get_subactions(ROOT_PATH, CONE_SCRIPT_PATTERN)
-ACTIONS             = [sub for sub in SUBS]
 logger              = logging.getLogger('cone')
 VERSION             = cone.__version__
 if cone._svnrevision not in ("", "exported"):
     VERSION += " (SVN %s)" % cone._svnrevision
-CONE_USAGE          = "%prog [action] [options]."
-CONE_ACTIONS        = '\n'
-for act in ACTIONS:
-     CONE_ACTIONS += '    %s\n' % act
-CONE_ACTION_HELP    = "Available actions %s\nUse %%prog [action] -h to get action specific help." % CONE_ACTIONS
+
+
+def format_actions(actions, filter=None):
+    action_names = []
+    for act in actions:
+        if not filter or filter(act):
+            action_names.append(act.name)
+    
+    action_names.sort()
+    ret = ''
+    for act in action_names:
+        help =  actions[act].short_help()
+        ret += '    %s : %s\n' % (act, help)
+    return ret
+
+def get_cone_configs(paths):
+    static_paths =  [os.path.expanduser('~'),
+                     os.getcwd()]
+    all_paths = [ROOT_PATH]
+    all_paths += static_paths
+    all_paths += paths
+    
+    configs = cone_subaction.get_cfg_files(all_paths, 'cone.ini')
+    return configs
+
+def get_actions(configs):
+    return cone_subaction.get_actions(configs)
+
+
+def get_help(actions):
+    helpstr = \
+"""
+Use %%prog [action] -h to get action specific help.
+
+Available actions 
+Main actions for one or more configurations. 
+%s
+
+Actions related to the configuration project maintenance. 
+%s
+
+extensions:
+%s
+""" % (format_actions(actions, lambda x: x.type=='configuration'),
+       format_actions(actions, lambda x: x.type=='project'),
+       format_actions(actions, lambda x: x.type=='extension'))
+    return helpstr
 
 def main():
-    parser = OptionParser(usage="%s\n\n%s" % (CONE_USAGE,CONE_ACTION_HELP),
-                          version="%%prog %s" % VERSION,
-                          prog="ConE")
+    # Get the operating system name to pass it on the the cmdsplit..
+    os_name = os.name
+    if os.getenv('CONE_CMDARG'):
+        sys.argv = [sys.argv[0]]
+        sys.argv += utils.cmdsplit(os.getenv('CONE_CMDARG'), os_name)
+    if os.getenv('CONE_CMD_APPEND'):
+        sys.argv.append( utils.cmdsplit(os.getenv('CONE_CMD_APPEND'), os_name) )
+
+    CONE_USAGE = "%prog [action] [options]."
+    configs = get_cone_configs([])
+    actions = get_actions(configs)
     
     # Set the path for cone .cfg files to the same directory as this script
     settings.SettingsFactory.configpath = ROOT_PATH
     
     try:
         action = sys.argv[1]
-        subaction = SUBS[action]
+        subaction = actions[action]
         print "Running action %s" % subaction.name
     except (IndexError, KeyError):
+        CONE_ACTION_HELP = get_help(actions)
+        parser = OptionParser(usage="%s\n\n%s" % (CONE_USAGE,CONE_ACTION_HELP),
+                              version="%%prog %s" % VERSION,
+                              prog="ConE")
         (options, args) = parser.parse_args()
         parser.error("Action must be given! See --help.")
     

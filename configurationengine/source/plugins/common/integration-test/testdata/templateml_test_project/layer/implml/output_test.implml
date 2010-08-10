@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <container>
+    <!-- Define the temporary variables and set their values -->
+    <tempVariable ref="Tempfeature.Outputfile1" type="string" value="orig1.txt"/>
+    <tempVariable ref="Tempfeature.Outputfile2" type="string" value="orig2.txt"/>
+    <tempVariable ref="Tempfeature.Outputdir"   type="string" value="origdir"/>
+    <tempVariable ref="Tempfeature.Encoding"    type="string" value="ASCII"/>
+    <tempVariable ref="Tempfeature.BOM"         type="string" value="true"/>
+    <tempVariable ref="Tempfeature.Newline"     type="string" value="win"/>
+    
+    <!-- Print out the values to a text file -->
+    <container>
+    <phase name="normal"/>
+    <templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <output file="${Tempfeature.Outputfile1}" dir="${Tempfeature.Outputdir}" encoding="${Tempfeature.Encoding}" bom="${Tempfeature.BOM}" newline="${Tempfeature.Newline}">
+            <template>
+TempFeature.Outputfile1:  {{ feat_tree.Tempfeature.Outputfile1._value }}
+TempFeature.Outputdir:    {{ feat_tree.Tempfeature.Outputdir._value }}
+TempFeature.Encoding:     {{ feat_tree.Tempfeature.Encoding._value }}
+TempFeature.BOM:          {{ feat_tree.Tempfeature.BOM._value }}
+TempFeature.Newline:      {{ feat_tree.Tempfeature.Newline._value }}
+Feature1.RealSetting:     {{ feat_tree.Feature1.RealSetting._value }}
+            </template>
+        </output>
+
+        <output ref="Tempfeature.Outputfile2" dir="${Tempfeature.Outputdir}" encoding="UTF-8" bom="true" newline="win">
+            <template>
+TempFeature.Outputfile2:  {{ feat_tree.Tempfeature.Outputfile2._value }}
+TempFeature.Outputdir:    {{ feat_tree.Tempfeature.Outputdir._value }}
+TempFeature.Encoding:     UTF-8
+TempFeature.BOM:          true
+TempFeature.Newline:      win
+            </template>
+        </output>
+    </templateml>
+    </container>
+    </container>
+</container>

@@ -21,7 +21,6 @@ import unittest
 import string
 import sys,os
 import shutil
-import __init__
 from testautomation.base_testcase import BaseTestCase
 
 from cone.public import exceptions, api
@@ -57,7 +56,7 @@ class TestConeProjectMethodsRead(unittest.TestCase):
     def test_list_configurations(self):
         confs =  self.project.list_configurations()
         self.assertTrue(confs)
-        self.assertEquals(confs[0],"morestuff.confml")
+        self.assertEquals(sorted(confs), sorted(['morestuff.confml', 'prodX.confml', 'simple.confml']))
 
     def test_get_configuration(self):
         conf =  self.project.get_configuration("morestuff.confml")
@@ -75,8 +74,10 @@ class TestConeProjectMethodsRead(unittest.TestCase):
         conf =  self.project.get_configuration("morestuff.confml")
         layers = conf.list_configurations()
         self.assertTrue(layers)
-        self.assertEquals(layers[0],'platform/s60/root.confml')
-        self.assertEquals(layers[1],'familyX/root.confml')
+        self.assertEquals(sorted(layers),
+                          sorted(['platform/s60/root.confml',
+                                  'familyX/root.confml',
+                                  'familyX/prodX/root.confml']))
 
     def test_get_is_configuration(self):
         self.assertTrue(self.project.is_configuration("morestuff.confml"))
@@ -126,19 +127,20 @@ class TestConeProjectMethodsRead(unittest.TestCase):
     def test_get_all_resources(self):
         conf =  self.project.get_configuration("morestuff.confml")
         resources = conf.get_all_resources()
-        self.assertEquals(resources[0].get_path(),'morestuff.confml')
-        self.assertEquals(resources[1].get_path(),'platform/s60/root.confml')
+        paths = [r.get_path() for r in resources]
+        self.assertTrue('morestuff.confml' in paths)
+        self.assertTrue('platform/s60/root.confml' in paths)
 
     def test_list_confmls(self):
         conf =  self.project.get_configuration("morestuff.confml")
         confmls = conf.list_resources()
-        self.assertEquals(confmls[0],'morestuff.confml')
-        self.assertEquals(confmls[1],'platform/s60/root.confml')
+        self.assertTrue('morestuff.confml' in confmls )
+        self.assertTrue('platform/s60/root.confml' in confmls)
     
     def test_list_implmls(self):
         conf =  self.project.get_configuration("morestuff.confml")
         implmls = conf.get_configuration('platform/s60/root.confml').get_layer().list_implml()
-        self.assertEquals(implmls[0],'implml/accessoryserver_1020505A.crml')
+        self.assertTrue('implml/accessoryserver_1020505A.crml' in implmls)
 
 #    def test_list_content(self):
 #        conf =  self.project.get_configuration("morestuff.confml")

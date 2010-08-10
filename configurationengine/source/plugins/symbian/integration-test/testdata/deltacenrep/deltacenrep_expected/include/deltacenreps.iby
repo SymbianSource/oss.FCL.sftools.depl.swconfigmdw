@@ -1,0 +1,11 @@
+
+#ifndef __DELTA_CENREPS_IBY
+#define __DELTA_CENREPS_IBY
+
+data = X:\ignored\output\deltacenreps\00000002.txt			private\10202BE9\00000002.txt exattrib=U
+data = X:\ignored\output\deltacenreps\00000003.txt			private\10202BE9\00000003.txt exattrib=U
+data = X:\ignored\output\deltacenreps\00000005.txt			private\10202BE9\00000005.txt exattrib=U
+data = X:\ignored\output\deltacenreps\00000006.txt			private\10202BE9\00000006.txt exattrib=U
+
+
+#endif // __DELTA_CENREPS_IBY

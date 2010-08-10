@@ -21,7 +21,6 @@ import unittest
 import string
 import sys,os
 import pickle
-import __init__
 
 from cone.public import api, exceptions, utils
 
@@ -177,7 +176,7 @@ class TestStorageGeneric(unittest.TestCase):
         res1.close()
         res1 = store.open_resource("test/foo.txt","w")
         res1.close()
-        self.assertEquals(store.list_resources('', True),['test/foo.txt'])
+        self.assertEquals(store.list_resources('', recurse=True),['test/foo.txt'])
 
     def test_open_many(self):
         store = api.Storage.open(storage_path,"w")
@@ -206,7 +205,7 @@ class TestStorageGeneric(unittest.TestCase):
         self.assertEquals(store.list_resources('/'), ['root.txt'])
         self.assertEquals(store.list_resources('/test'), ['test/bar.txt',
                                                           'test/foo.txt'])
-        self.assertEquals(store.list_resources('/',True), ['root.txt',
+        self.assertEquals(store.list_resources('/',recurse=True), ['root.txt',
                                                            'test/bar.txt',
                                                            'test/foo.txt'])
 
@@ -367,7 +366,7 @@ class TestStorageGeneric(unittest.TestCase):
         res.close()
         self.assertEquals(store.list_resources(""), ["foo.txt"])
         store.set_current_path("/")
-        self.assertEquals(store.list_resources("", True), ["subdir/foo.txt"])
+        self.assertEquals(store.list_resources("", recurse=True), ["subdir/foo.txt"])
         store.close()
         os.unlink(temp_file)
 
@@ -406,8 +405,8 @@ class TestFolder(unittest.TestCase):
         res = layer.open_resource("confml/test.confml","w")
         res.write("foo.conf")
         res.close()
-        self.assertEquals(layer.list_resources("", True),["confml/test.confml"])
-        self.assertEquals(store.list_resources("", True),["foo/confml/test.confml"])
+        self.assertEquals(layer.list_resources("", recurse=True),["confml/test.confml"])
+        self.assertEquals(store.list_resources("", recurse=True),["foo/confml/test.confml"])
 
     def test_create_two_layers_and_open_resource(self):
         store = api.Storage.open(storage_path,"w")
@@ -421,12 +420,15 @@ class TestFolder(unittest.TestCase):
         res = bar_layer.open_resource("confml/root.confml","w")
         res.write("foo.conf")
         res.close()
-        self.assertEquals(foo_layer.list_resources("", True),['confml/test.confml', 'root.confml'])
-        self.assertEquals(store.list_resources("", True),['bar/confml/root.confml','foo/confml/test.confml','foo/root.confml'])
+        self.assertEquals(foo_layer.list_resources("", recurse=True),['root.confml', 'confml/test.confml'])
+        self.assertEquals(store.list_resources("", recurse=True),['bar/confml/root.confml',
+                                                                  'foo/root.confml',
+                                                                  'foo/confml/test.confml'])
         
         foo_layer.delete_resource("confml/test.confml")
-        self.assertEquals(foo_layer.list_resources("", True),["root.confml"])
-        self.assertEquals(store.list_resources("", True),["bar/confml/root.confml","foo/root.confml"])
+        self.assertEquals(foo_layer.list_resources("", recurse=True),["root.confml"])
+        self.assertEquals(store.list_resources("", recurse=True),["bar/confml/root.confml",
+                                                                  "foo/root.confml"])
 
 
 if __name__ == '__main__':

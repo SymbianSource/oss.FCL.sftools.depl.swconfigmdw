@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <!--
+    Simple image conversions using a single input file, but with the file
+    location coming from ConfML setting values.
+    
+    The target paths in the ConfML setting values are absolute paths on the
+    target device, e.g. 'Z:\\resource\\apps\\cone.mbm'. When the output file
+    location is taken from a ConfML setting, the ImageML plug-in automatically
+    strips the drive letter, so the output file location becomes
+    '<cone_output_dir>/resource/apps/cone.mbm' in this case.
+    -->
+    
+    <output file="${TestSettings.ConeMbmTargetPath}">
+        <input file="${TestSettings.ConeInputBmp.localPath}" depth="${TestSettings.ConeMbmDepth}"/>
+    </output>
+    
+    <output file="${TestSettings.IconMifTargetPath}">
+        <input file="${TestSettings.IconInputSvg.localPath}"/>
+    </output>
+</imageml>

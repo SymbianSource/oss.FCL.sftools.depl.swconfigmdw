@@ -13,6 +13,8 @@
 #
 # Description:
 #
+import os
+import shutil
 
 def hex_to_bindata(hexdata):
     hexdata = hexdata.replace(' ', '').replace('\r', '').replace('\n', '').replace('\t', '')
@@ -28,3 +30,17 @@ def hex_to_bindata(hexdata):
         end   = start + 2 
         temp.append(chr(int(hexdata[start:end], 16)))
     return ''.join(temp)
+
+def remove_if_exists(path_or_paths):
+    """Remove files or directories if they exist.
+    @param path_or_paths: The path to remove. Can also be a list of paths."""
+    if isinstance(path_or_paths, list):
+        paths = path_or_paths
+    else:
+        paths = [path_or_paths]
+    
+    for path in paths:
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif os.path.isfile(path):
+            os.remove(path)

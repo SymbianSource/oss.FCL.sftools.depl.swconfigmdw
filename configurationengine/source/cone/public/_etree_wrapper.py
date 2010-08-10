@@ -32,8 +32,11 @@ class ElementTreeBackendWrapperBase(object):
     def get_lineno(self, element):
         raise NotImplementedError()
 
+    def get_elem_from_lineno(self, root, lineno):
+        raise NotImplementedError()
+
 class ElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
-    
+
     class CustomTreeBuilder(ElementTree.TreeBuilder):
         """
         Custom TreeBuilder for ElementTree that records line numbers
@@ -42,7 +45,7 @@ class ElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
         def start(self, tag, attrs):
             elem = ElementTree.TreeBuilder.start(self, tag, attrs)
             lineno = self._xmltreebuilder._parser.CurrentLineNumber
-            #print "Tag: %s, line: %r" % (tag, lineno)
+            # print "Tag: %s, line: %r" % (tag, lineno)
             elem.sourceline = lineno
             return elem
     
@@ -55,7 +58,8 @@ class ElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
             parser = ElementTree.XMLTreeBuilder(target=treebuilder)
             treebuilder._xmltreebuilder = parser
             parser.feed(text)
-            return parser.close()
+            self.root = parser.close()
+            return self.root
         except expat.ExpatError, e:
             raise exceptions.XmlParseError(
                 "XML parse error on line %d: %s" % (e.lineno, e),
@@ -65,8 +69,16 @@ class ElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
         return ElementTree.tostring(etree, encoding)
     
     def get_lineno(self, element):
-        return element.sourceline
+        try:
+            return element.sourceline
+        except AttributeError:
+            return None
 
+    def get_elem_from_lineno(self, root, lineno):
+        for elem in root.getiterator():
+            if elem.sourceline == lineno:
+                return elem
+        return None
 
 class CElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
     def __init__(self):
@@ -82,7 +94,8 @@ class CElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
     
     def fromstring(self, text):
         try:
-            return self.cElementTree.fromstring(text)
+            self.root = self.cElementTree.fromstring(text)
+            return self.root
         except SyntaxError, e:
             # cElementTree raises a SyntaxError, but does not set
             # its lineno attribute, so look for the line number
@@ -103,6 +116,9 @@ class CElementTreeBackendWrapper(ElementTreeBackendWrapperBase):
         # cElementTree does not support line numbers
         return None
 
+    def get_elem_from_lineno(self, root, lineno):
+        # cElementTree does not support line numbers
+        return None
 
 class LxmlBackendWrapper(ElementTreeBackendWrapperBase):
     
@@ -115,39 +131,48 @@ class LxmlBackendWrapper(ElementTreeBackendWrapperBase):
     
     def fromstring(self, text):
         try:
-            elem = self.lxml.etree.fromstring(text)
-            
-            # lxml parses also comments, but ConE does not expect those,
-            # so remove them to prevent any errors on that account
-            def remove_comments(elem):
-                # Find the comments under this element
-                comments = []
-                for x in elem:
-                    if isinstance(x, self.lxml.etree._Comment):
-                        comments.append(x)
-                
-                # Remove them
-                for c in comments:
-                    elem.remove(c)
-                
-                # Recurse to sub-elements
-                for subelem in elem:
-                    remove_comments(subelem)
-            
-            remove_comments(elem)
-            
-            return elem
+            self.root = self.lxml.etree.fromstring(text)
+            self.remove_comments(self.root)
+            return self.root
         except self.lxml.etree.XMLSyntaxError, e:
             raise exceptions.XmlParseError(
                 "XML parse error on line %d: %s" % (e.position[0], e),
                 e.position[0], str(e))
     
+    def remove_comments(self, elem):
+        """
+        lxml parses also comments, but ConE does not expect those,
+        so remove them to prevent any errors on that account
+        """
+        # Find the comments under this element
+        comments = []
+        for x in elem:
+            if isinstance(x, self.lxml.etree._Comment):
+                comments.append(x)
+        
+        # Remove them
+        for c in comments:
+            elem.remove(c)
+        
+        # Recurse to sub-elements
+        for subelem in elem:
+            self.remove_comments(subelem)
+            
     def tostring(self, etree, encoding=None):
         return self.lxml.etree.tostring(etree, encoding=encoding)
     
     def get_lineno(self, element):
-        return element.sourceline
+        try:
+            return element.sourceline
+        except AttributeError:
+            return None
 
+    def get_elem_from_lineno(self, root, lineno):
+        for elem in root.getiterator():
+            if elem.sourceline == lineno:
+                return elem
+        return None
+    
 # ============================================================================
 #
 # ============================================================================
@@ -167,7 +192,8 @@ class ElementTreeWrapper(object):
     # Import order for the default back-end. The list is traversed
     # top-down and the first back-end whose importing is successful is
     # used as the default back-end
-    DEFAULT_BACKEND_IMPORT_ORDER = [BACKEND_C_ELEMENT_TREE,
+    DEFAULT_BACKEND_IMPORT_ORDER = [BACKEND_LXML,
+                                    BACKEND_C_ELEMENT_TREE,
                                     BACKEND_ELEMENT_TREE]
     
     _backend_mapping = {BACKEND_ELEMENT_TREE:     ElementTreeBackendWrapper,
@@ -229,6 +255,18 @@ class ElementTreeWrapper(object):
         """
         return self._get_backend().get_lineno(element)
     
+    def get_elem_from_lineno(self, root, lineno):
+        """
+        Return the element from the given line number of the given XML element.
+        
+        @param root: the root element to search from
+        @param lineno: the line number to search for  
+        
+        Note that for the cElementTree parser this will always return
+        None, since that parser does not support line numbers.
+        """
+        return self._get_backend().get_elem_from_lineno(root, lineno)
+
     def __getattribute__(self, attrname):
         try:
             # Try to get the attribute from this object (the top-level wrapper)

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <dummy2 xmlns="http://www.dummy.com/dummy2">
+        <someElem>jee</someElem>
+    </dummy2>
+    
+    <dummy1 xmlns="http://www.dummy.com/dummy1">
+        <myElem>jee</myElem>
+    </dummy1>
+</container>

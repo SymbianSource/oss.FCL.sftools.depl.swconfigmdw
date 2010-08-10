@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="BitmaskTest" uidValue="0x00000003">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+
+  <key name="Bitmask" type="int" int="0x00000001" readOnly="true">
+    <access type="R" capabilities="AlwaysPass"/>
+    <bit ref="BitmaskTest/Bit0">1</bit>
+    <bit ref="BitmaskTest/Bit1">2</bit>
+    <bit ref="BitmaskTest/Bit2">3</bit>
+    <bit ref="BitmaskTest/Bit3">4</bit>
+    <bit ref="BitmaskTest/Bit4">5</bit>
+    <bit ref="BitmaskTest/Bit5">6</bit>
+  </key>
+  
+  <!--
+  This doesn't work in CT2, so not used in ConE plug-in tests for now
+  
+  <key name="InvertedMask" type="int" int="0x00000002" readOnly="true">
+    <bit ref="BitmaskTest/InvertedMaskBit1" value="false">1</bit>
+    <bit ref="BitmaskTest/InvertedMaskBit2" value="false">2</bit>
+    <bit ref="BitmaskTest/InvertedMaskBit3" value="false">3</bit>
+    <bit ref="BitmaskTest/InvertedMaskBit4" value="false">4</bit>
+  </key>
+  -->
+
+  <key name="Int32Mask" type="int" int="0x00000003" readOnly="true">
+    <bit ref="BitmaskTest/Int32Bit1">1</bit>
+    <bit ref="BitmaskTest/Int32Bit2">2</bit>
+    <bit ref="BitmaskTest/Int32Bit3">3</bit>
+    <bit ref="BitmaskTest/Int32Bit4">4</bit>
+    <bit ref="BitmaskTest/Int32Bit5">5</bit>
+    <bit ref="BitmaskTest/Int32Bit6">6</bit>
+    <bit ref="BitmaskTest/Int32Bit7">7</bit>
+    <bit ref="BitmaskTest/Int32Bit8">8</bit>
+    <bit ref="BitmaskTest/Int32Bit9">9</bit>
+    <bit ref="BitmaskTest/Int32Bit10">10</bit>
+    <bit ref="BitmaskTest/Int32Bit11">11</bit>
+    <bit ref="BitmaskTest/Int32Bit12">12</bit>
+    <bit ref="BitmaskTest/Int32Bit13">13</bit>
+    <bit ref="BitmaskTest/Int32Bit14">14</bit>
+    <bit ref="BitmaskTest/Int32Bit15">15</bit>
+    <bit ref="BitmaskTest/Int32Bit16">16</bit>
+    <bit ref="BitmaskTest/Int32Bit17">17</bit>
+    <bit ref="BitmaskTest/Int32Bit18">18</bit>
+    <bit ref="BitmaskTest/Int32Bit19">19</bit>
+    <bit ref="BitmaskTest/Int32Bit20">20</bit>
+    <bit ref="BitmaskTest/Int32Bit21">21</bit>
+    <bit ref="BitmaskTest/Int32Bit22">22</bit>
+    <bit ref="BitmaskTest/Int32Bit23">23</bit>
+    <bit ref="BitmaskTest/Int32Bit24">24</bit>
+    <bit ref="BitmaskTest/Int32Bit25">25</bit>
+    <bit ref="BitmaskTest/Int32Bit26">26</bit>
+    <bit ref="BitmaskTest/Int32Bit27">27</bit>
+    <bit ref="BitmaskTest/Int32Bit28">28</bit>
+    <bit ref="BitmaskTest/Int32Bit29">29</bit>
+    <bit ref="BitmaskTest/Int32Bit30">30</bit>
+    <bit ref="BitmaskTest/Int32Bit31">31</bit>
+    <bit ref="BitmaskTest/Int32Bit32">32</bit>
+  </key>
+  
+  
+  <key name="SparseInt32Bitmask" type="int" int="0x00000004" readOnly="true">
+    <bit ref="BitmaskTest/SparseInt32Bit1">1</bit>
+    <bit ref="BitmaskTest/SparseInt32Bit7">7</bit>
+    <bit ref="BitmaskTest/SparseInt32Bit18">18</bit>
+    <bit ref="BitmaskTest/SparseInt32Bit24">24</bit>
+    <bit ref="BitmaskTest/SparseInt32Bit31">31</bit>
+  </key>
+  
+  <!--
+  This doesn't work in CT2, so not used in ConE plug-in tests for now
+  
+  <key name="BinaryMask" type="binary" int="0x00000005" readOnly="true">
+    <bit ref="BitmaskTest/BinaryBit1">1</bit>
+    <bit ref="BitmaskTest/BinaryBit10">10</bit>
+    <bit ref="BitmaskTest/BinaryBit20">20</bit>
+    <bit ref="BitmaskTest/BinaryBit30">30</bit>
+    <bit ref="BitmaskTest/BinaryBit40">40</bit>
+    <bit ref="BitmaskTest/BinaryBit50">50</bit>
+    <bit ref="BitmaskTest/BinaryBit60">60</bit>
+    <bit ref="BitmaskTest/BinaryBit70">70</bit>
+    <bit ref="BitmaskTest/BinaryBit80">80</bit>
+    <bit ref="BitmaskTest/BinaryBit90">90</bit>
+    <bit ref="BitmaskTest/BinaryBit100">100</bit>
+  </key>
+  -->
+  
+  <key name="BinaryMask2" type="binary" int="0x06000000" readOnly="true">
+    <bit ref="BitmaskTest/BinaryMask2Bit1">1</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit2">2</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit3">3</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit4">4</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit5">5</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit6">6</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit7">7</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit8">8</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit9">9</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit10">10</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit11">11</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit12">12</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit13">13</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit14">14</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit15">15</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit16">16</bit>
+    <bit ref="BitmaskTest/BinaryMask2Bit17">17</bit>
+  </key>
+  
+  <key name="BinaryMask3" type="binary" int="0x07000000" readOnly="true">
+    <bit ref="BitmaskTest/BinaryMask3Bit1">1</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit2">2</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit3">3</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit4">4</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit5">5</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit6">6</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit7">7</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit8">8</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit9">9</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit10">10</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit11">11</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit12">12</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit13">13</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit14">14</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit15">15</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit16">16</bit>
+    <bit ref="BitmaskTest/BinaryMask3Bit17">17</bit>
+  </key>
+  
+  <key name="BinaryMask4" type="binary" int="0x08000000" readOnly="true">
+    <bit ref="BitmaskTest/BinaryMask4Bit1">1</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit2">2</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit3">3</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit4">4</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit5">5</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit6">6</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit7">7</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit8">8</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit9">9</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit10">10</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit11">11</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit12">12</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit13">13</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit14">14</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit15">15</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit16">16</bit>
+    <bit ref="BitmaskTest/BinaryMask4Bit17">17</bit>
+  </key>
+  
+  <key name="BinaryMask5" type="binary" int="0x09000000" readOnly="true">
+    <bit ref="BitmaskTest/BinaryMask5Bit1">1</bit>
+  </key>
+  
+</repository>

@@ -5,7 +5,7 @@
             <setting ref="Value" name="Value sub-setting" type="string"/>
         </setting>
         
-        <setting ref="StringToStringSequence" name="String-to-string sequence" type="sequence" mapKey="Name" mapValue="Value">
+        <setting ref="StringToStringSequence" name="String-to-string sequence" type="sequence" mapKey="Name" mapValue="Value" displayName="Name">
             <setting ref="Name" name="Name sub-setting" type="string"/>
             <setting ref="Value" name="Value sub-setting" type="string"/>
         </setting>
@@ -25,7 +25,7 @@
     <feature ref="NameIdMappingTestTargetSettings" name="Target settings for name-ID mappings">
         <setting ref="Selection" name="Selection setting" type="selection">
             <option map="NameIdMappingTestSourceSequences/StringSequence"/>
-            <option map="NameIdMappingTestSourceSequences/StringToStringSequence"/>
+            <option map="NameIdMappingTestSourceSequences/StringToStringSequence" displayName="Name" mapValue="Value"/>
             <option name="None" value="none"/>
         </setting>
         

@@ -1,0 +1,9 @@
+Validation problems
+-------------------
+{% for problem in problems -%}
+File: {{problem.file}}
+Line: {{problem.line}}
+Type: {{problem.type}}
+Msg:  {{problem.msg}}
+
+{% endfor %}

@@ -18,18 +18,23 @@ import os
 import fnmatch
 import logging
 from optparse import OptionParser, OptionGroup
-
 import cone_common
 from cone.public import api, plugin, utils, exceptions
 
 
 VERSION     = '1.0'
 DEFAULT_EXT = '.cpf'
+CONE_SCRIPT_PATTERN = 'conesub_*.py'
+ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 logger    = logging.getLogger('cone')
 DATA_NAME = 'confml/data.confml'
 
+class  ExportFailedException(Exception):
+    pass    
+
 def main():
+    """ Export configurations. """
     parser = OptionParser(version="%%prog %s" % VERSION)
     
     parser.add_options(cone_common.COMMON_OPTIONS)
@@ -108,11 +113,31 @@ def main():
                    metavar="CONFIG",
                    default=None)
 
+    group.add_option("--run-action",
+                   dest="action",
+                   action="append",
+                   type="string",
+                   help="Adds a execution of extra step that can manipulate the configuration before it is exported to external storage. "\
+                        "The --run-action operation can be used several times in a single command and it "\
+                        "will execute the actions in given order."\
+                        "Example --run-action=fix, which would execute fix action during export.",
+                   metavar="PLUGIN",
+                   default=None)
+
     group.add_option("--exclude-folders",
                         dest="exclude_empty_folders",
                         action="store_true",
                         help="Excludes empty folders from export",
                         default=False)
+
+    group.add_option("--exclude-content-filter",
+                        dest="exclude_content_filter",
+                        help="Filters out files and folders from content folder which matches with "\
+                             "the given regular expression. Matching is case-insensitive. "\
+                             "Example --exclude-content-filter=\".*\.sisx|.*\.sis|.*\.wgz|.*wgt\" "\
+                             "Filters out all files with extension sis, sisx, wgz or wgt.",
+                        default=None)
+
     
     parser.add_option_group(group)
     (options, args) = parser.parse_args()
@@ -131,8 +156,17 @@ def main():
     if options.export_dir and os.path.isfile(options.export_dir):
         parser.error("Given export directory '%s' is a file")
     
+    try:
+        run_export(options)
+    except ExportFailedException, e:
+        parser.error(str(e))
+
+    
+    
+def run_export(options):
     # Open the project and find out the active configuration
-    project = api.Project(api.Storage.open(options.project, "r"))
+    storage = api.Storage.open(options.project, "r", username=options.username, password=options.password)
+    project = api.Project(storage)
     try:
         active_root = project.get_storage().get_active_configuration()
     except AttributeError:
@@ -148,12 +182,12 @@ def main():
                 config_wildcards = options.config_wildcards,
                 config_regexes   = options.config_regexes)
         except cone_common.ConfigurationNotFoundError, e:
-            parser.error(str(e))
+            raise ExportFailedException(str(e))
     
     # Use the active configuration if no configurations are specifically given
     if len(config_list) == 0:
         if active_root is None:
-            parser.error("No configurations given and the project does not have an active root")
+            raise ExportFailedException("No configurations given and the project does not have an active root")
         else:
             logger.info('No configurations given! Using active root configuration %s' % active_root)
             config_list = [active_root]
@@ -165,16 +199,20 @@ def main():
                        export_format = options.export_format or 'cpf',
                        configs       = config_list,
                        added_layers  = options.added,
-                       empty_folders = not options.exclude_empty_folders)
+                       empty_folders = not options.exclude_empty_folders,
+                       exclude_filters       = {"content": options.exclude_content_filter},
+                       options               = options)
     else:
         _export_to_storage(project                 = project,
                            remote_project_location = options.remote,
                            configs                 = config_list,
                            added_layers            = options.added,
-                           empty_folders           = not options.exclude_empty_folders)
+                           empty_folders           = not options.exclude_empty_folders,
+                           exclude_filters         = {"content": options.exclude_content_filter},
+                           options                 = options)
     
 
-def _export_to_storage(project, remote_project_location, configs, added_layers, empty_folders):
+def _export_to_storage(project, remote_project_location, configs, added_layers, empty_folders, exclude_filters, options):
     assert len(configs) > 0
     
     # If the remote storage is not given, determine it automatically based
@@ -185,12 +223,24 @@ def _export_to_storage(project, remote_project_location, configs, added_layers, 
         logger.info('No remote storage given! Using source configuration name %s' % remotename)
         remote_project_location = remotename
     
-    remote_project = api.Project(api.Storage.open(remote_project_location, "w"))
+    remote_project = api.Project(api.Storage.open(remote_project_location, "w", username=options.username, password=options.password))
     for config_path in configs:
         config = project.get_configuration(config_path)
+        # immediate solution to run fixes during export
+        if options.action:
+            from cone.action import loader
+            for action_name in options.action:
+                try:
+                    action_class = loader.get_class(action_name)
+                    action = action_class(configuration=config,
+                                          project=project)
+                    action.run()
+                except Exception,e:
+                    logger.warning('Running plugin %s threw an exception: %s' % (action_name, e))
         project.export_configuration(config,
                                      remote_project.storage,
-                                     empty_folders = empty_folders)
+                                     empty_folders = empty_folders,
+                                     exclude_filters = exclude_filters)
         print "Export %s to %s done!" % (config_path, remote_project_location)
     
     # Setting first as active configuration if there are more than one configuration defined.
@@ -204,9 +254,9 @@ def _export_to_storage(project, remote_project_location, configs, added_layers, 
     remote_project.save()
     remote_project.close()
     
-    _add_layers(project, remote_project_location, added_layers, empty_folders)
+    _add_layers(project, remote_project_location, added_layers, empty_folders, exclude_filters, options)
     
-def _add_layers(source_project, remote_project_location, added_configs, empty_folders):
+def _add_layers(source_project, remote_project_location, added_configs, empty_folders, exclude_filters, options):
     """
     Add new configuration layers from source_project into 
     """
@@ -227,7 +277,8 @@ def _add_layers(source_project, remote_project_location, added_configs, empty_fo
                     existing_config = source_project.get_configuration(added_config_name)
                     source_project.export_configuration(existing_config,
                                                         target_project.storage,
-                                                        empty_folders = empty_folders)
+                                                        empty_folders = empty_folders,
+                                                        exclude_filters = exclude_filters)
                 else:
                     # The given configuration does not exist in the source project,
                     # create a new empty layer
@@ -241,7 +292,7 @@ def _add_layers(source_project, remote_project_location, added_configs, empty_fo
     target_project.save()
     target_project.close()
 
-def _export_to_dir(project, export_dir, export_format, configs, added_layers, empty_folders):
+def _export_to_dir(project, export_dir, export_format, configs, added_layers, empty_folders, exclude_filters, options):
     if not os.path.exists(export_dir):
         os.makedirs(export_dir)
     
@@ -253,7 +304,7 @@ def _export_to_dir(project, export_dir, export_format, configs, added_layers, em
             remote_name += '/'
         
         remote_name = os.path.join(export_dir, remote_name)
-        _export_to_storage(project, remote_name, [config], added_layers, empty_folders)
+        _export_to_storage(project, remote_name, [config], added_layers, empty_folders, exclude_filters, options)
 
 if __name__ == "__main__":
     main()

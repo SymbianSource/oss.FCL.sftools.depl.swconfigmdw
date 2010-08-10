@@ -29,11 +29,6 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-try:
-	pkg_resources.require('ConeContentPlugin')
-except pkg_resources.DistributionNotFound:
-	import __init__
-		
 from contentplugin import contentmlparser
 
 class TestConfmlRefs(unittest.TestCase):    

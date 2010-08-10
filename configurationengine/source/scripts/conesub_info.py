@@ -24,7 +24,7 @@ import cone_common
 from cone.public import api, plugin, utils, exceptions
 from cone.confml import persistentconfml
 from cone.storage.filestorage import FileStorage
-import report_util
+from cone.report import report_util
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -66,6 +66,7 @@ REPORT_SHORTCUTS = {
 }
 
 def main():
+    """ Get information about project / configurations. """
     shortcut_container = report_util.ReportShortcutContainer(REPORT_SHORTCUTS,
                                                              None)
     
@@ -147,10 +148,18 @@ def main():
                    metavar="FILE",
                    default=None)
     
+    info_group.add_option("--print-active-root",
+                   action="store_true",
+                   help="Print active root in the current project and exit.")
+    
     parser.add_option_group(info_group)
     
     (options, args) = parser.parse_args()
     cone_common.handle_common_options(options)
+    
+    if options.print_active_root:
+        print_active_root(options)
+        sys.exit(0)
     
     if not shortcut_container.is_valid_shortcut(options.report_type):
         parser.error("Invalid report type: %s" % options.report_type)
@@ -170,7 +179,7 @@ def main():
             print e
             sys.exit(1)
     
-    current = api.Project(api.Storage.open(options.project,"r"))
+    current = api.Project(api.Storage.open(options.project,"r", username=options.username, password=options.password))
     print "Opened project in %s" % options.project
     
     # Get a list of configurations if necessary
@@ -216,7 +225,7 @@ def main():
                               'api_data'    : ApiDataProvider(configs[0]),
                               'content_data': ContentDataProvider(configs[0]),
                               'value_data'  : ValueDataProvider(configs, view)}
-            report_util.generate_report(template, report, {'data': ReportDataProxy(data_providers)})
+            report_util.generate_report(template, report, {'data': ReportDataProxy(data_providers)}, [ROOT_PATH])
         else:
             # Printing configuration info
             config_name = config_list[0]
@@ -233,6 +242,14 @@ def main():
             print config
     if current: current.close()
 
+def print_active_root(options):
+    storage = api.Storage.open(options.project,"r", username=options.username, password=options.password)
+    active_root = storage.get_active_configuration()
+    if active_root:
+        print "Active root: %s" % active_root
+    else:
+        print "No active root."
+    
 
 # ============================================================================
 # Report data proxy and data providers
@@ -285,7 +302,7 @@ class ReportDataProviderBase(object):
         Generate the actual report data. Called when get_data() is called
         the first time.
         """
-        raise NotImplmentedError()
+        raise NotImplementedError()
 
 # ----------------------------------------------------------------------------
 
@@ -368,9 +385,11 @@ class ValueDataProvider(ReportDataProviderBase):
             self.options = kwargs['options']
     
     class Config(object):
-        def __init__(self, path, values):
+        def __init__(self, name, path, values, refs):
+            self.name = name
             self.path = path
             self.values = values
+            self.refs = refs
     
     class SequenceColumn(object):
         def __init__(self, ref, name, type):
@@ -443,8 +462,9 @@ class ValueDataProvider(ReportDataProviderBase):
                         values[entry.ref] = self._resolve_value(feature)
                     except exceptions.NotFound:
                         pass
-                
-            output_configs.append(self.Config(config.get_path(), values))
+            # Get the feature refs from last layer
+            last_layer_refs = set(config.get_last_configuration().list_leaf_datas())
+            output_configs.append(self.Config(config.get_name(), config.get_path(), values, last_layer_refs))
         
         # Add a 'modified' attribute to all features
         for group in feature_groups:
@@ -640,7 +660,7 @@ class ViewLoadError(RuntimeError):
 
 def _load_view_from_file(filename):
     """
-    Load the first view from the given ConfML file.
+    Load the last view from the given ConfML file.
     @raise ViewLoadError: An error occurred when loading the file.
     """
     file_abspath = os.path.abspath(filename)

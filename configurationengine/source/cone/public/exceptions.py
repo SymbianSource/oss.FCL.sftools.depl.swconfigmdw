@@ -17,7 +17,34 @@
 # @author Teemu Rytkonen
 
 class ConeException(Exception):
-    pass
+    """
+    Base class for ConE exceptions.
+    
+    The attributes ``problem_desc`` and ``problem_lineno`` contain a description of
+    the error and the line on which the error occurred, if available.
+    The exception message itself may be composed of these two to make it more
+    readable, but it may also just be the same as the description.
+    
+    @message: Exception message.
+    @param problem_lineno: The line number for api.Problem conversion. Can be None to
+        signify that the line number is not available.
+    @param problem_desc: Error description for api.Problem conversion. If None,
+        the exception message will be used here also.
+    @param problem_type: Problem type for api.Problem conversion. If None, the
+        class-level default will be used.
+    """
+    
+    #: Problem type for conversion to api.Problem.
+    #: A default can be set on the exception class level, but it may
+    #: also be set for individual exception instances.
+    problem_type = None
+    
+    def __init__(self, message='', problem_lineno=None, problem_msg=None, problem_type=None):
+        Exception.__init__(self, message)
+        self.problem_lineno = problem_lineno
+        self.problem_msg = problem_msg or message
+        if problem_type is not None:
+            self.problem_type = problem_type
 
 class NotSupportedException(ConeException):
     def __init__(self, message=""):
@@ -46,27 +73,19 @@ class ConePersistenceError(ConeException):
     pass
     
 class ParseError(ConeException):
-    """
-    Exception raised when invalid data is attempted to be parsed.
-    
-    The attributes ``desc`` and ``lineno`` contain a description of
-    the error and the line on which the error occurred, if available.
-    The exception message itself may be composed of these two to make it more
-    readable, but it may also just be the same as the description.
-    
-    @message: Exception message.
-    @param lineno: The line number where the error occurred. Can be None to
-        signify that the line number is not available.
-    @param desc: Error description. If None, the exception message will be
-        used here also.
-    """
-    def __init__(self, message, lineno=None, desc=None):
-        ConeException.__init__(self, message)
-        self.lineno = lineno
-        self.desc = desc or message
+    pass
 
 class XmlParseError(ParseError):
-    pass
+    problem_type = 'xml'
+
+class XmlSchemaValidationError(ParseError):
+    problem_type = 'schema'
+
+class ConfmlParseError(ParseError):
+    problem_type = 'model.confml'
+
+class ImplmlParseError(ParseError):
+    problem_type = 'model.implml'
 
 class IncorrectClassError(ConeException):
     pass
@@ -79,3 +98,10 @@ class InvalidObject(ConeException):
     operation an invalid object is encountered. 
     """
     pass
+
+class NameIdMappingError(ConeException):
+    """
+    Exception raised when resolving a name-ID mapped value fails.
+    """
+    pass
+

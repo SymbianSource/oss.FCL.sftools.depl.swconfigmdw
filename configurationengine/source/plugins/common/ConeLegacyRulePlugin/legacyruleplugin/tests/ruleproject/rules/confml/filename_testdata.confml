@@ -1,0 +1,43 @@
+<configuration name="Filenamejoin test" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <feature name="Filenamejoin rule test" ref="FilenamejoinTest">
+  
+    <setting name="Folder setting 1" ref="Folder1" type="folder">
+      <localPath/>
+    </setting>
+    <setting name="File setting 1" ref="File1" type="file">
+      <localPath/>
+    </setting>
+    <setting name="String setting 1" ref="String1" type="string"/>
+    
+    <setting name="Result 1" ref="Result1" type="string"/>
+    <setting name="Result 2" ref="Result2" type="string"/>
+    <setting name="Result 3" ref="Result3" type="string"/>
+    <setting name="Result 4" ref="Result4" type="string"/>
+    <setting name="Result 5" ref="Result5" type="string"/>
+    <setting name="Result 6" ref="Result6" type="string"/>
+    <setting name="Result 7" ref="Result7" type="string"/>
+    <setting name="Result 8" ref="Result8" type="string"/>
+    <setting name="Result 9" ref="Result9" type="string"/>
+	<setting name="Result 10" ref="Result10" type="string"/>
+	<setting name="Result 11" ref="Result11" type="string"/>
+  </feature>
+  <data>
+    <FilenamejoinTest>
+      <Folder1><localPath>some/folder1</localPath></Folder1>
+      <File1><localPath>sounds/file1.txt</localPath></File1>
+      <String1>Z:\\data\\sound.mp3</String1>
+      
+      <Result1>x</Result1>
+      <Result2>x</Result2>
+      <Result3>x</Result3>
+      <Result4>x</Result4>
+      <Result5>x</Result5>
+      <Result6>x</Result6>
+      <Result7>x</Result7>
+      <Result8>x</Result8>
+      <Result9>x</Result9>
+	  <Result10>x</Result10>
+      <Result11>x</Result11>
+    </FilenamejoinTest>
+  </data>
+</configuration>

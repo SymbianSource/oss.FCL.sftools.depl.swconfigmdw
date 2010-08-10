@@ -15,7 +15,6 @@
 #
 
 import sys, os, unittest, logging
-import __init__
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -66,7 +65,8 @@ class MockConfiguration(object):
 
 class TestCrmlTxtWriter(unittest.TestCase):
     def setUp(self):
-        self.writer = CrmlTxtWriter(MockConfiguration(), log)
+        self.context = plugin.GenerationContext(configuration=MockConfiguration())
+        self.writer = CrmlTxtWriter(self.context, log)
     
     def test_write_access(self):
         def check(acc, expected):

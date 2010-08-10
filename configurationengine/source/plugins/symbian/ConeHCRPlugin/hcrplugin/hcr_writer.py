@@ -14,13 +14,9 @@
 # Description: 
 #
 
-import logging
-import __init__
-  
 
-from struct import pack, unpack
+from struct import pack
 
-from cone.public import exceptions,plugin,utils,api
 from hcrplugin.hcrrepository import HcrRecord
 from hcrplugin.hcr_exceptions import *
 from hcrplugin.hcr_header import HcrHeader

@@ -20,14 +20,11 @@
 Test the CPF root file parsing routines
 """
 
-import zipfile
 import unittest
-import string
-import token
-import sys,os,re
-import __init__
+import StringIO
+import os,re
 
-from cone.public import utils, rules, api, exceptions
+from cone.public import utils, api, exceptions
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 testdata  = os.path.abspath(os.path.join(ROOT_PATH,'utils-testdata'))
@@ -78,7 +75,7 @@ class TestResourceRefs(unittest.TestCase):
         filtered = utils.resourceref.filter_resources(['test.txt','foo.dat','teat/data/bar.confml'],".*\.dat")
         self.assertEquals(filtered[0],'foo.dat')
 
-    def test_neg_filter_resources(self):
+    def test_neg_filter_resources2(self):
         filtered = utils.resourceref.neg_filter_resources(['/test/.svn/test.txt','.svn/test/foo.dat','teat/data/bar.confml'],"\.svn")
         self.assertEquals(filtered[0],'teat/data/bar.confml')
 
@@ -138,7 +135,7 @@ class TestResourceRefs(unittest.TestCase):
         self.assertEquals(utils.resourceref.norm('./skeleton.txt'),
                                      'skeleton.txt')
 
-    def test_norm_ref_with_begin_dot(self):
+    def test_norm_ref_with_begin_dot2(self):
         self.assertEquals(utils.resourceref.norm('.svn'),
                                      '.svn')
 
@@ -275,9 +272,6 @@ class TestResourceRefs(unittest.TestCase):
     def test_to_objref_dotted_start(self):
         self.assertEquals(utils.resourceref.to_objref('../foo/bar/test.confml'),'____foo__bar__test_confml')
 
-    def test_to_objref_dot_in_name_start(self):
-        self.assertEquals(utils.resourceref.to_objref('/foo.bar/test.confml'),'_foo_bar_test_confml')
-
     def test_to_objref_number_in_name_start(self):
         self.assertEquals(utils.resourceref.to_objref('_1.0.test_one'),'_1_0_test_one')
         self.assertEquals(utils.resourceref.to_objref('0.test_one'),'_0_test_one')
@@ -292,6 +286,13 @@ class TestResourceRefs(unittest.TestCase):
 
     def test_to_objref_dot_in_name_start(self):
         self.assertEquals(utils.resourceref.to_objref('/foo.bar/test.confml'),'__foo_bar__test_confml')
+
+    def test_to_objref_with_python_comment(self):
+        ##STRATEGIC## Customization offering for ##PROD_CODE##
+        self.assertEquals(utils.resourceref.to_objref('##STRATEGIC## Customization offering for ##PROD_CODE##'),
+                                                      '__STRATEGIC__Customizationofferingfor__PROD_CODE__')
+        self.assertEquals(utils.resourceref.to_objref('Feature A ## Testing ##'),
+                                                      'FeatureA__Testing__')
 
     def test_to_hash_dotted_start(self):
         self.assertEquals(utils.resourceref.to_hash('../foo/bar/test.confml'),'0x5a063087')
@@ -312,11 +313,17 @@ class TestResourceRefs(unittest.TestCase):
     def test_to_dref_from_dotted(self):
         self.assertEquals(utils.resourceref.to_dref('fii.faa.foo'),'fii.faa')
 
+    def test_is_path(self):
+        self.assertEquals(utils.resourceref.is_path('foo'),False)
+        self.assertEquals(utils.resourceref.is_path('foo.txt'),True)
+        self.assertEquals(utils.resourceref.is_path('bar/foo'),True)
+        self.assertEquals(utils.resourceref.is_path('bar/foo.txt'),True)
+
 class TestUtils(unittest.TestCase):    
     def test_distinct_array_with_single_values(self):
         self.assertEquals(utils.distinct_array(['1','2','1','1']),['1','2'])
 
-    def test_distinct_array_with_single_values(self):
+    def test_distinct_array_with_single_values2(self):
         self.assertEquals(utils.distinct_array(['1','2','3','1','2','4']),['1','2','3','4'])
 
     def test_list_files_from_testdata(self):
@@ -337,7 +344,7 @@ class TestUtils(unittest.TestCase):
     def test_pathmatch_with_star(self):
         self.assertEquals(utils.pathmatch('test.foo.*','test.foo.bar'),True)
 
-    def test_pathmatch_with_star(self):
+    def test_pathmatch_with_star2(self):
         self.assertEquals(utils.pathmatch('test.foo.*','test.foo.bar.fiba'),False)
 
     def test_pathmatch_with_twostar(self):
@@ -367,6 +374,28 @@ class TestUtils(unittest.TestCase):
         filters = []
         filters.append(lambda x: isinstance(x,F))
         self.assertEquals(utils.filter(obj,filters),False)
+
+    def test_is_float(self):
+        self.assertEquals(utils.is_float(-10), False)
+        self.assertEquals(utils.is_float(0), False)
+        self.assertEquals(utils.is_float(1), False)
+        self.assertEquals(utils.is_float(10), False)
+        self.assertEquals(utils.is_float(212), False)
+        self.assertEquals(utils.is_float('-10'), False)
+        self.assertEquals(utils.is_float('0'), False)
+        self.assertEquals(utils.is_float('1'), False)
+        self.assertEquals(utils.is_float('10'), False)
+        self.assertEquals(utils.is_float('212'), False)
+        self.assertEquals(utils.is_float(-10.1), True)
+        self.assertEquals(utils.is_float(0.1), True)
+        self.assertEquals(utils.is_float(1.1), True)
+        self.assertEquals(utils.is_float(10.1), True)
+        self.assertEquals(utils.is_float(212.1), True)
+        self.assertEquals(utils.is_float('-10.1'), True)
+        self.assertEquals(utils.is_float('0.00001'), True)
+        self.assertEquals(utils.is_float('1.1231'), True)
+        self.assertEquals(utils.is_float('10.000000001'), True)
+        self.assertEquals(utils.is_float('212.1'), True)
 
 class TestDottedRefs(unittest.TestCase):
     def test_join_two_refs(self):
@@ -544,6 +573,23 @@ class TestDottedRefs(unittest.TestCase):
             default_value_for_missing = 'giraffe')
         self.assertEquals(result, "The quick brown giraffe jumps over the lazy dog.")
         
+    def test_has_wildcard(self):
+        self.assertEquals(utils.dottedref.has_wildcard('fii.*'),True)
+        self.assertEquals(utils.dottedref.has_wildcard('fii.faa'),False)
+        self.assertEquals(utils.dottedref.has_wildcard('fii.faa.*'),True)
+        self.assertEquals(utils.dottedref.has_wildcard('fii.faa.**'),True)
+        self.assertEquals(utils.dottedref.has_wildcard('fii.faa.foo'),False)
+        self.assertEquals(utils.dottedref.has_wildcard('fii.*.faa'),True)
+        self.assertEquals(utils.dottedref.has_wildcard('*'),True)
+        
+    def test_get_wildcard_prefix(self):
+        self.assertEquals(utils.dottedref.get_static_ref('fii.*'),'fii')
+        self.assertEquals(utils.dottedref.get_static_ref('fii.faa'),'fii.faa')
+        self.assertEquals(utils.dottedref.get_static_ref('fii.faa.*'),'fii.faa')
+        self.assertEquals(utils.dottedref.get_static_ref('fii.faa.**'),'fii.faa')
+        self.assertEquals(utils.dottedref.get_static_ref('fii.faa.foo'),'fii.faa.foo')
+        self.assertEquals(utils.dottedref.get_static_ref('fii.*.faa'),'fii')
+        self.assertEquals(utils.dottedref.get_static_ref('*'),'')
 
 class TestUtilsSubclasses(unittest.TestCase):    
 
@@ -563,21 +609,6 @@ class TestUtilsSubclasses(unittest.TestCase):
         class class123(class2): pass
         classnames = utils.all_subclasses(base)
         self.assertEquals(len(classnames),4)
-
-class TestUtilsDataMapRef(unittest.TestCase):    
-
-    def setUp(self):
-        pass
-
-    def test_get_feature_ref(self):
-        map = "foo/bar[@key='key 1']"
-        ref = utils.DataMapRef.get_feature_ref(map)
-        self.assertEquals(ref,'foo/bar')
-
-    def test_get_key_value(self):
-        map = "foo/bar[@key='key 1']"
-        value = utils.DataMapRef.get_key_value(map)
-        self.assertEquals(value,'key 1')
 
 
 class TestMakeList(unittest.TestCase):
@@ -638,6 +669,116 @@ class TestXmlUtilFunctions(unittest.TestCase):
             utils.xml.split_tag_namespace("{http://www.test.com/xml/1}test"),
             ('http://www.test.com/xml/1', 'test'))
 
+    
+    def test_get_xml_root_without_namespace_1(self):
+        resource = StringIO.StringIO("""<?xml version="1.0" encoding="UTF-8"?>
+            <root><elem1 attr1="test" att""")
+        namespace, name = utils.xml.get_xml_root(resource)
+        self.assertEquals(namespace, None)
+        self.assertEquals(name, 'root')
+    
+    def test_get_xml_root_without_namespace_2(self):
+        resource = StringIO.StringIO("""<?xml version="1.0" encoding="UTF-8"?>
+            <root xmlns:myns="http://www.test.com/xml/1"><elem1 attr1="test" att""")
+        namespace, name = utils.xml.get_xml_root(resource)
+        self.assertEquals(namespace, None)
+        self.assertEquals(name, 'root')
+    
+    def test_get_xml_root_with_namespace_1(self):
+        resource = StringIO.StringIO("""<?xml version="1.0" encoding="UTF-8"?>
+            <root xmlns="http://www.test.com/xml/1">
+                <elem1 attr1="test" attr2="test 2"/>
+                <elem2>testing</elem3>
+            </root>""")
+        namespace, name = utils.xml.get_xml_root(resource)
+        self.assertEquals(namespace, 'http://www.test.com/xml/1')
+        self.assertEquals(name, 'root')
+    
+    def test_get_xml_root_with_namespace_2(self):
+        resource = StringIO.StringIO("""<?xml version="1.0" encoding="UTF-16"?>
+            <myns:root xmlns:myns="http://www.test.com/xml/1">
+                <elem1 attr1="test" attr2="test 2"/>
+                <elem2>testing</elem3>
+            </myns:root>""".encode('utf-16'))
+        namespace, name = utils.xml.get_xml_root(resource)
+        self.assertEquals(namespace, 'http://www.test.com/xml/1')
+        self.assertEquals(name, 'root')
+    
+    def test_get_xml_root_with_namespace_3(self):
+        resource = StringIO.StringIO("""<configuration name="testdata_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <data>""")
+        namespace, name = utils.xml.get_xml_root(resource)
+        self.assertEquals(namespace, 'http://www.s60.com/xml/confml/2')
+        self.assertEquals(name, 'configuration')
+    
+    def test_get_xml_root_invalid_xml_1(self):
+        resource = StringIO.StringIO("""<?xml version="1.0" encoding="UTF-16"?>
+            <root test test><elem """.encode('utf-16'))
+        self.assertRaises(exceptions.XmlParseError, utils.xml.get_xml_root, resource)
+    
+    def test_get_xml_root_invalid_xml_2(self):
+        resource = StringIO.StringIO("test test")
+        self.assertRaises(exceptions.XmlParseError, utils.xml.get_xml_root, resource)
+    
+    def test_get_xml_root_empty_string(self):
+        resource = StringIO.StringIO('')
+        self.assertRaises(exceptions.XmlParseError, utils.xml.get_xml_root, resource)
+
+class TestDictUtils(unittest.TestCase):
+    def test_update_tag_dict(self):
+        self.assertEquals(utils.update_dict({'foo' :  ['bar']}, {}),
+                                            {'foo': ['bar']})
+        self.assertEquals(utils.update_dict({}, {'foo' :  ['bar']}),
+                                            {'foo': ['bar']})
+        self.assertEquals(utils.update_dict({'foo' :  ['bar']},{'bar' : ['foo']}),
+                                            {'foo': [ 'bar'], 'bar' : ['foo']})
+        self.assertEquals(utils.update_dict({'foo' :  ['bar']},{'foo' : ['foo']}),
+                                            {'foo': ['bar', 'foo']})
+        self.assertEquals(utils.update_dict({'foo' :  ['bar'], 'moro' : ['sano','poro']},{'foo' : ['foo']}),
+                                            {'foo': ['bar', 'foo'], 'moro' : ['sano','poro']})
+
+        self.assertEquals(utils.update_dict({'foo' :  ['bar'], },{'foo' : ['foo'], 'moro' : ['sano','poro']}),
+                                            {'foo': ['bar', 'foo'], 'moro' : ['sano','poro']})
+
+class TestGrep(unittest.TestCase):
+    def test_grep_tuple(self):
+        data =['foo one','foo two','foo three','bar one','bar two','bar three']
+        self.assertEquals(utils.grep_tuple('one', data), [(0,'foo one'), (3,'bar one')])
+        self.assertEquals(utils.grep_tuple('two', data), [(1,'foo two'), (4,'bar two')])
+        self.assertEquals(utils.grep_tuple('foo', data), [(0,'foo one'), (1,'foo two'), (2,'foo three')])
+        self.assertEquals(utils.grep_tuple('foo|bar', data), [(0, 'foo one'), (1, 'foo two'), (2, 'foo three'), 
+                                                              (3, 'bar one'), (4, 'bar two'), (5, 'bar three')])
+
+    def test_grep_dict(self):
+        data =['foo one','foo two','foo three','bar one','bar two','bar three']
+        self.assertEquals(utils.grep_dict('one', data), {0 : 'foo one', 3 : 'bar one'})
+        self.assertEquals(utils.grep_dict('two', data), {1 : 'foo two', 4 : 'bar two'})
+        self.assertEquals(utils.grep_dict('foo', data), {0 : 'foo one', 1 : 'foo two', 2 : 'foo three'})
+
+class TestCmdLineParsing(unittest.TestCase):
+    def test_nt_parsing(self):
+        self.assertEquals(utils.cmdsplit(""), [])
+        self.assertEquals(utils.cmdsplit('--foo="foo bar"', 'nt'), ['--foo=foo bar'])
+        self.assertEquals(utils.cmdsplit('--foo="foo bar" -v5 -o "\epoc32\rom stuff\config"', 'nt'), ['--foo=foo bar',
+                                                                                                      '-v5', 
+                                                                                                      '-o', 
+                                                                                                      '\\epoc32\rom stuff\\config'])
+
+    def test_posix_parsing(self):
+        self.assertEquals(utils.cmdsplit("", 'posix'), [])
+        self.assertEquals(utils.cmdsplit('--foo="foo bar"', 'posix'), ['--foo=foo bar'])
+        self.assertEquals(utils.cmdsplit('--foo="foo bar" -v5 -o "/epoc32/rom stuff/config"', 'posix'), ['--foo=foo bar',
+                                                                                                      '-v5', 
+                                                                                                      '-o', 
+                                                                                                      '/epoc32/rom stuff/config'])
+
+
+class TestPathMethods(unittest.TestCase):
+    def test_relpath(self):
+        self.assertEquals(utils.relpath('foo/bar.txt','foo'), 'bar.txt')
+        self.assertEquals(utils.relpath('foo/bar.txt'), os.path.normpath('foo/bar.txt'))
+
 if __name__ == '__main__':
     unittest.main()
       
+

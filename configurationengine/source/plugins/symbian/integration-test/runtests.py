@@ -14,6 +14,6 @@
 # Description: 
 #
 
-import __init__
-
-__init__.runtests()
+if __name__ == '__main__':
+    import nose
+    nose.core.run(argv=['collector','--include=unittest', '--verbosity=3'])

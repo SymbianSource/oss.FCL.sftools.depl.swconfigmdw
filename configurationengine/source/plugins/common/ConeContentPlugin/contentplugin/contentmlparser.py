@@ -60,8 +60,10 @@ class ContentOutput(object):
         self.configuration = configuration
 
     def path_convert(self, path):
-        (drive, tail) = os.path.splitdrive(path)
-        return tail.lstrip('\\/')
+        match = re.match('([a-zA-Z]:)(.*)', path)
+        if match:
+            path = match.group(2)
+        return path.lstrip('\\/')
 
     def get_dir(self):
         if self.configuration and ConfmlRefs.is_confml_ref(self._dir):
@@ -151,7 +153,9 @@ class ContentInput(object):
                             # change None value to empty string
                             cvalue = dview.get_feature(cref).value or ''
                             if utils.is_list(cvalue):
-                                cvalue = ", ".join(cvalue)
+                                # Allow only strings (mainly filter out Nones)
+                                cvalue = filter(lambda x: isinstance(x, basestring), cvalue)
+                                cvalue = ", ".join([v or '' for v in cvalue])
                             key_list[index] = cvalue
                         except exceptions.NotFound:
                             logging.getLogger('cone.content').error("Feature ref '%s' in include key '%s' not found." % (cref,key))
@@ -448,5 +452,5 @@ class ConfmlRefs(object):
                 if not ref in ret:
                     ret.append(matchref.group(1))
             else:
-				ret.append(p)
+                ret.append(p)
         return ret

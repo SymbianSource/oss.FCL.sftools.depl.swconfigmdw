@@ -22,7 +22,8 @@ Mainly internal classed that the public data model uses internally.
 import re
 import pickle
 import logging
-import utils, exceptions
+import utils
+from cone.public import exceptions
 
 def object_container_filter(obj,**kwargs):
     """ Create a list of filter functions for each argument """ 
@@ -137,7 +138,35 @@ class DataContainer(object):
         return self.data.clear()
 
 class ContainerBase(object):
+    def __init__(self, name="",**kwargs):
+        if len(name.split(".")) > 1 or len(name.split("/")) > 1:
+            raise exceptions.InvalidRef("Illegal name for ObjectContainer %s" % name)
+        self._name = name
+        self._parent = None
+        self._order = []
+        self._children = {}
+        self._respath = ""
+        for arg in kwargs.keys():
+            setattr(self, arg, kwargs.get(arg))
+
+    def __getstate__(self):
+        state = {}
+        if self._parent: state['_parent'] = self._parent
+        if self._order: state['_order'] = self._order
+        if self._children: state['_children'] = self._children
+        if self._respath: state['_respath'] = self._respath
+        return state
     
+    def __setstate__(self, state):
+        self._name = state.get('ref','')
+        self._parent = state.get('_parent',None)
+        self._order = state.get('_order',[])
+        self._children = state.get('_children',{})
+        self._respath = state.get('_respath',"")
+        # update the parent link for all the children of this object
+        for child in self._objects():
+            child._parent = self
+
     def _set_parent(self, newparent):
         """
         @param newparent:  The new parent object
@@ -156,6 +185,18 @@ class ContainerBase(object):
         Set the current parent to None
         """
         self._parent = None
+
+    def get_store_interface(self):
+        """
+        Get a possible store interface for this ContainerBase object
+        """
+        return None
+
+    def get_path(self):
+        """
+        Return the path of the object
+        """
+        return self._respath
 
     parent = property(_get_parent, _set_parent,_del_parent)
 
@@ -189,7 +230,7 @@ class ObjectProxy(ContainerBase):
 
 class LoadInterface(ContainerBase):
     def load(self,ref):
-        file = open(ref,"r")
+        file = open(ref,"rb")
         self._parent = None
         return pickle.load(file)
 
@@ -197,7 +238,7 @@ class LoadInterface(ContainerBase):
         """
         unload or release
         """
-        file = open(ref,"w")
+        file = open(ref,"wb")
         pickle.dump(obj,file)
         file.close()
 
@@ -207,138 +248,6 @@ class LoadInterface(ContainerBase):
         """
         return ""
 
-class LoadProxy(ContainerBase):
-    """
-    This class is meant for loading & unloading an object, when it need.
-    """
-    def __init__(self, path, store_interface=None):
-        """
-        @param path: the path which is used in loadin
-        @param store_interface: the loading interface object, which is used. 
-        Expects load(path) and dump(obj) functions  
-        """
-        self.set('_obj', None)
-        self.set('_parent', None)
-        self.set('path', path)
-        self.set('_storeint', store_interface)
-
-    def __getattr__(self,name):
-        """
-        direct all not found attribute calls to the sub object getattr
-        """
-        if not self._obj: 
-            self._load()
-        return getattr(self._obj,name)
-
-    def __setattr__(self, name, value):
-        """
-        direct attribute setting calls to the sub object setattr
-        """
-        if not self._obj: 
-            self._load()
-        setattr(self._obj,name,value)
-
-    def __delattr__(self, name):
-        """
-        direct attribute setting calls to the sub object setattr
-        """
-        if not self._obj: 
-            self._load()
-        delattr(self._obj,name)
-
-    def _set_parent(self, newparent):
-        """
-        @param newparent:  The new parent object
-        @return: None
-        """
-        self.set('_parent',newparent)
-        if self._obj:
-            self._obj._parent = self._parent
-
-    def _set_obj(self, obj):
-        self.set('_obj',obj)
-        # set the same _parent for the actual object as is stored for the proxy
-        self._obj._parent = self._parent
-        self._obj.set_path(self.path)
-
-    def _get_obj(self):
-        if not self._obj: 
-            self._load()
-        return self._obj
-
-    def _load(self):
-        # Should the loading of layer external resources be supported?
-        # E.g. resources with absolute path relative to the storage (starts with slash)
-        """ If the loading of the object fails => Raise an InvalidObject exception """ 
-        try:
-            obj = self._store_interface().load(self.fullpath)
-            self._set_obj(obj)
-            obj.set_ref(utils.resourceref.to_objref(self.path))
-        except exceptions.NotResource,e:
-            logging.getLogger('cone').warning("Loading %s from parent %s failed! %s" % (self.path,self.get_parent_path(), e))
-            raise exceptions.InvalidObject("Invalid configuration object %s" % self.path)
-
-    def _unload(self):
-        if self._obj:
-            self._store_interface().unload(self.fullpath, self._obj)
-            self.set('_obj',None)
-
-    def _store_interface(self):
-        if not self._storeint:
-            self.set('_storeint',self._parent.get_project())
-        return self._storeint
-
-    def set(self,name,value):
-        """
-        Proxy has a specific attribute setting function, because by default all attributes are 
-        stored to the actual proxy object  
-        """
-        self.__dict__[name] = value
-
-    def get(self,name):
-        """
-        Proxy has also a specific attribute getting function, because by default all attributes are 
-        stored to the actual proxy object  
-        """
-        return self.__dict__[name]
-
-    def save(self):
-        if hasattr(self._obj,'save'):
-            self._obj.save()
-        self._unload()
-
-    def close(self):
-        if hasattr(self._obj,'close'):
-            self._obj.close()
-
-    def get_parent_path(self):
-        """
-        Return the path of the configuration resource
-        """
-        if self._parent:
-            return utils.resourceref.get_path(self._parent.get_path())
-        else:
-            return ""
-
-    def get_path(self):
-        """
-        Return the path of the configuration resource
-        """
-        if self._obj:
-            return self._obj.get_path()
-        else:
-            return self.path
-
-    @property
-    def fullpath(self):
-        """
-        Return the path of the configuration resource
-        """
-        try:
-            return self._obj.get_full_path() 
-        except AttributeError:
-            parent_path = self.get_parent_path() 
-            return utils.resourceref.join_refs([parent_path,self.path])
 
 class ObjectContainer(ContainerBase):
     """
@@ -348,14 +257,7 @@ class ObjectContainer(ContainerBase):
     def __init__(self,name="",**kwargs):
         """
         """
-        if len(name.split(".")) > 1 or len(name.split("/")) > 1:
-            raise exceptions.InvalidRef("Illegal name for ObjectContainer %s" % name)
-        self._name = name
-        self._parent = None
-        self._order = []
-        self._children = {}
-        for arg in kwargs.keys():
-            setattr(self, arg, kwargs.get(arg))
+        super(ObjectContainer,self).__init__(name, **kwargs)
 
     def __getattr__(self,name):
         """
@@ -364,7 +266,10 @@ class ObjectContainer(ContainerBase):
         try:
             return self.__dict__['_children'][name]
         except KeyError:
-            return getattr(super(ObjectContainer),name)
+            try:
+                return getattr(super(ObjectContainer),name)
+            except AttributeError,e:
+                raise AttributeError("%s object has not attribute '%s'" % (self.__class__, name))
 
     def _path(self, toparent=None):
         """
@@ -384,13 +289,32 @@ class ObjectContainer(ContainerBase):
         else:
             return self._name
     
-    def _add(self, child, policy=REPLACE):
+    def _add(self, child_or_children, policy=REPLACE):
         """
-        Add a child object. 
-        @param child: The child object to add. The child needs to be an instance of ObjectContainer. 
+        Add a child object or multiple child objects. 
+        @param child_or_children: The child object or list of child objects to add.
+            The children need to be instances of ObjectContainer. 
         @param policy: The policy which is used when an object with same name exists already  
         """
+        if isinstance(child_or_children, list):
+            objs = child_or_children
+            if policy == PREPEND:
+                objs = reversed(objs)
+                policy_first = PREPEND
+                policy_rest = PREPEND
+            else:
+                policy_first = policy
+                policy_rest = APPEND
+            
+            for i, obj in enumerate(objs):
+                if i == 0:  p = policy_first
+                else:       p = policy_rest
+                self._add(obj, p)
+            return
+        
+        
         # check that the child is a supported type
+        child = child_or_children
         if not self._supported_type(child):
             raise exceptions.IncorrectClassError("Cannot add instance of %s to %s." % (child.__class__,self.__class__))
         if policy == REPLACE:
@@ -443,12 +367,17 @@ class ObjectContainer(ContainerBase):
             if not child._name.startswith('?'):
                 self._order.append(child._name)
         else:
-            """ if the existing child is a instance of ObjectContainer, 
-                add all children of the existing contianer to this new object """
+            """ 
+            if the existing child is a instance of ObjectContainer, 
+            add all children of the existing container to this new object, except if the 
+            child already exists in the new child. 
+            """
             existingchild = self._children[child._name]
             if isinstance(existingchild, ObjectContainer):
                 for subchild in existingchild._objects():
-                     child._add(subchild)
+                    if not child._children.has_key(subchild._name):
+                        child._add(subchild)
+                     
         
         self._children[child._name] = child
         return
@@ -508,8 +437,8 @@ class ObjectContainer(ContainerBase):
                     curelem = utils.get_list(curelem._children[name])[index]
             return curelem
         # Catch the KeyError exception from dict and IndexError from list
-        except (KeyError,IndexError): 
-            raise exceptions.NotFound("Child %s not found!" % path)
+        except (KeyError,IndexError), e: 
+            raise exceptions.NotFound("Child %s not found from %s! %s" % (path, self, e))
 
     def _has(self, path):
         """
@@ -545,7 +474,9 @@ class ObjectContainer(ContainerBase):
                 del self._order[self._order.index(name)]
         elif self._get(path) != None: # delete if the child is found
             del self._children[path]
-            del self._order[self._order.index(path)]
+            # hidded children are not added to the order list 
+            if not path.startswith('?'):
+                del self._order[self._order.index(path)]
             
         else:
             raise exceptions.NotFound("Child %s not found!" % path)
@@ -565,6 +496,8 @@ class ObjectContainer(ContainerBase):
         given as dict, so they must be given with name. E.g. _traverse(name='test')
         @param name: The node name or part of name which is used as a filter. This is a regular expression (uses internally re.match()) 
         @param path: The path name or part of name which is used as a filter. This is a regular expression (uses internally re.match())
+        @param type: The type (class) of the objects that should be returned (this can be a tuple of types)
+        @param depth: The max recursion depth that traverse goes through. 
         @param filters: A list of predefined filters can be given as lambda functions. E.g. filters=[lambda x: isinstance(x._obj, FooClass)]  
         @return: a list of ObjectContainer objects.
         """
@@ -582,7 +515,7 @@ class ObjectContainer(ContainerBase):
 
         ret = []
         for child in self._objects():
-            subchildren = child._tail_recurse(_apply_filter,filters=filterlist)
+            subchildren = child._tail_recurse(_apply_filter,filters=filterlist,depth=kwargs.get('depth',-1))
             ret += subchildren
         return ret
     
@@ -611,20 +544,25 @@ class ObjectContainer(ContainerBase):
         @param kwargs: a list of arguments as dict
         @return: an list of objects, which can be anything that the funtion returns   
         """
-        
+        depth = kwargs.get('depth',-1)
         ret = []
-        ret += function(self,**kwargs)
-        for child in self._objects():
-            try:
-                # We wont add the object to the ret until we know that it is a valid object
-                subchildren = child._tail_recurse(function,**kwargs)
-                #ret += function(child,**kwargs)
-                ret += subchildren
-            except exceptions.InvalidObject,e:
-                # remove the invalid object from this container
-                logging.getLogger('cone').warning('Removing invalid child because of exception %s' % e)
-                self._remove(child._name)
-                continue
+        # check the if the recursion maximum depth has been reached
+        # if not reached but set, decrease it by one and set that to subrecursion
+        if depth != 0:
+            ret += function(self,kwargs.get('filters',[]))
+            kwargs['depth'] = depth - 1
+            for child in self._objects():
+                try:
+                    # We wont add the object to the ret until we know that it is a valid object
+                    subchildren = child._tail_recurse(function,**kwargs)
+                    #ret += function(child,**kwargs)
+                    ret += subchildren
+                except exceptions.InvalidObject,e:
+                    # remove the invalid object from this container
+                    logging.getLogger('cone').warning('Removing invalid child because of exception %s' % e)
+                    self._remove(child._name)
+                    continue
+        
         return ret
 
     def _head_recurse(self, function,**kwargs):
@@ -695,7 +633,7 @@ class ObjectContainer(ContainerBase):
         This function should be overloaded by a subclass if the supported types need to be changed.
         @return: True if object is supported, otherwise false.  
         """
-        return isinstance(obj, ObjectContainer)
+        return isinstance(obj, (ObjectContainer,ContainerBase))
 
     def _default_object(self,name):
         """
@@ -773,6 +711,13 @@ class ObjectContainer(ContainerBase):
         """
         return self.ref
 
+    def has_ref(self, ref):
+        """
+        Check if object container contains the given reference.
+        @param ref: reference
+        """
+        return self._has(ref)
+
 class ObjectProxyContainer(ObjectProxy,ObjectContainer):
     """
     Combines the Container and Proxy classes to one.
@@ -792,3 +737,317 @@ class ObjectProxyContainer(ObjectProxy,ObjectContainer):
             return self.__dict__['_children'][name] 
         except KeyError:
             return getattr(self._obj,name)
+
+class LoadContainer(ContainerBase):
+    """
+    This class is meant for loading & unloading an object(s), to a ObjectContainer. 
+    The loading is done if the object container methods are accessed.
+    """
+    def __init__(self, path, store_interface=None):
+        """
+        @param path: the path which is used in loading
+        @param store_interface: the loading interface object, which is used. 
+        Expects load(path) and dump(obj) functions  
+        """
+        super(LoadContainer, self).__init__()
+        self._parent = None
+        self._container = None
+        self._storeint = store_interface
+        self._respath = path
+    
+    def __getattr__(self,name):
+        """
+        Load the container objects if they are not allready loaded
+        """
+        if not self._container:
+            self._load()
+        return getattr(self._container,name)
+    
+    def _load(self):
+        """ If the loading of the object fails => Raise an InvalidObject exception """ 
+        try:
+            self._container = ObjectContainer()
+            # this should be modified to support loading multiple elements 
+            intf = self.get_store_interface()
+            # Do not try to load the objects if interface cannot be found
+            if intf:
+                obj = intf.load(self.get_full_path())
+                self._container._add(obj)
+        except exceptions.NotResource,e:
+            logging.getLogger('cone').warning("Loading %s from parent %s failed! %s" % (self.path,self.get_parent_path(), e))
+            raise exceptions.InvalidObject("Invalid configuration object %s" % self.path)
+
+    def _unload(self):
+        # go through objects in the container
+        intf = self.get_store_interface()
+        for obj in self._container._objects():
+            # remove the parent link 
+            obj._parent = None
+            if intf:
+                intf.unload(self.get_full_path(), obj)
+            self._container._remove(obj._name)
+        # set the container back to None
+        self._container = None
+        
+    def get_store_interface(self):
+        if not self._storeint and self._parent:
+            try:
+                self._storeint = self._parent.get_store_interface()
+            except exceptions.NotFound:
+                # If project is not found, let the store interface be None 
+                pass
+        return self._storeint
+
+    def get_parent_path(self):
+        """
+        Return the path of the configuration resource
+        """
+        if self._parent:
+            return utils.resourceref.get_path(self._parent.get_path())
+        else:
+            return ""
+
+    def get_full_path(self, obj=None):
+        """
+        Return the path of the configuration resource
+        """
+        if obj != None:
+            try:
+                return obj.get_full_path()
+            except AttributeError:
+                pass
+        # default path processing returns the fullpath of this elem
+        parent_path = self.get_parent_path() 
+        return utils.resourceref.join_refs([parent_path,self.get_path()])
+
+
+class LoadLink(ContainerBase):
+    """
+    This class is meant for loading & unloading an object(s), to a ObjectContainer. 
+    The loading is done if the object container methods are accessed.
+    """
+    def __init__(self, path, store_interface=None):
+        """
+        @param path: the path which is used in loading
+        @param store_interface: the loading interface object, which is used. 
+        Expects load(path) and dump(obj) functions  
+        """
+        super(LoadLink, self).__init__()
+        self._parent = None
+        self._loaded = False
+        self._storeint = store_interface
+        self._respath = path
+    
+    def populate(self):
+        """
+        Populate the object to the parent
+        """
+        if self._parent == None:
+            raise exceptions.NoParent("Cannot populate a LoadLink object without existing parent object")
+        if not self._loaded:
+            for obj in self._load():
+                self._parent._add(obj)
+    
+    def _load(self):
+        """ If the loading of the object fails => Raise an InvalidObject exception """ 
+        objs = []
+        try:
+            # this should be modified to support loading multiple elements 
+            intf = self.get_store_interface()
+            # Do not try to load the objects if interface cannot be found
+            if intf:
+                obj = intf.load(self.get_full_path())
+                objs.append(obj)
+        except exceptions.NotResource,e:
+            logging.getLogger('cone').warning("Loading %s from parent %s failed! %s" % (self.path,self.get_parent_path(), e))
+            raise exceptions.InvalidObject("Invalid configuration object %s" % self.path)
+        return objs
+    
+    def _unload(self):
+        pass
+    
+    def get_store_interface(self):
+        if not self._storeint and self._parent:
+            try:
+                self._storeint = self._parent.get_store_interface()
+            except exceptions.NotFound:
+                # If project is not found, let the store interface be None 
+                pass
+        return self._storeint
+
+    def get_parent_path(self):
+        """
+        Return the path of the configuration resource
+        """
+        if self._parent:
+            return utils.resourceref.get_path(self._parent.get_path())
+        else:
+            return ""
+
+    def get_full_path(self, obj=None):
+        """
+        Return the path of the configuration resource
+        """
+        if obj != None:
+            try:
+                return obj.get_full_path()
+            except AttributeError:
+                pass
+        # default path processing returns the fullpath of this elem
+        parent_path = self.get_parent_path() 
+        return utils.resourceref.join_refs([parent_path,self.get_path()])
+
+
+class LoadProxy(ContainerBase):
+    """
+    This class is meant for representing any object loading & unloading an object, 
+    when it is actually needed.  
+    object 
+    """
+    def __init__(self, path, store_interface=None):
+        """
+        @param path: the path which is used in loadin
+        @param store_interface: the loading interface object, which is used. 
+        Expects load(path) and dump(obj) functions  
+        """
+        self.set('_obj', None)
+        self.set('_parent', None)
+        self.set('path', path)
+        self.set('_storeint', store_interface)
+
+    def __getattr__(self,name):
+        """
+        direct all not found attribute calls to the sub object getattr
+        """
+        if not self._obj: 
+            self._load()
+        return getattr(self._obj,name)
+
+    def __getstate__(self):
+        """
+        Return a state which should have sufficient info to load the proxy object but 
+        dont serialize the object itself.
+        """
+        state = {}
+        state['path'] = self.path
+        state['_obj'] = None
+        # state['_parent'] = self._parent
+        state['_storeint'] = self._storeint
+        return state
+    
+    def __setstate__(self, state):
+        self.set('_obj', state.get('_obj',None))
+        self.set('_storeint', state.get('_storeint',None))
+        self.set('_parent', state.get('_parent',self._storeint))
+        self.set('path', state.get('path',''))
+
+    def __setattr__(self, name, value):
+        """
+        direct attribute setting calls to the sub object setattr
+        """
+        if not self._obj: 
+            self._load()
+        setattr(self._obj,name,value)
+
+    def __delattr__(self, name):
+        """
+        direct attribute setting calls to the sub object setattr
+        """
+        if not self._obj: 
+            self._load()
+        delattr(self._obj,name)
+
+    def _set_parent(self, newparent):
+        """
+        @param newparent:  The new parent object
+        @return: None
+        """
+        self.set('_parent',newparent)
+        if self._obj:
+            self._obj._parent = self._parent
+
+    def _set_obj(self, obj):
+        self.set('_obj',obj)
+        # set the same _parent for the actual object as is stored for the proxy
+        if self._obj:
+            self._obj._parent = self._parent
+            self._obj.set_path(self.path)
+
+    def _get_obj(self):
+        if not self._obj: 
+            self._load()
+        return self._obj
+
+    def _load(self):
+        # Should the loading of layer external resources be supported?
+        # E.g. resources with absolute path relative to the storage (starts with slash)
+        """ If the loading of the object fails => Raise an InvalidObject exception """ 
+        try:
+            obj = self.get_store_interface().load(self.fullpath)
+            self._set_obj(obj)
+            obj.set_ref(utils.resourceref.to_objref(self.path))
+        except exceptions.NotResource,e:
+            logging.getLogger('cone').warning("Loading %s from parent %s failed! %s" % (self.path,self.get_parent_path(), e))
+            raise exceptions.InvalidObject("Invalid configuration object %s" % self.path)
+
+    def _unload(self):
+        if self._obj:
+            self.get_store_interface().unload(self.fullpath, self._obj)
+            self.set('_obj',None)
+
+    def get_store_interface(self):
+        if not self._storeint:
+            self.set('_storeint',self._parent.get_store_interface())
+        return self._storeint
+
+    def set(self,name,value):
+        """
+        Proxy has a specific attribute setting function, because by default all attributes are 
+        stored to the actual proxy object  
+        """
+        self.__dict__[name] = value
+
+    def get(self,name):
+        """
+        Proxy has also a specific attribute getting function, because by default all attributes are 
+        stored to the actual proxy object  
+        """
+        return self.__dict__[name]
+
+    def save(self):
+        if hasattr(self._obj,'save'):
+            self._obj.save()
+        self._unload()
+
+    def close(self):
+        if hasattr(self._obj,'close'):
+            self._obj.close()
+
+    def get_parent_path(self):
+        """
+        Return the path of the configuration resource
+        """
+        if self._parent:
+            return utils.resourceref.get_path(self._parent.get_path())
+        else:
+            return ""
+
+    def get_path(self):
+        """
+        Return the path of the configuration resource
+        """
+        if self._obj:
+            return self._obj.get_path()
+        else:
+            return self.path
+
+    @property
+    def fullpath(self):
+        """
+        Return the path of the configuration resource
+        """
+        try:
+            return self._obj.get_full_path() 
+        except AttributeError:
+            parent_path = self.get_parent_path() 
+            return utils.resourceref.join_refs([parent_path,self.path])

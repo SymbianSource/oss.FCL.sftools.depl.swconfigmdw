@@ -14,23 +14,11 @@
 # Description:
 #
 
-import sys, os, unittest
-import __init__
+import os, unittest
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-try:
-    from cElementTree import ElementTree
-except ImportError:
-    try:    
-        from elementtree import ElementTree
-    except ImportError:
-        try:
-            from xml.etree import cElementTree as ElementTree
-        except ImportError:
-            from xml.etree import ElementTree
-
-from cone.public import exceptions, plugin, api, container
+from cone.public import exceptions, plugin, api, container, utils
 
 from CRMLPlugin.crml_model import *
 from CRMLPlugin.crml_reader import CrmlReader
@@ -43,7 +31,7 @@ class TestCrmlReader(unittest.TestCase):
         self.reader = CrmlReader()
     
     def assert_read_access_equals(self, data, expected):
-        etree = ElementTree.fromstring(data)
+        etree = utils.etree.fromstring(data)
         access = self.reader.read_access(etree)
         self.assertEquals(expected, access)
     
@@ -59,7 +47,33 @@ class TestCrmlReader(unittest.TestCase):
                 """ % self.NAMESPACE
         self.assert_read_access_equals(data,
             CrmlAccess(cap_rd='AlwaysPass', cap_wr='WriteDeviceData', sid_rd='0x12345678', sid_wr='0x87654321'))
-    
+
+    def test_get_refs(self):
+        data = """<?xml version="1.0"?>
+                <repository xmlns='%s'>
+                    <access type='R' capabilities="AlwaysPass" sid="0x12345678"/>
+                    <access type='W' capabilities="WriteDeviceData" sid="0x87654321"/>
+                    <key ref="Feature1/IntSetting" name="Int setting" int="0x00000001" type="int" readOnly="false" backup="true">
+                        <access type="R" capabilities="AlwaysPass"/>
+                    </key>
+                </repository>
+                """ % self.NAMESPACE
+        etree = utils.etree.fromstring(data)
+        repo = self.reader.read_repository(etree)
+        self.assertEquals(repo.get_refs(), ['Feature1.IntSetting'])
+        
+        data = """<?xml version="1.0"?>
+                <repository xmlns='%s'>
+                    <access type='R' capabilities="AlwaysPass" sid="0x12345678"/>
+                    <access type='W' capabilities="WriteDeviceData" sid="0x87654321"/>
+                </repository>
+                """ % self.NAMESPACE
+        etree = utils.etree.fromstring(data)
+        repo = self.reader.read_repository(etree)
+        self.assertEquals(repo.get_refs(), [])
+        
+
+        
     def test_read_duplicate_access(self):
         data = """<?xml version="1.0"?>
                 <test xmlns='%s'>
@@ -74,7 +88,7 @@ class TestCrmlReader(unittest.TestCase):
     
     
     def read_key_from_xml(self, data):
-        etree = ElementTree.fromstring(data)
+        etree = utils.etree.fromstring(data)
         return self.reader.read_key(etree)
         
     def assert_read_key_equals(self, data, expected):
@@ -96,7 +110,7 @@ class TestCrmlReader(unittest.TestCase):
         self.assertRaises(exceptions.ParseError, self.read_key_from_xml, data)
     
     def assert_read_bitmask_key_equals(self, data, expected):
-        etree = ElementTree.fromstring(data)
+        etree = utils.etree.fromstring(data)
         key = self.reader.read_bitmask_key(etree)
         self.assertEquals(expected, key)
     
@@ -122,7 +136,7 @@ class TestCrmlReader(unittest.TestCase):
                                         CrmlBit(ref='BitmaskTest.Bit5', index=6, invert=True)]))
     
     def assert_read_key_range_equals(self, data, expected):
-        etree = ElementTree.fromstring(data)
+        etree = utils.etree.fromstring(data)
         key = self.reader.read_key_range(etree)
         self.assertEquals(expected, key)
     
@@ -157,7 +171,7 @@ class TestCrmlReader(unittest.TestCase):
                                   CrmlKeyRangeSubKey(ref='IntSubSetting2', name='Int2', int='0x0003', type='int')]))
     
     def assert_read_repo_equals(self, data, expected):
-        etree = ElementTree.fromstring(data)
+        etree = utils.etree.fromstring(data)
         key = self.reader.read_repository(etree)
         self.assertEquals(expected, key)
     

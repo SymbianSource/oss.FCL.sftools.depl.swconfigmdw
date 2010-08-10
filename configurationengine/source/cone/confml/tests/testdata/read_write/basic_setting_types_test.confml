@@ -36,6 +36,10 @@
       <confml:option name="Option 3" value="opt 3"/>
       <confml:option name="Option 4" value="opt 4"/>
     </confml:setting>
+    
+    <confml:setting ref="HexBinarySetting" name="Hex-binary setting" type="hexBinary">
+      <confml:desc>A hex-binary setting</confml:desc>
+    </confml:setting>
   </confml:feature>
   
   <confml:data>
@@ -46,6 +50,7 @@
       <confml:BooleanSetting>true</confml:BooleanSetting>
       <confml:SelectionSetting>1</confml:SelectionSetting>
       <confml:MultiSelectionSetting>"opt 0" "opt 2" "opt 4"</confml:MultiSelectionSetting>
+      <confml:HexBinarySetting>00112233445566778899AABBCCDDEEFF</confml:HexBinarySetting>
     </confml:BasicSettingTypesTest>
   </confml:data>
   
@@ -57,6 +62,7 @@
       <confml:BooleanSetting>true</confml:BooleanSetting>
       <confml:SelectionSetting>true</confml:SelectionSetting>
       <confml:MultiSelectionSetting>true</confml:MultiSelectionSetting>
+      <confml:HexBinarySetting>false</confml:HexBinarySetting>
     </confml:BasicSettingTypesTest>
   </confml:rfs>
 </confml:configuration>

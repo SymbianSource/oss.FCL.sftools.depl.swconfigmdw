@@ -15,9 +15,8 @@
 #
 
 import unittest
-import os, shutil
 import sys
-import __init__
+
 try:
     from cElementTree import ElementTree
 except ImportError:
@@ -28,14 +27,14 @@ except ImportError:
             from xml.etree import cElementTree as ElementTree
         except ImportError:
             from xml.etree import ElementTree
-		
+
 from imageplugin import imageml
 
 
 imageml_string = \
 '''<?xml version="1.0" encoding="UTF-8"?>
 <imageml xmlns="http://www.s60.com/xml/imageml/1">
-    <output file="startup.mbm">
+    <output file="startup.mbm" extraparams="/V2">
     	<input dir="UI/Start-up Animation">
     		<include pattern="bmb$"/>
             <exclude pattern=".svn"/>
@@ -137,6 +136,7 @@ class TestImagemlParseimpl(unittest.TestCase):
         reader = imageml.ImageImplReader()
         outputs = reader.parse_outputs(etree)
         self.assertEquals(outputs[0].outputpath,'startup.mbm')
+        self.assertEquals(outputs[0].extraparams, '/V2')
         self.assertEquals(outputs[0].inputs[0].path,'UI/Start-up Animation')
         self.assertEquals(outputs[0].inputs[0].type,'dir')
         self.assertEquals(outputs[0].inputs[0].include,['bmb$'])
@@ -169,6 +169,9 @@ class TestImagemlParseimpl(unittest.TestCase):
         self.assertEquals(reader.outputgenerators[0].inputs[0].type,'dir')
         self.assertEquals(reader.outputgenerators[0].inputs[0].include,['${features.inputfilter}'])
 
+# Only run these tests on Windows
+if sys.platform != 'win32':
+    del TestImagemlParseimpl
 
 if __name__ == '__main__':
     unittest.main()

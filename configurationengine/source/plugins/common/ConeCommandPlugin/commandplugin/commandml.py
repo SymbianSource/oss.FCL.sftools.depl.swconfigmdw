@@ -22,14 +22,27 @@ fecthed from ConfML to maximize portability and minimize maintenance.
 
 import re
 import os
-import sys
 import logging
 import types
+import pkg_resources
 
 import subprocess
-import __init__
 
-from cone.public import exceptions,plugin,utils,api, settings
+from cone.public import plugin,utils
+
+def get_folder_set(folder):
+    """
+    Get a set object containing all files of given folder
+    @param folder: the folder to create set for
+    @return: a python set 
+    """
+    fileset = set()
+    for (root, _, filenames) in os.walk(folder):
+        for filename in filenames:
+            fname = utils.relpath(os.path.join(root,filename), folder)
+            fileset.add(fname)
+    
+    return fileset
 
 class CommandImpl(plugin.ImplBase):
     """
@@ -47,13 +60,16 @@ class CommandImpl(plugin.ImplBase):
         self.desc = ""
         self.logger = logging.getLogger('cone.commandml(%s)' % self.ref)
         self.reader = reader
+        for element in self.reader.elements:
+            element.set_logger(self.logger)
         
 
     def generate(self, context=None):
         """
         Generate the given implementation.
         """
-        self.create_output()        
+        
+        self.create_output(context)
         return 
     
     def generate_layers(self,layers):
@@ -64,17 +80,26 @@ class CommandImpl(plugin.ImplBase):
         self.create_output(layers)
         return 
     
-    def create_output(self, layers=None):
+    def create_output(self, context, layers=None):
         """
         Function to generate output files.
         """
-        
+        self.context = context
         tmpDict = self.__create_helper_variables()
-        
+        # Get the contents of output folder before the generation
+        outset_before = get_folder_set(context.output)
         for element in self.reader.elements:
             #Element can be either command or condition.
             element.set_logger(self.logger)
-            element.execute(tmpDict)        
+            element.execute(context, tmpDict)        
+        
+        # Get the contents of output folder after the generation 
+        # and get the new files created by the set difference.
+        # NOTE! this does not recognize files outside output folder!
+        outset_after = get_folder_set(context.output)
+        outset = outset_after - outset_before
+        for outfile in outset:
+            context.add_file(outfile, implementation=self)
         return
 
     def __create_helper_variables(self):
@@ -82,8 +107,8 @@ class CommandImpl(plugin.ImplBase):
         Internal function to create dictionary containing most often used ConE "environment" variables.
         """        
         tmp = {}
-        tmp["%CONE_OUT%"] = self.output
-        tmp["%CONE_OUT_ABSOLUTE%"] = os.path.abspath(self.output)
+        tmp["%CONE_OUT%"] = os.path.join(self.context.output, self.output).rstrip('\\')
+        tmp["%CONE_OUT_ABSOLUTE%"] = os.path.abspath(os.path.join(self.context.output, self.output)).rstrip('\\')
         return tmp    
     
     def has_ref(self, refs):
@@ -100,6 +125,8 @@ class CommandImplReader(plugin.ReaderBase):
     Parses a single commandml file
     """ 
     NAMESPACE = 'http://www.s60.com/xml/commandml/1'
+    NAMESPACE_ID = 'commandml'
+    ROOT_ELEMENT_NAME = 'commandml'
     FILE_EXTENSIONS = ['commandml']
     
     def __init__(self):
@@ -122,7 +149,11 @@ class CommandImplReader(plugin.ReaderBase):
         if reader.tags:
             impl.set_tags(reader.tags)
         return impl
-            
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('commandplugin', 'xsd/commandml.xsd')
+    
     def set_default_view(self, dview):
         """
         Function to set default view that is needed when solving out ConfML reference information
@@ -260,17 +291,17 @@ class Condition(object):
             cmd.set_logger(logger)        
 
     def add_command(self, command):
-        self.command.append(command)
+        self.commands.append(command)
 
-    def execute(self, replaceDict=None):
-        if self.__solve_condition(self.condition):
+    def execute(self, context, replaceDict=None):
+        if self._solve_condition(self.condition, context):
             #Condition is true -> running command
             for command in self.commands:                
-                command.execute(replaceDict)
+                command.execute(context, replaceDict)
         else:
             self.logger.info("Ignoring %s because it is evaluated as False." % self.condition)
 
-    def __solve_condition(self, condition_str):
+    def _solve_condition(self, condition_str, context):
         """
         Internal function to handle condition
         """
@@ -278,7 +309,7 @@ class Condition(object):
             #Expanding ConfML information
             modstr = utils.expand_delimited_tokens(
                 condition_str,
-                lambda ref, index: repr(self.dview.get_feature(ref).get_value()))
+                lambda ref, index: repr(context.configuration.get_default_view().get_feature(ref).get_value()))
             return eval(modstr)
         else:
             #Empty condition is true always.
@@ -323,8 +354,7 @@ class Command(object):
         self.cwd = cwd
     
     def set_all_envs(self, envs):
-        if envs:
-            self.envs = eval(envs)
+        self.envs = envs
     def set_default_view(self, dview):
         self.dview = dview
         
@@ -401,8 +431,16 @@ class Command(object):
         for filter in self.filters:
             filter.report(self.logger)
 
-    def execute(self, replaceDict=None):
+    def execute(self, context, replaceDict=None):
+        self.dview = context.configuration.get_default_view()
+        
         self.solve_refs()
+        
+        try:
+            if self.envs:   env_dict = eval(self.envs)
+            else:           env_dict = None
+        except Exception, e:
+            raise RuntimeError("Failed to evaluate env dictionary: %s: %s" % (e.__class__.__name__, e))
         
         exit_code = 0
         try:
@@ -415,8 +453,8 @@ class Command(object):
                 self.logger.info("Running command: \"%s\"" % command_str)
                 self.logger.info("with args: shell=%s envs=%s cwd=%s bufsize=%s stdin=%s stdout=%s stderr=%s" \
                                  % (self.shell, self.envs, cwd, self.bufsize, \
-                                    self.get_pipe("stdin", 'r'),self.get_pipe("stdout"), self.get_pipe("stderr")))                    
-                pid = subprocess.Popen(command_str, shell=self.shell, env=self.envs, cwd=cwd,\
+                                    self.get_pipe("stdin", 'r'),self.get_pipe("stdout"), self.get_pipe("stderr")))
+                pid = subprocess.Popen(command_str, shell=self.shell, env=env_dict, cwd=cwd,\
                                           bufsize=self.bufsize, stdin = self.get_pipe("stdin", 'r'),\
                                           stdout = self.get_pipe("stdout"), stderr = self.get_pipe("stderr"))
                 #Waiting for process to complete
@@ -452,6 +490,7 @@ class Command(object):
         self.shell = self.__solve_ref(self.shell)
         self.bufsize = self.__solve_ref(self.bufsize)
         self.cwd = self.__solve_ref(self.cwd)
+        self.envs = self.__solve_ref(self.envs)
         for argument in self.arguments:
             self.arguments[self.arguments.index(argument)] = self.__solve_ref(argument) 
         for pipe in self.pipes.keys():

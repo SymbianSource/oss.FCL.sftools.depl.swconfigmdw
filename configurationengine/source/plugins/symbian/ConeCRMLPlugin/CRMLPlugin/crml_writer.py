@@ -14,7 +14,7 @@
 # Description:
 #
 import re
-from cone.public import exceptions
+from cone.public import exceptions, plugin
 import crml_reader
 from crml_model import *
 
@@ -58,39 +58,47 @@ class CenRepRfsRecord(object):
     
     def __repr__(self):
         return "CenRepRfsRecord(repo_uid=%s, key_uids=%r)" % (self.repo_uid, self.key_uids)
-        
 
 class CrmlTxtWriter(object):
     """
     Writer class for generating CenRep .txt files based on a CRML model.
     """
     
-    def __init__(self, configuration, log):
-        self.configuration = configuration
+    def __init__(self, context, log):
+        self.context = context
         self.log = log
     
-    def get_cenrep_txt_data(self, repository):
+    def get_cenrep_txt_data(self, repository, changed_refs=None):
         """
         Return the text data for the CenRep txt generated based on the given
         CRML repository model.
+        @param changed_refs: List of changed refs. If this is passed, only a delta
+            CenRep txt file is generated (i.e. containing only the changed settings).
+            If None, the whole CenRep file is generated normally.
         @return: Text data for the CenRep text file.
         """
+        delta_cenrep = changed_refs is not None
         data = []
         
         # Generate header lines 
-        data.extend(self.get_header_lines(repository))
+        data.extend(self.get_header_lines(repository, delta_cenrep))
         
         self._check_repository_attrs(repository)
         
         # Generate CenRep entries for all keys
         cenrep_entries = []
         for key in repository.keys:
+            # If generating a delta CenRep file, ignore keys that don't
+            # use any of the changed settings
+            if delta_cenrep:
+                if not plugin.uses_ref(changed_refs, key.get_refs()):
+                    continue
             cenrep_entries.extend(self.get_cenrep_entries(key))
         
         # Generate entry lines based on the entries
         cenrep_entries.sort()
         for entry in cenrep_entries:
-            data.append(self.get_cenrep_entry_line(entry))
+            data.append(self.get_cenrep_entry_line(entry, delta_cenrep))
         
         data.append('')
         
@@ -179,29 +187,33 @@ class CrmlTxtWriter(object):
         
         return feature.get_value(attr='rfs')
     
-    def get_header_lines(self, repository):
+    def get_header_lines(self, repository, delta_cenrep=False):
         """
         Return a list of lines to be written in the header section of the CenRep text file.
+        @param delta_cenrep: If True, only the data needed for a delta CenRep
+            file is returned.
         """
         data = ['cenrep',
                 'version %s' % repository.version]
         
+        # Owner seems to be required even for delta CenReps
         if repository.owner:
             data.append('[owner]')
             data.append(repository.owner)
         
         data.append('[defaultmeta]')
-        data.append(' %d' % _get_metadata(repository.backup))
-        for key in repository.keys:
-            data.append(self.get_defaultmeta_line(key))
+        if not delta_cenrep:
+            data.append(' %d' % _get_metadata(repository.backup))
+            for key in repository.keys:
+                data.append(self.get_defaultmeta_line(key))
         
         data.append('[platsec]')
-        acc_text = self.get_access_line(repository.access)
-        if acc_text: acc_text = ' ' + acc_text
-        data.append(acc_text)
-        for key in repository.keys:
+        if not delta_cenrep:
+            acc_text = self.get_access_line(repository.access)
+            if acc_text: acc_text = ' ' + acc_text
+            data.append(acc_text)
+            for key in repository.keys:
                 data.append(self.get_platsec_line(key, repository))
-        
         
         data.append('[Main]')
         return data
@@ -369,9 +381,11 @@ class CrmlTxtWriter(object):
                              acc_text)
         
     
-    def get_cenrep_entry_line(self, entry):
+    def get_cenrep_entry_line(self, entry, delta_cenrep=False):
         """
         Return the text line for a CenRepEntry object.
+        @param delta_cenrep: If True, only the data needed for a delta CenRep
+            file is returned.
         """
         value = None
         if entry.crml_type in ('string', 'string8'):
@@ -404,14 +418,20 @@ class CrmlTxtWriter(object):
         
         self._check_value(entry, value)
         
-        acc_text = self.get_access_line(entry.access)
-        if acc_text: acc_text = ' ' + acc_text
-        
-        return '%s %s %s %d%s' % (_translate_key_uid(entry.int),
-                                  entry.crml_type,
-                                  value,
-                                  entry.metadata,
-                                  acc_text)
+        if delta_cenrep:
+            return '%s %s %s' % (_translate_key_uid(entry.int),
+                                 entry.crml_type,
+                                 value)
+        else:
+            acc_text = self.get_access_line(entry.access)
+            if acc_text: acc_text = ' ' + acc_text
+            
+            return '%s %s %s %d%s' % (_translate_key_uid(entry.int),
+                                      entry.crml_type,
+                                      value,
+                                      entry.metadata,
+                                      acc_text)
+    
     def _check_value(self, entry, value):
         """
         Check that the given value is valid for the given CenRep entry,
@@ -476,7 +496,7 @@ class CrmlTxtWriter(object):
         return ' '.join(data)
     
     def _get_feature(self, ref):
-        return self.configuration.get_default_view().get_feature(ref)
+        return self.context.configuration.get_default_view().get_feature(ref)
     
     @classmethod
     def get_index(cls,firstInt,firstIndex,indexBits,seqIndex, subIndex):

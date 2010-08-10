@@ -20,7 +20,6 @@ import string
 import sys
 import os
 import shutil
-import __init__
 
 from cone.public import api, exceptions
 from cone.confml import model, mapping
@@ -84,7 +83,7 @@ class TestCarbon2confml(unittest.TestCase):
 
     def test_map_carbon_setting_with_data(self):
         mapper = model.get_mapper('carbon')
-        c1 = model.ConfmlSetting("test")
+        c1 = model.ConfmlSetting("test", name="test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, carbonmodel.CarbonSetting))
         self.assertEquals(c2.name, "test")
@@ -92,7 +91,7 @@ class TestCarbon2confml(unittest.TestCase):
 
     def test_map_carbon_setting_with_desc(self):
         mapper = model.get_mapper('carbon')
-        c1 = model.ConfmlSetting("test")
+        c1 = model.ConfmlSetting("test", name="test")
         c1.desc = 'Testing man'
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, carbonmodel.CarbonSetting))
@@ -102,7 +101,7 @@ class TestCarbon2confml(unittest.TestCase):
         
     def test_map_carbon_int_setting_with_data(self):
         mapper = model.get_mapper('carbon')
-        c1 = model.ConfmlIntSetting("test")
+        c1 = model.ConfmlIntSetting("test", name="test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, carbonmodel.CarbonIntSetting))
         self.assertEquals(c2.name, "test")
@@ -110,7 +109,7 @@ class TestCarbon2confml(unittest.TestCase):
 
     def test_map_carbon_setting_with_data(self):
         mapper = model.get_mapper('carbon')
-        c1 = model.ConfmlBooleanSetting("test")
+        c1 = model.ConfmlBooleanSetting("test", name="test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, carbonmodel.CarbonBooleanSetting))
         self.assertEquals(c2.name, "test")
@@ -118,7 +117,7 @@ class TestCarbon2confml(unittest.TestCase):
 
     def test_map_carbon_setting_with_data(self):
         mapper = model.get_mapper('carbon')
-        c1 = model.ConfmlSelectionSetting("test")
+        c1 = model.ConfmlSelectionSetting("test", name="test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, carbonmodel.CarbonSelectionSetting))
         self.assertEquals(c2.name, "test")
@@ -126,7 +125,7 @@ class TestCarbon2confml(unittest.TestCase):
 
     def test_map_carbon_feature(self):
         mapper = model.get_mapper('carbon')
-        c1 = model.ConfmlFeature("test")
+        c1 = model.ConfmlFeature("test", name="test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, carbonmodel.CarbonFeature))
         self.assertEquals(c2.name, "test")

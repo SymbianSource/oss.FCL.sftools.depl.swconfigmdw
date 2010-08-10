@@ -15,7 +15,6 @@
 #
 
 import unittest
-import __init__
 
 from cone.public import api, exceptions
 from CRMLPlugin.crml_model import *
@@ -103,6 +102,10 @@ class TestCrmlRepository(unittest.TestCase):
             version     = '2',
             access      = CrmlAccess(cap_rd='ReadUserData'),
             keys        = keys)
+
+    def test_create_empty_repo(self):
+        repo = CrmlRepository()
+        self.assertEquals(repo.get_refs(), [])
 
     def test_create_repo_object(self):
         repo = CrmlRepository()

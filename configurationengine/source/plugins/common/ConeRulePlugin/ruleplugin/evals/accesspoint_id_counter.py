@@ -21,59 +21,55 @@ import logging
 
 logger = logging.getLogger('cone.ruleplugin.evals.accesspoint_id_counter')
 
-def get_apindex_by_apname(aps, dns, apname):
+def get_apindex_by_apname(wlan_aps, aps, dns, apname):
     """
     Returns AccessPoint index by given AccessPoint name
     """
-    cnt = _get_ApDnContainer_(aps, dns)
+    cnt = _get_ApDnContainer_(wlan_aps, aps, dns)
     return cnt.get_apindex_by_apname(apname)
 
-def get_apid_by_apname(aps, dns, apname, wlan_support=True):
+def get_apid_by_apname(wlan_aps, aps, dns, apname):
     """
     Returns AccessPoint id by given AccessPoint name
     """
-    cnt = _get_ApDnContainer_(aps, dns, wlan_support)
+    cnt = _get_ApDnContainer_(wlan_aps, aps, dns)
     return cnt.get_apid_by_apname(apname)
 
-def get_dnid_by_dnname(aps, dns, dnname, wlan_support=True):
+def get_dnid_by_dnname(aps, dns, dnname):
     """
     Return DestinationNetwork id by given DestinationNetworks name
     """
-    cnt = _get_ApDnContainer_(aps, dns, wlan_support)
+    cnt = _get_ApDnContainer_(wlan_aps, aps, dns)
     return cnt.get_dnid_by_dnname(dnname)
 
-def get_apid_by_dnname_and_apname(aps, dns, dnname, apname, wlan_support=True):
+def get_apid_by_dnname_and_apname(wlan_aps, aps, dns, dnname, apname):
     """
     Returns AccessPoint id by given DestinationNetwork name and AccessPoint name.
     """
-    cnt = _get_ApDnContainer_(aps, dns, wlan_support)
+    cnt = _get_ApDnContainer_(wlan_aps, aps, dns)
     return cnt.get_apid_by_dnname_and_apname(dnname, apname)
 
-def get_all_in_array(aps, dns, wlan_support=True):
+def get_all_in_array(wlan_aps, aps, dns):
     """
     Returns array containing all data:
         [DN name],[DN id], [IAPS names], [IAPS ids], [IAPS indexes] 
     """
-    cnt = _get_ApDnContainer_(aps, dns, wlan_support)
+    cnt = _get_ApDnContainer_(wlan_aps, aps, dns)
     return cnt.get_all_in_array()
 
-def _get_ApDnContainer_(aps, dns, wlan_support=True):
+def _get_ApDnContainer_(wlan_aps, aps, dns):
     """
     Returns populated ApDnContainer
     """
     cnt = ApDnContainer()
     
     _read_dns_(dns, cnt)
+    _read_wlan_aps_(wlan_aps, cnt)
     _read_aps_(aps, cnt)
     
     cnt._calc_dn_ids_()
-    
-    if wlan_support:
-        cnt._calc_ap_ids_(2)
-    else:
-        cnt._calc_ap_ids_(1)
-    
-    cnt._calc_ap_indexes_(1)
+    cnt._calc_ap_ids_()
+    cnt._calc_ap_indexes_()
     
     return cnt
 
@@ -127,6 +123,12 @@ def _read_dns_(dns, cnt):
         cnt.add_dn(mydn)
     return cnt
 
+def _read_all_aps_(wlan_aps, aps, cnt):
+    """
+    Reads WLAN_APs and APs to internal objects to ApDnContainer
+    """
+    
+
 def _read_aps_(aps, cnt):
     """
     Reads APs to internal objects to ApDnContainer.
@@ -159,7 +161,39 @@ def _read_aps_(aps, cnt):
         cnt.add_ap(myap)
     return cnt
 
-def _get_next_free_id_(bases, start_index=1):
+def _read_wlan_aps_(wlan_aps, cnt):
+    """
+    Reads APs to internal objects to ApDnContainer.
+    """
+    ap_names = None
+    ap_ids1 = None
+    
+    for ap in wlan_aps.WLAN_AP:
+        if ap.ref == 'ConnectionName':
+            ap_names = ap.value
+        if ap.ref == 'ConnectionId':
+            ap_ids1 = ap.value
+    
+    ap_ids2 = [None]*len(ap_names)
+    if ap_ids1 == None:
+        ap_ids1 = []
+    
+    
+    for i in range(len(ap_ids1)):
+        ap_ids2[i] = ap_ids1[i]
+        
+    
+    logger.info('Parsed WLAN_AP names: %s' % ap_names)
+    logger.info('Parsed WLAN_AP ids: %s' % ap_ids2)
+    
+    for i in range(len(ap_names)):
+        myap = Ap()
+        myap.set_id(ap_ids2[i])
+        myap.set_name(ap_names[i])
+        cnt.add_ap(myap)
+    return cnt
+
+def _get_next_free_id_(bases, start_index=0):
     """
     Returns next id as a string that is not in use.
     """
@@ -206,7 +240,6 @@ class ApDnContainer(object):
 
     def _calc_ap_indexes_(self, ind=1):
         index = ind
-        
         for dn in self.dns:
             for iap in dn.get_iaps():
                 if iap != None:
@@ -215,16 +248,11 @@ class ApDnContainer(object):
                             ap.set_index(str(index))
                             index += 1
 
-    def _calc_ap_ids_(self, start_index=1):
+    def _calc_ap_ids_(self, start_index=0):
         """
-        Calculates unique index for every AccessPoint, if Easy_WLAN is given it always have index 1.
+        Calculates unique index for every AccessPoint.
         """
-        
-        for ap in self.aps:
-            if ap.name == 'Easy WLAN':
-                ap.set_id('1')
-                logger.info('Easy_WLAN AP found. Setting 1 to AP id.')
-                
+                        
         for ap in self.aps:
             if ap.get_id() == None or ap.get_id() == '':
                 ap.set_id(_get_next_free_id_(self.aps, int(start_index)))
@@ -237,6 +265,7 @@ class ApDnContainer(object):
         for ap in self.aps:
             if ap.name == apname:
                 return ap.get_id()
+        logger.warning('ApId not found by ApName: %s' % apname)
         return None
     
     def get_apindex_by_apname(self, apname):
@@ -247,6 +276,7 @@ class ApDnContainer(object):
         for ap in self.aps:
             if ap.get_name() == apname:
                 return ap.get_index()
+        logger.warning('ApIndex not found by ApName: %s' % apname)
         return None
     
     
@@ -257,6 +287,7 @@ class ApDnContainer(object):
         for dn in self.dns:
             if dn.name == dnname:
                 return dn.id
+        logger.warning('DnId not found by DnName: %s' % dnname)
         return None
     
     def get_apid_by_dnname_and_apname(self, dnname, apname):
@@ -269,6 +300,7 @@ class ApDnContainer(object):
                 for iap in range(len(iaps)):
                     if iaps[iap] != None and iaps[iap] == apname:
                         return self.get_apid_by_apname(apname)
+        logger.warning('ApId not found by DnName: %s ApName: %s' % dnname, apname)
         return None
     
     def get_all_in_array(self):

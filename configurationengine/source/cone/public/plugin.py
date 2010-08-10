@@ -18,13 +18,12 @@
 
 import sys
 import os
-import re
 import logging
-import sets
 import inspect
-import xml.parsers.expat
+import re
+import codecs
 
-from cone.public import exceptions, utils, api, container, settings, rules
+from cone.public import exceptions, utils, api, settings, rules, parsecontext
 import _plugin_reader
 
 debug = 0
@@ -69,34 +68,95 @@ def is_temp_feature(feature):
     """
     return hasattr(feature, _plugin_reader.TEMP_FEATURE_MARKER_VARNAME)
 
-class GenerationContext(object):
+def uses_ref(refs, impl_refs):
+    """
+    Compare two lists of setting references and return whether any of the
+    references in ``refs`` is used in ``impl_refs``.
+    """
+    for ref in refs:
+        for impl_ref in impl_refs:
+            if ref.startswith(impl_ref):
+                if len(ref) == len(impl_ref):
+                    return True
+                elif ref[len(impl_ref)] == '.':
+                    return True
+    return False
+
+class GenerationContext(rules.DefaultContext):
     """
     Context object that can be used for passing generation-scope
     data to implementation instances.
     """
     
-    def __init__(self, tags={}):
+    def __init__(self, **kwargs):
         #: The tags used in this generation context
         #: (i.e. the tags passed from command line)
-        self.tags = tags
+        self.tags = kwargs.get('tags', {})
         
         #: The tags policy used in this generation context
-        self.tags_policy = "OR"
+        self.tags_policy = kwargs.get('tags_policy', "OR")
         
         #: A dictionary that implementation instances can use to
         #: pass any data between each other
         self.impl_data_dict = {}
         
-        #: A string for the phase of the generation
-        self.phase = ""
+        #: A string for the phase of the generation.
+        #: If None, no filtering based on phase is done when
+        #: running the implementations
+        self.phase = kwargs.get('phase', None)
         
         #: a list of rule results
         self.results = []
         
         #: a pointer to the configuration 
-        self.configuration = None
+        self.configuration = kwargs.get('configuration', None)
+        
+        #: If True, then all implementation filtering done by
+        #: should_run() is disabled, and it always returns True.
+        self.filtering_disabled = False
+        
+        #: if True, then the execution flow should normal except 
+        #: no output files are actually generated
+        self.dry_run= kwargs.get('dry_run', None)
+        
+        #: the output folder for generation
+        #: ensure already here that the output exists
+        self.output= kwargs.get('output', 'output')
+        
+        #: List of references of the settings that have been modified in 
+        #: listed layers and should trigger an implementation to be executed.
+        #: None if ref filtering is not used
+        self.changed_refs = kwargs.get('changed_refs', None)
+        
+        
+        #: A boolean flag to determine whether to use ref filtering or not
+        self.filter_by_refs = kwargs.get('filter_by_refs', False)
+        
+        #: Temp features
+        self.temp_features = kwargs.get('temp_features', [])
+        
+        #: Executed implementation objects. This is a set so that a 
+        #: implementation would exist only once in it. Even if it executed 
+        #: more than once. The generation_output will show the actual 
+        #: output several times if a implementation is executed several times.
+        self.executed = set()
+        
+        #: Set of all implementation objects in the configuration context 
+        self.impl_set = kwargs.get('impl_set', ImplSet())
+        
+        #: Generation output elements as a list 
+        self.generation_output = []
 
-    def eval(self, ast, expression, value):
+        #: possible log elemement 
+        self.log = []
+        self.log_file = ""
+
+    def __getstate__(self):
+        state = self.__dict__
+        state['impl_data_dict'] = {}
+        return state
+    
+    def eval(self, ast, expression, value, **kwargs):
         """
         eval for rule evaluation against the context
         """
@@ -107,31 +167,396 @@ class GenerationContext(object):
         Handle a terminal object 
         """
         try:
-            if isinstance(expression, str): 
-                m = re.match("\${(.*)}", expression)
-                if m:
-                    try:
-                        dview = self.configuration.get_default_view()
-                        return dview.get_feature(m.group(1)).value
-                    except Exception, e:
-                        logging.getLogger('cone').error("Could not dereference feature %s. Exception %s" % (expression, e))
-                        raise e
-                elif expression in ['true','1','True']:
-                    return True
-                elif expression in ['false','0','False']:
-                    return False
-                else:
-                    try:
-                        return eval(expression)
-                    except NameError:
-                        # If the expression is a string in it self it can be returned
-                        return expression
-            else:
-                return expression
+            if isinstance(expression, basestring): 
+                try:
+                    dview = self.configuration.get_default_view()
+                    return dview.get_feature(expression).value
+                except Exception, e:
+                    logging.getLogger('cone').error("Could not dereference feature %s. Exception %s" % (expression, e))
+                    raise e
         except Exception,e:
             logging.getLogger('cone').error("Exception with expression %s: %s" % (expression, e))
             raise e
+    
+    def convert_value(self, value):
+        try:
+            # Handle some special literals
+            if value == 'true':     return True
+            if value == 'false':    return False
+            if value == 'none':     return None
+            
+            # Values can be any Python literals, so eval() the string to
+            # get the value
+            return eval(value)
+        except Exception:
+            ref_regex = re.compile('^[\w\.\*]*$', re.UNICODE) 
+            if ref_regex.match(value) is None:
+                raise RuntimeError("Could not evaluate '%s'" % value)
+            else:
+                raise RuntimeError("Could not evaluate '%s'. Did you mean a setting reference and forgot to use ${}?" % value)
+    
+    def set(self, expression, value, **kwargs):
+        log = logging.getLogger('cone.ruleml')
+        try:
+            feature = self.configuration.get_default_view().get_feature(expression)
+            feature.set_value(value)
+            
+            relation = kwargs.get('relation')
+            if relation:
+                log.info("Set %s = %r from %r" % (expression, value, relation))
+            else:
+                log.info("Set %s = %r" % (expression, value))
+            
+            refs = [feature.fqr]
+            if feature.is_sequence():
+                refs = ["%s.%s" % (feature.fqr,subref) for subref in feature.list_features()]
+                
+            self.add_changed_refs(refs, relation)
 
+            if relation:
+                self.generation_output.append(GenerationOutput(expression, 
+                                                               relation,
+                                                               type='ref'))
+            return True
+        except exceptions.NotFound,e:
+            log.error('Set operation for %s failed, because feature with that reference was not found! Exception %s', expression, e) 
+            raise e
+    
+    def should_run(self, impl, log_debug_message=True):
+        """
+        Return True if the given implementation should be run (generated).
+        
+        Also optionally log a message that the implementation is
+        filtered out based on phase, tags or setting references.
+        
+        Calling this method also affects the output of executed_impls. Every
+        implementation for which a call to this method has returned True
+        will also be in that list.
+        
+        @param impl: The implementation to check.
+        @param log_debug_message: If True, a debug message will be logged
+            if the implementation is filtered out based on phase, tags
+            or setting references.
+        """
+        if self.filtering_disabled:
+            return True
+        
+        if isinstance(impl, ImplContainer):
+            # Don't perform any filtering on containers
+            return True
+        
+        impl_phases = impl.invocation_phase()
+        if isinstance(impl_phases, basestring):
+            impl_phases = [impl_phases]
+        
+        if self.phase is not None and self.phase not in impl_phases:
+            # Don't log a debug message for phase-based filtering to
+            # avoid unnecessary spamming (uncomment if necessary
+            # during development)
+            #logging.getLogger('cone').debug('Filtered out based on phase: %r (%r not in %r)' % (impl, self.phase, impl_phases))
+            return False
+        if self.tags and not impl.has_tag(self.tags, self.tags_policy):
+            if log_debug_message:
+                logging.getLogger('cone').debug('Filtered out based on tags: %r' % impl)
+            return False
+        if self.filter_by_refs and self.changed_refs and impl.has_ref(self.changed_refs) == False:
+            if log_debug_message:
+                logging.getLogger('cone').debug('Filtered out based on refs: %r' % impl)
+            return False
+        
+        # Assumption is that when a implementation should be run it is added to the executed pile
+        self.executed.add(impl)
+        return True
+    
+    def have_run(self, impl):
+        """
+        This function will add the given implementation 
+        outputs to the list of generation_outputs.
+        """
+        # Add outputs only from actual leaf implementations
+        # not from ImplContainers
+        if not isinstance(impl, ImplContainer):
+            self.generation_output += impl.get_outputs()
+    
+    def create_file(self, filename, **kwargs):
+        """
+        Create a file handle under the output folder. Also adds the output file to the generation outputs list.
+        @param filename: the filename with path, that is created under the output folder of the generation context.
+        @param **kwargs: the keyword arguments that can provide essential information for the GenerationOutput 
+        object creation. They should at least contain the implementation argument for the GenerationObject.
+          @param **kwargs implementation: the implementation object that created this output
+          @param **kwargs mode: the mode of the output file created 
+          @param **kwargs encoding: the possible encoding of the output file. When this parameter is given the create_file will 
+          use codecs.open method to create the file. 
+        @return: the filehandle of the new file. 
+        """
+        
+        implml   = kwargs.get('implementation', None)
+        mode     = kwargs.get('mode', 'wb')
+        encoding = kwargs.get('encoding', None)
+        targetfile = os.path.normpath(os.path.join(self.output, filename))
+        
+        if not os.path.exists(os.path.dirname(targetfile)):
+            os.makedirs(os.path.dirname(targetfile))
+        
+        if not encoding:
+            outfile = open(targetfile, mode)
+        else: 
+            outfile = codecs.open(targetfile, mode, encoding)
+        # Add the generation output
+        self.generation_output.append(GenerationOutput(utils.resourceref.norm(targetfile), 
+                                                       implml, 
+                                                       phase=self.phase,
+                                                       type='file',
+                                                       output=self.output))
+        return outfile
+    
+    def add_file(self, filename, **kwargs):
+        """
+        Add a file to the generation outputs list.
+        @param filename: the filename with path, that is added. If the path is a relative path
+        the path is added under the output folder of the generation context. Absolute path is added as such and not manipulated.
+        @param **kwargs: the keyword arguments that can provide essential information for the GenerationOutput 
+        object creation. They should at least contain the implementation argument for the GenerationObject.
+        @return: None 
+        """
+        if not os.path.isabs(filename):
+            targetfile = os.path.join(self.output, filename)
+        else:
+            targetfile = filename
+        # Add the generation output
+        self.generation_output.append(GenerationOutput(utils.resourceref.norm(targetfile), 
+                                                       kwargs.get('implementation'), 
+                                                       phase=self.phase,
+                                                       type='file',
+                                                       output=self.output))
+
+    def get_output(self, **kwargs):
+        """
+        Get a output object from the generation_output list.
+        @param **kwargs: the keyword arguments. 
+            @param implml_type: a filter for generation outputs to filter generation outputs only with given implementation type. 
+        @return: list of generation output objects
+        """
+        filters = []
+        if kwargs.get('implml_type'):
+            filters.append(lambda x: x.implementation and x.implementation.IMPL_TYPE_ID == kwargs.get('implml_type'))
+             
+        outputs = []
+        # go through all the generation_output items with all provided filters
+        # if the item passes all filters add it to the outputs list 
+        for item in self.generation_output:
+            passed = True
+            for filter in filters:
+                if not filter(item):
+                    passed = False
+                    continue
+            if passed:
+                outputs.append(item)
+        return outputs
+
+    def add_changed_refs(self, refs, implml=None):
+        """
+        Add changed refs to the current set of changed refs if necessary.
+        
+        If there are new refs and they are added, log also a debug message.
+        """
+        if self.changed_refs is None:
+            return
+        for ref in refs:
+            self.add_changed_ref(ref, implml)
+    
+    def add_changed_ref(self, ref, implml=None):
+        """
+        Add changed ref to the current set of changed refs if necessary.
+        
+        If there are new refs and they are added, log also a debug message.
+        """
+        if self.changed_refs is None:
+            return
+        
+        if ref not in self.changed_refs:
+            self.changed_refs.append(ref)
+            logging.getLogger('cone').debug('Added ref %s from implml %s' % (ref, implml))
+
+    def get_refs_with_no_output(self, refs=None):
+        if not refs:
+            refs = self.changed_refs
+        if refs:
+            # create a set from the changed refs 
+            # then remove the refs that have a generation output
+            # and return the remaining refs as a list
+            refsset = set(refs)
+            implrefs = set()
+            for output in self.generation_output:
+                if output.implementation:
+                    implrefs |= set(output.implementation.get_refs() or [])
+                    if output.type == 'ref':
+                        implrefs.add(output.name)
+            # Add all sequence subfeatures to the list of implementation references
+            dview = self.configuration.get_default_view()
+            for fea in dview.get_features(list(implrefs)):
+                if fea.is_sequence():
+                    seqfeas = ["%s.%s" % (fea.fqr,fearef) for fearef in fea.get_sequence_parent().list_features()] 
+                    implrefs |= set(seqfeas)
+            
+            refsset = refsset - implrefs
+            return sorted(list(refsset))
+        else:
+            return []
+
+    def get_refs_with_no_implementation(self, refs=None):
+        if not refs:
+            refs = self.changed_refs
+        if refs:
+            # create a set from the changed refs 
+            # then remove the refs that have a generation output
+            # and return the remaining refs as a list
+            refsset = set(refs)
+            implrefs = set(self.impl_set.get_implemented_refs())
+            logging.getLogger('cone').debug("changed_refs: %s" % refsset)
+            logging.getLogger('cone').debug("implrefs: %s" % implrefs)
+            # Add all sequence subfeatures to the list of implementation references
+            dview = self.configuration.get_default_view()
+            for fea in dview.get_features(list(implrefs)):
+                if fea.is_sequence():
+                    seqfeas = ["%s.%s" % (fea.fqr,fearef) for fearef in fea.get_sequence_parent().list_features()] 
+                    implrefs |= set(seqfeas)
+            
+            refsset = refsset - implrefs
+            return sorted(list(refsset))
+        else:
+            return []
+
+    @property
+    def executed_impls(self):
+        """
+        List of all executed implementations (implementations for which
+        a call to should_run() has returned True).
+        """
+        return list(self.executed)
+
+    @property
+    def features(self):
+        """
+        return the default view of the context configuration to access all features of the configuration.
+        """
+        return self.configuration.get_default_view()
+
+    def grep_log(self, entry):
+        """
+        Grep the self.log entries for given entry and return a list of tuples with line (index, entry) 
+        """
+        return utils.grep_tuple(entry, self.log)
+
+class MergedContext(GenerationContext):
+    def __init__(self, contexts):
+        self.contexts = contexts
+        self.configuration = None
+        self.changed_refs = []
+        self.temp_features = []
+        self.executed = set()
+        self.impl_set = ImplSet()
+        self.impl_dict = {}
+        self.generation_output = []
+        self.log = []
+        self.log_files = []
+        self.outputs = {}
+        for context in contexts:
+            self.changed_refs += context.changed_refs
+            self.temp_features += context.temp_features
+            self.configuration = context.configuration
+            self.executed |= context.executed
+            self.generation_output += context.generation_output
+            self.log += context.log
+            self.log_files.append(context.log_file)
+            for output in context.generation_output:
+                self.outputs[output.name] = output
+            for impl in context.impl_set:
+                self.impl_dict[impl.ref] = impl
+        self.impl_set = ImplSet(self.impl_dict.values())
+
+    def get_changed_refs(self, **kwargs):
+        changed_refs = set()
+        operation = kwargs.get('operation', 'union')
+        for context in self.contexts:
+            if not changed_refs:
+                # set the base set from the first context
+                changed_refs = set(context.changed_refs)
+            else:
+                if operation == 'union':
+                    changed_refs |= set(context.changed_refs)
+                elif operation == 'intersection':
+                    changed_refs &= set(context.changed_refs)
+                elif operation == 'difference':
+                    changed_refs -= set(context.changed_refs)
+                elif operation == 'symmetric_difference':
+                    changed_refs ^= set(context.changed_refs)
+                else:
+                    raise exceptions.NotSupportedException('Illegal opration %s for get_changed_refs!' % operation)
+        #remove temp features
+        if kwargs.get('ignore_temps'):
+            changed_refs = changed_refs - set(self.temp_features)
+        return list(changed_refs)
+
+class GenerationOutput(object):
+    """
+    A GenerationOutput object that is intended to be part of GenerationContext.generation_outputs.
+    The data should hold information about
+    """
+    TYPES = ['file', 'ref']
+    
+    def __init__(self, name, implementation, **kwargs):
+        """
+        @param name: the name of the output as string
+        @param implementation: the implementation object that generated this output
+        @param type: the type of the output that could be file|ref
+        """
+        
+        """ The name of the output """
+        self.name = name
+        
+        """ The implementation object that generated the output """
+        self.implementation = implementation
+        
+        """ The type of the output """
+        self.type = kwargs.get('type', None)
+
+        """ phase of the generation """
+        self.phase = kwargs.get('phase', None)
+
+        """ the context output path of the generation """
+        self.output = kwargs.get('output', None)
+        
+        """ the possible exception """
+        self.exception = kwargs.get('exception', None)
+         
+    def __str__(self):
+        return "%s(%s, %s)" % (self.__class__.__name__, self.name, self.implementation)
+
+    @property
+    def filename(self):
+        """
+        return the filename part of the the output name. Valid only if the output name is a path.
+        """
+        return os.path.basename(self.name)
+
+    @property
+    def relpath(self):
+        """
+        return the relative name part of the the output name, with relation to the context output path. 
+        """
+        return utils.relpath(self.name, self.output)
+        
+    @property
+    def abspath(self):
+        """
+        return the relative name part of the the output name, with relation to the context output path. 
+        """
+        if os.path.isabs(self.name):
+            return os.path.normpath(self.name)
+        else:
+            return os.path.abspath(os.path.normpath(self.name))
 
 class FlatComparisonResultEntry(object):
     """
@@ -316,8 +741,9 @@ class ImplBase(object):
         self._settings = None
         self.ref = ref
         self.index = None
+        self.lineno = None
         self.configuration = configuration
-        self._output_root = self.settings.get('output_root','output')
+        self._output_root = self.settings.get('output_root','')
         self.output_subdir = self.settings.get('output_subdir','')
         self.plugin_output = self.settings.get('plugin_output','')
         
@@ -328,32 +754,32 @@ class ImplBase(object):
         self.condition = None
         self._output_root_override = None
 
-    def _eval_context(self, context):
-        """
-        This is a internal function that returns True when the context matches to the 
-        context of this implementation. For example phase, tags, etc are evaluated.
-        """
-        if context.tags and not self.has_tag(context.tags, context.tags_policy):
-            return False
-        if context.phase and not context.phase in self.invocation_phase():
-            return False
-        if self.condition and not self.condition.eval(context):
-            return False 
-        
-        return True
+    def __reduce_ex__(self, protocol_version):
+        config = self.configuration
+        if protocol_version == 2:
+            tpl =  (read_impl_from_location,
+                    (self.ref, config, self.lineno),
+                    None,
+                    None,
+                    None)
+            return tpl
+        else:
+            return (read_impl_from_location,
+                    (self.ref, config, self.lineno))
+            
 
     def _dereference(self, ref):
         """
         Function for dereferencing a configuration ref to a value in the Implementation configuration context. 
         """
-        return configuration.get_default_view().get_feature(ref).value
+        return self.configuration.get_default_view().get_feature(ref).value
 
     def _compare(self, other, dict_keys=None):
         """ 
         The plugin instance against another plugin instance
         """
         raise exceptions.NotSupportedException()
-
+    
     def generate(self, context=None):
         """
         Generate the given implementation.
@@ -383,6 +809,18 @@ class ImplBase(object):
         """
         return []
     
+    def get_outputs(self):
+        """
+        Return a list of GenerationOutput objets as a list. 
+        """
+        outputs = []
+        phase = None 
+        if self.generation_context: phase = self.generation_context.phase
+        for outfile in self.list_output_files():
+            outputs.append(GenerationOutput(outfile,self,type='file', phase=phase) )
+        return outputs
+    
+    
     def get_refs(self):
         """
         Return a list of all ConfML setting references that affect this
@@ -404,14 +842,7 @@ class ImplBase(object):
         if isinstance(refs, basestring):
             refs = [refs]
         
-        for ref in refs:
-            for impl_ref in impl_refs:
-                if ref.startswith(impl_ref):
-                    if len(ref) == len(impl_ref):
-                        return True
-                    elif ref[len(impl_ref)] == '.':
-                        return True
-        return False
+        return uses_ref(refs, impl_refs)
 
     def flat_compare(self, other):
         """
@@ -457,6 +888,9 @@ class ImplBase(object):
 
     @property
     def settings(self):
+        """
+        return the plugin specific settings object.
+        """
         if not self._settings:
             parser = settings.SettingsFactory.cone_parser()
             if self.IMPL_TYPE_ID is not None:
@@ -468,9 +902,15 @@ class ImplBase(object):
 
     @property
     def output(self):
+        """
+        return the output folder for this plugin instance.
+        """
         vars = {'output_root': self.output_root,'output_subdir': self.output_subdir,'plugin_output': self.plugin_output}
         default_format = '%(output_root)s/%(output_subdir)s/%(plugin_output)s'
-        return utils.resourceref.norm(self.settings.get('output',default_format,vars))
+        output = utils.resourceref.remove_begin_slash(utils.resourceref.norm(self.settings.get('output',default_format,vars)))
+        if os.path.isabs(self.output_root):
+            output = utils.resourceref.insert_begin_slash(output) 
+        return output
     
     def _get_output_root(self):
         if self._output_root_override is not None:
@@ -616,8 +1056,32 @@ class ImplBase(object):
         return [self]
     
     def __repr__(self):
-        return "%s(ref=%r, type=%r, index=%r)" % (self.__class__.__name__, self.ref, self.IMPL_TYPE_ID, self.index)
+        return "%s(ref=%r, type=%r, lineno=%r)" % (self.__class__.__name__, self.ref, self.IMPL_TYPE_ID, self.lineno)
 
+    @property
+    def path(self):
+        """
+        return path relative to the Configuration projec root
+        """
+        return self.ref
+
+    @property
+    def abspath(self):
+        """
+        return absolute system path to the implementation
+        """
+        return os.path.abspath(os.path.join(self.configuration.storage.path,self.ref))
+    
+    def uses_layers(self, layers, context):
+        """
+        Return whether this implementation uses any of the given layers
+        in the given context, i.e., whether the layers contain anything that would
+        affect generation output.
+        """
+        # The default implementation checks against refs changed in the layers
+        refs = []
+        for l in layers: refs.extend(l.list_leaf_datas())
+        return self.has_ref(refs)
 
 class ImplContainer(ImplBase):
     """
@@ -655,43 +1119,66 @@ class ImplContainer(ImplBase):
          
         @return: 
         """
-        if context:
-            if not self._eval_context(context):
-                # should we report something if we exit here?
-                return
-            
+        log = logging.getLogger('cone')
+        
+        if self.condition and not self.condition.eval(context):
+            log.debug('Filtered out based on condition %s: %r' % (self.condition, self))
+            return
+        
         # run generate on sub impls
         for impl in self.impls:
-            impl.generate(context)
+            if context:
+                # 1. Check should the implementation be run from context
+                # 2. Run ImplContainer if should
+                # 3. run other ImplBase objects if this is not a dry_run                      
+                if context.should_run(impl):
+                    if isinstance(impl, ImplContainer) or \
+                        not context.dry_run:
+                        impl.generate(context)
+                        # context.have_run(impl)
+            else:
+                impl.generate(context)
 
     def get_refs(self):
+        # Containers always return None, because the ref-based filtering
+        # happens only on the actual implementations
+        return None
+    
+    def get_child_refs(self):
         """
-        Return a list of all ConfML setting references that affect this
-        implementation. May also return None if references are not relevant
-        for the implementation.
+        ImplContainer always None with get_refs so it one wants to get the references from all 
+        leaf child objects, one can use this get_child_refs function
+        @return: a list of references.
         """
         refs = []
         for impl in self.impls:
-            subrefs = impl.get_refs()
-            if subrefs:
-                refs += subrefs
-        if refs:
-            return utils.distinct_array(refs)
-        else:
-            return None 
+            if isinstance(impl, ImplContainer):
+                refs += impl.get_child_refs()
+            else:
+                refs += impl.get_refs() or []
+        return utils.distinct_array(refs)
 
+    def has_tag(self, tags, policy=None):
+        # Container always returns True
+        return True
+    
     def get_tags(self):
+        # Containers always return None, because the tag-based filtering
+        # happens only on the actual implementations
+        return None
+
+    def get_child_tags(self):
         """
-        overloading the get_tags function in ImplContainer to create sum of 
-        tags of all subelements of the Container
-        @return: dictionary of tags
+        ImplContainer always None with get_tags so it one wants to get the teags from all 
+        leaf child objects, one can use this get_child_tags function
+        @return: a list of references.
         """
-        tags = ImplBase.get_tags(self)
+        tags = {}
         for impl in self.impls:
-            # Update the dict by appending new elements to the values instead 
-            # of overriding
-            for key,value in impl.get_tags().iteritems():
-                tags[key] = tags.get(key,[]) + value 
+            if isinstance(impl, ImplContainer):
+                utils.update_dict(tags, impl.get_child_tags())
+            else:
+                utils.update_dict(tags, impl.get_tags())
         return tags
 
     def list_output_files(self):
@@ -703,6 +1190,15 @@ class ImplContainer(ImplBase):
             files += impl.list_output_files()
         return utils.distinct_array(files)
 
+    def get_outputs(self):
+        """
+        Return a list of GenerationOutput objets as a list. 
+        """
+        outputs = []
+        for impl in self.impls:
+            outputs += impl.get_outputs()
+        return outputs
+    
     def set_output_root(self,output):
         """
         Set the root directory for the output files. The output
@@ -712,25 +1208,6 @@ class ImplContainer(ImplBase):
         for impl in self.impls:
             impl.set_output_root(output) 
 
-    def invocation_phase(self):
-        """
-        @return: the list of phase names in which phases this container wants to be executed. 
-        """
-        # use a dictionary to store phases only once 
-        phases = {}
-        phases[ImplBase.invocation_phase(self)] = 1
-        for impl in self.impls:
-            # for now only get the phases from sub ImplContainer objects 
-            # this is needed until the plugin phase can be overridden with the common elems
-            if isinstance(impl, ImplContainer):
-                subphases = impl.invocation_phase()
-                if isinstance(subphases, list):
-                    # join the two lists as one
-                    phases = phases.fromkeys(phases.keys() + subphases, 1)
-                else:
-                    phases[subphases] = 1
-        return phases.keys()
-    
     def get_temp_variable_definitions(self):
         tempvars = self._tempvar_defs[:]
         for impl in self.impls:
@@ -757,8 +1234,59 @@ class ImplContainer(ImplBase):
         for subimpl in self.impls:
             actual_impls += subimpl.get_all_implementations()
         return actual_impls
-
-
+    
+    def uses_layers(self, layers, context):
+        #log = logging.getLogger('uses_layers(%r)' % self)
+        
+        # If no sub-implementation has matching tags, the implementations would
+        # never be run in this context, so there's no need to go further in that case
+        if not self._have_impls_matching_tags(context.tags, context.tags_policy):
+            #log.debug("No impls have matching tags, returning False")
+            return False
+        
+        # If the container has a condition depending on any of the changed refs,
+        # it means that the refs can affect generation output
+        if self.condition:
+            refs = []
+            for l in layers: refs.extend(l.list_leaf_datas())
+            if uses_ref(refs, self.condition.get_refs()):
+                #log.debug("Refs affect condition, returning True")
+                return True
+        
+        # If the condition evaluates to False (and doesn't depend on the
+        # changed refs), the implementations won't be run, and thus they
+        # don't use the layers in this context
+        if self.condition and not self.condition.eval(context):
+            #log.debug("Condition evaluates to False, returning False")
+            return False
+        
+        for impl in self.impls:
+            # Filter out based on tags if the implementation is not
+            # a container (using ImplBase.has_tag() here since RuleML v2
+            # overrides has_tag() to always return True)
+            if not isinstance(impl, ImplContainer):
+                if not ImplBase.has_tag(impl, context.tags, context.tags_policy):
+                    continue
+            
+            if impl.uses_layers(layers, context):
+                #log.debug("%r uses layer, returning True" % impl)
+                return True
+        
+        #log.debug("Returning False")
+        return False
+    
+    def _have_impls_matching_tags(self, tags, tags_policy):
+        """
+        Return if any of the container's leaf implementations use the given tags.
+        """
+        for impl in self.impls:
+            if isinstance(impl, ImplContainer):
+                if impl._have_impls_matching_tags(tags, tags_policy):
+                    return True
+            elif ImplBase.has_tag(impl, tags, tags_policy):
+                return True
+        return False
+        
 class ReaderBase(object):
     """
     Base class for implementation readers.
@@ -778,6 +1306,25 @@ class ReaderBase(object):
     #: (this can be useful for defining base classes for e.g. readers
     #: for different versions of an implementation).
     NAMESPACE = None
+    
+    #: ID for the namespace used in the generated XML schema files.
+    #: Must be unique, and something simple like 'someml'. 
+    NAMESPACE_ID = None
+    
+    #: Sub-ID for schema problems for this ImplML namespace.
+    #: This is used as part of the problem type for schema validation
+    #: problems. E.g. if the sub-ID is 'someml', then a schema validation
+    #: problem would have the problem type 'schema.implml.someml'.
+    #: If this is not given, then the problem type will simply be
+    #: 'schema.implml'.
+    SCHEMA_PROBLEM_SUB_ID = None
+    
+    #: The root element name of the implementation langauge supported by
+    #: the reader. This is also used in the generate XML schema files, and
+    #: must correspond to the root element name specified in the schema data.
+    #: If get_schema_data() returns None, then this determines the name of
+    #: the root element in the automatically generated default schema.
+    ROOT_ELEMENT_NAME = None
     
     #: Any extra XML namespaces that should be ignored by the
     #: implementation parsing machinery. This is useful for specifying
@@ -804,6 +1351,37 @@ class ReaderBase(object):
         @return: The read implementation instance, or None.
         """
         raise exceptions.NotSupportedException()
+    
+    @classmethod
+    def read_impl_from_location(cls, resource_ref, configuration, lineno):
+        """
+        Read an implementation instance from the given resource at the given line number.
+        
+        @param resource_ref: Reference to the resource in the configuration in
+            which the given document root resides.
+        @param configuration: The configuration used.
+        @param lineno: the line number where the root node for this particular element is searched from.
+        @return: The read implementation instance, or None.
+        """
+        root =  cls._read_xml_doc_from_resource(resource_ref, configuration)
+        elemroot = utils.etree.get_elem_from_lineno(root, lineno)
+        ns, tag = utils.xml.split_tag_namespace(elemroot.tag)
+        reader = cls.get_reader_for_namespace(ns)
+        implml = reader.read_impl(resource_ref, configuration, elemroot)
+        implml.lineno = lineno
+        return implml
+
+    @classmethod
+    def get_reader_for_namespace(cls, namespace):
+        return ImplFactory.get_reader_dict().get(namespace, None)
+    
+    @classmethod
+    def get_schema_data(cls):
+        """
+        Return the XML schema data used for validating the ImplML supported by this reader.
+        @return: The schema data as a string, or None if not available.
+        """
+        return None
     
     @classmethod
     def _read_xml_doc_from_resource(cls, resource_ref, configuration):
@@ -847,6 +1425,7 @@ class ImplContainerReader(ReaderBase):
     
     @classmethod
     def read_impl(cls, resource_ref, configuration, doc_root, read_impl_count=None):
+        on_top_level = read_impl_count == None
         # The variable read_impl_count is used to keep track of the number of
         # currently read actual implementations. It is a list so that it can be used
         # like a pointer, i.e. functions called from here can modify the number
@@ -857,9 +1436,8 @@ class ImplContainerReader(ReaderBase):
         
         ns, tag = utils.xml.split_tag_namespace(doc_root.tag)
         if tag != "container":
-            logging.getLogger('cone').error("Error: The root element must be a container in %s" % (ns, resource_ref))
+            logging.getLogger('cone').error("Error: The root element must be a container in %s, %s" % (ns, resource_ref))
             
-        impls = []
         reader_classes = cls.get_reader_classes()
         namespaces = reader_classes.keys()
         # Read first the root container object with attributes 
@@ -867,7 +1445,7 @@ class ImplContainerReader(ReaderBase):
         containerobj = ImplContainer(resource_ref, configuration)
         containerobj.condition = cls.get_condition(doc_root)
         
-        common_data = _plugin_reader.CommonImplmlDataReader.read_data(doc_root)
+        containerobj._common_data = _plugin_reader.CommonImplmlDataReader.read_data(doc_root)
         
         # traverse through the subelements
         for elem in doc_root:
@@ -877,6 +1455,7 @@ class ImplContainerReader(ReaderBase):
                 # common namespace elements were handled earlier)
                 if tag == "container":
                     subcontainer = cls.read_impl(resource_ref, configuration, elem, read_impl_count=read_impl_count)
+                    subcontainer.lineno = utils.etree.get_lineno(elem)
                     containerobj.append(subcontainer)
                     subcontainer.index = None # For now all sub-containers have index = None
             else:
@@ -886,14 +1465,30 @@ class ImplContainerReader(ReaderBase):
                 else:
                     reader = reader_classes[ns]
                     subelem = reader.read_impl(resource_ref, configuration, elem)
-                    if common_data: common_data.apply(subelem)
+                    subelem.lineno = utils.etree.get_lineno(elem)
                     containerobj.append(subelem)
                     subelem.index = read_impl_count[0]
                     read_impl_count[0] = read_impl_count[0] +  1
-            
-        if common_data:
-            common_data.apply(containerobj)
-            containerobj._tempvar_defs = common_data.tempvar_defs + containerobj._tempvar_defs
+        
+        containerobj._tempvar_defs = containerobj._common_data.tempvar_defs
+        
+        if on_top_level:
+            def inherit_common_data(container):
+                for impl in container.impls:
+                    if isinstance(impl, ImplContainer):
+                        new_common_data = container._common_data.copy()
+                        new_common_data.extend(impl._common_data)
+                        impl._common_data = new_common_data
+                        inherit_common_data(impl)
+            def apply_common_data(container):
+                for impl in container.impls:
+                    if isinstance(impl, ImplContainer):
+                        apply_common_data(impl)
+                    else:
+                        container._common_data.apply(impl)
+            inherit_common_data(containerobj)
+            apply_common_data(containerobj)
+        
         return containerobj
 
     @classmethod
@@ -913,7 +1508,7 @@ class ImplContainerReader(ReaderBase):
         else:
             return None
 
-class ImplSet(sets.Set):
+class ImplSet(set):
     """
     Implementation set class that can hold a set of ImplBase instances. 
     """
@@ -925,13 +1520,16 @@ class ImplSet(sets.Set):
     INVOCATION_PHASES = ['pre','normal','post']
 
     def __init__(self,implementations=None, generation_context=None):
-        super(ImplSet,self).__init__(implementations)
+        super(ImplSet,self).__init__(implementations or [])
         self.output = 'output'
-        if generation_context:
-            self.generation_context = generation_context
-        else:
-            self.generation_context = GenerationContext()
-
+        self.generation_context = generation_context
+        self.ref_to_impl = {}
+    
+    def _create_ref_dict(self):
+        for impl in self:
+            for ref in impl.get_refs() or []:
+                self.ref_to_impl.setdefault(ref, []).append(impl)
+ 
     def invocation_phases(self):
         """
         @return: A list of possible invocation phases
@@ -957,7 +1555,21 @@ class ImplSet(sets.Set):
         #    impl.generation_context = self.generation_context
         if not context:
             context =  self.generation_context
-        self.execute(self, 'generate', context)
+        else:
+            self.generation_context = context
+        # Sort by file name so that execution order is always the same
+        # (easier to compare logs)
+        sorted_impls = sorted(self, key=lambda impl: impl.ref)
+
+        for impl in sorted_impls:
+            # 1. Check should the implementation be run from context
+            # 2. Run ImplContainer if should  
+            # 3. run other ImplBase objects if this is not a dry_run                      
+            if context.should_run(impl):
+                if isinstance(impl, ImplContainer) or \
+                    not context.dry_run:
+                    self.execute([impl], 'generate', context)
+                    # context.have_run(impl)
     
     def post_generate(self, context=None):
         """
@@ -965,7 +1577,16 @@ class ImplSet(sets.Set):
         """
         if not context:
             context =  self.generation_context
-        self.execute(self, 'post_generate', context)
+        
+        impls = []
+        # Sort by file name so that execution order is always the same
+        # (easier to compare logs)
+        sorted_impls = sorted(self, key=lambda impl: impl.ref)
+        for impl in sorted_impls:
+            if context.should_run(impl, log_debug_message=False):
+                impls.append(impl)
+        
+        self.execute(impls, 'post_generate', context)
 
     def execute(self, implementations, methodname, *args):
         """
@@ -978,17 +1599,21 @@ class ImplSet(sets.Set):
         @param implementations:
         @param methodname: the name of the function to execute  
         """
-        # Sort by (file_name, index_in_file) to ensure the correct execution order
-        impls = sorted(implementations, key=lambda impl: (impl.ref, impl.index))
-        for impl in impls:
+        for impl in implementations:
             try:
-                impl.set_output_root(self.output)
                 if hasattr(impl, methodname): 
                     _member = getattr(impl, methodname)
                     _member(*args)
                 else:
                     logging.getLogger('cone').error('Impl %r has no method %s' % (impl, methodname))
             except Exception, e:
+                if self.generation_context:
+                    self.generation_context.generation_output.append(GenerationOutput('exception from %s' % impl.ref, 
+                                                                                      impl, 
+                                                                                      phase=self.generation_context.phase,              
+                                                                                      type='exception',
+                                                                                      output=self.generation_context.output,
+                                                                                      exception=e))
                 utils.log_exception(logging.getLogger('cone'), 'Impl %r raised an exception: %s' % (impl, repr(e)))
         
     
@@ -1059,6 +1684,38 @@ class ImplSet(sets.Set):
                 impls.append(impl)
         return ImplSet(impls)
     
+    def find_implementations(self,**kwargs):
+        """
+        Find any implementation with certain parameters.
+        All arguments are given as dict, so they must be given with name. E.g. copy(phase='normal')
+        @param phase: name of the phase
+        @param refs: A list of refs that are filtered with function has_refs
+        @param tags: A dictionary of tags that are filtered with function has_tags
+        @return: a new ImplSet object with the filtered items.
+        """
+        impls = []
+        """ Create a list of filter functions for each argument """ 
+        filters=[]
+        filters.append(lambda x: x != None)
+        if kwargs.get('phase', None) != None:
+            filters.append(lambda x: kwargs.get('phase') in x.invocation_phase())
+        if kwargs.get('refs',None) != None:
+            # Changed has_ref usage to allow not supporting refs (meaning that non supported wont be filtered with refs)
+            filters.append(lambda x: x.has_ref(kwargs.get('refs')) == True)
+        if kwargs.get('tags', None) != None:
+            filters.append(lambda x: x.has_tag(kwargs.get('tags'),kwargs.get('policy')))
+            
+        """ Go through the implementations and add all to resultset that pass all filters """ 
+        for impl in self:
+            pass_filters = True
+            for filter in filters:
+                if not filter(impl):
+                    pass_filters = False
+                    break
+            if pass_filters:
+                impls.append(impl)
+        return ImplSet(impls)
+
     def flat_compare(self, other):
         """
         Perform a flat comparison between this implementation container and another one.
@@ -1201,8 +1858,8 @@ class ImplSet(sets.Set):
             to be created.
         @return: A list containing the references of all created temporary features.
         
-        @raise exceptions.AlreadyExists: Any of the temporary features already exists
-            in the configuration, or there are duplicate temporary features defined.
+        @raise exceptions.AlreadyExists: There are duplicate temporary features defined
+            in the configuration. Redefinitions of the temporaty features are only ignored.
         """
         # ----------------------------------------------------
         # Collect a list of all temporary variable definitions
@@ -1218,9 +1875,11 @@ class ImplSet(sets.Set):
                 # Check if already exists
                 try:
                     dview.get_feature(fea_def.ref)
-                    raise exceptions.AlreadyExists(
-                        "Temporary variable '%s' defined in file '%s' already exists in the configuration!" \
-                        % (fea_def.ref, impl.ref))
+                    #raise exceptions.AlreadyExists(
+                    #    "Temporary variable '%s' defined in file '%s' already exists in the configuration!" \
+                    #    % (fea_def.ref, impl.ref))
+                    logging.getLogger('cone').warning("Temporary variable '%s' re-definition ignored." % fea_def.ref)
+                    continue
                 except exceptions.NotFound:
                     pass
                 
@@ -1246,7 +1905,7 @@ class ImplSet(sets.Set):
         # ------------------------------
         refs = []
         if tempvar_defs:
-            logging.getLogger('cone').debug('Creating %d temporary variable(s)' % len(tempvar_defs))
+            logging.getLogger('cone').debug('Creating %d temporary variable(s) %r' % (len(tempvar_defs), tempvar_defs))
             autoconfig = get_autoconfig(configuration)
             for fea_def in tempvar_defs:
                 fea_def.create_feature(autoconfig)
@@ -1285,7 +1944,16 @@ class ImplSet(sets.Set):
             result += impl.get_all_implementations()
         return result
 
-
+    def get_implemented_refs(self):
+        if not self.ref_to_impl:
+            self._create_ref_dict()
+        return sorted(self.ref_to_impl.keys())
+    
+    def get_implementations_with_ref(self, ref):
+        if not self.ref_to_impl:
+            self._create_ref_dict()
+        return sorted(self.ref_to_impl.get(ref, []), lambda a,b: cmp(a.ref, b.ref))
+    
 class RelationExecutionResult(object):
     """
     Class representing a result from relation execution.
@@ -1334,7 +2002,7 @@ class RelationContainer(object):
         self.entries = entries
         self.source = source
         
-    def execute(self):
+    def execute(self, context=None):
         """
         Execute all relations inside the container, logging any exceptions thrown
         during the execution.
@@ -1342,17 +2010,18 @@ class RelationContainer(object):
         """
         results = []
         for i, entry in enumerate(self.entries):
+            
             if isinstance(entry, rules.RelationBase):
-                result = self._execute_relation_and_log_error(entry, self.source, i + 1)
+                result = self._execute_relation_and_log_error(entry, self.source, i + 1, context)
                 if isinstance(RelationExecutionResult):
                     results.append(result)
             elif isinstance(entry, RelationContainer):
-                results.extend(self._execute_container_and_log_error(entry))
+                results.extend(self._execute_container_and_log_error(entry, context))
             else:
                 logging.getLogger('cone').warning("Invalid RelationContainer entry: type=%s, obj=%r" % (type(entry), entry))
         return results
     
-    def _execute_relation_and_log_error(self, relation, source, index):
+    def _execute_relation_and_log_error(self, relation, source, index, context=None):
         """
         Execute a relation, logging any exceptions that may be thrown.
         @param relation: The relation to execute.
@@ -1360,27 +2029,32 @@ class RelationContainer(object):
         @param index: The index of the rule, can be None if the index is not known.
         @return: The return value from the relation execution, or None if an error occurred.
         """
-        try:
-            return relation.execute()
+        try: 
+            return relation.execute(context)
         except Exception, e:
-            log = logging.getLogger('cone')
-            if index is not None:
-                utils.log_exception(log, "Error executing rule no. %s in '%s'" % (index, source))
-            else:
-                utils.log_exception(log, "Error executing a rule in '%s'" % relation_or_container.source)
+            msg = "Error executing rule %r: %s: %s" % (relation, e.__class__.__name__, e)
+            if context:
+                gout = GenerationOutput('exception from %s' % source, 
+                                        relation, 
+                                        phase=context.phase,
+                                        type='exception',
+                                        output=context.output,
+                                        exception=msg)
+                context.generation_output.append(gout)
+            utils.log_exception(logging.getLogger('cone'), msg)
             return None
     
-    def _execute_container_and_log_error(self, container):
+    def _execute_container_and_log_error(self, container, context):
         """
         Execute a relation container, logging any exceptions that may be thrown.
         @param relation: The relation container to execute.
         @return: The results from the relation execution, or an empty list if an error occurred.
         """
         try:
-            return container.execute()
+            return container.execute(context)
         except Exception, e:
             log = logging.getLogger('cone')
-            utils.log_exception(log, "Error executing rules in '%s'" % container.source)
+            utils.log_exception(log, "Exception executing rules in '%s': %s" % container.source, e)
             return []
     
     def get_relation_count(self):
@@ -1394,6 +2068,18 @@ class RelationContainer(object):
             else:
                 count += 1
         return count
+    
+    def get_relations(self):
+        """
+        Return a list of all relations in this container.
+        """
+        result = []
+        for entry in self.entries:
+            if isinstance(entry, RelationContainer):
+                result.extend(entry.get_relations())
+            else:
+                result.append(entry)
+        return result
     
 
 class ImplFactory(api.FactoryBase):
@@ -1437,7 +2123,9 @@ class ImplFactory(api.FactoryBase):
         file_extensions = []
         for reader in cls.get_reader_classes():
             for fe in reader.FILE_EXTENSIONS:
-                file_extensions.append(fe.lower()) 
+                fe = fe.lower()
+                if fe not in file_extensions:
+                    file_extensions.append(fe)
         return file_extensions
 
     @classmethod
@@ -1478,7 +2166,7 @@ class ImplFactory(api.FactoryBase):
                 log.warn("'%s' entry point '%s' is not a sub-class of cone.plugin.ReaderBase (%r)" % (ENTRY_POINT, entry_point.name, reader_class))
             else:
                 msg = "Reader class for XML namespace '%s' loaded from egg '%s' entry point '%s'" % (reader_class.NAMESPACE, ENTRY_POINT, entry_point.name)
-                log.debug(msg)
+                #log.debug(msg)
                 #print msg
                 reader_classes.append(reader_class)
                 
@@ -1507,23 +2195,39 @@ class ImplFactory(api.FactoryBase):
         @raise NotSupportedException: The file contains an XML namespace that is
             not registered as an ImplML namespace.
         """
+        context = parsecontext.get_implml_context()
+        context.current_file = resource_ref
         try:
+            resource = configuration.get_resource(resource_ref)
+            try:        data = resource.read()
+            finally:    resource.close()
+            
+            # Schema-validation while parsing disabled for now
+            #cone.validation.schemavalidation.validate_implml_data(data)
+            
             impls = []
             reader_dict = cls.get_reader_dict()
-            root = ReaderBase._read_xml_doc_from_resource(resource_ref, configuration)
+            
+            root =  utils.etree.fromstring(data)
             ns = utils.xml.split_tag_namespace(root.tag)[0]
             if ns not in reader_dict.keys():
-                logging.getLogger('cone').error("Error: no reader for namespace '%s' in %s" % (ns, resource_ref))
+                context.handle_problem(api.Problem("No reader for namespace '%s'" % ns,
+                                                   type="xml.implml",
+                                                   file=resource_ref,
+                                                   line=utils.etree.get_lineno(root)))
+                #logging.getLogger('cone').error("Error: no reader for namespace '%s' in %s" % (ns, resource_ref))
                 return []
             rc = reader_dict[ns]
             # return the single implementation as a list to maintain 
             # backwards compability
             impl = rc.read_impl(resource_ref, configuration, root)
             impl.index = 0
+            impl.lineno = utils.etree.get_lineno(root)
             return [impl]
-        except exceptions.ParseError, e:
-            # Invalid XML data in the file
-            logging.getLogger('cone').error("Implementation %s reading failed with error: %s" % (resource_ref,e))
+        except Exception, e:
+            if isinstance(e, exceptions.XmlParseError):
+                e.problem_type = 'xml.implml'
+            context.handle_exception(e)
             return []
 
 def get_impl_set(configuration,filter='.*'):
@@ -1531,12 +2235,12 @@ def get_impl_set(configuration,filter='.*'):
     return a ImplSet object that contains all implementation objects related to the 
     given configuration
     """
-    impls = configuration.get_layer().list_implml()
+    impls = configuration.layered_implml().flatten().values()
     impls = pre_filter_impls(impls)
     # filter the resources with a given filter
     impls = utils.resourceref.filter_resources(impls,filter)
-    impl_container = create_impl_set(impls,configuration)
-    return impl_container
+    impl_set = create_impl_set(impls,configuration)
+    return impl_set
 
 def filtered_impl_set(configuration,pathfilters=None, reffilters=None):
     """
@@ -1544,7 +2248,7 @@ def filtered_impl_set(configuration,pathfilters=None, reffilters=None):
     given configuration
     """
     if pathfilters: logging.getLogger('cone').info('Filtering impls with %s' % pathfilters)
-    impls = configuration.get_layer().list_implml()
+    impls = configuration.layered_implml().flatten().values()
     impls = pre_filter_impls(impls)
     # filter the resources with a given filter
     if pathfilters:
@@ -1552,13 +2256,15 @@ def filtered_impl_set(configuration,pathfilters=None, reffilters=None):
         for filter in pathfilters:
             newimpls += utils.resourceref.filter_resources(impls,filter)
         impls = utils.distinct_array(newimpls)
-    impl_container = create_impl_set(impls,configuration,reffilters)
-    return impl_container
+    impl_set = create_impl_set(impls,configuration,reffilters)
+    return impl_set
 
 def create_impl_set(impl_filename_list, configuration,reffilters=None):
     impl_filename_list = pre_filter_impls(impl_filename_list)
     if reffilters: logging.getLogger('cone').info('Filtering with refs %s' % reffilters)
     impl_container = ImplSet()
+    impl_container.generation_context = GenerationContext()
+    impl_container.generation_context.configuration = configuration
     for impl in impl_filename_list:
         try:
             if configuration != None and ImplFactory.is_supported_impl_file(impl):
@@ -1578,3 +2284,6 @@ def pre_filter_impls(impls):
     """
     filter = r'(/|^|\\)\..*(/|$|\\)'
     return utils.resourceref.neg_filter_resources(impls, filter)
+
+def read_impl_from_location(resource_ref, configuration, lineno):
+    return ReaderBase.read_impl_from_location(resource_ref, configuration, lineno)

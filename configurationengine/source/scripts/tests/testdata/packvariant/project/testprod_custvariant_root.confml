@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2 http://www.w3.org/2001/XInclude http://www.s60.com/xml/confml/1#//include">
+  <xi:include href="Layer1/root.confml"/>
+  <xi:include href="Layer2/root.confml"/>
+  <xi:include href="Layer3/root.confml"/>
+  <xi:include href="Layer4/root.confml"/>
+  <xi:include href="Layer5/root.confml"/>
+  <xi:include href="testprod/custvariant/manual/root.confml"/>
+  <xi:include href="testprod/custvariant/configurator/root.confml"/>
+  <meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+    <platform>Fooplat 21</platform>
+  <product>ABC-123</product>
+  <cv:configuration-property name="coreplat_name" value="foo21" />
+  <cv:configuration-property name="coreplat_version" value="21" />
+  <cv:configuration-property name="product_name" value="bar" />
+  <cv:configuration-property name="product_type" value="ABC-123" />
+  <cv:configuration-property name="sw_version" value="001.001" />
+  </meta>
+</confml:configuration>

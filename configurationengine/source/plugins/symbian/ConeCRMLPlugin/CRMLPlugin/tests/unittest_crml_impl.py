@@ -15,7 +15,6 @@
 #
 
 import sys, os, unittest
-import __init__
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -55,19 +54,19 @@ class TestCrmlImpl(unittest.TestCase):
         self.assertFalse(impl.has_ref(['KeyRangeTest.Foo']))
     
     def test_list_output_files(self):
-        def oj( p2): # oj = output_join
-            return os.path.normpath(os.path.join('output', p2))
+        def on( p2): # on = output normalization
+            return os.path.normpath(p2)
         
         impl = impl_from_resource('Layer1/implml/00000001_feature1.crml', self.config)
-        self.assertEquals(impl.list_output_files(), [oj('00000001.txt')])
+        self.assertEquals(impl.list_output_files(), [on('00000001.txt')])
         
         impl = impl_from_resource('Layer1/implml/00000003_bitmask_test.crml', self.config)
-        self.assertEquals(impl.list_output_files(), [oj('00000003.txt')])
+        self.assertEquals(impl.list_output_files(), [on('00000003.txt')])
         
         gc = MockGenerationContext()
         gc.tags['target'] = ['core']
         impl.generation_context = gc
-        self.assertEquals(impl.list_output_files(), [oj('00000003.txt'), oj('private/100059C9/cenrep_rfs.txt')])
+        self.assertEquals(impl.list_output_files(), [on('00000003.txt'), on('private/100059C9/cenrep_rfs.txt')])
     
     def test_is_cenrep_rfs_txt_to_be_generated(self):
         impl = impl_from_resource('Layer1/implml/00000001_feature1.crml', self.config)

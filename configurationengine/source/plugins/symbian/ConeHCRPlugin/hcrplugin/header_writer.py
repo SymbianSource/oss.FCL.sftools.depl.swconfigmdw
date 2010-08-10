@@ -17,11 +17,11 @@
 import os
 
 class HeaderWriter(object):
-    def __init__(self,output_file, output_obj):
+    def __init__(self, output_file, output_obj):
         self.output_obj = output_obj
         self.output_file = output_file
 
-    def write(self):
+    def write(self, context):
         header_guard = os.path.basename(self.output_file).upper()
         header_guard = header_guard.replace('/', '_').replace('\\', '_').replace('.', '_')
         lines = [
@@ -56,6 +56,6 @@ class HeaderWriter(object):
             "#endif",
         ])
         
-        f = open(self.output_file, 'wb')
-        try:        f.write(os.linesep.join(lines))
+        f = context.create_file(self.output_file, mode='wb')
+        try:        f.write('\r\n'.join(lines))
         finally:    f.close()

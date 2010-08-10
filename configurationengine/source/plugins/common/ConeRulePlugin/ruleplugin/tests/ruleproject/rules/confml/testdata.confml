@@ -46,6 +46,12 @@
 <feature name="Unicode test feature" ref="ударения">
     <setting name="Unicode test setting" ref="ελληνικά" type="string" />
   </feature>
+<feature name="Sequence setting test feature" ref="SequenceTest">
+    <setting name="Sequence 1" ref="Sequence1" type="sequence">
+        <setting name="String sub-setting" ref="String" type="string"/>
+        <setting name="Int sub-setting" ref="Int" type="int"/>
+    </setting>
+  </feature>
 <data>
     <imaker>
       <imagetarget>2</imagetarget>
@@ -83,5 +89,11 @@
     <ударения>
       <ελληνικά>カタカナ</ελληνικά>
     </ударения>
+    <SequenceTest>
+        <Sequence1>
+            <String>yeah</String>
+            <Int>3</Int>
+        </Sequence1>
+    </SequenceTest>
   </data>
 </configuration>

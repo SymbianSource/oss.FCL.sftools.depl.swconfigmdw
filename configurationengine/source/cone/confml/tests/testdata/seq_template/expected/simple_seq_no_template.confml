@@ -1,0 +1,32 @@
+<configuration name="write_simple_seq_no_template_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <feature name="Test feature" ref="TestFeature">
+    <setting name="Sequence setting" ref="SequenceSetting" type="sequence">
+      <setting name="String 1" ref="String1" type="string" />
+    <setting name="File setting" ref="File" type="file">
+        <localPath />
+      <targetPath />
+      </setting>
+    <setting name="String 2" ref="String2" type="string" />
+    </setting>
+  </feature>
+<data>
+    <TestFeature>
+      <SequenceSetting>
+        <String1>row 1</String1>
+      <File>
+          <localPath>lp1</localPath>
+        <targetPath>tp1</targetPath>
+        </File>
+      <String2>x</String2>
+      </SequenceSetting>
+    <SequenceSetting>
+        <String1>row 2</String1>
+      <File>
+          <localPath>lp2</localPath>
+        <targetPath>tp2</targetPath>
+        </File>
+      <String2>y</String2>
+      </SequenceSetting>
+    </TestFeature>
+  </data>
+</configuration>

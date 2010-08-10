@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="DuplicateUids" uidValue="0x00000003">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="AlwaysPass"/>
+
+    <key ref="DuplicateUids/Int1" name="Int 1" int="0x00000001" type="int"/>
+    <key ref="DuplicateUids/Int2" name="Int 2" int="0x00000001" type="int"/>
+    <key ref="DuplicateUids/Int3" name="Int 3" int="0x00000001" type="int"/>
+    
+    <key ref="DuplicateUids/Int1" name="Int 1" int="0x00000002" type="int"/>
+    <key ref="DuplicateUids/Int2" name="Int 2" int="0x00000002" type="int"/>
+  
+    <key name="Bitmask" type="int" int="0x1">
+        <bit ref="DuplicateUids/Boolean1">1</bit>
+        <bit ref="DuplicateUids/Boolean2">1</bit>
+        <bit ref="DuplicateUids/Boolean3">1</bit>
+        <bit ref="DuplicateUids/Boolean4">1</bit>
+        
+        <bit ref="DuplicateUids/Boolean1">2</bit>
+        <bit ref="DuplicateUids/Boolean2">2</bit>
+    </key>
+    
+    <keyRange firstInt="0x00010000" lastInt="0x0001FFFF" ref="DuplicateUids/Sequence" indexBits="0xFF00" firstIndex="0">
+        <key ref="Int1" name="Int 1" int="0x00000001"/>
+        <key ref="Int2" name="Int 2" int="0x0000001"/>
+        <key ref="Int3" name="Int 3" int="0x000001"/>
+        <key ref="Int4" name="Int 4" int="0x00001"/>
+        
+        <key ref="Int1" name="Int 1" int="0x00000002"/>
+        <key ref="Int2" name="Int 2" int="0x0000002"/>
+    </keyRange>
+</repository>

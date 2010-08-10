@@ -1,5 +1,5 @@
 ﻿{#- Note: The empty comments are used for removing line feeds -#}
-Name,Type,Possible values,{% for config in data.value_data.configs %}{{ config.path | csv_escape }},{% endfor %}
+Name,Type,Possible values,{% for config in data.value_data.configs %}{% if config.name %}{{config.name + ' (' + config.path + ')'|csv_escape}}{% else %}{{config.path}}{% endif %},{% endfor %}
 {# -#}
 {% for feature_group in data.value_data.feature_groups %}
 {{ feature_group.name }}

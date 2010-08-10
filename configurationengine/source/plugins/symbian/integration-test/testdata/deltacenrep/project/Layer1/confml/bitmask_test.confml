@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Bitmask test" version="1">
+  <feature ref="BitmaskTest" name="Bitmask test">
+    <desc>Feature with bitmask flags</desc>
+    <setting ref="Bit0" name="Bit 0" type="boolean">
+      <desc>A boolean setting for bit 0</desc>
+    </setting>
+    <setting ref="Bit1" name="Bit 1" type="boolean">
+      <desc>A boolean setting for bit 1</desc>
+    </setting>
+    <setting ref="Bit2" name="Bit 2" type="boolean">
+      <desc>A boolean setting for bit 2</desc>
+    </setting>
+    <setting ref="Bit3" name="Bit 3" type="boolean">
+      <desc>A boolean setting for bit 3</desc>
+    </setting>
+    <setting ref="Bit4" name="Bit 4" type="boolean">
+      <desc>A boolean setting for bit 4</desc>
+    </setting>
+    <setting ref="Bit5" name="Bit 5" type="boolean">
+      <desc>A boolean setting for bit 5</desc>
+    </setting>
+    
+    <setting ref="InvertedMaskBit1" name="Inverted mask, Bit 1" type="boolean"/>
+    <setting ref="InvertedMaskBit2" name="Inverted mask, Bit 2" type="boolean"/>
+    <setting ref="InvertedMaskBit3" name="Inverted mask, Bit 3" type="boolean"/>
+    <setting ref="InvertedMaskBit4" name="Inverted mask, Bit 4" type="boolean"/>
+    
+    <setting ref="Int32Bit1" name="Int32, Bit 1" type="boolean"/>
+    <setting ref="Int32Bit2" name="Int32, Bit 2" type="boolean"/>
+    <setting ref="Int32Bit3" name="Int32, Bit 3" type="boolean"/>
+    <setting ref="Int32Bit4" name="Int32, Bit 4" type="boolean"/>
+    <setting ref="Int32Bit5" name="Int32, Bit 5" type="boolean"/>
+    <setting ref="Int32Bit6" name="Int32, Bit 6" type="boolean"/>
+    <setting ref="Int32Bit7" name="Int32, Bit 7" type="boolean"/>
+    <setting ref="Int32Bit8" name="Int32, Bit 8" type="boolean"/>
+    <setting ref="Int32Bit9" name="Int32, Bit 9" type="boolean"/>
+    <setting ref="Int32Bit10" name="Int32, Bit 10" type="boolean"/>
+    <setting ref="Int32Bit11" name="Int32, Bit 11" type="boolean"/>
+    <setting ref="Int32Bit12" name="Int32, Bit 12" type="boolean"/>
+    <setting ref="Int32Bit13" name="Int32, Bit 13" type="boolean"/>
+    <setting ref="Int32Bit14" name="Int32, Bit 14" type="boolean"/>
+    <setting ref="Int32Bit15" name="Int32, Bit 15" type="boolean"/>
+    <setting ref="Int32Bit16" name="Int32, Bit 16" type="boolean"/>
+    <setting ref="Int32Bit17" name="Int32, Bit 17" type="boolean"/>
+    <setting ref="Int32Bit18" name="Int32, Bit 18" type="boolean"/>
+    <setting ref="Int32Bit19" name="Int32, Bit 19" type="boolean"/>
+    <setting ref="Int32Bit20" name="Int32, Bit 20" type="boolean"/>
+    <setting ref="Int32Bit21" name="Int32, Bit 21" type="boolean"/>
+    <setting ref="Int32Bit22" name="Int32, Bit 22" type="boolean"/>
+    <setting ref="Int32Bit23" name="Int32, Bit 23" type="boolean"/>
+    <setting ref="Int32Bit24" name="Int32, Bit 24" type="boolean"/>
+    <setting ref="Int32Bit25" name="Int32, Bit 25" type="boolean"/>
+    <setting ref="Int32Bit26" name="Int32, Bit 26" type="boolean"/>
+    <setting ref="Int32Bit27" name="Int32, Bit 27" type="boolean"/>
+    <setting ref="Int32Bit28" name="Int32, Bit 28" type="boolean"/>
+    <setting ref="Int32Bit29" name="Int32, Bit 29" type="boolean"/>
+    <setting ref="Int32Bit30" name="Int32, Bit 30" type="boolean"/>
+    <setting ref="Int32Bit31" name="Int32, Bit 31" type="boolean"/>
+    <setting ref="Int32Bit32" name="Int32, Bit 32" type="boolean"/>
+    
+    <setting ref="SparseInt32Bit1" name="Sparse Int32, Bit 1" type="boolean"/>
+    <setting ref="SparseInt32Bit7" name="Sparse Int32, Bit 7" type="boolean"/>
+    <setting ref="SparseInt32Bit18" name="Sparse Int32, Bit 18" type="boolean"/>
+    <setting ref="SparseInt32Bit24" name="Sparse Int32, Bit 24" type="boolean"/>
+    <setting ref="SparseInt32Bit31" name="Sparse Int32, Bit 31" type="boolean"/>
+
+    <setting ref="BinaryBit1" name="Binary, Bit 1" type="boolean"/>
+    <setting ref="BinaryBit10" name="Binary, Bit 10" type="boolean"/>
+    <setting ref="BinaryBit20" name="Binary, Bit 20" type="boolean"/>
+    <setting ref="BinaryBit30" name="Binary, Bit 30" type="boolean"/>
+    <setting ref="BinaryBit40" name="Binary, Bit 40" type="boolean"/>
+    <setting ref="BinaryBit50" name="Binary, Bit 50" type="boolean"/>
+    <setting ref="BinaryBit60" name="Binary, Bit 60" type="boolean"/>
+    <setting ref="BinaryBit70" name="Binary, Bit 70" type="boolean"/>
+    <setting ref="BinaryBit80" name="Binary, Bit 80" type="boolean"/>
+    <setting ref="BinaryBit90" name="Binary, Bit 90" type="boolean"/>
+    <setting ref="BinaryBit100" name="Binary, Bit 100" type="boolean"/>
+    
+    <setting ref="BinaryMask2Bit1" name="Binary mask 2, Bit 1" type="boolean"/>
+    <setting ref="BinaryMask2Bit2" name="Binary mask 2, Bit 2" type="boolean"/>
+    <setting ref="BinaryMask2Bit3" name="Binary mask 2, Bit 3" type="boolean"/>
+    <setting ref="BinaryMask2Bit4" name="Binary mask 2, Bit 4" type="boolean"/>
+    <setting ref="BinaryMask2Bit5" name="Binary mask 2, Bit 5" type="boolean"/>
+    <setting ref="BinaryMask2Bit6" name="Binary mask 2, Bit 6" type="boolean"/>
+    <setting ref="BinaryMask2Bit7" name="Binary mask 2, Bit 7" type="boolean"/>
+    <setting ref="BinaryMask2Bit8" name="Binary mask 2, Bit 8" type="boolean"/>
+    <setting ref="BinaryMask2Bit9" name="Binary mask 2, Bit 9" type="boolean"/>
+    <setting ref="BinaryMask2Bit10" name="Binary mask 2, Bit 10" type="boolean"/>
+    <setting ref="BinaryMask2Bit11" name="Binary mask 2, Bit 11" type="boolean"/>
+    <setting ref="BinaryMask2Bit12" name="Binary mask 2, Bit 12" type="boolean"/>
+    <setting ref="BinaryMask2Bit13" name="Binary mask 2, Bit 13" type="boolean"/>
+    <setting ref="BinaryMask2Bit14" name="Binary mask 2, Bit 14" type="boolean"/>
+    <setting ref="BinaryMask2Bit15" name="Binary mask 2, Bit 15" type="boolean"/>
+    <setting ref="BinaryMask2Bit16" name="Binary mask 2, Bit 16" type="boolean"/>
+    <setting ref="BinaryMask2Bit17" name="Binary mask 2, Bit 17" type="boolean"/>
+    
+    <setting ref="BinaryMask3Bit1" name="Binary mask 3, Bit 1" type="boolean"/>
+    <setting ref="BinaryMask3Bit2" name="Binary mask 3, Bit 2" type="boolean"/>
+    <setting ref="BinaryMask3Bit3" name="Binary mask 3, Bit 3" type="boolean"/>
+    <setting ref="BinaryMask3Bit4" name="Binary mask 3, Bit 4" type="boolean"/>
+    <setting ref="BinaryMask3Bit5" name="Binary mask 3, Bit 5" type="boolean"/>
+    <setting ref="BinaryMask3Bit6" name="Binary mask 3, Bit 6" type="boolean"/>
+    <setting ref="BinaryMask3Bit7" name="Binary mask 3, Bit 7" type="boolean"/>
+    <setting ref="BinaryMask3Bit8" name="Binary mask 3, Bit 8" type="boolean"/>
+    <setting ref="BinaryMask3Bit9" name="Binary mask 3, Bit 9" type="boolean"/>
+    <setting ref="BinaryMask3Bit10" name="Binary mask 3, Bit 10" type="boolean"/>
+    <setting ref="BinaryMask3Bit11" name="Binary mask 3, Bit 11" type="boolean"/>
+    <setting ref="BinaryMask3Bit12" name="Binary mask 3, Bit 12" type="boolean"/>
+    <setting ref="BinaryMask3Bit13" name="Binary mask 3, Bit 13" type="boolean"/>
+    <setting ref="BinaryMask3Bit14" name="Binary mask 3, Bit 14" type="boolean"/>
+    <setting ref="BinaryMask3Bit15" name="Binary mask 3, Bit 15" type="boolean"/>
+    <setting ref="BinaryMask3Bit16" name="Binary mask 3, Bit 16" type="boolean"/>
+    <setting ref="BinaryMask3Bit17" name="Binary mask 3, Bit 17" type="boolean"/>
+    
+    <setting ref="BinaryMask4Bit1" name="Binary mask 4, Bit 1" type="boolean"/>
+    <setting ref="BinaryMask4Bit2" name="Binary mask 4, Bit 2" type="boolean"/>
+    <setting ref="BinaryMask4Bit3" name="Binary mask 4, Bit 3" type="boolean"/>
+    <setting ref="BinaryMask4Bit4" name="Binary mask 4, Bit 4" type="boolean"/>
+    <setting ref="BinaryMask4Bit5" name="Binary mask 4, Bit 5" type="boolean"/>
+    <setting ref="BinaryMask4Bit6" name="Binary mask 4, Bit 6" type="boolean"/>
+    <setting ref="BinaryMask4Bit7" name="Binary mask 4, Bit 7" type="boolean"/>
+    <setting ref="BinaryMask4Bit8" name="Binary mask 4, Bit 8" type="boolean"/>
+    <setting ref="BinaryMask4Bit9" name="Binary mask 4, Bit 9" type="boolean"/>
+    <setting ref="BinaryMask4Bit10" name="Binary mask 4, Bit 10" type="boolean"/>
+    <setting ref="BinaryMask4Bit11" name="Binary mask 4, Bit 11" type="boolean"/>
+    <setting ref="BinaryMask4Bit12" name="Binary mask 4, Bit 12" type="boolean"/>
+    <setting ref="BinaryMask4Bit13" name="Binary mask 4, Bit 13" type="boolean"/>
+    <setting ref="BinaryMask4Bit14" name="Binary mask 4, Bit 14" type="boolean"/>
+    <setting ref="BinaryMask4Bit15" name="Binary mask 4, Bit 15" type="boolean"/>
+    <setting ref="BinaryMask4Bit16" name="Binary mask 4, Bit 16" type="boolean"/>
+    <setting ref="BinaryMask4Bit17" name="Binary mask 4, Bit 17" type="boolean"/>
+    
+    <setting ref="BinaryMask5Bit1" name="Binary mask 5, Bit 1" type="boolean"/>
+    
+  </feature>
+  <data>
+    <BitmaskTest>
+      <Bit0>true</Bit0>
+      <Bit1>false</Bit1>
+      <Bit2>true</Bit2>
+      <Bit3>false</Bit3>
+      <Bit4>true</Bit4>
+      <Bit5>false</Bit5>
+      
+      <InvertedMaskBit1>false</InvertedMaskBit1>
+      <InvertedMaskBit2>true</InvertedMaskBit2>
+      <InvertedMaskBit3>false</InvertedMaskBit3>
+      <InvertedMaskBit4>true</InvertedMaskBit4>
+      
+      <Int32Bit1>false</Int32Bit1>
+      <Int32Bit2>true</Int32Bit2>
+      <Int32Bit3>true</Int32Bit3>
+      <Int32Bit4>false</Int32Bit4>
+      <Int32Bit5>true</Int32Bit5>
+      <Int32Bit6>false</Int32Bit6>
+      <Int32Bit7>true</Int32Bit7>
+      <Int32Bit8>false</Int32Bit8>
+      <Int32Bit9>true</Int32Bit9>
+      <Int32Bit10>true</Int32Bit10>
+      <Int32Bit11>1</Int32Bit11>
+      <Int32Bit12>0</Int32Bit12>
+      <Int32Bit13>1</Int32Bit13>
+      <Int32Bit14>0</Int32Bit14>
+      <Int32Bit15>1</Int32Bit15>
+      <Int32Bit16>1</Int32Bit16>
+      <Int32Bit17>0</Int32Bit17>
+      <Int32Bit18>1</Int32Bit18>
+      <Int32Bit19>0</Int32Bit19>
+      <Int32Bit20>1</Int32Bit20>
+      <Int32Bit21>1</Int32Bit21>
+      <Int32Bit22>0</Int32Bit22>
+      <Int32Bit23>1</Int32Bit23>
+      <Int32Bit24>0</Int32Bit24>
+      <Int32Bit25>1</Int32Bit25>
+      <Int32Bit26>1</Int32Bit26>
+      <Int32Bit27>0</Int32Bit27>
+      <Int32Bit28>1</Int32Bit28>
+      <Int32Bit29>0</Int32Bit29>
+      <Int32Bit30>1</Int32Bit30>
+      <Int32Bit31>1</Int32Bit31>
+      <Int32Bit32>0</Int32Bit32>
+      
+      <SparseInt32Bit1>1</SparseInt32Bit1>
+      <SparseInt32Bit7>true</SparseInt32Bit7>
+      <SparseInt32Bit18>1</SparseInt32Bit18>
+      <SparseInt32Bit24>true</SparseInt32Bit24>
+      <SparseInt32Bit31>1</SparseInt32Bit31>
+      
+      <BinaryBit1>true</BinaryBit1>
+      <BinaryBit10>1</BinaryBit10>
+      <BinaryBit20>false</BinaryBit20>
+      <BinaryBit30>true</BinaryBit30>
+      <BinaryBit40>0</BinaryBit40>
+      <BinaryBit50>true</BinaryBit50>
+      <BinaryBit60>1</BinaryBit60>
+      <BinaryBit70>true</BinaryBit70>
+      <BinaryBit80>1</BinaryBit80>
+      <BinaryBit90>true</BinaryBit90>
+      <BinaryBit100>1</BinaryBit100>
+      
+      <BinaryMask2Bit1>0</BinaryMask2Bit1>
+      <BinaryMask2Bit2>0</BinaryMask2Bit2>
+      <BinaryMask2Bit3>0</BinaryMask2Bit3>
+      <BinaryMask2Bit4>0</BinaryMask2Bit4>
+      <BinaryMask2Bit5>0</BinaryMask2Bit5>
+      <BinaryMask2Bit6>0</BinaryMask2Bit6>
+      <BinaryMask2Bit7>0</BinaryMask2Bit7>
+      <BinaryMask2Bit8>0</BinaryMask2Bit8>
+      <BinaryMask2Bit9>0</BinaryMask2Bit9>
+      <BinaryMask2Bit10>0</BinaryMask2Bit10>
+      <BinaryMask2Bit11>0</BinaryMask2Bit11>
+      <BinaryMask2Bit12>0</BinaryMask2Bit12>
+      <BinaryMask2Bit13>0</BinaryMask2Bit13>
+      <BinaryMask2Bit14>0</BinaryMask2Bit14>
+      <BinaryMask2Bit15>0</BinaryMask2Bit15>
+      <BinaryMask2Bit16>1</BinaryMask2Bit16>
+      <BinaryMask2Bit17>0</BinaryMask2Bit17>
+      
+      <BinaryMask3Bit1>0</BinaryMask3Bit1>
+      <BinaryMask3Bit2>0</BinaryMask3Bit2>
+      <BinaryMask3Bit3>0</BinaryMask3Bit3>
+      <BinaryMask3Bit4>1</BinaryMask3Bit4>
+      <BinaryMask3Bit5>0</BinaryMask3Bit5>
+      <BinaryMask3Bit6>0</BinaryMask3Bit6>
+      <BinaryMask3Bit7>0</BinaryMask3Bit7>
+      <BinaryMask3Bit8>1</BinaryMask3Bit8>
+      <BinaryMask3Bit9>0</BinaryMask3Bit9>
+      <BinaryMask3Bit10>0</BinaryMask3Bit10>
+      <BinaryMask3Bit11>0</BinaryMask3Bit11>
+      <BinaryMask3Bit12>0</BinaryMask3Bit12>
+      <BinaryMask3Bit13>0</BinaryMask3Bit13>
+      <BinaryMask3Bit14>0</BinaryMask3Bit14>
+      <BinaryMask3Bit15>0</BinaryMask3Bit15>
+      <BinaryMask3Bit16>0</BinaryMask3Bit16>
+      <BinaryMask3Bit17>0</BinaryMask3Bit17>
+      
+      <BinaryMask4Bit1>0</BinaryMask4Bit1>
+      <BinaryMask4Bit2>0</BinaryMask4Bit2>
+      <BinaryMask4Bit3>0</BinaryMask4Bit3>
+      <BinaryMask4Bit4>1</BinaryMask4Bit4>
+      <BinaryMask4Bit5>0</BinaryMask4Bit5>
+      <BinaryMask4Bit6>0</BinaryMask4Bit6>
+      <BinaryMask4Bit7>0</BinaryMask4Bit7>
+      <BinaryMask4Bit8>1</BinaryMask4Bit8>
+      <BinaryMask4Bit9>0</BinaryMask4Bit9>
+      <BinaryMask4Bit10>0</BinaryMask4Bit10>
+      <BinaryMask4Bit11>0</BinaryMask4Bit11>
+      <BinaryMask4Bit12>0</BinaryMask4Bit12>
+      <BinaryMask4Bit13>0</BinaryMask4Bit13>
+      <BinaryMask4Bit14>0</BinaryMask4Bit14>
+      <BinaryMask4Bit15>0</BinaryMask4Bit15>
+      <BinaryMask4Bit16>1</BinaryMask4Bit16>
+      <BinaryMask4Bit17>1</BinaryMask4Bit17>
+      
+      <BinaryMask5Bit1>0</BinaryMask5Bit1>
+
+    </BitmaskTest>
+  </data>
+</configuration>

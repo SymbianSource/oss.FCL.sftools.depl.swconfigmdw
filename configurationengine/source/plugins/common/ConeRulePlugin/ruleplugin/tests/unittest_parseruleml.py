@@ -28,28 +28,24 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-import __init__
-
 from ruleplugin import ruleml, relations
 from cone.public import api, exceptions, utils, plugin
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 ruleml_string = \
 '''<?xml version="1.0" encoding="UTF-8"?>
-<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
-  <rule>imaker.imagetarget configures imakerapi.outputLocation = imaker.imagetarget</rule>
-  <rule>imaker.imagename configures imakerapi.outputLocation = imaker.imagename</rule>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>${imaker.imagetarget} configures ${imakerapi.outputLocation} = ${imaker.imagetarget}</rule>
+  <rule>${imaker.imagename} configures ${imakerapi.outputLocation} = ${imaker.imagename}</rule>
 </ruleml>
 '''
 
 class TestParseRuleimpl(unittest.TestCase):    
-    def setUp(self):    relations.register()
-    def tearDown(self): relations.unregister()
     
     def test_parse_rules(self):
-        etree = ElementTree.fromstring(ruleml_string)
-        reader = ruleml.RuleImplReader2(None, None)
-        rules = reader.parse_rules(etree)
+        etree = utils.etree.fromstring(ruleml_string)
+        reader = ruleml.RuleImplReader(None, None)
+        rules = reader.parse_rules("", etree)
         self.assertTrue(isinstance(rules[0],relations.ConfigureRelation))
         self.assertTrue(isinstance(rules[1],relations.ConfigureRelation))
         self.assertTrue(rules[0].has_ref('imaker.imagetarget'))
@@ -58,8 +54,6 @@ class TestParseRuleimpl(unittest.TestCase):
 
 
 class TestRulemlFromFile(unittest.TestCase):
-    def setUp(self):    pass
-    def tearDown(self): relations.unregister()
     
     def test_create_from_file(self):
         project = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'ruleproject/rules')))
@@ -67,15 +61,18 @@ class TestRulemlFromFile(unittest.TestCase):
         ruleimpl = plugin.ImplFactory.get_impls_from_file('implml/rules.ruleml', config)[0]
         relation_container = ruleimpl.get_relation_container()
         self.assertTrue(isinstance(relation_container, plugin.RelationContainer))
-        self.assertEquals(relation_container.get_relation_count(), 17)
-
+        self.assertEquals(relation_container.get_relation_count(), 19)
+        self.assertEquals(len(relation_container.get_relations()), 19)
+        self.assertEquals(relation_container.get_relations()[0].get_refs(),[u'imaker.imagetarget'])
+        self.assertEquals(relation_container.get_relations()[0].implml.ref, 'implml/rules.ruleml')
+        
     def test_create_from_file_with_common_container(self):
         project = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'ruleproject/rules')))
         config = project.get_configuration('root.confml')
         ruleimpl = plugin.ImplFactory.get_impls_from_file('implml/container_with_rules.ruleml', config)[0]
         relation_container = ruleimpl.get_relation_container()
         self.assertTrue(isinstance(relation_container, plugin.RelationContainer))
-        self.assertEquals(relation_container.get_relation_count(), 7)
+        self.assertEquals(relation_container.get_relation_count(), 8)
 
     def test_create_from_file_filename(self):
         project = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'ruleproject/rules')))

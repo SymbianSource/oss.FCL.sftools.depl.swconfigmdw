@@ -16,11 +16,7 @@
 
 import unittest, os
 import pkg_resources 
-try:
-    pkg_resources.require('ConeContentPlugin')
-except pkg_resources.DistributionNotFound:
-    import __init__
-    
+
 from cone.public.exceptions import NotSupportedException
 from contentplugin import contentml
 

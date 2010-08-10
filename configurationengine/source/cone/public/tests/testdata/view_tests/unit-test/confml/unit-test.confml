@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	version="1.0"
+	name="Another example configuration for unit tests"
+	>
+
+	<feature name="Constraints and relevants" ref="constraints-int-fea">
+		<desc>Some int constraints testing</desc>
+		
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+
+	<feature name="German cars" ref="german-car-fea">
+		<desc>Some german cars</desc>
+	    <setting name="German car Sequence" type="sequence" ref="CarSequence" maxOccurs="10" mapKey="CarName" mapValue="CarNum">
+		<desc>Example sequence containing one string and one int</desc>
+		
+		    <setting name="Car string in sequence" type="string" ref="CarName" required="true">
+			<desc>Car string in sequence description</desc>
+		    </setting>
+		    <setting name="Car int in sequence" type="int" ref="CarNum" required="true">
+			<desc>Car int in sequence description</desc>
+		    </setting>
+		
+	      </setting>
+	</feature>
+
+	<feature name="Japanese cars" ref="japan-car-fea">
+		<desc>Some japan cars</desc>
+	    <setting name="Japan car Sequence" type="sequence" ref="CarSequence" minOccurs="1" maxOccurs="11" mapKey="CarName" mapValue="CarNum">
+		<desc>Example sequence containing one string and one int</desc>
+		
+		    <setting name="Car string in sequence" type="string" ref="CarName" required="true">
+			<desc>Car string in sequence description</desc>
+		    </setting>
+		    <setting name="Car int in sequence" type="int" ref="CarNum" required="true">
+			<desc>Car int in sequence description</desc>
+		    </setting>
+		
+	      </setting>
+	</feature>
+
+	<feature name="Italian cars" ref="italy-car-fea">
+		<desc>Some italy cars</desc>
+	    <setting name="italy car Sequence" type="sequence" ref="CarSequence" minOccurs="2" maxOccurs="12" mapKey="CarName" mapValue="CarNum">
+		<desc>Example sequence containing one string and one int</desc>
+		
+		    <setting name="Car string in sequence" type="string" ref="CarName" required="true">
+			<desc>Car string in sequence description</desc>
+		    </setting>
+		    <setting name="Car int in sequence" type="int" ref="CarNum" required="true">
+			<desc>Car int in sequence description</desc>
+		    </setting>
+		
+	      </setting>
+	</feature>
+
+	<feature name="Bikes" ref="bike-feature">
+		<desc>Some bikes</desc>
+	    <setting name="Bike Sequence" type="sequence" ref="BikeSequence" minOccurs="2" maxOccurs="10" mapKey="BikeName" mapValue="BikeNum">
+		<desc>Example sequence containing one string and one int</desc>
+		
+		    <setting name="Bike string in sequence" type="string" ref="BikeName" required="true">
+			<desc>Bike string in sequence description</desc>
+		    </setting>
+		    <setting name="Bike int in sequence" type="int" ref="BikeNum" required="true">
+			<desc>Bike int in sequence description</desc>
+		    </setting>
+		
+	      </setting>
+	</feature>
+
+	<feature name="This is example feature (group) name" ref="example-feature">
+		<desc>This is example feature group description</desc>
+		
+		<setting name="Example String1" id="example1_id" required="true" type="string" ref="ExampleString1">
+			<desc>Example string description. Min length 10, max 50.</desc>
+			<xs:minLength value="10" />
+			<xs:maxLength value="50" />
+		</setting>
+		<setting name="Example Int1" required="true" type="int" ref="ExampleInt1">
+			<desc>Example number description. Value must be between 2000-2100 (inclusive)</desc>
+			<xs:minInclusive value="2000" />
+			<xs:maxInclusive value="2100" />
+		</setting>
+		
+		<setting name="Example String2 with options" required="false" type="string" ref="ExampleString2">
+			<desc>Example string description 2. Not required field. Length 5 characters.</desc>
+			<xs:length value="5"/>
+		    <option name="Oulu-Pori" value="507" />
+		    <option name="Oulu-Tampere" value="488" />
+		    <option name="Oulu-Helsinki" value="609" />
+		    <option name="Oulu-Kuusamo" value="216" />
+		    <option name="Oulu-Tornio" value="132" />
+		    <option name="Oulu-Kilpisjärvi" value="589" />
+		    <option name="Oulu-Utsjoki" value="671" />
+		</setting>
+		<setting name="Example Int2 with options" required="true" type="int" ref="ExampleInt2">
+			<desc>Example number description 2. Value must be between 0-799 (exclusive 800)</desc>
+			<xs:minInclusive value="0" /> 
+			<xs:maxExclusive value="800" /> 
+		    <option name="Option 1" value="1" />
+		    <option name="Option 2" value="2" />
+		    <option name="option 3" value="3" />
+		</setting>
+
+		<setting name="Example Int3" id="example2_id" required="true" type="int" ref="ExampleInt3">
+			<desc>Example number description 3. Value must be between 10-20.</desc>
+			<xs:minExclusive value="9" />
+			<xs:maxInclusive value="20" />
+		</setting>
+		
+  		<setting name="Example Filename" type="file" ref="ExampleFilename" required="true">
+       		<desc>Example file. Target read only, pattern .*\.png</desc>
+       		<property name="maxHeight" value="40" /> 
+		    <property name="maxWidth" value="120" />
+		    <localPath />
+		    <targetPath readOnly="true" /> 
+		    <xs:pattern value="(.*\.png)" /> 
+  		</setting>
+
+  		<setting name="Example Folder" type="folder" ref="ExampleFolder" required="true">
+       		<desc>Example folder.</desc>
+       		<localPath /> 
+		    <targetPath readOnly="true" /> 
+  		</setting>
+
+		<setting name="Example Real" required="false" type="real" ref="ExampleReal">
+			<desc>Example real description. Not required field.</desc>
+		</setting>
+
+	    <setting name="Example Selection" type="selection" ref="ExampleSelection" required="true">
+		<desc>Example selection numbers from 1 to 5</desc>
+		<option name="Number 1" value="1" />
+		<option name="Number 2" value="2" />
+		<option name="Number 3" value="3" />
+		<option name="Number 4" value="4" />
+		<option name="Number 5" value="5" />
+		<option name="New Number" value="12" />
+	    </setting>
+
+	    <setting name="Example MultiSelection" type="multiSelection" ref="ExampleMultiSelection" required="true">
+		<desc>Example multi selection characters from A to E</desc>
+		<option name="Char A" value="A A" />
+		<option name="Char B" value="B B" />
+		<option name="Char C" value="C C" />
+		<option name="Char D" value="D D" />
+		<option name="Char E" value="E E" />
+	    </setting>
+		
+	    <setting name="Example Boolean" type="boolean" ref="ExampleBoolean" required="true">
+		<desc>Example boolean</desc>
+	    </setting>
+	      
+	    <setting name="Example Sequence" type="sequence" ref="ExampleSequence" required="false" minOccurs="2" maxOccurs="10">
+		<desc>Example sequence containing one string and one int</desc>
+		
+		    <setting name="Example string in sequence" type="string" ref="ExampleStringInSequence" required="true">
+			<desc>Example string in sequence description</desc>
+		    </setting>
+		    <setting name="Example int in sequence" type="int" ref="ExampleIntInSequence" required="true">
+			<desc>Example int in sequence description</desc>
+		    </setting>
+		
+	      </setting>
+
+	      <setting name="Example Date" type="date" ref="ExampleDate" required="true">
+		<desc>Example date description</desc>
+	      </setting>
+	      
+	      <setting name="Example Time" type="time" ref="ExampleTime" required="true">
+		<desc>Example time description</desc>
+	      </setting>
+	      
+	      <setting name="Example DateTime" type="dateTime" ref="ExampleDateTime" required="true">
+		<desc>Example date/time description</desc>
+	      </setting>
+
+	      <setting name="Example Duration" type="duration" ref="ExampleDuration" required="true">
+		<desc>Example duration description, 2 days, 5 hours</desc>
+	      </setting>
+		
+	</feature>
+
+	<feature name="Options map group" ref="example2-feature">
+		<desc>This is another example feature group for testing different map options</desc>
+
+	    <setting name="Example Selection to options only (MB)" type="selection" ref="ExampleSelectionToOptions" required="true">
+		<desc>Example selection values (options)</desc>
+		<option name="Option-Volkswagen (1)" value="1" />
+		<option name="Option-Mercedes Bentz (2)" value="2" />
+		<option name="Option-Citroen :) (3)" value="3" />
+		<option name="Option-Daihatsu (4)" value="4" />
+		<option name="Option-Ford (5)" value="5" />
+		<option name="Option-Opel (6)" value="6" />
+	    </setting>
+
+	    <setting name="Selection, one map, german (Bmw)" type="selection" ref="ExampleSelectionToGermanCarsMap" required="true">
+		<desc>Example selection to one map, German cars</desc>
+        <option map="german-car-fea/CarSequence" />
+	    </setting>
+
+	    <setting name="Selection, one map, italian (Ferrari)" type="selection" ref="ExampleSelectionToItalianCarsMap" required="true">
+		<desc>Example selection to one map, Italian cars</desc>
+        <option map="italy-car-fea/CarSequence" />
+	    </setting>
+
+	    <setting name="Selection, one map, japanese (Toyota)" type="selection" ref="ExampleSelectionToJapaneseCarsMap" required="true">
+		<desc>Example selection to one map, Japanese cars</desc>
+        <option map="japan-car-fea/CarSequence" />
+	    </setting>
+
+	    <setting name="Selection, three maps, all cars (Mitsu)" type="selection" ref="ExampleSelectionToAllCarsMap" required="true">
+		<desc>Example selection to three maps, German, Italian and Japanese cars</desc>
+        <option map="german-car-fea/CarSequence" />
+        <option map="italy-car-fea/CarSequence" />
+        <option map="japan-car-fea/CarSequence" />
+	    </setting>
+
+	    <setting name="Selection, four maps and extra options (Opel)" type="selection" ref="ExampleSelectionToMap" required="true">
+		<desc>Example selection to four maps, bikes, all cars and some option values also</desc>
+        <option map="german-car-fea/CarSequence" />
+		<option name="Option-Volkswagen (1)" value="1" />
+		<option name="Option-Mercedes Bentz (2)" value="2" />
+		<option name="Option-Citroen :) (3)" value="3" />
+        <option map="bike-feature/BikeSequence" />
+        <option map="japan-car-fea/CarSequence" />
+		<option name="Option-Daihatsu (4)" value="4" />
+		<option name="Option-Ford (5)" value="5" />
+		<option name="Option-Opel (6)" value="6" />
+        <option map="italy-car-fea/CarSequence" />
+	    </setting>
+
+	    <setting name="Example MultiSelection to map (Merida and Helkama)" type="multiSelection" ref="ExampleMultiSelectionToMap" required="true">
+		<desc>Example multi selection values from x to y and map to bikes</desc>
+		<option name="Crescent (1)" value="1" />
+		<option name="Insera (2)" value="2" />
+        <option map="bike-feature/BikeSequence" />
+		<option name="Merida (3)" value="3" />
+	    </setting>
+
+	</feature>
+	
+	<data>
+            <constraints-int-fea>
+                <set_int1>4</set_int1>
+                <set_int2>2</set_int2>
+                <set_int3>3</set_int3>
+                <set_int4>3</set_int4>
+            </constraints-int-fea>
+
+            <german-car-fea>
+                <CarSequence>
+                    <CarName>Audi</CarName>
+                    <CarNum>111</CarNum>
+                </CarSequence>
+                <CarSequence>
+                    <CarName>Bmw</CarName>
+                    <CarNum>222</CarNum>
+                </CarSequence>
+            </german-car-fea>
+
+            <japan-car-fea>
+                <CarSequence>
+                    <CarName>Subaru</CarName>
+                    <CarNum>555</CarNum>
+                </CarSequence>
+                <CarSequence>
+                    <CarName>Mitsubishi</CarName>
+                    <CarNum>666</CarNum>
+                </CarSequence>
+                <CarSequence>
+                    <CarName>Toyota</CarName>
+                    <CarNum>777</CarNum>
+                </CarSequence>
+            </japan-car-fea>
+
+            <italy-car-fea>
+                <CarSequence>
+                    <CarName>Ferrari</CarName>
+                    <CarNum>888</CarNum>
+                </CarSequence>
+                <CarSequence>
+                    <CarName>Fiat</CarName>
+                    <CarNum>999</CarNum>
+                </CarSequence>
+            </italy-car-fea>
+
+            <bike-feature>
+                <BikeSequence>
+                    <BikeName>Tunturi</BikeName>
+                    <BikeNum>28</BikeNum>
+                </BikeSequence>
+                <BikeSequence>
+                    <BikeName>Helkama</BikeName>
+                    <BikeNum>26</BikeNum>
+                </BikeSequence>
+            </bike-feature>
+
+	        <example-feature>
+	           <ExampleString1>The Year (Current)</ExampleString1>
+	           <ExampleInt1>2009</ExampleInt1>
+	           <ExampleString2>Hello</ExampleString2>
+	           <ExampleInt2>555</ExampleInt2>
+	           <ExampleInt3>13</ExampleInt3>
+	           <ExampleReal>3.14</ExampleReal>
+		   <ExampleFilename>
+		       <localPath>somefile.png</localPath>
+		       <targetPath>BUILD:///data</targetPath>
+		   </ExampleFilename>
+		   <ExampleFolder>
+		       <localPath>UI/Application data</localPath>
+		       <targetPath>BUILD:///data/UI</targetPath>
+		   </ExampleFolder>
+		   <ExampleSelection>3</ExampleSelection>
+		   <ExampleMultiSelection>"B B" "C C" "E E"</ExampleMultiSelection>
+		   <ExampleBoolean>true</ExampleBoolean>
+		   <ExampleSequence>
+		       <ExampleStringInSequence>Some century</ExampleStringInSequence>
+		       <ExampleIntInSequence>1900</ExampleIntInSequence>
+		   </ExampleSequence>
+		   <ExampleSequence>
+		       <ExampleStringInSequence>Some century X</ExampleStringInSequence>
+		       <ExampleIntInSequence>2101</ExampleIntInSequence>
+		   </ExampleSequence>
+		   
+		   <ExampleSequence>
+		       <ExampleStringInSequence>Django!</ExampleStringInSequence>
+		       <ExampleIntInSequence>1</ExampleIntInSequence>
+		   </ExampleSequence>
+
+		   <ExampleSequence>
+		       <ExampleStringInSequence>Fox</ExampleStringInSequence>
+		       <ExampleIntInSequence>3</ExampleIntInSequence>
+		   </ExampleSequence>
+		   
+		   <ExampleDate>2009-01-19Z</ExampleDate>
+		   <ExampleTime>09:15:00</ExampleTime>
+		   <ExampleDateTime>2009-01-19T09:15:00Z</ExampleDateTime>
+		   <ExampleDuration>P2DT2H</ExampleDuration>
+
+	        </example-feature>
+
+	        <example2-feature>
+            <ExampleSelectionToOptions>2</ExampleSelectionToOptions>
+            <ExampleSelectionToGermanCarsMap>222</ExampleSelectionToGermanCarsMap>
+            <ExampleSelectionToItalianCarsMap>888</ExampleSelectionToItalianCarsMap>
+            <ExampleSelectionToJapaneseCarsMap>777</ExampleSelectionToJapaneseCarsMap>
+            <ExampleSelectionToAllCarsMap>666</ExampleSelectionToAllCarsMap>
+
+            <ExampleSelectionToMap>6</ExampleSelectionToMap>
+            <ExampleMultiSelectionToMap>"3" "26"</ExampleMultiSelectionToMap>
+	        </example2-feature>
+	</data>
+</configuration>

@@ -1,0 +1,2 @@
+Problem(msg="Feature 'Foo.Bar' not found", type='model.confml.missing_feature_for_data', line=5, file='data_without_feature.confml', severity='error')
+Problem(msg="Feature 'Foo' not found", type='model.confml.missing_feature_for_data', line=4, file='data_without_feature.confml', severity='error')

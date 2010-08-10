@@ -110,7 +110,28 @@
     .currentValue {
         background-color: #e8f2fe;
     }
+
+.fltrow{ /* filter grid row appearance */
+    height:20px;
+    background-color:#f4f4f4;
+}
+.btnflt{ /* button appearance */
+    font-size:11px;
+    margin:0 2px 0 2px; padding:0 1px 0 1px;
+    text-decoration:none; color: #fff;
+    background-color:#666;
+}
+.flt{ /* filter (input) appearance */
+    background-color:#f4f4f4; border:1px inset #ccc; 
+    margin:0; width:100%;
+}
+.flt_s{ /* small filter (input) appearance */
+    background-color:#f4f4f4; border:1px inset #ccc; 
+    margin:0; width:80%;
+}
+
 </style>
+<script language="javascript" type="text/javascript" src="http://www.javascriptkit.com/script/script2/tablefilter.js"></script>
 <title>Data value info - ConE</title>
 
 </head>
@@ -118,13 +139,13 @@
 <div id="content">
     <h1>Configuration data value info</h1><br>
 
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName">Name</th>
         <th class="featureName">Type</th>
         <th class="featureName">Possible values</th>
         
-        <th class="featureName">product_root.confml</th>
+        <th class="featureName">Some Product X (product_root.confml)</th>
         
     </tr>
     
@@ -158,7 +179,7 @@
         <td></td>
         
         
-        <td>string from product config</td>
+        <td><b>string from product config</b></td>
         
         
     </tr>
@@ -199,64 +220,64 @@
         <td>
                     <table><tr><td colspan="2"><b>Item 1</b></td></tr><tr>
                             <td><b>Real sub-setting</b></td>
-                            <td>1.5</td>
+                            <td><b>1.5</b></td>
                             </tr><tr>
                             <td><b>Int sub-setting</b></td>
-                            <td>256</td>
+                            <td><b>256</b></td>
                             </tr><tr>
                             <td><b>String sub-setting</b></td>
-                            <td>test (product)</td>
+                            <td><b>test (product)</b></td>
                             </tr><tr>
                             <td><b>Boolean sub-setting</b></td>
-                            <td>false</td>
+                            <td><b>False</b></td>
                             </tr><tr>
                             <td><b>Selection sub-setting</b></td>
-                            <td>Op1</td>
+                            <td><b>Op1</b></td>
                             </tr><tr><td colspan="2"><b>Item 2</b></td></tr><tr>
                             <td><b>Real sub-setting</b></td>
-                            <td>1.25</td>
+                            <td><b>1.25</b></td>
                             </tr><tr>
                             <td><b>Int sub-setting</b></td>
-                            <td>128</td>
+                            <td><b>128</b></td>
                             </tr><tr>
                             <td><b>String sub-setting</b></td>
-                            <td>def1</td>
+                            <td><b>def1</b></td>
                             </tr><tr>
                             <td><b>Boolean sub-setting</b></td>
-                            <td>false</td>
+                            <td><b>False</b></td>
                             </tr><tr>
                             <td><b>Selection sub-setting</b></td>
-                            <td>Op1</td>
+                            <td><b>Op1</b></td>
                             </tr><tr><td colspan="2"><b>Item 3</b></td></tr><tr>
                             <td><b>Real sub-setting</b></td>
-                            <td>1.5</td>
+                            <td><b>1.5</b></td>
                             </tr><tr>
                             <td><b>Int sub-setting</b></td>
-                            <td>256</td>
+                            <td><b>256</b></td>
                             </tr><tr>
                             <td><b>String sub-setting</b></td>
-                            <td>def2</td>
+                            <td><b>def2</b></td>
                             </tr><tr>
                             <td><b>Boolean sub-setting</b></td>
-                            <td>false</td>
+                            <td><b>False</b></td>
                             </tr><tr>
                             <td><b>Selection sub-setting</b></td>
-                            <td>Op1</td>
+                            <td><b>Op1</b></td>
                             </tr><tr><td colspan="2"><b>Item 4</b></td></tr><tr>
                             <td><b>Real sub-setting</b></td>
-                            <td>1.5</td>
+                            <td><b>1.5</b></td>
                             </tr><tr>
                             <td><b>Int sub-setting</b></td>
-                            <td>256</td>
+                            <td><b>256</b></td>
                             </tr><tr>
                             <td><b>String sub-setting</b></td>
-                            <td>test</td>
+                            <td><b>test</b></td>
                             </tr><tr>
                             <td><b>Boolean sub-setting</b></td>
-                            <td>true</td>
+                            <td><b>True</b></td>
                             </tr><tr>
                             <td><b>Selection sub-setting</b></td>
-                            <td>Op1</td>
+                            <td><b>Op1</b></td>
                             </tr></table>
                 </td>
         
@@ -305,7 +326,7 @@
         <td></td>
         
         
-        <td>1200</td>
+        <td><b>1200</b></td>
         
         
     </tr>
@@ -366,7 +387,7 @@
                             <td>def1</td>
                             </tr><tr>
                             <td><b>Boolean sub-setting</b></td>
-                            <td>false</td>
+                            <td>False</td>
                             </tr><tr>
                             <td><b>Selection sub-setting</b></td>
                             <td>Op1</td>
@@ -381,7 +402,7 @@
                             <td>def2</td>
                             </tr><tr>
                             <td><b>Boolean sub-setting</b></td>
-                            <td>false</td>
+                            <td>False</td>
                             </tr><tr>
                             <td><b>Selection sub-setting</b></td>
                             <td>Op1</td>
@@ -418,6 +439,11 @@
     
     
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
 </div>
 <div id="footer"></div>
 </body>

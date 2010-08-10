@@ -19,14 +19,16 @@ from pkg_resources import require
 require("setuptools")
 from setuptools import setup, find_packages
 
-datafiles = ['gen_report_template.html',
-             'cone_defaults.cfg',
+datafiles = ['cone_defaults.cfg',
              'conesub_generate.cfg',
              'imaker_variantdir.cfg',
+             'cone.ini',
              'logging.ini',
              'cone_base.html',
+             'gen_report_template.html',
              'compare_api_report_template.html',
              'compare_data_report_template.html',
+             'compare_ci_report_template.html',
              'info_api_report_template.csv',
              'info_api_report_template.html',
              'info_impl_report_template.html',
@@ -34,7 +36,11 @@ datafiles = ['gen_report_template.html',
              'info_value_report_template.html',
              'info_value_report_template.csv',
              'crml_dc_report_template.csv',
-             'crml_dc_report_template.html']
+             'crml_dc_report_template.html',
+             'validation_report_template.html',
+             'validation_report_template.xml',
+             'tablefilter.js',
+             'popup.js']
 
 setup(
     name = "cone-scripts",
@@ -43,6 +49,7 @@ setup(
                'cone_common.py',
                'cone_subaction.py',
                'conesub_info.py',
+               'conesub_fix.py',
                'conesub_export.py',
                'conesub_generate.py',
                'conesub_merge.py',
@@ -50,8 +57,10 @@ setup(
                #'conesub_import_browserbookmarks.py',
                'conesub_update.py',
                'conesub_report.py',
-               'generation_report.py',
-               'report_util.py'] + 
+               'conesub_validate.py',
+               'conesub_packvariant.py',
+               'conesub_initvariant.py',
+               'configroot2flat.py'] + 
                datafiles,
 
     author = "Teemu Rytkonen",

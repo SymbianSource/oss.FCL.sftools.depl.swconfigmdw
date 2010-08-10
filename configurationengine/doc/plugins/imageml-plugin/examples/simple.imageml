@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <!--
+    Simple image conversions using a single input file.
+    -->
+    
+    <output file="simple/cone.mbm">
+        <input file="cone.bmp" depth="c24"/>
+    </output>
+    
+    <output file="simple/icon.mif">
+        <input file="icon.svg"/>
+    </output>
+</imageml>

@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Configuration content files</h1><br>
 
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName">Content file</th>
 		<th class="featureName">Actual files (used one last)</th>
@@ -20,4 +20,9 @@
     {% endfor %}
     
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
 {% endblock %}

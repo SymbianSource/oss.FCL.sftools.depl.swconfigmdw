@@ -2,269 +2,401 @@
  * Configuration Engine (ConE) main build file
  * This ant build.xml will build, install and test ConE and its plugins
  ****************************************************************************-->
-<project name="ConE"
-         default="install">
-  <property file="common.properties" />
-  <property file="linux.properties" />
-  <property file="windows.properties" />
-  <property environment="env" />
-  <!--
+
+<project name="ConE" default="install">
+    <property file="common.properties"/>
+    <property file="linux.properties" />
+    <property file="windows.properties" />
+    <property environment="env"/>
+
+    <!--
     Build properties, intended to be overridden from the command line
     where necessary.
-
+	
     E.g. ant install -Dbuild.build_path=C:/my/install/path -Dbuild.plugin_package=symbian
     -->
-  <property name="build.plugin_package"
-            value="common" />
-  <property name="build.base_path"
-            value="build" />
-  <property name="build.cone_install_path"
-            value="${build.base_path}/cone" />
-  <property name="build.bat_export_path"
-            value="${build.base_path}/bat" />
-  <property name="build.cone_pack_path"
-            value="${build.base_path}/dist" />
-  <property name="build.bat_pack_path"
-            value="${build.base_path}/dist" />
-  <property name="build.cone_install_path_abs"
-            location="${build.cone_install_path}" />
-  <property name="build.bat_export_path_abs"
-            location="${build.bat_export_path}" />
-  <property name="build.cone_pack_path_abs"
-            location="${build.cone_pack_path}" />
-  <property name="build.bat_pack_path_abs"
-            location="${build.bat_pack_path}" />
-  <property name="os.linux"
-            value="Linux" />
-  <property name="os.windows"
-            value="Windows 2003, Windows XP, Windows vista" />
-  <condition property="os_is_linux">
-    <os name="${os.linux}" />
-  </condition>
-  <target name="info">
-    <echoproperties />
-  </target>
-  <!-- Aliases -->
-  <target name="install"
-          depends="install-cone" />
-  <target name="develop"
-          depends="develop-cone" />
-  <target name="test"
-          depends="run-bat" />
-  <target name="doc"
-          depends="doc-all" />
-  <target name="clean">
-    <delete dir="${build.cone_install_path_abs}" />
-    <delete dir="${build.bat_export_path_abs}" />
-    <delete dir="${build.cone_pack_path_abs}" />
-    <delete dir="${build.bat_pack_path_abs}" />
-  </target>
-  <target name="svnversion">
+	<property name="drive" value="" />
+	<condition property="build.base_path" value="${drive}/build" else="build">
+        <and>		
+            <not>
+			    <equals arg1="${drive}" arg2="" />
+		    </not>
+            <not>
+                <os name="${os.linux.name}" />
+            </not>
+        </and>
+	</condition>
+	<condition property="build_scripts_dir" value="${drive}/${common.build_scripts_dir}" else="${common.build_scripts_dir}">
+        <and>		
+            <not>
+			    <equals arg1="${drive}" arg2="" />
+		    </not>
+            <not>
+                <os name="${os.linux.name}" />
+            </not>
+        </and>
+	</condition>
+	
+    <property name="build.plugin_package" value="common"/>
+    <!-- <property name="build.base_path" value="build"/> -->
+    <property name="build.cone_install_path" value="${build.base_path}/cone"/>
+    <property name="build.bat_export_path" value="${build.base_path}/bat"/>
+    <property name="build.cone_pack_path" value="${build.base_path}/dist"/>
+    <property name="build.bat_pack_path" value="${build.base_path}/dist"/>
+
+    <property name="build.cone_install_path_abs" location="${build.cone_install_path}"/>
+    <property name="build.bat_export_path_abs" location="${build.bat_export_path}"/>
+    <property name="build.cone_pack_path_abs" location="${build.cone_pack_path}"/>
+    <property name="build.bat_pack_path_abs" location="${build.bat_pack_path}"/>
     <!--
+    <property name="os.linux.name" value="Linux" />
+    <property name="os.windows" value="Windows 2003, Windows XP, Windows vista" />
+    -->    
+    <property name="pythonversion" value="" />
+
+	<condition property="os_is_linux">
+		<os name="${os.linux.name}" />
+	</condition>
+    <condition property="pythonversion_defined">
+        <not>
+            <equals arg1="${pythonversion}" arg2="" />
+        </not>
+    </condition>
+	<condition property="drive_defined">
+        <not>
+            <equals arg1="${drive}" arg2="" />
+        </not>
+    </condition>
+	<!-- Set properties based on OS -->
+	<condition property="cmd_name" value="${os.linux.cmdname}" else="${os.windows.cmdname}">
+		<os name="${os.linux.name}" />
+	</condition>
+	<condition property="cmd_switch" value="${os.linux.cmdswitch}" else="${os.windows.cmdswitch}">
+		<os name="${os.linux.name}" />
+	</condition>
+	<condition property="env_path" value="${env.PATH}" else="${env.Path}">
+		<os name="${os.linux.name}" />
+	</condition>
+	<!-- Set properties based on cmd line arguments -->
+	<condition property="full_path_linux" value="${os.linux.userbin}:${env_path}" else="${env_path}">	
+        <not>
+		    <equals arg1="${pythonversion}" arg2="" />
+	    </not>
+	</condition>
+	<condition property="full_path_windows" value="${os.windows.pythonlocationbase}${pythonversion};${os.windows.pythonlocationbase}${pythonversion}/Scripts;${env_path}" else="${env_path}">
+		<not>
+			<equals arg1="${pythonversion}" arg2="" />
+		</not>
+	</condition>
+	<condition property="full_path" value="${full_path_linux}" else="${full_path_windows}">
+		<os name="${os.linux.name}" />
+	</condition>
+    <condition property="create_symlink">
+        <and>
+            <os name="${os.linux.name}" />
+            <not>
+                <equals arg1="${pythonversion}" arg2="" />
+            </not>
+        </and>
+    </condition>
+	
+	<!-- Targets -->
+    <target name="info">
+        <echoproperties/>
+    </target>
+
+    <!-- Aliases -->
+    <target name="install" depends="install-cone"/>
+    <target name="develop" depends="develop-cone"/>
+    <target name="test" depends="run-bat"/>
+    <target name="doc" depends="doc-all"/>
+
+    <target name="clean">
+        <delete dir="${build.cone_install_path_abs}"/>
+        <delete dir="${build.bat_export_path_abs}"/>
+        <delete dir="${build.cone_pack_path_abs}"/>
+        <delete dir="${build.bat_pack_path_abs}"/>
+    </target>
+
+
+    <target name="svnversion">
+        <!--
         Call the revision update script without the revision argument
         so that the revision is reverted back to "" (this should make
         it so that the working copy has no modifications and the
         revision will be e.g. "1234" instead of "1234M".
         -->
-    <echo>Revert SVN revision in source/cone/__init__.py</echo>
-    <exec executable="python">
-      <arg value="update_svn_revision.py" />
-      <arg value="source/cone/__init__.py" />
-    </exec>
-    <echo>Determine current working copy revision</echo>
-    <exec executable="svnversion"
-          failifexecutionfails="false">
-      <redirector outputproperty="svn.version" />
-    </exec>
-    <echo>SVN revision: ${svn.version}</echo>
-  </target>
-  <target name="svninitupdate"
-          depends="svnversion">
-    <echo>Update SVN revision in __init__.py</echo>
-    <exec executable="python">
-      <arg value="update_svn_revision.py" />
-      <arg value="source/cone/__init__.py" />
-      <arg value="${svn.version}" />
-    </exec>
-  </target>
-  <target name="install-cone"
-          depends="svninitupdate">
-    <!--
+        <echo>Revert SVN revision in source/cone/__init__.py</echo>
+        <exec executable="python">
+            <arg value="update_svn_revision.py"/>
+            <arg value="source/cone/__init__.py"/>
+        </exec>
+
+        <echo>Determine current working copy revision</echo>
+        <exec executable="svnversion" failifexecutionfails="false">
+            <redirector outputproperty="svn.version"/>
+        </exec>
+        
+        <echo>SVN revision: ${svn.version}</echo>
+    </target>
+
+    <target name="svninitupdate" depends="svnversion">
+      <echo>Update SVN revision in __init__.py</echo>
+      <exec executable="python">
+        <arg value="update_svn_revision.py"/>
+        <arg value="source/cone/__init__.py"/>
+        <arg value="${svn.version}"/>
+      </exec>
+    </target>
+
+	<target name="_mount-drive" unless="os_is_linux" if="drive_defined">
+		<echo message="Mounting drive ${drive} on Windows" />
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="subst /D ${drive}" />
+		</exec>
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="subst ${drive} ." />
+		</exec>
+	</target>
+	
+    <target name="install-cone" depends="svninitupdate">
+        <!--
         <echo>$${build.cone_install_path}:     ${build.cone_install_path}</echo>
         <echo>$${build.cone_install_path_abs}: ${build.cone_install_path_abs}</echo>
         -->
-    <!-- Run the install script in build-scripts/ -->
-    <exec executable="python"
-          dir="${common.build_scripts_dir}"
-          failonerror="true">
-      <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"' />
-    </exec>
-    <!-- Revert the SVN revision so that it doesn't mark the working copy as modified needlessly -->
-    <echo>Revert SVN revision in source/cone/__init__.py</echo>
-    <exec executable="python">
-      <arg value="update_svn_revision.py" />
-      <arg value="source/cone/__init__.py" />
-    </exec>
-  </target>
-  <!--
-    Target for installing ConE so that it supports two Python versions.
+		
+		<!-- Linux: set the correct python version -->		
+		<antcall target="_create-python-version-symlink" />
+		<!-- Windows: mount drive -->
+		<antcall target="_mount-drive" />
+		
+        <echo message="OS: ${os.name}" />
+		<echo message="Python version:" />
+		<exec executable="${cmd_name}">
+            <env key="PATH" path="${full_path}" />
+            <arg value="${cmd_switch}" />
+            <arg value="python --version"/>
+        </exec>
+		
+		<!-- Run the install script in build-scripts/ -->
+		<echo message="Run ConE install script" />
+		<exec executable="${cmd_name}" dir="${build_scripts_dir}" failonerror="true">
+			<env key="PATH" value="${full_path}" />
+			<arg value="${cmd_switch}" />
+			<arg value='python install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"'/>
+		</exec>
+		
+        <!-- Revert the SVN revision so that it doesn't mark the working copy as modified needlessly -->
+        <echo>Revert SVN revision in source/cone/__init__.py</echo>
+        <exec executable="python">
+            <arg value="update_svn_revision.py"/>
+            <arg value="source/cone/__init__.py"/>
+        </exec>
+        <echo message="Done" />
+    </target>
+
+    <target name="build-cone" depends="svninitupdate">
+        <!-- Linux: set the correct python version -->      
+        <antcall target="_create-python-version-symlink" />
+        <!-- Windows: mount drive -->
+        <antcall target="_mount-drive" />
+        
+        <echo message="OS: ${os.name}" />
+        <echo message="Python version:" />
+        <exec executable="${cmd_name}">
+            <env key="PATH" path="${full_path}" />
+            <arg value="${cmd_switch}" />
+            <arg value="python --version"/>
+        </exec>
+        
+        <!-- Run the install script in build-scripts/ -->
+        <echo message="Run ConE install script" />
+        <exec executable="${cmd_name}" dir="${build_scripts_dir}" failonerror="true">
+            <env key="PATH" value="${full_path}" />
+            <arg value="${cmd_switch}" />
+            <arg value='python install_cone.py -i build --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"'/>
+        </exec>
+        
+        <!-- Revert the SVN revision so that it doesn't mark the working copy as modified needlessly -->
+        <echo>Revert SVN revision in source/cone/__init__.py</echo>
+        <exec executable="python">
+            <arg value="update_svn_revision.py"/>
+            <arg value="source/cone/__init__.py"/>
+        </exec>
+        <echo message="Done" />
+    </target>
+
+    <!--
+    Internal target for installing ConE on Windows so that it supports
+    two Python versions.
     
     Depends on two properties: build.dualversioninstall.path1 and
     build.dualversioninstall.path2 that must be set to the values of the PATH
     environment that contains the locations of the two Python installations.
     -->
-  <target name="install-cone-dualversion"
-          depends="svninitupdate">
-    <!-- Run the install script using the first Python version-->
-    <echo>Installing with first Python version (PATH=${build.dualversioninstall.path1})</echo>
-    <exec executable="python"
-          dir="${common.build_scripts_dir}"
-          failonerror="true">
-      <env key="PATH"
-           value="${build.dualversioninstall.path1}" />
-      <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"' />
-    </exec>
-    <!-- Run the install script using the second Python version-->
-    <echo>Installing with second Python version (PATH=${build.dualversioninstall.path2})</echo>
-    <exec executable="python"
-          dir="${common.build_scripts_dir}"
-          failonerror="true">
-      <env key="PATH"
-           value="${build.dualversioninstall.path2}" />
-      <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"' />
-    </exec>
-    <!-- Revert the SVN revision so that it doesn't mark the working copy as modified needlessly -->
-    <echo>Revert SVN revision in source/cone/__init__.py</echo>
-    <exec executable="python">
-      <arg value="update_svn_revision.py" />
-      <arg value="source/cone/__init__.py" />
-    </exec>
-  </target>
-  <target name="develop-cone">
-    <!-- Run the install script in build-scripts/ -->
-    <exec executable="python"
-          dir="${common.build_scripts_dir}"
-          failonerror="true">
-      <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}" --install-type develop' />
-    </exec>
-  </target>
-  <!--
+    <target name="_install-cone-dualversion-win" depends="svninitupdate" unless="os_is_linux">
+        <!-- Run the install script using the first Python version-->
+        <echo>Installing with first Python version (PATH=${build.dualversioninstall.path1})</echo>
+        <exec executable="python" dir="${build_scripts_dir}" failonerror="true">
+            <env key="PATH" value="${build.dualversioninstall.path1}"/>
+            <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"'/>
+        </exec>
+        
+        <!-- Run the install script using the second Python version-->
+        <echo>Installing with second Python version (PATH=${build.dualversioninstall.path2})</echo>
+        <exec executable="python" dir="${build_scripts_dir}" failonerror="true">
+            <env key="PATH" value="${build.dualversioninstall.path2}"/>
+            <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}"'/>
+        </exec>
+        
+        <!-- Revert the SVN revision so that it doesn't mark the working copy as modified needlessly -->
+        <echo>Revert SVN revision in source/cone/__init__.py</echo>
+        <exec executable="python">
+            <arg value="update_svn_revision.py"/>
+            <arg value="source/cone/__init__.py"/>
+        </exec>
+    </target>
+    
+    <!--
+    Internal target for installing ConE on Linux so that it supports
+    two Python versions.
+    
+    Depends on two properties: build.dualversioninstall.executable1 and
+    build.dualversioninstall.executable1 that must be set to the Python
+    executables to run the installation (e.g. python2.5 and python2.6)
+    -->
+    <target name="_install-cone-dualversion-linux" depends="svninitupdate" if="os_is_linux">
+        <echo>Installing with first Python version (executable=${build.dualversioninstall.executable1})</echo>
+        <exec executable="python" dir="${build_scripts_dir}" failonerror="true">
+            <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}" --python-executable="${build.dualversioninstall.executable1}"'/>
+        </exec>
+        
+        <echo>Installing with second Python version (executable=${build.dualversioninstall.executable2})</echo>
+        <exec executable="python" dir="${build_scripts_dir}" failonerror="true">
+            <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}" --python-executable="${build.dualversioninstall.executable2}"'/>
+        </exec>
+        
+        <!-- Revert the SVN revision so that it doesn't mark the working copy as modified needlessly -->
+        <echo>Revert SVN revision in source/cone/__init__.py</echo>
+        <exec executable="python">
+            <arg value="update_svn_revision.py"/>
+            <arg value="source/cone/__init__.py"/>
+        </exec>
+    </target>
+    
+    <target name="install-cone-dualversion" depends="_install-cone-dualversion-win,_install-cone-dualversion-linux"/>
+    
+    <target name="develop-cone">
+        <!-- Run the install script in build-scripts/ -->
+        <exec executable="python" dir="${build_scripts_dir}" failonerror="true">
+            <arg line='install_cone.py --target-dir="${build.cone_install_path_abs}" --plugin-package="${build.plugin_package}" --install-type develop'/>
+        </exec>
+    </target>
+
+    <!--
     Internal pack target for packing the ConE installation.
     The actual dependencies to cone-install and cone-install-dualversion are
     specified in the actual targets below.
     -->
-  <target name="_pack">
-    <!--
+    <target name="_pack">
+        <!--
         <echo>$${build.cone_pack_path}:     ${build.cone_pack_path}</echo>
         <echo>$${build.cone_pack_path_abs}: ${build.cone_pack_path_abs}</echo>
         -->
-    <echo message="Creating zip file" />
-    <mkdir dir="${build.cone_pack_path_abs}" />
-    <tstamp>
-      <format property="lastbuild"
-              pattern="yyyyMMddHHmmss" />
-    </tstamp>
-    <zip destfile="${build.cone_pack_path_abs}/ConE-${common.version}-${build.plugin_package}-${lastbuild}-${svn.version}.zip">
-      <fileset dir="${build.cone_install_path_abs}" />
-    </zip>
-  </target>
-  <!-- Actual pack targets -->
-  <target name="pack"
-          depends="install-cone">
-    <antcall target="_pack" />
-  </target>
-  <target name="pack-dualversion"
-          depends="install-cone-dualversion">
-    <antcall target="_pack" />
-  </target>
-  <target name="export-bat">
-    <!--
-        <echo>$${build.bat_export_path}:     ${build.bat_export_path}</echo>
-        <echo>$${build.bat_export_path_abs}: ${build.bat_export_path_abs}</echo>
-        -->
-    <!-- Run the export script in build-scripts/ -->
-    <exec executable="python"
-          dir="${common.build_scripts_dir}"
-          failonerror="true">
-      <arg value="export_bat.py" />
-      <arg value='--target-dir="${build.bat_export_path_abs}"' />
-      <arg value='--plugin-package="${build.plugin_package}"' />
-    </exec>
-  </target>
-  <target name="pack-bat"
-          depends="export-bat">
-    <echo message="Creating zip file" />
-    <mkdir dir="${build.bat_pack_path_abs}" />
-    <zip destfile="${build.bat_pack_path_abs}/ConE-BAT-${build.plugin_package}.zip">
-      <fileset dir="${build.bat_export_path_abs}" />
-    </zip>
-  </target>
-  <target name="run-bat"
-          depends="install-cone,export-bat">
-    <echo message="Moving ConE installation under BAT..." />
-    <move todir="${build.bat_export_path_abs}/cone">
-      <fileset dir="${build.cone_install_path_abs}" />
-    </move>
-    <echo message="Running tests..." />
-    <exec executable="python"
-          dir="${build.bat_export_path_abs}">
-      <arg value="runtests.py" />
-    </exec>
-  </target>
-  <target name="run-all-tests">
-    <echo message="Run all tests" />
-    <echo message="OS: ${os.name}" />
-    <echo message="Python version: ${pythonversion}" />
-    <subant buildpath="."
-            target="run-all-tests-linux" />
-    <subant buildpath="."
-            target="run-all-tests-windows" />
-  </target>
-  <target name="run-all-tests-linux"
-          if="os_is_linux">
-    <echo message="Change Python version" />
-    <echo message="ln -s -f /usr/bin/${pythonversion} ${os.linux.userbin}/python" />
-    <exec executable="ln">
-      <arg value="-s" />
-      <arg value="-f" />
-      <arg value="/usr/bin/${pythonversion}" />
-      <arg value="${os.linux.userbin}/python" />
-    </exec>
-    <echo message="Python version:" />
-    <exec executable="sh"
-          dir="./source">
-      <env key="PATH"
-           path="${os.linux.userbin}:${env.PATH}" />
-      <arg value="-c" />
-      <arg value="python --version" />
-    </exec>
-    <echo message="Run tests" />
-    <exec executable="sh"
-          dir="./source">
-      <env key="PATH"
-           path="${os.linux.userbin}:${env.PATH}" />
-      <arg value="-c" />
-      <arg value="python runtests.py --with-nose" />
-    </exec>
-  </target>
-  <target name="run-all-tests-windows"
-          unless="os_is_linux">
-    <echo message="Change Python version" />
-    <echo message="Python version:" />
-    <exec executable="cmd">
-      <env key="PATH"
-           path="${os.windows.pythonlocationbase}${pythonversion};${os.windows.pythonlocationbase}${pythonversion}/Scripts;${env.PATH}" />
-      <arg value="/c" />
-      <arg value="python --version" />
-    </exec>
-    <echo message="Run tests" />
-    <exec executable="cmd"
-          dir="./source">
-      <env key="PATH"
-           path="${os.windows.pythonlocationbase}${pythonversion};${os.windows.pythonlocationbase}${pythonversion}/Scripts;${env.PATH}" />
-      <arg value="/c" />
-      <arg value="python runtests.py --with-nose" />
-    </exec>
-  </target>
-  <import file="generatedoc-build.xml" />
+
+        <echo message="Creating zip file"/>
+        <mkdir dir="${build.cone_pack_path_abs}"/>
+
+        <tstamp>
+               <format property="lastbuild" pattern="yyyyMMddHHmmss"/>
+        </tstamp>
+
+        <zip destfile="${build.cone_pack_path_abs}/ConE-${common.version}-${build.plugin_package}-${lastbuild}-${svn.version}.zip">
+            <fileset dir="${build.cone_install_path_abs}"/>
+        </zip>
+    </target>
+    
+    <!-- Actual pack targets -->
+    <target name="pack" depends="install-cone">
+        <antcall target="_pack"/>
+    </target>
+    <target name="pack-dualversion" depends="install-cone-dualversion">
+        <antcall target="_pack"/>
+    </target>
+
+
+    <target name="export-bat">
+    	<!-- Linux: set the correct python version -->		
+		<antcall target="_create-python-version-symlink" />
+        <!-- Run the export script in build-scripts/ -->
+        <exec executable="${cmd_name}" dir="${build_scripts_dir}" failonerror="true">
+            <env key="PATH" value="${full_path}" />
+            <arg value="${cmd_switch}" />
+			<arg value='python export_bat.py --target-dir="${build.bat_export_path_abs}" --plugin-package="${build.plugin_package}"'/>
+        </exec>
+    </target>
+
+    <target name="pack-bat" depends="export-bat">
+        <echo message="Creating zip file"/>
+        <mkdir dir="${build.bat_pack_path_abs}"/>
+
+        <zip destfile="${build.bat_pack_path_abs}/ConE-BAT-${build.plugin_package}.zip">
+            <fileset dir="${build.bat_export_path_abs}"/>
+        </zip>
+    </target>
+    
+	<!-- Linux: Create a symbolic link to the Python version used -->
+    <target name="_create-python-version-symlink" if="create_symlink">
+		<echo message="Change Python version on Linux" />
+        <echo message="Deleting old symlink"/>        
+        <delete file="${os.linux.userbin}/python" />
+        <echo message="ln -s -f /usr/bin/${pythonversion} ${os.linux.userbin}/python" />
+        <exec executable="ln">
+		    <arg value="-s" />
+		    <arg value="-f" />
+		    <arg value="/usr/bin/${pythonversion}" />
+		    <arg value="${os.linux.userbin}/python" />
+	    </exec>
+    </target>
+
+    <target name="run-bat" depends="install-cone, export-bat">
+        <echo message="Running BAT tests..."/>
+  
+        <echo message="Moving ConE installation under BAT..."/>
+        <move todir="${build.bat_export_path_abs}/cone">
+            <fileset dir="${build.cone_install_path_abs}"/>
+        </move>
+		
+		<exec executable="${cmd_name}" dir="${build.bat_export_path_abs}">
+            <env key="PATH" path="${full_path}" />
+            <arg value="${cmd_switch}" />
+            <arg value="python runtests.py --with-nose"/>
+        </exec>
+    </target>
+
+
+    <target name="run-all-tests" depends="build-cone">
+		<echo message="Run all tests" />
+		<echo message="OS: ${os.name}" />
+		<!-- Linux: Set the correct Python version -->
+		<antcall target="_create-python-version-symlink" />
+		
+		<echo message="Python version:" />
+		<exec executable="${cmd_name}" dir="./source">
+			<env key="PATH" path="${full_path}" />
+			<arg value="${cmd_switch}" />
+			<arg value="python --version" />
+		</exec>
+		<echo message="Run tests" />
+		<exec executable="${cmd_name}" dir="./source">
+			<env key="PATH" path="${full_path}" />
+			<env key="PYTHONPATH" path="${cone_python_path}" />
+			<arg value="${cmd_switch}" />
+			<arg value="python runtests.py" />
+		</exec>
+    </target>
+	
+    <import file="generatedoc-build.xml"/>
 </project>

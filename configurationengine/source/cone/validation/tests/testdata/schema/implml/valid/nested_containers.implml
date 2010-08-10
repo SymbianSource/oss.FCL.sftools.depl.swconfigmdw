@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <tag name="target" value="foo"/>
+    
+    <container condition="${Foo.Bar}">
+        <phase name="pre"/>
+        
+        <dummy1 xmlns="http://www.dummy.com/dummy1">
+            <myElem>jee</myElem>
+        </dummy1>
+        
+        <dummy2 xmlns="http://www.dummy.com/dummy2">
+            <someElem>nested dummy 2</someElem>
+        </dummy2>
+    </container>
+    
+    <container condition="${Foo.Bar2}" value="test">
+        <phase name="normal"/>
+        
+        <dummy1 xmlns="http://www.dummy.com/dummy1">
+            <myElem>jee</myElem>
+        </dummy1>
+        
+        <container>
+            <outputSubDir value="foosub"/>
+            
+            <dummy1 xmlns="http://www.dummy.com/dummy1">
+                <myElem>still more nesting</myElem>
+            </dummy1>
+        </container>
+    </container>
+    
+    <dummy2 xmlns="http://www.dummy.com/dummy2">
+        <someElem>jee</someElem>
+    </dummy2>
+</container>

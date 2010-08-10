@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <!-- Duplicate tempVariable refs cannot be caught by schema validation, but
+         will be caught by model-level validation -->
+    <container>
+        <tempVariable ref="Temp.Foo"/>
+    </container>
+    
+    <container>
+        <tempVariable ref="Temp.Foo"/>
+    </container>
+</container>

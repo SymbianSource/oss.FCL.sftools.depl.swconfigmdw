@@ -178,6 +178,12 @@ Example
 	<argument value="--add-setting-file=c:\temp.txt" />
 	<argument value="${preinstallmeta.product}"/>
 
+NOTE! In CommandML localPath is handled as any other string, so don't expect the localPaths of file and folder settings
+to work directly. A localPath is just a string that references files and folders under the configuration project content
+(e.g. 'somedir/somefile.txt', which could physically be located under 'somelayer/content/somedir/somefile.txt').
+If you need an absolute path to the actual file, you need to obtain that yourself using the ConE API. You may
+also need to write the file to a temporary folder, since we might be generating from a CPF.
+
 <pipe> Element
 **************************
 

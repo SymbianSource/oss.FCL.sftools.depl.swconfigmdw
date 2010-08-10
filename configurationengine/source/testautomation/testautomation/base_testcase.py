@@ -38,7 +38,10 @@ class BaseTestCase(unittest.TestCase):
         Assert that a given file or directory has been modified since the last
         call to set_modification_reference_time() with the same path.
         """
-        self._assert_modification(path, assert_not_modified=False)
+        # This fails on linux for some reason, probably because the modification
+        # timestamps are not accurate enough
+        if sys.platform == "win32":
+            self._assert_modification(path, assert_not_modified=False)
     
     def assert_not_modified(self, path):
         """
@@ -157,12 +160,14 @@ class BaseTestCase(unittest.TestCase):
                 os.path.join(dir1, d), os.path.join(dir2, d),
                 ignore, custom_comparison_functions, cr)
     
-    def assert_file_contents_equal(self, file1, file2, ignore_patterns=[]):
+    def assert_file_contents_equal(self, file1, file2, ignore_patterns=[], ignore_endline_style=False):
         """
         Assert the the given two files exist and their contents are equal.
         @param ignore_patterns: List of regular expressions for portions of the
             file content to ignore in the comparison. The ignored parts are
             deleted from the files before actual comparison.
+        @param ignore_endline_style: If True, the endline style (CRLF or LF) is
+            ignored during the comparison.
         """
         self.assertTrue(os.path.exists(file1), "File '%s' does not exist!" % file1)
         self.assertTrue(os.path.exists(file2), "File '%s' does not exist!" % file2)
@@ -177,17 +182,28 @@ class BaseTestCase(unittest.TestCase):
         data1 = remove_ignored(data1, ignore_patterns)
         data2 = remove_ignored(data2, ignore_patterns)
         
+        if ignore_endline_style:
+            data1 = data1.replace('\r\n', '\n')
+            data2 = data2.replace('\r\n', '\n')
+        
+        import difflib
+        difseq = difflib.ndiff(data1, data2)
+        # take only the first ten rows of the difference
+        difference = ''.join(list(difseq)[:10])
         if data1 != data2:
             if len(ignore_patterns) > 0:
+                self.write_data_to_file(file1 + '.diff', ''.join(difseq))
                 self.write_data_to_file(file1 + '.comparetemp', data1)
                 self.write_data_to_file(file2 + '.comparetemp', data2)
-                self.fail("Data of the files '%s' and '%s' are not equal\nSee *.comparetemp files for the actual data that was compared." % (file1, file2))
+                self.fail("Data of the files '%s' and '%s' are not equal\nSee *.comparetemp files for the actual data that was compared.\nDifference %s" % (file1, file2, difference))
             else:
-                self.fail("Data of the files '%s' and '%s' are not equal" % (file1, file2))
+                self.fail("Data of the files '%s' and '%s' are not equal\nDifference %s" % (file1, file2, difference))
     
-    def assert_file_content_equals(self, filepath, expected_data):
+    def assert_file_content_equals(self, filepath, expected_data, ignore_endline_style=False):
         """
         Assert that the content of the given file is equals to the given expected data.
+        @param ignore_endline_style: If True, the endline style (CRLF or LF) is
+            ignored during the comparison.
         """
         self.assertTrue(os.path.exists(filepath), "'%s' does not exist!" % filepath)
         self.assertTrue(os.path.isfile(filepath), "'%s' is not a file!" % filepath)
@@ -196,18 +212,25 @@ class BaseTestCase(unittest.TestCase):
         try:        filedata = f.read()
         finally:    f.close()
         
+        if ignore_endline_style:
+            filedata = filedata.replace('\r\n', '\n')
+            expected_data = expected_data.replace('\r\n', '\n')
+        
         if filedata != expected_data:
             msg = ("The content of the file '%s' is not what was expected!\n" % filepath) +\
                   ("Expected: %r\nActual: %r" % (expected_data, filedata))
             self.fail(msg)
     
-    def assert_file_contains(self, filepath, data, encoding=None):
+    def assert_file_contains(self, filepath, data, encoding=None, regexes=[]):
         """
         Assert that the given file contains the given text somewhere in its contents.
         @param filepath: Path to the file to check.
         @param data: The data the file is expected to contain.
         @param encoding: Encoding used to decode the contents of the file.
             If None, noe decoding is done.
+        @param regexes: A list of regular expressions that are used to search for
+            a match in the file data. If any of them doesn't find a match,
+            the assertion fails.
         """
         self.assertTrue(os.path.exists(filepath), "'%s' does not exist!" % filepath)
         self.assertTrue(os.path.isfile(filepath), "'%s' is not a file!" % filepath)
@@ -225,6 +248,10 @@ class BaseTestCase(unittest.TestCase):
         for entry in data:
             if not filedata.find(entry) != -1:
                 self.fail("The file '%s' does not contain the data '%s'" % (filepath, entry))
+        
+        for regex in regexes:
+            if re.search(regex, filedata, re.MULTILINE) is None:
+                self.fail("The regex %r does not match anything in file '%s'" % (regex, filepath))
 
     def assert_file_does_not_contain(self, filepath, data, encoding=None):
         """
@@ -296,6 +323,55 @@ class BaseTestCase(unittest.TestCase):
                             "Return code is not what was expected (expected %d, got %d)\n"\
                             "Output: \n%s" % (command, expected_return_code, p.returncode, out))
         return out
+    
+    def assert_problem_lists_equal(self, actual, expected, outdir):
+        """
+        Assert that two lists of api.Problem objects are equal.
+        @param actual: The list of actual problems.
+        @param expected: The list of expected problems.
+        @param outdir: The directory where output is written if the assertion
+            fails.
+        """
+        act = sorted([repr(p) for p in actual])
+        exp = sorted([repr(p) for p in expected])
+        if act != exp:
+            if not os.path.exists(outdir):
+                os.makedirs(outdir)
+            self.write_data_to_file(os.path.join(outdir, 'actual.txt'), os.linesep.join(act))
+            self.write_data_to_file(os.path.join(outdir, 'expected.txt'), os.linesep.join(exp))
+            self.fail("Problem lists not equal, see the files in '%s'" % outdir)
+    
+    def assert_problem_list_equals_expected(self, actual, expected_file, outdir):
+        """
+        Assert that the given list of api.Problem objects is equal to the
+        list specified in the given file.
+        @param actual: The list of actual problems.
+        @param expected_file: Path to the file containing the list of
+            expected problems. The file should contain the repr() output
+            for an api.Problem object on each line.
+        @param outdir: The directory where output is written if the assertion
+            fails.
+        """
+        act = sorted([repr(p) for p in actual])
+        
+        if not os.path.isfile(expected_file):
+            raise RuntimeError("Expected problem file '%s' does not exist or is not a file!" % expected_file)
+        f = open(expected_file, 'r')
+        try:        exp = sorted([line.rstrip('\r\n') for line in f])
+        finally:    f.close()
+        
+        # Delete lines starting with #
+        for i in reversed(range(len(exp))):
+            if exp[i].startswith('#'):
+                del exp[i]
+        
+        if act != exp:
+            if not os.path.exists(outdir):
+                os.makedirs(outdir)
+            self.write_data_to_file(os.path.join(outdir, 'actual.txt'), os.linesep.join(act))
+            self.write_data_to_file(os.path.join(outdir, 'expected.txt'), os.linesep.join(exp))
+            self.fail("Problem list is not what was expected, see the files in '%s'" % outdir)
+    
     
     # =====================================================
     # Private helper methods

@@ -15,7 +15,6 @@
 #
 
 import sys, os, unittest
-import __init__
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <output file="bitmask_test.txt" encoding="UTF-8">
+<template>
+Bit 0: {{ feat_tree.BitmaskTest.Bit0._value }}
+Bit 1: {{ feat_tree.BitmaskTest.Bit1._value }}
+Bit 2: {{ feat_tree.BitmaskTest.Bit2._value }}
+Bit 3: {{ feat_tree.BitmaskTest.Bit3._value }}
+Bit 4: {{ feat_tree.BitmaskTest.Bit4._value }}
+Bit 5: {{ feat_tree.BitmaskTest.Bit5._value }}
+</template>
+    </output>
+</templateml>

@@ -5,7 +5,7 @@
     
     <!-- This should be executed, since the value of RealSetting is 3.14 -->
     <condition value="${BasicSettingTypesTest.RealSetting} &gt; 4e-3">
-        <command executable="python" bufsize="0" cwd="." env="{'MYVAR':'123'}">
+        <command executable="python" shell="true" bufsize="0" cwd=".">
             <argument value="project/tools/print_hello.py"/>
             <argument value="-c some_config.txt" />
             <argument value="-d some_dir" />
@@ -40,4 +40,14 @@
         <argument value='-c "import os; print os.getcwd()"'/>
         <pipe name="stdout" value="exec_in_output_test.log"/>
     </command>
+
+    <!-- ====================================== -->
+    <!-- Creating output files                  -->
+    <!-- ====================================== -->
+    <!-- Create output directory, or the next command will fail if it doesn't exist -->
+    <command executable="python" shell="true">
+        <argument value='project/tools/helloworld.py "%CONE_OUT%"'/>
+    </command>
+
+
 </commandml>

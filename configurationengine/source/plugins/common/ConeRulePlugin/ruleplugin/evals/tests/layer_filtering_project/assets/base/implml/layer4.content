@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/1">
+    <tag name="target" value="uda"/>
+    <input file="${content.outputfile}"/>
+    <output file="${content.inputfile}" someother="sss"/>
+</content>

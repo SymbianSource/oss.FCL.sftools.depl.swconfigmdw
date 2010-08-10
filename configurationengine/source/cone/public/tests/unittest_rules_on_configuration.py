@@ -14,33 +14,28 @@
 # Description: 
 #
 
-import operator as ops
 import unittest
-import sys, os
-import __init__
-import tokenize
-import StringIO
 
-from cone.public import api,exceptions, utils
-from cone.public.rules import ASTInterpreter, RelationContainerImpl
-from cone.public.rules import ParseException, DefaultContext, BaseRelation
+from cone.public import api,exceptions, plugin
+from cone.public.rules import RelationContainerImpl
+from cone.public.rules import DefaultContext, BaseRelation
 from cone.public import rules
 
 #### TEST RELATIONS ####
 
-AA_BA = 'a.a == "foo" requires b.b != 0'
-AB_BB = 'a.b configures b.b = a.b+":"+ "test"'
-BA_CA = 'b.a requires c.a and c.b and a.b'
+AA_BA = '${a.a} == "foo" requires ${b.b} != 0'
+AB_BB = '${a.b} configures ${b.b} = ${a.b}+":"+ "test"'
+BA_CA = '${b.a} requires ${c.a} and ${c.b} and ${a.b}'
 
-CB_DA = 'c.b requires d.a'
-DA_DB = 'd.a requires d.b'
+CB_DA = '${c.b} requires ${d.a}'
+DA_DB = '${d.a} requires ${d.b}'
 
-AC_AB_BA = 'a.c and a.a requires b.a'
+AC_AB_BA = '${a.c} and ${a.a} requires ${b.a}'
 
-EA_FSTAR = 'e.a requires f.*'
+EA_FSTAR = '${e.a} requires ${f.*}'
 
 TEST_RELATIONS = {
-    'a.a' : [AA_BA, 'a.a == "test" requires b.a'],
+    'a.a' : [AA_BA, '${a.a} == "test" requires ${b.a}'],
     'a.b' : [AB_BB],
     'a.c' : [AC_AB_BA],
     'b.a' : [BA_CA],
@@ -132,27 +127,40 @@ class ConfigurationContext(DefaultContext):
                 return eval(expression)
             except (NameError,SyntaxError), e:
                 return expression
-
+    
+    def convert_value(self, value):
+        try:
+            # Handle some special literals
+            if value == 'true':     return True
+            if value == 'false':    return False
+            if value == 'none':     return None
+            
+            # Values can be any Python literals, so eval() the string to
+            # get the value
+            return eval(value)
+        except Exception:
+            raise RuntimeError("Could not evaluate '%s'" % value)
+    
     def eval(self, ast, expression, value):
         #print "expression %s = %s" % (expression,value)
         pass
         
 class ConfigurationBaseRelation(BaseRelation):
     def __init__(self, data, left, right):
-        self.context = ConfigurationContext(data)
+        self.context = None
         super(ConfigurationBaseRelation, self).__init__(data, left, right)
 
 class RequireRelation(ConfigurationBaseRelation):
     KEY = 'requires'
     def __init__(self, data, left, right):
         super(RequireRelation, self).__init__(data, left, right)
-        self.context = ConfigurationContext(data)
+        self.context = None
 
 class ConfigureRelation(ConfigurationBaseRelation):
     KEY = 'configures'
     def __init__(self, data, left, right):
         super(ConfigureRelation, self).__init__(data, left, right)
-        self.context = ConfigurationContext(data)
+        self.context = None
 
 def handle_configure(self, left, right):
     if left and right:
@@ -169,8 +177,8 @@ class ConfigureExpression(rules.TwoOperatorExpression):
     KEY = 'configures'
     OP = handle_configure
 
-    def eval(self, context):
-        super(ConfigureExpression, self).eval(context)
+    def eval(self, context, **kwargs):
+        super(ConfigureExpression, self).eval(context, **kwargs)
         if not self.value:
             left_keys = []
             for ref in self.ast.extract_refs(str(self.left)):
@@ -193,20 +201,6 @@ class ConcatExpression(rules.TwoOperatorExpression):
     KEY= '+'
     OP = handle_plus
 
-
-class SetExpression(rules.TwoOperatorExpression):
-    PRECEDENCE = rules.PRECEDENCES['SET_OPERATORS']
-    KEY= '='
-    OP = handle_set
-
-    def eval(self, context):
-        try:
-            variable = context.data.get_feature(self.left.expression)
-            variable.set_value(self.right.eval(context))
-            return True
-        except exceptions.NotFound:
-            return False
-
 class TestRelations(unittest.TestCase):
 
     def setUp(self):
@@ -223,20 +217,10 @@ class TestRelations(unittest.TestCase):
         rules.RELATIONS[ConfigureRelation.KEY] = ConfigureRelation
         rules.OPERATORS[ConfigureExpression.KEY] = ConfigureExpression
         rules.OPERATORS[ConcatExpression.KEY] = ConcatExpression
-        rules.OPERATORS[SetExpression.KEY] = SetExpression
     
     def tearDown(self):
         rules.RELATIONS = self.RELATIONS_BACKUP
         rules.OPERATORS = self.OPERATORS_BACKUP
-
-    def test_has_ref(self):
-        """
-        Tests the relation and relation container
-        """
-        factory = TestFactory()
-        rels = factory.get_relations_for(self.configuration, 'a.a')
-        ret= rels.execute()
-        self.assertTrue(ret)
 
     def test_has_ref(self):
         """
@@ -257,7 +241,8 @@ class TestRelations(unittest.TestCase):
     def test_not_has_ref_in_container(self):
         factory = TestFactory()
         rels = factory.get_relations_for(self.configuration, 'c.b')
-        ret = rels.execute()
+        context = plugin.GenerationContext(configuration=self.configuration)
+        ret = rels.execute(context)
         self.assertFalse(ret)
 
     def test_two_on_the_left(self):
@@ -269,9 +254,16 @@ class TestRelations(unittest.TestCase):
     def test_configure_right_side(self):
         factory = TestFactory()
         rels = factory.get_relations_for(self.configuration, 'a.b')
-        ret = rels.execute()
+        context = plugin.GenerationContext(configuration=self.configuration)
+        ret = rels.execute(context)
         self.assertTrue(ret)
         self.assertEquals(self.configuration.get_default_view().get_feature('b.b').get_value(),'hey:test')
+
+    def test_get_refs_from_relation(self):
+        factory = TestFactory()
+        rels = factory.get_relations_for(self.configuration, 'a.b')
+        self.assertEquals(rels.value_list[0].get_refs(), [u'a.b'])
+        self.assertEquals(rels.value_list[0].get_set_refs(), [u'b.b'])
 
 if __name__ == '__main__':
     unittest.main()

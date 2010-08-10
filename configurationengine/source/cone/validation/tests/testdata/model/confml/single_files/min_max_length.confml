@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="MinMaxLength"  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <feature ref="MinMaxLengthOk" name="Min/max length validation test feature (values OK)">
+        <setting ref="Max" name="Max" type="string">
+            <xs:maxLength value="3"/>
+        </setting>
+        <setting ref="Min" name="Min" type="string">
+            <xs:minLength value="3"/>
+        </setting>
+        <setting ref="Exact" name="Exact" type="string">
+            <xs:length value="3"/>
+        </setting>
+        <setting ref="NoData" name="No data" type="string">
+            <xs:minLength value="3"/>
+        </setting>
+    </feature>
+    
+    <feature ref="MinMaxLengthNotOk" name="Min/max length validation test feature (values not OK)">
+        <setting ref="Max" name="Max" type="string">
+            <xs:maxLength value="3"/>
+        </setting>
+        <setting ref="Min" name="Min" type="string">
+            <xs:minLength value="3"/>
+        </setting>
+        <setting ref="Exact1" name="Exact 1" type="string">
+            <xs:length value="3"/>
+        </setting>
+        <setting ref="Exact2" name="Exact 2" type="string">
+            <xs:length value="3"/>
+        </setting>
+    </feature>
+    
+    <data>
+        <MinMaxLengthOk>
+            <Max>fo</Max>
+            <Min>foobar</Min>
+            <Exact>baz</Exact>
+        </MinMaxLengthOk>
+        
+        <MinMaxLengthNotOk>
+            <Max>foobar</Max>
+            <Min>ba</Min>
+            <Exact1>baztu</Exact1>
+            <Exact2>b</Exact2>
+        </MinMaxLengthNotOk>
+    </data>
+</configuration>

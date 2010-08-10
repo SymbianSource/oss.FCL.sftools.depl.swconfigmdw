@@ -25,7 +25,7 @@ import time
 
 from cone.public import api, plugin, utils, exceptions
 from time import gmtime, strftime
-import report_util
+from cone.report import report_util
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 VERSION = '1.0'
@@ -38,6 +38,11 @@ REPORT_SHORTCUTS = {
         'api_comparison.html',
         'Report changes in feature definitions'),
                        
+    'ci': report_util.ReportShortcut(
+        os.path.join(ROOT_PATH, 'compare_ci_report_template.html'),
+        'ci_comparison.html',
+        'Report changes in CustomisationInterface definitions'),
+
     'data': report_util.ReportShortcut(
         os.path.join(ROOT_PATH, 'compare_data_report_template.html'),
         'data_comparison.html',
@@ -56,6 +61,7 @@ REPORT_SHORTCUTS = {
 DEFAULT_SHORTCUT = 'data'
 
 def main():
+    """ Compare two configurations """
     shortcut_container = report_util.ReportShortcutContainer(REPORT_SHORTCUTS,
                                                              DEFAULT_SHORTCUT)
     

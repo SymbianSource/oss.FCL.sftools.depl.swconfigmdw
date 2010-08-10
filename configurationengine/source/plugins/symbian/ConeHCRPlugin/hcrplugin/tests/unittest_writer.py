@@ -15,7 +15,6 @@
 #
 
 import os, unittest
-import __init__
 
 from hcrplugin.hcrrepository import HcrRepository, HcrRecord
 from hcrplugin.hcr_writer import HcrWriter

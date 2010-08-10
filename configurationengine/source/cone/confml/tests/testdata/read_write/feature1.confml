@@ -96,6 +96,8 @@
         <SelectionSubSetting>1</SelectionSubSetting>
         <MultiSelectionSubSetting>"opt 2"</MultiSelectionSubSetting>
       </SequenceSetting>
+      
+      <FooBar empty="true"/>
     </Feature1>
   </data>
   

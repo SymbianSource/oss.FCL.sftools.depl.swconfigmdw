@@ -16,18 +16,18 @@
 
 import os
 import logging
-import pickle
 from optparse import OptionParser, OptionGroup
 import cone_common
-import generation_report
-from cone.public import api, plugin, utils, exceptions
+from cone.report import generation_report
 
 
 VERSION     = '1.0'
+ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 logger    = logging.getLogger('cone')
 
 def main():
+    """ Create report of existing report data. """
     parser = OptionParser(version="%%prog %s" % VERSION)
     
     parser.add_options(cone_common.COMMON_OPTIONS)
@@ -62,6 +62,16 @@ def main():
                    metavar="FILE",\
                    default="report.html")
     
+    group.add_option("--report-option",\
+                   action="append",
+                   help="Specifies the report verbose options, that defines "\
+                        "what data is included to the report. The option can be "\
+                        "used multiple times."\
+                        "choises=[default|all]"\
+                        "Example --report-option=all",
+                   metavar="OPTION",\
+                   default=[])
+
     group.add_option("-t", "--template",\
                    dest="template",\
                    action="store",
@@ -92,44 +102,22 @@ def main():
         parser.error("At least one input data file must be specified.")
     
     
-    class DataEntry(object):
-        def __init__(self, label, data):
-            self.label = label
-            self.data = data
     
     # Load all data files
-    data_entries = []
+    data_reports = []
     for data_file in files:
         print "Loading data file '%s'" % data_file
-        label = get_generation_run_label(data_file)
         data = generation_report.load_report_data(data_file)
-        data_entries.append(DataEntry(label, data))
+        data_reports.append(data)
     
     # Sort by time stamp
-    data_entries.sort(key=lambda entry: entry.data.generation_timestamp)
+    data_reports.sort(key=lambda entry: entry.generation_timestamp)
     
-    # Use the first data object as the main report data
-    main_entry = data_entries[0]
-    
-    # Merge the rest of the data objects into the main data
-    if len(data_entries) > 1:
-        # Update the generation_runs attribute of all implementations
-        # in the main data
-        for line in main_entry.data.lines:
-            for impl in line.impls:
-                impl.generation_runs = [main_entry.label]
-         
-        # Load other report data files and merge them to the main data object
-        for i in xrange(len(data_entries) - 1):
-            entry = data_entries[i + 1]
-            print "Merging data for '%s'" % entry.label
-            merge_report_data(main_entry.data, entry.data, entry.label)
- 
     # Generate the report
-    main_entry.data.report_filename = options.report
-    generation_report.generate_report(main_entry.data, options.report, options.template)
+    print "Generating report to '%s'" % options.report
+    generation_report.generate_report(data_reports, options.report, options.template, [ROOT_PATH], options.report_option)
     
-    print "Generated report to '%s'" % options.report
+    print "Done!'"
 
 def get_input_data_files(directory):
     files = []
@@ -138,69 +126,7 @@ def get_input_data_files(directory):
         if os.path.isfile(path):
             files.append(path)
     return files
-    
 
-def get_generation_run_label(datafile_path):
-    filename = os.path.split(datafile_path)[1]
-    filename_noext = os.path.splitext(filename)[0]
-    return filename_noext
-
-def get_feature(rep_data, ref):
-    for feat in rep_data.lines:
-        if feat.ref == ref:
-            return feat
-    raise RuntimeError("Feature '%s' not found in refs with impl" % ref)
-
-def get_impl(rep_data, ref, impl_name):
-    feat = get_feature(rep_data, ref)
-    for impl in feat.impls:
-        if impl.name == impl_name:
-            return impl
-    raise RuntimeError("Impl '%s' not found for feature '%s'" % (impl_name, ref))
-
-def merge_report_data(data, data_to_merge, generation_run_label):
-    impls_by_ref = {}
-    for feat in data.lines:
-        impls_dict = {}
-        impls_by_ref[feat.ref] = impls_dict
-        for impl in feat.impls:
-            impls_dict[impl.name] = impl
-    
-    for feat in data_to_merge.lines:
-        if feat.ref in impls_by_ref:
-            # Feature has implementations in both report data objects
-            # -------------------------------------------------------
-            impls_dict = impls_by_ref[feat.ref]
-            
-            for impl in feat.impls:
-                if impl.name in impls_dict:
-                    # Same implementation in both: add the generation run to merge to the impl
-                    impl = get_impl(data, feat.ref, impl.name)
-                    impl.generation_runs.append(generation_run_label)
-                else:
-                    # Implementation only in the data to merge: add to the main data
-                    impl = get_impl(data_to_merge, feat.ref, impl.name)
-                    impl.generation_runs = [generation_run_label]
-                    feat = get_feature(data, feat.ref)
-                    feat.impls.append(impl)
-                    feat.nbr_impls += 1
-        else:
-            # Feature has implementations only in the data to merge
-            # -----------------------------------------------------
-            
-            # Add the feature and impls to the main data
-            feat = get_feature(data_to_merge, feat.ref)
-            for impl in feat.impls:
-                impl.generation_runs = [generation_run_label]
-            data.lines.append(feat)
-            data.nbr_of_refs += 1
-            
-            # Remove from features with no impl in the main data
-            for i, noimpl_feat in enumerate(data.ref_noimpl):
-                if feat.ref == noimpl_feat.ref:
-                    del data.ref_noimpl[i]
-                    data.nbr_of_refs_noimpl -= 1
-                    break
 
 if __name__ == "__main__":
     main()

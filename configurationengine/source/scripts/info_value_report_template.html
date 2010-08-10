@@ -3,13 +3,13 @@
 {% block content %}
     <h1>Configuration data value info</h1><br>
 
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName">Name</th>
         <th class="featureName">Type</th>
         <th class="featureName">Possible values</th>
         {% for config in data.value_data.configs %}
-        <th class="featureName">{{ config.path }}</th>
+        <th class="featureName">{% if config.name %}{{config.name}} ({{ config.path }}){% else %}{{config.path}}{% endif %}</th>
         {% endfor %}
     </tr>
     {% for feature_group in data.value_data.feature_groups %}
@@ -39,14 +39,18 @@
                         {%- for column in value.columns -%}
                             <tr>
                             <td><b>{{ column.name }}</b></td>
-                            <td>{{ row[column.ref] }}</td>
+                            <td>{% if feature.ref+'.'+column.ref in config.refs %}<b>{% endif %}
+                            {{- row[column.ref] -}}
+                            {% if feature.ref+'.'+column.ref in config.refs %}</b>{% endif %}</td>
                             </tr>
                         {%- endfor -%}
                     {%- endfor -%}
                 </table>
                 {% endif %}
             {%- else -%}
+            	{% if feature.ref in config.refs %}<b>{% endif %}
                 {{- value -}}
+                {% if feature.ref in config.refs %}</b>{% endif %}
             {%- endif -%}
         </td>
         {% endfor %}
@@ -56,4 +60,9 @@
     {% endfor %}
     
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
 {% endblock %}

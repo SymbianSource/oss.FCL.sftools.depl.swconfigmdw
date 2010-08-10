@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1">
+    <output file="feat_tree_iteration_test.txt" encoding="UTF-8">
+        <template>
+{% for key, feature in feat_tree.Feature1|dictsort -%}
+{%- if not key.startswith('_') -%} 
+{%- if feature._value -%} 
+{{ feature._name }} = {{ feature._value }}
+{% endif -%}
+{% endif -%}
+{% endfor -%}
+        </template>
+    </output>
+</templateml>

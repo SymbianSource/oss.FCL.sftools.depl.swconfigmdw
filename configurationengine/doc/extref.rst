@@ -8,8 +8,10 @@ Configuration specifications
 
     configurationml085
 
-ConE API documentation
-----------------------
+.. _cone-api-epydoc:
+
+ConE API documentation (epydoc)
+-------------------------------
 
 * `Cone API epydoc <./epydoc/index.html>`_
 

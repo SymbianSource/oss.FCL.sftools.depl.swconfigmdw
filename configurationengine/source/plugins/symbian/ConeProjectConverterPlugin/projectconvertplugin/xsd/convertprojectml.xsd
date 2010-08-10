@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.s60.com/xml/convertprojectml/1" 
+    xmlns:cpml="http://www.s60.com/xml/convertprojectml/1" 
+    elementFormDefault="qualified">
+    
+    
+    <xs:complexType name="metaType">
+        <xs:sequence>
+            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="filterType">
+        <xs:attribute name="action" type="xs:string" use="required"/>
+        <xs:attribute name="data" type="xs:string" use="required"/>
+        <xs:attribute name="remove_includes" type="xs:string"/>
+        <xs:attribute name="recursive" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="fileType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="filter" type="cpml:filterType"/>
+            <xs:element name="meta" type="cpml:metaType"/>
+            <xs:element name="desc" type="xs:string"/>
+        </xs:choice>
+        <xs:attribute name="type" type="xs:string"/>
+        <xs:attribute name="path" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="folderType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="filter" type="cpml:filterType"/>
+        </xs:choice>
+        <xs:attribute name="path" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="layerType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="folder" type="cpml:folderType"/>
+            <xs:element name="file" type="cpml:fileType"/>
+        </xs:choice>
+        <xs:attribute name="path" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:complexType name="foreachType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="layer" type="cpml:layerType"/>
+        </xs:choice>
+        <xs:attribute name="variable" type="xs:string" use="required"/>
+        <xs:attribute name="data" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="targetProjectType">
+        <xs:attribute name="path" type="xs:string"/>
+    </xs:complexType>
+    
+    <xs:element name="convertprojectml">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="targetProject" type="cpml:targetProjectType" minOccurs="0" maxOccurs="1"/>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="layer" type="cpml:layerType"/>
+                    <xs:element name="foreach" type="cpml:foreachType"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

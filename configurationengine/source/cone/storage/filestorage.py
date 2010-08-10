@@ -26,13 +26,13 @@ except ImportError:
     except ImportError:
         try:
             from xml.etree import cElementTree as ElementTree
-        except ImpotError:
+        except ImportError:
             from xml.etree import ElementTree
             
 from cone.public import exceptions  
-from cone.public import api, utils
+from cone.public import api, utils, parsecontext
 #from cone.storage.configurationpersistence import ConfigurationReader, ConfigurationWriter
-from cone.storage import metadata, common
+from cone.storage import metadata, common, zipstorage
 from cone.confml import persistentconfml
 debug = 0
 
@@ -43,12 +43,10 @@ class FileStorage(common.StorageBase):
     @param mode: the mode for the folder. Default is a=append that expects the folder to exist.
     """
     
-    def __init__(self,path,mode="r", **kwargs):
-        super(FileStorage, self).__init__(path)
-        self.logger = logging.getLogger('cone')
-        self.logger.debug("FileStorage path %s" % self.get_path())
+    def __init__(self, path, mode="r", **kwargs):
+        super(FileStorage, self).__init__(path, mode)
+        logging.getLogger('cone').debug("FileStorage path %s" % self.get_path())
         self.persistentmodule = persistentconfml
-        self.mode = mode
         if mode.find("a")!=-1 or mode.find("r")!=-1:
             # check that the given folder exists and is a folder    
             if not os.path.isdir(self.get_path()):
@@ -151,7 +149,7 @@ class FileStorage(common.StorageBase):
         return entry
 
 
-    def list_resources(self,path,recurse=False,empty_folders=False):
+    def list_resources(self, path, **kwargs):
         """
         Get an array of files in a folder
         """
@@ -162,16 +160,20 @@ class FileStorage(common.StorageBase):
         joined = os.path.join(self.get_path(), self.get_current_path())
         current_root = os.path.normpath(os.path.abspath(joined))
         # return always unix type file paths
-        if recurse:    
+        if kwargs.get('recurse', False):    
             # Walk through all files in the layer
             for root, dirs, files in os.walk(fullpath):
+                # ensure that the directories and files are returned
+                # with alphabetical sorting in all platforms (e.g linux)
+                dirs.sort()
+                files.sort()
                 for name in files:
                     entry = os.path.join(root, name)
                     entry = os.path.normpath(os.path.abspath(entry))
                     if os.path.isfile(entry):
                         retarray.append(self.fix_entry(entry,current_root))
                         
-                if empty_folders: 
+                if kwargs.get('empty_folders', False): 
                     for name in dirs:
                         entry = os.path.join(root, name)
                         entry = os.path.normpath(os.path.abspath(entry))
@@ -179,7 +181,7 @@ class FileStorage(common.StorageBase):
                             retarray.append(self.fix_entry(entry,current_root))
                         
         else:
-            filelist = os.listdir(fullpath)
+            filelist = sorted(os.listdir(fullpath))
             for name in filelist:
                 entry = os.path.join(path, name)
                 entry = os.path.normpath(entry)
@@ -191,7 +193,7 @@ class FileStorage(common.StorageBase):
                     if debug: print "list_resources adding %s" % entry
                     retarray.append(entry)
                     
-                if os.path.isdir(fileentry) and empty_folders:
+                if os.path.isdir(fileentry) and kwargs.get('empty_folders', False):
                     if debug: print "list_resources adding %s" % entry
                     retarray.append(entry)
         return retarray
@@ -217,11 +219,19 @@ class FileStorage(common.StorageBase):
                 logging.getLogger('cone').warning("The given path is not a Resource in this storage %s! Ignoring from export!" % path)
                 continue
             if self.is_resource(path):
-                wres = storage.open_resource(path,'wb')
-                res  = self.open_resource(path,"rb")
-                wres.write(res.read())
-                wres.close()
-                res.close()
+                # Optimization for direct file to ZIP export.
+                # There's no need to juggle the data through ConE code
+                # when we can just write the file directly into the ZIP
+                if isinstance(storage, zipstorage.ZipStorage):
+                    source_abspath = os.path.join(self.rootpath, path)
+                    logging.getLogger("cone").debug("Exporting directly from file to ZIP: %r -> %r" % (source_abspath, path))
+                    storage.zipfile.write(source_abspath, path)
+                else:
+                    wres = storage.open_resource(path,'wb')
+                    res  = self.open_resource(path,"rb")
+                    wres.write(res.read())
+                    wres.close()
+                    res.close()
                 
                 
             if  self.is_folder(path) and  empty_folders:
@@ -235,7 +245,7 @@ class FileStorage(common.StorageBase):
         Create a folder entry to a path
         @param path : path to the folder
         """
-        
+        path = utils.resourceref.remove_begin_slash(path)
         path = utils.resourceref.join_refs([self.get_path(), self.get_current_path(), path])
         if not os.path.exists(path):
             os.makedirs(path)
@@ -289,13 +299,15 @@ class FileStorage(common.StorageBase):
         if self.is_resource(path):
             res = self.open_resource(path,"r")
             # read the resource with persistentmodule
+            parsecontext.get_confml_context().current_file = path
             try:
                 obj = self.persistentmodule.loads(res.read())
                 #obj.set_path(path)
                 res.close()
                 return obj
             except exceptions.ParseError,e:
-                logging.getLogger('cone').error("Resource %s parsing failed with exception: %s" % (path,e))
+                parsecontext.get_confml_context().handle_exception(e)
+                #logging.getLogger('cone').error("Resource %s parsing failed with exception: %s" % (path,e))
                 # returning an empty config in case of xml parsing failure.
                 return api.Configuration(path)
         else:
@@ -345,6 +357,6 @@ class FileResource(api.Resource):
         data = self.handle.read()
         self.handle.seek(orig_pos, os.SEEK_SET)
         if self.content_info == None:
-            self.content_info = utils.make_content_info(self, data)
+            self.content_info = api.make_content_info(self, data)
         
         return self.content_info

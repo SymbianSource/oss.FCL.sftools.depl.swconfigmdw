@@ -86,6 +86,8 @@ class CrmlAccess(_CrmlObjectBase):
         self.cap_wr = kwargs.get('cap_wr')
         self.sid_rd = kwargs.get('sid_rd')
         self.sid_wr = kwargs.get('sid_wr')
+        self.line_rd = kwargs.get('line_rd')
+        self.line_wr = kwargs.get('line_wr')
 
 
 class CrmlRepository(_CrmlObjectBase):
@@ -122,6 +124,7 @@ class CrmlKeyBase(object):
         self.backup     = kwargs.get('backup', False)
         self.read_only  = kwargs.get('read_only', False)
         self.access     = kwargs.get('access', CrmlAccess())
+        self.line       = kwargs.get('line', None)
 
 class CrmlSimpleKey(CrmlKeyBase, _CrmlObjectBase):
     SIMPLE_EQ_VARNAMES = ['ref', 'name', 'int', 'type', 'backup', 'read_only', 'access']
@@ -174,6 +177,7 @@ class CrmlBit(_CrmlObjectBase):
             self.invert = kwargs.get('invert', False)
         except KeyError, e:
             raise ValueError("Mandatory argument '%s' not given!" % e.message)
+        self.line = kwargs.get('line')
 
 class CrmlKeyRange(CrmlKeyBase, _CrmlObjectBase):
     SIMPLE_EQ_VARNAMES = ['ref', 'name', 'first_int', 'last_int', 'first_index', 'index_bits', 'count_int', 'backup', 'read_only', 'access', 'subkeys']
@@ -219,4 +223,5 @@ class CrmlKeyRangeSubKey(_CrmlObjectBase):
             self.name   = kwargs.get('name')
         except KeyError, e:
             raise ValueError("Mandatory argument '%s' not given!" % e.message)
+        self.line = kwargs.get('line')
     

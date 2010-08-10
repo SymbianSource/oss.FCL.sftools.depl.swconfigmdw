@@ -20,7 +20,6 @@ Test the configuration
 import unittest
 import string
 import sys,os
-import __init__
 
 from cone.public import api,exceptions,utils, container
 
@@ -35,13 +34,6 @@ class TestData(unittest.TestCase):
         self.assertEquals(data.attr,'data')
         data = api.Data(fqr="foo.bar", value=123, attr='data')
         self.assertEquals(data.attr,'data')
-
-    def test_create_data_with_map(self):
-        data = api.Data(ref="StringToString", map="StringToStringSequenceFeature/SequenceSetting[@key='Key 1']")
-        self.assertEqual(data.get_map(),"StringToStringSequenceFeature/SequenceSetting[@key='Key 1']")
-        self.assertEqual(data.get_map_ref(),"StringToStringSequenceFeature/SequenceSetting")
-        self.assertEqual(data.get_map_key_value(),"Key 1")
-        self.assertTrue(data)
 
     def test_create_data_getters(self):
         data = api.Data(ref="foo", value=123)

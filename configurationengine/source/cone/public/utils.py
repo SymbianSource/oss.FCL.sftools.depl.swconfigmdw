@@ -17,16 +17,17 @@
 
 import os
 import re
+import posixpath
 import StringIO
 import tokenize
 import inspect
 import traceback
 import logging
+import shlex
+from xml.parsers import expat
 import imghdr
 from token import ENDMARKER, NAME, NUMBER, STRING
-import api
-import mimetypes
-import exceptions
+from cone.public import exceptions
 
 import _etree_wrapper
 etree = _etree_wrapper.ElementTreeWrapper()
@@ -61,10 +62,10 @@ class resourceref(object):
     
     @classmethod
     def remove_begin_slash(cls, ref):
-        if ref.startswith('/'): 
-            return ref.replace('/', '', 1)
+        while ref.startswith('/'): 
+            ref = ref.replace('/', '', 1)
         return ref
-
+    
     @classmethod
     def remove_end(self, path, str):
         try:
@@ -98,7 +99,9 @@ class resourceref(object):
         # Do not modify emtpy string at all
         if not ref == '':
             normref = os.path.normpath(ref)
-            normref = normref.replace('\\','/').replace('"','').replace('//','/')
+            normref = normref.replace('\\','/').replace('"','')
+            normref = posixpath.normpath(normref)
+            normref = normref.rstrip('\\/')
         else:
             normref = ref
         return normref
@@ -193,17 +196,17 @@ class resourceref(object):
     def get_filename(cls, ref):
         """
         get file name part from ref 
-        1. get file extension
-        @return: a reference. E.g. (foo/test.confml) => confml
+        1. get file name
+        @return: a reference. E.g. (foo/test.confml) => test.confml
         """
         return ref.rsplit('/', 1)[-1]
 
     @classmethod
     def get_path(cls, ref):
         """
-        get file name part from ref 
-        1. get file extension
-        @return: a reference. E.g. (foo/test.confml) => confml
+        get path part from ref 
+        1. get path from ref
+        @return: a reference. E.g. (foo/test.confml) => foo
         """
         if len(ref.rsplit('/', 1)) == 2: 
             return ref.rsplit('/', 1)[0]
@@ -232,6 +235,9 @@ class resourceref(object):
         @return: a dotted reference. E.g. (foo/test.confml) => foo_test
         """
         ref = ref.replace('/', '__')
+        # Change the python comment character also as underscore so that the tokenizer 
+        # does not leave anything out
+        ref = ref.replace('#', '_')
         newref = ''
         first_token = True
         try:
@@ -273,6 +279,16 @@ class resourceref(object):
         @return: 
         """
         return "%s" % hex(hash(ref))
+
+    @classmethod
+    def is_path(cls, ref):
+        """
+        returns true if the ref seems like a path
+        @return: Boolean value [True|False]
+        """
+        if cls.get_ext(ref) or cls.get_path(ref):
+            return True
+        return False
 
 class dottedref(object):
     """
@@ -378,6 +394,28 @@ class dottedref(object):
                 elems.append(refelem.replace("*","[^\.]*"))
         return "\\.".join(elems)+"$"
     
+    @classmethod
+    def has_wildcard(cls, ref):
+        """
+        Tests if the ref has any wildcards '*' in it.
+        @return: Boolean value. True when wildcards are found.
+        """
+        return ref.find('*') != -1
+
+    @classmethod
+    def get_static_ref(cls, ref):
+        """
+        Checks if the ref has any wildcards and return the non wildcard part of ref.
+        @return: string.
+        """
+        retparts = []
+        for part in cls.split_ref(ref):
+            if cls.has_wildcard(part):
+                break
+            else:
+                retparts.append(part)
+        return ".".join(retparts)
+
 def extract_delimited_tokens(string, delimiters=('${', '}')):
     """
     Return a list of all tokens delimited by the given strings in the given string.
@@ -388,7 +426,7 @@ def extract_delimited_tokens(string, delimiters=('${', '}')):
     ['my.ref1', 'my.ref2']
     """
     ref_tuples = extract_delimited_token_tuples(string, delimiters)
-    return distinct_array([ref for ref, raw_ref in ref_tuples])
+    return distinct_array([u'%s' % ref for ref, raw_ref in ref_tuples])
 
 def extract_delimited_token_tuples(string, delimiters=('${', '}')):
     """
@@ -443,19 +481,26 @@ def expand_delimited_tokens(string, expander_func, delimiters=('${', '}')):
             result = result.replace(raw_token, entry.value)
     return result
 
-def expand_refs_by_default_view(string, default_view, delimiters=('${', '}'), default_value_for_missing=''):
+def expand_refs_by_default_view(string, default_view, delimiters=('${', '}'), default_value_for_missing='',
+                                catch_not_found=True):
     """
     Convenience function for expanding the refs in a string using setting values.
     @param default_value_for_missing: The default value used if a setting for
-        a reference cannot be found.
+        a reference cannot be found. Has no effect if catch_not_found is False.
+    @param catch_not_found: If True, the NotFound exception raised when a setting
+        is not found is caught and the value of default_value_for_missing is inserted
+        in its place.
     @return: The expanded string.
     """
     def expand(ref, index):
-        try:
+        if catch_not_found:
+            try:
+                return default_view.get_feature(ref).get_original_value()
+            except exceptions.NotFound:
+                logging.getLogger('cone').error("Feature '%s' not found" % ref)
+                return default_value_for_missing
+        else:
             return default_view.get_feature(ref).get_original_value()
-        except exceptions.NotFound:
-            logging.getLogger('cone').error("Feature '%s' not found" % ref)
-            return default_value_for_missing
     return expand_delimited_tokens(string, expand, delimiters)
 
 def distinct_array(arr):
@@ -527,6 +572,15 @@ def prepend_list(elem, prepend):
 def is_list(elem):
     return isinstance(elem, list)
 
+def is_float(value):
+    """
+    Test if the fiven value (which can be a string) is a floating point value. 
+    """
+    fvalue = float(value)
+    ivalue = int(fvalue)
+    
+    return (fvalue - ivalue) != 0
+
 def get_class(modelinstance, classinstance):
     """
     Get the actual model specific implementation class for a classinstance
@@ -538,31 +592,40 @@ def get_class(modelinstance, classinstance):
                 return modelclass
     return classinstance
 
-class DataMapRef(object):
-    """
-    Utility class for handling map attributes in data section
-    """
-    @classmethod
-    def get_feature_ref(cls, map):
-        index = map.find("@")
-        if index != -1:
-            parts = map.split("@")
-            return parts[0][:-1]
+class OProperty(object):
+    """Based on the emulation of PyProperty_Type() in Objects/descrobject.c
+    from http://infinitesque.net/articles/2005/enhancing%20Python%27s%20property.xhtml"""
+    def __init__(self, fget=None, fset=None, fdel=None, doc=None):
+        self.fget = fget
+        self.fset = fset
+        self.fdel = fdel
+        self.__doc__ = doc
+ 
+    def __get__(self, obj, objtype=None):
+        if obj is None:
+            return self
+        if self.fget is None:
+            raise AttributeError, "unreadable attribute"
+        if self.fget.__name__ == '<lambda>' or not self.fget.__name__:
+            return self.fget(obj)
         else:
-            return None
-        
-    @classmethod
-    def get_key_value(cls, map):
-        index = map.find("@")
-        if index != -1:
-            parts = map.split("@")
-            key = parts[1][:-1]
-            keys = key.split("=")
-            value = keys[1].strip()
-            return value[1:-1]
+            return getattr(obj, self.fget.__name__)()
+ 
+    def __set__(self, obj, value):
+        if self.fset is None:
+            raise AttributeError, "can't set attribute"
+        if self.fset.__name__ == '<lambda>' or not self.fset.__name__:
+            self.fset(obj, value)
         else:
-            return None
-        
+            getattr(obj, self.fset.__name__)(value)
+ 
+    def __delete__(self, obj):
+        if self.fdel is None:
+            raise AttributeError, "can't delete attribute"
+        if self.fdel.__name__ == '<lambda>' or not self.fdel.__name__:
+            self.fdel(obj)
+        else:
+            getattr(obj, self.fdel.__name__)()
 
 class xml(object):
     """
@@ -585,6 +648,56 @@ class xml(object):
         else:
             return (None, xml_tag)
 
+    @classmethod
+    def get_xml_root(cls, resource):
+        """
+        Get a (namespace, tag) tuple of the root element in the XML data
+        read from the given resource.
+        
+        @param resource:  The resource from which to read data. Should be a
+            file-like object (i.e. should have a read() method).
+        @return: A (namespace, tag) tuple. Note that the namespace may
+            be None.
+        
+        @raise exceptions.XmlParseError: The resource contains invalid XML data.
+        """
+        class RootElementFound(RuntimeError):
+            def __init__(self, root_name):
+                self.root_name = root_name
+        
+        def handle_start(name, attrs):
+            raise RootElementFound(name)
+        
+        p = expat.ParserCreate(namespace_separator=':')
+        p.StartElementHandler = handle_start
+        
+        BUFSIZE = 128
+        while True:
+            data = resource.read(BUFSIZE)
+            try:
+                p.Parse(data, len(data) < BUFSIZE)
+            except RootElementFound, e:
+                parts = e.root_name.rsplit(':', 1)
+                if len(parts) > 1:
+                    return parts[0], parts[1]
+                else:
+                    return None, parts[0]
+            except expat.ExpatError, e:
+                raise exceptions.XmlParseError(
+                    "XML parse error on line %d: %s" % (e.lineno, e),
+                    e.lineno, str(e))
+
+def update_dict(todict, fromdict):
+    """
+    Merges the elements of two dictionaries together.
+    @param todict: the target dictionary where data is merged. 
+    @param fromdict: the source dict where data is read 
+    @return: the modified todict.  
+    """
+    for key in fromdict:
+        todict.setdefault(key, []).extend(fromdict[key])
+    return todict
+
 def log_exception(logger, msg, msg_level=logging.ERROR, traceback_level=logging.DEBUG):
     """
     Log an exception so that the given message and the exception's
@@ -600,22 +713,85 @@ def log_exception(logger, msg, msg_level=logging.ERROR, traceback_level=logging.
     logger.log(msg_level, msg)
     logger.log(traceback_level, traceback.format_exc())
 
-def make_content_info(resource, data):
+
+def grep(string,list):
     """
-    Factory for ContentInfo
+    Grep throught the items in the given list to find matching entries. 
     """
-    cnt_inf = None
+    expr = re.compile(string)
+    return filter(expr.search,list)
+
+def grep_tuple(string,list):
+    """
+    Grep throught the items in the given list to find matching entries. 
+    @return: a list of tuples (index,text) 
+    """
+    results = []
+    expr = re.compile(string)
+    for (index,text) in enumerate(list):
+        match = expr.search(text)
+        if match != None:
+            results.append((index,match.string))
+    return results
+
+def grep_dict(string,list):
+    """
+    Grep throught the items in the given list to find matching entries. 
+    @return: a dictionary with list index as key and matching text as value.
+    """
+    results = {}
+    expr = re.compile(string)
+    for (index,text) in enumerate(list):
+        match = expr.search(text)
+        if match != None:
+            results[index]  = match.string
+    return results
+
+def cmdsplit(s, comments=False, os_name='nt'):
+    """
+    Copy of shlex split method to allow parsing of command line parameters in operating system specific mode.
     
-    if resource != None:
-        guessed_type = mimetypes.guess_type(resource.get_path())
-        mimetype = None
-        mimesubtype = None
-        
-        if guessed_type != None:
-            mimetype, mimesubtype = guessed_type[0].split('/') 
-        
-        if mimetype == 'image' and mimesubtype == 'x-ms-bmp':
-            cnt_inf = api.BmpImageContentInfo(resource, data)
+    """
+    posix = True
+    lex = shlex.shlex(s, posix=posix)
+    lex.whitespace_split = True
+    if not comments:
+        lex.commenters = ''
+    if os_name == 'nt':
+        lex.escape = '^'
+    return list(lex)
+
+
+import sys
+sys_version = "%d.%d" % (sys.version_info[0],sys.version_info[1])
+if sys_version >= "2.6":
+    def relpath(path, start=os.curdir):
+        return os.path.relpath(path, start)
+else:
+    def relpath(path, start=os.curdir):
+        """Return a relative version of a path"""
+    
+        if not path:
+            raise ValueError("no path specified")
+        start_list = os.path.abspath(start).split(os.sep)
+        path_list = os.path.abspath(path).split(os.sep)
+        if start_list[0].lower() != path_list[0].lower():
+            unc_path, rest = os.path.splitunc(path)
+            unc_start, rest = os.path.splitunc(start)
+            if bool(unc_path) ^ bool(unc_start):
+                raise ValueError("Cannot mix UNC and non-UNC paths (%s and %s)"
+                                                                    % (path, start))
+            else:
+                raise ValueError("path is on drive %s, start on drive %s"
+                                                    % (path_list[0], start_list[0]))
+        # Work out how much of the filepath is shared by start and path.
+        for i in range(min(len(start_list), len(path_list))):
+            if start_list[i].lower() != path_list[i].lower():
+                break
         else:
-            cnt_inf = api.ContentInfo(mimetype, mimesubtype)
-    return cnt_inf
+            i += 1
+    
+        rel_list = [os.pardir] * (len(start_list)-i) + path_list[i:]
+        if not rel_list:
+            return os.curdir
+        return os.path.join(*rel_list) 

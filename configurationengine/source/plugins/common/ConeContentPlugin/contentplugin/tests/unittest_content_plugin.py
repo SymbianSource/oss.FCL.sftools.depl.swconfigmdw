@@ -18,8 +18,7 @@ import unittest
 import os, shutil
 import sys
 import logging
-import __init__
-		
+
 from cone.public import exceptions,plugin,api,container
 from cone.storage import filestorage
 from contentplugin import contentml
@@ -103,7 +102,6 @@ class TestContentPluginOnFileStorage(unittest.TestCase):
         impls = plugin.ImplFactory.get_impls_from_file(resource_ref, configuration)
         self.assertEquals(len(impls), 1)
         impl = impls[0]
-        impl.set_output_root(self.output)
         return impl
 
     def test_configuration_parse_resource(self):
@@ -142,24 +140,25 @@ class TestContentPluginOnFileStorage(unittest.TestCase):
     def test_configuration_content_get_full_copy_list(self):
         impl = self.load_impl('assets/s60/implml/copy_files.content')
         files = impl.get_full_copy_list()
-        self.assertEquals(files[0],('family/content/test/override.txt', 'output/content/test/override.txt', False))
+        self.assertEquals(files,
+            [('assets/s60/content/test/s60.txt', 'content/test/s60.txt', False),
+             ('family/content/test/override.txt', 'content/test/override.txt', False)])
 
     def test_configuration_content_list_output_files(self):
         config = self.load_config()
         impls = plugin.get_impl_set(config,'\.content$')
-        impls.output = self.output
         files = impls.list_output_files()
-        self.assertTrue('output/content/test/override.txt' in files)
+        self.assertTrue('content/test/override.txt' in files)
 
     def test_configuration_content_list_output_files_with_refs_filter(self):
         impl = self.load_impl('assets/s60/implml/test_content_with_sequence_refs.content')
         files = impl.list_output_files()
-        self.assertEquals(files[0],'output/content/override.txt')
+        self.assertEquals(files[0],'content/override.txt')
 
     def test_configuration_content_list_output_files_with_exclude_filter(self):
         impl = self.load_impl('assets/s60/implml/test_filter_both.content')
         files = impl.list_output_files()
-        self.assertEquals(files[0],'output/content/prodX/jee/ProdX_specific.txt')
+        self.assertEquals(files[0],'content/prodX/jee/ProdX_specific.txt')
 #
     def test_configuration_get_input_with_ref(self):
         impl = self.load_impl('assets/s60/implml/test_content_with_refs.content')
@@ -169,69 +168,71 @@ class TestContentPluginOnFileStorage(unittest.TestCase):
     def test_configuration_get_include_with_refs(self):
         impl = self.load_impl('assets/s60/implml/test_content_with_sequence_refs.content')
         self.assertEquals(impl.outputs[0].inputs[0].include['files'], ['test/override.txt'])
-        self.assertEquals(impl.list_output_files(), ['output/content/override.txt'])
+        self.assertEquals(impl.list_output_files(), ['content/override.txt'])
 
-    def test_configuration_get_include_with_refs(self):
+    def test_configuration_get_include_with_refs2(self):
         impl = self.load_impl('assets/s60/implml/copy.content')
-        expected = ['output/content/prodX/jee/ProdX_specific.txt', 
-                    'output/content/test/shout.txt', 
-                    'output/content/test/override.txt', 
-                    'output/content/test/s60.txt',
-                    'output/content/test/test_CAP_letters.txt']
+        expected = ['content/prodX/jee/ProdX_specific.txt', 
+                    'content/test/shout.txt', 
+                    'content/test/override.txt', 
+                    'content/test/s60.txt',
+                    'content/test/test_CAP_letters.txt']
         actual = impl.list_output_files()
         self.assertEquals(sorted(actual), sorted(expected))
 
     def test_configuration_content_create_output(self):
         impl = self.load_impl('assets/s60/implml/copy.content')
-        impl.set_output_root(self.output)
         impl.logger.setLevel(logging.DEBUG)
         impl.create_output()
-        self.assertTrue(os.path.exists(impl.output))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'content/prodX/jee/ProdX_specific.txt')))
+        self.assertTrue(os.path.exists(os.path.join(self.output,'content/prodX/jee/ProdX_specific.txt')))
 
     def test_configuration_content_generate(self):
         config = self.load_config()
         impls = plugin.get_impl_set(config,'\.content$')
-        impls.output = self.output
-        results = impls.generate()
+        context = plugin.GenerationContext(output=self.output)
+        results = impls.generate(context)
         self.assertTrue(os.path.exists(impls.output))
-        self.assertTrue(os.path.exists(os.path.join(impls.output,'content/prodX/jee/ProdX_specific.txt')))
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content/prodX/jee/ProdX_specific.txt')))
 
     def test_configuration_content_generate_with_include_refs(self):
         impl = self.load_impl('assets/s60/implml/test_content_with_sequence_refs.content')
-        impl.set_output_root(self.output)
-        results = impl.generate()
-        self.assertTrue(os.path.exists(impl.output))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'content/override.txt')))
+        context = plugin.GenerationContext(output=self.output)
+        results = impl.generate(context)
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content/override.txt')))
+
+    def test_configuration_content_generate_with_external_input(self):
+        impl = self.load_impl('assets/s60/implml/test_external_input.content')
+        context = plugin.GenerationContext(output=self.output)
+        results = impl.generate(context)
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content_external/abc.txt')))
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content_external/folder1/data.txt')))
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content_external2/folder2/setting.txt')))
 
     def test_configuration_content_generate_with_multi_output(self):
         impl = self.load_impl('assets/s60/implml/content2_with_multi_outputs.content')
-        impl.set_output_root(self.output)
-        results = impl.generate()
-        self.assertTrue(os.path.exists(impl.output))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'content/test/override.txt')))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'include/s60.txt')))
+        context = plugin.GenerationContext(output=self.output)
+        results = impl.generate(context)
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content/test/override.txt')))
+        self.assertTrue(os.path.exists(os.path.join(context.output,'include/s60.txt')))
 
     def test_configuration_content_generate_with_refs(self):
         impl = self.load_impl('assets/s60/implml/test_content_with_refs2.content')
-        impl.set_output_root(self.output)
-        results = impl.generate()
-        self.assertTrue(os.path.exists(impl.output))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'content2p1/content2p2/override.txt')))
+        context = plugin.GenerationContext(output=self.output)
+        results = impl.generate(context)
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content2p1/content2p2/override.txt')))
         
     def test_configuration_content_generate_with_refs2(self):
         impl = self.load_impl('assets/s60/implml/test_content_with_refs3.content')
-        impl.set_output_root(self.output)
-        results = impl.generate()
-        self.assertTrue(os.path.exists(impl.output))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'example/content2p2/override.txt')))
+        context = plugin.GenerationContext(output=self.output)
+        results = impl.generate(context)
+        self.assertTrue(os.path.exists(os.path.join(self.output,'example/content2p2/override.txt')))
        
     def test_configuration_content_generate_capital_letters(self):
         impl = self.load_impl('assets/s60/implml/test_content_capital_file_input.content')
-        impl.set_output_root(self.output)
-        results = impl.generate()
-        self.assertTrue(os.path.exists(impl.output))
-        self.assertTrue(os.path.exists(os.path.join(impl.output,'content/test_CAP_letters.txt')))
+        context = plugin.GenerationContext(output=self.output)
+        results = impl.generate(context)
+        self.assertTrue(os.path.exists(context.output))
+        self.assertTrue(os.path.exists(os.path.join(context.output,'content/test_CAP_letters.txt')))
 
     def test_get_refs(self):
         def check(filename, expected_refs):
@@ -257,5 +258,20 @@ class TestContentPluginOnFileStorage(unittest.TestCase):
         check('test_external_with_ref.content', ['CTD_Special.InputPath'])
         check('test_filter_both.content', None)
 
+    def test_uses_layer(self):
+        project = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'contentproject')))
+        root_config = project.get_configuration('product.confml')
+        
+        impl = self.load_impl('assets/s60/implml/test_content_capital_file_input.content')
+        self.assertFalse(impl.uses_layer(root_config.get_configuration_by_index(0)))
+        self.assertFalse(impl.uses_layer(root_config.get_configuration_by_index(1)))
+        self.assertTrue(impl.uses_layer(root_config.get_configuration_by_index(2)))
+    
+    def test_get_copy_list_with_empty_file_input_from_sequence(self):
+        impl = self.load_impl('assets/s60/implml/empty_input_file_from_sequence.content')
+        copylist = impl.get_full_copy_list()
+        # There should be nothing in the copy list
+        self.assertEquals(copylist, [])
+        
 if __name__ == '__main__':
     unittest.main()

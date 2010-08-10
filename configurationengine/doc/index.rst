@@ -8,7 +8,7 @@ Welcome to Cone's documentation!
 Contents:
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     intro
     cli/common
@@ -16,6 +16,7 @@ Contents:
     plugins/index
     extref
     imakercone
+    validation-overview
     
 Indices and tables
 ==================

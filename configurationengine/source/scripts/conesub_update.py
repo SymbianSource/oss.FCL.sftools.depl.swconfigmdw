@@ -21,7 +21,7 @@ import logging
 from optparse import OptionParser, OptionGroup
 
 import cone_common
-from cone.public import api, plugin, utils, exceptions
+from cone.public import api, plugin, utils, exceptions, container
 
 
 VERSION     = '1.0'
@@ -32,6 +32,7 @@ CPF_META_TAG = "configuration-property"
 logger    = logging.getLogger('cone')
 
 def main():
+    """ Update/set values to features in configuration(s). """
     parser = OptionParser(version="%%prog %s" % VERSION)
     
     parser.add_options(cone_common.COMMON_OPTIONS)
@@ -120,13 +121,29 @@ def main():
                         "Example --add-data \"KCRUidAvkon.KAknDefaultAppOrientation=1\"",
                    default=None) 
 
+    group.add_option("--add-configuration",\
+                   dest="configurations",\
+                   action="append",
+                   type="string",
+                   help="Include given configuration inside the updated configuration."\
+                        "Example --add-configuration \"test_configuration.confml\"",
+                   default=None) 
+
+    group.add_option("--add-policy",\
+                   dest="policy",\
+                   type="string",
+                   help="Define the data update policy, which can be append|prepend|replace."\
+                        "Example --add-configuration \"test_configuration.confml\" --add-policy=prepend"\
+                        "This would add the configuration as the first include to the target configuration.",
+                   default='append') 
+
     parser.add_option_group(group)
     (options, args) = parser.parse_args()
     
     cone_common.handle_common_options(options)
     
     # Open the project and find out the active configuration
-    project = api.Project(api.Storage.open(options.project, "a"))
+    project = api.Project(api.Storage.open(options.project, "a", username=options.username, password=options.password))
     try:
         active_root = project.get_storage().get_active_configuration()
     except AttributeError:
@@ -167,6 +184,10 @@ def main():
         if added_meta:      _add_meta(config, added_meta)
         if added_cpf_meta:  _add_cpf_meta(config, added_cpf_meta)
         if added_data:      _add_data(config, added_data)
+        
+        # Handle configuration additions
+        for configinc in options.configurations or []:
+            config.include_configuration(configinc, parse_policy(options.policy))
           
         # Handle description  
         if options.desc:        
@@ -215,7 +236,7 @@ def _parse_name_value_pairs(entries, entry_type_name):
             value = mo.group(2)
             result[name] = value
         else:
-            logger.error("Illegal %s definition: %s" % (entry_name, entry))
+            logger.error("Illegal %s definition: %s" % (entry_type_name, entry))
     return result
 
 def _add_meta(config, added_meta):
@@ -257,8 +278,28 @@ def _add_data(config, added_data):
             config.get_default_view().get_feature(ref).set_value(value)
             logger.info("Set %s=%s" % (ref, value))
 
+def parse_policy(policy_str):
+    """
+    >>> parse_policy('replace')
+    0
+    >>> parse_policy('append')
+    1
+    >>> parse_policy('prepend')
+    2
+    """
+    if policy_str == 'append':
+        return container.APPEND
+    elif policy_str == 'replace':
+        return container.REPLACE
+    elif policy_str == 'prepend':
+        return container.PREPEND
+    else:
+        raise Exception('Could not parse policy string! %s' % policy_str)
+
 if __name__ == "__main__":
     main()
+    
+    
 
 
 

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <phase name="pre"/>
+    
+    <tag name="target" value="uda"/>
+    <tag name="target" value="uda"/>
+    
+    <settingRefsOverride>
+        <settingRef value="Foo.Bar"/>
+    </settingRefsOverride>
+    
+    <tempVariable ref="Foo.Bar1" type="int" value="5"/>
+    <tempVariable ref="Foo.Bar2" type="real"/>
+    <tempVariable ref="Foo.Bar3"/>
+    
+    <tempVariableSequence ref="Foo.Bar.Seq1">
+        <tempVariable ref="Sub1" type="int"/>
+        <tempVariable ref="Sub2"/>
+    </tempVariableSequence>
+    <tempVariableSequence ref="Foo.Bar.Seq2">
+        <tempVariable ref="Sub1" type="int"/>
+        <tempVariable ref="Sub2"/>
+    </tempVariableSequence>
+    
+    <outputRootDir value="foo/bar"/>
+    <outputSubDir value="sub_foo"/>
+</container>

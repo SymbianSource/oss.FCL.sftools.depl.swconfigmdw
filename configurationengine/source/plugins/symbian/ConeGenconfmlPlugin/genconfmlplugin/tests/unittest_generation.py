@@ -14,13 +14,12 @@
 # Description:
 #
 
-import sys, os, unittest
-import __init__
+import os
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 from testautomation.base_testcase import BaseTestCase
-from cone.public import exceptions, plugin, api, container
+from cone.public import plugin, api
 
 def abspath(path):
     return os.path.normpath(os.path.join(ROOT_PATH, path))
@@ -43,8 +42,10 @@ class TestGenconfmlGeneration(BaseTestCase):
         
         prj = api.Project(api.Storage.open(project_dir))
         config = prj.get_configuration(config)
+        context = plugin.GenerationContext(configuration=config,
+                                           output=output_dir)
+        context.filtering_disabled = True
         impls = plugin.get_impl_set(config, 'gcfml$')
-        impls.output = output_dir
-        impls.generate()
+        impls.generate(context)
         
         self.assert_dir_contents_equal(output_dir, expected_dir, ['.svn'] + ignores)

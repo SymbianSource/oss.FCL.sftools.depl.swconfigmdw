@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
-  <rule>True configures EvalTest.StringLenResult = {% len("faklskjh") %}</rule>
-  <rule>True configures EvalTest.EvalConstantResult = {% SOME_VALUE %}</rule>
-  <rule>True configures EvalTest.EvalFileImport = {% do_something(SOME_VALUE) %}</rule>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>True configures ${EvalTest.StringLenResult} = {% len("faklskjh") %}</rule>
+  <rule>True configures ${EvalTest.EvalConstantResult} = {% SOME_VALUE %}</rule>
+  <rule>True configures ${EvalTest.EvalFileImport} = {% do_something(SOME_VALUE) %}</rule>
   
-  <rule>{% ${EvalTest.Bitmask} &amp; 0x1 %} configures EvalTest.Bit0Result = True</rule>
-  <rule>{% ${EvalTest.Bitmask} &amp; 0x2 %} configures EvalTest.Bit1Result = True</rule>
-  <rule>True configures EvalTest.Bit2Result = {% 
+  <rule>{% ${EvalTest.Bitmask} &amp; 0x1 %} configures ${EvalTest.Bit0Result} = True</rule>
+  <rule>{% ${EvalTest.Bitmask} &amp; 0x2 %} configures ${EvalTest.Bit1Result} = True</rule>
+  <rule>True configures ${EvalTest.Bit2Result} = {% 
     bool(${EvalTest.Bitmask} &amp; 0x4) 
     %}
     </rule>
   
-  <rule>True configures EvalTest.Bit3Result = {% bool(${EvalTest.Bitmask} &amp; 0x8) %}</rule>
+  <rule>True configures ${EvalTest.Bit3Result} = {% bool(${EvalTest.Bitmask} &amp; 0x8) %}</rule>
   
   <rule>
-    True configures EvalTest.FullSequence = {% append_stripped_seq_to_full_seq(
+    True configures ${EvalTest.FullSequence} = {% append_stripped_seq_to_full_seq(
         @{EvalTest.StrippedSequence},
         @{EvalTest.FullSequence})
     %}
@@ -23,10 +23,10 @@
   <!-- The eval block here should not be executed -->
   <rule>False configures {% @{EvalTest.UnchangedValue}.set_value(54321) %}</rule>
   
-  <rule>True configures EvalTest.UnicodeResult1 = {% u'100€' %}</rule>
-  <rule>True configures EvalTest.UnicodeResult2 = {% @{ударения.ελληνικά}.get_value() %}</rule>
+  <rule>True configures ${EvalTest.UnicodeResult1} = {% u'100€' %}</rule>
+  <rule>True configures ${EvalTest.UnicodeResult2} = {% @{ударения.ελληνικά}.get_value() %}</rule>
   
-  <rule>True configures EvalTest.EvalBuiltinResult = {% ruleml.configuration.get_name() %}</rule>
+  <rule>True configures ${EvalTest.EvalBuiltinResult} = {% ruleml.configuration.get_name() %}</rule>
   
   <eval_globals>SOME_VALUE = 12345</eval_globals>
   

@@ -18,11 +18,8 @@
 Test the configuration
 """
 import unittest
-import string
-import sys,os
-import __init__
 
-from cone.public import api,exceptions,utils, container
+from cone.public import api, container
 
 class TestBase(unittest.TestCase):    
     # @test 
@@ -34,6 +31,11 @@ class TestBase(unittest.TestCase):
         base= api.Base("foo")
         self.assertTrue(base)
         self.assertEquals(base.namespace,"")
+
+    def test_get_configuration(self):
+        base= api.Base("foo")
+        self.assertEquals(base.get_configuration(),None)
+        self.assertEquals(base.get_configuration_path(),None)
 
     def test_properties(self):
         base= api.Base("foo")
@@ -52,7 +54,7 @@ class TestBase(unittest.TestCase):
         self.assertEquals(base.bar.fqr, 'foo.bar')
         self.assertEquals(base.bar.get_fullfqr(), 'foo.bar')
 
-    def test_create_hiearchy_with_container(self):
+    def test_create_hiearchy_with_container_test_path(self):
         cont= api.Base("", container=True)
         base= api.Base("foo")
         base._add(api.Base("bar1"))
@@ -65,6 +67,20 @@ class TestBase(unittest.TestCase):
         self.assertEquals(cont.foo.bar1.namespace, 'foo')
         self.assertEquals(cont.foo.bar2.bar21.namespace, 'foo.bar2')
         self.assertEquals(cont.foo.bar2.bar21.fqr, 'foo.bar2.bar21')
+        self.assertEquals(cont.foo.bar2.bar21.path(cont.foo.bar2), 'bar21')
+        self.assertEquals(cont.foo.bar2.bar21.path(cont.foo), 'bar2.bar21')
+        self.assertEquals(cont.foo.bar2.bar21.path(cont), 'foo.bar2.bar21')
+
+    def test_create_hiearchy_with_container_test_parent_path(self):
+        cont= api.Base("", container=True)
+        base= api.Base("foo")
+        base._add(api.Base("bar1"))
+        base._add(api.Base("bar2"))
+        base.bar2._add(api.Base("bar21"))
+        cont._add(base)
+        self.assertEquals(cont.foo.bar2.bar21.parent_path(cont.foo.bar2), '')
+        self.assertEquals(cont.foo.bar2.bar21.parent_path(cont.foo), 'bar2')
+        self.assertEquals(cont.foo.bar2.bar21.parent_path(cont), 'foo.bar2')
 
     def test_create_hiearchy_with_container_and_hidden_elem(self):
         cont= api.Base("", container=True)
@@ -99,5 +115,4 @@ class TestBase(unittest.TestCase):
         self.assertEquals(cont.foo.bar1[0].bar21.get_fullfqr(), 'foo.bar1[0].bar21')
 
 if __name__ == '__main__':
-      unittest.main()
-      
+    unittest.main()

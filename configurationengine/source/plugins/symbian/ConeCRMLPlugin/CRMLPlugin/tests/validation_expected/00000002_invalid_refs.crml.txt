@@ -1,0 +1,4 @@
+Problem(msg=u"Setting 'Foo.Bar' not found in configuration", type='model.implml.crml.invalid_ref', line=6, file='Layer1/implml/00000002_invalid_refs.crml', severity='error')
+Problem(msg=u"Setting 'Foo.Bit0' not found in configuration", type='model.implml.crml.invalid_ref', line=9, file='Layer1/implml/00000002_invalid_refs.crml', severity='error')
+Problem(msg=u"Setting 'Foo.Bit1' not found in configuration", type='model.implml.crml.invalid_ref', line=10, file='Layer1/implml/00000002_invalid_refs.crml', severity='error')
+Problem(msg=u"Setting 'Foo.Sequence.Bar' not found in configuration", type='model.implml.crml.invalid_ref', line=14, file='Layer1/implml/00000002_invalid_refs.crml', severity='error')

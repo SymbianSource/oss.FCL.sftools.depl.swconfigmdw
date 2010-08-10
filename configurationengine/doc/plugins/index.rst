@@ -34,11 +34,9 @@ Existing ConE plug-ins
     hcrml-plugin/hcrml-plugin
     convertprojectplugin
     thememl-plugin/themelplugin
+    imageml-plugin/imageml-plugin
 
 ConE plug-in development
 ------------------------
 
-.. toctree::
-    :maxdepth: 2
-    
-    dev-plugin/index
+* See :ref:`plugin-api` for instructions how to create a ConE plugin. 

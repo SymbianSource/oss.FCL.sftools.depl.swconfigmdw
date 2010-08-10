@@ -20,13 +20,12 @@ Generator classes
 
 import re
 import os
-import sys
 import logging
 import subprocess
 import shutil
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
-from cone.public import utils, exceptions
+from cone.public import utils
 
 class InvalidInputFileException(RuntimeError):
     """
@@ -60,18 +59,18 @@ class OutputGenerator(object):
         Get the confml ref value from configuration if the outputpath is actually a ref
         """
         if self._outputpath and ConfmlRefs.is_confml_ref(self._outputpath):
-             oref = ConfmlRefs.get_confml_ref(self._outputpath)
-             opath = self.configuration.get_default_view().get_feature(oref).get_value()
-             if opath == None: 
-                 logging.getLogger('cone.imageml').warning('Output path not set.')
-                 return self._outputpath 
-                 #raise exceptions.NotBound("Output path reference has no value %s" % oref)
-             (drive,opath) = os.path.splitdrive(opath)
-             opath = utils.resourceref.norm(opath)
-             opath = utils.resourceref.remove_begin_slash(opath)
-             return opath
+            oref = ConfmlRefs.get_confml_ref(self._outputpath)
+            opath = self.configuration.get_default_view().get_feature(oref).get_value()
+            if opath == None: 
+                logging.getLogger('cone.imageml').warning('Output path not set.')
+                return self._outputpath 
+                #raise exceptions.NotBound("Output path reference has no value %s" % oref)
+            (drive,opath) = os.path.splitdrive(opath)
+            opath = utils.resourceref.norm(opath)
+            opath = utils.resourceref.remove_begin_slash(opath)
+            return opath
         else:
-             return self._outputpath
+            return self._outputpath
 
     def set_outputpath(self, value): 
         self._outputpath = value
@@ -138,6 +137,8 @@ class Command(object):
     def __init__(self,generator):
         self._generator = generator
         self._workdir = 'conversion_workdir'
+        self._extraparams = ""
+        
 
     def execute(self):
         """ Execute this command """
@@ -203,6 +204,14 @@ class Command(object):
     @property
     def workdir(self):
         return self._workdir
+
+    @property
+    def extraparams(self):
+        if self._generator.extraparams and self._generator.configuration:
+            dview = self._generator.configuration.get_default_view()
+            return utils.expand_refs_by_default_view(self._generator.extraparams, dview)
+        else:
+            return self._generator.extraparams or ''
     
     def _get_filtered_input_files(self):
         """
@@ -253,8 +262,10 @@ class BmconvCommand(Command):
         if len(input_files) == 0: return 0
         self.create_workdir(input_files)
         
-        if not os.path.exists(os.path.dirname(self.generator.path)):
-            os.makedirs(os.path.dirname(self.generator.path))
+        opath = self.generator.path
+        odir = os.path.dirname(opath)
+        if odir and not os.path.exists(odir):
+            os.makedirs(odir)
         
         command = self.get_command(input_files)
         p = subprocess.Popen(command,
@@ -273,15 +284,20 @@ class BmconvCommand(Command):
         else:
             logging.getLogger('cone.bmconv').info("Command returned with returncode %s: %s" % (p.returncode, ' '.join(command)))
         if p.returncode == 0:
-        	self.clean_workdir()
+            self.clean_workdir()
         return p.returncode 
 
     def get_command(self, input_files):
         command = [self.tool]
+        
+        """ Add extraparams """
+        if hasattr(self._generator,'extraparams'):
+            command.append(self.extraparams)
+        
         """ Add palette file """
         if hasattr(self._generator,'palette'):
             command.append('/p%s' % os.path.abspath(self.generator.palette))
-
+        
         """ Add output file """
         """ Add output file as compressed if needed """
         if self.rom:
@@ -364,7 +380,7 @@ class MifconvCommand(Command):
         else:
             logging.getLogger('cone.mifconv').info("Command returned with returncode %s: %s" % (p.returncode, ' '.join(command)))
         if p.returncode == 0:
-	        self.clean_workdir()
+            self.clean_workdir()
         return p.returncode 
 
     def get_command(self, input_files):
@@ -372,6 +388,10 @@ class MifconvCommand(Command):
         
         """ Add output file """
         command.append(os.path.normpath(self.generator.path))
+        
+        """ Add extraparams """
+        if hasattr(self._generator,'extraparams'):
+            command.append(self.extraparams)
         
         """ Add temp_path """
         command.append("/t%s" % self.temppath)

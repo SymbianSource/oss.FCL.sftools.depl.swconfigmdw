@@ -25,7 +25,7 @@
     
     <confml:group name="Settings for testing attribute 'relevant'">
         <confml:group name="In options">
-            <confml:setting ref="RelevantOptionTest/*"/>
+            <confml:setting ref="RelevantOptionTest/*" readOnly="true"/>
         </confml:group>
         <confml:group name="In settings">
             <confml:setting ref="RelevantSettingTest/*"/>

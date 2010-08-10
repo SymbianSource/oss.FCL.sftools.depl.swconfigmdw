@@ -1,6 +1,10 @@
 <configuration name="Eval test data" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
   <feature ref="EvalTest" name="Test settings for eval blocks">
   
+    <setting ref="output" name="con name" type="string" />
+    <setting ref="file" name="output file" type="string" />
+    
+    
     <setting ref="StringLenResult" name="String length result" type="int" />
     <setting ref="EvalConstantResult" name="Result set from an eval global constant" type="int" />
 	<setting ref="EvalFileImport" name="Result set from an imported pyfile" type="int" />

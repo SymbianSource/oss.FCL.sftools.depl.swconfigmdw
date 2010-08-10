@@ -16,8 +16,7 @@
 
 import unittest
 import os
-import logging
-import __init__
+
 from cone.public import *
 from cone.public import _plugin_reader
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -128,31 +127,12 @@ SINGLE_IMPL_1 = """<?xml version="1.0" encoding="UTF-8"?>
 """.encode('utf-8')
 
 SINGLE_IMPL_2 = """<?xml version="1.0" encoding="UTF-8"?>
-<joujou xmlns="http://www.test.com/xml/2"/>
+<impl xmlns="http://www.test.com/xml/2"/>
 """.encode('utf-8')
 
 SINGLE_IMPL_3 = """<?xml version="1.0" encoding="UTF-8"?>
 <impl xmlns="http://www.test.com/xml/3">
     <elem x="1"/>
-</impl>
-""".encode('utf-8')
-
-IGNORED_NAMESPACE_IMPL_1 = """<?xml version="1.0" encoding="UTF-8"?>
-<common:container xmlns:common="http://www.symbianfoundation.org/xml/implml/1">
-    <impl xmlns="http://www.test.com/xml/3">
-        <elem x="1"/>
-    </impl>
-    
-    <ignored xmlns:ignored="http://www.test.com/xml/ignored/3">
-        <elem test="foo"/>
-    </ignored>
-</common:container>
-""".encode('utf-8')
-
-IGNORED_NAMESPACE_IMPL_2 = """<?xml version="1.0" encoding="UTF-8"?>
-<impl xmlns="http://www.test.com/xml/3" xmlns:ignored="http://www.test.com/xml/ignored/3">
-    <elem x="1"/>
-    <ignored:some_elem/>
 </impl>
 """.encode('utf-8')
 
@@ -195,12 +175,37 @@ class MockConfiguration(object):
     
     def get_default_view(self):
         return MockView(self.features)
+    
+    def layered_implml(self):
+        result = container.DataContainer()
+        for res in self.resources.iterkeys():
+            result.add_value(res, res)
+        return result
+
+class SimpleImpl(plugin.ImplBase):
+    def __init__(self, ref, configuration):
+        super(SimpleImpl, self).__init__(ref, configuration)
+        self.generate_invoked = False
+        self.outputfile = ''
+    
+    def generate(self, context=None):
+        if context:
+            if self.outputfile:
+                f = context.create_file(self.outputfile, implementation=self)
+                f.close()
+                
+        self.generate_invoked = True
 
 class MockImpl(plugin.ImplBase):
+    IMPL_TYPE_ID = 'mock'
+    
     def __init__(self, data):
         self.data = data
         self.generate_invoked = False
-    
+        self.outputfile = ''
+        self.refs = None
+        self.ref = ''
+        
     @classmethod
     def create(cls, resource_ref, configuration, data):
         impl = cls(data)
@@ -230,6 +235,14 @@ class MockImpl(plugin.ImplBase):
         else:
             return False
 
+    def get_refs(self):
+        """
+        Return a list of all ConfML setting references that affect this
+        implementation. May also return None if references are not relevant
+        for the implementation.
+        """
+        return self.refs
+
 class MockReaderBase(plugin.ReaderBase):
     @classmethod
     def read_impl(cls, resource_ref, configuration, root_elem):
@@ -240,12 +253,18 @@ class MockReaderBase(plugin.ReaderBase):
 
 class MockReader1(MockReaderBase):
     NAMESPACE = "http://www.test.com/xml/1"
+    NAMESPACE_ID = "mock1"
+    ROOT_ELEMENT_NAME = "impl"
     FILE_EXTENSIONS = ['mock1ml']
 class MockReader2(MockReaderBase):
     NAMESPACE = "http://www.test.com/xml/2"
+    NAMESPACE_ID = "mock2"
+    ROOT_ELEMENT_NAME = "impl"
     FILE_EXTENSIONS = ['mock2ml']
 class MockReader3(MockReaderBase):
     NAMESPACE = "http://www.test.com/xml/3"
+    NAMESPACE_ID = "mock3"
+    ROOT_ELEMENT_NAME = "impl"
     IGNORED_NAMESPACES = ["http://www.test.com/xml/ignored/3"]
     FILE_EXTENSIONS = ['mock3ml', 'test3ml']
 
@@ -266,11 +285,208 @@ mock_config = MockConfiguration({
     'layer1/implml/single2.mock2ml'         : SINGLE_IMPL_2,
     'layer1/implml/single3.mock3ml'         : SINGLE_IMPL_3,
     'layer1/implml/single3.test3ml'         : SINGLE_IMPL_3,
-    'layer1/implml/ignored_ns_1.mock3ml'    : IGNORED_NAMESPACE_IMPL_1,
-    'layer1/implml/ignored_ns_2.mock3ml'    : IGNORED_NAMESPACE_IMPL_2,
     'layer1/implml/multi1.dummyml'          : MULTI_IMPL_1,
     'layer1/implml/dummy'                   : MULTI_IMPL_1,
 })
+
+
+class TestPluginGenerationContext(unittest.TestCase):
+    def test_generation_context_handle_terminal(self):
+        config = api.Configuration()
+        context = plugin.GenerationContext(configuration=config)
+        self.assertRaises(exceptions.NotFound, context.handle_terminal, 'feature')
+        config.create_feature('feature')
+        # rebuild default view
+        config._remove('?default_view')
+        self.assertEquals(context.handle_terminal('feature'), None)
+            
+
+    def test_generation_create_file(self):
+        config = api.Configuration()
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        mi = MockImpl({})
+        outfile = context.create_file('foobar/test.txt', implementation=mi)
+        outfile.write("Test output file creation")
+        outfile.close()
+        expected = utils.resourceref.norm(os.path.join(context.output, 'foobar/test.txt'))
+        self.assertEquals(len(context.generation_output), 1)
+        self.assertEquals(context.generation_output[0].name, expected)
+        self.assertEquals(context.generation_output[0].implementation, mi)
+        self.assertEquals(context.generation_output[0].phase, "normal")
+        self.assertTrue(os.path.exists(expected))
+        os.unlink(expected)
+
+        absfile = utils.resourceref.norm(os.path.join(ROOT_PATH, 'temp/foobar/abspath.txt'))
+        outfile = context.create_file(absfile, implementation=mi)
+        outfile.write("Test output file creation")
+        outfile.close()
+        self.assertEquals(len(context.generation_output), 2)
+        self.assertEquals(context.generation_output[1].name, absfile)
+        self.assertEquals(context.generation_output[1].implementation, mi)
+        self.assertEquals(context.generation_output[1].phase, "normal")
+        self.assertTrue(os.path.exists(absfile))
+        os.unlink(absfile)
+        
+    def test_generation_add_output(self):
+        config = api.Configuration()
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        mi = MockImpl({})
+        context.add_file('add.txt', implementation=mi)
+
+        self.assertEquals(len(context.generation_output), 1)
+        self.assertEquals(context.generation_output[0].name, utils.resourceref.norm(os.path.join(context.output, 'add.txt')))
+        self.assertEquals(context.generation_output[0].implementation, mi)
+        self.assertEquals(context.generation_output[0].phase, "normal")
+        
+        external_output = utils.resourceref.norm(os.path.join(ROOT_PATH, 'temp', 'external/foobar.txt'))
+        context.add_file(external_output, implementation=mi)
+        self.assertEquals(len(context.generation_output), 2)
+        self.assertEquals(context.generation_output[1].name, external_output)
+        self.assertEquals(context.generation_output[1].implementation, mi)
+        self.assertEquals(context.generation_output[1].phase, "normal")
+
+    def test_generation_get_output(self):
+        config = api.Configuration()
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        mi = MockImpl({})
+        context.add_file('add1.txt', implementation=mi)
+        context.add_file('foo/add2.txt', implementation=None)
+
+        self.assertEquals(len(context.get_output()), 2)
+        self.assertEquals(context.get_output()[1].filename, 'add2.txt')
+        self.assertEquals(context.get_output()[1].abspath, os.path.normpath(os.path.join(context.output,'foo/add2.txt')))
+        self.assertEquals(context.get_output()[1].relpath, os.path.normpath('foo/add2.txt'))
+        self.assertEquals(len(context.get_output(implml_type='mock')), 1)
+        self.assertEquals(context.get_output(implml_type='mock')[0].filename, 'add1.txt')
+
+    def test_generation_get_refs_no_output(self):
+        config = api.Configuration()
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        self.assertEquals(context.get_refs_with_no_output(),[]) 
+        self.assertEquals(context.get_refs_with_no_output(['']),['']) 
+
+        context.changed_refs = ['foo.bar', 
+                                'foo.two',
+                                'foo.three']
+        
+        self.assertEquals(context.get_refs_with_no_output(),['foo.bar', 
+                                                             'foo.three',
+                                                             'foo.two']) 
+        mi = MockImpl({})
+        mi.refs = ['foo.bar','nonno.noo','foo.three']
+        context.add_file('add1.txt', implementation=mi)
+        context.add_file('foo/add2.txt', implementation=None)
+        
+        self.assertEquals(context.get_refs_with_no_output(),['foo.two']) 
+        context.changed_refs = ['foo.bar', 
+                                'foo.three']
+        self.assertEquals(context.get_refs_with_no_output(),[]) 
+        mi.refs = []
+        self.assertEquals(context.get_refs_with_no_output(),['foo.bar', 
+                                                             'foo.three']) 
+        mi.refs = None
+        self.assertEquals(context.get_refs_with_no_output(),['foo.bar', 
+                                                             'foo.three']) 
+
+    def test_merged_context_get_changed_refs_intersect(self):
+        config = api.Configuration()
+        context1 = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        context2 = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+
+        context1.changed_refs = ['foo.bar', 
+                                'foo.two',
+                                'foo.three']
+        context2.changed_refs = ['foo.bar', 
+                                'foo.two1']
+        outs = plugin.MergedContext([context1,context2])
+        self.assertEquals(sorted(outs.get_changed_refs(operation='union')), 
+                          sorted(['foo.two1',
+                                  'foo.bar',
+                                  'foo.two',
+                                  'foo.three']))
+        self.assertEquals(outs.get_changed_refs(operation='intersection'), ['foo.bar'])
+        self.assertEquals(sorted(outs.get_changed_refs(operation='difference')), sorted(['foo.three',
+                                                                                         'foo.two']))
+        self.assertEquals(sorted(outs.get_changed_refs(operation='symmetric_difference')), sorted(['foo.two1', 
+                                                                                          'foo.three', 
+                                                                                          'foo.two']))
+
+    def test_generation_get_refs_no_output_with_two_contexts(self):
+        config = api.Configuration()
+        context1 = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        context2 = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+
+        context1.changed_refs = ['foo.bar', 
+                                'foo.two',
+                                'foo.three']
+        context2.changed_refs = ['foo.bar1', 
+                                'foo.two1']
+        
+        
+        mi1 = MockImpl({})
+        mi1.refs = ['foo.bar','nonno.noo','foo.three']
+        mi2 = MockImpl({})
+        mi2.refs = ['foo.bar1']
+        context1.add_file('add1.txt', implementation=mi1)
+        context1.add_file('foo/add2.txt', implementation=None)
+        context2.add_file('add2.txt', implementation=mi2)
+        outs = plugin.MergedContext([context1,context2])
+        self.assertEquals(outs.get_refs_with_no_output(), ['foo.two', 'foo.two1'])
+        self.assertEquals(outs.get_refs_with_no_output(['foo.two']), ['foo.two'])
+        self.assertEquals(outs.get_refs_with_no_output(['foo.bar']), [])
+
+    def test_generation_get_refs_with_no_implementation(self):
+        config = api.Configuration()
+        context1 = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        context2 = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+
+        context1.changed_refs = ['foo.bar', 
+                                'foo.two',
+                                'foo.three']
+        context2.changed_refs = ['foo.bar1', 
+                                'foo.two1']
+        
+        
+        mi1 = MockImpl({})
+        mi1.ref = 'mi1'
+        mi1.refs = ['foo.bar','nonno.noo','foo.three']
+        mi2 = MockImpl({})
+        mi2.ref = 'mi2'
+        mi2.refs = ['foo.bar1']
+        context1.impl_set.add(mi1)
+        context2.impl_set.add(mi2)
+        outs = plugin.MergedContext([context1,context2])
+        self.assertEquals(outs.get_refs_with_no_implementation(), ['foo.two', 'foo.two1'])
+        self.assertEquals(outs.get_refs_with_no_implementation(['foo.bar']), [])
+        self.assertEquals(outs.get_refs_with_no_implementation(['foo.two', 'foo.bar1']), ['foo.two'])
+
+
+    def test_context_data_grep_log(self):
+        context = plugin.GenerationContext()
+        context.log = ['foo bar',
+                     'foo faa',
+                     'jee jee jehu']
+        self.assertEquals(context.grep_log('jee'), [(2,'jee jee jehu')])
 
 class TestPluginImplBase(unittest.TestCase):
     def setUp(self):
@@ -293,7 +509,24 @@ class TestPluginImplBase(unittest.TestCase):
         self.assertEquals(impl.has_tag({'foo': ['foo']}, policy='AND'), False)
         self.assertEquals(impl.has_tag({'target': ['foo'], 'foo':['bar']}, policy='AND'), False)
         self.assertEquals(impl.has_tag({'target': ['foo'], 'foo':['bar']}, policy='OR'), True)
-    
+
+    def test_implbase_output(self):
+        str = api.Storage(utils.relpath(ROOT_PATH))
+        config = api.Configuration('foo')
+        config.storage = str
+        impl = plugin.ImplBase('foo.implml', config)
+        self.assertEquals(impl.output, '')
+        impl.plugin_output = 'test'
+        self.assertEquals(impl.output, 'test')
+        impl.set_output_root('foobar')
+        self.assertEquals(impl.output, 'foobar/test')
+        impl.set_output_root('/foobar')
+        self.assertEquals(impl.output, '/foobar/test')
+
+        self.assertEquals(impl.path, 'foo.implml')
+        self.assertEquals(impl.abspath, os.path.abspath(os.path.join(ROOT_PATH,'foo.implml')))
+
+
     def test_implbase_tags_with_refs(self):
         config = MockConfiguration({}, features = {
             'Foo.Bar'           : 'foobar',
@@ -353,106 +586,134 @@ class TestPluginImplBase(unittest.TestCase):
         self.assertTrue(impl.has_ref(['Yay', 'Foo.Bar.Baz', 'Fhtagn']))
         self.assertTrue(impl.has_ref(['Yay', 'Xyz', 'Fhtagn']))
         
-    def test_impl_container_eval_context_with_tags(self):
-        container = plugin.ImplBase("norm", None)
-        context = plugin.GenerationContext()
-        self.assertTrue(container._eval_context(context))
-        container.set_tags({'target':['rofs2','core']})
-        context.tags = {'target': ['rofs2'], 'foobar': ['test']}
-        self.assertTrue(container._eval_context(context))
-        context.tags_policy = "AND"
-        self.assertFalse(container._eval_context(context))
-        container.set_tags({})
-        self.assertFalse(container._eval_context(context))
-        context.tags = {'target': ['rofs2']}
-        self.assertFalse(container._eval_context(context))
-        context.tags = {}
-        self.assertTrue(container._eval_context(context))
 
-class TestPluginImplSet(unittest.TestCase):
+class TestPlugin(plugin.ImplBase):
+    def __init__(self, ref):
+        super(TestPlugin, self).__init__(ref, None)
+        self.refs = None
     
+    def get_refs(self):
+        return self.refs
+
+class TestPluginImplSet(unittest.TestCase):    
     def test_add_implementation_and_list(self):
-        container = plugin.ImplSet()
+        iset= plugin.ImplSet()
         imp1  = plugin.ImplBase("implml/test.content",None)
         imp2a = plugin.ImplBase("implml/copy.content",None)
         imp2b = plugin.ImplBase("implml/copy.content",None)
-        container.add_implementation(imp1)
-        container.add_implementation(imp2a)
-        container.add_implementation(imp2b)
-        self.assertEquals(sorted(container.list_implementation()),
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2a)
+        iset.add_implementation(imp2b)
+        self.assertEquals(sorted(iset.list_implementation()),
                           sorted(['implml/test.content',
                                   'implml/copy.content']))
 
+    def test_add_implementation_and_generate(self):
+        iset = plugin.ImplSet()
+        imp1  = SimpleImpl("implml/test1.content", None)
+        imp1.outputfile = 'test/foo.txt'
+        imp2a = SimpleImpl("implml/test2.content", None)
+        imp2b = SimpleImpl("implml/test3.content", None)
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2a)
+        iset.add_implementation(imp2b)
+        context = plugin.GenerationContext(output="temp")
+        iset.generate(context)
+        self.assertEquals(sorted(context.executed_impls), sorted([imp1, imp2a, imp2b])) 
+        self.assertEquals(context.generation_output[0].name, 'temp/test/foo.txt')
+        self.assertTrue(os.path.exists(context.generation_output[0].name))
+        self.assertEquals(context.generation_output[0].implementation,imp1)
+
+
+    def test__generate_with_exception(self):
+        def generate_exception(*args):
+            raise Exception("test exception %s" % args)
+            
+        iset = plugin.ImplSet()
+        imp1  = SimpleImpl("implml/test1.content", None)
+        imp1.outputfile = 'test/foo.txt'
+        imp2a = SimpleImpl("implml/test2.content", None)
+        imp2a.generate = generate_exception
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2a)
+        context = plugin.GenerationContext(output="temp")
+        iset.generate(context)
+        self.assertEquals(sorted(context.executed_impls), sorted([imp1, imp2a])) 
+        self.assertEquals(context.generation_output[1].type, 'exception')
+        self.assertEquals(context.generation_output[1].name, 'exception from implml/test2.content')
+        self.assertEquals(context.generation_output[1].implementation, imp2a)
+
     def test_add_implementation_and_get_implementations_by_file(self):
-        container = plugin.ImplSet()
+        iset = plugin.ImplSet()
         imp1  = plugin.ImplBase("implml/test.content",None)
         imp2a = plugin.ImplBase("implml/copy.content",None)
         imp2b = plugin.ImplBase("implml/copy.content",None)
-        container.add_implementation(imp1)
-        container.add_implementation(imp2a)
-        container.add_implementation(imp2b)
-        self.assertEquals(container.get_implementations_by_file("implml/test.content"), [imp1])
-        self.assertEquals(sorted(container.get_implementations_by_file("implml/copy.content")),
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2a)
+        iset.add_implementation(imp2b)
+        self.assertEquals(iset.get_implementations_by_file("implml/test.content"), [imp1])
+        self.assertEquals(sorted(iset.get_implementations_by_file("implml/copy.content")),
                           sorted([imp2a, imp2b]))
 
     def test_add_implementation_and_remove_implementation(self):
-        container = plugin.ImplSet()
+        iset = plugin.ImplSet()
         imp1  = plugin.ImplBase("implml/test.content",None)
         imp2a = plugin.ImplBase("implml/copy.content",None)
         imp2b = plugin.ImplBase("implml/copy.content",None)
-        container.add_implementation(imp1)
-        container.add_implementation(imp2a)
-        container.add_implementation(imp2b)
-        container.remove_implementation("implml/test.content")
-        self.assertEquals(len(container.list_implementation()),1)
-        self.assertEquals(container.list_implementation()[0],"implml/copy.content")
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2a)
+        iset.add_implementation(imp2b)
+        iset.remove_implementation("implml/test.content")
+        self.assertEquals(len(iset.list_implementation()),1)
+        self.assertEquals(iset.list_implementation()[0],"implml/copy.content")
 
     def test_add_implementation_and_remove_all(self):
-        container = plugin.ImplSet()
+        iset = plugin.ImplSet()
         imp1  = plugin.ImplBase("implml/test.content",None)
         imp2a = plugin.ImplBase("implml/copy.content",None)
         imp2b = plugin.ImplBase("implml/copy.content",None)
         imp3  = plugin.ImplBase("implml/foo.content",None)
-        container.add_implementation(imp1)
-        container.add_implementation(imp2a)
-        container.add_implementation(imp2b)
-        container.add_implementation(imp3)
-        for implref in container.list_implementation():
-            container.remove_implementation(implref)
-        self.assertEquals(len(container.list_implementation()),0)
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2a)
+        iset.add_implementation(imp2b)
+        iset.add_implementation(imp3)
+        for implref in iset.list_implementation():
+            iset.remove_implementation(implref)
+        self.assertEquals(len(iset.list_implementation()),0)
 
     def test_create_impl_set(self):
         plugin.create_impl_set('',None);
         pass
 
     def test_add_implementation_find_with_tags(self):
-        class TestPlugin(plugin.ImplBase):
-            pass
-        container = plugin.ImplSet()
-        imp1 = TestPlugin("implml/test.content",None)
-        imp2 = TestPlugin("implml/copy.content",None)
-        imp3 = TestPlugin("implml/foo.content",None)
+        def impl_list(impl_iterable):
+            return sorted(list(impl_iterable), key=lambda impl: impl.ref)
+        
+        iset = plugin.ImplSet()
+        imp1 = TestPlugin("implml/test.content")
+        imp2 = TestPlugin("implml/copy.content")
+        imp3 = TestPlugin("implml/foo.content")
         imp1.set_tags({'target': ['core','rofs2','rofs3']})
         imp2.set_tags({'target': ['rofs3','uda']})
         imp3.set_tags({'target': ['mmc','uda']})
-        container.add_implementation(imp1)
-        container.add_implementation(imp2)
-        container.add_implementation(imp3)
-        self.assertEquals(list(container.filter_implementations(tags={'target' : ['rofs3']})),
-                          [imp1,imp2])
-        self.assertEquals(list(container.filter_implementations(tags={'target' : ['uda']})),
-                          [imp2,imp3])
-        self.assertEquals(list(container.filter_implementations(tags={'target' : ['mmc','uda']}, policy='AND')),
-                          [imp3])
-        self.assertEquals(list(container.filter_implementations(tags={'target' : ['mmc','uda']}, policy='OR')),
-                          [imp2, imp3])
-        cont = container.filter_implementations(tags={'target' : ['core']}) | container.filter_implementations(tags={'target' : ['mmc']}) 
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2)
+        iset.add_implementation(imp3)
+        self.assertEquals(impl_list(iset.filter_implementations(tags={'target' : ['rofs3']})),
+                          impl_list([imp1,imp2]))
+        self.assertEquals(impl_list(iset.filter_implementations(tags={'target' : ['uda']})),
+                          impl_list([imp2,imp3]))
+        self.assertEquals(impl_list(iset.filter_implementations(tags={'target' : ['mmc','uda']}, policy='AND')),
+                          impl_list([imp3]))
+        self.assertEquals(impl_list(iset.filter_implementations(tags={'target' : ['mmc','uda']}, policy='OR')),
+                          impl_list([imp2, imp3]))
+        cont = iset.filter_implementations(tags={'target' : ['core']}) | iset.filter_implementations(tags={'target' : ['mmc']}) 
         self.assertEquals(len(cont),2)
-        self.assertEquals(list(cont), [imp1,imp3])
+        self.assertEquals(impl_list(cont), impl_list([imp1,imp3]))
 
-        cont = container.filter_implementations(tags={'target' : ['rofs3']}) & container.filter_implementations(tags={'target' : ['uda']}) 
+        cont = iset.filter_implementations(tags={'target' : ['rofs3']}) & iset.filter_implementations(tags={'target' : ['uda']}) 
         self.assertEquals(len(cont),1)
-        self.assertEquals(list(cont), [imp2])
+        self.assertEquals(impl_list(cont), impl_list([imp2]))
     
     def test_pre_impl_filter(self):
         resources = [
@@ -483,6 +744,40 @@ class TestPluginImplSet(unittest.TestCase):
         expected = map(lambda path: path.replace('/', '\\'), expected)
         self.assertEquals(expected, plugin.pre_filter_impls(resources))
 
+    def test_get_implemented_refs(self):
+            
+        iset = plugin.ImplSet()
+        imp1 = TestPlugin('imp1')
+        imp2 = TestPlugin('imp2')
+        imp3 = TestPlugin('imp3')
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2)
+        iset.add_implementation(imp3)
+        imp1.refs = ['fea.child1', 'fea.child2']
+        imp2.refs = ['fea.setting1']
+        imp3.refs = ['foo.bar']
+        self.assertEquals(sorted(iset.get_implemented_refs()), sorted(['fea.child1', 
+                                                                       'fea.child2',
+                                                                       'fea.setting1',
+                                                                       'foo.bar']))
+
+    def test_get_implementations_with_ref(self):
+            
+        iset = plugin.ImplSet()
+        imp1 = TestPlugin('implml1')
+        imp2 = TestPlugin('implml2')
+        imp3 = TestPlugin('implml3')
+        imp4 = TestPlugin('implml3')
+        iset.add_implementation(imp1)
+        iset.add_implementation(imp2)
+        iset.add_implementation(imp3)
+        iset.add_implementation(imp4)
+        imp1.refs = ['fea.child1', 'fea.child2']
+        imp2.refs = ['foo.bar', 'fea.setting1']
+        imp3.refs = ['foo.bar']
+        self.assertEquals(iset.get_implementations_with_ref('fea.child1'), [imp1])
+        self.assertEquals(iset.get_implementations_with_ref('fea.setting1'), [imp2])
+        self.assertEquals(iset.get_implementations_with_ref('foo.bar'), [imp2, imp3])
 
 class TestPluginImplSetCopy(unittest.TestCase):
     class TestImpl(plugin.ImplBase):
@@ -509,12 +804,12 @@ class TestPluginImplSetCopy(unittest.TestCase):
         return plugin.create_impl_set(impl_files, mock_config)
     
 
-    def test_get_test_impl_container(self):
-        container = self._get_impl_container()
+    def test_get_test_impl_iset(self):
+        iset = self._get_impl_container()
         # There are 5 ImplML files
-        self.assertEquals(len(container.list_implementation()), 5)
+        self.assertEquals(len(iset.list_implementation()), 5)
         # ...but two of them contain 3 implementations each
-        self.assertEquals(len(container), 5)
+        self.assertEquals(len(iset), 5)
     
     def _get_phase_test_impl_container(self):
         return plugin.ImplSet([
@@ -525,13 +820,13 @@ class TestPluginImplSetCopy(unittest.TestCase):
             self.PostImpl('foo.post', None),
         ])
     
-    def test_get_phase_test_impl_container(self):
-        container = self._get_phase_test_impl_container()
-        self.assertEquals(5, len(container))
-        self.assertEquals(len(container.list_implementation()), 5)
+    def test_get_phase_test_impl_iset(self):
+        iset = self._get_phase_test_impl_container()
+        self.assertEquals(5, len(iset))
+        self.assertEquals(len(iset.list_implementation()), 5)
         
         def check(filename, phase):
-            impls = container.get_implementations_by_file(filename)
+            impls = iset.get_implementations_by_file(filename)
             self.assertEquals(1, len(impls))
             impl = impls[0]
             self.assertEquals(impl.ref, filename)
@@ -542,31 +837,31 @@ class TestPluginImplSetCopy(unittest.TestCase):
         check('test.post', 'post')
         check('foo.post', 'post')
         
-        return container
+        return iset
     
     def test_create_impl_set(self):
-        container = self._get_impl_container()
+        iset = self._get_impl_container()
         # There are 5 ImplML files
-        self.assertEquals(len(container.list_implementation()), 5)
+        self.assertEquals(len(iset.list_implementation()), 5)
         # ...but two of them contain 3 implementations each
-        self.assertEquals(len(container), 5)
+        self.assertEquals(len(iset), 5)
     
     def test_invocation_phases(self):
-        container = self._get_phase_test_impl_container()
-        phases = container.invocation_phases()
+        iset = self._get_phase_test_impl_container()
+        phases = iset.invocation_phases()
         self.assertEquals(phases,['pre','normal','post'])
  
     def test_copy(self):
-        container = self._get_impl_container()
-        newcontainer = container.copy()
-        self.assertTrue(newcontainer is not container)
+        iset = self._get_impl_container()
+        newcontainer = iset.copy()
+        self.assertTrue(newcontainer is not iset)
         self.assertEquals(len(newcontainer), 5)
 
     def test_execute_generate(self):
-        container = self._get_impl_container()
-        container.execute(container, 'generate')
+        iset = self._get_impl_container()
+        iset.execute(iset, 'generate')
         actual_impls = []
-        for impl in container:
+        for impl in iset:
             if isinstance(impl, plugin.ImplContainer):
                 actual_impls += impl.get_all_implementations()
             else:
@@ -575,14 +870,14 @@ class TestPluginImplSetCopy(unittest.TestCase):
             self.assertTrue(impl.generate_invoked)
 
     def test_impl_container_generate(self):
-        container = self._get_impl_container()
+        iset = self._get_impl_container()
         context = plugin.GenerationContext()
         context.history = ""
         context.objects = []
-        container.generate(context)
+        iset.generate(context)
         self.assertEquals(len(context.objects), 9)
         actual_impls = []
-        for impl in container:
+        for impl in iset:
             if isinstance(impl, plugin.ImplContainer):
                 actual_impls += impl.get_all_implementations()
             else:
@@ -591,27 +886,27 @@ class TestPluginImplSetCopy(unittest.TestCase):
             self.assertTrue(impl.generate_invoked)
 
     def test_filter_all(self):
-        container = self._get_impl_container()
-        impl_list = container.filter_implementations()
+        iset = self._get_impl_container()
+        impl_list = iset.filter_implementations()
         self.assertEquals(len(impl_list), 5)
 
     def test_filter_for_pre_phase(self):
-        container = self._get_phase_test_impl_container()
-        impl_list = list(container.filter_implementations(phase='pre'))
+        iset = self._get_phase_test_impl_container()
+        impl_list = list(iset.filter_implementations(phase='pre'))
         self.assertEquals(len(impl_list), 1)
         self.assertEquals(impl_list[0].invocation_phase(), 'pre')
         self.assertEquals(impl_list[0].ref, 'foo.pre')
 
     def test_filter_for_normal_phase(self):
-        container = self._get_phase_test_impl_container()
-        impl_list = list(container.filter_implementations(phase='normal'))
+        iset = self._get_phase_test_impl_container()
+        impl_list = list(iset.filter_implementations(phase='normal'))
         self.assertEquals(len(impl_list), 2)
         self.assertEquals(impl_list[0].invocation_phase(), 'normal')
         self.assertEquals(impl_list[1].invocation_phase(), 'normal')
 
     def test_filter_for_post_phase(self):
-        container = self._get_phase_test_impl_container()
-        impl_list = list(container.filter_implementations(phase='post'))
+        iset = self._get_phase_test_impl_container()
+        impl_list = list(iset.filter_implementations(phase='post'))
         self.assertEquals(len(impl_list), 2)
         self.assertEquals(impl_list[0].invocation_phase(), 'post')
         self.assertEquals(impl_list[1].invocation_phase(), 'post')
@@ -628,11 +923,11 @@ class TestPluginImplSettings(unittest.TestCase):
     def test_plugin_settings(self):
         settings.SettingsFactory.cone_parser().read([os.path.join(ROOT_PATH,'test_defaults.cfg')])
         impl = TestPluginImplSettings.Test1Impl("",None)
-        self.assertEquals(impl.output_root, 'output')
+        self.assertEquals(impl.output_root, '')
         self.assertEquals(impl.output_subdir, '')
         impl.output_subdir = 'foobar'
         self.assertEquals(impl.get_tags(), {})
-        self.assertEquals(impl.output, 'output/foobar')
+        self.assertEquals(impl.output, 'foobar')
 
         impl = TestPluginImplSettings.Test2Impl("",None)
         self.assertEquals(impl.output_subdir, '')
@@ -740,12 +1035,6 @@ class TestReaders(unittest.TestCase):
              MockImpl(['MockReader2', file, {'a': '1', 'b': '2'}]),],
             file)
         
-        file = 'layer1/implml/ignored_ns_1.mock3ml'
-        self.assert_read_impls_equal([MockImpl(['MockReader3', file, {'x': '1'}])], file)
-        
-        file = 'layer1/implml/ignored_ns_2.mock3ml'
-        self.assert_read_impls_equal([MockImpl(['MockReader3', file, {'x': '1'}])], file)
-        
         
         self.assert_read_impls_equal([], 'layer1/implml/unsupported1.implml')
         self.assert_read_impls_equal([], 'layer1/implml/unsupported2.implml')
@@ -787,9 +1076,6 @@ class TestReaders(unittest.TestCase):
             MockImpl(['MockReader3', 'layer1/implml/single3.mock3ml', {'x': '1'}]),
             
             MockImpl(['MockReader3', 'layer1/implml/single3.test3ml', {'x': '1'}]),
-            
-            MockImpl(['MockReader3', 'layer1/implml/ignored_ns_1.mock3ml', {'x': '1'}]),
-            MockImpl(['MockReader3', 'layer1/implml/ignored_ns_2.mock3ml', {'x': '1'}]),
             
             MockImpl(['MockReader1','layer1/implml/multi1.implml', {'y': '2', 'x': '1'}]),  
             MockImpl(['MockReader2', 'layer1/implml/multi1.implml', {'y': '20', 'x': '10'}]),
@@ -878,8 +1164,8 @@ class TestTempFeatureDefinition(unittest.TestCase):
         self.assert_contains_feature(config, 'TempFeature.Seq.DefaultType', 'string', [])
         
         fea = config.get_default_view().get_feature('TempFeature.Seq')
-        fea.set_value([['test', '1', '2.0', 'true', 'foo']])
-        self.assertEquals(fea.get_value(), [['test', '1', '2.0', 'true', 'foo']])
+        fea.set_value([['test', 1, 2.0, True, 'foo']])
+        self.assertEquals(fea.get_value(), [['test', 1, 2.0, True, 'foo']])
     
     def _create_mock_impl(self, temp_var_defs):
         impl = Mock()
@@ -950,7 +1236,10 @@ class TestTempFeatureDefinition(unittest.TestCase):
         
         config = api.Configuration("test.confml")
         config.add_feature(api.Feature("Int"), "TempFeature")
-        self.assertRaises(exceptions.AlreadyExists, impls.create_temp_features, config)
+        #self.assertRaises(exceptions.AlreadyExists, impls.create_temp_features, config)
+        temp_feature_refs = impls.create_temp_features(config)
+        self.assertEquals(temp_feature_refs, ['TempFeature.String', 'TempFeature.Real', 'TempFeature.Boolean'])
+        
 
 class TestCommonImplmlDataReader(unittest.TestCase):
     

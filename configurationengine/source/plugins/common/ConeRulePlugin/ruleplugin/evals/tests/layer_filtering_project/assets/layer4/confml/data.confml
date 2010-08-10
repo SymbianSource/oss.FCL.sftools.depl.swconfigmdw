@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="data">
+  <data>
+    <content>
+	  <inputfile>test_input.txt</inputfile>
+	  <outputfile>test_output.txt</outputfile>
+    </content>
+  </data>
+</configuration>

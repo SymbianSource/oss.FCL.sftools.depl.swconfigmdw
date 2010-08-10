@@ -1,0 +1,76 @@
+{% extends "cone_base.html" %}
+{% block title %}Compare API{% endblock %}
+{% block content %}
+    <h1>Configuration API compare</h1><br>
+    {% set columns = {
+                       'type':'Type',
+                       'options':'Option',
+                       } %}
+    
+    <table class="report" id="report_data">
+    <tr>
+        <th class="featureName">Reference</th>
+        <th class="featureName">Source confml</th>
+        <th class="featureName">Target confml</th>
+        <th class="featureName">Source element</th>
+        <th class="featureName">Problem</th>
+        <th class="featureName">Target element</th>
+    </tr>
+    {#- ----------------------------------------- -#}
+    {#- Report features that are only on one side -#}
+    {#- ----------------------------------------- -#}
+    
+    {%- for fqr in data.sourcedata.features -%}
+       {%- if fqr not in data.targetdata.features -%}
+       <!-- report all rows that are missing from target -->
+           <tr>
+           <td bgcolor="pink">Missing {{fqr}}</td>
+           <td><a href="{{ data.sourcedata.features[fqr].get_configuration_path() }}">{{ data.sourcedata.features[fqr].get_configuration_path() }}</a></td>
+           <td>&nbsp;</td>
+           <td>&nbsp;</td>
+           <td bgcolor="gainsboro">Missing feature</td>
+           <td>&nbsp;</td>
+           </tr>
+       {% endif -%}
+    {%- endfor -%}
+    
+    {#- --------------------------------#}
+    {#- Report differences in features -#}
+    {#- --------------------------------#}
+    {%- for fqr in data.sourcedata.features -%}
+       {%- if fqr in data.targetdata.features and not data.sourcedata.features[fqr]._compare(data.targetdata.features[fqr], columns.keys()) -%}
+           {%- if data.sourcedata.features[fqr]['type'] == 'int' and
+                  data.targetdata.features[fqr]['type'] == None %}
+           {% else %}
+               <!-- report all rows that have some column different  -->
+               <tr>
+               <td>Difference with {{fqr}}</td>
+               <td><a href="{{ data.sourcedata.features[fqr].get_configuration_path() }}">{{ data.sourcedata.features[fqr].get_configuration_path() }}</a></td>
+               <td><a href="{{ data.targetdata.features[fqr].get_configuration_path() }}">{{ data.targetdata.features[fqr].get_configuration_path() }}</a></td>
+               {%- if data.sourcedata.features[fqr]['type'] != data.targetdata.features[fqr]['type'] %}
+                 <td bgcolor="gainsboro">{{data.sourcedata.features[fqr]['type']}}</td>
+                 <td bgcolor="gainsboro">Type difference</td>
+                 <td bgcolor="gainsboro">{{data.targetdata.features[fqr]['type']}}</td>
+               {% elif data.sourcedata.features[fqr]['options'] != data.targetdata.features[fqr]['options'] %}
+                  <td bgcolor="gainsboro">{% for option in data.sourcedata.features[fqr]['options'].values() -%}
+                  Option {%- if option.map %} map=option.map{% else %} name={{ option.name }}, value={{ option.value}}{% endif %}<br>
+                  {%- endfor %}</td>
+                  <td bgcolor="gainsboro">Options difference</td>
+                  <td bgcolor="gainsboro">{% for option in data.targetdata.features[fqr]['options'].values() -%}
+                  Option {%- if option.map %} map=option.map{% else %} name={{ option.name }}, value={{ option.value}}{% endif %}<br>
+                  {%- endfor %}</td>
+               {% else %}
+                 <td>&nbsp;</td>
+               {%- endif -%}
+               </tr>
+           {%- endif -%}
+       {% endif -%}
+    {%- endfor -%}
+    
+    </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
+{% endblock %}

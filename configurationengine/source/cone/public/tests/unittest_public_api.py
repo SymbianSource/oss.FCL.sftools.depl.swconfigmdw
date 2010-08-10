@@ -16,7 +16,7 @@
 
 import unittest
 import os
-import __init__
+
 from cone.public import *
 
 class TestPublicApiConfiguration(unittest.TestCase):

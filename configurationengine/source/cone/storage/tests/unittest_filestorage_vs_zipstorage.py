@@ -21,7 +21,6 @@ Test the import export functionality
 
 import unittest
 import sys, os, shutil
-import __init__
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 

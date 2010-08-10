@@ -1,0 +1,6 @@
+Problem(msg=u"Setting 'Foo.MoreText' not found in configuration", type='model.implml.exampleml.invalid_ref', line=4, file='Layer1/implml/invalid_refs.exampleml', severity='error')
+Problem(msg=u"Setting 'Foo.OutputDir' not found in configuration", type='model.implml.exampleml.invalid_ref', line=5, file='Layer1/implml/invalid_refs.exampleml', severity='error')
+Problem(msg=u"Setting 'Foo.OutputEncoding' not found in configuration", type='model.implml.exampleml.invalid_ref', line=4, file='Layer1/implml/invalid_refs.exampleml', severity='error')
+Problem(msg=u"Setting 'Foo.OutputFile' not found in configuration", type='model.implml.exampleml.invalid_ref', line=4, file='Layer1/implml/invalid_refs.exampleml', severity='error')
+Problem(msg=u"Setting 'Foo.OutputFile' not found in configuration", type='model.implml.exampleml.invalid_ref', line=5, file='Layer1/implml/invalid_refs.exampleml', severity='error')
+Problem(msg=u"Setting 'Foo.Text' not found in configuration", type='model.implml.exampleml.invalid_ref', line=3, file='Layer1/implml/invalid_refs.exampleml', severity='error')

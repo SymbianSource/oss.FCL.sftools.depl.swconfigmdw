@@ -22,6 +22,7 @@ setup(
     name = "coneruleplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'ruleplugin': ['xsd/*.xsd']},
     test_suite = "ruleplugin.tests.collect_suite",
 
     # metadata for upload to PyPI
@@ -34,6 +35,5 @@ setup(
     zip_safe = True,
     
     # entrypoint info
-    entry_points={'cone.plugins.implmlreaders': ['ruleml_1 = ruleplugin.ruleml:RuleImplReader1',
-                                                 'ruleml_2 = ruleplugin.ruleml:RuleImplReader2']}
+    entry_points={'cone.plugins.implmlreaders': ['ruleml_3 = ruleplugin.ruleml:RuleImplReader']}
 )

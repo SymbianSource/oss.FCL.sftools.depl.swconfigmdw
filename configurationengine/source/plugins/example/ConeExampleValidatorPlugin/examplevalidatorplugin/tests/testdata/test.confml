@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="ExampleValidatorTest">
+    <feature ref="ExampleValidatorTest" name="Settings for example validator testing">
+        <setting ref="SomeSetting" name="Some setting" type="string"/>
+        <setting ref="FOO_SomeSetting1" name="FOO - Some setting 1" type="string"/>
+        <setting ref="FOO_SomeSetting2" name="FOO - Some setting 2" type="string"/>
+    </feature>
+    <data>
+        <ExampleValidatorTest>
+            <SomeSetting>foo bar</SomeSetting>
+            <FOO_SomeSetting1>abc foo</FOO_SomeSetting1>
+            <FOO_SomeSetting2>abc123</FOO_SomeSetting2>
+        </ExampleValidatorTest>
+    </data>
+</configuration>

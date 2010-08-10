@@ -1,0 +1,15 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="VariantData_commsdat.xml" target="private\10281BC3\">			 
+
+	<setting ref="APs/*"/>
+	<setting ref="WLAN_APs/*"/>
+	
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xi="http://www.w3.org/2001/xinclude">
+		<xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+		<xsl:template match="configuration">
+		<data>
+			<xsl:copy-of select="data/APs"/>
+			<xsl:copy-of select="data/WLAN_APs"/>
+		</data>
+		</xsl:template>				
+	</xsl:stylesheet>
+</file>

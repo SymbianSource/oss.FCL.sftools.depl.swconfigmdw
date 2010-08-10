@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns="http://www.s60.com/xml/content/2">
+    <tag name="target" value="rofs3"/>
+    <output dir="content/12345678" file="abcdef.txt">
+    	<externalinput dir="${content.extinputfile}">
+    		<include files="test.txt"/>
+    	</externalinput>
+    </output>
+</content>

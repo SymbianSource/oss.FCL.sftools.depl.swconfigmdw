@@ -22,6 +22,7 @@ setup(
     name = "conecontentplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'contentplugin': ['xsd/*.xsd']},
     test_suite = "contentplugin.tests.collect_suite",
 
     # metadata for upload to PyPI

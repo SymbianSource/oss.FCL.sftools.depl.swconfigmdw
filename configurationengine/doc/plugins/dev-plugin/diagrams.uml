@@ -71,7 +71,7 @@
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="tdytcNfaxE6dLcteHN1B8AAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="5pV++MiEqEOKb94vAbT4XQAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">ImplContainer</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">ImplSet</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="yaxWkeq5K0CCgd5PiKKC0wAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -400,7 +400,7 @@ an implementation instance
 <XPD:ATTR name="Left" type="integer">264</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">178</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">53</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">ImplContainer contains a number
+<XPD:ATTR name="Text" type="string">ImplSet contains a number
 of implementation instances and
 generates output using them.
 </XPD:ATTR>
@@ -510,7 +510,7 @@ generates output using them.
 <XPD:ATTR name="Top" type="integer">384</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">202</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">83</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">When an ImplContainer is created
+<XPD:ATTR name="Text" type="string">When an ImplSet is created
 on a Configuration,
 ImplFactory.get_impls_from_file()
 is used on all supported files to create
@@ -538,7 +538,7 @@ the list of implementation instances.
 <XPD:ATTR name="Top" type="integer">496</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">192</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">68</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">ImplContainer.get_impls_from_file()
+<XPD:ATTR name="Text" type="string">ImplFactory.get_impls_from_file()
 in turn uses all registered reader
 classes to create the actual
 implementations.
@@ -571,40 +571,41 @@ implementations.
 <XPD:ATTR name="Left" type="integer">568</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">16</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">190</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">38</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">53</XPD:ATTR>
 <XPD:ATTR name="Text" type="string">ImplBase and ReaderBase comprise
-the ConE plug-in interface
+the ConE plug-in interface for
+implementations.
 </XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[24]" type="UMLNoteLinkView" guid="rLbnX8lUnkuZIFnnqHyCMQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">569,139;645,53</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">569,141;638,68</XPD:ATTR>
 <XPD:REF name="Head">D2lNkx9zqkGIrORCziB2MwAA</XPD:REF>
 <XPD:REF name="Tail">KeRNcoIQK0KSH6AGF9UzjAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[25]" type="UMLNoteLinkView" guid="Va6jpciK90aWET6pzoYRiAAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">727,152;672,53</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">726,152;677,68</XPD:ATTR>
 <XPD:REF name="Head">D2lNkx9zqkGIrORCziB2MwAA</XPD:REF>
 <XPD:REF name="Tail">2t2cUMI4f0SGZ3fMzCfV2QAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[26]" type="UMLNoteView" guid="v84tCD/ORU6aA+sNvC8HbgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00DFFFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">20</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">24</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">12</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">167</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">38</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">ImplContainer is used when
+<XPD:ATTR name="Text" type="string">ImplSet is used when
 generating output using ConE.
 </XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedViews[27]" type="UMLNoteLinkView" guid="luo/E4PDBEWDV/JjLqFzkgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">166,148;113,49</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">167,148;117,49</XPD:ATTR>
 <XPD:REF name="Head">v84tCD/ORU6aA+sNvC8HbgAA</XPD:REF>
 <XPD:REF name="Tail">EFzcsknNQ0O+rr8VseO9MAAA</XPD:REF>
 </XPD:OBJ>
@@ -798,9 +799,9 @@ and ReaderBase.
 </XPD:OBJ>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#OwnedElements" type="integer">17</XPD:ATTR>
+<XPD:ATTR name="#OwnedElements" type="integer">16</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLClass" guid="q11CD3et4kixnDRLW4nPdgAA">
-<XPD:ATTR name="Name" type="string">ImplContainer</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">ImplSet</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">EFzcsknNQ0O+rr8VseO9MAAA</XPD:REF>
@@ -935,11 +936,7 @@ and ReaderBase.
 <XPD:ATTR name="Name" type="string">Configuration</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[7]" type="UMLClass" guid="ZxYE1Q8ZZ0CKtQj/FNOQ7wAA">
-<XPD:ATTR name="Name" type="string">Jung, Yoontae</XPD:ATTR>
-<XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="OwnedElements[8]" type="UMLClass" guid="rDKOyCdZEkCOx+oFSF1RfgAA">
+<XPD:OBJ name="OwnedElements[7]" type="UMLClass" guid="rDKOyCdZEkCOx+oFSF1RfgAA">
 <XPD:ATTR name="Name" type="string">SomeImplReader</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
@@ -953,7 +950,7 @@ and ReaderBase.
 <XPD:REF name="Associations[0]">eu5J5ZGSGUmZFfbh0cHFewAA</XPD:REF>
 <XPD:REF name="Associations[1]">AeNNCbWnPEKWIb774GWlfQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[9]" type="UMLRealization" guid="0MZJX1cCj0mQ/11HQ5cN7AAA">
+<XPD:OBJ name="OwnedElements[8]" type="UMLRealization" guid="0MZJX1cCj0mQ/11HQ5cN7AAA">
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:REF name="Client">JQvuxGbsdE2jFadShkxqKgAA</XPD:REF>
 <XPD:REF name="Supplier">g0zWWZA9xEWvFh0sRnmMqgAA</XPD:REF>
@@ -963,7 +960,7 @@ and ReaderBase.
 <XPD:REF name="Views[2]">oxtgEPTKIkyuZW+/1ioAPAAA</XPD:REF>
 <XPD:REF name="Views[3]">C3LeagDb40ac4fqEDvNK5AAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[10]" type="UMLRealization" guid="mo5tewceOUm0VDnSWRFvzgAA">
+<XPD:OBJ name="OwnedElements[9]" type="UMLRealization" guid="mo5tewceOUm0VDnSWRFvzgAA">
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:REF name="Client">rDKOyCdZEkCOx+oFSF1RfgAA</XPD:REF>
 <XPD:REF name="Supplier">lPra4OiszU2H/arMBBwTVgAA</XPD:REF>
@@ -973,7 +970,7 @@ and ReaderBase.
 <XPD:REF name="Views[2]">cxdf5fynWEG7/Wzlz9wAZgAA</XPD:REF>
 <XPD:REF name="Views[3]">COnrVcktJUCdGcPafp3OSAAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[11]" type="UMLAssociation" guid="zHN3b0KW5kCvSqS/RtHanwAA">
+<XPD:OBJ name="OwnedElements[10]" type="UMLAssociation" guid="zHN3b0KW5kCvSqS/RtHanwAA">
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">qO84lDa9Q0qJdFLxAzRcQQAA</XPD:REF>
@@ -986,8 +983,8 @@ and ReaderBase.
 <XPD:REF name="Participant">g0zWWZA9xEWvFh0sRnmMqgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">6HcxdQob+UOT1wCYJ4QeHgAA</XPD:REF>
-<XPD:REF name="Views[1]">MfI12JH1kkSbXGyVvMqqXQAA</XPD:REF>
-<XPD:REF name="Views[2]">tMamOzqFxk6hZeNgqluobwAA</XPD:REF>
+<XPD:REF name="Views[1]">tMamOzqFxk6hZeNgqluobwAA</XPD:REF>
+<XPD:REF name="Views[2]">MfI12JH1kkSbXGyVvMqqXQAA</XPD:REF>
 <XPD:REF name="Views[3]">/ARNc/hPvUmBl4qb/XiPqQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="YdiI7jGOKUSsfpXfOQgATwAA">
@@ -996,12 +993,12 @@ and ReaderBase.
 <XPD:REF name="Participant">q11CD3et4kixnDRLW4nPdgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">ymxDIXyVUESDyLIcICrGWQAA</XPD:REF>
-<XPD:REF name="Views[1]">9JS131H/4US3bVVB0X+RIAAA</XPD:REF>
-<XPD:REF name="Views[2]">I8zAzIUs30G8GAyGAkzPOAAA</XPD:REF>
+<XPD:REF name="Views[1]">I8zAzIUs30G8GAyGAkzPOAAA</XPD:REF>
+<XPD:REF name="Views[2]">9JS131H/4US3bVVB0X+RIAAA</XPD:REF>
 <XPD:REF name="Views[3]">itBAlqtdlUK0IXNYnX3+mQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[12]" type="UMLAssociation" guid="FJ1X3D9c80uG5EgY7ATqzQAA">
+<XPD:OBJ name="OwnedElements[11]" type="UMLAssociation" guid="FJ1X3D9c80uG5EgY7ATqzQAA">
 <XPD:ATTR name="Name" type="string">creates</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
@@ -1016,8 +1013,8 @@ and ReaderBase.
 <XPD:REF name="Participant">rDKOyCdZEkCOx+oFSF1RfgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">hIeXX5pEhk+9J80xff/Z2QAA</XPD:REF>
-<XPD:REF name="Views[1]">Jn/ACJad8kOY5lGCpXLetQAA</XPD:REF>
-<XPD:REF name="Views[2]">USMA9tEXpkGY+pAIVRjLHAAA</XPD:REF>
+<XPD:REF name="Views[1]">USMA9tEXpkGY+pAIVRjLHAAA</XPD:REF>
+<XPD:REF name="Views[2]">Jn/ACJad8kOY5lGCpXLetQAA</XPD:REF>
 <XPD:REF name="Views[3]">WNomTSYdhk6j1wGMK0aBMQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="XFmHn8b6Sk2ycMUt8wH3vAAA">
@@ -1025,24 +1022,24 @@ and ReaderBase.
 <XPD:REF name="Participant">JQvuxGbsdE2jFadShkxqKgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">vMwGVXrxPkCKOvOAPR6ytQAA</XPD:REF>
-<XPD:REF name="Views[1]">BAaRrPSiRkWfQQrnfeF5BQAA</XPD:REF>
-<XPD:REF name="Views[2]">b6bOArvlz0+mgsrQHIOI8wAA</XPD:REF>
+<XPD:REF name="Views[1]">b6bOArvlz0+mgsrQHIOI8wAA</XPD:REF>
+<XPD:REF name="Views[2]">BAaRrPSiRkWfQQrnfeF5BQAA</XPD:REF>
 <XPD:REF name="Views[3]">rACoLZEoXESlgVdLXl1ocQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[13]" type="UMLPackage" guid="4cKvVc5Dtk6rtkH3X3B9egAA">
+<XPD:OBJ name="OwnedElements[12]" type="UMLPackage" guid="4cKvVc5Dtk6rtkH3X3B9egAA">
 <XPD:ATTR name="Name" type="string">SomePlugin</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">xW95yby7XEChYzUI8UtliAAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[14]" type="UMLPackage" guid="Hwg8xLPVZkC6P9CDdGGF+AAA">
+<XPD:OBJ name="OwnedElements[13]" type="UMLPackage" guid="Hwg8xLPVZkC6P9CDdGGF+AAA">
 <XPD:ATTR name="Name" type="string">ConE</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">Nppn0CUEP0Stsi3DAR1qEQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[15]" type="UMLAssociation" guid="C72p+KeoXkaRHqlZwhKDHgAA">
+<XPD:OBJ name="OwnedElements[14]" type="UMLAssociation" guid="C72p+KeoXkaRHqlZwhKDHgAA">
 <XPD:ATTR name="Name" type="string">uses</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
@@ -1057,8 +1054,8 @@ and ReaderBase.
 <XPD:REF name="Participant">q11CD3et4kixnDRLW4nPdgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">YQ4SH0PbkU6D2Ed6kFWZ3gAA</XPD:REF>
-<XPD:REF name="Views[1]">au7s+O1a6EOhU92BZ9mTfAAA</XPD:REF>
-<XPD:REF name="Views[2]">uC7b5/Ag8E+lVXijU0puEAAA</XPD:REF>
+<XPD:REF name="Views[1]">uC7b5/Ag8E+lVXijU0puEAAA</XPD:REF>
+<XPD:REF name="Views[2]">au7s+O1a6EOhU92BZ9mTfAAA</XPD:REF>
 <XPD:REF name="Views[3]">SutSAX/p70WlhiBCYP5mIQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="DDj3t0783k6mjECBMHSRZgAA">
@@ -1066,12 +1063,12 @@ and ReaderBase.
 <XPD:REF name="Participant">3dlH2vm6sEayyvEaXZoCngAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">Rn+WUty/KE6o3UWIZm/++wAA</XPD:REF>
-<XPD:REF name="Views[1]">7gOWzEGpb0KSajbXDeX03QAA</XPD:REF>
-<XPD:REF name="Views[2]">e/X32+GrOUiRRJMneGhhrwAA</XPD:REF>
+<XPD:REF name="Views[1]">e/X32+GrOUiRRJMneGhhrwAA</XPD:REF>
+<XPD:REF name="Views[2]">7gOWzEGpb0KSajbXDeX03QAA</XPD:REF>
 <XPD:REF name="Views[3]">1RN9/oe60kCHXG3xE2fYmQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedElements[16]" type="UMLAssociation" guid="zR4RT17TyUGNWLtHCk4EHQAA">
+<XPD:OBJ name="OwnedElements[15]" type="UMLAssociation" guid="zR4RT17TyUGNWLtHCk4EHQAA">
 <XPD:ATTR name="Name" type="string">uses</XPD:ATTR>
 <XPD:REF name="Namespace">NmvwO09X4Uu7xy6qNwdIDQAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
@@ -1086,8 +1083,8 @@ and ReaderBase.
 <XPD:REF name="Participant">3dlH2vm6sEayyvEaXZoCngAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">Ao1mzGyZkUOXJ7iUZ+CxmQAA</XPD:REF>
-<XPD:REF name="Views[1]">Mlo0JoqcnUWmKG46gdW/pgAA</XPD:REF>
-<XPD:REF name="Views[2]">60bFmV8mJ02N5+zPFmP+cAAA</XPD:REF>
+<XPD:REF name="Views[1]">60bFmV8mJ02N5+zPFmP+cAAA</XPD:REF>
+<XPD:REF name="Views[2]">Mlo0JoqcnUWmKG46gdW/pgAA</XPD:REF>
 <XPD:REF name="Views[3]">hQN6K9SliEunBHaWLwTWywAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="AeNNCbWnPEKWIb774GWlfQAA">
@@ -1095,8 +1092,8 @@ and ReaderBase.
 <XPD:REF name="Participant">rDKOyCdZEkCOx+oFSF1RfgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">65oSMAg0mkmODMiMbf+UjQAA</XPD:REF>
-<XPD:REF name="Views[1]">6vvMJYaqA0+EsdkZT8o6oAAA</XPD:REF>
-<XPD:REF name="Views[2]">znikN5jxMkWgoTVeUx7U0wAA</XPD:REF>
+<XPD:REF name="Views[1]">znikN5jxMkWgoTVeUx7U0wAA</XPD:REF>
+<XPD:REF name="Views[2]">6vvMJYaqA0+EsdkZT8o6oAAA</XPD:REF>
 <XPD:REF name="Views[3]">AnbfKLYaZ0qC8tWUwfnFkgAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>

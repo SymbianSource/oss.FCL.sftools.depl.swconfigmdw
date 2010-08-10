@@ -18,7 +18,7 @@
 """
 Test the CPF metadata file parsing routines
 """
-import os, sys, unittest
+import os, unittest
 try:
     from cElementTree import ElementTree
 except ImportError:
@@ -30,9 +30,7 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-import __init__
-
-from cone.public import utils, exceptions, api
+from cone.public import exceptions
 from cone.storage import metadata, stringstorage
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 emptytestdata  = '<?xml version="1.0" encoding="ASCII"?>'\
@@ -64,7 +62,7 @@ class TestMetadataReader(unittest.TestCase):
         m = metadata.MetadataReader().fromstring(testdata)
         self.assertTrue(m)
         
-    def test_create_meta_fromstring(self):
+    def test_create_meta_fromstring_test_has_key(self):
         m = metadata.MetadataReader().fromstring(testdata)
         self.assertTrue(m.data.has_key('cpf.name'))
         self.assertTrue(m.data.has_key('cpf.description'))
@@ -125,6 +123,12 @@ class TestMetadataWriter(unittest.TestCase):
         meta2 = metadata.MetadataReader().fromstring(str)
         self.assertEqual(meta.data,meta2.data)
 
+    def test_metadata_write_with_empty_data(self):
+        meta = metadata.Metadata()
+        str = metadata.MetadataWriter().tostring(meta)
+        meta2 = metadata.MetadataReader().fromstring(str)
+        self.assertEqual(meta.data,meta2.data)
+
     def test_incorrect_class_fails(self):
         try:
             class dummy:
@@ -137,9 +141,10 @@ class TestMetadataWriter(unittest.TestCase):
         
     def test_set_property(self):
         elem = ElementTree.Element('property')
-        prop = metadata.MetadataWriter().set_property(elem,'test','foof')
-        self.assertTrue(prop.get('name'),'test')
-        self.assertTrue(prop.get('value'),'foof')
+        mwriter = metadata.MetadataWriter()
+        prop_elem = mwriter.set_property(elem,'test','foof')
+        self.assertTrue(prop_elem.get('name'),'test')
+        self.assertTrue(prop_elem.get('value'),'foof')
 
     def test_set_property_with_only_key(self):
         elem = ElementTree.Element('property')

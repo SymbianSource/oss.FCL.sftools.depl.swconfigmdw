@@ -110,7 +110,28 @@
     .currentValue {
         background-color: #e8f2fe;
     }
+
+.fltrow{ /* filter grid row appearance */
+    height:20px;
+    background-color:#f4f4f4;
+}
+.btnflt{ /* button appearance */
+    font-size:11px;
+    margin:0 2px 0 2px; padding:0 1px 0 1px;
+    text-decoration:none; color: #fff;
+    background-color:#666;
+}
+.flt{ /* filter (input) appearance */
+    background-color:#f4f4f4; border:1px inset #ccc; 
+    margin:0; width:100%;
+}
+.flt_s{ /* small filter (input) appearance */
+    background-color:#f4f4f4; border:1px inset #ccc; 
+    margin:0; width:80%;
+}
+
 </style>
+<script language="javascript" type="text/javascript" src="http://www.javascriptkit.com/script/script2/tablefilter.js"></script>
 <title>Data value info - ConE</title>
 
 </head>
@@ -191,7 +212,7 @@
         <td>sequence</td>
         
         
-        <td>SequenceData(columns=[SequenceColumn(ref='RealSubSetting', name='Real sub-setting', type='real'), SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string'), SequenceColumn(ref='BooleanSubSetting', name='Boolean sub-setting', type='boolean'), SequenceColumn(ref='SelectionSubSetting', name='Selection sub-setting', type='selection')], rows=[{'RealSubSetting': '1.5', 'IntSubSetting': '256', 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'test (product)', 'BooleanSubSetting': 'false'}, {'RealSubSetting': '1.25', 'IntSubSetting': '128', 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def1', 'BooleanSubSetting': 'false'}, {'RealSubSetting': '1.5', 'IntSubSetting': '256', 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def2', 'BooleanSubSetting': 'false'}, {'RealSubSetting': '1.5', 'IntSubSetting': '256', 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'test', 'BooleanSubSetting': 'true'}])</td>
+        <td>SequenceData(columns=[SequenceColumn(ref='RealSubSetting', name='Real sub-setting', type='real'), SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string'), SequenceColumn(ref='BooleanSubSetting', name='Boolean sub-setting', type='boolean'), SequenceColumn(ref='SelectionSubSetting', name='Selection sub-setting', type='selection')], rows=[{'RealSubSetting': 1.5, 'IntSubSetting': 256, 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'test (product)', 'BooleanSubSetting': False}, {'RealSubSetting': 1.25, 'IntSubSetting': 128, 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def1', 'BooleanSubSetting': False}, {'RealSubSetting': 1.5, 'IntSubSetting': 256, 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def2', 'BooleanSubSetting': False}, {'RealSubSetting': 1.5, 'IntSubSetting': 256, 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'test', 'BooleanSubSetting': True}])</td>
         
         
     </tr>
@@ -202,7 +223,7 @@
         <td>sequence</td>
         
         
-        <td>SequenceData(columns=[SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string')], rows=[{'IntSubSetting': '1', 'StringSubSetting': 'default 1'}, {'IntSubSetting': '2', 'StringSubSetting': 'default 2'}])</td>
+        <td>SequenceData(columns=[SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string')], rows=[{'IntSubSetting': 1, 'StringSubSetting': 'default 1'}, {'IntSubSetting': 2, 'StringSubSetting': 'default 2'}])</td>
         
         
     </tr>
@@ -268,7 +289,7 @@
         <td>sequence</td>
         
         
-        <td>SequenceData(columns=[SequenceColumn(ref='RealSubSetting', name='Real sub-setting', type='real'), SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string'), SequenceColumn(ref='BooleanSubSetting', name='Boolean sub-setting', type='boolean'), SequenceColumn(ref='SelectionSubSetting', name='Selection sub-setting', type='selection')], rows=[{'RealSubSetting': '1.25', 'IntSubSetting': '128', 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def1', 'BooleanSubSetting': 'false'}, {'RealSubSetting': '1.5', 'IntSubSetting': '256', 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def2', 'BooleanSubSetting': 'false'}])</td>
+        <td>SequenceData(columns=[SequenceColumn(ref='RealSubSetting', name='Real sub-setting', type='real'), SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string'), SequenceColumn(ref='BooleanSubSetting', name='Boolean sub-setting', type='boolean'), SequenceColumn(ref='SelectionSubSetting', name='Selection sub-setting', type='selection')], rows=[{'RealSubSetting': 1.25, 'IntSubSetting': 128, 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def1', 'BooleanSubSetting': False}, {'RealSubSetting': 1.5, 'IntSubSetting': 256, 'SelectionSubSetting': 'Op1', 'StringSubSetting': 'def2', 'BooleanSubSetting': False}])</td>
         
         
     </tr>
@@ -279,7 +300,7 @@
         <td>sequence</td>
         
         
-        <td>SequenceData(columns=[SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string')], rows=[{'IntSubSetting': '1', 'StringSubSetting': 'default 1'}, {'IntSubSetting': '2', 'StringSubSetting': 'default 2'}])</td>
+        <td>SequenceData(columns=[SequenceColumn(ref='IntSubSetting', name='Int sub-setting', type='int'), SequenceColumn(ref='StringSubSetting', name='String sub-setting', type='string')], rows=[{'IntSubSetting': 1, 'StringSubSetting': 'default 1'}, {'IntSubSetting': 2, 'StringSubSetting': 'default 2'}])</td>
         
         
     </tr>

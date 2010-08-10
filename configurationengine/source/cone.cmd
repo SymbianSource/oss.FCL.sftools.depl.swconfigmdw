@@ -29,30 +29,33 @@ setlocal
 
 set CONE_CMDARG=%*
 set CONE_BASEDIR=%~dp0
+set CONE_BASEDIR=%CONE_BASEDIR%configurationengine\win\
 set PYTHONCASEOK=1
+set PYTHONDONTWRITEBYTECODE=x
+
+if not exist "%CONE_BASEDIR%" (
+echo Cannot run ConE, the ConE base directory does not exist:
+echo %CONE_BASEDIR%
+exit /b 1
+)
 
 @rem Check that Python is available
-call python -h >nul 2>&1
+call python -c None >nul 2>&1
 if %errorlevel% neq 0 (
 echo Python is required to run ConE!
 exit /b 1
 )
 
 @REM Find out Python version
-set VERFILE=%TEMP%\cone_version_check.tmp
-python -c "import sys; print sys.version[:3]" > %VERFILE%
-set varNUM=0
-for /f "tokens=*" %%T in (%VERFILE%) do call :varSET %%T
-if exist %VERFILE% del %VERFILE% 
-
+FOR /F "tokens=*" %%i in ('PYTHON -c "import sys; sys.stdout.write(sys.version[:3])"') do SET VER1=%%i
 
 @REM Set the used base directory based on the version
 if %VER1%==2.5 (
-set CONE_BASEDIR=%CONE_BASEDIR%cone\2.5\
+set CONE_BASEDIR=%CONE_BASEDIR%2.5\
 goto EndVersionCheck
 )
 if %VER1%==2.6 (
-set CONE_BASEDIR=%CONE_BASEDIR%cone\2.6\
+set CONE_BASEDIR=%CONE_BASEDIR%2.6\
 goto EndVersionCheck
 )
 echo You are using an unsupported Python version (%VER1%)
@@ -67,19 +70,26 @@ echo Python version %VER1% is not supported by this ConE installation
 exit /b 1
 )
 
+@rem Set the egg cache dir to be unique to avoid egg extraction clashes
+@rem when running multiple parallel ConE instances
+FOR /F "tokens=*" %%i in ('PYTHON -c "import tempfile; d = tempfile.mkdtemp(); print d"') do SET EGG_CACHE_DIR=%%i
+@rem echo Egg cache dir: %EGG_CACHE_DIR%
+set PYTHON_EGG_CACHE=%EGG_CACHE_DIR%
 
 @rem Set environment variables and run cone_tool.py
 set CONE_LIBDIR=%CONE_BASEDIR%\lib
 set CONE_SCRIPTDIR=%CONE_BASEDIR%\scripts
 set PATH=%CONE_SCRIPTDIR%;%PATH%
 set PYTHONPATH=%CONE_LIBDIR%;%PYTHONPATH%
-call python "%CONE_SCRIPTDIR%\cone_tool.py" %CONE_CMDARG%
-exit /b %ERRORLEVEL%
+REM The cone_tool will parse the arguments from the environment variable
+call python "%CONE_SCRIPTDIR%\cone_tool.py" 
+set CONE_ERROR_CODE=%ERRORLEVEL%
 
+@rem Delete the egg cache dir
+call rd /S /Q "%EGG_CACHE_DIR%"
+
+if 0%CONE_EXITSHELL% equ 0 exit /b %CONE_ERROR_CODE%
+exit %CONE_ERROR_CODE%
 endlocal
-
-:VarSET
-set /a varNUM=%varNUM%+1
-set VER%varNUM%=%1
 
 :: END OF cone.cmd

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="data">
+  <confml:data>
+  
+    <confml:BasicSettingTypesTest>
+      <confml:RealSetting>3.145</confml:RealSetting>
+      <confml:IntSetting>222</confml:IntSetting>
+    </confml:BasicSettingTypesTest>
+    
+    <confml:FileFolderTest>
+      <confml:FileSetting>
+        <confml:localPath>layer2_file.txt</confml:localPath>
+      </confml:FileSetting>
+    </confml:FileFolderTest>
+    
+    <confml:SequenceSettingTest>
+      <confml:SequenceSetting extensionPolicy="prefix">
+        <confml:FolderSubSetting><confml:localPath>seq/layer2_folder</confml:localPath></confml:FolderSubSetting>
+		<confml:RealSubSetting>2.0</confml:RealSubSetting>
+		<confml:FileSubSetting><confml:localPath>seq/layer2_file.txt</confml:localPath></confml:FileSubSetting>
+		<confml:IntSubSetting>22</confml:IntSubSetting>
+		<confml:StringSubSetting>L21</confml:StringSubSetting>
+		<confml:BooleanSubSetting>true</confml:BooleanSubSetting>
+		<confml:SelectionSubSetting>2</confml:SelectionSubSetting>
+	  </confml:SequenceSetting>
+	  
+	  <confml:SequenceSetting>
+        <confml:FolderSubSetting><confml:localPath>seq/layer2_folder2</confml:localPath></confml:FolderSubSetting>
+		<confml:RealSubSetting>2.1</confml:RealSubSetting>
+		<confml:FileSubSetting><confml:localPath>seq/layer2_file2.txt</confml:localPath></confml:FileSubSetting>
+		<confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>L22</confml:StringSubSetting>
+		<confml:BooleanSubSetting>true</confml:BooleanSubSetting>
+		<confml:SelectionSubSetting>1</confml:SelectionSubSetting>
+	  </confml:SequenceSetting>
+    </confml:SequenceSettingTest>
+    
+    <confml:Feature1>
+      <confml:IntSetting>222</confml:IntSetting>
+      <confml:RealSetting>3.145</confml:RealSetting>
+	  
+      <confml:SequenceSetting extensionPolicy="prefix">
+		<confml:RealSubSetting>2.0</confml:RealSubSetting>
+		<confml:IntSubSetting>22</confml:IntSubSetting>
+		<confml:StringSubSetting>L21</confml:StringSubSetting>
+		<confml:BooleanSubSetting>true</confml:BooleanSubSetting>
+		<confml:SelectionSubSetting>2</confml:SelectionSubSetting>
+	  </confml:SequenceSetting>
+	  
+	  <confml:SequenceSetting>
+		<confml:RealSubSetting>2.1</confml:RealSubSetting>
+		<confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>L22</confml:StringSubSetting>
+		<confml:BooleanSubSetting>true</confml:BooleanSubSetting>
+		<confml:SelectionSubSetting>1</confml:SelectionSubSetting>
+	  </confml:SequenceSetting>
+    </confml:Feature1>
+	
+	<confml:Feature2>
+	  <confml:SequenceSetting extensionPolicy="append">
+	    <confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>layer2 (1)</confml:StringSubSetting>
+	  </confml:SequenceSetting>
+	  <confml:SequenceSetting>
+	    <confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>layer2 (2)</confml:StringSubSetting>
+	  </confml:SequenceSetting>
+	  <confml:SequenceSetting>
+	    <confml:IntSubSetting>222</confml:IntSubSetting>
+		<confml:StringSubSetting>layer2 (3)</confml:StringSubSetting>
+	  </confml:SequenceSetting>
+	</confml:Feature2>
+	
+  </confml:data>
+</confml:configuration>

@@ -21,7 +21,7 @@ import unittest
 import os
 import shutil
 import zipfile
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from testautomation import unzip_file
 from scripttest_common import get_cmd
@@ -86,7 +86,7 @@ class TestMerge(BaseTestCase):
     def test_get_help(self):
         cmd = '%s -h' % get_cmd('merge')
         out = self.run_command(cmd)
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Options:' in lines)
         self.assertTrue('  Merge options:' in lines)
 

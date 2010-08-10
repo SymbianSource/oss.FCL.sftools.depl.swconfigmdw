@@ -22,7 +22,7 @@ import string
 import sys
 import os
 import subprocess
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from scripttest_common import get_cmd
 
@@ -36,7 +36,7 @@ class TestInfo(BaseTestCase):
     def test_get_help(self):
         cmd = '%s -h' % get_cmd('info')
         out = self.run_command(cmd)
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Options:' in lines)
         self.assertTrue('  Info options:' in lines)
     
@@ -46,7 +46,7 @@ class TestInfo(BaseTestCase):
         cmd = '%s -p "%s"' % (get_cmd('info'), testproject)
         out = self.run_command(cmd)
         
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Configurations in the project.' in lines)
         self.assertTrue('root1.confml' in lines)
         self.assertTrue('root2.confml' in lines)
@@ -55,6 +55,22 @@ class TestInfo(BaseTestCase):
         self.assertTrue('root5.confml' in lines)
         
         self.assert_not_modified(testproject)
+    
+    def test_print_active_root(self):
+        cmd = '%s -p "%s" --print-active-root' % (get_cmd('info'), testproject)
+        out = self.run_command(cmd)
+        self.assertTrue('Active root: root5.confml' in out)
+        
+        project = os.path.join(ROOT_PATH,'test_variant.cpf')
+        cmd = '%s -p "%s" --print-active-root' % (get_cmd('info'), project)
+        out = self.run_command(cmd)
+        self.assertTrue('Active root: root.confml' in out)
+        
+        project = os.path.join(ROOT_PATH, 'testdata/info/no_active_root.cpf')
+        cmd = '%s -p "%s" --print-active-root' % (get_cmd('info'), project)
+        out = self.run_command(cmd)
+        self.assertTrue('No active root.' in out)
+        
     
     def test_api_report(self):
         EXPECTED_FILE = os.path.join(ROOT_PATH, 'testdata/info/expected/api_report.html')
@@ -163,7 +179,7 @@ class TestInfo(BaseTestCase):
         self._run_test_value_report(
             output   = 'value_report_langpacks_regex.html',
             expected = 'value_report_langpacks.html',
-            args     = '--config-regex product_langpack_\\d{2}_root.confml')
+            args     = '--config-regex product_langpack_[0-9]{2}_root.confml')
     
     def test_value_report_multi_config(self):
         self._run_test_value_report(
@@ -218,8 +234,11 @@ class TestInfo(BaseTestCase):
         EXPECTED_FILE = os.path.join(ROOT_PATH, 'testdata/info/expected/value_report_custom.html')
         REPORT_FILE = os.path.join(temp_dir, 'value_report_custom.html')
         self.remove_if_exists(REPORT_FILE)
-        cmd = '%s -p "%s" --template "%s" --report "%s" -c product_root.confml' \
-            % (get_cmd('info'), VALUE_REPORT_PROJECT, TEMPLATE_FILE, REPORT_FILE)
+        cmd = '%s -p "%s" --template "%s" --log-file="%s" --report "%s" -c product_root.confml' \
+            % (get_cmd('info'), VALUE_REPORT_PROJECT, 
+                                TEMPLATE_FILE, 
+                                os.path.join(temp_dir, 'value_report_custom_cone.log'),
+                                REPORT_FILE)
         out = self.run_command(cmd)
         
         self.assert_file_contents_equal(EXPECTED_FILE, REPORT_FILE)

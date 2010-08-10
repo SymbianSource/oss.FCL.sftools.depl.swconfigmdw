@@ -19,14 +19,11 @@
 Test the CPF root file parsing routines
 """
 
-import zipfile
 import unittest
-import string
-import sys,os
+import os
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-import __init__
-from cone.public.exceptions import NotResource, StorageException
+from cone.public.exceptions import StorageException
 from cone.public import api
 from cone.storage import filestorage
 
@@ -151,12 +148,12 @@ class TestFileResource(unittest.TestCase):
         res.close()
         
     def test_get_content_info_and_read_data(self):
-        res = self.storage.open_resource("testread.txt", "r")
+        res = self.storage.open_resource("testread.txt", "rb")
         ci = res.get_content_info()
         self.assertEquals('text/plain', ci.content_type)
         data = res.read()
-        self.assertEquals('foo bar test.\n', data)
+        self.assertEquals('foo bar test.\r\n', data)
         res.close()
         
 if __name__ == '__main__':
-      unittest.main()
+    unittest.main()

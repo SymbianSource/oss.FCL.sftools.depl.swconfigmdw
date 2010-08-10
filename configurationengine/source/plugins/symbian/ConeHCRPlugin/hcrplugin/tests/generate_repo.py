@@ -20,7 +20,6 @@ is written to a file.
 """
 
 import os, unittest
-import __init__
 
 from testautomation.utils import hex_to_bindata
 

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+    <!-- This RuleML is used when running the integration test, it is not used in unit tests -->
+    <phase name="post"/>
+	<rule>{% check_uses_layer() %} configures "foo" = "baar"
+    </rule>
+    <eval_globals>
+import os
+
+from ruleplugin.evals import layer_utils
+
+def check_uses_layer():
+    results = [('Layer', 'Tag', 'Expected', 'Actual', 'Outcome')]
+    
+    def check(layer_index, tag, expected):
+        layer = ruleml.configuration.get_configuration_by_index(layer_index)
+        result = layer_utils.layers_used(ruleml.configuration, [layer], {'target' : [tag]})
+        
+        if result == expected:  outcome = "OK"
+        else:                   outcome = "FAIL"
+        
+        results.append((layer.get_path(), tag, expected, result, outcome))
+    
+    # BASE
+    check(layer_index = 0, tag = 'uda',   expected = True)
+    check(layer_index = 0, tag = 'rofs3', expected = True)
+    check(layer_index = 0, tag = 'rofs2', expected = True)
+    
+    # LAYER 1
+    check(layer_index = 1, tag = 'uda',   expected = True)
+    check(layer_index = 1, tag = 'rofs3', expected = False)
+    check(layer_index = 1, tag = 'rofs2', expected = False)
+    
+    # LAYER 2
+    check(layer_index = 2, tag = 'uda',   expected = False)
+    check(layer_index = 2, tag = 'rofs3', expected = False)
+    check(layer_index = 2, tag = 'rofs2', expected = True)
+    
+    # LAYER 3
+    check(layer_index = 3, tag = 'uda',   expected = False)
+    check(layer_index = 3, tag = 'rofs3', expected = False)
+    check(layer_index = 3, tag = 'rofs2', expected = False)
+    
+    # LAYER 4
+    check(layer_index = 4, tag = 'uda',   expected = True)
+    check(layer_index = 4, tag = 'rofs3', expected = False)
+    check(layer_index = 4, tag = 'rofs2', expected = False)
+    
+    # LAYER 5
+    check(layer_index = 5, tag = 'uda',   expected = False)
+    check(layer_index = 5, tag = 'rofs3', expected = True)
+    check(layer_index = 5, tag = 'rofs2', expected = False)
+    
+    # LAYER 6
+    check(layer_index = 6, tag = 'uda',   expected = True)
+    check(layer_index = 6, tag = 'rofs3', expected = True)
+    check(layer_index = 6, tag = 'rofs2', expected = False)
+    
+    # LAYER 7
+    check(layer_index = 7, tag = 'uda',   expected = True)
+    check(layer_index = 7, tag = 'rofs3', expected = False)
+    check(layer_index = 7, tag = 'rofs2', expected = False)
+    
+    # LAYER 8
+    check(layer_index = 8, tag = 'uda',   expected = False)
+    check(layer_index = 8, tag = 'rofs3', expected = False)
+    check(layer_index = 8, tag = 'rofs2', expected = False)
+    
+    # LAYER 9
+    check(layer_index = 9, tag = 'uda',   expected = True)
+    check(layer_index = 9, tag = 'rofs3', expected = False)
+    check(layer_index = 9, tag = 'rofs2', expected = False)
+    
+    # LAYER 10
+    check(layer_index = 10, tag = 'uda',   expected = True)
+    check(layer_index = 10, tag = 'rofs3', expected = False)
+    check(layer_index = 10, tag = 'rofs2', expected = False)
+    
+    # LAYER 11
+    check(layer_index = 11, tag = 'uda',   expected = True)
+    check(layer_index = 11, tag = 'rofs3', expected = False)
+    check(layer_index = 11, tag = 'rofs2', expected = False)
+    
+    # Write the results to output
+    f = open(os.path.join(ruleml.context.output, 'uses_layers_test.txt'),'w')
+    try:
+        # Column widths
+        layer_cw      = max([len(str(r[0])) for r in results]) + 2
+        tag_cw        = max([len(str(r[1])) for r in results]) + 2
+        expected_cw   = max([len(str(r[2])) for r in results])
+        actual_cw     = max([len(str(r[3])) for r in results]) + 2
+        
+        format = "%%-%ss %%-%ss %%-%ss %%-%ss %%s\n" % (layer_cw, tag_cw, expected_cw, actual_cw)
+        for r in results:
+            f.write(format % r)
+    finally:
+        f.close()
+    
+</eval_globals>
+</ruleml>

@@ -12,9 +12,11 @@ demonstrates some recommended practices for developing ConE plug-ins:
     - Implementation class
     - Implementation model
 - Using ``cone.public.utils`` for ConfML setting reference handling
+- Providing XML schema validation and model-level validation
 - Unit tests:
     - Testing the reader class, the implementation class and the model classes separately
     - Output generation testing (plug-in scope integration test)
+    - Validation testing
 
 The ExampleML language
 ----------------------
@@ -55,16 +57,19 @@ Directory structure
         - ``ConeExamplePlugin/`` - Source for the example plug-in
             - ``examplemlplugin/`` - Module directory containing all plug-in code
                 - ``tests/`` - Unit tests and test data for the plug-in
-                    - ``project/`` - Configuration project used in the tests
-                    - ``gen_expected/`` - Expected output for generation test case
+                    - ``testdata/`` - Directory containing all test data needed by the test cases
                     - ``__init__.py`` - Test module initialization file
                     - ``runtests.py`` - Script for running all test cases
                     - ``unittest_exampleml_impl.py`` - File containing test cases
                     - ``unittest_exampleml_reader.py`` - File containing test cases
                     - ``unittest_exampleml_generation.py`` - File containing test cases
+                    - ``unittest_exampleml_validation.py`` - File containing test cases
+                - ``xsd/`` - XML Schema files for schema validation
+                    - ``exampleml.xsd`` - Schema file for schema validation
                 - ``__init__.py`` - Plug-in module initialization file
                 - ``exampleml_impl.py`` - Plug-in source file
                 - ``exampleml_reader.py`` - Plug-in source file
+                - ``exampleml_validators.py`` - Plug-in source file
             - ``setup.py`` - Setup script for packaging the plug-in into an .egg file
             - ``setup.cfg`` - Configuration file for ``setup.py``
         - ``integration-test/`` - Integration tests for the example plug-in package
@@ -83,7 +88,10 @@ Logically the plug-in is divided into three parts:
 - *Implementation class*, works as the interface of the plug-in towards ConE and uses the model to do the actual work
 - *Implementation reader*, converts the XML data into the logical model and creates a new implementation class instance
 
-In this case the *model* consists just of the class Output, which corresponds to the ``<output>`` element.
+Here the *model* consists just of the class Output, which corresponds to the ``<output>`` element.
+
+In addition to these, there is a collection of *validator classes* that are
+responsible for handling model-level validation.
 
 Plug-in code
 ------------
@@ -135,6 +143,28 @@ own method. Again, this is to make unit testing easier.
 .. literalinclude:: /../source/plugins/example/ConeExamplePlugin/examplemlplugin/exampleml_reader.py
    :linenos:
 
+Note that the reader class provides the XML schema by overriding
+``get_schema_data()``. If this method was not overridden, a default schema
+that accepts (almost) anything would be used for schema validation.
+
+
+exampleml_validators.py
+...................
+
+This file defines all validator classes. Since ExampleML is so simple, there
+are only two cases that need to be validated on the model level: setting
+references and the encoding. Notice that the setting reference validator
+uses the method ``check_feature_reference()`` inherited from ``ImplValidatorBase``.
+As there are utility functions for handling references in a uniform way, there
+is also a utility function for validating them.
+
+Note also the class list VALIDATOR_CLASSES at the bottom, which contains both
+of the validator classes. The file ``setup.py`` contains an entry point
+definition that points to this list, and the validation framework finds the
+validators via that.
+
+.. literalinclude:: /../source/plugins/example/ConeExamplePlugin/examplemlplugin/exampleml_validators.py
+   :linenos:
 
 Unit tests
 ----------
@@ -204,14 +234,26 @@ the workding copy.
 .. literalinclude:: /../source/plugins/example/ConeExamplePlugin/examplemlplugin/tests/unittest_exampleml_generation.py
    :linenos:
 
+unittest_exampleml_validation.py
+................................
+
+Like ``unittest_exampleml_generation.py`` test output generation, this file
+tests validation. The test cases themselves are pretty simple, since there are
+pre-existing helper methods for running the tests, and the tests mainly consist
+of test data and expected.
+
+.. literalinclude:: /../source/plugins/example/ConeExamplePlugin/examplemlplugin/tests/unittest_exampleml_validation.py
+   :linenos:
+
+   
 Plug-in packaging
 -----------------
 
 The file ``setup.py`` handles the packaging of the plug-in into an egg file.
 
 The most important thing here is the plug-in's entry point info. The
-plug-in's reader classes must be specified as entry points, or they won't be
-loaded.
+plug-in's reader and validator classes must be specified as entry points,
+or they won't be loaded.
 
 .. literalinclude:: /../source/plugins/example/ConeExamplePlugin/setup.py
    :linenos:
@@ -268,11 +310,11 @@ unittest_generate.py
 This file contains tests for generating output using the example plug-in.
 Note the following things:
 
-- The use of the variable ``CONE_CMD`` in ``get_cmd()``. This variable is set to
-  contain the actual ConE command to run if the tests are being run from the
-  exported standalone test set. In practice this will be something like
-  ``C:/cone_test/cone/cone.cmd``.
-- The actual generation and testing is done in a separate function, ``run_test_generate()``,
+- The check if ``CONE_CMD`` is in the environment variables in ``get_cmd()``.
+  This variable is set to contain the actual ConE command to run if the tests
+  are being run from the exported standalone test set. In practice this will be
+  something like  ``C:/cone_test/cone/cone.cmd``.
+- The actual generation and testing is done in a separate function, ``_run_test_generate()``,
   and there are two actual test functions that call it. One runs the test directly on the
   test project on the file system, and another first zips the test project and then runs
   the test on that. It is a good idea to test that generation works the same in both cases,

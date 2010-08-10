@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" name="Layer 1">
+  <xi:include href="confml/duplicate_uids.confml#/"/>
+  <xi:include href="confml/invalid_capabilities.confml#/"/>
+  <xi:include href="confml/multiple_access_definitions.confml#/"/>
+</confml:configuration>

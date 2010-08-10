@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <tag name="crml" value="deltacenrep"/>
+    <tag name="target" value="rofs2"/>
+    <tag name="target" value="rofs3"/>
+    <phase name="post"/>
+    <settingRefsOverride refsIrrelevant="true"/>
+    
+    <templateml xmlns="http://www.s60.com/xml/templateml/1">
+        <output dir="include" file="deltacenreps.iby" encoding="UTF-8">
+<template>
+#ifndef __DELTA_CENREPS_IBY
+#define __DELTA_CENREPS_IBY
+
+{% for output in gen_context.get_output(implml_type='crml') -%}
+data = {{output.abspath}}			private\10202BE9\{{output.filename}} exattrib=U
+{% endfor %}
+
+#endif // __DELTA_CENREPS_IBY
+</template>
+        </output>
+    </templateml>
+</container>

@@ -23,6 +23,7 @@ import os
 import sys
 import logging
 import shutil
+import pkg_resources
             
 import __init__
 
@@ -46,6 +47,8 @@ class ContentImpl(plugin.ImplBase):
         self.desc = ""
         self.logger = logging.getLogger('cone.content(%s)' % self.ref)
         self.errors = False
+        self.context = plugin.GenerationContext(configuration=configuration)
+
 
     def list_output_files(self):
         """
@@ -76,7 +79,7 @@ class ContentImpl(plugin.ImplBase):
                     self.logger.info('Content copy items from %s to %s' % (input.dir,os.path.join(self.output,output.dir)))
                 
                 if input.__class__.__name__ == "ContentInput":
-                    copylist = self.create_copy_list(content=self.configuration.layered_content(),
+                    copylist = self.create_copy_list(content=self.configuration.layered_content(empty_folders=True),
                                                      input=input.dir,
                                                      output=os.path.join(self.output,output.dir),
                                                      include_pattern=input.get_include_pattern(),
@@ -91,13 +94,20 @@ class ContentImpl(plugin.ImplBase):
                     else:
                         fulldir = self.configuration.get_project().get_storage().get_path()
                     
-                    data = container.DataContainer()                     
+                    data = container.DataContainer()
                     for root, dirs, files in os.walk(fulldir):
-                        for f in files:                            
+                        for f in files:
                             filepath = utils.resourceref.norm(os.path.join(root, f))
                             key = utils.resourceref.replace_dir(filepath,fulldir,"")
                             data.add_value(key,filepath)
-                            #data.add_value(filepath,filepath)
+                        
+                        # If the root contains no directories and no files, it is
+                        # an empty directory and needs to be added
+                        if not dirs and not files:
+                            filepath = utils.resourceref.norm(root)
+                            key = utils.resourceref.replace_dir(filepath,fulldir,"")
+                            data.add_value(key,filepath)
+                    
                     copylist = self.create_copy_list(content=data,
                                                      input=input.dir,
                                                      output=os.path.join(self.output,output.dir),
@@ -111,13 +121,18 @@ class ContentImpl(plugin.ImplBase):
                     logging.getLogger('cone.content').warning("Unknown input %s" % (input.__class__.__name__))
                 
                 fullcopylist += copylist
-                 
+        
+        # Sort to make automated testing easier (list always in same order)
+        fullcopylist.sort()
+        
         return fullcopylist
 
     def generate(self, context=None):
         """
         Generate the given implementation.
         """
+        #assert context, "No Context given for generation!"
+        self.context = context
         self.logger.info('Generating')
         self.create_output()
         return 
@@ -127,31 +142,47 @@ class ContentImpl(plugin.ImplBase):
         Create the output directory from the content folder files
         """
         if not self.errors:
-            datacontainer = self.configuration.layered_content(layers)
-            #root = self.configuration.get_root()
             copylist = self.get_full_copy_list(True)
             for copy_item in copylist:
-                sourceref = copy_item[0]
-                targetfile = copy_item[1]
-                external = copy_item[2]                                
+                source_path = copy_item[0]
+                target_path = copy_item[1]
+                external = copy_item[2]
                 
-                self.logger.info('Copy from %s to %s' % (sourceref,targetfile))                   
-                if not os.path.exists(os.path.dirname(targetfile)):
-                    os.makedirs(os.path.dirname(targetfile))
-                if not external:
-                    outfile = open(targetfile,"wb")
-                    res = self.configuration.get_storage().open_resource(sourceref,"rb")
-                    outfile.write(res.read())
+                self.logger.info('Copy from %s to %s' % (source_path,target_path))
+                
+                # Open file resource if the source is a file
+                file_res = None
+                if not external and not self.configuration.get_storage().is_folder(source_path):
+                    file_res = self.configuration.get_storage().open_resource(source_path, "rb")
+                elif external and os.path.isfile(source_path):
+                    file_res = open(source_path, 'rb')
+                
+                # Copy file or create empty directory
+                if file_res:
+                    try:        self._copy_file(file_res, target_path)
+                    finally:    file_res.close()
                 else:
-                    shutil.copyfile(sourceref,targetfile)
+                    path = os.path.join(self.context.output, target_path)
+                    if not os.path.exists(path): os.makedirs(path)
             return 
         else:
-            self.logger.error('Plugin had errors! Bailing out!')                   
-            
+            self.logger.error('Plugin had errors! Bailing out!')
+    
+    def _copy_file(self, source_file, target_file_path):
+        outfile = self.context.create_file(target_file_path, implementation=self)
+        try:
+            # Copy data in chunks of max 2 MB to avoid
+            # memory errors with very large files
+            while True:
+                data = source_file.read(2 * 1024 * 1024)
+                if data:    outfile.write(data)
+                else:       break
+        finally:
+            outfile.close()
 
     def create_copy_list(self, **kwargs):
         """
-        Return a list copy list where each element is a (from,to) tuple 
+        Return a list copy list where each element is a (from, to, is_external) tuple 
         """
         datacontainer = kwargs.get('content',None)
         input_dir     = kwargs.get('input','')
@@ -169,7 +200,7 @@ class ContentImpl(plugin.ImplBase):
         Then apply the possible filters. 
         """
         if input_dir == None:
-           self.logger.warning("Input dir is none!")
+            self.logger.warning("Input dir is none!")
 
         
         if files != []:
@@ -199,7 +230,11 @@ class ContentImpl(plugin.ImplBase):
             sourcefile = ""
             targetfile = ""
             
-            if input_dir != None and outfile.startswith(input_dir):
+            # For the startswith() check, make sure that input dir has a trailing slash
+            if input_dir and input_dir[-1] != '/':  input_dir_check = input_dir + '/'
+            else:                                   input_dir_check = input_dir
+            
+            if input_dir != None and (input_dir == outfile or outfile.startswith(input_dir_check)):
                 sourcefile = datacontainer.get_value(outfile)
                 if flatten:
                     targetfile = utils.resourceref.join_refs([output_dir, os.path.basename(outfile)])
@@ -220,11 +255,35 @@ class ContentImpl(plugin.ImplBase):
             if output_file:
                 #Renaming output if defined
                 targetfile = targetfile.replace(os.path.basename(targetfile), output_file)
-                    
-            if sourcefile and targetfile:                
-                copylist.append((sourcefile,targetfile, external))
+                
+            if sourcefile and targetfile:
+                copylist.append((sourcefile,targetfile,external))
         return copylist
-
+    
+    def uses_layer(self, layer):
+        layered_content = layer.layered_content().list_keys()
+        for f in self.get_full_copy_list():
+            for file in layered_content:
+                if utils.resourceref.norm(os.path.join(utils.resourceref.get_path(layer.get_path()), 'content', file)) == f[0]:
+                    return True
+        return False
+    
+    def uses_layers(self, layers, context):
+        # Use the base implementation to check with refs first
+        if super(ContentImpl, self).uses_layers(layers, context):
+            return True
+        
+        # Then check if any of the files in the copy list come from the layers
+        copy_list = self.get_full_copy_list()
+        for layer in layers:
+            layered_content = layer.layered_content().list_keys()
+            for f in copy_list:
+                for file in layered_content:
+                    if utils.resourceref.norm(os.path.join(utils.resourceref.get_path(layer.get_path()), 'content', file)) == f[0]:
+                        return True
+        return False
+    
+    
 class ContentImplReaderBase(object):
     FILE_EXTENSIONS = ['content', 'contentml']
     
@@ -251,8 +310,20 @@ class ContentImplReaderBase(object):
 
 class ContentImplReader1(ContentImplReaderBase, plugin.ReaderBase):
     NAMESPACE = 'http://www.s60.com/xml/content/1'
+    NAMESPACE_ID = 'contentml1'
+    ROOT_ELEMENT_NAME = 'content'
     parser_class = contentmlparser.Content1Parser
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('contentplugin', 'xsd/contentml.xsd')
 
 class ContentImplReader2(ContentImplReaderBase, plugin.ReaderBase):
     NAMESPACE = 'http://www.s60.com/xml/content/2'
+    NAMESPACE_ID = 'contentml2'
+    ROOT_ELEMENT_NAME = 'content'
     parser_class = contentmlparser.Content2Parser
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('contentplugin', 'xsd/contentml2.xsd')

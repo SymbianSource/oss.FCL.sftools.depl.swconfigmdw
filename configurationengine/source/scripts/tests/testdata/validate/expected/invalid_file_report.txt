@@ -1,0 +1,7 @@
+Validation problems
+-------------------
+File: testdata/validate/project/assets/invalid/confml/invalid_type.confml
+Line: 4
+Type: schema.confml
+Msg:  Element '{http://www.s60.com/xml/confml/2}setting', attribute 'type': 'invalid_type' is not a valid value of the atomic type '{http://www.s60.com/xml/confml/2}typeType'.
+

@@ -110,7 +110,28 @@
     .currentValue {
         background-color: #e8f2fe;
     }
+
+.fltrow{ /* filter grid row appearance */
+    height:20px;
+    background-color:#f4f4f4;
+}
+.btnflt{ /* button appearance */
+    font-size:11px;
+    margin:0 2px 0 2px; padding:0 1px 0 1px;
+    text-decoration:none; color: #fff;
+    background-color:#666;
+}
+.flt{ /* filter (input) appearance */
+    background-color:#f4f4f4; border:1px inset #ccc; 
+    margin:0; width:100%;
+}
+.flt_s{ /* small filter (input) appearance */
+    background-color:#f4f4f4; border:1px inset #ccc; 
+    margin:0; width:80%;
+}
+
 </style>
+<script language="javascript" type="text/javascript" src="http://www.javascriptkit.com/script/script2/tablefilter.js"></script>
 <title>Implementation info - ConE</title>
 
 </head>
@@ -118,10 +139,10 @@
 <div id="content">
     <h1>Implementations</h1><br>
 
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName">File</th>
-		<th class="featureName">Index</th>
+		<th class="featureName">Line</th>
 		<th class="featureName">Type</th>
 		<th class="featureName">Phase</th>
 		<th class="featureName">Tags</th>
@@ -130,7 +151,7 @@
     
     <tr>
         <td>Layer1/implml/bitmask_test.templateml</td>
-		<td>0</td>
+		<td>2</td>
 		<td>templateml</td>
 		<td>normal</td>
 		<td></td>
@@ -139,7 +160,7 @@
     
     <tr>
         <td>Layer1/implml/feature1_1.templateml</td>
-		<td>0</td>
+		<td>2</td>
 		<td>templateml</td>
 		<td>normal</td>
 		<td></td>
@@ -148,7 +169,7 @@
     
     <tr>
         <td>Layer1/implml/feature1_2.templateml</td>
-		<td>0</td>
+		<td>2</td>
 		<td>templateml</td>
 		<td>normal</td>
 		<td></td>
@@ -157,7 +178,7 @@
     
     <tr>
         <td>Layer1/implml/feature1_sequence.templateml</td>
-		<td>0</td>
+		<td>2</td>
 		<td>templateml</td>
 		<td>normal</td>
 		<td></td>
@@ -166,7 +187,7 @@
     
     <tr>
         <td>Layer1/implml/feature2.templateml</td>
-		<td>0</td>
+		<td>2</td>
 		<td>templateml</td>
 		<td>normal</td>
 		<td></td>
@@ -175,7 +196,7 @@
     
     <tr>
         <td>Layer1/implml/time_types_test.templateml</td>
-		<td>0</td>
+		<td>2</td>
 		<td>templateml</td>
 		<td>normal</td>
 		<td></td>
@@ -184,6 +205,12 @@
     
     
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
+    
 </div>
 <div id="footer"></div>
 </body>

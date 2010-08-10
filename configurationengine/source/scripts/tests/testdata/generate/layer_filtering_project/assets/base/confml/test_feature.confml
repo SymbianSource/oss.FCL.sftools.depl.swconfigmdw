@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Test feature" version="1">
+  <feature ref="TestFeature" name="Test feature">
+    <setting ref="BaseLayerSetting" name="Base layer setting" type="int"/>
+    <setting ref="Layer1Setting" name="Layer 1 setting" type="int"/>
+    <setting ref="Layer2Setting" name="Layer 2 setting" type="int"/>
+    <setting ref="Layer3Setting" name="Layer 3 setting" type="int"/>
+  </feature>
+  <data>
+    <TestFeature>
+      <BaseLayerSetting>0</BaseLayerSetting>
+      <Layer1Setting>0</Layer1Setting>
+      <Layer2Setting>0</Layer2Setting>
+      <Layer3Setting>0</Layer3Setting>
+    </TestFeature>
+  </data>
+</configuration>

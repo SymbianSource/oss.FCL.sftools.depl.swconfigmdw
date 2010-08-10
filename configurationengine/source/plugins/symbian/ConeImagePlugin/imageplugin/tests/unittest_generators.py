@@ -15,12 +15,10 @@
 #
 
 import unittest
-import os, shutil
-import sys
-import __init__
+import sys, os
 
-from imageplugin import imageml,generators
-from cone.public import api, exceptions, plugin
+from imageplugin import generators
+from cone.public import api, exceptions, plugin, utils
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 def impl_from_resource(resource_ref, configuration):
@@ -121,6 +119,42 @@ class TestGeneratorFromProject(unittest.TestCase):
         self.assertEquals(len(cmd), 5)
         self.assertEquals(cmd[3], '/c16')
         self.assertEquals(cmd[4], r'conversion_workdir\icon.svg')
+
+    def test_create_generator_with_extraparams(self):
+        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,"imageproject")))
+        config = prj.get_configuration('product.confml')
+        dview = config.get_default_view()
+        impl = impl_from_resource('variant/implml/startupmif_animation_with_version.imageml', config)
+        
+        # 1st impl
+        self.assertEquals(impl.generators[0].extraparams, '/V3')
+        
+        # Assert the the extraparams is actually used in the command
+        command_obj = impl.generators[0].get_command()
+        cmd = command_obj.get_command(command_obj._get_filtered_input_files())
+        self.assertEquals(len(cmd), 6)
+        self.assertEquals(cmd[2], r'/V3')
+        
+        # 2nd impl
+        self.assertEquals(impl.generators[1].extraparams, '${StartupSettings.PluginTimeout}')
+        self.assertEquals(utils.expand_refs_by_default_view(impl.generators[1].extraparams, dview), '30000')
+        
+        # Assert the the extraparams is actually used in the command
+        command_obj = impl.generators[1].get_command()
+        cmd = command_obj.get_command(command_obj._get_filtered_input_files())
+        self.assertEquals(len(cmd), 6)
+        self.assertEquals(cmd[2], r'30000')
+        
+        # 3rd impl
+        self.assertEquals(impl.generators[2].extraparams, '${StartupSettings.PluginTimeout}')
+        self.assertEquals(utils.expand_refs_by_default_view(impl.generators[1].extraparams, dview), '30000')
+        
+        # Assert the the extraparams is actually used in the command
+        command_obj = impl.generators[2].get_command()
+        cmd = command_obj.get_command(command_obj._get_filtered_input_files())
+        self.assertEquals(len(cmd), 4)
+        self.assertEquals(cmd[1], r'30000')
+        
     
     def test_create_generator_with_invalid_output(self):
         prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,"imageproject")))
@@ -138,6 +172,13 @@ class TestGeneratorFromProject(unittest.TestCase):
             self.fail("Output path ref is invalid!")
         except exceptions.NotFound:
             pass
+
+# Only run these tests on Windows
+if sys.platform != 'win32':
+    del TestGenerator
+    del TestInputFile
+    del TestInputDir
+    del TestGeneratorFromProject
 
 if __name__ == '__main__':
     unittest.main()

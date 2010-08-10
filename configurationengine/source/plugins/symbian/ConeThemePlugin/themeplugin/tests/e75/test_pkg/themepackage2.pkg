@@ -50,10 +50,6 @@
 ;
 ; Files to install
 ;
-IF PACKAGE(0X102032BE) ; CHECK FOR S60 3.1 STUB SIS
-"themepackage.mbm" - "!:\resource\skins\f99553e36ea1a92f\themepackage.mbm"
-"themepackage.mif" - "!:\resource\skins\f99553e36ea1a92f\themepackage.mif"
-ELSE
 "themepackage.mbm" - "!:\private\10207114\import\f99553e36ea1a92f\themepackage.mbm"
 "themepackage.mif" - "!:\private\10207114\import\f99553e36ea1a92f\themepackage.mif"
 ENDIF

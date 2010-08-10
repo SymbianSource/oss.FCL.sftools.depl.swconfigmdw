@@ -34,18 +34,42 @@ class CrmlImpl(plugin.ImplBase):
         self.configuration = configuration
         self.logger = logging.getLogger('cone.crml(%s)' % self.resource_ref)
         self.repository = repository
-        
+
+    def __getstate__(self):
+        state = super(CrmlImpl, self).__getstate__()
+        state['repository'] = self.__dict__.get('repository',None)
+        return state
+
+            
     def generate(self, context=None):
         # Quick fix 
         if context:
             self.generation_context = context
+        
+        # See if delta CenReps should be generated
+        delta_cenrep = context and context.changed_refs is not None \
+            and 'deltacenrep' in context.tags.get('crml', [])
+        
+        changed_refs = None
+        if delta_cenrep:
+            changed_refs = context.changed_refs
+            
+            # Hard-coded output for delta CenReps for now
+            self.output_subdir = 'deltacenreps'
+            self.plugin_output = ''
+        
         file_path = self._get_cenrep_txt_file_path()
         self.logger.debug("Generating file '%s'..." % file_path)
         
         # Generate CenRep text data and write it to the output file
-        writer = crml_writer.CrmlTxtWriter(self.configuration, self.logger)
-        data = writer.get_cenrep_txt_data(self.repository).encode('UTF-16')
+        writer = crml_writer.CrmlTxtWriter(context, self.logger)
+        data = writer.get_cenrep_txt_data(self.repository, changed_refs).encode('UTF-16')
         self._write_to_file(file_path, data)
+        
+        # Add to the generated files list
+        KEY = 'crml_generated_cenrep_files'
+        lst = context.impl_data_dict.setdefault(KEY, [])
+        lst.append((os.path.basename(file_path), os.path.abspath(file_path)))
         
         
         # Collect the record for cenrep_rfs.txt generation in post_generate()
@@ -137,12 +161,8 @@ class CrmlImpl(plugin.ImplBase):
         return 'core' in targets or 'rofs2' in targets
     
     def _write_to_file(self, file_path, data):
-        # Create directories for the file if necessary
-        file_dir = os.path.dirname(file_path)
-        if file_dir != '' and not os.path.exists(file_dir):
-            os.makedirs(file_dir)
         
         # Write data
-        f = open(file_path, "wb")
+        f = self.generation_context.create_file(file_path, implementation=self)
         try:        f.write(data)
         finally:    f.close()

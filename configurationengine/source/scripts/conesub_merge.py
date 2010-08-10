@@ -116,6 +116,8 @@ def merge_configuration_layer(sourceconfig, targetconfig, merge_policy):
         if confml_path not in already_included:
             print "Including %s in layer root %s" % (confml_path, targetconfig.path)
             targetconfig.include_configuration(confml_path)
+    
+    merge_metadata(sourceconfig, targetconfig)
 
 def find_layers_to_merge(layer_indices, rename, sourceconfig, targetconfig):
     """
@@ -150,7 +152,7 @@ def find_layers_to_merge(layer_indices, rename, sourceconfig, targetconfig):
 def sort_mergeconfigs(layers, sourceconfigs):
     """
     Return a correctly sorted list of source configuration layers.
-    @param layers: List of the indices of the layers to merg. Can be None, in
+    @param layers: List of the indices of the layers to merge. Can be None, in
         which case all layers are returned.
     @param sourceconfigs: List of all configuration layer root paths in the
         source project.
@@ -162,29 +164,40 @@ def sort_mergeconfigs(layers, sourceconfigs):
     sorted_configs = filter(lambda x: x != None, sorted_configs)
     return sorted_configs
 
+def merge_metadata(source_config, target_config):
+    # Merge (well, replace) configuration meta-data
+    if source_config.meta:
+        target_config.meta = source_config.meta._clone(recursion=True)
+    else:
+        del target_config.meta
+
+def get_active_root_if_necessary(project, configuration, name):
+    if configuration:
+        return configuration
+    else:
+        active_root = project.get_storage().get_active_configuration()
+        if active_root == "":
+            raise MergeFailedException("No %s configuration given and the project does not have an active root" % name)
+        else:
+            return active_root
+
 def merge_config_root_to_config_root(source_project, target_project,
                                      source_config, target_config,
-                                     layer_indices, rename,
+                                     layer_finder_func,
                                      merge_policy):
     """
     Merge the source configuration root to the target configuration root.
-    @param layer_indices: List of layer indices to specify the layers
-        to merge, can be None.
-    @param rename: If True, the merged layers are renamed based on the
-        name of the target configuration root.
+    
+    @param source_config: Name of the source configuration.
+    @param target_config: Name of the target configuration.
+    @param layer_finder_func: Function for finding the layers that are to be
+        merged. It should take source and target configuration objects as
+        arguments and return a list of tuples (layer_root, target_layer_root),
+        where layer_root is the path to the layer root in the source
+        configuration and target_layer_root the one in the target
+        configuration.
     @param merge_policy: The used merge policy.
     """
-    
-    def get_active_root_if_necessary(project, configuration, name):
-        if configuration:
-            return configuration
-        else:
-            active_root = project.get_storage().get_active_configuration()
-            if active_root == "":
-                raise MergeFailedException("No %s configuration given and the project does not have an active root" % name)
-            else:
-                return active_root
-    
     target_root = get_active_root_if_necessary(target_project, target_config, 'target')
     source_root = get_active_root_if_necessary(source_project, source_config, 'source')
     
@@ -214,11 +227,7 @@ def merge_config_root_to_config_root(source_project, target_project,
                 target_config.create_configuration(sourcelayer_path)
     
     # Collect a correctly sorted list of all layer paths to merge
-    layers_to_merge = find_layers_to_merge(
-        layer_indices   = layer_indices,
-        rename          = rename,
-        sourceconfig    = source_config,
-        targetconfig    = target_config)
+    layers_to_merge = layer_finder_func(source_config, target_config)
     
     print "Merging %d layer(s)..." % len(layers_to_merge)
     
@@ -243,10 +252,11 @@ def merge_config_root_to_config_root(source_project, target_project,
             target_layer = target_config.create_configuration(target_path)
         
         merge_configuration_layer(source_layer, target_layer, merge_policy)
-
-
+    
+    merge_metadata(source_config, target_config)
 
 def main(argv=sys.argv):
+    """ Merge a configuration/layer to the project. """
     parser = OptionParser(version="%%prog %s" % VERSION)
     
     parser.add_options(cone_common.COMMON_OPTIONS)
@@ -384,14 +394,20 @@ def main(argv=sys.argv):
             if options.all: layer_indices = None
             else:           layer_indices = utils.distinct_array(options.layers)
             
+            def find_layers(source_config, target_config):
+                return find_layers_to_merge(
+                    layer_indices   = layer_indices,
+                    rename          = options.rename,
+                    sourceconfig    = source_config,
+                    targetconfig    = target_config)
+            
             merge_config_root_to_config_root(
-                source_project = source_project,
-                target_project = target_project,
-                source_config  = options.sourceconfiguration,
-                target_config  = options.configuration,
-                layer_indices  = layer_indices,
-                rename         = options.rename,
-                merge_policy   = options.merge_policy)
+                source_project      = source_project,
+                target_project      = target_project,
+                source_config       = options.sourceconfiguration,
+                target_config       = options.configuration,
+                layer_finder_func   = find_layers,
+                merge_policy        = options.merge_policy)
     except MergeFailedException, e:
         print "Could not merge: %s" % e
         sys.exit(2)
@@ -407,6 +423,3 @@ def main(argv=sys.argv):
 
 if __name__ == "__main__":
     main()
-
-
-

@@ -15,7 +15,6 @@
 #
 
 import sys, os, unittest
-import __init__
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -26,7 +25,7 @@ from examplemlplugin.exampleml_model import Output
 class TestExamplemlImpl(unittest.TestCase):
 
     def setUp(self):
-        project_dir = os.path.join(ROOT_PATH, 'project')
+        project_dir = os.path.join(ROOT_PATH, 'testdata/generation/project')
         self.project = api.Project(api.Storage.open(project_dir))
         self.config = self.project.get_configuration('root.confml')
     
@@ -42,7 +41,7 @@ class TestExamplemlImpl(unittest.TestCase):
     
     def test_list_output_files(self):
         def oj( p2): # oj = output_join
-            return os.path.normpath(os.path.join('output', p2))
+            return os.path.normpath(p2)
         
         impl = self.get_impl('Layer/implml/test.exampleml', 0)
         self.assertEquals(impl.list_output_files(), [oj('test.txt'),

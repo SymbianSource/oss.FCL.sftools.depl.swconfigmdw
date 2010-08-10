@@ -24,6 +24,8 @@ import logging
 import xml.parsers.expat
 import shutil
 import fnmatch
+import pkg_resources
+import types
 
 try:
     from cElementTree import ElementTree
@@ -71,11 +73,11 @@ class ConvertProjectImpl(plugin.ImplBase):
         """
         
         #Generating content
-        fullOutputPath = self.output
+        fullOutputPath = os.path.join(context.output, self.output)
         if self.project_data.has_key("path"): 
             targetPath = utils.resourceref.norm(self.project_data["path"])
             if targetPath and targetPath != "":
-                fullOutputPath = os.path.join(fullOutputPath, targetPath)             
+                fullOutputPath = os.path.join(context.output, fullOutputPath, targetPath)             
         
         fs = filestorage.FileStorage(fullOutputPath, "w")
         newProject = api.Project(fs)        
@@ -116,13 +118,14 @@ class ConvertProjectLayer(object):
     Object presenting layer in convertprojectml file.
     """
     
-    def __init__(self, path):
+    def __init__(self, path, configuration):
         if path != None:
             self.path = path
         else:
             self.path = ""
         self.folders = []
-        self.files = []        
+        self.files = []
+        self.source_configuration = configuration        
 
     def __str__(self):
         retStr = ""
@@ -159,8 +162,24 @@ class ConvertProjectLayer(object):
         self.files.append(file)
 
     def getProjectPath(self):
-        return self.path
+        return self.path    
 
+    def solve_ref(self, inputdata):
+        """
+        Internal function to solve whether input is ref or just normal input string. 
+        For refs actual ConfML value is resolved and returned. Non-refs are returned 
+        as such.
+        """                        
+        dview = self.source_configuration.get_default_view()
+        if inputdata and isinstance(inputdata, types.StringType):            
+            return utils.expand_refs_by_default_view(inputdata, dview)
+        elif inputdata and isinstance(inputdata, types.DictType):
+            retDict = {}
+            for key in inputdata:
+                retDict[self.solve_ref(key)] = self.solve_ref(inputdata[key])            
+            return retDict
+        else:
+            return inputdata
                 
 class ConvertProjectFolder(object):
     """
@@ -198,7 +217,11 @@ class ConvertProjectFolder(object):
 
     def getProjectPath(self):
         return os.path.join(self.parent.getProjectPath(), self.path)
-    
+
+    def solve_ref(self, inputdata):
+        return self.parent.solve_ref(inputdata)
+
+            
 class ConvertProjectFile(object):
     """
     Object presenting file in convertprojectml file.
@@ -209,7 +232,7 @@ class ConvertProjectFile(object):
             self.path = path
         else:
             self.path = ""
-        if type != None:
+        if type != None and type != "none":
             self.type = type
         else:
             self.type = ""        
@@ -218,6 +241,7 @@ class ConvertProjectFile(object):
         self.parent = parent
         self.meta = []
         self.desc = ""
+        self.configuration_name = ""
         
     def __str__(self):
         retStr = ""
@@ -232,18 +256,23 @@ class ConvertProjectFile(object):
         for filter in self.filters:            
             filter.generate(project, old_structure_root, self.type)                        
 
-        if self.type == "configuration_root":
-            #Adding metadata                
-            config = project.get_configuration(utils.resourceref.norm(self.path))
+        if self.type:
+            config = project.get_configuration(utils.resourceref.norm(self.getProjectPath()))
             if self.meta:                
                 if not config.meta:
                     config.meta = []
                 for meta in self.meta:
-                    config.meta.add(meta[0], meta[1], meta[2], meta[3])                        
+                    config.meta.set_property_by_tag(self.solve_ref(meta[0]), \
+                                                    self.solve_ref(meta[1]), \
+                                                    self.solve_ref(meta[2]), \
+                                                    self.solve_ref(meta[3]))                   
             if self.desc:
                 config.desc = self.desc
                 
-            config.save()                    
+            if self.configuration_name:
+                config.set_name(self.configuration_name)
+            config.save()
+                    
         return
 
     def addFilter(self, filter):
@@ -254,9 +283,18 @@ class ConvertProjectFile(object):
 
     def addDescription(self, desc):
         self.desc = desc
+    
+    def addConfigurationName(self, configuration_name):
+        self.configuration_name = configuration_name
 
     def getProjectPath(self):
-        return os.path.join(self.parent.getProjectPath(), self.path)
+        if self.type == "configuration_root":
+            return self.path
+        else:
+            return os.path.join(self.parent.getProjectPath(), self.path)
+
+    def solve_ref(self, inputdata):
+        return self.parent.solve_ref(inputdata)
 
 class ConvertProjectFilter(object):
     """
@@ -274,7 +312,7 @@ class ConvertProjectFilter(object):
         if recursive:
             self.recursive = recursive
         else:
-             self.recursive = "false"
+            self.recursive = "false"
 
     def __str__(self):
         retStr = ""
@@ -367,7 +405,9 @@ class ConvertProjectFilter(object):
             retPath = os.path.join(project.get_storage().get_path(), self.getProjectPath())            
             startFound = 0
             
-            for item in os.path.normpath(filepath).split("\\"):
+            parts = filter(lambda p: p != '',
+                           os.path.normpath(filepath).replace('\\', '/').split('/'))
+            for item in parts:
                 if self.data.find(item) != -1:
                     startFound = 1
                 if startFound and self.data.find(item) == -1:
@@ -402,8 +442,11 @@ class ConvertProjectFilter(object):
             filesToProcess = self.getFilesByWildcard(fullSearchPath, wildCardPart, project)
         
         #Creating rootfile.        
-        rootFilePath = os.path.join(self.getProjectPath(), self.parent.path)        
-        config = project.create_configuration(utils.resourceref.norm(rootFilePath))
+        rootFilePath = os.path.join(self.getProjectPath(), self.parent.path)
+        if project.is_configuration(utils.resourceref.norm(rootFilePath)):
+            config = project.get_configuration(utils.resourceref.norm(rootFilePath))
+        else:
+            config = project.create_configuration(utils.resourceref.norm(rootFilePath))
         
         #Adding defined includes.
         for f in filesToProcess:
@@ -435,7 +478,7 @@ class ConvertProjectFilter(object):
         """        
         #Always in the root of the project
         configname = utils.resourceref.norm(self.parent.path)
-        if configname in project.list_configurations():
+        if project.is_configuration(utils.resourceref.norm(self.parent.path)):
             config = project.get_configuration(configname)
         else:
             config = project.create_configuration(utils.resourceref.norm(self.parent.path))
@@ -469,6 +512,10 @@ class ConvertProjectFilter(object):
                     continue
                 else:
                     for f in files:
+                        if wildcard and wildcard[0] != "*":
+                            #Matches path part.
+                            wildcard = "*%s" % wildcard
+                        
                         if fnmatch.fnmatch(os.path.join(root, f), wildcard):
                             source = os.path.join(root, f)
                             targetDir = self.resolveTargetDir(project, source)                
@@ -502,7 +549,9 @@ class ConvertProjectFilter(object):
 
         return pathPart, wildCardPart
 
-
+    def solve_ref(self, inputdata):
+        return self.parent.solve_ref(inputdata)   
+     
 #=================================================================
     
 class ConvertProjectReader(plugin.ReaderBase):
@@ -511,6 +560,8 @@ class ConvertProjectReader(plugin.ReaderBase):
     """ 
     
     NAMESPACE = 'http://www.s60.com/xml/convertprojectml/1'
+    NAMESPACE_ID = 'convertprojectml'
+    ROOT_ELEMENT_NAME = 'convertprojectml'
     FILE_EXTENSIONS = ['convertprojectml']
     
     def __init__(self):
@@ -524,51 +575,50 @@ class ConvertProjectReader(plugin.ReaderBase):
     @classmethod
     def read_impl(cls, resource_ref, configuration, etree):
         reader = ConvertProjectReader()
-        reader.from_etree(etree, configuration.get_storage().get_path())
+        reader.from_etree(etree, configuration, configuration.get_storage().get_path())
         
         impl = ConvertProjectImpl(resource_ref, configuration)
         impl.project_data   = reader.project_data
         impl.layers         = reader.layers
         return impl
     
-    def from_etree(self, etree, old_structure_root = ""):
-        self.project_data = self.parse_attributes(etree, "targetProject")        
-        self.layers = self.parse_layers(etree) 
-        for fe in self.parse_foreach(etree, old_structure_root):
-            self.layers.append(fe)
-        
-        #for l in self.layers:
-            #print l
-        return    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('projectconvertplugin', 'xsd/convertprojectml.xsd')
+    
+    def from_etree(self, etree, configuration, old_structure_root = ""):
+        self.configuration = configuration
+                
+        for element in etree:
+            if element.tag == "{http://www.s60.com/xml/convertprojectml/1}targetProject":
+                self.project_data = self.parse_attributes(etree, "targetProject")
+            elif element.tag == "{http://www.s60.com/xml/convertprojectml/1}layer":
+                self.layers.append(self.parse_layer(element))
+            elif element.tag == "{http://www.s60.com/xml/convertprojectml/1}foreach":
+                for fe in self.parse_foreach(element, old_structure_root):
+                    self.layers.append(fe)                
+        return
     
     def parse_foreach(self, etree, old_structure_root):
-        layersTmp = []
-        for fe in etree.findall("{%s}foreach" % self.namespaces[0]):
-            variable = fe.get("variable")
-            data = fe.get("data")
-            folders = [] 
-            for item in os.listdir(os.path.join(old_structure_root, data)):
-                if os.path.isdir(os.path.join(old_structure_root, data, item)) and item != '.svn':
-                    folders.append(item)
-            
-            for folder in folders:
-                mapping_data = {variable: folder}                                             
-                for layer in fe.findall("{%s}layer" % self.namespaces[0]):            
-                    layersTmp.append(self.parse_layer(layer, mapping_data))
+        layersTmp = []        
+        variable = etree.get("variable")
+        data = self.handleMapping(etree.get("data"), {})
+        folders = [] 
+        for item in os.listdir(os.path.join(old_structure_root, data)):
+            if os.path.isdir(os.path.join(old_structure_root, data, item)) and item != '.svn':
+                folders.append(item)
+        
+        for folder in folders:
+            mapping_data = {variable: folder}                                             
+            for layer in etree.findall("{%s}layer" % self.namespaces[0]):            
+                layersTmp.append(self.parse_layer(layer, mapping_data))
                                 
         return layersTmp
-    
-    def parse_layers(self,etree):
-        layersTmp = []
-        for layer in etree.findall("{%s}layer" % self.namespaces[0]):            
-            layersTmp.append(self.parse_layer(layer))
-            
-        return layersTmp
-    
+        
     def parse_layer(self, etree, mapping_data=None):        
         path = self.handleMapping(etree.get("path"), mapping_data)
         
-        layerObject = ConvertProjectLayer(path)        
+        layerObject = ConvertProjectLayer(path, self.configuration)        
         for folder in etree.findall("{%s}folder" % self.namespaces[0]):
             layerObject.addFolder(self.parse_folder(folder, layerObject, mapping_data))
 
@@ -589,6 +639,7 @@ class ConvertProjectReader(plugin.ReaderBase):
     def parse_file(self, etree, parent, mapping_data=None):
         path = self.handleMapping(etree.get("path"), mapping_data)
         type = self.handleMapping(etree.get("type"), mapping_data)
+        configuration_name = self.handleMapping(etree.get("configuration_name"), mapping_data)
         
         fileObject = ConvertProjectFile(path, type, parent)        
         for filter in etree.findall("{%s}filter" % self.namespaces[0]):
@@ -618,7 +669,8 @@ class ConvertProjectReader(plugin.ReaderBase):
             description = descElement.text                
                          
         fileObject.addMeta(metaArray)
-        fileObject.addDescription(description)                
+        fileObject.addDescription(description)
+        fileObject.addConfigurationName(configuration_name)
         return fileObject
 
     def parse_filter(self, etree, parent, mapping_data=None):
@@ -644,18 +696,24 @@ class ConvertProjectReader(plugin.ReaderBase):
     
     def handleMapping(self, data, mapping):
         """
-        """
-        
+        """ 
         retStr = data
-        
-        if mapping != None and data != None:                        
-            for key in mapping.keys():
-                retStr = retStr.replace(key, mapping[key])
+        if not mapping: mapping = {}        
+        if data != None:
+            merged = dict(mapping.items() + self._get_env_variables().items())                                    
+            for key in merged.keys():
+                retStr = retStr.replace(key, merged[key])
+         
         return retStr
         
-        
-        
-        
+    def _get_env_variables(self):
+        if not hasattr(self, '_env_dict'):
+        #Making dictionary only once because of performance.
+            self._env_dict = {}
+            for var in os.environ:
+                self._env_dict["%%%s%%" % var] = os.environ[var]
+            
+        return self._env_dict 
         
         
 

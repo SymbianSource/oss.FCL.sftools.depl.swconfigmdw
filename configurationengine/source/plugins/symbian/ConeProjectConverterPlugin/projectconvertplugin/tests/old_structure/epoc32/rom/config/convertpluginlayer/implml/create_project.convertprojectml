@@ -18,8 +18,9 @@
 			<filter action="add" data="confml_data/platform1/*.ibyml"/>
 		</folder>
 
-		<file type="layer_root" path="root.confml">
+		<file type="layer_root" path="root.confml"  configuration_name="PLATFORM1__LAYER_ROOT_FILE">
 			<filter action="include_file" data="confml/*.confml"/>
+			<desc>This is layer root file for platform 1</desc>
 		</file>
 		<file type="configuration_root" path="platform1_root.confml">
 			<filter action="include_layer" data="platforms/platform1/root.confml"/>
@@ -39,7 +40,19 @@
 		</file>				
 	</layer>
 	
-	<layer path="platforms/platform2">
+		
+	<layer path="platforms/platform1">
+		<file type="configuration_root" path="platform1_root.confml">
+			<meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+				<version>001</version>
+				<release>${Feature1.StringSetting}</release>
+				<cv:configuration-property name="sw_version" value="${Feature1.StringSetting}" />
+				<cv:configuration-property name="sos_version" value="123.456" />
+			</meta>
+		</file>
+	</layer>
+	
+	<layer path="%NCP_VERSION%/platform2">
 		<folder path="confml">
 			<filter action="add" data="confml_data/platform2/*.confml"/>
 			<filter action="remove" data="confml_data/platform2/platform2.confml"/>
@@ -58,7 +71,29 @@
 			<filter action="include_layer" data="platforms/platform2/root.confml"/>
 		</file>
 	</layer>
-	
+			
+	<layer path="platforms/platform3_feas_only">
+		<folder path="confml">
+			<filter action="add" data="confml_data/platform2/fea*.confml"/>
+		</folder>
+		<folder path="implml">
+			<filter action="add" data="confml_data/platform2/fea*.crml"/>
+			<filter action="add" data="confml_data/platform2/fea*.gcfml"/>
+			<filter action="add" data="confml_data/platform2/fea*.ibyml"/>
+		</folder>
+
+		<file type="layer_root" path="root.confml">
+			<filter action="include_file" data="confml/fea*.confml"/>
+		</file>
+		<file type="configuration_root" path="platform3_root.confml">
+			<filter action="include_layer" data="platforms/platform1/root.confml"/>
+			<filter action="include_layer" data="platforms/platform2/root.confml"/>
+			<filter action="include_layer" data="platforms/platform3/root.confml"/>
+		</file>
+	</layer>
+
+
+
 	<!-- ============ -->
 	<!-- Family layer -->
 	<!-- ============ -->
@@ -86,7 +121,6 @@
 		</file>
 	</layer>
 	
-	
 	<!-- ============= -->
 	<!-- Product layer -->
 	<!-- ============= -->
@@ -111,7 +145,7 @@
 	<!-- Product X language variant layers -->
 	<!-- ================================= -->
 
-	<foreach variable="{TEMPLATE}" data="variants/language/product_x">
+	<foreach variable="{TEMPLATE}" data="%VARIANTS%/language/product_x">
 		<layer path="family_x/product_x/language/{TEMPLATE}">
 			<folder path="confml">
 				<filter action="add" data="variants/language/product_x/{TEMPLATE}/*.confml"/>
@@ -124,7 +158,7 @@
 			<file type="layer_root" path="root.confml">
 				<filter action="include_file" data="confml/*.confml" remove_includes="true"/>
 			</file>
-			<file type="configuration_root" path="product_x_{TEMPLATE}_root.confml">
+			<file type="configuration_root" path="product_x_{TEMPLATE}_root.confml" configuration_name="{TEMPLATE}">
 				<filter action="include_layer" data="platforms/platform1/root.confml"/>
 				<filter action="include_layer" data="platforms/platform2/root.confml"/>
 				<filter action="include_layer" data="family_x/root.confml"/>
@@ -133,4 +167,11 @@
 			</file>
 		</layer>
 	</foreach>
+	
+	<layer path="family_x/product_x/language/Euro">
+		<file type="configuration_root" path="product_x_Euro_root.confml" configuration_name="Euro1_override_name">
+			<filter action="include_layer" data="family_x/product_x/customer/dummy/root.confml"/>
+		</file>	
+	</layer>
+	
 </convertprojectml>

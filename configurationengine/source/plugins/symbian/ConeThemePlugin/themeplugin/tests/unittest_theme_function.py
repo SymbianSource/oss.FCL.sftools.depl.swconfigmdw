@@ -14,15 +14,9 @@
 # Description: 
 #
 
-import unittest, os, shutil
+import unittest, os, sys
 
-import __init__    
-from cone.public import exceptions,plugin,api
-from cone.storage import filestorage
-from cone.confml import implml
-from themeplugin import maketheme
 from themeplugin import theme_function
-from cone.storage.filestorage import FileStorage
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,8 +30,8 @@ class TestThemePlugin(unittest.TestCase):
         pass
         
     def test_convert_hexa_to_decimal(self):
-       decimal = theme_function.convert_hexa_to_decimal("a5d5f19d6e6097b8")
-       self.assertEquals(decimal,"-1512705635 1851824056")
+        decimal = theme_function.convert_hexa_to_decimal("a5d5f19d6e6097b8")
+        self.assertEquals(decimal,"-1512705635 1851824056")
        
     def test_find_text_in_string(self):
         row_in_pkg_file = "\"themepackage.mbm\" - \"!:\\resource\\skins\\99d49b086e6097b8\\themepackage.mbm\""
@@ -53,6 +47,9 @@ class TestThemePlugin(unittest.TestCase):
         PID = theme_function.find_text_in_file(os.path.join(ROOT_PATH,"e75\\test_pkg\\themepackage.pkg"),start_text, end_text)
         self.assertEquals(PID,"99d49b086e6097b8")
 
+# Only run these tests on Windows
+if sys.platform != 'win32':
+    del TestThemePlugin
         
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

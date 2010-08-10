@@ -16,7 +16,7 @@
 #
 
 import sys, os, shutil, unittest
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from testautomation import zip_dir
 
@@ -25,7 +25,7 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 if sys.platform == "win32":
     CONE_SCRIPT = "cone.cmd"
 else:
-    CONE_SCRIPT = "cone.sh"
+    CONE_SCRIPT = "cone"
 
 def get_cmd(action='generate'):
     """Return the command used to run the ConE sub-action"""
@@ -77,7 +77,7 @@ class TestExampleGenerate(BaseTestCase):
             self.run_command(cmd)
             
             EXPECTED_DIR = os.path.join(ROOT_PATH, "testdata/generate/expected")
-            self.assert_dir_contents_equal('output', EXPECTED_DIR, ['.svn'])
+            self.assert_dir_contents_equal(os.path.join(workdir,'output'), EXPECTED_DIR, ['.svn'])
         finally:
             os.chdir(orig_workdir)
 

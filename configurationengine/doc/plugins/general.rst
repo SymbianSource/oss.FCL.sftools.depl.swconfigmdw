@@ -55,7 +55,7 @@ RuleML and ContentML:
             </rule>
         </ruleml>
 
-        <content xmlns="http://www.s60.com/xml/content/3">
+        <content xmlns="http://www.s60.com/xml/content/2">
             <output file="${StartupSettings.StartupSoundPath}">
                 <input file="${CustomSettings.StartupSoundFile.localPath}"/>
             </output>
@@ -71,7 +71,7 @@ Notice how the XML namespaces are defined.
 
  - The container is in http://www.symbianfoundation.org/xml/implml/1, the root element of implml namespace must always be container
  - The ruleml is in http://www.s60.com/xml/ruleml/2
- - The content is in xmlns="http://www.s60.com/xml/content/3"
+ - The content is in xmlns="http://www.s60.com/xml/content/2"
 
 When reading the implementation file, ConE checks the document root and its namespace 
 to find out from namespace to start parsing. 
@@ -157,7 +157,7 @@ For example:
     <?xml version="1.0" encoding="UTF-8"?>
     <container xmlns="http://www.symbianfoundation.org/xml/implml/1">
         <container>
-            <phase name="pre">
+            <phase name="pre"/>
             <ruleml xmlns="http://www.s60.com/xml/ruleml/2">
                 <rule>
                     CustomSettings.StartupSoundFile.localPath configures 
@@ -167,15 +167,15 @@ For example:
         </container>
      
         <container>
-            <phase name="normal">
-            <content xmlns="http://www.s60.com/xml/content/3">
+            <phase name="normal"/>
+            <content xmlns="http://www.s60.com/xml/content/2">
                 <output file="${StartupSettings.StartupSoundPath}">
                     <input file="${CustomSettings.StartupSoundFile.localPath}"/>
                 </output>
             </content>
             
             <!-- Another ContentML section, copies the file to another directory -->
-            <content xmlns="http://www.s60.com/xml/content/3">
+            <content xmlns="http://www.s60.com/xml/content/2">
                 <output dir="some/dir">
                     <input file="${CustomSettings.StartupSoundFile.localPath}"/>
                 </output>
@@ -291,7 +291,7 @@ Example with two implementation in post phase:
             </output>
         </content>
         
-        <ruleml xmlns="http://www.s60.com/xml/ruleml/1" xmlns:implml="http://www.symbianfoundation.org/xml/implml/1">                    
+        <ruleml xmlns="http://www.s60.com/xml/ruleml/1">                    
             <rule>X.Y configures X.Z = X.Y</rule>
         </ruleml>
     </container>
@@ -310,7 +310,7 @@ pre phase and the second container in post phase.
     <container xmlns="http://www.symbianfoundation.org/xml/implml/1">        
         <container>
             <phase name='pre'/>
-            <ruleml xmlns="http://www.s60.com/xml/ruleml/1" xmlns:implml="http://www.symbianfoundation.org/xml/implml/1">                    
+            <ruleml xmlns="http://www.s60.com/xml/ruleml/1">                    
                 <rule>X.Y configures X.Z = X.Y</rule>
             </ruleml>
         </container>
@@ -356,10 +356,10 @@ for that tag will be a list of all the specified values. Examples:
 
 .. code-block:: xml
 
-    <tag name="target" value="core">
-    <tag name="target" value="rofs2">
-    <tag name="target" value="uda">
-    <tag name="content" value="music">
+    <tag name="target" value="core"/>
+    <tag name="target" value="rofs2"/>
+    <tag name="target" value="uda"/>
+    <tag name="content" value="music"/>
 
 Tags can also get their values from ConfML settings, which can be referenced in the usual way:
 
@@ -537,7 +537,7 @@ concerns are on the implementation side and do not leak to the interface (ConfML
         </ruleml>
         
         <!-- ContentML implementation for copying the created file list to output -->
-        <content xmlns="http://www.s60.com/xml/content/3">
+        <content xmlns="http://www.s60.com/xml/content/2">
             <output dir="some_dir/">
                 <input files="${FileCopyTemp.Files.Path}"/>
             </output>
@@ -610,12 +610,10 @@ may contain a single ``value`` attribute containing the directory name.
     <?xml version="1.0" encoding="UTF-8"?>
     <container xmlns="http://www.symbianfoundation.org/xml/implml/1">
         
-        <!-- Temporary sequence setting for storing a generation-time created list of files to copy -->
         <outputRootDir value="\epoc32\data"/>
         <outputSubDir value="widgets"/>
 
-        <!-- ContentML implementation for copying the created file list to output -->
-        <content xmlns="http://www.s60.com/xml/content/3">
+        <content xmlns="http://www.s60.com/xml/content/2">
             <output dir="some_dir/">
                 <input file="test.wgz"/>
             </output>
@@ -623,18 +621,4 @@ may contain a single ``value`` attribute containing the directory name.
         
     </container>
 
-In the above example the content is copied to \epoc32\data\widgets\some_dir\text.wgz.
-
-
-.. rubric:: Footnotes
-
-.. [#multi-content-note] In this case the run-time behavior would still be same; ContentML
-   allows multiple ``output`` elements. However, this might not be the case for all
-   implementation languages.
-
-.. [#legacy-implml-root-name-note] The specifications for the legacy implementation
-   languages CRML and GenConfML do give the root element names, and say that each
-   implementation must be in its own crml/gcfml file.
-   It is recommended to stick to this convention for these two implementation languages
-   also in the future. Indeed, using them in a multi-implementation file has not been
-   tested and may not even work correctly.
+In the above example the content is copied to \\epoc32\\data\\widgets\\some_dir\\text.wgz.

@@ -23,7 +23,6 @@ import zipfile
 import unittest
 import string
 import sys,os,re
-import __init__
 
 from cone.public import utils, container, exceptions
 
@@ -138,7 +137,7 @@ class TestObjectProxy(unittest.TestCase):
         self.assertEquals(cont.startswith("test"),True)
         
 
-def graph(obj):
+def graph(obj, filters=None):
     if obj._parent:
         return ["%s -> %s" % (obj._parent._name, obj._name)]
     return []
@@ -151,7 +150,7 @@ class TestObjectContainer(unittest.TestCase):
     def test_add_incorrect_type(self):
         cont = container.ObjectContainer()
         try: 
-            cont._add(container.ObjectProxy())
+            cont._add(container.DataContainer())
             self.fail("Adding incorrect class type to container succeeds?")
         except exceptions.IncorrectClassError,e:
             pass
@@ -164,14 +163,60 @@ class TestObjectContainer(unittest.TestCase):
         cont._add(container.ObjectContainer("foo"))
         self.assertEquals(cont._list(),['test','foo'])
         self.assertEquals(cont.test,obj)
+    
+    def test_add_children_from_list_with_different_policies(self):
+        def check(policy, expected):
+            cont = container.ObjectContainer("root")
+            cont._add(container.ObjectContainer("test1"))
+            cont._add(container.ObjectContainer("foo"))
+            cont._add(container.ObjectContainer("test2"))
+            
+            objs = [container.ObjectContainer("foo"),
+                    container.ObjectContainer("foo"),
+                    container.ObjectContainer("foo")]
+            for i, obj in enumerate(objs): obj.test_attr = i
+            
+            cont._add(objs, policy)
+            
+            actual = [(o._name, getattr(o, 'test_attr', None)) for o in cont._objects()]
+            self.assertEquals(actual, expected)
+        
+        check(container.REPLACE,
+              [('test1', None),
+               ('foo', 0),
+               ('foo', 1),
+               ('foo', 2),
+               ('test2', None),])
+        
+        check(container.APPEND,
+              [('test1', None),
+               ('foo', None),
+               ('foo', 0),
+               ('foo', 1),
+               ('foo', 2),
+               ('test2', None),])
+        
+        check(container.PREPEND,
+              [('test1', None),
+               ('foo', 0),
+               ('foo', 1),
+               ('foo', 2),
+               ('foo', None),
+               ('test2', None),])
+        
 
     def test_add_internal_child(self):
         cont = container.ObjectContainer("root")
         obj = container.ObjectContainer("?test")
         cont._add(obj)
         cont._add(container.ObjectContainer("foo"))
-        self.assertEquals(cont._list(),['foo'])
+        cont._add(container.ObjectContainer("bar"))
+        self.assertEquals(cont._list(),['foo', 'bar'])
         self.assertEquals(cont._get('?test'),obj)
+        self.assertEquals(cont._list(),['foo', 'bar'])
+        cont._remove('?test')
+        self.assertRaises(exceptions.NotFound,cont._get,'?test')
+        self.assertEquals(cont._list(),['foo','bar'])
         
 
     def test_add_child_to_path(self):
@@ -241,6 +286,17 @@ class TestObjectContainer(unittest.TestCase):
         except exceptions.AlreadyExists, e:
             pass
 
+    def test__traverse_depth(self):
+        cont = container.ObjectContainer("cont")
+        obj1 = container.ObjectContainer("test1")
+        obj2 = container.ObjectContainer("test2")
+        cont._add_to_path("com.nokia", obj1)
+        cont._add_to_path("com.nokia", obj2)
+        self.assertEquals(len(cont._traverse()), 4)
+        self.assertEquals(len(cont._traverse(depth=1)), 1)
+        self.assertEquals(len(cont._traverse(depth=2)), 2)
+        self.assertEquals(len(cont._traverse(depth=3)), 4)
+        
     def test_add_child_to_existing_path_append(self):
         cont = container.ObjectContainer("test")
         obj = container.ObjectContainer("test")
@@ -512,6 +568,9 @@ class TestObjectProxyContainer(unittest.TestCase):
         ret = cont._traverse(name="^t.*$")
         self.assertEquals(len(ret),1)
         self.assertEquals(ret[0]._path(),"default.com.nokia.test")
+#        ret = cont._traverse(type=TestC)
+#        self.assertEquals(len(ret),1)
+
 
     def test_add_children_and_traverse_filter_name_many(self):
         cont = container.ObjectProxyContainer(None,"default")
@@ -569,6 +628,58 @@ class TestLoadProxy(unittest.TestCase):
         self.assertEquals(proxy2.list_resources(''),['test1.txt', 'test2.txt', 'test3.txt'])
         os.unlink("unload.pk")
 
+class TestLoadContainer(unittest.TestCase):
+    def test_create_load_container(self):
+        cont = container.LoadContainer(importpk, container.LoadInterface())
+        cont._load()
+        self.assertEquals(len(cont._objects()), 1)
+
+    def test_create_load_link__unload(self):
+        cont = container.LoadContainer(importpk, container.LoadInterface())
+        cont._load()
+        self.assertEquals(len(cont._objects()), 1)
+        cont._unload()
+        self.assertEquals(cont._container, None)
+
+    def test_create_load_link__get_objects(self):
+        cont = container.LoadContainer(importpk, container.LoadInterface())
+        self.assertEquals(len(cont._objects()), 1)
+
+    def test_create_load_link__traverse(self):
+        cont = container.LoadContainer(importpk, container.LoadInterface())
+        self.assertEquals(len(cont._traverse()), 4)
+        print cont._traverse()
+
+    def test_create_load_link__list(self):
+        cont = container.LoadContainer(importpk, container.LoadInterface())
+        self.assertEquals(os.path.basename(cont._list()[0]), 'Import_pk')
+
+class TestLoadContainerWrite(unittest.TestCase):
+    def test_create_load_container__add_data(self):
+        cont = container.LoadContainer(importpk)
+        cont._add(container.ObjectContainer("Test"))
+        self.assertEquals(len(cont._objects()), 1)
+
+    def test_create_load_container__add_data_unload(self):
+        cont = container.LoadContainer(importpk)
+        cont._add(container.ObjectContainer("Test"))
+        self.assertEquals(len(cont._objects()), 1)
+        cont._unload()
+
+class TestLoadLink(unittest.TestCase):
+    def test_create_load_link(self):
+        link = container.LoadLink(importpk, container.LoadInterface())
+        objs = link._load()
+        self.assertEquals(len(objs), 1)
+
+    def test_create_load_link_and_populate(self):
+        cont = container.ObjectContainer("Test")
+        link = container.LoadLink(importpk, container.LoadInterface())
+        cont._add(link)
+        link.populate()
+        self.assertEquals(len(cont._objects()), 2)
+
 if __name__ == '__main__':
     unittest.main()
       
+

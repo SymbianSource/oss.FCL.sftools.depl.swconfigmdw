@@ -19,21 +19,13 @@ A plugin implementation for rule generation.
 
 
 import os
-import sys
 import logging
-import shutil
-
-import __init__
-import re
+import pkg_resources
 
 from ruleplugin import relations
-from cone.public import exceptions,plugin,utils,api,rules
+from cone.public import plugin,utils,rules
 
 class RuleImpl(plugin.ImplBase):
-    """
-    MakeImpl plugin finds feature references that are configured in a .ruleml file
-    and generate a rule from them
-    """
     IMPL_TYPE_ID = 'ruleml'
     DEFAULT_INVOCATION_PHASE = 'pre'
     
@@ -42,7 +34,6 @@ class RuleImpl(plugin.ImplBase):
         Overloading the default constructor
         """
         plugin.ImplBase.__init__(self,ref,configuration)
-        self.logger = logging.getLogger('cone.ruleml(%s)' % self.ref)
         self.relation_container = relation_container
 
     def list_output_files(self):
@@ -51,18 +42,62 @@ class RuleImpl(plugin.ImplBase):
         """
         return []
     
+    def get_refs(self):
+        """
+        Return a list of all ConfML setting references that affect this
+        implementation. May also return None if references are not relevant
+        for the implementation.
+        """
+        refs = []
+        relations = self.get_relations()
+        for relation in relations:
+            # get refs from relation return a tuple (left side refs, right side refs)
+            # only the left side refs are the "input" refs  
+            refs += relation.get_refs()
+        # If the rules do not have any references return None to disable filter by refs 
+        if refs == []: 
+            refs = None
+        return refs
+    
+    def get_target_refs(self):
+        """
+        Return a list of all ConfML setting references that are affected by this
+        implementation. May also return None if references are not relevant
+        for the implementation.
+        """
+        refs = []
+        relations = self.get_relations()
+        for relation in relations:
+            refs += relation.get_set_refs()
+        return refs
+
+    def get_outputs(self):
+        """
+        Return a list of GenerationOutput objets as a list. 
+        """
+        outputs = []
+        phase = None 
+        if self.generation_context: phase = self.generation_context.phase
+        for rel in self.get_relations():
+            outrefs = rel.get_set_refs()
+            for ref in outrefs:
+                outputs.append(plugin.GenerationOutput(ref,rel,type='ref', phase=phase))
+        return outputs
+    
     def generate(self, context=None):
-        self.logger.info("Generating rules from %s" % self.ref)
+        logging.getLogger('cone.ruleml(%s)' % self.ref).info("Generating rules from %s" % self.ref)
         relation_container = self.get_relation_container()
         relation_container.context = context
-        return relation_container.execute()
-    
-    def has_tag(self, tags, policy=None):
-        # RuleML should always be executed, regardless of the tags
-        return True
+        return relation_container.execute(context)
     
     def get_relation_container(self):
         return self.relation_container
+
+    def get_relations(self):
+        return self.relation_container.get_relations()
+
+class RuleBuiltinsModule(object):
+    pass
 
 class RulemlRelationContainer(plugin.RelationContainer):
     """
@@ -73,7 +108,6 @@ class RulemlRelationContainer(plugin.RelationContainer):
     """
     def __init__(self, configuration, source, rule_list, eval_globals):
         plugin.RelationContainer.__init__(self, configuration, source=source)
-        self.logger = logging.getLogger('cone.ruleml_relation_container(%s)' % self.source)
         self.configuration = configuration
         self.relation_container = rules.RelationContainerImpl()
         self.eval_globals = eval_globals
@@ -81,124 +115,100 @@ class RulemlRelationContainer(plugin.RelationContainer):
         for rule in rule_list:
             self.relation_container.add_relation(rule)
     
-    def execute(self):
+    def execute(self, context=None):
         results = []
-        
+        if context: self.context = context
+         
         # Create the autoconfig if not done already
-        plugin.get_autoconfig(self.configuration)
+        autoconfig = plugin.get_autoconfig(self.configuration)
         
-        # Register relations etc. to the rule engine.
-        # Due to unit test issues the relations are not registered
-        # in the relations module, but only for the duration of
-        # rule parsing and execution
-        relations.register()
-        try:
-            # Using the configuration to pass the eval globals dict to the
-            # eval expression. The configuration only contains the globals
-            # dict for the duration of the rule execution, so hopefully this
-            # shouldn't mess anything up
-            self._set_builtin_eval_globals()
-            self.configuration._eval_expression_globals_dict = self.eval_globals
-            for i, rel in enumerate(self.relation_container):
-                index = i + 1
-                
-                # Execute
-                self._execute_relation_and_log_error(rel, self.source, index)
-                
-                # Collect execution result if supported
-                if hasattr(rel, 'get_execution_result'):
-                    result = rel.get_execution_result()
-                    if isinstance(result, plugin.RelationExecutionResult):
-                        result.source = self.source
-                        result.index = index
-                        results.append(result)
+        # Using the configuration to pass the eval globals dict to the
+        # eval expression. The configuration only contains the globals
+        # dict for the duration of the rule execution, so hopefully this
+        # shouldn't mess anything up
+        self._set_builtin_eval_globals()
+        self.context._eval_expression_globals_dict = self.eval_globals
+        for i, rel in enumerate(self.relation_container):
+            index = i + 1
+            # Execute
+            self._execute_relation_and_log_error(rel, self.source, index, context)
             
-            del self.configuration._eval_expression_globals_dict
-            
-            if self.relation_container.has_errors():
-                for error in self.relation_container.get_errors():
-                    self.logger.error(error)
-            
-            if self.context:
-                self.context.results += results
-            return results
-        finally:
-            relations.unregister()
+        del self.context._eval_expression_globals_dict
+        
+        if self.relation_container.has_errors():
+            for error in self.relation_container.get_errors():
+                logging.getLogger('cone.ruleml_relation_container(%s)' % self.source).error(error)
+        
+        if self.context:
+            self.context.results += results
+        return results
     
     def get_relation_count(self):
         return len(self.relation_container)
     
+    def get_relations(self):
+        return list(self.relation_container)
+
     def _set_builtin_eval_globals(self):
         """
         Add built-in attributes into the eval globals dictionary.
         """
-        class RuleBuiltinsModule(object):
-            pass
-                
-        builtins = RuleBuiltinsModule()
+        builtins = RuleBuiltinsModule() 
         builtins.configuration = self.configuration
+        builtins.context       = self.context
         
         self.eval_globals['ruleml'] = builtins
 
-class RuleImplReaderBase(plugin.ReaderBase):
-    NAMESPACE = None # Used as a base class, so should have no namespace
+class RuleImplReader(plugin.ReaderBase):
+    NAMESPACE = 'http://www.s60.com/xml/ruleml/3'
+    NAMESPACE_ID = 'ruleml3'
+    ROOT_ELEMENT_NAME = 'ruleml'
     FILE_EXTENSIONS = ['ruleml']
     
     def __init__(self, resource_ref, configuration):
         self.resource_ref = resource_ref
         self.configuration = configuration
-        self.logger = logging.getLogger('cone.ruleml(%s)' % self.resource_ref)
     
     @classmethod
     def read_impl(cls, resource_ref, configuration, etree):
         reader = cls(resource_ref, configuration)
+        rules = reader.parse_rules(resource_ref, etree)
+        eval_globals = reader.parse_eval_globals(etree)
+        lineno = utils.etree.get_lineno(etree)
         
-        # Register relations etc. to the rule engine.
-        # Due to unit test issues the relations are not registered
-        # in the relations module, but only for the duration of
-        # rule parsing and execution
-        relations.register()
-        try:
-            rules = reader.parse_rules(etree)
-            eval_globals = reader.parse_eval_globals(etree)
-            
+        # Create an ImplContainer to hold each rule as its own
+        # RuleML implementation
+        main_impl = plugin.ImplContainer(resource_ref, configuration)
+        main_impl.lineno = lineno
+        
+        for rule in rules:
             relation_container = RulemlRelationContainer(
                 configuration   = configuration,
-                source          = resource_ref,
-                rule_list       = rules,
+                source          = "%s:%d" % (resource_ref, rule.lineno),
+                rule_list       = [rule],
                 eval_globals    = eval_globals)
-            
+        
             impl = RuleImpl(resource_ref, configuration, relation_container)
-        finally:
-            relations.unregister()
-        
-        return impl
-        
-class RuleImplReader1(RuleImplReaderBase):
-    NAMESPACE = 'http://www.s60.com/xml/ruleml/1'
+            impl.lineno = rule.lineno
+            rule.implml = impl
+            
+            main_impl.append(impl)
+        return main_impl
     
-    def __init__(self, resource_ref, configuration):
-        RuleImplReaderBase.__init__(self, resource_ref, configuration)
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('ruleplugin', 'xsd/ruleml3.xsd')
     
-    def parse_rules(self, etree):
+    def parse_rules(self, ref, etree):
         rules = []
         for elem in etree.getiterator("{%s}rule" % self.NAMESPACE):
-            rules.extend(relations.RelationFactory.get_relations(self.configuration, elem.text))
-        return rules
-    
-    def parse_eval_globals(self, etree):
-        return {}
-
-class RuleImplReader2(RuleImplReaderBase):
-    NAMESPACE = 'http://www.s60.com/xml/ruleml/2'
-    
-    def __init__(self, resource_ref, configuration):
-        RuleImplReaderBase.__init__(self, resource_ref, configuration)
-    
-    def parse_rules(self, etree):
-        rules = []
-        for elem in etree.getiterator("{%s}rule" % self.NAMESPACE):
-            rules.extend(relations.RelationFactory.get_relations(self.configuration, self._replace_eval_blocks(elem.text)))
+            lineno = utils.etree.get_lineno(elem)
+            rule_str = self._replace_eval_blocks(elem.text or '')
+            rels = relations.RelationFactory.get_relations(rule_str) or []
+            for rule in rels:
+                rule.ref = ref
+                rule.lineno = lineno
+                rules.append(rule)
         return rules
     
     def parse_eval_globals(self, etree):
@@ -214,7 +224,7 @@ class RuleImplReader2(RuleImplReaderBase):
                     text = elem.text.strip()
                     exec(text, eval_globals)
                 except Exception, e:
-                    self.logger.warning('Failed to evaluate eval_globals block, exception: %s' % (e))
+                    logging.getLogger('cone.ruleml(%s)' % self.resource_ref).warning('Failed to evaluate eval_globals block, exception: %s' % (e))
         return eval_globals
     
     def _read_eval_globals_from_file(self, relative_path, eval_globals):
@@ -228,7 +238,7 @@ class RuleImplReader2(RuleImplReaderBase):
             text = resource.read()
             exec(text.replace('\r', ''), eval_globals)
         except Exception, e:
-            self.logger.warning('Cannot import eval file: %s. Exception: %s' % (pyfile_path, e))
+            logging.getLogger('cone.ruleml(%s)' % self.resource_ref).warning('Cannot import eval file: %s. Exception: %s' % (pyfile_path, e))
         finally:
             if resource is not None: resource.close()
         

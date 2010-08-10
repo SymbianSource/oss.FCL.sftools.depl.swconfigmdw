@@ -14,12 +14,8 @@
 # Description:
 #
 
-import os, unittest
-import __init__
+import os
 
-from hcrplugin.hcrrepository import HcrRepository, HcrRecord
-from hcrplugin.hcr_writer import HcrWriter
-from hcrplugin import hcr_exceptions
 from cone.public import api, plugin
 from testautomation.base_testcase import BaseTestCase
 
@@ -37,11 +33,11 @@ class TestHCRMLWrite(BaseTestCase):
         
         prj = api.Project(api.Storage.open(project_dir))
         config = prj.get_configuration('root.confml')
+        context = plugin.GenerationContext(configuration=config, output=output_dir)
         impls = plugin.ImplFactory.get_impls_from_file(hcrml_file, config)
         self.assertEquals(len(impls), 1)
         impl = impls[0]
-        impl.set_output_root(output_dir)
-        impl.generate()
+        impl.generate(context)
         
         if expected_dir != None:
             self.assert_dir_contents_equal(expected_dir, output_dir, ['.svn'])

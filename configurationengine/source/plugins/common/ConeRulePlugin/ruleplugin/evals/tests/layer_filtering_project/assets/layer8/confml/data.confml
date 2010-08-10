@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="data">
+  <data>
+    <TestFeature>
+      <Layer8Setting>8</Layer8Setting>
+    </TestFeature>
+  </data>
+</configuration>

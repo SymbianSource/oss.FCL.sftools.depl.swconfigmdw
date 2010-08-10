@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <phase name="normal"/>
+    <tag name="target" value="rofs2"/>
+    <repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="KCRUidAccServerSettings" uidValue="0x1020505A" owner="0x10205030" backup="true" rfs="true">
+      <key ref="KCRUidAccServerSettings/KAccServerHWDevices" name="KAccServerHWDevices" int="0x00000001" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerWiredHSLights" name="KAccServerWiredHSLights" int="0x00000002" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerWirelessHSLights" name="KAccServerWirelessHSLights" int="0x00000003" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerWiredCarKitLights" name="KAccServerWiredCarKitLights" int="0x00000004" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerWirelessCarKitLights" name="KAccServerWirelessCarKitLights" int="0x00000005" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerTextDeviceLights" name="KAccServerTextDeviceLights" int="0x00000006" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerLoopsetLights" name="KAccServerLoopsetLights" int="0x00000007" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerMusicStandLights" name="KAccServerMusicStandLights" int="0x00000008" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <key ref="KCRUidAccServerSettings/KAccServerSyncStandLights" name="KAccServerSyncStandLights" int="0x00000009" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </key>
+      <access type="R" capabilities="AlwaysPass"/>
+      <access type="W" capabilities="WriteDeviceData"/>
+      <keyRange firstInt="0x00100000" lastInt="0xFFFFFF00" backup="true">
+        <access type="R" capabilities="AlwaysPass"/>
+        <access type="W" capabilities="WriteDeviceData"/>
+      </keyRange>
+    </repository>
+</container>

@@ -38,6 +38,8 @@ class SSOHTMLParser(HTMLParser):
     The data is saved in varables inside class
     """
     def __init__(self, *argv, **kwargs):
+        self.username_func = kwargs.pop('username_func',None)
+        self.password_func = kwargs.pop('password_func',None)
         HTMLParser.__init__(self, *argv, **kwargs)
         self.html_end = False
         self.httpdata = {}
@@ -45,8 +47,6 @@ class SSOHTMLParser(HTMLParser):
         self.input_entered = False
         self.method = ''
         self.action = ''
-        self.username = kwargs.get('username')
-        self.password = kwargs.get('password')
         
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -64,13 +64,13 @@ class SSOHTMLParser(HTMLParser):
                 self.httpdata[attrs.get('name')] = attrs.get('value')
             if inputtype == 'password':
                 self.input_requested = True
-                data = self.password
+                data = self.password_func()
                 if data:
                     self.input_entered = True
                 self.httpdata[attrs.get('name')] = data
             if inputtype == 'text':
                 self.input_requested = True
-                data = raw_input()
+                data = self.username_func()
                 if data:
                     self.input_entered = True
                 self.httpdata[attrs.get('name')] = data
@@ -95,13 +95,47 @@ class SSOHTMLParser(HTMLParser):
 
 class CarbonAuthHandler(urllib2.AbstractHTTPHandler):
     handler_order = 600
+    def __init__(self):
+        urllib2.AbstractHTTPHandler.__init__(self)
+        self.auth_count = 0
+        self.auth_max = 5
+        self.username = ""
+        self.password = ""
+        self.username_func = None
+        self.password_func = None
+        
     
-    def add_password(self, username, password):
+    def add_username_func(self, username_func):
         """
-        Add username and password
+        Add password getting function
         """
-        self.username = username
-        self.password = password
+        self.username_func = username_func
+
+    def add_password_func(self, password_func):
+        """
+        Add password getting function
+        """
+        self.password_func = password_func
+
+    def get_username(self):
+        """
+        Add password getting function
+        """
+        if self.auth_count == 0  and self.username_func:            
+            return self.username_func()
+        else:
+            self.username = raw_input("Username: ")
+            return self.username 
+            
+    def get_password(self):
+        """
+        Add password getting function
+        """
+        if self.auth_count == 0 and self.password_func:            
+            return self.password_func()
+        else:
+            self.password = getpass.getpass()
+            return self.password
 
     def https_response(self, request, response):
         """
@@ -111,8 +145,13 @@ class CarbonAuthHandler(urllib2.AbstractHTTPHandler):
         original page.
         """
         if (re.match('login.*\.europe\.nokia\.com', request.get_host())):
-            sso_parser = SSOHTMLParser(username=self.username, password=self.password)
+            if self.auth_count > self.auth_max:
+                print "Authentication failed!"
+                return response
+            sso_parser = SSOHTMLParser(username_func=self.get_username, password_func=self.get_password)
             sso_parser.feed(response.read())
+            self.auth_count += 1
+            
             # !sso_parser.input_requested when we have posted the form and
             # are reading the redirect back. We don't want to handle that
             if sso_parser.input_requested:
@@ -140,14 +179,18 @@ class CarbonAuthHandler(urllib2.AbstractHTTPHandler):
         original page.
         """    
         if response.code == 200 and (re.match('.*/extauth/login/?.*', request.get_full_url())):
+            if self.auth_count > self.auth_max:
+                raise urllib2.HTTPError("Authentication failed!")
+            
             loginreq = urllib2.Request(request.get_full_url(),
-                                     urllib.urlencode({ 'username' : self.username, 
-                                                        'password' : self.password,
+                                     urllib.urlencode({ 'username' : self.get_username(), 
+                                                        'password' : self.get_password(),
                                                         'submit' : 'login'}
                                                       ),
                                      origin_req_host=request.get_origin_req_host(),
                                      unverifiable=True,
                                      )
+            self.auth_count += 1
             return self.parent.open(loginreq)
         else:            
             return response

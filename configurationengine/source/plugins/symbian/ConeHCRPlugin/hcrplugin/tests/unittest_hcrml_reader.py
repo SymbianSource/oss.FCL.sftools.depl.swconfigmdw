@@ -15,22 +15,10 @@
 #
 
 import unittest
-import os, shutil
-import sys
-import __init__
-import re
-import logging
-import xml.parsers.expat
-import codecs
+import os
+
 from hcrplugin.hcr_exceptions import *
-from hcrplugin.hcrrepository import HcrRecord, HcrRepository
-from hcrplugin.hcrml_parser import *
-
-
-from testautomation.utils import hex_to_bindata
-
-
-from cone.public import api, exceptions
+from hcrplugin.hcrml_parser import HcrmlReader
 
 try:
     from cElementTree import ElementTree
@@ -43,7 +31,6 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-from cone.public import exceptions,plugin,utils,api
 
 
 

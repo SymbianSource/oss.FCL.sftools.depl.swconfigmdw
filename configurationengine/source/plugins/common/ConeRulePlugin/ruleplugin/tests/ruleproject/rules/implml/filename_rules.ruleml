@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
-  <rule>True configures FilenamejoinTest.Result1 = FilenamejoinTest.String1 filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result2 = "some/content/dir/somefile.csv" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result3 = "some/content/dir/" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result4 = "some\\content\\dir\\somefile.csv" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result5 = "some\\content\\dir\\" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result6 = "Z:\\\\some\\\\content\\\\dir\\\\somefile.csv" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result7 = "Z:\\\\some\\\\content\\\\dir\\\\" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result8 = "somedir" filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True configures FilenamejoinTest.Result9 = "somedir" filenamejoin "somefile.txt"</rule>
-  <rule>True configures FilenamejoinTest.Result10 = "somedir" filenamejoin "somefile.txt" + ';' + r'Z:\\some\\dir\\' filenamejoin FilenamejoinTest.File1.localPath</rule>
-  <rule>True and FilenamejoinTest.String1==r'Z:\\data\\sound.mp3' and True configures FilenamejoinTest.Result11 = "some" + "dir" filenamejoin "somefile.txt"</rule>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>True configures ${FilenamejoinTest.Result1} = ${FilenamejoinTest.String1} filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result2} = "some/content/dir/somefile.csv" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result3} = "some/content/dir/" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result4} = "some\\content\\dir\\somefile.csv" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result5} = "some\\content\\dir\\" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result6} = "Z:\\\\some\\\\content\\\\dir\\\\somefile.csv" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result7} = "Z:\\\\some\\\\content\\\\dir\\\\" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result8} = "somedir" filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True configures ${FilenamejoinTest.Result9} = "somedir" filenamejoin "somefile.txt"</rule>
+  <rule>True configures ${FilenamejoinTest.Result10} = "somedir" filenamejoin "somefile.txt" + ';' + r'Z:\\some\\dir\\' filenamejoin ${FilenamejoinTest.File1.localPath}</rule>
+  <rule>True and ${FilenamejoinTest.String1}==r'Z:\\data\\sound.mp3' and True configures ${FilenamejoinTest.Result11} = "some" + "dir" filenamejoin "somefile.txt"</rule>
 </ruleml>

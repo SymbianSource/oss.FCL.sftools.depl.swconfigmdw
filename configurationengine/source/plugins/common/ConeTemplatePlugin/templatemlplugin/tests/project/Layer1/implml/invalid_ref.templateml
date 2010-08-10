@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <output file="invalid_ref_1.txt" encoding="UTF-8" newline="unix">
+        <template >{{ feat_tree.Foo.Bar.Baz._value }}</template>
+    </output>
+    <output file="invalid_ref_2.txt" encoding="UTF-8" newline="unix">
+        <template >{{ feat_tree.Feature1.Nonexistent._value }}</template>
+    </output>
+    <output file="invalid_ref_3.txt" encoding="UTF-8" newline="unix">
+        <template >{{ feat_tree.Feature1.SequenceSetting.Nonexistent._value }}</template>
+    </output>
+</templateml>

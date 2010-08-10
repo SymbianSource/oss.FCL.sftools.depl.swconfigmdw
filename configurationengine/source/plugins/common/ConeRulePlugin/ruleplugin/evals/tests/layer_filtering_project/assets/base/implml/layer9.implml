@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    
+    <tag name="target" value="uda" />
+    <tempVariable ref="TempLayer9InputFiles" type="string"/>
+    
+    <container>
+        <ruleml xmlns="http://www.s60.com/xml/ruleml/2"> 
+            <rule>TestFeature.EnableLayer9Content configures TempLayer9InputFiles = {% "layer9/foo.txt, layer9/bar.txt" %}</rule>
+        </ruleml>
+    </container>
+    
+    <content xmlns="http://www.s60.com/xml/content/2">
+        <output dir="sis" flatten="true">
+            <input>
+                <include files="${TempLayer9InputFiles}" />
+            </input>
+        </output>
+    </content>
+    
+</container>

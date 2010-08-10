@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+	<rule>{% changed_on_layer( @{StringFeatureTest.Value1}, -1) %} configures result1 = True</rule>
+	<eval_globals file="../../layer_utils.py"/>
+</ruleml>

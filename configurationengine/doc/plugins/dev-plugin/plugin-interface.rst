@@ -3,7 +3,11 @@
 Plug-in interface
 =================
 
-A ConE plug-in has two points for interfacing with ConE:
+Implementation languages
+------------------------
+
+A ConE plug-in that adds support for an implementation language has two points
+for interfacing with ConE:
 
 #. Reader classes that derive from ``cone.public.plugin.ReaderBase`` . These classes
    define supported Implementation Markup Languages (i.e. supported XML namespaces)
@@ -15,6 +19,9 @@ A ConE plug-in has two points for interfacing with ConE:
 The following UML diagram shows the most important classes and their interdependencies:
 
 .. image:: plugin_classes.jpg
+
+For more information on the classes see the
+`ConE API epydoc <../../epydoc/cone.public.plugin-module.html>`_.
 
 ConE generation can be seen to consist of two phases, implementation parsing
 and output generation:
@@ -38,7 +45,7 @@ Generation phase:
 - Output is generated using each implementation set. For each implementation set:
 
     - The ``generation_context`` variable of each implementation instance is set
-      (this context contains generation-scope information implementations instances may use)
+      (this context contains generation-scope information implementation instances may use)
     - The ``generate()`` method of each instance is called
     - The ``post_generate()`` method of each instance is called
 
@@ -63,138 +70,48 @@ Step   Explanation
 10-11  Output generation methods are called
 ====== ========================================================================
 
-Plug-in interface class source
-------------------------------
 
-The following source listings show the most important parts of the ``ImplReader``
-and ``ImplBase`` classes from a plug-in's point of view:
+.. _plugin-howto-plugin-interface-validation:
 
-.. code-block:: python
+Validation
+----------
 
-    class ReaderBase(object):
-        """
-        Base class for implementation readers.
-        
-        Each reader class supports one XML namespace, from which it reads an implementation
-        instance.
-        
-        The method for parsing an implementation (read_impl()) is given an ElementTree
-        XML element as the root from which to parse the implementation. The plug-in
-        machinery handles each XML file so that the correct reader class is used to read
-        the implementations from XML elements based on the namespaces.
-        """
-        
-        # The XML namespace supported by the implementation reader.
-        # Should be something like "http://www.xyz.org/xml/1".
-        # Can also be None, in which case the reader will not be used
-        # (this can be useful for defining base classes for e.g. readers
-        # for different versions of an implementation).
-        NAMESPACE = None
-        
-        # Any extra XML namespaces that should be ignored by the
-        # implementation parsing machinery. This is useful for specifying
-        # namespaces that are not actual ImplML namespaces, but are used
-        # inside an implementation (e.g. XInclude)
-        IGNORED_NAMESPACES = []
-        
-        # Supported implementation file extensions.
-        # Sub-classes can override this to add new supported file extensions
-        # if necessary. The file extensions simply control whether implementations
-        # are attempted to be read from a file or not.
-        # Note that the extensions are case-insensitive.
-        FILE_EXTENSIONS = ['implml']
-        
-        @classmethod
-        def read_impl(cls, resource_ref, configuration, doc_root):
-            """
-            Read an implementation instance from the given element tree.
-            
-            @param resource_ref: Reference to the resource in the configuration in
-                which the given document root resides.
-            @param configuration: The configuration used.
-            @param doc_root: The document root from which to parse the implementation.
-            @return: The read implementation instance, or None.
-            """
-            raise exceptions.NotSupportedException()
+.. note::
+    
+    See also :ref:`validation-overview`
 
-.. code-block:: python
+The ConE plug-in interface allows for the extension of ConfML and ImplML validation.
+In the same way as support for new implementation languages can be provided
+by exposing implementation reader classes via egg entry points, validation
+can be extended by exposing validator classes.
 
-    class GenerationContext(object):
-        """
-        Context object that can be used for passing generation-scope
-        data to implementation instances.
-        """
-        
-        def __init__(self, tags={}):
-            # The tags used in this generation context
-            # (i.e. the tags passed from command line)
-            self.tags = tags
-            
-            # A dictionary that implementation instances can use to
-            # pass any data between each other
-            self.impl_data_dict = {}
+Validation happens roughly in the following manner:
 
-.. code-block:: python
+1. A list of *validator classes* is obtained through some means. In practice
+   this usually means finding all validator classes, and then filtering them
+   down to those that produce the problems that we are interested in.
+2. A *validation context* is created. This contains everything associated with
+   the validation, and here all found problems are reported. All validators
+   have access to it.
+3. For each entity (configuration or implementation instance) that is being
+   validated, an instance of each validator class is created and invoked.
 
-    class ImplBase(object):
-        """
-        Base class for any confml implementation. 
-        """
-        
-        # Identifier for the implementation type, used e.g. in .cfg files.
-        # Should be a string like e.g. 'someml'.
-        IMPL_TYPE_ID = None
-        
-        # Defines the default invocation phase for the implementation.
-        # The default is used if the phase is not explicitly set in the
-        # ImplML file or manually overridden by calling set_invocation_phase()
-        DEFAULT_INVOCATION_PHASE = None
-        
-        def __init__(self,ref, configuration):
-            """
-            Create a ImplBase object
-            @param ref : the ref to the Implml file resource.
-            @param configuration : the Configuration instance for the
-            configuration data.
-            """
-            self._settings = None
-            self.ref = ref
-            self.index = None
-            self.configuration = configuration
-            self.output_root = self.settings.get('output_root','output')
-            self.output_subdir = self.settings.get('output_subdir','')
-            self.plugin_output = self.settings.get('plugin_output','')
-            
-            self.generation_context = None
-            self._tags = None
-            self._invocation_phase = None
-            self._tempvar_defs = []
+This process is nearly the same for ConfML and ImplML validation, only some
+details about the validation context and the entities being validated are
+different, as well as the fact ConfML validation on the entire configuration,
+whereas ImplML validation happens on individual implementation instances, with
+a few exceptions.
 
-        def generate(self):
-            """
-            Generate the given implementation.
-            @return: 
-            """
-            raise exceptions.NotSupportedException()
-        
-        def post_generate(self):
-            """
-            Called when all normal generation has been done.
-            
-            @attention: This is a temporary method used for implementing cenrep_rfs.txt generation.
-            """
-            pass
-        
-        def list_output_files(self):
-            """
-            Return a list of output files as an array. 
-            """
-            raise exceptions.NotSupportedException()
-        
-        def get_refs(self):
-            """
-            Return a list of all ConfML setting references that affect this
-            implementation. May also return None if references are not relevant
-            for the implementation.
-            """
-            return None
+The following diagram illustrates ImplML validation:
+
+.. image:: impl-validation-classes.jpg
+
+The following diagram illustrates ConfML validation:
+
+.. image:: confml-validation-classes.jpg
+
+For more information on the classes involved in validate see the
+ConE API epydoc for `cone.validation.implmlvalidation <../../epydoc/cone.validation.implmlvalidation-module.html>`_
+and `cone.validation.confmlvalidation <../../epydoc/cone.validation.confmlvalidation-module.html>`_.
+Also the built-in validators in the package `cone.validation.builtinvalidators <../../epydoc/cone.validation.builtinvalidators-module.html>`_
+can serve as examples.

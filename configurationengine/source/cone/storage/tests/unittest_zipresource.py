@@ -21,14 +21,11 @@ Test the CPF root file parsing routines
 
 import zipfile
 import unittest
-import string
-import sys,os,shutil
+import os,shutil
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-import __init__
-from cone.public.exceptions import *
-from cone.public.api import Resource
+from cone.public import exceptions 
 from cone.storage import zipstorage
 
 TEMP_DIR = os.path.join(ROOT_PATH, 'temp')
@@ -99,7 +96,7 @@ class TestFileResource(unittest.TestCase):
         store = zipstorage.ZipStorage(ZIPFILE, "w")
         res = store.open_resource("test_getsize.txt", "w")
         res.write("Writing foobar")
-        self.assertRaises(StorageException, res.get_size)
+        self.assertRaises(exceptions.StorageException, res.get_size)
         res.close()
         store.close()
 
@@ -116,4 +113,4 @@ class TestFileResource(unittest.TestCase):
 
         
 if __name__ == '__main__':
-      unittest.main()
+    unittest.main()

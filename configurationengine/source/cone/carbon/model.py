@@ -27,6 +27,7 @@ Attributes:
 """
 from cone.public import api, exceptions, container, utils
 from cone.confml import model as confmlmodel
+from cone.carbon import resourcemapper
 
 class ResourceList(object):
     def __init__(self):
@@ -120,10 +121,10 @@ class CarbonConfiguration(CarbonElement, confmlmodel.ConfmlConfiguration):
         super(CarbonConfiguration, self).__init__(ref, **kwargs)
         if self.meta == None:
             self.meta = {}
-        
-        self.name                       = kwargs.get('name') or utils.resourceref.remove_ext(utils.resourceref.psplit_ref(self.path)[-1])
-        self.meta.add('type',kwargs.get('type', 'configurationroot'))
-        self._version_identifier        = kwargs.get('version_identifier', None)
+        self.name = kwargs.get('name') or utils.resourceref.remove_ext(utils.resourceref.psplit_ref(self.path)[-1])
+        if self.type == None:
+            self.type = 'configurationroot'
+        self._version_identifier = kwargs.get('version_identifier', None)
 
     @property
     def version_identifier(self):
@@ -132,21 +133,54 @@ class CarbonConfiguration(CarbonElement, confmlmodel.ConfmlConfiguration):
             self._version_identifier = "%dwk%02d" % dt.isocalendar()[0:2]
         return self._version_identifier
 
-    @property
-    def type(self):
+    def get_type(self):
         if self.meta and self.meta.get('type'):
-            return self.meta['type']
+            return self.meta.get_property_by_tag('type').value
         else:
             return 'configurationroot'
+        
+    def set_type(self, type):
+        if not self.meta:
+            self.meta = {}
+        self.meta.set_property_by_tag('type',type)
+        
+    def del_type(self):
+        del self.meta['type']
     
+    type = property(get_type, set_type, del_type)
+
+    def get_version_identifier(self):
+        if self._version_identifier == None:
+            dt = datetime.datetime.today()
+            self._version_identifier = "%dwk%02d" % dt.isocalendar()[0:2]
+        return self._version_identifier
+        
+    def set_version_identifier(self, value):
+        self._version_identifier = value
+        
+    def del_version_identifier(self):
+        del self._version_identifier
+    
+    version_identifier = property(get_version_identifier, set_version_identifier, del_version_identifier)
+
 class FeatureList(CarbonConfiguration):
     def __init__(self, ref='', **kwargs):
         if not kwargs.get('path'):
-            kwargs['path']          = str(kwargs.get('name', '')+'.confml')
-        kwargs['type'] = 'featurelist'
+            if kwargs.get('name'):
+                kwargs['path']          = str(kwargs.get('name', '')+'.confml')
+            else:
+                kwargs['path'] = ref
+        
+        pathmapper = resourcemapper.CarbonResourceMapper()
+        tpath = pathmapper.map_confml_resource("featurelist",kwargs['path'])
+        kwargs['path'] = pathmapper.map_carbon_resource(tpath)
+
         super(FeatureList, self).__init__(ref, **kwargs)
-        self.name                = kwargs.get('name', '')
-        self._version_identifier = kwargs.get('version_identifier', 'WORKING')
+        self._version_identifier = kwargs.get('version_identifier', 'working')
+        self.type = 'featurelist'
+
+    def _default_object(self, name):
+        return CarbonFeature(name)
 
 class CarbonFeature(CarbonElement, confmlmodel.ConfmlSetting):
     def __init__(self, ref,**kwargs):
@@ -155,16 +189,24 @@ class CarbonFeature(CarbonElement, confmlmodel.ConfmlSetting):
         
 
 class CarbonSetting(CarbonFeature, confmlmodel.ConfmlSetting):
-    pass
+    def __init__(self, ref,**kwargs):
+        super(CarbonSetting,self).__init__(ref,**kwargs)
+        self.type = 'boolean'
 
 class CarbonIntSetting(CarbonFeature, confmlmodel.ConfmlIntSetting):
-    pass
+    def __init__(self, ref,**kwargs):
+        super(CarbonIntSetting,self).__init__(ref,**kwargs)
+        self.type = 'int'
 
 class CarbonBooleanSetting(CarbonFeature, confmlmodel.ConfmlBooleanSetting):
-    pass
+    def __init__(self, ref,**kwargs):
+        super(CarbonBooleanSetting,self).__init__(ref,**kwargs)
+        self.type = 'boolean'
 
 class CarbonSelectionSetting(CarbonFeature, confmlmodel.ConfmlSelectionSetting):
-    pass
+    def __init__(self, ref,**kwargs):
+        super(CarbonSelectionSetting,self).__init__(ref,**kwargs)
+        self.type = 'selection'
 
 class CarbonStringSetting(CarbonFeature, confmlmodel.ConfmlSetting):
     def __init__(self, ref,**kwargs):

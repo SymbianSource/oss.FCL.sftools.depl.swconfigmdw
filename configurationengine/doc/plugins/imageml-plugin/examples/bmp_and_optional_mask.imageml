@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <!--
+    BMP to MBM conversion with an optional mask bitmap. The value of
+    TestSettings.ConeInputBmpMask.localPath is empty, but since the 'optional'
+    attribute is set to be 'true', it is silently ignored. If the attribute
+    was not there, an error would be printed during generation.
+    -->
+    <output file="cone_with_optional_mask.mbm"> 
+        <input file="${TestSettings.ConeInputBmp.localPath}" depth="c24"/>
+        <input file="${TestSettings.ConeInputBmpMask.localPath}" depth="c1" optional='true'/>
+    </output>
+</imageml>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.symbianfoundation.org/xml/implml/1"
+           xmlns:implml="http://www.symbianfoundation.org/xml/implml/1"
+           {% for entry in data -%}
+           xmlns:{{entry.id}}="{{entry.namespace}}"
+           {% endfor -%}
+           elementFormDefault="qualified">
+    
+    {% for entry in data -%}
+    <xs:import namespace="{{entry.namespace}}"
+               schemaLocation="{{entry.filename}}" />
+    {% endfor %}
+    
+    <xs:element type="implml:containerType" name="container">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the root implementation container for a multi-implementation ImplML file.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
+    
+    <!-- ======================== -->
+    <!-- Implementation container -->
+    <!-- ======================== -->
+    <xs:complexType name="containerType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="implml:phase"/>
+            <xs:element ref="implml:tag"/>
+            <xs:element ref="implml:settingRefsOverride"/>
+            <xs:element ref="implml:tempVariable"/>
+            <xs:element ref="implml:tempVariableSequence"/>
+            <xs:element ref="implml:outputRootDir"/>
+            <xs:element ref="implml:outputSubDir"/>
+            
+            <xs:element name="container" type="implml:containerType">
+            <xs:annotation>
+                <xs:documentation>
+                    <![CDATA[
+                    Defines an implementation container that can contain implementations and other containers.<br/>
+                    <br/>
+                    A container element can also contain other common elements affect all implementations defined
+                    inside the container.
+                    ]]>
+                </xs:documentation>
+            </xs:annotation>
+            </xs:element>
+            
+            {% for entry in data -%}
+            <xs:element ref="{{entry.id}}:{{entry.root_elem_name}}"/>
+            {% endfor -%}
+        </xs:choice>
+        <xs:attribute name="condition" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <![CDATA[
+                    Specifies a condition that determines whether the implementation container is
+                    entered during execution.<br/>
+                    <br/>
+                    The condition should be a simple ConfML setting reference enclosed with ${},
+                    e.g. '${MyFeature.MySetting}'. If the value of the setting is equal to the
+                    expected value (defined using the 'value' attribute), the implementation
+                    container will be entered and the implementations inside executed. Note that
+                    the condition is evaluated at the moment the decision to enter the container
+                    or not is made.
+                    ]]>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    Defines the expected value for the 'condition' attribute, defaults to 'true'.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    
+    
+    <!-- ===== -->
+    <!-- Phase -->
+    <!-- ===== -->
+    <xs:element name="phase">
+        <xs:annotation>
+            <xs:documentation>
+                Overrides the execution phase of the implementations inside the container.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+    
+    <!-- === -->
+    <!-- Tag -->
+    <!-- === -->
+    <xs:element name="tag">
+        <xs:annotation>
+            <xs:documentation>
+                Defines an implementation tag for the implementations inside the container.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="value" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+    
+    <!-- =============================== -->
+    <!-- Temporary variable and sequence -->
+    <!-- =============================== -->
+    <xs:element name="tempVariable">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+                Defines a global temporary variable that can be used in all implementations.<br/>
+                <br/>
+                A temporary variable is an ordinary ConfML setting that can be used normally
+                in implementations. Only the most basic ConfML setting types are supported.
+                ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="ref" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        The ConfML setting reference of the temporary variable, e.g. 'TempFeature.SomeSetting'.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="type" type="implml:tempVariableTypeType" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        The type of the temporary variable, defaults to 'string'.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="value" type="xs:string" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        The initial value of the temporary variable, defaults to an empty string.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:simpleType name="tempVariableTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="string"/>
+            <xs:enumeration value="int"/>
+            <xs:enumeration value="real"/>
+            <xs:enumeration value="boolean"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:element name="tempVariableSequence">
+        <xs:annotation>
+            <xs:documentation>
+                Defines a global temporary variable sequence that can be used in all implementations.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="tempVariable" type="implml:tempVariableSequenceSubType"
+                            minOccurs="1" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Defines a sub-setting for the temporary variable sequence.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="ref" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="tempVariableSequenceSubType">
+        <xs:attribute name="ref" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The ConfML setting reference of the temporary variable, e.g. 'SomeSubSetting'.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="implml:tempVariableTypeType" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    The type of the sub-setting, defaults to 'string'.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    
+    
+    <!-- =========================== -->
+    <!-- Setting references override -->
+    <!-- =========================== -->
+    <xs:element name="settingRefsOverride">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+                Defines setting reference overrides for the implementations inside the container.<br/>
+                <br/>
+                The override can either be a list of setting refences, or it can specify that setting
+                references are irrelevant for implementation execution.
+                ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="settingRef" type="implml:settingRefType"
+                            minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Specifies a single setting reference in the setting reference list.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="refsIrrelevant" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        Specifies that setting references are irrelevant for the execution of the
+                        implementation inside the container (i.e. they are never filtered out
+                        based on setting references).
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="true"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="settingRefType">
+        <xs:attribute name="value" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    
+    <!-- ========================== -->
+    <!-- Output directory overrides -->
+    <!-- ========================== -->
+    <xs:element name="outputRootDir">
+        <xs:annotation>
+            <xs:documentation>
+                Overrides the output root directory of the implementations inside the container.
+                This can be used e.g. to always generate output under \epoc32\data\
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="outputSubDir">
+        <xs:annotation>
+            <xs:documentation>
+                Overrides the output sub-directory of the implementations inside the container.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="value" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="InvalidCapabilities" uidValue="0x00000004">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="AlwaysPass"/>
+
+    <key ref="InvalidCapabilities/Int1" name="Int 1" int="0x00000001" type="int">
+        <!-- AlwaysPass defined in addition to others -->
+        <access type="R" capabilities="AlwaysPass MultimediaDD ReadDeviceData"/>
+    </key>
+    
+    <key ref="InvalidCapabilities/Int2" name="Int 2" int="0x00000002" type="int">
+        <!-- 8 capabilities, 7 is the maximum when there is no SID -->
+        <access type="R" capabilities="ProtServ,DiskAdmin,NetworkControl,AllFiles,SwEvent,NetworkServices,LocalServices,TrustedUi"/>
+    </key>
+    
+    <key ref="InvalidCapabilities/Int3" name="Int 3" int="0x00000003" type="int">
+        <!-- 4 capabilities, 3 is the maximum when there is a SID -->
+        <access type="R" capabilities="ProtServ,DiskAdmin,NetworkControl,AllFiles" sid="0x12344321"/>
+    </key>
+</repository>

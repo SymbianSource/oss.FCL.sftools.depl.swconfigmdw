@@ -45,13 +45,13 @@
                     '_name': 'Sequence setting',
                     '_namespace': 'Feature1',
                     '_type': 'sequence',
-                    '_value': [[['seq/file1.txt', None], 'false', 'item 1']],
+                    '_value': [[['seq/file1.txt', None], False, 'item 1']],
                     'BooleanSubSetting': {
                             '_fqr': 'Feature1.SequenceSetting.BooleanSubSetting',
                             '_name': 'Boolean sub-setting',
                             '_namespace': 'Feature1.SequenceSetting',
                             '_type': 'boolean',
-                            '_value': ['false'],
+                            '_value': [False],
                             },
                     'FileSubSetting': {
                             '_fqr': 'Feature1.SequenceSetting.FileSubSetting',
@@ -101,13 +101,13 @@
                     '_name': 'Sequence setting',
                     '_namespace': 'Feature2',
                     '_type': 'sequence',
-                    '_value': [['1', 'seq1 2 item 1']],
+                    '_value': [[1, 'seq1 2 item 1']],
                     'IntSubSetting': {
                             '_fqr': 'Feature2.SequenceSetting.IntSubSetting',
                             '_name': 'Int sub-setting',
                             '_namespace': 'Feature2.SequenceSetting',
                             '_type': 'int',
-                            '_value': ['1'],
+                            '_value': [1],
                             },
                     'StringSubSetting': {
                             '_fqr': 'Feature2.SequenceSetting.StringSubSetting',

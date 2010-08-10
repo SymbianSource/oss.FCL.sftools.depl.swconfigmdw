@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	version="1.0"
+	name="Mailboxes for unit tests"
+	>
+
+    	<feature name="Mailbox1" ref="mailbox1">
+		<desc>Mailbox1 description</desc>
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+    	<feature name="Mailbox2" ref="mailbox2">
+		<desc>Mailbox1 description</desc>
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+    	<feature name="Mailbox3" ref="mailbox3">
+		<desc>Mailbox1 description</desc>
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+    	<feature name="Mailbox4" ref="mailbox4">
+		<desc>Mailbox1 description</desc>
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+    	<feature name="Mailbox5" ref="mailbox5">
+		<desc>Mailbox1 description</desc>
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+    	<feature name="Mailbox6" ref="mailbox6">
+		<desc>Mailbox1 description</desc>
+	    <setting name="Int1" type="int" ref="set_int1" required="true" constraint=". &gt;= set_int2">
+    		<desc>Integer 1, must be equal or bigger than #2</desc>
+	    </setting>
+	    <setting name="Int2" type="int" ref="set_int2" required="true" constraint=". &lt;= set_int1">
+	    	<desc>Integer 2, must be equal or smaller than #1</desc>
+	    </setting>
+	    <setting name="Int3" type="int" ref="set_int3" required="true" relevant ="set_int1 = 4">
+	    	<desc>Integer 3, relevant only if int1 is 4</desc>
+	    </setting>
+	    <setting name="Int4" type="int" ref="set_int4" required="true" constraint=". = set_int3" relevant="set_int2 = 2">
+	    	<desc>Integer 4, relevant only if int2 is 3, must be same as int3</desc>
+	    </setting>
+	</feature>
+</configuration>

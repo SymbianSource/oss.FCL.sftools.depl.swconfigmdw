@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:schemaLocation="http://www.w3.org/2001/XInclude http://www.s60.com/xml/confml/1#//include" name="asset1">
+  <xi:include href="confml/invalid_type.confml"/>
+  <xi:include href="confml/invalid_element.confml"/>
+  <xi:include href="confml/model_level_validation_test.confml"/>
+  <xi:include href="confml/broken.confml"/>
+</confml:configuration>

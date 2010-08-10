@@ -14,15 +14,13 @@
 # Description:
 #
 
-import sys, os, unittest
-import __init__
+import os
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 from testautomation.base_testcase import BaseTestCase
-from cone.public import exceptions, plugin, api, container
+from cone.public import plugin, api
 
-from examplemlplugin import exampleml_reader
 
 def abspath(path):
     return os.path.normpath(os.path.join(ROOT_PATH, path))
@@ -30,18 +28,19 @@ def abspath(path):
 class TestExamplemlGeneration(BaseTestCase):
 
     def test_generate_from_project(self):
-        project_dir     = abspath('project')
+        project_dir     = abspath('testdata/generation/project')
         config          = 'root.confml'
-        output_dir      = abspath('temp/output')
-        expected_dir    = abspath('gen_expected')
+        output_dir      = abspath('temp/generation/output')
+        expected_dir    = abspath('testdata/generation/expected')
         
         self.remove_if_exists(output_dir)
         
         prj = api.Project(api.Storage.open(project_dir))
         config = prj.get_configuration(config)
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=output_dir)
         impls = plugin.get_impl_set(config)
-        impls.output = output_dir
-        impls.generate()
+        impls.generate(context)
         
         self.assert_dir_contents_equal(output_dir, expected_dir, ['.svn'])
         

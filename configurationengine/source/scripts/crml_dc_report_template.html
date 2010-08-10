@@ -4,7 +4,7 @@
 
     <h1>CRML Data Compatibility Report</h1><br>
     
-    <table class="report">
+    <table class="report" id="cdc_report">
       <tr>
         <td>Source:</td>
         <td>{{ data.sourcedata.name }}</td>
@@ -14,12 +14,18 @@
         <td>{{ data.targetdata.name }}</td>
       </tr>
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("cdc_report");
+//]]>
+</script>
+    
     
     <br/>
     
     <h2>Modified keys/files:</h2>
     
-    <table class="report">
+    <table class="report" id="mk_report">
     <tr>
         <th>File</th>
         <th>Repository UID</th>
@@ -60,11 +66,17 @@
         {% endif -%}
     {% endfor %}
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("mk_report");
+//]]>
+</script>
+    
     
     
     <h2>Added keys/files:</h2>
     
-    <table class="report">
+    <table class="report" id="ak_report">
     <tr>
         <th>File</th>
         <th>Repository UID</th>
@@ -92,11 +104,16 @@
         {% endif -%}
     {% endfor %}
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("ak_report");
+//]]>
+</script>
     
     
     <h2>Removed keys/files:</h2>
     
-    <table class="report">
+    <table class="report" id="rk_report">
     <tr>
         <th>File</th>
         <th>Repository UID</th>
@@ -124,11 +141,16 @@
         {% endif -%}
     {% endfor %}
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("rk_report");
+//]]>
+</script>
     
     
     <h2>Duplicate repositories:</h2>
     
-    <table class="report">
+    <table class="report" id="dr_report">
     <tr>
         <th>Repository UID</th>
         <th>Files in source</th>
@@ -149,4 +171,10 @@
         {% endif -%}
     {% endfor %}
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("dr_report");
+//]]>
+</script>
+    
 {% endblock %}

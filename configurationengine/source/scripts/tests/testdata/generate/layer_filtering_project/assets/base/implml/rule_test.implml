@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <!-- Test for RuleML v2 -->
+    <container>
+        <tempVariable ref="TempFooV2" type="string"/>
+        
+        <container>
+            <phase name="pre"/>
+            <ruleml xmlns="http://www.s60.com/xml/ruleml/2">
+                <rule>TestFeature.BaseLayerSetting configures TempFooV2 = TempFooV2 + ' base'</rule>
+                <rule>TestFeature.Layer1Setting configures TempFooV2 = TempFooV2 + ' layer1'</rule>
+                <rule>{% ${TestFeature.Layer2Setting} %} configures TempFooV2 = TempFooV2 + ' layer2'</rule>
+                <rule>TestFeature.Layer3Setting configures TempFooV2 = TempFooV2 + ' layer3'</rule>
+                <rule>True configures TempFooV2 = TempFooV2 + ' x'</rule>
+            </ruleml>
+        </container>
+
+        <container>
+            <phase name="normal"/>
+            <templateml xmlns="http://www.s60.com/xml/templateml/1">
+                <output file="rule_test_v2.txt" encoding="UTF-8">
+                    <template>{{ feat_tree.TempFooV2._value }}</template>
+                </output>
+            </templateml>
+        </container>
+    </container>
+    
+    <!-- Test for RuleML v3 -->
+    <container>
+        <tempVariable ref="TempFooV3" type="string"/>
+        
+        <container>
+            <phase name="pre"/>
+            <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+                <rule>${TestFeature.BaseLayerSetting} configures ${TempFooV3} = ${TempFooV3} + ' base'</rule>
+                <rule>${TestFeature.Layer1Setting} configures ${TempFooV3} = ${TempFooV3} + ' layer1'</rule>
+                <rule>{% ${TestFeature.Layer2Setting} %} configures ${TempFooV3} = ${TempFooV3} + ' layer2'</rule>
+                <rule>${TestFeature.Layer3Setting} configures ${TempFooV3} = ${TempFooV3} + ' layer3'</rule>
+                <rule>True configures ${TempFooV3} = ${TempFooV3} + ' x'</rule>
+            </ruleml>
+        </container>
+
+        <container>
+            <phase name="normal"/>
+            <templateml xmlns="http://www.s60.com/xml/templateml/1">
+                <output file="rule_test_v3.txt" encoding="UTF-8">
+                    <template>{{ feat_tree.TempFooV3._value }}</template>
+                </output>
+            </templateml>
+        </container>
+    </container>
+</container>

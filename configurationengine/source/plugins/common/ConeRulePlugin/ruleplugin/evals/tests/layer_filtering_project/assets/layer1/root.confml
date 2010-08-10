@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="ASCII"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" xmlns:xi="http://www.w3.org/2001/XInclude" name="Layer 1">
+  <xi:include href="confml/data.confml"/>
+</configuration>

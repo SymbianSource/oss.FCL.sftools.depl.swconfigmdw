@@ -1,163 +1,262 @@
 User guide for Rule Plugin usage in ConE
-----------------------------------------
+========================================
+
+.. note::
+    RuleML v3 is now the officially supported RuleML version.
+    Support for versions 1 and 2 is still present in ConE, but they will not
+    be maintained anymore. If you have e.g. a RuleML v2 file and require some
+    new functionality, the new functionality will be added to RuleML v3 and
+    you will need to update your RuleML file to use version 3.
+    
+    Updating should be easy, since the biggest change is setting reference
+    syntax. Simply add ``${}`` around all setting references in the rules.
 
 Introduction
-'''''''''''''
-This page describes how to use ConE Rule plugin. With rule plugin one may set rule configuration 
-for the values in the confml. So for ex. one may have a case where is one confml value is been setted
-and one may create a rule configuration that if this value is for ex. 'foo' then some other value is
-'bar'. Value may be required or configures. 
+------------
+This page describes how to use the ConE Rule plugin. The plug-in provides
+support for RuleML files, which can be used to execute rules during output
+generation. The main use for RuleML is modifying the values of ConfML settings
+on run-time based on the values of other settings.
 
+The rule plug-in registers the ImplML namespace for defining rules, and the
+RuleML-specific file extension:
 
-Creating a rule configuration file
-''''''''''''''''''''''''''''''''''
-Create a new file a example.ruleml and set it's file encoding to UTF-8.
-Place the file in the impml folder in configuration project.
-The file is a XML base file. 
-First set the encoding tag 
+  * Namespace: ``http://www.s60.com/xml/ruleml/3``
+  * File extension: ``ruleml``
+
+.. note::
+
+   More information about :ref:`file extensions <implml-file-extensions>`. 
+
+Usage
+-----
+
+A RuleML file is simply an XML file that defines a set of rules. For example:
 
 .. code-block:: xml
 
-  <?xml version="1.0" encoding="UTF-8"?>* 
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>${SomeFeature.SomeSetting} == 'testing' configures ${SomeFeature.SomeOtherSetting} = 5</rule>
+        <rule>${SomeFeature.SomeSetting} == 'xyz' configures ${SomeFeature.SomeOtherSetting} = 6</rule>
+    </ruleml>
 
-and then create a root tag
+The above example sets the value of the setting ``SomeFeature.SomeOtherSetting``
+to the integer value ``5`` or ``6`` if the value of ``SomeFeature.SomeSetting`` is
+one of the strings ``testing`` or ``xyz``.
+
+Rules can also contain multiple operations in a single rule, and can span
+multiple lines to make the rule more readable. For example:
 
 .. code-block:: xml
 
-  <ruleml xmlns="http://www.s60.com/xml/ruleml/1">*
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            ${SomeFeature.SomeSetting} == 'testing' configures
+                ${SomeFeature.SomeOtherSetting} = 5 and
+                ${SomeFeature.SomeOtherSetting2} = 6 and
+                ${SomeFeature.SomeOtherSetting3} = 7
+        </rule>
+    </ruleml>
+
+Sometimes the case is that the rule should be executed always, regardless of
+the values of any other settings. To do this you can simply specify ``True``
+as the left-hand side expression:
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>True configures ${SomeFeature.SomeOtherSetting} = 'Hello!'</rule>
+    </ruleml>
+
+Python expressions in rules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+RuleML has an extension to the basic rule syntax, which allows any `Python <http://www.python.org/doc/2.5/>`_
+expressions to be used. These can be used to create more complex logic into
+rules than is possible with standard rule expressions. The Python expressions
+are defined between ``{%`` and ``%}``, and can be used in place of normal
+value expressions.
+
+You can access global ruleml namespace, from which you can find Configuration and Generation Context of the active execution.
+
+ * ruleml.configuration - links to `Configuration <../../../docbuild/epydoc/cone.public.api.Configuration-class.html>`_ object.
+ * ruleml.context - links to `Generation Context <../../../docbuild/epydoc/cone.public.plugin.GenerationContext-class.html>`_ object.
  
-give a set of rules for ex. 
- 
-.. code-block:: xml
 
-  <rule>mms.imagesize == 'large' configures pd.ref1 = True and pd.ref2 = True</rule>*
- 
-and close the ruleml tag.
-
-One may say use several boolean operators for the configuration rule like for ex.
- 
-.. code-block:: xml
-
-  and, or, ==, !=* 
- 
-Like for ex.
+*Examples of using Python scripts inside ruleml files:*
 
 .. code-block:: xml
 
-  <rule>mms.imagesize == 'large' configures pd.ref1 = True and pd.ref2 = True</rule>*
- 
-means that if reference link mms/imagesize  in some confml file is set to large then reference 
-link pd/ref1 value is true and pd/ref2 value is set to true also.
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            True configures ${SomeFeature.SomeOtherSetting} = {% 2 ** 16 %}
+        </rule>
+    </ruleml>
 
-**All in all one may create a dependency like project configuration with ruleml files.**  
+This sets the value of ``SomeFeature.SomeOtherSetting`` to the evaluated value
+of the Python expression ``2 ** 16``, which is 65536.
 
-Ruleml version 2 adds support for calling `Python <http://www.python.org/doc/2.5/>`_ expressions from rules. Python expression are defined between ``{%`` and ``%}``:
-
-.. code-block:: xml
-
-  <rule>feat1.setting2 == True configures feat2.setting2 = {% ${feat3.setting2} %}</rule>
-
-Expression return a result, that can be used in rule e.g. to set a value to some setting in configuration. These expression can be used to create more complex logic into rules that is not possible with standard rule expressions. Inside eval expressions features and feature's values can be accessed by following syntax:
-
-Accesses to the value::
-
-  ${Feature.Setting}
-
-Accesses to the feature object::
-
-  @{Feature.Setting}
-
-Python functions or constants that can be accessed inside expressions can be defined by ``<eval_globals>`` elements:
+Obviously, simple expressions like this cannot do much, but an expression can
+also be a function call, and functions can do almost anything. Functions (and 
+also any other globals) can be specified using ``<eval_globals>`` elements.
+For example:
 
 .. code-block:: xml
 
-  <eval_globals>
-  def my_function1(attribute):
-      return attribute + 1
-  </eval_globals>
-  
-  <eval_globals>CONST_1 = "my constant"</eval_globals>
-  
-  <eval_globals file=".scripts/evals_in_file.py"/>
-  
-Definitions can be inside <eval_globals> elements or definitions can be in separate file referenced with ``file`` attribute.
-The path specified in this attribute is relative to the RuleML implementation file. So, for example, if your implementation
-file's location is ``some/layer/implml/my_rules.ruleml``, the actual path specified in the above example would be
-``some/layer/implml/.scripts/evals_in_file.py``. It is recommended to place the scripts under a directory beginning
-with a dot, so that the plug-in loader does not attempt to load the .py file as an implementation (files and directories beginning
-with a dot are ignored in the implementation loading phase).
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            True configures ${SomeFeature.SomeOtherSetting} = {% power(2, 16) %}
+        </rule>
+        <eval_globals>
+    def power(x, y):
+        result = 1
+        for i in xrange(y):
+            result *= x
+        return result
+        </eval_globals>
+    </ruleml>
 
-Running
-'''''''''''''''''''''
+This does the same thing as the previous example, except that it uses a custom
+function to do it.
 
-::
-
-  cone generate -p someproject.cpf -o c:/temp/coneoutput -i rulemlfile.ruleml
-
-Generates files out of configuration file and takes the implementation rulemlfile.ruleml in concern,
-and the output is to been set to -o given folder 
-
-for more example see the cone documentation
-
-Examples
-'''''''''
-
-
-**Ruleml version 1 file example**
+It is also possible to use standard Python libraries or the
+`ConE API <../../epydoc/index.html>`_ from ``<eval_globals>``, and also
+some RuleML-specific things. Ruleml has all data from 
+Configuration and Generation Context classes of the active execution. For example:
 
 .. code-block:: xml
 
-  <?xml version="1.0" encoding="UTF-8"?>
-  <ruleml xmlns="http://www.s60.com/xml/ruleml/1">
-  <rule>imaker.imagetarget configures imakerapi.outputLocation = imaker.imagetarget</rule>
-  <rule>mms.imagesize == 'large' configures pd.ref1 = True and pd.ref2 = True</rule>
-  <rule>mms.imagesize == 'small' configures pd.ref1 = False and pd.ref2 = True</rule>
-  <rule>mms.imagesize == 'extrasmall' configures pd.ref1 = False and pd.ref2 = False</rule>
-  <rule>mms.imagesize == 'extralarge' configures pd.ref1 = True and pd.ref2 = False</rule>
-  </ruleml>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            True configures ${SomeFeature.SomeOtherSetting} = {% power(2, 16) %}
+        </rule>
+        <eval_globals>
+    # Import the standard library urllib2 to do operations on URLs
+    import urllib2
+    
+    # Import the ConE API
+    from cone.public import api
+    
+    def get_project_path():
+        # The current configuration is available in ruleml.configuration
+        config = ruleml.configuration
+        
+        # Return the path of the storage the current project is in
+        project = config.get_project()
+        return project.storage.get_path()
+        </eval_globals>
+    </ruleml>
+    
 
-**What do the example ruleml file means**
+In this example configuration is got from ruleml. Generation Context can be 
+accessed in the same way, ruleml.context will have all data stored in the 
+Generation Context object.
 
-The example file set the values upon the image size. First it sets the iMaker output
-location target and then it starts to set the mms message image size settings. So if for ex.
-*mms/imagesize* refence link value in confml file is set to *extralarge* then the value of
-*pd/ref1* is set to *true* and the value *pd/ref2* is set to false.
+Generation Context values can be accessed inside the Python expressions using the
+ruleml.context like ruleml.context.output.
 
-
-**Ruleml version 2 file example**
+This example uses the Generation Context to get defined output folder. 
+See how to access the data from the code example below.
 
 .. code-block:: xml
 
-  <?xml version="1.0" encoding="UTF-8"?>
-  <ruleml xmlns="http://www.s60.com/xml/ruleml/2">
-  <rule>feat1.setting1 == 'somevalue' configures feat2.setting1 = {% len( ${feat3.setting1} ) %}</rule>
-  <rule>feat1.setting2 == True configures feat2.setting2 = {% my_function1( ${feat3.setting2} ) %}</rule>
-  <rule>feat1.setting3 == True configures feat2.setting3 = {% CONST_1 %}</rule>
-  <rule>{% my_function2( ${feat1.setting4} ) %} configures feat2.setting4 = False</rule>
-  <rule>{% @{feat1.setting5}.get_type() %} == 'int' configures feat2.setting5 = 'integer'</rule>
-  <rule>feat1.setting6 == True configures feat2.setting6 = {% '0x%08X' % ${feat2.setting6} %}</rule>
-  <eval_globals>
-  def my_function1(attribute):
-      return attribute + 1
-  def my_function2(attribute):
-      if attribute == 'abc':
-          return True
-      else:
-          return False
-  </eval_globals>
-  <eval_globals>
-  CONST_1 = "my constant"
-  </eval_globals>
-  <eval_globals file=".scripts/evals_in_file.py"/>
-  </ruleml>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            True configures ${SomeFeature.output} = {% get_output_folder() %}
+        </rule>
+        <eval_globals>
+          
+    def get_output_folder():
+        output = ruleml.context.output
+        return output
+        </eval_globals>
+    </ruleml>
 
-XSD
-'''''''''
 
-Ruleml version 1: :download:`ruleml.xsd </xsd/ruleml.xsd>`
+Accessing ConfML values inside Python expressions
+'''''''''''''''''''''''''''''''''''''''''''''''''
 
-Ruleml version 2: :download:`ruleml2.xsd </xsd/ruleml2.xsd>`
+ConfML setting values can be accessed inside the Python expressions using the
+same notation as elsewhere in the rules, i.e. using ``${`` and ``}``.
+For example:
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            ${SomeFeature.SomeSetting} == 'testing' configures ${SomeFeature.SomeOtherSetting} = {% ${SomeFeature.SomeSetting}.upper() %}
+        </rule>
+    </ruleml>
+
+This sets the value of ``SomeFeature.SomeOtherSetting`` to 'TESTING'.
+
+Accessing feature objects inside Python expressions
+'''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Sometimes it is necessary to access the actual feature (or setting) object that
+ConE uses internally to perform more complex operations. This can be done
+similarly to accessing the setting values, the only difference is that the
+setting reference needs to be surrounded by ``@{}``. For example:
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            True configures ${SomeFeature.SomeOtherSetting} = {% get_location(@{SomeFeature.SomeSetting}) %}
+        </rule>
+        <eval_globals>
+    from cone.public import api
+    
+    def get_location(setting):
+        parent_config = setting._find_parent(type=api.Configuration)
+        return parent_config.get_path()
+        </eval_globals>
+    </ruleml>
+
+This example uses the ConE API to find the location (ConfML file) where the
+given setting is defined.
+
+
+Defining functions in a separate .py file
+'''''''''''''''''''''''''''''''''''''''''
+
+Defining the Python functions used in the rules in an ``<eval_globals>`` element
+can quickly become unwieldy for larger functions:
+
+- Things like ``<`` need to escaped using the corresponding XML entity references
+- Syntax highlighting is not available
+- Writing and running unit tests for the functions is not possible
+
+For these reasons, the code of an ``<eval_globals>`` element can also be
+specified in a separate Python file using the ``file`` attribute. For example:
+
+.. code-block:: xml
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+        <rule>
+            True configures ${SomeFeature.SomeOtherSetting} = {% some_very_complex_operation(
+                @{SomeFeature.SomeSetting1},
+                ${SomeFeature.SomeSetting2},
+                ${SomeFeature.SomeSetting3}) %}
+        </rule>
+        <eval_globals file="scripts/complex_function.py"/>
+    </ruleml>
+
+The path specified in the ``file`` attribute is relative to the implementation
+file where the rule is specified, so if the RuleML file in this example was
+located in ``assets/example/implml/some_rule.ruleml``, the referenced Python
+file would be ``assets/example/implml/scripts/complex_function.py``.
 
 FAQ
-'''''''''
-This will be updated based on the questions.
+---
+This will be updated based on any questions.

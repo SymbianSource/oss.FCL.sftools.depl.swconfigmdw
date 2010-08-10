@@ -15,7 +15,7 @@
 #
 
 from shutil import copy
-import os
+import os, re
 
 class ThemeResource:   
     """
@@ -34,37 +34,23 @@ class ThemeResource:
         The class ThemeResource contains a name of theme resource 
         and a path where this resource will be copied in the output directory
         """
-        pkg_file=file(file_path,'r')
-        is_found_else=False
-        row = ""
+        
+        resource_pattern = re.compile(r'"(.*)"\s+-\s+"!:\\(.*)"')
         # for every row in pkg file
-        for row in pkg_file:
-            #if it finds tag "ELSE" then it begins load the records about the theme resources
-            if row.startswith("ELSE"):
-                is_found_else = True
-              
-            if(is_found_else):
-                parts_of_row = row.split("\"")
-                #the loading record has to have 5 parts separated "\"
-                if len(parts_of_row) == 5:
-                    #gets the path of the theme resource
-                    path = parts_of_row[3]
-                    #removes these chars "!:\" from the path of theme resource
-                    path = self.modify_resource_path(path)
-                    #parts_of_row[1 is the filename of the theme resource
-                    resource = Resource(parts_of_row[1], path)
-                    self.list_resource.append(resource)
-   
-        pkg_file.close()  
+        for row in open(file_path, 'r'):
+            mo = resource_pattern.match(row)
+            if mo:
+                resource = Resource(mo.group(1), os.path.split(mo.group(2))[0])
+                self.list_resource.append(resource)
     
     def copy_files_from_theme(self, source_path, output_path):
         """
         copies theme resources from  source directory to theirs target paths 
         """
         for resource in self.list_resource:
-           source_file = os.path.join(source_path, resource.get_filename())
-           target_dir =  os.path.join(output_path, resource.get_path())
-           self.copy_files(source_file, target_dir)          
+            source_file = os.path.join(source_path, resource.get_filename())
+            target_dir =  os.path.join(output_path, resource.get_path())
+            self.copy_files(source_file, target_dir)          
         
     def copy_files(self, source_path, target_path):
         """

@@ -16,7 +16,7 @@
 
 import unittest, os, re, subprocess
 
-import __init__
+# import __init__
 from cone.public import api, plugin
 from cone.storage import filestorage
 from testautomation.base_testcase import BaseTestCase
@@ -44,7 +44,7 @@ class TestParseCommandMl(BaseTestCase):
         self.assertEquals(cmd.shell, False)
         self.assertEquals(cmd.bufsize, 0)
         self.assertEquals(cmd.cwd, r'c:\program1')
-        self.assertEquals(cmd.envs, {'MYVAR': '123'})
+        self.assertEquals(cmd.envs, "{'MYVAR':'123'}")
         self.assertEquals(cmd.arguments, ['-c some_config.txt',
                                           '-d some_dir',
                                           '-x'])
@@ -67,7 +67,7 @@ class TestParseCommandMl(BaseTestCase):
     
     def test_parse_file2(self):
         impl = self._get_impl('file2.commandml')
-        self.assertEquals(len(impl.reader.elements), 4)
+        self.assertEquals(len(impl.reader.elements), 5)
         
         self.assertTrue(isinstance(impl.reader.elements[0], Condition))
         self.assertTrue(isinstance(impl.reader.elements[1], Condition))

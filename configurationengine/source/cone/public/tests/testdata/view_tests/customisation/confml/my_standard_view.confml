@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <confml:view id="my_view" name="My view">
+    <confml:desc>This is my test view.</confml:desc>
+    <confml:group name="Examples" id="group_examples">
+      <confml:desc>Different example settings.</confml:desc>
+      <confml:group name="Group Strings" id="g_strings">
+      <confml:desc>Different string settings.</confml:desc>
+        <confml:setting ref="example-feature/ExampleString1">
+            <confml:desc>Overrided description for ExampleString1.</confml:desc>
+        </confml:setting>
+        <confml:setting ref="example-feature/ExampleString2" name="My webpage">
+        <xs:minLength value="10"/>
+        <xs:maxLength value="60"/>
+        <xs:pattern value="(http(|s)://([\w-]+\.)+[\w-]+(:[0-9]{1,5})?(/[\w- ./?%&amp;=]*)?|)"/>
+        <xs:length value="15"/>
+        </confml:setting>
+      </confml:group>
+      <confml:group name="Group Ints" id="g_ints">
+        <confml:icon xlink:href="broken_image.png"/>
+      <confml:desc>Different int settings.</confml:desc>
+        <confml:setting ref="example-feature/ExampleInt1">
+          <confml:option name="Always Ask" value="0"/>
+          <confml:option name="Automatic" value="1"/>
+          <confml:option name="Autom. in home network" value="2"/>
+          <confml:option name="Disabled" value="3"/>
+          <xs:minExclusive value="0"/>
+          <xs:maxExclusive value="4"/>
+        </confml:setting>
+        <confml:setting ref="example-feature/ExampleInt2">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="0"/>
+          <confml:option name="Unlimited time" value="0"/>
+        </confml:setting>
+        <confml:setting ref="example-feature/ExampleFilename" name="Filename">
+          <confml:property name="width" unit="pixel" value="134"/>
+          <confml:property name="height" unit="pixel" value="33"/>
+        </confml:setting>
+      </confml:group>
+    </confml:group>
+    <confml:group name="Mailboxes">
+        <confml:icon xlink:href="mails.png"/>
+    <confml:desc>Mailbox group - with no id!!!</confml:desc>
+       <confml:setting ref="mailbox1/set_int1" readOnly='true'/>
+       <confml:setting ref="mailbox1/set_int2"/>
+       <confml:setting ref="mailbox1/set_int3"/>
+       <confml:setting ref="mailbox1/set_int4"/>
+       <confml:setting ref="mailbox2/set_int1"/>
+       <confml:setting ref="mailbox2/set_int2"/>
+       <confml:setting ref="mailbox2/set_int3"/>
+       <confml:setting ref="mailbox2/set_int4"/>
+       <confml:setting ref="mailbox3/set_int1"/>
+       <confml:setting ref="mailbox3/set_int2"/>
+       <confml:setting ref="mailbox3/set_int3"/>
+       <confml:setting ref="mailbox3/set_int4"/>
+       <confml:setting ref="mailbox4/set_int1"/>
+       <confml:setting ref="mailbox4/set_int2"/>
+       <confml:setting ref="mailbox4/set_int3"/>
+       <confml:setting ref="mailbox4/set_int4"/>
+       <confml:setting ref="mailbox5/set_int1"/>
+       <confml:setting ref="mailbox5/set_int2"/>
+       <confml:setting ref="mailbox5/set_int3"/>
+       <confml:setting ref="mailbox5/set_int4"/>
+       <confml:setting ref="mailbox6/set_int1"/>
+       <confml:setting ref="mailbox6/set_int2"/>
+       <confml:setting ref="mailbox6/set_int3"/>
+       <confml:setting ref="mailbox6/set_int4"/>
+    </confml:group>
+    <confml:group name="Sequences" id="group_sequence">
+        <confml:desc>Sequence test in view, full, splitted, full with asterisks</confml:desc>
+        <confml:setting ref="german-car-fea/CarSequence"/>
+        <confml:setting ref="japan-car-fea/CarSequence/CarName" readOnly='true'/>
+        <confml:setting ref="italy-car-fea/CarSequence/*"/>
+    </confml:group>
+
+  </confml:view>
+</confml:configuration>

@@ -15,7 +15,7 @@
 #
 
 import unittest
-import __init__
+
 from cone.public import plugin
 from CRMLPlugin.crml_model import *
 from CRMLPlugin.crml_comparator import CrmlComparator

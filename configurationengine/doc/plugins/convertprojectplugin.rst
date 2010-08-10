@@ -103,6 +103,119 @@ Installation/Running
 Examples
 '''''''''
 
+Defining layer
+'''''''''
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">		
+    <targetProject path=""/>
+    <layer path="assets/s60">
+      <folder path="implml">
+        <filter action="add" data="assets/s60/confml/*.crml"/>
+        <filter action="add" data="assets/s60/confml/*.gcfml"/>
+      </folder>
+      <file type="layer_root" path="root.confml">
+        <filter action="include_file" data="confml/*.confml"/>
+      </file>
+      <file type="configuration_root" path="s60_root.confml">
+        <filter action="include_layer" data="assets/s60/root.confml"/>
+      </file>	
+    </layer>
+  </convertprojectml>
+  
+Normally targetProject's **path** attribute is defined as empty. It means that the project is generated to ConE's normal output location which can be given as command line parameter (-o). 
+
+Convert project ML is constructed so that the highest data structure is **layer**. Layer has attribute **path**, which defines relative location to output path. Layer can contain one or more 
+**folders** and/or **files**. 
+
+Folder defines folder entry inside the layer and in file system level is a directory. Folder has **path** attribute which is relative to layer's path. Folder can contain **filters** which define 
+how folder's content is constructed. With action **add** data is copied to the folder from location which is defined in **data** attribute. 
+**Note** that the path in data attribute is relative to configuration project's root (normally \epoc32\rom\config). Example here copies  all crml and gcfml files from confml folder to impml folder.
+
+Layer can also define files. Each file has **type** which can be layer_root or configuration_root. The former one is creating layer root file to the path defined in **path** attribute, location is 
+relative to layers location. Action **include_file** defines a search pattern. In the example all files from layer's confml folder with extension confml are included in the layer's root file. This can
+be used to generate layer root files automatically in the build even when the exact content in filename level is not known. Configuration root files are always generated to the root of the 
+configuration project. Filter action **include_layer** defines configuration layer root files which are included to the configuration root.
+
+
+Defining metadata and configuration name
+'''''''''
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">		
+    <targetProject path=""/>
+    <layer path="assets/s60">
+      <file type="configuration_root" path="s60_root.confml" configuration_name="My S60 Config">
+        <meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+          <version>001</version>
+          <cv:configuration-property name="sw_version" value="${convertproject.versioninfo}" />
+        </meta>
+        </file>	
+    </layer>
+  </convertprojectml>
+
+File element's **configuration_name** attribute can be used to override ConE's default configuration name. Value is written to ConfML file's configuration element to name attribute. **Meta** 
+structure defines ConfML metadata which is added to configuration root file. It supports normal ConfML metadata like in this example **version** and cv namespace metadata like **sw_version**. 
+Value of sw_version is fetched from ConfML setting **convertproject.versioninfo** at run time. Configuration_name and metadata are available to both layer and configuration root files.
+
+Creating loops
+'''''''''
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">		
+    <targetProject path=""/>
+    <foreach variable="{TEMPLATE}" data="/epoc32/rom/config/language_packs">	
+      <layer path = language_packs/{TEMPLATE}">
+        <file type="layer_root" path="root.confml">
+          <filter action="include_file" data="confml/*.confml" remove_includes="true"/>
+        </file>
+        <file type="configuration_root" path="langpack_{TEMPLATE}_root.confml" configuration_name=" {TEMPLATE}">
+          <filter action="include_layer" data="assets/s60/root.confml"/>
+          <filter action="include_layer" data="assets/symbianos/root.confml"/>
+          <filter action="include_layer" data="language_packs/{TEMPLATE}/root.confml"/>
+        </file>
+	  </layer>
+  </foreach>
+  </convertprojectml>
+
+Loops can be defined in convert project ml using **foreach** structures. Attribute **data** defines path where from all the folder names  are scanned. Value of attribute **variable** is the 
+name of the folder e.g. if /epoc32/rom/config/language_packs contains folders *lp1*,* lp2* and *lp3* then variable has value lp1 in the first round,  lp2 in the second round and lp3 in the third round. 
+Meaning that in the first round layer path will be language_packs/lp1 and configuration root file name is langpack_lp1_root.confml, which includes language_packs/lp1/root.confml as the last layer root. 
+
+Extending configuration root information
+'''''''''
+.. code-block:: xml
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <convertprojectml xmlns="http://www.s60.com/xml/convertprojectml/1">		
+    <targetProject path=""/>
+    <foreach variable="{TEMPLATE}" data="/epoc32/rom/config/language_packs">	
+      <layer path = language_packs/{TEMPLATE}">
+        <file type="layer_root" path="root.confml">
+          <filter action="include_file" data="confml/*.confml" remove_includes="true"/>
+        </file>
+        <file type="configuration_root" path="langpack_{TEMPLATE}_root.confml" configuration_name=" {TEMPLATE}">
+          <filter action="include_layer" data="assets/s60/root.confml"/>
+          <filter action="include_layer" data="assets/symbianos/root.confml"/>
+          <filter action="include_layer" data="language_packs/{TEMPLATE}/root.confml"/>
+        </file>
+	  </layer>
+    <layer path="">		
+        <file type="configuration_root" path="langpack_lp1_root.confml">
+          <meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+            <cv:configuration-property name="based_on_ctr" value="abc123" />
+          </meta>
+        </file>
+    </layer>
+  </convertprojectml>
+
+The first part is exactly same as above. What has been added is a new layer which includes only one file generated in the example above. Example here adds extra metadata *'based_on_ctr** to
+the configuration root langpack_lp1_root.confml. Note that convert project ml works so that if there is no existing file then that is created in case file exists then it is updated. 
+
+
 XSD
 '''
 

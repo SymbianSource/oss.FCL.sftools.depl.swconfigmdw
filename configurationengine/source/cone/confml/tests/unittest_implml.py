@@ -16,7 +16,6 @@
 
 import unittest
 import os
-import __init__
 from cone.public.exceptions import NotSupportedException
 
 from cone.confml import implml

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2"
+	       xmlns:xi="http://www.w3.org/2001/XInclude"
+	       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	       version="1.0">
+      <feature ref="Optiontest" name="Options Tests" >
+            <setting ref="sequence_test" name="Sequence of options" type="sequence" required="true">
+                <setting ref="selection_test" name="Selection field" type="selection"> 
+                    <option name="String 1" value="string1" />
+                    <option name="String 2" value="string2" />
+                    <option name="String 3" value="string3" />
+                </setting>
+                <setting ref="string_test" name="String field" type="string" required="false"> 
+                    <option name="String 1" value="string1" />
+                    <option name="String 2" value="string2" />
+                    <option name="String 3" value="string3" />
+                </setting>
+                <setting ref="int_test" name="Integer field" type="int" required="true"> 
+                    <option name="Integer 1" value="0123" />
+                    <option name="Integer 2" value="4567" />
+                    <option name="Integer 3" value="7890" />
+                </setting>
+            </setting>
+    </feature>   
+  <data>
+    <Optiontest>
+    </Optiontest>
+  </data>
+</configuration>

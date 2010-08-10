@@ -17,7 +17,6 @@
 import unittest
 import os, shutil
 import sys
-import __init__
 
 from testautomation.utils import hex_to_bindata
 

@@ -104,8 +104,6 @@ class ThemeContainer:
         
         for theme in self.list_theme:
             
-            # Make sure autoconfig is the last layer
-            plugin.get_autoconfig(self.configuration)
 
             default_view = self.configuration.get_default_view()
             

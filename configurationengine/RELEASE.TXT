@@ -1,82 +1,193 @@
 
 
-                         ConE the Configuration Engine
-                              Version cone-1.1.5
-                            Release Notes, 11.1.2010
+                         ConE - the Configuration Engine
+                              Version cone-1.2.11
+                            Release Notes, 10.08.2010
 
 Release notes:
 =============
-== Version Cone-1.1.5 ==
- * Stories:
-     - #792: Change ConE licenses from SFL to EPL
-     - #80: As a variant engineer I want to merge my configuration so that "old" content is removed
-     - #639: As a variant engineer I want that color depth argument for bmconv and mifconv is configurable
-     - #703: As a SW developer I want to merge my confml and implml to global configuration project easily so that I don't need to manually copy the files and update the root files.
-     - #765: As a user I want to configure cone logging output so that I can use the cone logs more efficiently
-     - #785: CommandML does not support tag elements
- * Bug fixes:
-     - #814: ERROR: Content folder in vascos "dummy" layer is not added to CPF when adding layer with -a option
-     - #763: Selection setting option map does not work properly when option map element is used
-     - #193: Different configurations open on the same project return the same setting values
-     - #737: ConE merge produces incorrect output (layer root contains all data)
-     - #762: ConE: option mapping does not store the mapKey/mapValue to confml file when confml output is written
-     - #764: ConE must not assume that the executive process will have write access to workdir
-     - #820: MultiSelection value setting does not work correctly
+
+== Version Cone-1.2.11 ==
+* Stories
+ * #1012 As a user I want to get information whether the setting has been changed in the layer usign regex for layer name so that only needed rules are run
+ * #1022 As a RHEL 64-bit user I want to run ConE without any extra steps
+ * #1013 As a user I want use environment variables when defining convertprojectml paths
+ * #1033 Name-ID mapping with file/folder settings as mapKey or mapValue should default to using localPath
+ * #929 ConE support for confml specification 2.88 / 2.90
+ * #1035 As a cone user I want to define the data update policy so, that it would be possible to add the configuration as the first include to the target configuration
+
+* Bug fixes
+ * #1031 Copying of empty directories does not work with ContentML
+ * #1026 Contentml plugin gives memory error on big content files.
+ * #1007 As a user I want to be able to export vasco langpack customization root as such without filtering so that it works (Verifying and Code reviews)
+ * #1021 ContentML throws exception when localpath is empty
+ * #1027 Makefile generation gives error message with empty CPF and creates UDA always
+
+== Version Cone-1.2.10 ==
+* Bug fixes
+  * #999 Makefile generation does not work
+  * #1015 Merge conesub_update.py patch to trunk
+  * #1014 ContentML external input doesn't work with network drives.
+
+== Version Cone-1.2.9 ==
+* Stories
+  * #948 As a user I want run a custom script on top of cone api to investigate deprecate features from Carbon confmls
+  * #975 As a user I want to set the value of a tempFeature from the cone generate commandline with --set=TempFea=1
+  * #979 As a cone user I want to store the rule execution outputs to a confml file so that I can use the rule output configuration in some other context
+  * #994 RuleML filtering bug
+  * #995 As a ConE user I want to get the list of generation output to separate “what” list so that I can create a zip file with WinZip (using winzip include)
+  * #997 PRODBUG: # (sharp/hash) in title name causes reference
+  * #998 Extending support of ticket #948 implementation
+  * #1004 ConE export fails if option name or value is missing
+
+* Bug fixes
+  * #984 RuleML logging error the first sequence item is not shown in the log
+  * #989 Modifying sequence values via default view doesn't save the data correctly
+  * #996 Execution of /source/scripts/tests/unittest_configroot2flat.py fails in packed bat.
+  * #1001 Implementation container condition does not work if value is None
+  * #1006 Error: Initvariant merges also AMPI custvariant layers
+
+== Version Cone-1.2.8 ==
+* Bug fixes
+  * #1002 ConE execution conflicts EC image creation because of pyc file creation
+
+== Version Cone-1.2.7 ==
+* Stories
+  * #991 As a cone developer I want to configure the script interface of cone command line client
+
+* Bug fixes 
+  * #980 ConE --run-action=fix leaves old options in merged ConfML
+  * #976 An incorrectly defined rule element causes the entire implml file to fail
+  * #985 uses_layer() method doesn't work correctly in all cases
+  * #988 Name-ID mapping does not work if the source setting is not of string type
+  * #990 cone.cmd does not preserve caret characters (^) correctly
+  * #993 ConE in wk18 release does not generate all cenrep files for S60 asset
+
+== Version Cone-1.2.6 ==
+
+* Features:
+  * #928 As a user I want to create a rule that resolves is there any uda content in the generated layers
+  * #933 As a user I want to get image type as parameter from imaker so that factorydmprofiles can be customized
+  * #977 Remove the temp features from the refs with no output from the generation report
+
+* Bug fixes:
+  * #955 NUAGE: Read error with readOnly attribute in View
+
+== Version Cone-1.2.5 ==
+* Features:
+ * #925 As a user I want to name cone generation report after CPF name
+ * #927 Rules are not working as implementations in generation report.
+ * #934 As a variant engineer I want to use Initvariant for initialization of new variant based on existing one
+ * #936 Study and integrate Jani's packvariant solution
+ * #943 As a developer I want to see validation information in S60 dashboard
+ * #944 As a user I want to filter out content files via command line paratemeters when exporting configuration so that the export size is smaller
+
+* Errors:
+ * #852 Generation report does not work with --all-layers
+ * #921 Commandml condition problem with temp variables
+ * #924 Ruleml tag filtering error
+ * #956 Destination Netvork fix to accesspoint_id_counter.py
+
+== Version Cone-1.2.4 ==
+
+== Stories ==
+ * #916 As vasco I need extra flag to create svgs to mif so that I would show startup images on my screen
+
+== Bug fixes ==
+
+ * #921 Commandml condition problem with temp variables
+ * #923 ConE documentation errors
+ * #941 Casting None error in model.set_value_case()
+
+== Version Cone-1.2.3 ==
+
+== Stories ==
+ * #690 As a Variant Engineer I want to read imageml documentation
+ * #789 Value report should show if a setting value is set in a specific configuration
+ * #900 As a user I want to have configuration name visible instead of configuration root name in the default settng document
+ * #913 As a cone rule script writer I want to know the output folder of the generation so that I can generate a output file inside the rule script1
+ * #931 As a user I want to define name for layer root files in convert project so that the layer name can be shown in nuage
  
-== Version Cone-1.1.4 ==
- * Stories:
-     - #663: As a variant engineer I want to get resource's size in ruleml.
-     - #700: As a variant engineer I want to have a rule which automatically sets correct color depth so that I don't need to manually do that.
- * Bug fixes:
-     - #701: ConE crml: cenrep txt generation with sid & capabilities produces incorrect output
+== Bug fixes ==
+ * #192 Values inside sequence setting values are not cast to the correct type
+ * #683 Generation report reports a file as not generated if it is the output of an implementation filtered out of the generation by a condition
+ * #914 ConE way of creating temp files is racy and not good for server usage
+ * #919 Error: ConE container conditions do not work correctly with data comparison on different data types
+ * #932 Wildcards are working only in the beginning of filename in convertprojectml
+ 
+== Version Cone-1.2.2 ==
+Major features
+ * Bug fixes 1.2, to mainly fix bugs found in real build environments (parallel building, etc). 
 
-== Version Cone-1.1.3 ==
- * Stories:
-     - #696: Factory Settings cannot be restored as phone resets every time the security code is inserted
-     - #698: cone.cmd returns 0 even if ConE execution fails
- * Bug fixes:
-     - #699: Remove target:core tag from existing implementations so that no content is by default generated to core image.
+== Stories ==
+ * #860 CI interface compare report
 
-== Version Cone-1.1.2 ==
+== Bug fixes ==
+ * #917 Error: Cone generate fails when parameters to paths are given with \path syntax
+ * #878 Helium 6.0.x: ConE errors in image creation
 
-== Version Cone-1.1.2 RC2 ==
-   * Bugfixes:
-    - Fixed template plug-in bug fix
-   
-== Version Cone-1.1.2 RC1 ==
+== Version Cone-1.2.1 ==
+Major features
+ * Bug fixes and small new features to ConE 1.2.1 
 
-    * Stories:
-     - #588: As a user I want to run the same command on several configurations in a batch mode
-     - #611: As a product integrator I want to have info report in csv format so that importing to Excel is easy to made
-     - #612: As a product integrator I want to see possible values for certain setting so that default values template is easy to made
-     - #643: Impml harmonization with container concept
-     - #652: Content plugin refactoring to enable better use
+== Stories ==
+ * #830 NUAGE: As a customisation engineer I want to override property elements in a view so that the properties can be extended / overriden
+ * #846 As a variant engineer I want to easily merge a customer variant from a CPF back into the configuration project
+ * #743 EPIC: Automatic validation with ConE
+ * #851 Exporting CPFs to path creates that path
+ * #884 As a user I want to generate certain layers based on the layer naming so that variant creation manual layer is included automatically when needed
+ * #898 As a variant engineer I want to specifiy line change in templateml file for each template so that I can write either unix or windows files.
 
-    * Bug fixes:
-     - #657: Project.create_configuration takes forever with big configuration project
-     - #659: Content plugins copy operation does not do anything if the file attribute in input has capital letter
-     - #660: plugins get increased to an insane amount!
+Bug fixes 
+ * #861 NUAGE: Template/sequence problem
+ * #864 NUAGE: File setting problem in template part
+ * #876 Configuration version does not get read/written to confml output
+ * #877 Empty attributes of elements are removed in read/write test
+ * #207 set_value(value) method for sequence features modifies its parameter
 
-== Version Cone-1.1.1 RC4 ==
- * Bugfixes:
-    - cone.cmd fix
-    
-== Version Cone-1.1.1 RC3 ==
- * Bugfixes:
-    - GenConfML plugin to use LXML instead of 4Suite
-    - Changed installation system to make the installation into a sub-directory depending on the current Python version (e.g. cone/2.5/lib/ instead of cone/lib/ etc.)
-    - Changed cone.cmd so that it chooses the correct base directory based on the Python version
-    - Added dep-eggs for Python 2.6
-    - Updated setuptools to version 0.6c11 from 0.6c9
-    - PYTHONCASEOK=1 added to cone.cmd
+== Version Cone-1.2.0 ==
+* Features:
+	* #40: As a variant engineer/Sw integrator I want to check data compatibility of certain configuration so that I can be sure that my configuration is valid.
+	* #42: As a variant engineer I want to create operator cache using ConE so that content is visible already before image has been created
+	* #84: EPIC: Cenrep changes related cenrep version 2 and PREQ2112
+	* #96: As a variant engineer I need to enter variantID and variant version as a commandline parameter for the variant in case not included in the CPF
+	* #120: ConE view inclusion support
+	* #130: iMaker: Support baseporting team in iMaker - Cone HCR integration.
+	* #559: As a customization designer I want have only delta cenreps in ROFS3 so that re-creation of ROFS3 images in PR update is minimized.
+	* #584: As a variant engineer I want to be able to override implementation file in later layers so that public confml definition is easier.
+	* #636: Export action does not export ConfML files correctly
+	* #692: Value report generation fails if the view references non-existent settings
+	* #693: Value report generation fails if the specified view file does not directly contain the view
+	* #702: As a SW developer I want to validate my ConfML and Implml file schemas using ConE
+	* #705: Change rule plugin due to engine changes
+	* #74: 6NUAGE: As a cone developer I want to access view overridden and original attributes so that I can know which attributes are set in view level
+	* #747: As a user I want to see different schema validation as different error types so that I can filter them
+	* #792: Change ConE licenses from SFL to EPL
+	* #794: Preliminary model-level validation framework design
+	* #797: Productization and merging model level validation to ConE 1.2 release
+	* #826: ConE Linux delivery
+	* #858: Refs changed by rule execution should be visible to other implementations immediately
+	* #859: Common ImplML elements should be inherited correctly to sub-implementations
+	* #879: As a user I want to filter errors in the validation report so that I can find my errors easily
+* Bug fixes:
+	* #156: SchemaLocation attribute in Configuration element is invalid
+	* #791: Writing FeatureLink objects to confml file fails
+	* #799: As a customisation engineer I want to override option lists in a view so that the option list can be extended / overriden
+	* #829: ConE must not assume that the executive process will have write access to workdir: change the usage of os.rename to use shutil.move
+	* #831: Defining several mailbox feature elements under same group overrides the previously defined mailboxes in a view
+	* #832: ConE log file parameter causes error if filename contains \x
+	* #833: As a ConE API user I want to use all Confml feature xml schema facets consistently so that I can always trust that I get a certain type value
+	* #834: As a user I want read/write length attribute of a confml feature/setting
+	* #835: As a user I want to set desc and name attributes via constructor to a Confml sequence setting so that I can create it easily
+	* #836: NUAGE: As a ConE API user I want to read/write the id of any confml element so that the id can be accessed via the API
+	* #837: The ConfmlSequenceSetting template does not return ConfmlFile element data when it is fetched from confml
+	* #854: Filtering based on setting references does not work correctly with ImplContainers
+	* #855: ThemeML does not work in ImplML containers
+	* #857: Template plug-in does not do ref-based filtering correctly
+	* #866: Python version checking in cone.cmd might cause errors if multiple cone.cmd are executed at the same time.
+	* #587: Cone.cmd contains strange line
 
-== Version Cone-1.1.1 RC2 ==
- * Bugfixes:
-  * #640: Tag definitions in TemplateML namespace do not work
-  * #645: Report generation fails if the changed data contains references to non-existent settings
-  * #648: TemplateML plug-in does not list output files correctly
-  * #589: Change ImageML get_refs() to report references used in determining input  
-== Version Cone-1.1.1 RC1 ==
+== Version Cone-1.2.0DEV ==
  * Features:
    * Support for new webstorage (Carbon extapi)
      * Export features and data. Supports exporting of features and data from carbon to Configuration project and confml files.
@@ -86,8 +197,30 @@ Release notes:
      is not a valid confml ref. e.g. refs withs dots or any unicode characters.
      * Selection type feature cannot be created with the Carbon extapi (Creation of groups fails).
      * Directory separators '/' in configuration names will break the loading of configurations.
-     * Carbon allows only references in lower case, which is contradicting current confml specification. 
-== Version Cone-1.1.1 ==
+     * Carbon allows only references in lower case, which is contradicting current confml specification.
+ * Stories:
+  * #746 : As a cone developer I want to access view overridden and original attributes
+           so that I can know which attributes are set in view level
+
+== Version Cone-1.1.1 RC4 ==
+ * Bugfixes:
+    - cone.cmd fix
+== Version Cone-1.1.1 RC3 ==
+ * Bugfixes:
+    - GenConfML plugin to use LXML instead of 4Suite
+    - Changed installation system to make the installation into a sub-directory depending on the current Python version (e.g. cone/2.5/lib/ instead of cone/lib/ etc.)
+    - Changed cone.cmd so that it chooses the correct base directory based on the Python version
+    - Added dep-eggs for Python 2.6
+    - Updated setuptools to version 0.6c11 from 0.6c9
+    - PYTHONCASEOK=1 added to cone.cmd
+== Version Cone-1.1.1RC2 ==
+ * Bugfixes:
+  * #640: Tag definitions in TemplateML namespace do not work
+  * #645: Report generation fails if the changed data contains references to non-existent settings
+  * #648: TemplateML plug-in does not list output files correctly
+  * #589: Change ImageML get_refs() to report references used in determining input  
+ 
+== Version Cone-1.1.0 ==
   * New features
     * Templateml plugin
     * Command plugin

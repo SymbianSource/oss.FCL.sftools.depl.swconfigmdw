@@ -18,10 +18,8 @@
 Test sets
 """
 import unittest
-import sets
 import sys
 import os
-import __init__
 
 from cone.public import api,exceptions,utils
 

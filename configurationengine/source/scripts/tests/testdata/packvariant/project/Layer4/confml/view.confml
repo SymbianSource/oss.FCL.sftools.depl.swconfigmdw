@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:confml="http://www.s60.com/xml/confml/1" name="Layer 4 view">
+  <confml:view name="Test view">
+    <confml:desc>Test view desc</confml:desc>
+    <confml:group name="Group 1">
+      <confml:desc>Sample Description</confml:desc>
+      <confml:group name="Sub-group 1">
+        <confml:desc>Sub-group 1 desc</confml:desc>
+        <confml:setting ref="Feature1/BooleanSetting"/>
+        <confml:setting ref="FileFolderTest/FolderSetting"/>
+      </confml:group>
+      <confml:group name="Sub-group 2">
+        <confml:desc>Sub-group 2 desc</confml:desc>
+        <confml:setting ref="FileFolderTest/FileSetting"/>
+        <confml:setting ref="Feature1/IntSetting"/>
+      </confml:group>
+    </confml:group>
+    <confml:group name="Group 2">
+      <confml:desc>Group 2</confml:desc>
+      <confml:group name="Sub-group 1">
+        <confml:desc>Sub-group 1 desc</confml:desc>
+        <confml:setting ref="Feature1/SelectionSetting"/>
+        <confml:setting ref="Feature1/RealSetting"/>
+        <confml:setting ref="Feature2/SequenceSetting"/>
+      </confml:group>
+      <confml:group name="Sub-group 2">
+        <confml:desc>Sub-group 2 desc</confml:desc>
+        <confml:setting ref="Feature1/SequenceSetting"/>
+        <confml:setting ref="Feature1/StringSetting"/>
+      </confml:group>
+    </confml:group>
+  </confml:view>
+</confml:configuration>

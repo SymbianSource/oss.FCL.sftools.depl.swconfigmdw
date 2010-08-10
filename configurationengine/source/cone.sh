@@ -7,17 +7,15 @@
 # which accompanies this distribution, and is available
 # at the URL "http://www.eclipse.org/legal/epl-v10.html".
 #
-# Initial Contributors:
+# Contributors:
 # Nokia Corporation - initial contribution.
 #
-# Contributors:
-#
-# Description: 
+# Description:
 #  ConE tool wrapper for Unix
 
 # Check that Python is available
 # ------------------------------
-python --version &> /dev/null
+python -c None &> /dev/null
 if [ $? -ne 0 ]
 then
     echo "Python is required to run ConE!"
@@ -28,19 +26,19 @@ fi
 # Determine the path where ConE is installed
 # ------------------------------------------
 
-# Try to derefence a symlink
-SCRIPT_FILE=`readlink $0`
-if [ "$SCRIPT_FILE" = "" ]
-then
-    # Not a symlink, the first command line parameter can be used
-    SCRIPT_FILE=$0
-fi
-CONE_BASEDIR=`dirname "$SCRIPT_FILE"`/cone
+SCRIPT_FILE=`readlink -f $0`
+CONE_BASEDIR=`dirname "$SCRIPT_FILE"`/configurationengine/linux
 
+if [ ! -e "$CONE_BASEDIR" ]
+then
+    echo "Cannot run ConE, the ConE base directory does not exist:"
+    echo $CONE_BASEDIR
+    exit 1
+fi
 
 # Find out the Python version
 # ---------------------------
-PYTHON_VERSION=`python -c "import sys; print sys.version[:3]"`
+PYTHON_VERSION=`python -c "import sys; sys.stdout.write(sys.version[:3])"`
 #echo "Python version: $PYTHON_VERSION"
 
 
@@ -80,4 +78,4 @@ export PYTHONPATH="$CONE_BASEDIR/lib:$PYTHONPATH"
 
 # Run cone_tool.py
 # ----------------
-python $CONE_BASEDIR/scripts/cone_tool.py $@
+python $CONE_BASEDIR/scripts/cone_tool.py "$@"

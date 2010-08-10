@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <tempVariable ref="TempText" type="string" value="jeejeejee"/>
+    <tempVariable ref="TempBool" type="boolean" value="true"/>
+
+    <commandml xmlns="http://www.s60.com/xml/commandml/1">
+    <condition value="${TempBool} == True">
+            <command executable="python" shell="True">
+		        <argument value="-c &quot;import os; if not os.path.exists('%CONE_OUT%'): os.makedirs('%CONE_OUT%')&quot;" />
+		    </command>
+            <command executable="python" shell="True">
+		        <argument value="-c &quot;open('%CONE_OUT%/test.txt','w').write('${TempText}')&quot;" />
+		    </command>
+		</condition>
+	    <condition value="${TempBool} == False">   
+	        <command executable="python" shell="true">
+			    <argument value="-c &quot;open('%CONE_OUT%/test2.txt','w').write('${TempText}')&quot;" />
+		    </command>
+		</condition>		    
+    </commandml>
+</container>

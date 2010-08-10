@@ -24,7 +24,7 @@ import os
 import subprocess
 import zipfile
 import shutil
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from testautomation.unzip_file import unzip_file
 from cone.storage.filestorage import FileStorage
@@ -52,7 +52,7 @@ class TestExport(BaseTestCase):
     def test_get_help(self):
         cmd = '%s -h' % get_cmd('export')
         out = self.run_command(cmd)
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Options:' in lines)
         self.assertTrue('  Export options:' in lines)
 
@@ -61,10 +61,10 @@ class TestExport(BaseTestCase):
         self.remove_if_exists(remote)
         
         self.set_modification_reference_time(TEST_PROJECT_CPF)
-        cmd = '%s -p "%s" -c "root4.confml" -r "%s' % (get_cmd('export'), TEST_PROJECT_CPF, remote)
+        cmd = '%s -p "%s" -c "root4.confml" -r "%s"' % (get_cmd('export'), TEST_PROJECT_CPF, remote)
         out = self.run_command(cmd)
         #print out
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Export root4.confml to %s done!' % remote in lines)
         
         self.assertEquals(set(os.listdir(remote)),
@@ -87,7 +87,7 @@ class TestExport(BaseTestCase):
         cmd = '%s -p "%s" -c "root2.confml" -c "root3.confml" -c "root5.confml" -r "%s"' % (get_cmd('export'), TEST_PROJECT_CPF, remote)
         out = self.run_command(cmd)
         #print out
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Export root2.confml to %s done!' % remote in lines)
         self.assertTrue('Export root3.confml to %s done!' % remote in lines)
         self.assertTrue('Export root5.confml to %s done!' % remote in lines)
@@ -116,7 +116,7 @@ class TestExport(BaseTestCase):
         cmd = '%s -p "%s" -c "root2.confml" -c "root3.confml" -c "root5.confml" -r "%s"' % (get_cmd('export'), TEST_PROJECT_CPF, remote)
         out = self.run_command(cmd)
         #print out
-        lines = out.split('\r\n')
+        lines = out.split(os.linesep)
         self.assertTrue('Export root2.confml to %s done!' % remote in lines)
         self.assertTrue('Export root3.confml to %s done!' % remote in lines)
         self.assertTrue('Export root5.confml to %s done!' % remote in lines)
@@ -275,9 +275,28 @@ class TestExport(BaseTestCase):
             target_storage_type = 'file',
             empty_folders       = True)
     
+    def test_export_to_target_with_nonexistent_path(self):
+        # Remove the target root directory to make sure that it
+        # does not exist before the export
+        self.remove_if_exists(os.path.join(TEMP_DIR, 'nep'))
+        
+        self._run_test_export_project_to_project(
+            source_project      = 'f2z/source',
+            source_storage_type = 'file',
+            target_project      = 'nep/f2z/x/y/z/target.zip',
+            target_storage_type = 'zip',
+            empty_folders       = False)
+    
+        self._run_test_export_project_to_project(
+            source_project      = 'f2z/source',
+            source_storage_type = 'file',
+            target_project      = 'nep/f2f/x/y/z/target',
+            target_storage_type = 'file',
+            empty_folders       = False)
+    
     def _run_test_multi_export(self, export_dir, export_format, config_args,
                                expected_cpfs=None, expected_dirs=None):
-        self.assertFalse(expected_cpfs is None and expected_dirs is None,
+        self.assertFalse(expected_cpfs is not None and expected_dirs is not None,
                          "Only one of expected_cpfs or expected_dirs can be specified!")
         self.assertFalse(expected_cpfs is None and expected_dirs is None,
                          "Either expected_cpfs or expected_dirs must be specified!")
@@ -413,4 +432,4 @@ class TestExportInvalidArgs(BaseTestCase):
     
 
 if __name__ == '__main__':
-      unittest.main()
+    unittest.main()

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <output file="impl_override_test.txt" encoding="UTF-8">
+        <template>Custom layer ({{ feat_tree.BasicSettingTypesTest.IntSetting._value }})</template>
+    </output>
+</templateml>

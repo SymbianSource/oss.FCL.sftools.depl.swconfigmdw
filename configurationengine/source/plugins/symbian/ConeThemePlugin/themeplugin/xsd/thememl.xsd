@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/thememl/1" 
+	xmlns:theme="http://www.s60.com/xml/thememl/1" 
+	elementFormDefault="qualified">
+	
+    <xs:complexType name="activeThemeType">
+        <xs:sequence>
+            <xs:element name="refSetting" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="platformUID" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>  
+        <xs:attribute name="uid" type="xs:string" use="required"/>
+    </xs:complexType>
+
+	<xs:complexType name="thememlRootType">
+        <xs:sequence>
+            <xs:element name="carbideuiPath" type="xs:string"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="activeTheme" type="theme:activeThemeType"/>
+                <xs:element name="themeDir" type="xs:string"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+	<xs:element name="thememl" type="theme:thememlRootType"/>
+
+</xs:schema>

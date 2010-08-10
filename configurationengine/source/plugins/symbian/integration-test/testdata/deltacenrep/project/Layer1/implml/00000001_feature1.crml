@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="Feature1_1" uidValue="0x00000001" owner="0x12341000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="Feature1/IntSetting" name="Int setting" int="0x00000001" type="int" readOnly="false" backup="true">
+    <access type="R" capabilities="AlwaysPass"/>
+  </key>
+  <key ref="Feature1/RealSetting" name="Real setting" int="0x00000002" type="real" readOnly="false" backup="true">
+    <access type="W" capabilities="WriteDeviceData"/>
+  </key>
+  <key ref="Feature1/SelectionSetting" name="Selection setting" int="0x00000003" type="int" readOnly="false">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="WriteDeviceData"/>
+  </key>
+  <key ref="Feature1/BooleanSetting" name="Selection setting" int="0x00000004" type="int" readOnly="false">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="WriteDeviceData"/>
+  </key>
+  
+  <key ref="Feature1/StringSetting" name="String setting" int="0x00000005" type="string" readOnly="false">
+    <access type="R" capabilities="AlwaysPass"/>
+    <access type="W" capabilities="WriteDeviceData"/>
+  </key>
+</repository>

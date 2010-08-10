@@ -1,12 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <configuration name="testdata" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<feature name="String feature" ref="StringFeatureTest">
-		<setting name="Value 1" ref="Value1" type="string" />
-		<setting name="Value 2" ref="Value2" type="string" />
-	</feature>
-	<data>
-		<StringFeatureTest>
-			<Value1>String 1</Value1>
-		</StringFeatureTest>
-	</data>
+    <feature name="String feature" ref="StringFeatureTest">
+        <setting name="Value 1" ref="Value1" type="string" />
+        <setting name="Value 2" ref="Value2" type="string" />
+    </feature>
+    <feature name="Test feature" ref="TestFeature">
+        <setting name="Custvariant manual" ref="CustvariantManual" type="boolean"/>
+        <setting name="Custvariant configurator" ref="CustvariantConfigurator" type="boolean"/>
+        <setting name="RnD" ref="Rnd" type="boolean"/>
+    </feature>
+    <data>
+        <StringFeatureTest>
+            <Value1>String 1</Value1>
+        </StringFeatureTest>
+        <TestFeature>
+            <CustvariantManual>false</CustvariantManual>
+            <CustvariantConfigurator>false</CustvariantConfigurator>
+            <Rnd>false</Rnd>
+        </TestFeature>
+    </data>
 </configuration>

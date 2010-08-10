@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Test feature" version="1">
+  <feature ref="TestFeature" name="Test feature">
+    <setting ref="BaseLayerSetting" name="Base layer setting" type="int"/>
+    <setting ref="Layer1Setting" name="Layer 1 setting" type="int"/>
+    <setting ref="Layer2Setting" name="Layer 2 setting" type="int"/>
+    <setting ref="Layer3Setting" name="Layer 3 setting" type="int"/>
+    <setting ref="Layer6Setting" name="Layer 6 setting" type="int"/>
+    <setting ref="EnableLayer7Content" name="Enable layer 7 content" type="boolean"/>
+    <setting ref="Layer8Setting" name="Layer 8 setting" type="int"/>
+    <setting ref="EnableLayer8Impl" name="Enable layer 8 implementation" type="boolean"/>
+    <setting ref="EnableLayer9Content" name="Enable layer 9 content" type="boolean"/>
+    <setting ref="EnableLayer11Content" name="Enable layer 11 content" type="boolean"/>
+  </feature>
+  <feature ref="content" name="Content related copy configuration">
+	<setting ref="inputfile" name="Content output file" type="string"/>
+    <setting ref="extinputfile" name="Content output file" type="string"/>
+	<setting ref="outputfile" name="Content output file" type="string"/>
+  </feature>
+  <data>
+    <TestFeature>
+      <BaseLayerSetting>0</BaseLayerSetting>
+      <Layer1Setting>0</Layer1Setting>
+      <Layer2Setting>0</Layer2Setting>
+      <Layer3Setting>0</Layer3Setting>
+      <Layer5Setting>0</Layer5Setting>
+      <Layer6Setting>0</Layer6Setting>
+      <EnableLayer7Content>true</EnableLayer7Content>
+      <Layer8Setting>0</Layer8Setting>
+      <!-- No data at all for EnableLayer8Impl. This is intentional, because it
+           caused problems earlier, and this is to make sure that there will
+           no regression -->
+      <!--<EnableLayer8Impl>false</EnableLayer8Impl>-->
+      <EnableLayer9Content>false</EnableLayer9Content>
+      <EnableLayer11Content>false</EnableLayer11Content>
+    </TestFeature>
+    <content>
+      <extinputfile>0</extinputfile>
+	  <inputfile>0</inputfile>
+	  <outputfile>0</outputfile>
+    </content>
+
+  </data>
+</configuration>

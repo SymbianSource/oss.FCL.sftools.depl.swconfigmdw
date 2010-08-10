@@ -24,7 +24,7 @@ import os
 import shutil
 import subprocess
 import difflib
-import __init__
+
 from testautomation.base_testcase import BaseTestCase
 from scripttest_common import get_cmd
 

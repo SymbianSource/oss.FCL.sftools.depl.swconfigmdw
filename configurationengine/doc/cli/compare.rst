@@ -13,8 +13,11 @@ Examples
     >cd configproject_root
     >cone compare -s configuration_root1.confml -t configuration_root2.confml
 
-By default the output is generated under current folder to compare.html (use switch --report=FILENAME
+The output is generated under current folder.
+By default the compare type is data comparison to data_comparison.html (use switch --report=FILENAME
 to change the output file).
+
+* Example output `Data comparison report <../_static/data_comparison.html>`_
 
 **Compare configurations between the current storage and some remote storage**:
 
@@ -30,6 +33,23 @@ Use the --report-type switch make an API comparison.::
 
     >cd configproject_root
     >cone compare -s configuration_root1.confml -t \config_project2;configuration_root2.confml --report-type api
+
+* Example output `API comparison report <../_static/api_comparison.html>`_
+
+**Compare Customisation interface to a product configuration interface**
+
+The **ci** comparison is created for specific comparison of Customisation interface to a product configuration interface. Its purpose is to find out differences between the CI and actual developer confmls (for example in assets/s60 layer). It compares the source configuration to target and reports differences and source features that are missing from target configuration. 
+
+Use the --report-type switch make an ci (CustomisationInterface) comparison.::
+
+    >cd configproject_root
+    >cone compare -s customisation\CustomisationInterface\ci_root.confml -t vasco_langpack_01_root.confml --report-type=ci
+    Writing report to ci_comparison.html
+    Generated report to 'ci_comparison.html'
+    Done.
+
+* Example output `CI comparison report <../_static/ci_comparison.html>`_
+
 
 **Compare configurations using a custom template**
 
@@ -87,9 +107,12 @@ Options list
     --report-type=TYPE  The type of the report to generate. This is a
                         convenience switch for setting the used template.
                         Possible values:
-                        api  - Report changes in feature definitions
-                        data - Report changes in data values
+                        api - Report changes in feature definitions
+                        ci - Report changes in CustomisationInterface definitions
                         crml_dc - Report CRML data compatibility issues
+                        crml_dc_csv - Report CRML data compatibility issues
+                        (CSV format)
+                        data - Report changes in data values
     --impl-filter=PATTERN
                         The pattern used for filtering implementations for the
                         comparison. See the switch --impl in action generate

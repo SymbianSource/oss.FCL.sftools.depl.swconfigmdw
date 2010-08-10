@@ -14,12 +14,16 @@
 # Description:
 #
 
-from cone.public import exceptions, plugin
+import pkg_resources
+from cone.public import exceptions, plugin, utils
 import exampleml_impl
 import exampleml_model
 
 class ExamplemlReader(plugin.ReaderBase):
     NAMESPACE = 'http://www.example.org/xml/exampleml/1'
+    NAMESPACE_ID = 'exampleml'
+    ROOT_ELEMENT_NAME = 'exampleml'
+    SCHEMA_PROBLEM_SUB_ID = 'exampleml'
     FILE_EXTENSIONS = ['exampleml']
     
     @classmethod
@@ -27,6 +31,10 @@ class ExamplemlReader(plugin.ReaderBase):
         reader = ExamplemlReader()
         outputs = reader._read_outputs(etree)
         return exampleml_impl.ExamplemlImpl(resource_ref, configuration, outputs)
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('examplemlplugin', 'xsd/exampleml.xsd')
     
     def _read_outputs(self, elem):
         """
@@ -46,4 +54,5 @@ class ExamplemlReader(plugin.ReaderBase):
             raise exceptions.ParseError("Element <output> does not have the mandatory 'file' attribute")
         return exampleml_model.Output(file     = file,
                                       encoding = elem.get('encoding', 'UTF-8'),
-                                      text     = elem.text or '')
+                                      text     = elem.text or '',
+                                      lineno   = utils.etree.get_lineno(elem))

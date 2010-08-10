@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="CTD_commsdat" version="">
+
+
+<feature ref="KCRUidSuplSettings" type="selection">
+    <setting ref="CTD_KSuplSettingsIAP" name="A-GPS access point" type="selection">
+        <desc>Selection for A-GPS access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+   </setting>     
+</feature>
+
+<feature ref="MMSEngineSettings" relevant="">
+    <setting ref="CTD_MMS_AP" name="MMS access point" type="selection">
+        <desc>Selection for MMS access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+   </setting>     
+</feature>
+<feature ref="KCRUidBrowser" name="Browser Settings">
+     <setting ref="CTD_Browser_AP" name="Access point" type="selection" relevant="KWmlBrowserAccessPointSelectionMode='0'">
+        <desc>Selection for Browser access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+        </setting>
+        
+      
+     <setting ref="CTD_Browser_SNAP" name="Destination Network" type="selection" relevant="KWmlBrowserAccessPointSelectionMode='2'">
+          <desc>Setting for the default Destination Network</desc>
+          <option name="Internet" value="1"/>
+          <option name="MMS" value="2"/>
+          <option name="Wap Services" value="3"/>
+     </setting>
+</feature>
+<feature ref="KCRUidBrowser1" name="Browser Settings1">
+     <setting ref="CTD_Browser_autoupdate_AP" name="Access point for web feeds autoupdate" type="selection">
+        <desc>Selection for web feeds autoupdate access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+        </setting>
+</feature>
+<feature ref="Mailbox1" name="Mailbox 1">
+    <setting ref="CTD_Email_AP1" name="Email access point for mailbox 1" type="selection">
+        <desc>Selection for Email access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+    </setting>  
+</feature>     
+<feature ref="Mailbox2" name="Mailbox 2">
+    <setting ref="CTD_Email_AP2" name="Email access point for mailbox 2" type="selection">
+        <desc>Selection for Email access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+    </setting>  
+</feature>
+     
+<feature ref="Mailbox3" name="Mailbox 3">
+   <setting ref="CTD_Email_AP3" name="Email access point for mailbox 3" type="selection">
+        <desc>Selection for Email access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+   </setting>  
+</feature>
+    
+<feature ref="Mailbox4" name="Mailbox4">
+   <setting ref="CTD_Email_AP4" name="Email access point for mailbox 4" type="selection">
+        <desc>Selection for Email access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+    </setting>  
+</feature>    
+<feature ref="Mailbox5" name="Mailbox 5">
+   <setting ref="CTD_Email_AP5" name="Email access point for mailbox 5" type="selection">
+        <desc>Selection for Email access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+    </setting>  
+</feature>
+<feature ref="Mailbox6" name="Mailbox 6">
+    <setting ref="CTD_Email_AP6" name="Email access point for mailbox 6" type="selection">
+        <desc>Selection for Email access point</desc>
+        <option map="CTD_APs/AP"/>
+        <option map="CTD_WLAN_APs/WLAN_AP"/>
+    </setting>  
+</feature>
+
+  <feature ref="CTD_APs" name="GPRS Access Points" relevant="">
+    <desc>GPRS connection method (CM) definitions</desc>
+    <setting ref="AP" name="GPRS" type="sequence" constraint="" relevant="" minOccurs="0" maxOccurs="99" mapKey="ConnectionName" mapValue="ConnectionName">
+      <setting ref="ConnectionName" name="Connection Name" type="string">
+        <desc>The access point name that is visible to the user.</desc>
+      </setting>
+      <setting ref="GPRS_AP_Name" name="GPRS Access Point Name" type="string">
+        <desc>The access point name for this GPRS connection</desc>
+      </setting>
+                  <setting ref="CTD_GPRSAddtoDN" name="Add access point to destination" type="selection">
+        <desc>Define the destination network that the access point will be added to. Can be left empty.</desc>
+        <option name="Internet Destination" value="1"/>
+        <option name="MMS Destination" value="2"/>
+        <option name="WAP Services Destination" value="3"/>
+      </setting>
+      <setting ref="Seamlessness" name="Use access point" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="After confirmation"/>
+        <option name="Show Progress" value="Automatically"/>
+      </setting>
+      <setting ref="NetworkType" name="Network type" type="selection">
+        <desc>Addressing that the network uses.</desc>
+        <option name="IPv4" value="IPv4"/>
+        <option name="IPv6" value="IPv6"/>
+      </setting>
+      <setting ref="UserName" name="User Name" type="string">
+        <desc>User name</desc>
+      </setting>
+      <setting ref="PromptPassword" name="Prompt Password" type="selection">
+        <desc>Prompt password at connection time.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting ref="Password" name="Password" type="string">
+        <desc>Password.</desc>
+      </setting>
+      <setting ref="PasswordAuthenticationType" name="Password authentication type" type="selection">
+        <desc>Password authentication method.</desc>
+        <option name="Normal" value="Normal"/>
+        <option name="Secure" value="Secure"/>
+      </setting>
+      <setting ref="StartingPage" name="Homepage" type="string">
+        <desc>Access point homepage in URL format.</desc>
+      </setting>
+
+      <setting ref="ProxyServerAddress" name="Proxy Server Address" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting ref="ProxyPortNumber" name="Proxy Port Number" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+
+      <setting ref="PrimaryNameServer" name="IPv4 Primary Name Server" type="string" relevant="NetworkType = 'IPv4'">
+        <desc>Address of the primary DNS server that resolves host names. 
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting ref="SecondaryNameServer" name="IPv4 Secondary Name Server" type="string" relevant="NetworkType = 'IPv4'">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting ref="PrimaryIP6NameServer" name="IPv6 Primary Name Server" type="string" relevant="NetworkType = 'IPv6'">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+      <setting ref="SecondaryIP6NameServer" name="IPv6 Secondary Name Server" type="string" relevant="NetworkType = 'IPv6'">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically so this can be left empty.</desc>
+      </setting>
+
+    </setting>
+  </feature>
+
+  <feature ref="CTD_WLAN_APs" name="WLAN Access Points" relevant="" >
+    <desc>WLAN connection method (CM) definitions</desc>
+    <setting ref="WLAN_AP" name="WLAN" type="sequence" constraint="" relevant="" minOccurs="0" maxOccurs="99" mapKey="ConnectionName" mapValue="ConnectionName">
+      <setting ref="ConnectionName" name="Connection Name" type="string" constraint="" required="">
+        <desc>The access point name that is visible to the user.</desc>
+      </setting>
+      <setting ref="Seamlessness" name="Use access point" type="selection">
+        <desc>Defines whether an IAP can be roamed to.</desc>
+        <option name="Confirm First" value="After confirmation"/>
+        <option name="Show Progress" value="Automatically"/>
+      </setting>
+      <setting ref="NetworkName" name="Network Name" type="string">
+        <desc>Service set identifier (SSID) of the primary WLAN network.</desc>
+      </setting>
+    <setting ref="CTD_WLANAddtoDN" name="Add access point to destination" type="selection">
+        <desc>Define the destination network that the access point will be added to. Can be left empty.</desc>
+        <option name="Internet Destination" value="1"/>
+        <option name="MMS Destination" value="2"/>
+        <option name="WAP Services Destination" value="3"/>
+      </setting>
+      <setting ref="StartingPage" name="Homepage" type="string">
+        <desc>Access point homepage in URL format.</desc>
+      </setting>
+      <setting ref="NetworkMode" name="Network Mode" type="selection">
+        <desc>Determines the network infrastructure. 
+        If there is a WLAN access point in the network then this should be Infrastructure.</desc>
+        <option name="Infrastructure" value="Infrastructure"/>
+        <option name="Ad-hoc" value="Ad-hoc"/>
+      </setting>
+      
+            <setting ref="WLANScanSSID" name="Network Status" type="selection">
+        <desc>Defines whether the SSID should be actively scanned. 
+        This is needed if the SSID is hidden (not broadcasted by the AP) </desc>
+        <option name="Public" value="No"/>
+        <option name="Hidden" value="Yes"/>
+      </setting>
+
+      <setting ref="PrimaryNameServer" name="IPv4 Primary Name Server" type="string" relevant="NetworkType = 'IPv4'">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting ref="SecondaryNameServer" name="IPv4 Secondary Name Server" type="string" relevant="NetworkType = 'IPv4'">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting ref="PrimaryIP6NameServer" name="IPv6 Primary Name Server" type="string" relevant="NetworkType = 'IPv6'">
+        <desc>Address of the primary DNS server that resolves host names.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting ref="SecondaryIP6NameServer" name="IPv6 Secondary Name Server" type="string" relevant="NetworkType = 'IPv6'">
+        <desc>Address of the secondary DNS server to connect if the primary DNS server is not available.
+        Typically allocated automatically in which case this should be empty.</desc>
+      </setting>
+      <setting ref="ProxyServerAddress" name="Proxy Server Address" type="string">
+        <desc>Address of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting ref="ProxyPortNumber" name="Proxy Port Number" type="string">
+        <desc>Port number of the HTTP/HTTPS proxy server.</desc>
+      </setting>
+      <setting ref="ProxyProtocolName" name="Proxy protocol Name" type="string">
+        <desc>Name of the protocol for which this proxy can be used. 
+        Typically http or https.</desc>
+      </setting>
+      <setting ref="WlanChannelId" name="WLAN Channel ID" type="string" relevant="NetworkMode = 'Ad-hoc'">
+        <desc>
+      	802.11 Channel ID (1-14). Used only when connecting/setting up adhoc network.
+      	</desc>
+      </setting>
+            <setting ref="SecurityMode" name="Security Mode" type="selection">
+        <desc>Security mode of the WLAN network.</desc>
+        <option name="Open" value="Open"/>
+        <option name="WEP" value="WEP"/>
+        <option name="802.1x" value="802.1x"/>
+        <option name="WPA" value="WPA"/>
+        <option name="WPA2" value="WPA2"/>
+      </setting>
+      <setting ref="WEPKeyInUse" name="WEP Key In Use" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>Index of default WEP key. Used only when security mode is WEP.</desc>
+        <option name="key1" value="key1"/>
+        <option name="key2" value="key2"/>
+        <option name="key3" value="key3"/>
+        <option name="key4" value="key4"/>
+      </setting>
+      <setting ref="WEPAuthType" name="WEP Auth Type" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP authentication mode. Only used when security mode is WEP.</desc>
+        <option name="Shared" value="Shared"/>
+        <option name="Open" value="Open"/>
+      </setting>
+      <setting ref="WEPKey1Length" name="WEP Key1 Length" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting ref="WEPKey1Format" name="WEP Key1 Format" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting ref="WEPKey1Data" name="WEP Key1 Data" type="string" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting ref="WEPKey2Length" name="WEP Key2 Length" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting ref="WEPKey2Format" name="WEP Key2 Format" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting ref="WEPKey2Data" name="WEP Key2 Data" type="string" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting ref="WEPKey3Length" name="WEP Key3 Length" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting ref="WEPKey3Format" name="WEP Key3 Format" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting ref="WEPKey3Data" name="WEP Key3 Data" type="string" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+      <setting ref="WEPKey4Length" name="WEP Key4 Length" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key length in bits.</desc>
+        <option name="64" value="64"/>
+        <option name="128" value="128"/>
+        <option name="256" value="256"/>
+      </setting>
+      <setting ref="WEPKey4Format" name="WEP Key4 Format" type="selection" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key format.</desc>
+        <option name="ASCII" value="ASCII"/>
+        <option name="Hexadecimal" value="Hexadecimal"/>
+      </setting>
+      <setting ref="WEPKey4Data" name="WEP Key4 Data" type="string" relevant="SecurityMode = 'WEP'">
+        <desc>WEP key data (in format specified by corresponding WEP key format field).</desc>
+      </setting>
+
+      <setting ref="WPAUseOfPresharedKey" name="WPA Use of Pre-shared Key" type="selection" relevant="SecurityMode = 'WPA' or SecurityMode = 'WPA2'">
+        <desc>Specifies that when the security mode is WPA or WPA2 if the PSK mode is enabled. 
+        If this is off then EAP mode is used and the list of EAPs needs to be defined.</desc>
+        <option name="No" value="No"/>
+        <option name="Yes" value="Yes"/>
+      </setting>
+      <setting ref="WPAKeyLength" name="WPA Pre-shared key length" relevant="WPAUseOfPresharedKey ='Yes'">
+        <desc>The length of the specified pre-shared key (in WPA pre-shared key field)</desc>
+      </setting>
+        <setting ref="WPAPresharedKey" name="WPA Pre-shared Key" type="string" relevant="WPAUseOfPresharedKey ='Yes'">
+        <desc>WPA/WPA2 pre-shared key in plain text. ASCII character set values between 32-126 must be used. Minimum length is 8 characters and maximum 63.
+        You need to also define the WPA pre-shared key length field accordingly</desc>
+
+      </setting>
+          <setting ref="CTD_EAPkey1" name="EAP Key 1" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>
+          <setting ref="CTD_EAPkey2" name="EAP Key 2" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>
+                <setting ref="CTD_EAPkey3" name="EAP Key 3" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>
+                <setting ref="CTD_EAPkey4" name="EAP Key 4" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>
+                <setting ref="CTD_EAPkey5" name="EAP Key 5" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>
+                <setting ref="CTD_EAPkey6" name="EAP Key 6" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>
+                <setting ref="CTD_EAPkey7" name="EAP Key 7" type="selection" relevant="WPAUseOfPresharedKey ='No'">
+        <desc>Eap Key 1</desc>
+        <option name="EAP-SIM Active" value="EAP-SIM Active"/>
+        <option name="EAP-AKA Active" value="EAP-AKA Active"/>
+        <option name="EAP-TLS Active" value="EAP-TLS Active"/>
+        <option name="EAP-PEA ActiveP" value="EAP-PEAP Active"/>
+        <option name="EAP-TTLS Active" value="EAP-TTLS Active"/>
+        <option name="EAP-LEAP Active" value="EAP-LEAP Active"/>
+        <option name="EAP-FAST Active" value="EAP-FAST Active"/>
+                <option name="EAP-SIM Inactive" value="EAP-SIM Inactive"/>
+        <option name="EAP-AKA Inactive" value="EAP-AKA Inactive"/>
+        <option name="EAP-TLS Inactive" value="EAP-TLS Inactive"/>
+        <option name="EAP-PEAP Inactive" value="EAP-PEAP Inactive"/>
+        <option name="EAP-TTLS Inactive" value="EAP-TTLS Inactive"/>
+        <option name="EAP-LEAP Inactive" value="EAP-LEAP Inactive"/>
+        <option name="EAP-FAST Inactive" value="EAP-FAST Inactive"/>
+      </setting>      
+      </setting>
+  </feature>
+  <data>
+
+    <CTD_APs>
+      <AP template="true">
+        <Seamlessness>ConfirmFirst</Seamlessness>
+        <NetworkType>IPv4</NetworkType>
+        <PromptPassword>No</PromptPassword>
+        <PasswordAuthenticationType>Normal</PasswordAuthenticationType>
+      </AP>
+    </CTD_APs>
+
+
+    <CTD_WLAN_APs>
+      <WLAN_AP template="true">
+        <Seamlessness>ConfirmFirst</Seamlessness>
+        <NetworkMode>Infrastructure</NetworkMode>
+        <SecurityMode>Open</SecurityMode>
+        <WPAKeyLength>0</WPAKeyLength>
+      </WLAN_AP>
+    </CTD_WLAN_APs>
+ </data>
+</configuration>

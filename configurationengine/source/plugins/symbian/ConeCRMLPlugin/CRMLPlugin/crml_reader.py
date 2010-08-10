@@ -13,8 +13,8 @@
 #
 # Description:
 #
-
-from cone.public import exceptions, plugin
+import pkg_resources
+from cone.public import exceptions, plugin, utils
 import crml_impl
 from crml_model import *
 
@@ -44,6 +44,8 @@ def convert_num(string):
 
 class CrmlReader(plugin.ReaderBase):
     NAMESPACE = 'http://www.s60.com/xml/cenrep/1'
+    NAMESPACE_ID = 'crml'
+    ROOT_ELEMENT_NAME = 'repository'
     FILE_EXTENSIONS = ['crml']
     
     @classmethod
@@ -51,6 +53,10 @@ class CrmlReader(plugin.ReaderBase):
         reader = CrmlReader()
         repository = reader.read_repository(etree)
         return crml_impl.CrmlImpl(resource_ref, configuration, repository)
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('CRMLPlugin', 'xsd/crml.xsd')
     
     def read_repository(self, elem):
         """
@@ -99,10 +105,12 @@ class CrmlReader(plugin.ReaderBase):
             if type == 'R' and not read_cap_found:
                 access.cap_rd = access_elem.get('capabilities')
                 access.sid_rd = access_elem.get('sid')
+                access.line_rd = utils.etree.get_lineno(access_elem)
                 read_cap_found = True
             elif type == 'W' and not write_cap_found:
                 access.cap_wr = access_elem.get('capabilities')
                 access.sid_wr = access_elem.get('sid')
+                access.line_wr = utils.etree.get_lineno(access_elem)
                 write_cap_found = True
         
         return access
@@ -145,7 +153,8 @@ class CrmlReader(plugin.ReaderBase):
         key = CrmlSimpleKey(
             ref  = get_required_attr(key_elem, 'ref').replace('/', '.'),
             int  = get_required_attr(key_elem, 'int'),
-            type = key_elem.get('type', 'int'))
+            type = key_elem.get('type', 'int'),
+            line = utils.etree.get_lineno(key_elem))
         self.read_common_key_attrs(key_elem, key)
         
         return key
@@ -161,7 +170,8 @@ class CrmlReader(plugin.ReaderBase):
         # Read attributes
         key = CrmlBitmaskKey(
             int  = get_required_attr(key_elem, 'int'),
-            type = key_elem.get('type', 'int'))
+            type = key_elem.get('type', 'int'),
+            line = utils.etree.get_lineno(key_elem))
         self.read_common_key_attrs(key_elem, key)
         
         # Read bits
@@ -171,7 +181,8 @@ class CrmlReader(plugin.ReaderBase):
             else:                                   invert = False
             index = int(bit_elem.text.strip())
             
-            key.bits.append(CrmlBit(ref=ref, index=index, type=type, invert=invert))
+            key.bits.append(CrmlBit(ref=ref, index=index, type=type, invert=invert,
+                                    line=utils.etree.get_lineno(bit_elem)))
         
         return key
     
@@ -192,7 +203,8 @@ class CrmlReader(plugin.ReaderBase):
             last_int    = get_required_attr(key_range_elem, "lastInt"),
             count_int   = key_range_elem.get('countInt'),
             first_index = convert_num(key_range_elem.get('firstIndex', '0')),
-            index_bits  = convert_num(key_range_elem.get('indexBits')))
+            index_bits  = convert_num(key_range_elem.get('indexBits')),
+            line        = utils.etree.get_lineno(key_range_elem))
         self.read_common_key_attrs(key_range_elem, key_range)
         
         # Read sub-keys
@@ -201,6 +213,7 @@ class CrmlReader(plugin.ReaderBase):
             int = get_required_attr(subkey_elem, 'int')
             name = subkey_elem.get('name')
             type = subkey_elem.get('type', 'int')
-            key_range.subkeys.append(CrmlKeyRangeSubKey(ref=ref, int=int, name=name, type=type))
+            key_range.subkeys.append(CrmlKeyRangeSubKey(ref=ref, int=int, name=name, type=type,
+                                                        line=utils.etree.get_lineno(subkey_elem)))
         
         return key_range

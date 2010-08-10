@@ -15,16 +15,16 @@
 #
 
 import os, unittest
-import __init__
+
 from cone.public import plugin
-from hcrplugin.hcrml_parser import HcrmlReader
 
 def impl_from_resource(resource_ref, configuration):
     """
     Read a HCRML implementation from the given resource in a configuration.
     """
-    doc_root = plugin.ReaderBase._read_xml_doc_from_resource(resource_ref, configuration)
-    return HcrmlReader.read_impl(resource_ref, configuration, doc_root)
+    impls = plugin.ImplFactory.get_impls_from_file(resource_ref, configuration)
+    assert len(impls) == 1
+    return impls[0]
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 

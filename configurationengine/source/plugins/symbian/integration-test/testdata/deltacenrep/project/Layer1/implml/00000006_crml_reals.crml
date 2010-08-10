@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns="http://www.s60.com/xml/cenrep/1" uidName="CrmlReals" uidValue="0x00000006" owner="0x12341000">
+  <access type="R" capabilities="AlwaysPass"/>
+  <access type="W" capabilities="AlwaysPass"/>
+  <key ref="CrmlReals/RealSetting" name="Real setting" int="0x00000001" type="real" readOnly="false" backup="true"/>
+  <key ref="CrmlReals/SelectionSetting" name="Selection setting" int="0x00000002" type="real" readOnly="false"/>
+  <key ref="CrmlReals/RealSetting2" name="Real setting 2" int="0x00000003" type="real" readOnly="false" backup="true"/>
+  <key ref="CrmlReals/RealSetting3" name="Real setting 3" int="0x00000004" type="real" readOnly="false" backup="true"/>
+</repository>

@@ -12,7 +12,10 @@
 #
 # Contributors:
 #
-# Description: 
+# Description:
+#
+## 
+# @author Teemu Rytkonen
 
 import os
 import logging

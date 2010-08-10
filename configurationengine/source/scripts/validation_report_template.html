@@ -1,0 +1,30 @@
+{% extends "cone_base.html" %}
+{% block title %}Validation report{% endblock %}
+{% block content %}
+    <h1>Validation problems:</h1><br>
+
+    <table class="report" id="report_data">
+    <tr>
+        <th class="featureName">File</th>
+		<th class="featureName">Line</th>
+        <th class="featureName">Type</th>
+        <th class="featureName">Severity</th>
+		<th class="featureName">Message</th>
+    </tr>
+    {% for problem in problems %}
+    <tr>
+        <td><a href="./{{ problem.file }}">{{ problem.file }}</td>
+        <td>{{ problem.line }}</td>
+        <td>{{ problem.type }}</td>
+        <td>{{ problem.severity }}</td>
+        <td>{{ problem.msg }}</td>
+    </tr>
+    {% endfor %}
+    
+    </table>
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
+{% endblock %}

@@ -35,7 +35,7 @@ setup(
     author = "Teemu Rytkonen",
     author_email = "teemu.rytkonen@nokia.com",
     description = "Configuration Engine test module",
-    license = "Symbian Foundation License v1.0",
+    license = "Eclipse Public License v1.0",
     keywords = "cone test",
     url = "http://developer.symbian.org/wiki/index.php/Software_Configuration_Middleware",
 

@@ -1,0 +1,37 @@
+<configuration name="test1" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <feature name="SampleFea" ref="Feature">
+    <setting name="One new" ref="One" type="string">
+      <xs:maxLength value="3" />
+    </setting>
+  <setting name="Two new" ref="Two" type="int">
+      <desc>Testing desc</desc>
+    </setting>
+  <setting name="Three new" ref="Three" type="selection">
+      <option name="FooBar" value="1" />
+    <option name="Jee" value="2" />
+    <option name="Man" value="3" />
+    </setting>
+  <setting name="No data" ref="NoData" type="string" />
+  <setting name="Test Sequence" ref="TestSequence" type="sequence">
+      <setting name="number two of sequence Two" ref="SeqTwo" type="int" />
+    <setting name="one two three" ref="SeqThree" type="selection">
+        <option name="seqone" value="1" />
+      </setting>
+    </setting>
+  </feature>
+<data>
+    <Feature>
+      <One>fo</One>
+    <Two>1</Two>
+    <Three>1</Three>
+    <TestSequence template="true">
+        <SeqTwo />
+      <SeqThree />
+      </TestSequence>
+    <TestSequence>
+        <SeqTwo>123</SeqTwo>
+      <SeqThree />
+      </TestSequence>
+    </Feature>
+  </data>
+</configuration>

@@ -1,0 +1,13 @@
+<imageml xmlns="http://www.s60.com/xml/imageml/1">
+    <!--
+    Image conversion using multiple input files.
+    -->
+    <output file="startup.mbm">
+        <!-- Files from a directory can be included using regex patterns -->
+        <input dir="startup_anim_bmp/">
+            <include pattern="bmp$"/>
+        </input>
+        <!-- Single files can be also added -->
+        <input file="cone.bmp"/>
+    </output>
+</imageml>

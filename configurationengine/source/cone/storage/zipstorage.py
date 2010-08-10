@@ -13,6 +13,7 @@
 #
 # Description: 
 #
+import shutil
 
 import zipfile,zlib, StringIO, os, logging
 import datetime
@@ -29,7 +30,7 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
 
-from cone.public import api, utils, persistence, exceptions
+from cone.public import api, utils, persistence, exceptions, parsecontext
 from cone.public.api import Resource, Storage, Configuration, Folder
 from cone.storage import metadata, common
 from cone.confml import persistentconfml
@@ -46,8 +47,7 @@ class ZipStorage(common.StorageBase):
     """
     A storage for zip file 
     """
-    TEMP_FILE = '_temp_%i.zip' % os.getpid()
-    def __init__(self, path ,mode, **kwargs):
+    def __init__(self, path, mode, **kwargs):
         """
         Open the given filename object as a cpf zipfile
         """
@@ -61,11 +61,16 @@ class ZipStorage(common.StorageBase):
             # If opening the file in read/append mode check that the given file is a zipfile
             if self.get_mode(mode) != self.MODE_WRITE:
                 if os.path.exists(path) and not zipfile.is_zipfile(path):
-                    raise ZipException("The file %s is not a zip file!" % path) 
+                    raise ZipException("The file %s is not a zip file!" % path)
+            # If creating a new file make sure that the path to the file exists
+            elif self.get_mode(mode) in (self.MODE_APPEND, self.MODE_WRITE):
+                dirname = os.path.dirname(path)
+                if dirname != '' and not os.path.exists(dirname):
+                    os.makedirs(dirname)
             self.zipfile = zipfile.ZipFile(path,self.mode,self.compression)
         except IOError,e:
             raise ZipException("ZipFile open error: %s" % e)
-        super(ZipStorage, self).__init__(path)
+        super(ZipStorage, self).__init__(path, mode)
 
     def _zippath(self, path):
         """
@@ -140,7 +145,7 @@ class ZipStorage(common.StorageBase):
         except KeyError:
             return False 
 
-    def list_resources(self,path,recurse=False, empty_folders=False): 
+    def list_resources(self, path, **kwargs): 
         """
         Get an array of files in a folder  
         """
@@ -153,19 +158,20 @@ class ZipStorage(common.StorageBase):
             (filepath,filename) = os.path.split(name)
             curname = utils.resourceref.replace_dir(name, self.get_current_path(),'')
             # return directories only if specified
-            if empty_folders == True or not self.is_dir(name):
+            if kwargs.get('empty_folders', False) == True or not self.is_dir(name):
                 # Skip the filename if it is marked as deleted
                 if self.__has_open__(name) and self.__get_open__(name)[-1].get_mode() == api.Storage.MODE_DELETE:
                     continue
                 if filepath == fullpath:
                     retarray.append(curname)
-                elif recurse and filepath.startswith(fullpath):
+                elif kwargs.get('recurse', False) and filepath.startswith(fullpath):
                     retarray.append(curname)
         #retarray = sorted(utils.distinct_array(retarray))
         return retarray
 
     def import_resources(self,paths,storage,empty_folders=False):
         for path in paths:
+            path = utils.resourceref.remove_begin_slash(utils.resourceref.norm(path))
             if not storage.is_resource(path) and empty_folders==False:
                 logging.getLogger('cone').warning("The given path is not a Resource in the storage %s! Ignoring from export!" % path)
                 continue
@@ -281,14 +287,15 @@ class ZipStorage(common.StorageBase):
             if self.modified:
                 oldfile = None
                 newzipfile = None
-                tmp_path = os.path.join(tempfile.gettempdir(), self.TEMP_FILE)
-                os.rename(self.path, tmp_path)
+                fh, tmp_path = tempfile.mkstemp(suffix='.zip')
+                shutil.move(self.path, tmp_path)
                 oldfile = zipfile.ZipFile(tmp_path,"r")
                 newzipfile = zipfile.ZipFile(self.path,"w",self.compression)
                 for fileinfo in oldfile.infolist():
                     newzipfile.writestr(fileinfo, oldfile.read(fileinfo.filename))
                 if oldfile: oldfile.close()
                 if newzipfile: newzipfile.close()
+                os.close(fh)
                 os.unlink(tmp_path)
             self.zipfile = None
         else:
@@ -322,13 +329,15 @@ class ZipStorage(common.StorageBase):
         if self.is_resource(path):
             res = self.open_resource(path,"r")
             # read the resource with persistentmodule
+            parsecontext.get_confml_context().current_file = path
             try:
                 obj = self.persistentmodule.loads(res.read())
                 obj.set_path(path)
                 res.close()
                 return obj
             except exceptions.ParseError,e:
-                logging.getLogger('cone').error("Resource %s parsing failed with exception: %s" % (path,e))
+                parsecontext.get_confml_context().handle_exception(e)
+                #logging.getLogger('cone').error("Resource %s parsing failed with exception: %s" % (path,e))
                 # returning an empty config in case of xml parsing failure.
                 return api.Configuration(path)
         else:
@@ -372,6 +381,6 @@ class ZipFileResource(Resource):
 
     def get_content_info(self):
         if self.content_info == None:
-            self.content_info = utils.make_content_info(self, self.handle.getvalue())
+            self.content_info = api.make_content_info(self, self.handle.getvalue())
         
         return self.content_info

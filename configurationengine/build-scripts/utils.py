@@ -43,7 +43,7 @@ def recreate_dir(path):
     else:
         os.makedirs(path)
 
-def build_egg(source_dir, target_dir):
+def build_egg(source_dir, target_dir, python_executable='python'):
     """
     Build an egg file from the given source directory (must contain a setup.py)
     into the given target directory.
@@ -53,7 +53,7 @@ def build_egg(source_dir, target_dir):
     orig_workdir = os.getcwd()
     os.chdir(source_dir)
     try:
-        cmd = 'python setup.py bdist_egg --dist-dir "%s"' % target_dir
+        cmd = '%s setup.py bdist_egg --dist-dir "%s"' % (python_executable, target_dir)
         return run_command(cmd)
     finally:
         os.chdir(orig_workdir)
@@ -65,12 +65,13 @@ def copy_file(source_path, target_path):
         os.makedirs(target_dir)
     shutil.copy2(source_path, target_path)
 
-def get_python_version():
+def get_python_version(executable='python'):
     """
-    Return the version of the Python that is run when the command 'python'
-    is run (not the Python where this script is executing).
+    Return the version of the Python that is run when the given Python
+    executable is run (not the Python where this script is executing).
+    @param executable: The Python executable to run, defaults to 'python'.
     """
-    p = subprocess.Popen('python -c "import sys; print sys.version[:3]"', stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    p = subprocess.Popen('%s -c "import sys; print sys.version[:3]"' % executable, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
     out, err = p.communicate()
     if p.returncode != 0:
         log.critical("Failed to get python version")

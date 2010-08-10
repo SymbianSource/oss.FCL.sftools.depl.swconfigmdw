@@ -16,11 +16,9 @@
 
 import unittest, os, shutil
 
-import __init__	
 from projectconvertplugin  import convertproject
-from cone.public import exceptions,plugin,api
+from cone.public import plugin,api
 from cone.storage import filestorage
-from cone.confml import implml
 from testautomation.base_testcase import BaseTestCase
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -43,6 +41,8 @@ class TestConvertProjectPlugin(BaseTestCase):
         self.assertTrue(isinstance(impl, convertproject.ConvertProjectImpl))
         
     def test_generate(self):
+        os.environ['ncp_version'] = 'platforms'
+        os.environ['variants'] = 'variants'        
         output_dir = os.path.join(temp_dir, "new_project")
         if os.path.exists(output_dir):
             shutil.rmtree(output_dir)
@@ -52,12 +52,14 @@ class TestConvertProjectPlugin(BaseTestCase):
         fs = filestorage.FileStorage(oldPath)
         p = api.Project(fs)
         config = p.get_configuration('convert.confml')
+        context = plugin.GenerationContext(configuration=config,
+                                           output=output_dir)
         impls = plugin.get_impl_set(config,'\.convertprojectml$')
-        impls.output = output_dir
-        impls.generate()
+        context.filtering_disabled = True
+        impls.generate(context)
         
         self.assert_dir_contents_equal(expected_dir, output_dir, ['.svn'])
 
         
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

@@ -14,21 +14,16 @@
 # Description: 
 #
 
-import unittest, os, shutil
+import unittest, os, sys
 
-import __init__	
-from cone.public import exceptions,plugin,api
-from cone.storage import filestorage
-from cone.confml import implml
-from themeplugin import maketheme
-from themeplugin import theme_function
-from cone.storage.filestorage import FileStorage
+from cone.public import plugin,api
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 def impl_from_resource(resource_ref, configuration):
-    doc_root = plugin.ReaderBase._read_xml_doc_from_resource(resource_ref, configuration)
-    return maketheme.ThemeImplReader.read_impl(resource_ref, configuration, doc_root)
+    impls = plugin.ImplFactory.get_impls_from_file(resource_ref, configuration)
+    assert len(impls) == 1
+    return impls[0]
 
 class TestThemePlugin(unittest.TestCase):    
     def setUp(self):
@@ -43,8 +38,6 @@ class TestThemePlugin(unittest.TestCase):
         project = api.Project(api.Storage.open(os.path.join(ROOT_PATH,"e75")))
         config = project.get_configuration("root_variant.confml")
         impl = impl_from_resource("variant/implml/theme.thememl", config);
-        t1 = impl.list_theme_dir
-        t2 = impl.list_active_theme
         list_tpf_files = impl.list_tpf_files(impl.list_active_theme,impl.list_theme_dir)
         self.assertEquals(sorted(list_tpf_files),
                           sorted(['variant/content/UI/Themes/Armi.tpf', 's60/content/UI/Armi2.tpf']))
@@ -70,7 +63,9 @@ class TestThemePlugin(unittest.TestCase):
         list_tpf_files = impl.find_tpf_files(tpf_paths)
         self.assertEquals(sorted(list_tpf_files), sorted(['variant/content/UI/Themes/Armi.tpf', 's60/content/UI/Armi2.tpf']))
 
-         
+# Only run these tests on Windows
+if sys.platform != 'win32':
+    del TestThemePlugin
         
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

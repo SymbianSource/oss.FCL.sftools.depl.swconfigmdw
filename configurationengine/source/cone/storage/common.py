@@ -17,18 +17,20 @@
 import logging
 import xml.parsers.expat
 
-from cone.public import api, utils
+from cone.public.api import Storage
+from cone.public import utils
 from cone.storage import metadata
 
-class StorageBase(api.Storage):
+class StorageBase(Storage):
     """
     A general base class for all storage type classes
     """
     METADATA_FILENAME = ".metadata"
 
-    def __init__(self,path):
-        super(StorageBase, self).__init__(path)
+    def __init__(self, path, mode):
+        super(StorageBase, self).__init__(path, mode)
         self.meta = self.read_metadata()
+        
 
     def get_active_configuration(self): 
         """
@@ -37,7 +39,7 @@ class StorageBase(api.Storage):
         """
         root_confmls = self.list_resources("/")
         root_confmls = utils.resourceref.filter_resources(root_confmls,"\.confml")
-        if self.meta.get_root_file() == '' and len(root_confmls) == 1:
+        if self.meta.get_root_file() == None and len(root_confmls) == 1:
             return root_confmls[0]
         else:
             return self.meta.get_root_file()
@@ -68,7 +70,7 @@ class StorageBase(api.Storage):
         # Try to update the metadata, which might fail on ZipStorage
 
         try:
-            if self.get_mode(self.mode) != api.Storage.MODE_READ:
+            if self.get_mode(self.mode) != Storage.MODE_READ:
                 # update the active configuration
                 self.set_active_configuration(self.get_active_configuration())
                 metares = self.open_resource(self.METADATA_FILENAME,"wb")

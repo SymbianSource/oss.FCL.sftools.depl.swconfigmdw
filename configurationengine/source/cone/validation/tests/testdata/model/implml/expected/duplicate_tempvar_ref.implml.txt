@@ -1,0 +1,2 @@
+Problem(msg="Duplicate temporary variable ref 'Temp.Foo'", type='model.implml.container.duplicate_tempvar', line=4, file='Layer1/implml/duplicate_tempvar_ref.implml', severity='error')
+Problem(msg="Duplicate temporary variable ref 'Temp.Foo'", type='model.implml.container.duplicate_tempvar', line=8, file='Layer1/implml/duplicate_tempvar_ref.implml', severity='error')

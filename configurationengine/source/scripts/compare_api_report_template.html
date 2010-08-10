@@ -8,7 +8,7 @@
                        'desc':'Description',
                        } %}
     
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName" colspan="{{ columns|length }}">{{ data.sourcedata.name }}</th>
         <th class="featureName">&nbsp;</th>
@@ -89,4 +89,9 @@
     
     
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
 {% endblock %}

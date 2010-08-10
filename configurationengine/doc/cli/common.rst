@@ -1,3 +1,5 @@
+.. _cone-cli:
+
 Cone command line interface
 ===========================
 
@@ -19,45 +21,48 @@ or::
     cone --help
   
 And you will get something like this as output::
-
-    Usage: cone_tool.py [action] [options].
+    
+    Usage: ConE [action] [options].
+    
+    
+    Use ConE [action] -h to get action specific help.
     
     Available actions
-        info
-        compare
-        merge
-        export
-        generate
-        update
+    Main actions for one or more configurations.
+        compare : Compare two configurations
+        fix : Run automatic fixes for configurations.
+        generate : Generate a configuration.
+        report : Create report of existing report data.
+        update : Update/set values to features in configuration(s).
+        validate : Validate a configuration, or individual confml/imp
     
-    Use cone_tool.py [action] -h to get action specific help.
     
-    Options:
-      --version                         show program's version number and exit
-      -h, --help                        show this help message and exit 
-      -c CONFIG, --configuration=CONFIG  Define the name of the configuration for the action
-      -v LEVEL, --verbose=LEVEL          Print error, warning and information on system out. 
-                                            Possible choices:
-                                                NONE 0
-                                                CRITICAL 1 
-                                                ERROR 2 
-                                                WARNING 3 
-                                                INFO 4 
-                                                DEBUG 5 
-                                            Default is 3.
-      -p STORAGE, --project=STORAGE      Defines the location of current project. Default is the current working directory.
+    Actions related to the configuration project maintenance.
+        export : Export configurations.
+        info : Get information about project / configurations.
+        merge : Merge a configuration/layer to the project.
+    
+    
+    extensions:
+        initvariant : Initialize a variant from a cpf.
+        packvariant : Pack (zip) the variant layers of a configuration.
+        rootflatten : Configuration root flattener.
 
 
 ConE actions
 ------------
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
-    info
-    compare
-    merge
-    export
     generate
-    update
+    fix
+    compare
     report
+    update
+    validate
+    export
+    merge
+    info
+    initvariant
+    rootflatten
 

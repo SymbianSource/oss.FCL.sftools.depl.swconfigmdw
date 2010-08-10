@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="test1"  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <feature ref="Feature" name="SampleFea">
+        <setting ref="One" name="One new" type="string">
+            <xs:maxLength value="3"/>
+        </setting>
+        <setting ref="Two" name="Two new" type="int">
+            <desc>Testing desc</desc>
+        </setting>
+        <setting ref="Three" name="Three new" type="selection">
+            <option name="FooBar" value="1"/>
+            <option name="Jee" value="2"/>
+            <option name="Man" value="3"/>
+        </setting>
+        <setting ref="NoData" name="No data" type="string">
+        </setting>
+        <setting ref="TestSequence" name="Test Sequence" type="sequence">
+            <setting ref="SeqTwo" name="number two of sequence Two" type="int">
+            </setting>
+            <setting ref="SeqThree" name="one two three" type="selection">
+                <option name="seqone" value="1"/>
+            </setting>
+        </setting>
+    </feature>
+</configuration>

@@ -1,19 +1,19 @@
 Refs with implementations
 =========================
-{% for feat in rep_data.lines -%}
+{% for feat in merged_context.features.get_features(merged_context.impl_set.get_implemented_refs()) -%}
 {% if not loop.first -%}
 -------------------------------------------------
 {%- endif %}
-Ref: {{ feat.ref }}
+Ref: {{ feat.fqr }}
 Impls:
-{% for impl in feat.impls -%}
-    File = "{{ impl.name }}", type = "{{ impl.type }}", gen_runs = {{impl.generation_runs}}
+{% for impl in merged_context.impl_set.get_implementations_with_ref(feat.fqr) -%}
+    File = "{{ impl.ref }}", type = "{{ impl.IMPL_TYPE_ID }}"
 {% endfor -%}
 {% endfor %}
 
 
 Refs with no implementation
 ===========================
-{% for feat in rep_data.ref_noimpl -%}
-    {{ feat.ref }}
+{% for fearef in merged_context.get_refs_with_no_output() -%}
+    {{ fearef }}
 {% endfor %}

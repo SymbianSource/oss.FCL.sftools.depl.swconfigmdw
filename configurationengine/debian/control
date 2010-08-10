@@ -5,7 +5,7 @@ Maintainer: Jari Tenhunen <jari.tenhunen@nokia.com>
 Build-Depends: debhelper (>= 5), python (>=2.4), python-central, python-setuptools
 Standards-Version: 3.7.2
 XS-Python-Version: >= 2.4
-Homepage: http://developer.symbian.org/wiki/index.php/Software_Configuration_Middleware
+Homepage: http://developer.symbian.org/wiki/index.php/Software_Configuration_Middleware/ConE
 
 Package: python-cone
 Architecture: all

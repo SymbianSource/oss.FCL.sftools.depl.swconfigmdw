@@ -20,7 +20,6 @@ import string
 import sys
 import os
 import shutil
-import __init__
 
 from cone.public import api, exceptions
 from cone.confml import model as confmlmodel
@@ -62,7 +61,7 @@ class TestCarbon2confml(unittest.TestCase):
         c1.namespace = "com.nokia"
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, confmlmodel.ConfmlConfiguration))
-        self.assertEquals(c2.name, "test")
+        self.assertEquals(c2.name, "test.confml")
         self.assertEquals(c2.namespace, "com.nokia")
         self.assertEquals(c2.path, "test")
 
@@ -71,15 +70,7 @@ class TestCarbon2confml(unittest.TestCase):
         c1 = model.CarbonSetting("test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, confmlmodel.ConfmlSetting))
-        self.assertEquals(c2.name, "test")
-        self.assertEquals(c2.ref, "test")
-
-    def test_map_carbon_setting_with_data(self):
-        mapper = model.get_mapper('confml')
-        c1 = model.CarbonSetting("test")
-        c2 = mapper.map_object(c1)
-        self.assertTrue(isinstance(c2, confmlmodel.ConfmlSetting))
-        self.assertEquals(c2.name, "test")
+        self.assertEquals(c2.name, None)
         self.assertEquals(c2.ref, "test")
 
     def test_map_carbon_int_setting_with_data(self):
@@ -87,21 +78,21 @@ class TestCarbon2confml(unittest.TestCase):
         c1 = model.CarbonIntSetting("test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, confmlmodel.ConfmlIntSetting))
-        self.assertEquals(c2.name, "test")
+        self.assertEquals(c2.name, None)
         self.assertEquals(c2.ref, "test")
 
-    def test_map_carbon_setting_with_data(self):
+    def test_map_carbon_boolean_setting_with_data(self):
         mapper = model.get_mapper('confml')
         c1 = model.CarbonBooleanSetting("test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, confmlmodel.ConfmlBooleanSetting))
-        self.assertEquals(c2.name, "test")
+        self.assertEquals(c2.name, None)
         self.assertEquals(c2.ref, "test")
 
-    def test_map_carbon_setting_with_data(self):
+    def test_map_carbon_selection_setting_with_data(self):
         mapper = model.get_mapper('confml')
         c1 = model.CarbonSelectionSetting("test")
         c2 = mapper.map_object(c1)
         self.assertTrue(isinstance(c2, confmlmodel.ConfmlSelectionSetting))
-        self.assertEquals(c2.name, "test")
+        self.assertEquals(c2.name, None)
         self.assertEquals(c2.ref, "test")

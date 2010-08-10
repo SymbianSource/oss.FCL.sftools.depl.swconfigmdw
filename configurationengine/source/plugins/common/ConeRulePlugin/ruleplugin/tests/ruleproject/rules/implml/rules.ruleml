@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
-  <rule>imaker.imagetarget configures imakerapi.outputLocation = imaker.imagetarget</rule>
-  <rule>mms.imagesize == 'large' configures pd.ref1 = True and pd.ref2 = True</rule>
-  <rule>mms.imagesize == 'small' configures pd.ref1 = False and pd.ref2 = True</rule>
-  <rule>mms.imagesize == 'extrasmall' configures pd.ref1 = False and pd.ref2 = False</rule>
-  <rule>mms.imagesize == 'extralarge' configures pd.ref1 = True and pd.ref2 = False</rule>
-  <rule>imakerapi.outputLocationY == None configures imakerapi.outputLocationY = 'hello'</rule>
-  <rule>operations.minus == 5 configures operations.minus = operations.minus1 - operations.minus2</rule>
-  <rule>operations.minus1 == 25 configures operations.minus1 = operations.minus3 * operations.minus2</rule>
-  <rule>operations.minus4 == 10 configures operations.minus4 = operations.minus4 / operations.minus5</rule>
-  <rule>operations.minus6 == 5 configures operations.minus6 = operations.minus7 + operations.minus8</rule>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>{% ${imaker.imagetarget} %} configures ${imakerapi.outputLocation} = ${imaker.imagetarget}</rule>
+  <rule>${mms.imagesize} == 'large' configures ${pd.ref1} = True and ${pd.ref2} = True</rule>
+  <rule>${mms.imagesize} == 'small' configures ${pd.ref1} = False and ${pd.ref2} = True</rule>
+  <rule>${mms.imagesize} == 'extrasmall' configures ${pd.ref1} = False and ${pd.ref2} = False</rule>
+  <rule>${mms.imagesize} == 'extralarge' configures ${pd.ref1} = True and ${pd.ref2} = False</rule>
+  <rule>${imakerapi.outputLocationY} == None configures ${imakerapi.outputLocationY} = 'hello'</rule>
+  <rule>${operations.minus} == 5 configures ${operations.minus} = ${operations.minus1} - ${operations.minus2}</rule>
+  <rule>${operations.minus1} == 25 configures ${operations.minus1} = ${operations.minus3} * ${operations.minus2}</rule>
+  <rule>${operations.minus4} == 10 configures ${operations.minus4} = ${operations.minus4} / ${operations.minus5}</rule>
+  <rule>${operations.minus6} == 5 configures ${operations.minus6} = ${operations.minus7} + ${operations.minus8}</rule>
   
-  <rule>True configures StringConcatenationTest.Result1 = "Test " + "test"</rule>
-  <rule>True configures StringConcatenationTest.Result2 = StringConcatenationTest.Value1 + " Literal 2"</rule>
-  <rule>True configures StringConcatenationTest.Result3 = "Literal 1 " + StringConcatenationTest.Value2</rule>
-  <rule>True configures StringConcatenationTest.Result4 = StringConcatenationTest.Value1 + StringConcatenationTest.Value2</rule>
-  <rule>True configures StringConcatenationTest.Result5 = StringConcatenationTest.Value1 + " &amp; " + StringConcatenationTest.Value2</rule>
-  <rule>True configures StringConcatenationTest.Result6 = StringConcatenationTest.Value1 + u" € カタカナ"</rule>
+  <rule>True configures ${StringConcatenationTest.Result1} = "Test " + "test"</rule>
+  <rule>True configures ${StringConcatenationTest.Result2} = ${StringConcatenationTest.Value1} + " Literal 2"</rule>
+  <rule>True configures ${StringConcatenationTest.Result3} = "Literal 1 " + ${StringConcatenationTest.Value2}</rule>
+  <rule>True configures ${StringConcatenationTest.Result4} = ${StringConcatenationTest.Value1} + ${StringConcatenationTest.Value2}</rule>
+  <rule>True configures ${StringConcatenationTest.Result5} = ${StringConcatenationTest.Value1} + " &amp; " + ${StringConcatenationTest.Value2}</rule>
+  <rule>True configures ${StringConcatenationTest.Result6} = ${StringConcatenationTest.Value1} + u" € カタカナ"</rule>
   
-  <rule>True configures ударения.ελληνικά = ударения.ελληνικά + u" € カタカナ"</rule>
+  <rule>True configures ${ударения.ελληνικά} = ${ударения.ελληνικά} + u" € カタカナ"</rule>
+  
+  <rule>True configures ${SequenceTest.Sequence1} = {% [['foo', 1], ['bar', 2], ['baz', 3]] %}</rule>
+  
+  <rule>{% @{Foo.Bar}.value %} configures ${Foo.Baz} = 'gaa'</rule>
+  
 </ruleml>

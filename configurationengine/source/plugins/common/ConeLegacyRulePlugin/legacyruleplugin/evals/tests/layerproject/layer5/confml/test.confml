@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="testdata" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<feature name="String feature" ref="StringFeatureTest">
+		<setting name="Value 1" ref="Value1" type="string" />
+	</feature>
+	<data>
+		<StringFeatureTest>
+			<Value1>String 5</Value1>
+		</StringFeatureTest>
+	</data>
+</configuration>

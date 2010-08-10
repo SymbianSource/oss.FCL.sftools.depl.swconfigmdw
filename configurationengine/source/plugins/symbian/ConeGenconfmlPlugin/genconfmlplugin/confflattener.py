@@ -82,8 +82,14 @@ class ConfigurationFlattener():
         toview = to_config.get_default_view()
         for fea in toview.get_features('**'):
             fromfea = dview_from.get_feature(fea.fqr)
-            if fromfea.get_value() != None:
-                fea.set_value(fromfea.get_value())
+            # If the value is an empty list, don't add it.
+            # This is because an empty list means that we have
+            # a sequence setting or sequence sub-setting that doesn't have
+            # any contents, and calling set_value() would create a data
+            # element for it with the attribute empty="true".
+            val = fromfea.get_value()
+            if val not in (None, []):
+                fea.set_value(val)
         return to_config
 
     def create_configuration(self, conf_from_org, settings, path="tempfile.confml"):

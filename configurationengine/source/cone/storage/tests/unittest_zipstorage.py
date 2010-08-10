@@ -19,14 +19,11 @@
 Test the CPF root file parsing routines
 """
 
-import zipfile
 import unittest
-import string
-import sys,os,shutil
+import os,shutil
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-import __init__
 from cone.public import exceptions, api
 from cone.storage import zipstorage
 
@@ -95,7 +92,7 @@ class TestStorage(unittest.TestCase):
         self.assertTrue(res)
         self.assertTrue(isinstance(res,api.Resource))
         res.close()
-        self.assertEquals(storage.list_resources("",True), ['data/newfile.txt'])
+        self.assertEquals(storage.list_resources("",recurse=True), ['data/newfile.txt'])
         storage.close()
         os.unlink("testnewfile.zip")
         
@@ -127,7 +124,7 @@ class TestStorage(unittest.TestCase):
         res.close()
         res = storage.open_resource("data/ncp11/confml/jallaa.confml","w")
         res.close()
-        file_array = storage.list_resources("data",True)
+        file_array = storage.list_resources("data",recurse=True)
         self.assertEquals(file_array,['data/foo/morestuff.confml', 'data/prodX.confml', 'data/ncp11/confml/jallaa.confml'])
         storage.close()
         os.unlink("testrecurse.zip")
@@ -185,13 +182,13 @@ class TestStorage(unittest.TestCase):
         res.close()
         storage.close()
         storage2 = api.Storage.open("testdelete.zip","a")
-        #self.assertEquals(storage2.list_resources("",True), ['.metadata', 'data/newfile.txt', 'readme.txt'])
+        #self.assertEquals(storage2.list_resources("",recurse=True), ['.metadata', 'data/newfile.txt', 'readme.txt'])
         self.assertEquals(storage2.open_resource("data/newfile.txt").read(),"test write")
         storage2.delete_resource("data/newfile.txt")
-        self.assertEquals(len(storage2.list_resources("",True)),2)
+        self.assertEquals(len(storage2.list_resources("",recurse=True)),2)
         storage2.close()
         storage3 = api.Storage.open("testdelete.zip","a")
-        self.assertEquals(storage3.list_resources("",True), ['readme.txt','.metadata'])
+        self.assertEquals(storage3.list_resources("",recurse=True), ['readme.txt','.metadata'])
         storage3.close()
         os.unlink("testdelete.zip")
         
@@ -210,7 +207,7 @@ class TestStorage(unittest.TestCase):
         self.assertEquals(storage2.is_folder("data"),True)
         self.assertEquals(storage2.is_folder("data2/folder1"),True)
         self.assertEquals(storage2.is_folder("data3"),True)
-        self.assertEquals(storage2.list_resources('.',True),['test.txt','.metadata'])
+        self.assertEquals(storage2.list_resources('.',recurse=True),['test.txt','.metadata'])
         self.assertEquals(storage2.list_resources(''),['test.txt','.metadata'])
         storage2.close()
         os.unlink("empty_folder.zip")

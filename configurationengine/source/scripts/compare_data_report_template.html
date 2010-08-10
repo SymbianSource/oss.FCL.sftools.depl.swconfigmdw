@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Configuration data comparison</h1><br>
     
-    <table class="report">
+    <table class="report" id="comp">
       <tr>
         <td>Source:</td>
         <td>{{ data.sourcedata.name }}</td>
@@ -13,10 +13,15 @@
         <td>{{ data.targetdata.name }}</td>
       </tr>
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("comp");
+//]]>
+</script>
     
     <br/>
     
-    <table class="report">
+    <table class="report" id="report_data">
     <tr>
         <th class="featureName">Full reference</th>
         <th class="featureName">Name</th>
@@ -35,4 +40,9 @@
     {%- endfor -%}
 
     </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
 {% endblock %}

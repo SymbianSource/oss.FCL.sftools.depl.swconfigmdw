@@ -72,7 +72,7 @@ Description element's content is not used in output file generation, but it can 
 output element
 **************************
 
-Output element describes how one output file is generated. Output has one mandatory attribute 'file' that defines filename for output file. If you want to generate output file to some other than default folder, it can be done by defining a output directory to 'dir' attribute. Default encoding for output file is 'UTF-8', if some other encoding is wanted, it can be defined by 'encoding' attribute.  This encoding should be one of the standard Python codecs encoding (see http://docs.python.org/library/codecs.html#standard-encodings).
+Output element describes how one output file is generated. Output has one mandatory attribute 'file' that defines filename for output file. If you want to generate output file to some other than default folder, it can be done by defining a output directory to 'dir' attribute. Default encoding for output file is 'UTF-8', if some other encoding is wanted, it can be defined by 'encoding' attribute.  This encoding should be one of the standard Python codecs encoding (see http://docs.python.org/library/codecs.html#standard-encodings). By 'newline' attribute the output file's newline characters can be defined. The default value is 'unix' that use LF (Line feed, '\n', 0x0A) in output file. LF is used Unix-like systems and web applications. If output file has to use CR (Carriage Return) followed by LF (CR+LF, '\r\n', 0x0D 0x0A) as newline characters, 'newline' attribute should have value 'win'. CR+LF is used in non-Unix systems like DOS, Windows and Symbian OS.
 
 Template element is mandatory child element for output element. One output element can have only one template element.
 Output element can also contain optional filter elements that are specific just for this output file. Global filters that are common for all output files should be defined under root templateml element. 
@@ -81,7 +81,7 @@ Output element can also contain optional filter elements that are specific just 
 
 .. code-block:: xml
 
-  <output file="my_output.txt" encoding="UTF-8" dir="output">
+  <output file="my_output.txt" encoding="UTF-8" dir="output" newline="win">
     <template>Hello world!</template>
     <filter name="filter1">lambda a,b: a+b</filter>
     <filter name="filter2">lambda a,b: a*b</filter>

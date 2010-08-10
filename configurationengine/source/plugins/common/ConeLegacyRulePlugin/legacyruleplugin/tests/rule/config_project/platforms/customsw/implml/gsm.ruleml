@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+  <rule>operations.minus == 5 configures operations.minus = operations.minus1 - operations.minus2</rule>
+  <rule>operations.minus1 == 25 configures operations.minus1 = operations.minus3 * operations.minus2</rule>
+  <rule>operations.minus4 == 10 configures operations.minus4 = operations.minus4 / operations.minus5</rule>
+  <rule>operations.minus6 == 6 configures operations.minus6 = operations.minus7 + operations.minus8</rule>
+  <rule>operations.string1 == 'Hello' configures operations.string1 = operations.string1 + operations.string2</rule>
+</ruleml>

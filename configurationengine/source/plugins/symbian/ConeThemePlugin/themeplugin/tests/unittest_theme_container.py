@@ -14,15 +14,10 @@
 # Description: 
 #
 
-import unittest, os, shutil
+import unittest, sys, os
 
-import __init__    
-from cone.public import exceptions,plugin,api
-from cone.storage import filestorage
-from cone.confml import implml
-from themeplugin import theme_function
+from cone.public import api
 from themeplugin.theme_container import ThemeContainer
-from cone.storage.filestorage import FileStorage
 
 from unittest_theme_plugin import impl_from_resource
 
@@ -44,7 +39,6 @@ class TestThemePlugin(unittest.TestCase):
         impl = impl_from_resource("variant/implml/theme.thememl", config);
         list_tpf = impl.list_tpf_files(impl.list_active_theme, impl.list_theme_dir)
         
-        list_theme=[]
         container = ThemeContainer(list_tpf,impl.configuration)
         container.create_themes()
         self.assertEquals(len(container.list_theme),2)
@@ -74,7 +68,9 @@ class TestThemePlugin(unittest.TestCase):
         self.assertEquals(theme.get_setting_uids(), ["KCRUidPersonalisation.KPslnActiveSkinUid"])
         self.assertEquals(theme.get_uid(), "0x101FD60A")
 
-         
+# Only run these tests on Windows
+if sys.platform != 'win32':
+    del TestThemePlugin
         
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

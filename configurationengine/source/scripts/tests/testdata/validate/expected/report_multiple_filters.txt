@@ -1,0 +1,17 @@
+Validation problems
+-------------------
+File: assets/invalid/confml/model_level_validation_test.confml
+Line: 10
+Type: model.confml.invalid_value.maxlength
+Msg:  Setting ValidationTest.Foo: Maximum number of characters is 3 (value has 6)
+
+File: assets/invalid/implml/invalid_attribute.implml
+Line: 4
+Type: schema.implml.implml
+Msg:  Element '{http://www.symbianfoundation.org/xml/implml/1}container', attribute 'foo': The attribute 'foo' is not allowed.
+
+File: assets/invalid/confml/invalid_element.confml
+Line: 8
+Type: model.confml.unknown_element
+Msg:  Unknown element '{http://www.s60.com/xml/confml/2}foo'
+

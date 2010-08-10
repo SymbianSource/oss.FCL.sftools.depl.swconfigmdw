@@ -17,13 +17,9 @@
 A plugin implementation for image selection from ConfigurationLayers.
 '''
 
-
-import re
 import os
-import sys
 import logging
-import shutil
-import xml.parsers.expat
+import pkg_resources
 
 try:
     from cElementTree import ElementTree
@@ -36,7 +32,7 @@ except ImportError:
         except ImportError:
             from xml.etree import ElementTree
             
-import __init__
+
 
 from cone.public import exceptions,plugin,utils,api
 from imageplugin.generators import OutputGenerator,InputFile,InputDir,InvalidInputFileException
@@ -89,9 +85,11 @@ class ImageImpl(plugin.ImplBase):
         ret = True
         for generator in self.generators:
             self.logger.info(generator)
-            generator.subpath =  self.output
+            generator.subpath =  os.path.join(context.output,self.output)
             try:
-                ret = generator.generate() and ret
+                ret = generator.generate(context) and ret
+                outfile = generator.get_outputpath()
+                context.add_file(outfile, implementation=self)
             except InvalidInputFileException, e:
                 self.logger.error(e)
         return ret
@@ -117,6 +115,8 @@ class ImageImplReader(plugin.ReaderBase):
     Parses a single imageml implml file
     """ 
     NAMESPACE = 'http://www.s60.com/xml/imageml/1'
+    NAMESPACE_ID = 'imageml'
+    ROOT_ELEMENT_NAME = 'imageml'
     FILE_EXTENSIONS = ['imageml']
     
     INCLUDE_ATTR = ['pattern']
@@ -142,7 +142,11 @@ class ImageImplReader(plugin.ReaderBase):
             generator.configuration = configuration
         
         return impl
-
+    
+    @classmethod
+    def get_schema_data(cls):
+        return pkg_resources.resource_string('imageplugin', 'xsd/imageml.xsd')
+    
     def fromstring(self, xml_as_string):
         etree = ElementTree.fromstring(xml_as_string)
         self.desc = self.parse_desc(etree)

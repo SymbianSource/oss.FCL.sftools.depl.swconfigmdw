@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleml xmlns="http://www.s60.com/xml/ruleml/2">
-  <rule>True configures EvalTest4.StringResult = 22</rule>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>True configures ${EvalTest4.StringResult} = 22</rule>
   <eval_globals file="scripts/not_valid_filename.py"/>
 </ruleml>

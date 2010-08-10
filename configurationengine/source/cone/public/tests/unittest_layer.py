@@ -18,58 +18,105 @@
 Test the configuration
 """
 import unittest
-import string
-import sys,os
-import __init__
 
-from cone.public import api,exceptions,utils
+
+from cone.public import api
 from cone.storage import stringstorage
+
+class TestFolder(unittest.TestCase):    
+    storage_class = stringstorage.StringStorage
+    def setUp(self):
+        self.store = self.storage_class.open("temp/layertest.pk","w")
+
+    def test_create_folder(self):
+        folder = api.Folder(self.store, "subfolder")
+        self.assertTrue(folder)
+
+    def test_get_path(self):
+        folder = api.Folder(self.store, "foo")
+        self.assertEquals(folder.get_current_path(),"foo")
+
+    def test_open_resource(self):
+        folder = api.Folder(self.store, "foo")
+        res = folder.open_resource("confml/test.confml","w")
+        res.write("foo.conf")
+        res.close()
+        self.assertEquals(folder.list_resources("", recurse=True),["confml/test.confml"])
+        self.assertEquals(self.store.list_resources("", recurse=True),["foo/confml/test.confml"])
+
+    def test_open_non_existing_resource(self):
+        folder = api.Folder(self.store, "foo")
+        try:
+            folder.open_resource("confml/test.confml","r")
+        except Exception:
+            pass
+        self.assertEquals(folder.storage.curpath, '')
+
+    def test_create_two_layers_and_open_resource(self):
+        foo_folder = api.Folder(self.store, "foo")
+        bar_folder = api.Folder(self.store, "bar")
+        res = foo_folder.open_resource("confml/test.confml","w")
+        res.write("foo.conf")
+        res.close()
+        res = foo_folder.open_resource("root.confml","w")
+        res.close()
+        res = bar_folder.open_resource("confml/root.confml","w")
+        res.write("foo.conf")
+        res.close()
+        self.assertEquals(foo_folder.list_resources("", recurse=True),[ 'root.confml', 
+                                                                       'confml/test.confml'])
+        self.assertEquals(self.store.list_resources("", recurse=True),['bar/confml/root.confml', 
+                                                                       'foo/root.confml', 
+                                                                       'foo/confml/test.confml'])        
+        foo_folder.delete_resource("confml/test.confml")
+        self.assertEquals(foo_folder.list_resources("", recurse=True),["root.confml"])
+        self.assertEquals(self.store.list_resources("", recurse=True),["bar/confml/root.confml",
+                                                                       "foo/root.confml"])
+
 
 class TestLayer(unittest.TestCase):    
     storage_class = stringstorage.StringStorage
+    def setUp(self):
+        self.store = self.storage_class.open("temp/layertest.pk","w")
 
     def test_create_layer(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         self.assertTrue(layer)
 
 #    def test_create_layer_with_kwargs(self):
-#        store = self.storage_class.open("temp/layertest.pk","w")
-#        layer = api.Layer(store, "foo",confml_path="foobar", implml_path="")
+#        self.store = self.storage_class.open("temp/layertest.pk","w")
+#        layer = api.Layer(self.store, "foo",confml_path="foobar", implml_path="")
 #        self.assertTrue(layer)
 #        self.assertEquals(layer.confml_folder.get_current_path(),"foo/foobar")
 #        self.assertEquals(layer.implml_folder.get_current_path(),"foo")
-#        layer = api.Layer(store, "foo",confml_path="f", implml_path="test", content_path="data", doc_path="foo")
+#        layer = api.Layer(self.store, "foo",confml_path="f", implml_path="test", content_path="data", doc_path="foo")
 #        self.assertEquals(layer.confml_folder.get_current_path(),"foo/f")
 #        self.assertEquals(layer.implml_folder.get_current_path(),"foo/test")
 #        self.assertEquals(layer.content_folder.get_current_path(),"foo/data")
 #        self.assertEquals(layer.doc_folder.get_current_path(),"foo/foo")
-#        layer = api.Layer(store, "foo")
+#        layer = api.Layer(self.store, "foo")
 #        self.assertEquals(layer.confml_folder.get_current_path(),"foo/confml")
 #        self.assertEquals(layer.implml_folder.get_current_path(),"foo/implml")
 #        self.assertEquals(layer.content_folder.get_current_path(),"foo/content")
 #        self.assertEquals(layer.doc_folder.get_current_path(),"foo/doc")
 
     def test_get_path(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         self.assertTrue(layer)
         self.assertEquals(layer.get_current_path(),"foo")
 
     def test_open_resource(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         self.assertTrue(layer)
         res = layer.open_resource("confml/test.confml","w")
         res.write("foo.conf")
         res.close()
-        self.assertEquals(layer.list_resources("", True),["confml/test.confml"])
-        self.assertEquals(store.list_resources("", True),["foo/confml/test.confml"])
+        self.assertEquals(layer.list_resources("", recurse=True),["confml/test.confml"])
+        self.assertEquals(self.store.list_resources("", recurse=True),["foo/confml/test.confml"])
 
     def test_create_two_layers_and_open_resource(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        foo_layer = api.Layer(store, "foo")
-        bar_layer = api.Layer(store, "bar")
+        foo_layer = api.Layer(self.store, "foo")
+        bar_layer = api.Layer(self.store, "bar")
         res = foo_layer.open_resource("confml/test.confml","w")
         res.write("foo.conf")
         res.close()
@@ -78,15 +125,14 @@ class TestLayer(unittest.TestCase):
         res = bar_layer.open_resource("confml/root.confml","w")
         res.write("foo.conf")
         res.close()
-        self.assertEquals(foo_layer.list_resources("", True),['confml/test.confml', 'root.confml'])
-        self.assertEquals(store.list_resources("", True),['bar/confml/root.confml','foo/confml/test.confml','foo/root.confml'])        
+        self.assertEquals(foo_layer.list_resources("", recurse=True),['root.confml', 'confml/test.confml'])
+        self.assertEquals(self.store.list_resources("", recurse=True),['bar/confml/root.confml', 'foo/root.confml', 'foo/confml/test.confml'])        
         foo_layer.delete_resource("confml/test.confml")
-        self.assertEquals(foo_layer.list_resources("", True),["root.confml"])
-        self.assertEquals(store.list_resources("", True),["bar/confml/root.confml","foo/root.confml"])
+        self.assertEquals(foo_layer.list_resources("", recurse=True),["root.confml"])
+        self.assertEquals(self.store.list_resources("", recurse=True),["bar/confml/root.confml","foo/root.confml"])
 
     def test_list_confml(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         res = layer.open_resource("confml/test.confml","w")
         res.write("foo.conf")
         res.close()
@@ -99,8 +145,7 @@ class TestLayer(unittest.TestCase):
         self.assertEquals(layer.list_confml(),['confml/foo.confml', 'confml/test.confml'])
 
     def test_list_implml(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         res = layer.open_resource("implml/stuff/test.confml","w")
         res.write("foo.conf")
         res.close()
@@ -113,8 +158,7 @@ class TestLayer(unittest.TestCase):
         self.assertEquals(layer.list_implml(),['implml/stuff/test.confml'])
 
     def test_list_content(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         res = layer.open_resource("content/bar/test.txt","w")
         res.write("foo.conf")
         res.close()
@@ -124,11 +168,10 @@ class TestLayer(unittest.TestCase):
         res = layer.open_resource("root.confml","w")
         res.write("foo.conf")
         res.close()
-        self.assertEquals(layer.list_content(),['content/bar/test.txt', 'content/foo.confml'])
+        self.assertEquals(layer.list_content(),[ 'content/foo.confml', 'content/bar/test.txt'])
 
     def test_list_doc(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         res = layer.open_resource("doc/bar/test.txt","w")
         res.write("foo.conf")
         res.close()
@@ -138,11 +181,10 @@ class TestLayer(unittest.TestCase):
         res = layer.open_resource("root.confml","w")
         res.write("foo.conf")
         res.close()
-        self.assertEquals(layer.list_doc(),['doc/bar/test.txt', 'doc/foo.confml'])
+        self.assertEquals(layer.list_doc(),['doc/foo.confml', 'doc/bar/test.txt' ])
 
     def test_list_layer_resources(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo")
+        layer = api.Layer(self.store, "foo")
         res = layer.open_resource("doc/bar/test.txt","w")
         res.write("foo.conf")
         res.close()
@@ -164,8 +206,7 @@ class TestLayer(unittest.TestCase):
                                                         'doc/bar/test.txt'])
 
     def test_list_layer_with_sublayer(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        layer = api.Layer(store, "foo", layers=[api.Layer(store, "bar")])
+        layer = api.Layer(self.store, "foo", layers=[api.Layer(self.store, "bar")])
         res = layer.open_resource("doc/bar/test.txt","w")
         res.write("foo.conf")
         res.close()
@@ -203,36 +244,79 @@ class TestLayer(unittest.TestCase):
         self.assertEquals(layer.list_content(),['content/data/abc.txt', 'bar/content/barcode.txt'])
         self.assertEquals(layer.list_doc(),['doc/bar/test.txt'])
 
+    def test_list_all_related(self):
+        layer = api.Layer(self.store, "foo")
+        res = layer.open_resource("doc/bar/test.txt","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("confml/foo.confml","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("confml/bar.confml","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("content/data/abc.txt","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("foo.txt","w")
+        res.write("foo.conf")
+        res.close()
+        
+        self.assertEquals(layer.list_all_related(),['content/data/abc.txt', 'doc/bar/test.txt'])
+
+    def test_list_all_related_with_filter(self):
+        store = self.storage_class.open("temp/layertest.pk","w")
+        layer = api.Layer(self.store, "foo")
+        res = layer.open_resource("doc/bar/test.txt","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("confml/foo.confml","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("confml/bar.confml","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("content/data/abc.txt","w")
+        res.write("foo.conf")
+        res.close()
+        res = layer.open_resource("foo.txt","w")
+        res.write("foo.conf")
+        res.close()
+        
+        self.assertEquals(layer.list_all_related(exclude_filters={'content':'.*\.txt'}), ['doc/bar/test.txt'])
+        self.assertEquals(layer.list_all_related(exclude_filters={'doc':'.*\.txt'}), ['content/data/abc.txt'])
+
+
+
+
 class TestCompositeLayer(unittest.TestCase):    
     storage_class = stringstorage.StringStorage
+    def setUp(self):
+        self.store = self.storage_class.open("temp/layertest.pk","w")
 
     def test_create_compositelayer(self):
-        store = self.storage_class.open("temp/layertestcomposite.pk","w")
-        clayer = api.CompositeLayer()
+        clayer = api.CompositeLayer(self.store)
         self.assertTrue(clayer)
 
     def test_create_with_layer(self):
-        store = self.storage_class.open("temp/layertestcomposite.pk","w")
-        clayer = api.CompositeLayer("sub",layers=[api.Layer(store,"test"), api.Layer(store,"foo/bar")])
+        clayer = api.CompositeLayer("sub",layers=[api.Layer(self.store,"test"), api.Layer(self.store,"foo/bar")])
         self.assertEquals(clayer.list_layers(),['test', 'foo/bar'])
 
     def test_create_with_layer_and_add(self):
-        store = self.storage_class.open("temp/layertestcomposite.pk","w")
-        clayer = api.CompositeLayer(layers=[api.Layer(store,"test"), api.Layer(store,"foo/bar")])
+        self.store = self.storage_class.open("temp/layertestcomposite.pk","w")
+        clayer = api.CompositeLayer(self.store, layers=[api.Layer(self.store,"test"), api.Layer(self.store,"foo/bar")])
         self.assertEquals(clayer.list_layers(),['test', 'foo/bar'])
-        clayer.add_layer(api.Layer(store,"res"))
+        clayer.add_layer(api.Layer(self.store,"res"))
         self.assertEquals(clayer.list_layers(),['test', 'foo/bar', 'res'])
 
     def test_get_layer(self):
-        store = self.storage_class.open("temp/layertestcomposite.pk","w")
-        clayer = api.CompositeLayer(layers=[api.Layer(store,"test"), api.Layer(store,"foo/bar")])
+        clayer = api.CompositeLayer(self.store, layers=[api.Layer(self.store,"test"), api.Layer(self.store,"foo/bar")])
         self.assertEquals(clayer.list_layers(),['test', 'foo/bar'])
         layer = clayer.get_layer('foo/bar')
         self.assertEquals(layer.get_current_path(),'foo/bar')
 
     def test_create_layers_with_resources_and_list_with_composite(self):
-        store = self.storage_class.open("temp/layertest.pk","w")
-        foolayer = api.Layer(store, "foo")
+        foolayer = api.Layer(self.store, "foo")
         res = foolayer.open_resource("doc/bar/test.txt","w")
         res.write("foo.conf")
         res.close()
@@ -248,7 +332,7 @@ class TestCompositeLayer(unittest.TestCase):
         res = foolayer.open_resource("foo.txt","w")
         res.write("foo.conf")
         res.close()
-        barlayer = api.Layer(store, "bar")
+        barlayer = api.Layer(self.store, "bar")
         res = barlayer.open_resource("doc/bar/test.txt","w")
         res.write("foo.conf")
         res.close()

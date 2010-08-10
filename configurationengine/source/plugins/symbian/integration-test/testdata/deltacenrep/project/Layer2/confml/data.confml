@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="data" version="1">
+    <data>
+        <CrmlInts>
+            <IntSetting>50</IntSetting>
+            <IntSettingHex>0xB</IntSettingHex>
+        </CrmlInts>
+        <CrmlReals>
+            <RealSetting>50.5</RealSetting>
+            <RealSetting3>11.1</RealSetting3>
+        </CrmlReals>
+        
+        <Feature2>
+            <SequenceSetting>
+                <IntSubSetting>1001</IntSubSetting>
+                <StringSubSetting>test 1</StringSubSetting>
+            </SequenceSetting>
+            <SequenceSetting>
+                <IntSubSetting>1002</IntSubSetting>
+                <StringSubSetting>test 2</StringSubSetting>
+            </SequenceSetting>
+        </Feature2>
+        <BitmaskTest>
+            <Int32Bit5>true</Int32Bit5>
+            <Int32Bit6>true</Int32Bit6>
+        </BitmaskTest>
+    </data>
+</configuration>

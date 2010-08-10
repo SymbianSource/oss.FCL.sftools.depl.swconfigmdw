@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/1">
+  <rule>(APs.AP != []) or (VPN_APs.VPN_AP != []) configures KCRUidCommsDatCreator.KCommsDatCreatorInputFileName = 'test.xml'</rule>
+</ruleml>

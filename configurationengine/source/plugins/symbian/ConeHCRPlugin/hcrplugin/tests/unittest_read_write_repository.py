@@ -42,7 +42,6 @@ struct.pack() easily. For example, formatting a little-endian unsigned short:
 import unittest
 import os, shutil, random
 import sys
-import __init__
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 

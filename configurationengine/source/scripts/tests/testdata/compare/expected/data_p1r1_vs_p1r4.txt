@@ -4,7 +4,7 @@ BasicSettingTypesTest.IntSetting | 10 | 444
 BasicSettingTypesTest.RealSetting | 3.14 | 3.14567
 BasicSettingTypesTest.SelectionSetting | 1 | 4
 BasicSettingTypesTest.StringSetting | default string | layer 4 string
-Feature2.SequenceSetting | [['1', 'default 1'], ['2', 'default 2']] | [['444', 'layer4 (1)'], ['444', 'layer4 (2)']]
-Feature2.SequenceSetting.IntSubSetting | ['1', '2'] | ['444', '444']
+Feature2.SequenceSetting | [[1, 'default 1'], [2, 'default 2']] | [[444, 'layer4 (1)'], [444, 'layer4 (2)']]
+Feature2.SequenceSetting.IntSubSetting | [1, 2] | [444, 444]
 Feature2.SequenceSetting.StringSubSetting | ['default 1', 'default 2'] | ['layer4 (1)', 'layer4 (2)']
 FileFolderTest.FileSetting.localPath | default_file.txt | layer2_file.txt

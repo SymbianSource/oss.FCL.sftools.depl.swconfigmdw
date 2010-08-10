@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="Layer 4 feature" version="1">
+  <feature ref="Layer4Feature" name="Layer 4 Feature">
+    <desc>Feature with some setting types</desc>
+    <setting ref="RealSetting" name="Real setting" type="real">
+      <desc>A real setting</desc>
+    </setting>
+    <setting ref="IntSetting" name="Int setting" type="int">
+      <desc>An int setting</desc>
+    </setting>
+    <setting ref="StringSetting" name="String setting" type="string">
+      <desc>A string setting</desc>
+    </setting>
+    <setting ref="BooleanSetting" name="Boolean setting" type="boolean">
+      <desc>A boolean setting</desc>
+    </setting>
+    <setting ref="SelectionSetting" name="Selection setting" type="selection">
+      <desc>A selection setting</desc>
+      <option name="Option0" value="opt0"/>
+      <option name="Option1" value="opt1"/>
+      <option name="Option2" value="opt2"/>
+      <option name="Option3" value="opt3"/>
+      <option name="Option4" value="opt4"/>
+    </setting>
+    <setting ref="SequenceSetting" name="Sequence setting" type="sequence">
+      <desc>A sequence setting</desc>
+      <setting ref="StringSubSetting" name="String sub-setting" type="string">
+        <desc>A string sub-setting</desc>
+      </setting>
+    </setting>
+  </feature>
+  <data>
+    <Layer4Feature>
+      <RealSetting>10.5</RealSetting>
+      <IntSetting>150</IntSetting>
+      <StringSetting>the default</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+      <SelectionSetting>opt2</SelectionSetting>
+      <SequenceSetting template="true">
+        <StringSubSetting>template</StringSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <StringSubSetting>def1</StringSubSetting>
+      </SequenceSetting>
+      <SequenceSetting>
+        <StringSubSetting>def2</StringSubSetting>
+      </SequenceSetting>
+    </Layer4Feature>
+  </data>
+  
+  <rfs>
+    <Layer4Feature>
+      <RealSetting>true</RealSetting>
+      <IntSetting>false</IntSetting>
+      <StringSetting>false</StringSetting>
+      <BooleanSetting>true</BooleanSetting>
+      <SelectionSetting>true</SelectionSetting>
+      <SequenceSetting>true</SequenceSetting>
+    </Layer4Feature>
+  </rfs>
+</configuration>

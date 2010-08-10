@@ -9,6 +9,7 @@
         <echo message="Running tests..."/>
         <delete file="nose_unittests.xml"/>
         <exec executable="nosetests">
+            <env key="PYTHONPATH" path="..;../testautomation;"/>
             <arg line=" -c nose_unittests.cfg"/>
         </exec>
     </target>

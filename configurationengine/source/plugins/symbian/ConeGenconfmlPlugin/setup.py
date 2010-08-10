@@ -25,6 +25,7 @@ setup(
     name = "conegenconfmlplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'genconfmlplugin': ['xsd/*.xsd']},
     test_suite = "genconfml.tests.collect_suite",
 	install_requires = ['lxml>=2.2.2'],
 

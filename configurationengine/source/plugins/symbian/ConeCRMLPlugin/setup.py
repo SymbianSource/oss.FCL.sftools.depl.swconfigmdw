@@ -22,6 +22,7 @@ setup(
     name = "conecrmlplugin",
     version = __version__,
     packages = find_packages(exclude=["*.tests"]),
+    package_data = {'CRMLPlugin': ['xsd/*.xsd']},
     test_suite = "crmlplugin.tests.collect_suite",
      
     # metadata for upload to PyPI
@@ -34,5 +35,6 @@ setup(
     zip_safe = True,
     
     # entrypoint info
-    entry_points={'cone.plugins.implmlreaders': ['crml = CRMLPlugin.crml_reader:CrmlReader']}
+    entry_points={'cone.plugins.implmlreaders':  ['crml = CRMLPlugin.crml_reader:CrmlReader'],
+                  'cone.plugins.implvalidators': ['crml = CRMLPlugin.crml_validators:VALIDATOR_CLASSES']}
 )

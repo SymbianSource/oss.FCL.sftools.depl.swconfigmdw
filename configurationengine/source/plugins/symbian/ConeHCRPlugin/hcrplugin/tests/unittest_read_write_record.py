@@ -42,7 +42,6 @@ struct.pack() easily. For example, formatting a little-endian unsigned short:
 import unittest
 import os, shutil
 import sys
-import __init__
 
 from testautomation.utils import hex_to_bindata
 

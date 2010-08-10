@@ -20,7 +20,6 @@ Test the CPF configuration
 import unittest
 import string
 import sys,os, shutil
-import __init__
 
 from cone.public import exceptions, api
 from cone.core import *

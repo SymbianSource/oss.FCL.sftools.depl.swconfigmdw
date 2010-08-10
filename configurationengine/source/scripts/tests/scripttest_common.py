@@ -21,7 +21,7 @@ ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 if sys.platform == "win32":
     CONE_SCRIPT = "cone.cmd"
 else:
-    CONE_SCRIPT = "cone.sh"
+    CONE_SCRIPT = "cone"
 
 def get_cmd(action):
     """Return the command used to run the ConE sub-action"""

@@ -23,7 +23,7 @@ from cone import __version__
 setup(
     name = "cone",
     version = __version__,
-    packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests", "scripts"]),
     package_data = {'cone.validation': ['confml_xsd/*.xsd', 'implml_xsd/*.xsd']},
     install_requires = ['Jinja2>=2.1.1', 'simplejson>=2.0.9', 'lxml>=2.2.2'], #FIX THIS: not to try load cone from web
 

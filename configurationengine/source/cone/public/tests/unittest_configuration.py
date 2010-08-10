@@ -12,19 +12,20 @@
 # Contributors:
 #
 # Description: 
-#
+#    
 
 """
 Test the configuration
 """
 import unittest
-import string
-import sys,os
-import __init__
+import os
+import pickle 
 
-from cone.public import api,exceptions,utils
+from cone.public import api,exceptions
 from cone.storage import persistentdictionary
-from cone.confml import persistentconfml
+from testautomation.utils import remove_if_exists
+
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class TestConfiguration(unittest.TestCase):    
     def setUp(self):
@@ -34,6 +35,29 @@ class TestConfiguration(unittest.TestCase):
     def test_create_configuration(self):
         conf = api.Configuration("testmee.confml")
         self.assertTrue(conf)
+
+    def test_configuration_reduce_ex(self):
+        prj = api.Project(api.Storage('.'))
+        conf = api.Configuration("testmee.confml")
+        prj.add_configuration(conf)
+        tpl = conf.__reduce_ex__(2)
+        self.assertEquals(tpl[2]['_storeint'],prj)
+        self.assertEquals(tpl[2]['path'],'testmee.confml')
+        
+    def test_configuration_pickle(self):
+        remove_if_exists(os.path.join(ROOT_PATH,'temp'))
+        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp'), 'w'))
+        conf = api.Configuration("testmee.confml")
+        prj.add_configuration(conf, True)
+        prj.save()
+        dfile  = open(os.path.join(ROOT_PATH,'temp/out.dat'), 'w')
+        pickle.dump(conf, dfile)
+        dfile.close()
+        dfile  = open(os.path.join(ROOT_PATH,'temp/out.dat'))
+        conf2 = pickle.load(dfile)
+        self.assertEquals(conf2.path,'testmee.confml')
+        self.assertEquals(conf2.name,'testmee_confml')
+
 
     def test_get_root_configuration(self):
         conf = api.Configuration("testmee.confml")
@@ -64,6 +88,16 @@ class TestConfiguration(unittest.TestCase):
         self.assertEquals(conf1.ref,conf2.ref)
         self.assertEquals(conf1.namespace,conf2.namespace)
  
+    def test_get_configuration_and_path(self):
+        conf1 = api.Configuration("testmee.confml")
+        fea = conf1.create_feature('test1')
+        conf1.create_feature('test2')
+        subfea = fea.create_feature('child1')
+        self.assertEquals(fea.get_configuration(), conf1)
+        self.assertEquals(fea.get_configuration_path(), 'testmee.confml')
+        self.assertEquals(subfea.get_configuration(), conf1)
+        self.assertEquals(subfea.get_configuration_path(), 'testmee.confml')
+        
     def test_clone_single_configuration(self):
         conf1 = api.Configuration("testmee.confml")
         conf1.add_feature(api.Feature('test1'))
@@ -104,28 +138,28 @@ class TestCompositeConfiguration(unittest.TestCase):
     def test_add(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
+        conf.add_configuration(layer)
         self.assertEquals(conf.list_configurations()[0],"laa")    
 
     def test_add_and_access_via_member(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        self.assertEquals(conf.laa._name,"laa")    
+        conf.add_configuration(layer)
+        self.assertEquals(conf.laa.name,"laa")    
 
     def test_add_and_add_another_config_under(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        conf.laa._add(api.Configuration("foo"))
-        self.assertEquals(conf.laa.foo._name,"foo")    
+        conf.add_configuration(layer)
+        conf.laa.add_configuration(api.Configuration("foo"))
+        self.assertEquals(conf.laa.foo.name,"foo")    
 
     def test_add_several_configurations(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        conf._add(api.Configuration("foo"))
-        conf._add(api.Configuration("faa"))
+        conf.add_configuration(layer)
+        conf.add_configuration(api.Configuration("foo"))
+        conf.add_configuration(api.Configuration("faa"))
         self.assertEquals(conf.list_configurations()[0],"laa")    
         self.assertEquals(conf.list_configurations()[1],"foo")    
         self.assertEquals(conf.list_configurations()[2],"faa")    
@@ -133,10 +167,10 @@ class TestCompositeConfiguration(unittest.TestCase):
     def test_add_several_and_remove_one_layer(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        conf._add(api.Configuration("foo"))
-        conf._add(api.Configuration("faa"))
-        conf._remove("foo")
+        conf.add_configuration(layer)
+        conf.add_configuration(api.Configuration("foo"))
+        conf.add_configuration(api.Configuration("faa"))
+        conf.remove_configuration("foo")
         
         self.assertEquals(conf.list_configurations()[0],"laa")    
         self.assertEquals(conf.list_configurations()[1],"faa")    
@@ -144,101 +178,108 @@ class TestCompositeConfiguration(unittest.TestCase):
     def test_add_several_and_remove_last_layer(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        conf._add(api.Configuration("foo"))
-        conf._add(api.Configuration("faa"))
-        conf._remove("faa")
+        conf.add_configuration(layer)
+        conf.add_configuration(api.Configuration("foo"))
+        conf.add_configuration(api.Configuration("faa"))
+        conf.remove_configuration("faa")
         self.assertEquals(conf.list_configurations()[0],"laa")    
         self.assertEquals(conf.list_configurations()[1],"foo")    
 
     def test_add_several_and_remove_all_configurations(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        conf._add(api.Configuration("foo"))
-        conf._add(api.Configuration("faa"))
+        conf.add_configuration(layer)
+        conf.add_configuration(api.Configuration("foo"))
+        conf.add_configuration(api.Configuration("faa"))
         for layername in conf.list_configurations():
-            conf._remove(layername)
+            conf.remove_configuration(layername)
             
         self.assertTrue(len(conf.list_configurations())==0)        
 
     def test_add_several_and_try_to_remove_not_existing(self):
         conf = api.Configuration("data/simple.confml")
         layer = api.Configuration("laa")
-        conf._add(layer)
-        conf._add(api.Configuration("foo"))
-        conf._add(api.Configuration("faa"))
+        conf.add_configuration(layer)
+        conf.add_configuration(api.Configuration("foo"))
+        conf.add_configuration(api.Configuration("faa"))
         try:
-            conf._remove("notthere")
+            conf.remove_configuration("notthere")
             self.fail("removing of nonexisting layer succeeds!")
         except exceptions.NotFound:
             pass
 
-    def test_add_view_simple(self):
+    def test_create_view_simple(self):
         conf = api.Configuration("data/simple.confml")
-        conf.add_view("view1")
+        conf.create_view("view1")
         view = conf.get_view("view1")
-        self.assertEquals(view._list(),[])
+        self.assertEquals(view.list_groups(),[])
         
-    def test_add_views_and_list_views(self):
+    def test_create_views_and_list_views(self):
         conf = api.Configuration("data/simple.confml")
-        conf.add_view("view1")
-        conf.add_view("view2")
+        conf.create_view("view1")
+        conf.create_view("view2")
         self.assertEquals(conf.list_views(),['view1','view2'])
 
-    def test_add_views_and_remove_one(self):
+    def test_create_views_and_remove_one(self):
         conf = api.Configuration("data/simple.confml")
-        conf.add_view("view1")
-        conf.add_view("view2")
-        conf.add_view("view3")
+        conf.create_view("view1")
+        conf.create_view("view2")
+        conf.create_view("view3")
         conf.remove_view('view2')
         self.assertEquals(conf.list_views(),['view1','view3'])
 
-    def test_add_views_and_remove_invalid(self):
+    def test_create_views_and_remove_invalid(self):
         conf = api.Configuration("data/simple.confml")
-        conf.add_view("view1")
-        conf.add_view("view2")
-        conf.add_view("view3")
+        conf.create_view("view1")
+        conf.create_view("view2")
+        conf.create_view("view3")
         try:
             conf.remove_view('invalid')
             self.fail('Removing invalid view succeeds!')
         except exceptions.NotFound:
             pass
         
-    def test_add_views_and_remove_all(self):
+    def test_create_views_and_remove_all(self):
         conf = api.Configuration("data/simple.confml")
-        conf.add_view("view1")
-        conf.add_view("view2")
-        conf.add_view("view3")
+        conf.create_view("view1")
+        conf.create_view("view2")
+        conf.create_view("view3")
         for view in conf.list_views():
             conf.remove_view(view)
         self.assertEquals(conf.list_views(),[])
 
-    def test_add_view_with_data(self):
+    def test_create_view_with_data(self):
         conf = api.Configuration("data/simple.confml")
-        conf.add_view("view1")
+        conf.create_view("view1")
         view = conf.get_view("view1")
-        view._add(api.Group("group1"))
-        view._add(api.Group("group2"))
-        view._add(api._FeatureProxy("feature1"))
-        view.group1._add(api.Group("group21"))
-        view.group1.group21._add(api._FeatureProxy("feature211"))
-        view.group1.group21._add(api._FeatureProxy("feature212"))
-        view.feature1._add(api._FeatureProxy("feature11"))
+        view.add_group(api.Group("group1"))
+        view.add_group(api.Group("group2"))
+        view.create_featurelink("feature1")
+        view.group1.add_group(api.Group("group21"))
+        view.group1.group21.create_featurelink("feature211")
+        view.group1.group21.create_featurelink("feature212")
         
         self.assertEquals(sorted(view._list_traverse()),
                           sorted(['group1', 
-                                          'group2', 
-                                          'feature1', 
-                                          'group1.group21', 
-                                          'group1.group21.feature211', 
-                                          'group1.group21.feature212', 
-                                          'feature1.feature11']))
+                                  'group1.group21', 
+                                  'group1.group21.link_feature211', 
+                                  'group1.group21.link_feature212', 
+                                  'group2', 
+                                  'link_feature1']))
 
     def test_get_default_view(self):
         conf = api.Configuration("data/simple.confml")
         dview = conf.get_default_view()
-        self.assertEquals(dview.ref,'_default_view')
+        self.assertEquals(dview.ref,'?default_view')
+
+    def test_create_configuration_and_features(self):
+        conf = api.Configuration("data/simple.confml")
+        fea = conf.create_feature("test")
+        self.assertEquals(conf.get_feature('test'), fea)
+        fea = conf.create_feature("test1", name="test name")
+        self.assertEquals(conf.get_feature('test1').name, 'test name')
+        fea.create_feature("subfea", name="subfea name")
+        self.assertEquals(conf.list_all_features(), ['test','test1','test1.subfea'])
 
     def test_get_default_view_and_data_to_it(self):
         conf = api.Configuration("data/simple.confml")
@@ -329,14 +370,34 @@ class TestCompositeConfiguration(unittest.TestCase):
 #        conf.add_feature(api.Feature("feature1"))
 #        self.assertEquals(conf.list_all_features(),['com.nokia.feature1'])
 #        self.assertEquals(conf.feature1, conf.get_default_view().com.nokia.feature1._obj)
+    def test_get_path_for_parent(self):
+        conf = api.Configuration("test.confml")
+        conf.create_configuration("foo/root.confml")
+        conf.get_configuration("foo/root.confml").create_configuration("confml/jee.confml")
+        self.assertEquals(conf.get_path_for_parent(None), "test.confml")
+        self.assertEquals(conf.get_configuration("foo/root.confml").get_path_for_parent(None), "foo/root.confml")
+        foo = conf.get_configuration("foo/root.confml")
+        jee = foo.get_configuration("confml/jee.confml")
+        self.assertEquals(foo.get_path_for_parent(conf), "foo/root.confml")
+        self.assertEquals(jee.get_path_for_parent(conf), "foo/confml/jee.confml")
+        self.assertEquals(jee.get_path_for_parent(foo._obj), "confml/jee.confml")
+
 
     def test_add_subconfiguration(self):
         conf = api.Configuration("test",namespace="com.nokia")
         conf.create_configuration("foo/root.confml")
         conf.create_configuration("platforms/s60.confml")
+        dconf = api.Configuration('confml/data.confml')
+        sconf = conf.get_configuration('foo/root.confml')
+        sconf.add_configuration(dconf)
         self.assertEquals(conf.list_configurations(),['foo/root.confml',
                                                       'platforms/s60.confml',])
-
+        self.assertEquals(conf.list_all_configurations(),['foo/root.confml',
+                                                          'foo/confml/data.confml',
+                                                          'platforms/s60.confml'])
+        self.assertEquals(conf.get_configuration('foo/root.confml').list_all_configurations(),['confml/data.confml'])
+        
+        
     def test_remove_configuration(self):
         conf = api.Configuration("test.confml",namespace="com.nokia")
         conf.create_configuration("foo/root.confml")
@@ -482,7 +543,7 @@ class TestCompositeConfiguration(unittest.TestCase):
         conf.add_feature(api.Feature('feature11'),'feature1')
         conf.add_feature(api.Feature('feature12'),'feature1')
         
-        conf.add_view("rootfeas")
+        conf.create_view("rootfeas")
         view = conf.get_view('rootfeas')
         for fearef in conf.list_features():
             fea = conf.get_feature(fearef)
@@ -504,16 +565,22 @@ class TestCompositeConfiguration(unittest.TestCase):
         conf.add_feature(api.Feature('feature4'))
         conf.add_feature(api.Feature('feature11'),'feature1')
         conf.add_feature(api.Feature('feature12'),'feature1')
-        conf.add_view('fea1')
+        conf.create_view('fea1')
         view1 = conf.get_view('fea1')
-        view1.add_group('thegruppe1')
+        view1.create_group('thegruppe1')
         view1.get_group('thegruppe1').add(api.FeatureLink('feature1.feature11'))
         view1.add(api.FeatureLink('feature1.*'))
         view1.populate()
-        self.assertEquals(view1.list_all_features(),['thegruppe1.feature11','feature11','feature12'])
-        fpr = view1.get_feature('thegruppe1.feature11')
+        self.assertEquals(view1.list_all_features(),
+                          ['thegruppe1.proxy_feature1_feature11',
+                           'proxy_feature1_feature11',
+                           'proxy_feature1_feature12'])
+        fpr = view1.get_feature('thegruppe1.proxy_feature1_feature11')
         self.assertEquals(fpr._obj.fqr,conf.get_default_view().get_feature('feature1.feature11').fqr) 
-        self.assertEquals(view1.list_all_features(), ['thegruppe1.feature11','feature11','feature12'])
+        self.assertEquals(view1.list_all_features(),
+                          ['thegruppe1.proxy_feature1_feature11',
+                           'proxy_feature1_feature11',
+                           'proxy_feature1_feature12'])
 
     def test_add_features_and_create_all_view_with_links(self):
         conf = api.Configuration("foo/foo.confml")
@@ -523,12 +590,18 @@ class TestCompositeConfiguration(unittest.TestCase):
         conf.add_feature(api.Feature('feature4'))
         conf.add_feature(api.Feature('feature11'),'feature1')
         conf.add_feature(api.Feature('feature12'),'feature1')
-        conf.add_view("all")
+        conf.create_view("all")
         view1 = conf.get_view('all')
         view1.add(api.FeatureLink('**'))
         view1.populate()
-        self.assertEquals(view1.list_all_features(),['feature1', 'feature11', 'feature12', 'feature2', 'feature3', 'feature4'])
-        fpr = view1.get_feature('feature11')
+        self.assertEquals(view1.list_all_features(),
+                          ['proxy_feature1',
+                           'proxy_feature1_feature11',
+                           'proxy_feature1_feature12',
+                           'proxy_feature2',
+                           'proxy_feature3',
+                           'proxy_feature4'])
+        fpr = view1.get_feature('proxy_feature1_feature11')
         self.assertEquals(fpr._obj.fqr,conf.get_default_view().get_feature('feature1.feature11').fqr) 
 
     def test_add_a_configuration_and_remove_it(self):
@@ -586,6 +659,76 @@ class TestConfigurationData(unittest.TestCase):
         self.assertEquals(conf.data.feature1.feature12.get_value(),"test")
         conf.remove_data('feature1.feature12')
         self.assertEquals(conf.list_datas(), ['feature1'])
+    
+    def test_add_data_to_configuration_from_list(self):
+        def check(data_objs, policy, expected):
+            conf = api.Configuration("foo/foo.confml")
+            conf.add_data(api.Data(ref='base1', value="foo"))
+            conf.add_data(api.Data(ref='foo', value="foobar"))
+            conf.add_data(api.Data(ref='base2', value="bar"))
+            
+            if policy is None:
+                conf.add_data(data_objs)
+            else:
+                conf.add_data(data_objs, policy=policy)
+            
+            actual = []
+            for d in conf._traverse(type=api.Data):
+                actual.append((d.fqr, d.value))
+            self.assertEquals(actual, expected)
+        
+        # Adding an empty list should do nothing
+        check(data_objs = [],
+              policy    = None,
+              expected  = [('base1', 'foo'),
+                           ('foo', 'foobar'),
+                           ('base2', 'bar')])
+        
+        # Default policy (replace)
+        check(data_objs = [api.Data(ref="foo", value="1"),
+                           api.Data(ref="foo", value="2"),
+                           api.Data(ref="foo", value="3"),],
+              policy    = None,
+              expected  = [('base1', 'foo'),
+                           ('foo', '1'),
+                           ('foo', '2'),
+                           ('foo', '3'),
+                           ('base2', 'bar')])
+        
+        # Replace explicitly
+        check(data_objs = [api.Data(ref="foo", value="1"),
+                           api.Data(ref="foo", value="2"),
+                           api.Data(ref="foo", value="3"),],
+              policy    = api.container.REPLACE,
+              expected  = [('base1', 'foo'),
+                           ('foo', '1'),
+                           ('foo', '2'),
+                           ('foo', '3'),
+                           ('base2', 'bar')])
+        
+        # Append
+        check(data_objs = [api.Data(ref="foo", value="1"),
+                           api.Data(ref="foo", value="2"),
+                           api.Data(ref="foo", value="3"),],
+              policy    = api.container.APPEND,
+              expected  = [('base1', 'foo'),
+                           ('foo', 'foobar'),
+                           ('foo', '1'),
+                           ('foo', '2'),
+                           ('foo', '3'),
+                           ('base2', 'bar')])
+        
+        # Prepend
+        check(data_objs = [api.Data(ref="foo", value="1"),
+                           api.Data(ref="foo", value="2"),
+                           api.Data(ref="foo", value="3"),],
+              policy    = api.container.PREPEND,
+              expected  = [('base1', 'foo'),
+                           ('foo', '1'),
+                           ('foo', '2'),
+                           ('foo', '3'),
+                           ('foo', 'foobar'),
+                           ('base2', 'bar')])
 
     def test_set_data_to_configuration(self):
         conf = api.Configuration("foo/foo.confml")
@@ -672,13 +815,12 @@ class TestConfigurationData(unittest.TestCase):
         fea = conf.get_feature('feature1')
         fea.set_template(['test1','test2','test3'])
         self.assertEquals(fea.get_template(),['test1', 'test2', 'test3'])
-        fea.set_template(['test1','test3'])
-        self.assertEquals(fea.get_template(),['test1','test3','test3'])
-        try:
-            fea.set_template(['test1',None,'test3',None])
-            self.fail("Able to add more data then allowed")
-        except IndexError:
-            pass
+        fea.set_template(['Test1','Test2','Test3'])
+        self.assertEquals(fea.get_template(),['Test1','Test2','Test3'])
+        
+        self.assertRaises(ValueError, fea.set_template, [])
+        self.assertRaises(ValueError, fea.set_template, ['foo', 'bar'])
+        self.assertRaises(ValueError, fea.set_template, ['foo', 'bar', 'foo', 'bar'])
 
     def test_create_features_with_rfs_data(self):
         conf = api.Configuration("foo/foo.confml")
@@ -707,8 +849,8 @@ class TestConfigurationDictStoring(unittest.TestCase):
     def test_dumps_add_features(self):
         root = api.Configuration("root",namespace="com.nokia")
         conf = root.create_configuration("test.confml")
-        conf.add_feature(api.Feature("feature1"))
-        conf.add_feature(api.Feature("feature2"))
+        conf.add_feature(api.Feature("feature1", name="feature1"))
+        conf.add_feature(api.Feature("feature2", name="feature2"))
         dumped = persistentdictionary.DictWriter().dumps(conf)
         dict =dumped['Configuration']['dict']
         self.assertEquals(dict['path'],'test.confml')
@@ -720,7 +862,6 @@ class TestConfigurationDictStoring(unittest.TestCase):
 
     def test_dumps_root_configuration(self):
         root = api.Configuration("root",namespace="com.nokia")
-        conf = root.create_configuration("test.confml")
         conf = root.create_configuration("foo/root.confml")
         conf.add_feature(api.Feature("feature1"))
         conf.add_feature(api.Feature("feature2"))
@@ -734,10 +875,10 @@ class TestConfigurationDictStoring(unittest.TestCase):
     def test_dumps_feature_hierarchy(self):
         root = api.Configuration("root",namespace="com.nokia")
         conf = root.create_configuration("test.confml")
-        conf.add_feature(api.Feature("feature1"))
-        conf.add_feature(api.Feature("feature2"))
-        conf.feature1.add_feature(api.Feature("feature11"))
-        conf.feature1.add_feature(api.Feature("feature12"))
+        conf.add_feature(api.Feature("feature1", name="feature1"))
+        conf.add_feature(api.Feature("feature2", name="feature2"))
+        conf.feature1.add_feature(api.Feature("feature11", name="feature11"))
+        conf.feature1.add_feature(api.Feature("feature12", name="feature12"))
         dumped = persistentdictionary.DictWriter().dumps(conf)
         dict =dumped['Configuration']['dict']
         self.assertEquals(dict['path'],'test.confml')
@@ -792,9 +933,9 @@ class TestConfigurationDictStoring(unittest.TestCase):
 
     def test_dumps_and_loads_configuration_hierarchy(self):
         root = api.Configuration("root.confml")
-        root.add_configuration(api.Configuration("layer1.confml"))
-        layer = api.Configuration("foo/layer2.confml")
-        conf = api.Configuration("foo/test.confml")
+        root.add_configuration(api.Configuration("layer1"))
+        layer = api.Configuration("layer2")
+        conf = api.Configuration("test")
         conf.add_feature(api.Feature("feature1"))
         conf.add_feature(api.Feature("feature2"))
         conf.feature1.add_feature(api.Feature("feature11"))
@@ -809,8 +950,8 @@ class TestConfigurationDictStoring(unittest.TestCase):
 
     def test_dumps_and_loads_configuration_hierarchy_with_data(self):
         root = api.Configuration("root.confml")
-        layer = api.Configuration("foo/layer1.confml")
-        conf = api.Configuration("foo/test.confml")
+        layer = api.Configuration("layer1")
+        conf = api.Configuration("test")
         conf.add_feature(api.Feature("feature1"))
         conf.add_feature(api.Feature("feature2"))
         conf.feature1.add_feature(api.Feature("feature11"))
@@ -819,7 +960,7 @@ class TestConfigurationDictStoring(unittest.TestCase):
         conf.feature2.set_value(2)
         layer.add_configuration(conf)
         root.add_configuration(layer)
-        root.add_configuration(api.Configuration("layer2.confml"))
+        root.add_configuration(api.Configuration("layer2"))
         root.get_default_view().feature1.feature11.set_value("testing11")
         root.get_default_view().feature1.set_value("test1")
         dumped = persistentdictionary.DictWriter().dumps(root)
@@ -831,21 +972,54 @@ class TestConfigurationDictStoring(unittest.TestCase):
         self.assertEquals(root2.get_default_view().feature1.feature11.get_value(), "testing11")
 
         self.assertEquals([data.find_parent(type=api.Configuration).get_path() for data in root2.get_all_datas()],
-                          ['foo/test.confml', 'foo/test.confml', 'layer2.confml','layer2.confml'])
+                          ['test', 'test', 'layer2','layer2'])
 
     def test_access_via_configuration_proxy(self):
         conf = api.Configuration("root.confml")
         conf.add_feature(api.Feature("feature1"))
         proxy = api.ConfigurationProxy("root.confml")
-        proxy.set('_obj',conf)
+        proxy._set_obj(conf)
         self.assertEquals(proxy.get_ref(), 'root_confml')
         self.assertEquals(proxy.get_path(), 'root.confml')
         self.assertEquals(conf.feature1.get_ref(), 'feature1')
         self.assertEquals(proxy.feature1.get_ref(), 'feature1')
         
 
+class TestConfigurationInclude(unittest.TestCase):    
+    class StoreTestInt(object):
+        def load(self, ref):
+            return api.Configuration(ref)
+
+        def dump(self, obj, ref):
+            pass
+    
+    def get_store_interface(self):
+        return TestConfigurationInclude.StoreTestInt()
+    
+    def _test_include(self):
+        inc = api.Include("foo/bar.txt", self.get_store_interface())
+        objs =inc._objects()
+        self.assertEquals(len(objs),1)
+        self.assertEquals(objs[0].path,"foo/bar.txt")  
+        
+    def test_include_clone(self):
+        inc = api.Include("foo/bar.txt", store_interface=self.get_store_interface())
+        ci = inc._clone()
+        self.assertEquals(inc.ref, ci.ref)
+        self.assertEquals(inc.get_path(), ci.get_path())
+        
+#    def test_configuration_with_include(self):
+#        conf = api.Configuration("foo.confml")
+#        # Set the get_store_interface function to test stub method 
+#        conf.get_store_interface = self.get_store_interface
+#        conf.include_configuration("foo/test.confml")
+#        subconfs = conf.list_configurations()
+#        self.assertEquals(len(subconfs),1)
+#        self.assertTrue(isinstance(subconfs[0], api.Configuration))  
+#        self.assertEquals(subconfs[0].path,"foo/test.confml")  
+        
 if __name__ == '__main__':
-      unittest.main()
+    unittest.main()
       
 """
 {'Configuration': {'dict': {'path': 'root.confml', 'ref': 'root', 'namespace': '', 'desc': ''}, 'children': [{'Configuration': {'dict': {'path': 'foo/layer1.confml', 'ref': 'foo_layer1', 'namespace': '', 'desc': ''}, 'children': [{'Configuration': {'dict': {'path': 'foo/test.confml', 'ref': 'foo_test', 'namespace': '', 'desc': ''}, 'children': [{'Feature': {'dict': {'ref': 'feature1'}, 'children': [{'Feature': {'dict': {'ref': 'feature11'}}}, {'Feature': {'dict': {'ref': 'feature12'}}}]}}, {'Feature': {'dict': {'ref': 'feature2'}}}, {'DataContainer': {'dict': {'ref': 'data'}, 'children': [{'Data': {'dict': {'ref': 'feature1', 'value': 1}}}, {'Data': {'dict': {'ref': 'feature2', 'value': 2}}}]}}]}}]}}, {'Configuration': {'dict': {'path': 'layer2.confml', 'ref': 'layer2', 'namespace': '', 'desc': ''}}}]}}

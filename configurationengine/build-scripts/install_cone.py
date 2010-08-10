@@ -24,15 +24,30 @@ utils.setup_logging('install_cone.log')
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
+# The sub-directory of the main install directory where all required libraries
+# etc. are installed
+INSTALL_SUBDIR = 'configurationengine'
+
+# The sub-directory for required libraries, platform-specific
+if sys.platform == "win32":
+    PLATFORM_SUBDIR = 'win'
+else:
+    PLATFORM_SUBDIR = 'linux'
+
+PYTHON_EXECUTABLE = 'python'
+
 SOURCE_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '../source'))
 assert os.path.isdir(SOURCE_ROOT)
 SCRIPTS_SOURCE_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '../source/scripts'))
 assert os.path.isdir(SCRIPTS_SOURCE_ROOT)
 PLUGIN_SOURCE_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '../source/plugins'))
 assert os.path.isdir(PLUGIN_SOURCE_ROOT)
+TESTAUTOMATION_ROOT = os.path.abspath(os.path.join(SOURCE_ROOT, 'testautomation'))
+assert os.path.isdir(TESTAUTOMATION_ROOT)
 
+sys.path.insert(0, TESTAUTOMATION_ROOT)
 sys.path.append(PLUGIN_SOURCE_ROOT)
-import plugin_utils
+from testautomation import plugin_utils
 
 # Temporary directory where ConE eggs are built into
 TEMP_CONE_EGG_DIR = os.path.join(ROOT_PATH, 'install-temp/cone-eggs')
@@ -48,20 +63,20 @@ def find_cone_egg_sources(plugin_package):
     """
     paths = [SOURCE_ROOT,
              SCRIPTS_SOURCE_ROOT]
-    plugin_paths = plugin_utils.find_plugin_sources_by_package(plugin_package)
+    plugin_paths = plugin_utils.find_plugin_sources_by_package(PLUGIN_SOURCE_ROOT, plugin_package)
     paths.extend(plugin_paths)
     
     log.debug("ConE egg source paths:\n%s" % '\n'.join(paths))
     return paths
     
 
-def build_cone_eggs(source_paths):
+def build_cone_eggs(source_paths, python_executable):
     log.info("Cleaning temporary ConE egg dir...")
     utils.recreate_dir(TEMP_CONE_EGG_DIR)
     
     log.info("Building ConE eggs...")
     for source_path in source_paths:
-        ok = utils.build_egg(source_path, TEMP_CONE_EGG_DIR)
+        ok = utils.build_egg(source_path, TEMP_CONE_EGG_DIR, python_executable)
         if not ok:
             raise BuildFailedError()
 
@@ -74,18 +89,21 @@ def retrieve_dep_eggs(plugin_package):
         log.debug("Copying eggs from '%s'..." % source_dir)
         for name in os.listdir(source_dir):
             if name.endswith('.egg'):
-                utils.copy_file(
-                    source_path = os.path.join(source_dir, name),
-                    target_path = TEMP_LIB_EGG_DIR)
+                if PLATFORM_SUBDIR == 'linux' and name.startswith('setuptools-0.6c11'):
+                    continue
+                else:
+                    utils.copy_file(
+                        source_path = os.path.join(source_dir, name),
+                        target_path = TEMP_LIB_EGG_DIR)
    
     dep_dirs_by_package = [(None, os.path.join(ROOT_PATH, '../dep-eggs'))]
-    dep_dirs_by_package.extend(plugin_utils.find_plugin_package_subpaths('dep-eggs', plugin_package))
+    dep_dirs_by_package.extend(plugin_utils.find_plugin_package_subpaths(PLUGIN_SOURCE_ROOT, 'dep-eggs', plugin_package))
     
     for package_name, dep_dir in dep_dirs_by_package:
         copy_eggs(dep_dir)
 
 def init_target_dir(target_dir, python_version):
-    BASE_DIR = os.path.normpath(os.path.join(target_dir, 'cone', python_version))
+    BASE_DIR = os.path.normpath(os.path.join(target_dir, INSTALL_SUBDIR, PLATFORM_SUBDIR, python_version))
     LIB_DIR     = os.path.join(BASE_DIR, 'lib')
     SCRIPT_DIR  = os.path.join(BASE_DIR, 'scripts')
     
@@ -102,7 +120,8 @@ def install_cone_eggs(target_dir, python_version):
     LIB_DIR, SCRIPT_DIR = init_target_dir(target_dir, python_version)
     
     # Collect the eggs to install
-    eggs = ['setuptools'] # Setuptools are needed also
+    eggs = ['setuptools'] # Setuptools are needed
+        
     for name in os.listdir(TEMP_CONE_EGG_DIR):
         if name.endswith('.egg'):
             eggs.append(TEMP_CONE_EGG_DIR + '/' + name)
@@ -111,18 +130,24 @@ def install_cone_eggs(target_dir, python_version):
     for egg in eggs:
         log.debug(egg)
         
-        if sys.platform == "win32":
-            platform_args = ["--always-copy"]
+        if PLATFORM_SUBDIR == 'win': 
+            command = ['easy_install-%s' % python_version,
+                       '--allow-hosts None',
+                       '--find-links install-temp/dep-eggs',
+                       '--install-dir "%s"' % LIB_DIR,
+                       '--script-dir "%s"' % SCRIPT_DIR,
+                       '--site-dirs "%s"' % LIB_DIR,
+                       '--always-copy',
+                       '--always-unzip']
         else:
-            platform_args = ["--no-deps"]
-                    
-        command = ['easy_install',
-                   '--allow-hosts None',
-                   '--find-links install-temp/dep-eggs',
-                   '--install-dir "%s"' % LIB_DIR,
-                   '--script-dir "%s"' % SCRIPT_DIR,
-                   '--site-dirs "%s"' % LIB_DIR]
-        command.extend(platform_args)
+            command = ['easy_install-%s' % python_version,
+                       '--allow-hosts None',
+                       '--find-links install-temp/dep-eggs',
+                       '--install-dir "%s"' % LIB_DIR,
+                       '--script-dir "%s"' % SCRIPT_DIR,
+                       '--site-dirs "%s"' % LIB_DIR,
+                       '--always-unzip']
+
         command.append('"' + egg + '"')
         command = ' '.join(command)
         
@@ -131,7 +156,7 @@ def install_cone_eggs(target_dir, python_version):
         if not ok:
             raise BuildFailedError()
 
-def develop_install_cone_sources(source_paths, target_dir, python_version):
+def develop_install_cone_sources(source_paths, target_dir, python_version, python_executable):
     log.info("Installing ConE sources in develop mode...")
     LIB_DIR, SCRIPT_DIR = init_target_dir(target_dir, python_version)
     
@@ -139,7 +164,7 @@ def develop_install_cone_sources(source_paths, target_dir, python_version):
     try:
         for source_path in source_paths:
             os.chdir(source_path)
-            command = ['python setup.py develop',
+            command = ['%s setup.py develop' % python_executable,
                    '--allow-hosts None',
                    '--find-links "%s"' % os.path.normpath(os.path.join(ROOT_PATH, 'install-temp/dep-eggs')),
                    '--install-dir "%s"' % LIB_DIR,
@@ -154,10 +179,11 @@ def develop_install_cone_sources(source_paths, target_dir, python_version):
     finally:
         os.chdir(orig_workdir)
 
-def perform_build(target_dir, plugin_package, install_type, python_version):
-    log.info("Target directory: %s" % target_dir)
-    log.info("Plug-in package:  %r" % plugin_package)
-    log.info("Python version:   %s" % python_version)
+def perform_build(target_dir, plugin_package, install_type, python_version, python_executable):
+    log.info("Target directory:  %s" % target_dir)
+    log.info("Plug-in package:   %r" % plugin_package)
+    log.info("Python version:    %s" % python_version)
+    log.info("Python executable: %s" % python_executable)
 
     # Retrieve dependencies to the correct location
     retrieve_dep_eggs(plugin_package)
@@ -169,26 +195,29 @@ def perform_build(target_dir, plugin_package, install_type, python_version):
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
     
+    if install_type == 'build':
+        build_cone_eggs(source_paths, python_executable)
     if install_type == 'install':
-        build_cone_eggs(source_paths)
+        build_cone_eggs(source_paths, python_executable)
         install_cone_eggs(target_dir, python_version)
     else:
-        develop_install_cone_sources(source_paths, target_dir, python_version)
+        develop_install_cone_sources(source_paths, target_dir, python_version, python_executable)
     
     # Copy RELEASE.txt
     utils.copy_file(
         source_path = os.path.join(SOURCE_ROOT, '..', 'RELEASE.TXT'),
-        target_path = os.path.join(target_dir, 'cone', 'RELEASE.TXT'))
+        target_path = os.path.join(target_dir, INSTALL_SUBDIR, 'RELEASE.TXT'))
     
     # Copy cone.cmd or cone.sh, depending on the platform
     if sys.platform == "win32":
-        filename = "cone.cmd"
+        sourcefile = targetfile = "cone.cmd"
     else:
-        filename = "cone.sh"
-    log.info("Copying %s" % filename)
+        sourcefile = "cone.sh"
+        targetfile = "cone"
+    log.info("Copying %s" % sourcefile)
     utils.copy_file(
-        source_path = os.path.join(SOURCE_ROOT, filename),
-        target_path = target_dir)
+        source_path = os.path.join(SOURCE_ROOT, sourcefile),
+        target_path = os.path.join(target_dir, targetfile))
 
 def main():
     parser = optparse.OptionParser()
@@ -200,26 +229,33 @@ def main():
     parser.add_option("-i", "--install-type",\
                       help="The installation type, can be 'install' (the default) or 'develop'.",\
                       default='install')
+    parser.add_option("--python-executable",\
+                      help="The Python executable to run type, defaults to 'python'.",\
+                      default='python')
     (options, args) = parser.parse_args()
     if options.target_dir is None:
         parser.error("Target directory must be given")
-    if options.install_type not in ('install', 'develop'):
+    if options.install_type not in ('install', 'build', 'develop'):
         parser.error("Invalid install type ('%s')" % options.install_type)
-    
-    if not utils.run_command("python --help"):
-        log.critical("Could not run 'python'. Please make sure that you "\
-                     "have Python installed and in your path.")
+        
+    if not utils.run_command("%s --help" % options.python_executable):
+        log.critical("Could not run '%s'. Please make sure that you "\
+                     "have Python installed and in your path." % options.python_executable)
         return 1
     
-    if not utils.run_command("easy_install --help"):
-        log.critical("Could not run 'easy_install'. Please make sure that you "\
-                     "have setuptools installed and the Python scripts directory in your path.")
+    python_version = utils.get_python_version(options.python_executable)
+    
+    easy_install_cmd = "easy_install-%s" % python_version
+    if not utils.run_command("%s --help" % easy_install_cmd):
+        log.critical("Could not run '%s'. Please make sure that you "\
+                     "have setuptools installed and the Python scripts directory in your path."\
+                     % easy_install_cmd)
         return 1
     
-    python_version = utils.get_python_version()
+    
     
     try:
-        perform_build(options.target_dir, options.plugin_package, options.install_type, python_version)
+        perform_build(options.target_dir, options.plugin_package, options.install_type, python_version, options.python_executable)
     except BuildFailedError:
         return 1
     

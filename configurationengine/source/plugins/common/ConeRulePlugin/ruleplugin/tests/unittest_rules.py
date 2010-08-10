@@ -18,8 +18,7 @@
 import unittest
 import os, shutil
 import sys
-import __init__
-        
+
 from ruleplugin import ruleml
 from cone.public import api, plugin
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -35,10 +34,29 @@ class TestRuleExecutes(unittest.TestCase):
     
     def _execute_rules(self, impl_filter):
         implcontainer = plugin.get_impl_set(self.config, impl_filter)
-        context = plugin.GenerationContext()
+        context = plugin.GenerationContext(configuration=self.config)
+        context.output = os.path.join(ROOT_PATH,'temp/output')
+ 
+        if not os.path.exists(context.output):
+            os.makedirs(context.output)
+        
         implcontainer.generate(context)
-        return context.results
+        return context.generation_output
     
+    def test_eval_generation_context_access(self):
+        config = self.config
+        
+        self._execute_rules(r'^implml/eval_generation_context\.ruleml$')
+        dview = config.get_default_view()
+        self.assertEquals(dview.get_feature("EvalTest.output").value, os.path.join(ROOT_PATH,'temp/output'))
+        self.assertEquals(True, os.path.isfile(dview.get_feature("EvalTest.file").value))
+        
+        self.config.close()
+        self.project.close()
+        
+        if os.path.exists(os.path.join(ROOT_PATH, 'temp/output')):
+            shutil.rmtree(os.path.join(ROOT_PATH, 'temp/output'))
+            
     def test_arithmetic_operations(self):
         self._execute_rules(r'^implml/arithmetic\.ruleml$')
         
@@ -128,8 +146,8 @@ class TestRuleExecutes(unittest.TestCase):
         config = self.config
         
         self.assert_setting_equals(config, 'EvalTest.FullSequence',
-            [['Full 1', '10', '1.5', 'true'],
-             ['Full 2', '20', '2.5', 'false']])
+            [['Full 1', 10, 1.5, True],
+             ['Full 2', 20, 2.5, False]])
         
         self._execute_rules(r'^implml/eval\.ruleml$')
         
@@ -144,10 +162,10 @@ class TestRuleExecutes(unittest.TestCase):
         self.assert_setting_equals(config, 'EvalTest.Bit2Result', False)
         self.assert_setting_equals(config, 'EvalTest.Bit3Result', True)
         self.assert_setting_equals(config, 'EvalTest.FullSequence',
-            [['Full 1', '10', '1.5', 'true'],
-             ['Full 2', '20', '2.5', 'false'],
-             ['Stripped 1', '1', '0.1', 'false'],
-             ['Stripped 2', '2', '0.1', 'false']])
+            [['Full 1', 10, 1.5, True],
+             ['Full 2', 20, 2.5, False],
+             ['Stripped 1', 1, 0.1, False],
+             ['Stripped 2', 2, 0.1, False]])
         self.assert_setting_equals(config, 'EvalTest.EvalBuiltinResult', 'ruleml_test_config')
     
     def assert_setting_equals(self, config, setting, expected_value, msg=None):
@@ -159,28 +177,21 @@ class TestRuleExecutes(unittest.TestCase):
     def test_rule_execution_results(self):
         results = self._execute_rules(r'^implml/rules\.ruleml$')
         
-        def r(index, input_refs, affected_refs):
-            return plugin.RelationExecutionResult(index         = index,
-                                                  source        = 'implml/rules.ruleml',
-                                                  input_refs    = input_refs,
-                                                  affected_refs = affected_refs)
-        expected = [
-            r(1,  ['imaker.imagetarget'],         ['imakerapi.outputLocation']),
-            r(6,  ['imakerapi.outputLocationY'],  ['imakerapi.outputLocationY']),
-            r(7,  ['operations.minus'],           ['operations.minus']),
-            r(8,  ['operations.minus1'],          ['operations.minus1']),
-            r(9,  ['operations.minus4'],          ['operations.minus4']),
-            r(10, ['operations.minus6'],          ['operations.minus6']),
-            r(11, [],                             ['StringConcatenationTest.Result1']),
-            r(12, [],                             ['StringConcatenationTest.Result2']),
-            r(13, [],                             ['StringConcatenationTest.Result3']),
-            r(14, [],                             ['StringConcatenationTest.Result4']),
-            r(15, [],                             ['StringConcatenationTest.Result5']),
-            r(16, [],                             ['StringConcatenationTest.Result6']),
-            r(17, [],                             [u'ударения.ελληνικά']),
-        ]
-        
-        self.assertEquals(results, expected)
+        outputs = [(output.name, output.implementation.get_refs()) for output in results if output.type == 'ref']  
+        self.assertEquals(outputs, [(u'imakerapi.outputLocation', [u'imaker.imagetarget']), 
+                                   (u'imakerapi.outputLocationY', [u'imakerapi.outputLocationY']), 
+                                   (u'operations.minus', [u'operations.minus']), 
+                                   (u'operations.minus1', [u'operations.minus1']), 
+                                   (u'operations.minus4', [u'operations.minus4']), 
+                                   (u'operations.minus6', [u'operations.minus6']), 
+                                   (u'StringConcatenationTest.Result1', []), 
+                                   (u'StringConcatenationTest.Result2', []), 
+                                   (u'StringConcatenationTest.Result3', []), 
+                                   (u'StringConcatenationTest.Result4', []), 
+                                   (u'StringConcatenationTest.Result5', []), 
+                                   (u'StringConcatenationTest.Result6', []), 
+                                   (u'ударения.ελληνικά', []),
+                                   (u'SequenceTest.Sequence1', [])])
             
 if __name__ == '__main__':
     unittest.main()

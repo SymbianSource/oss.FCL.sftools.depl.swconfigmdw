@@ -33,11 +33,11 @@ This is done mainly for local installation and testing purposes.
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 try:
-    from cone.public import api, settings
+    from cone.public import api, settings, utils
 except ImportError:
     sys.path.append(os.path.join(ROOT_PATH))
     sys.path.append(os.path.join(ROOT_PATH,'..'))
-    from cone.public import api, settings
+    from cone.public import api, settings, utils
 
 # Common command line options used by all sub-actions
 COMMON_OPTIONS = [
@@ -69,7 +69,7 @@ COMMON_OPTIONS = [
                                     DEBUG         5""",
           metavar="LEVEL",
           default="3"),
-    
+
     Option("--log-file",
            dest="log_file",
            action="store",
@@ -90,7 +90,8 @@ COMMON_OPTIONS = [
            action="store",
            type="string",
            help="Username for webstorage operations. Not needed for filestorage or cpf storage. If the username \
-           is not given, the tool will use the loggged in username.",
+           is not given, the tool will use the logged in username. "\
+           "Example: cone export -p webstorage_url -r . -c sample.confml --username=admin --password=abc123.",
            metavar="USERNAME"),
 
     Option("--password",
@@ -98,7 +99,7 @@ COMMON_OPTIONS = [
            action="store",
            type="string",
            help="Password for webstorage operations. Not needed for filestorage or cpf storage. If the password \
-           is not given, the tool will prompt for password if needed.",
+           is not given, the tool will prompt for password if needed. ",
            metavar="PASSWORD"),
 ]
 
@@ -156,6 +157,14 @@ def _get_runtime_info():
 
 def open_log(verbose, log_file, log_conf_file=os.path.join(ROOT_PATH, 'logging.ini')):
     try:
+        # Convert the reference to the log file as a absolute path so that it would work in all scenarios
+        log_file = repr(os.path.abspath(log_file))
+        
+        if log_file.startswith("'"):
+            log_file = log_file.replace("'", '', 1)
+        if log_file.endswith("'"):
+            log_file = log_file.replace("'",'', 1)
+
         log_dir = os.path.dirname(log_file)
         if log_dir != '' and not os.path.exists(log_dir):
             os.makedirs(log_dir)
@@ -259,7 +268,7 @@ def get_config_list_from_project(project, configs, config_wildcards, config_rege
     
     # Handle configurations specified with --configuration first
     for config in configs:
-        if config not in configs_in_project:
+        if not project.get_storage().is_resource(utils.resourceref.norm(config)):
             raise ConfigurationNotFoundError("No such configuration: %s" % config)
         if config not in config_list:
             config_list.append(config)

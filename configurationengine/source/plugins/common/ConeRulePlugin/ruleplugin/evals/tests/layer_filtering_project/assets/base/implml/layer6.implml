@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container  xmlns="http://www.symbianfoundation.org/xml/implml/1">
+    <container>
+        <tag name="target" value="rofs3"/>
+        <templateml xmlns="http://www.s60.com/xml/templateml/1">
+            <output file="layer6.txt" encoding="UTF-8">
+                <template>Value: {{ feat_tree.TestFeature.Layer6Setting._value }}</template>
+            </output>
+        </templateml>
+    </container>
+    
+    <container>
+        <tag name="target" value="uda"/>
+        <templateml xmlns="http://www.s60.com/xml/templateml/1">
+            <output file="layer6.txt" encoding="UTF-8">
+                <template>Value: {{ feat_tree.TestFeature.Layer6Setting._value }}</template>
+            </output>
+        </templateml>
+    </container>
+</container>

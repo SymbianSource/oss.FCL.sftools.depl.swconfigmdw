@@ -18,7 +18,6 @@ import unittest
 import string
 import sys,os
 import pickle
-import __init__
 
 from cone.public import api
 from cone.storage import stringstorage

@@ -1,9 +1,9 @@
-﻿Name,Type,Possible values,product_langpack_01_root.confml,product_langpack_02_root.confml,product_langpack_03_root.confml,
+﻿Name,Type,Possible values,Lang 1 (product_langpack_01_root.confml),product_langpack_02_root.confml,Lang 3 (product_langpack_03_root.confml),
 
 All settings
-Real setting,real,"",3.14,3.14,3.14,
+Real setting,real,"",3.14,2.5,3.14,
 Int setting,int,"",10,10,10,
-String setting,string,"",string from product (langpack 01) config,string from product (langpack 02) config,string from product (langpack 03) config,
+String setting,string,"",string from product (langpack 01) config,string from product config,string from product (langpack 03) config,
 Boolean setting,boolean,"",True,True,True,
 Selection setting,selection,"Option0
 Option1

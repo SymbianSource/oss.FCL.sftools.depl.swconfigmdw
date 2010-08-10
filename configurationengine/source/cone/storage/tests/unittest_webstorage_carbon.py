@@ -19,7 +19,6 @@ import string
 import sys,os
 import pickle
 import time
-import __init__
 
 from cone.public import api, exceptions
 from cone.storage import webstorage

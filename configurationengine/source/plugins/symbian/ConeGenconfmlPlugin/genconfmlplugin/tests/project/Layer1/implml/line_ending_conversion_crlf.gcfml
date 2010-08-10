@@ -1,0 +1,11 @@
+<file xmlns="http://www.s60.com/xml/genconfml/1" name="endline_crlf.txt" lineEndingStyle='CRLF'>
+	<setting ref="Feature2/SequenceSetting"/>
+	<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/TR/xhtml1/strict">
+		<xsl:output method="text" encoding="UTF-8"/>
+		<xsl:template match="configuration/data">
+			<xsl:for-each select="Feature2/SequenceSetting">
+				<xsl:value-of select="StringSubSetting"/><xsl:text>&#xA;</xsl:text>
+			</xsl:for-each>
+		</xsl:template>
+	</xsl:stylesheet>
+</file>

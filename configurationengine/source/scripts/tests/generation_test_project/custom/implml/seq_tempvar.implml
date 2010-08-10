@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <container xmlns="http://www.symbianfoundation.org/xml/implml/1"
-           xmlns:ruleml="http://www.s60.com/xml/ruleml/2"
+           xmlns:ruleml="http://www.s60.com/xml/ruleml/3"
            xmlns:content="http://www.s60.com/xml/content/1">
     <!-- Temporary sequence feature for storing the list of files to copy -->
     <tempVariableSequence ref="TempFeature2.FilesToCopy">
         <tempVariable ref="FilePath" type="string"/>
     </tempVariableSequence>
-    <settingRefsOverride refsIrrelevant="true"/>
 
     <container>
         <phase name="pre"/>
         <!-- Rule for setting the contents of the file copy list -->
         <ruleml:ruleml>
             <ruleml:eval_globals file="seq_tempvar.py"/>
-            <ruleml:rule>True configures TempFeature2.FilesToCopy = {% get_file_seq() %}</ruleml:rule>
+            <ruleml:rule>True configures ${TempFeature2.FilesToCopy} = {% get_file_seq() %}</ruleml:rule>
         </ruleml:ruleml>
     </container>
 

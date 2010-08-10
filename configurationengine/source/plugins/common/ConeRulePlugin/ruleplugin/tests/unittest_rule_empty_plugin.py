@@ -19,8 +19,6 @@ import os, shutil
 import sys
 import logging
 
-import __init__
-
 from cone.public import exceptions,plugin,api,container
 from cone.storage import filestorage
 from ruleplugin import ruleml

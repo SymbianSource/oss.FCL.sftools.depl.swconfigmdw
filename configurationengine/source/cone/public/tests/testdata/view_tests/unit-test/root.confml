@@ -1,0 +1,5 @@
+<configuration name="unit_test__root_confml" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xi:include href="confml/unit-test.confml" />
+  <xi:include href="confml/options_test.confml" />
+  <xi:include href="confml/mailboxes.confml" />
+</configuration>

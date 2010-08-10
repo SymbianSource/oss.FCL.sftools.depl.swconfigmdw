@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/1" name="InvalidEncodingTest">
+    <feature ref="InvalidEncodingTest" name="Settings for invalid encoding test">
+        <setting ref="EncodingOk" name="Encoding (OK)" type="string"/>
+        <setting ref="EncodingNotOk" name="Encoding (not OK)" type="string"/>
+    </feature>
+    <data>
+        <InvalidEncodingTest>
+            <EncodingOk>utf-16</EncodingOk>
+            <EncodingNotOk>foobar</EncodingNotOk>
+        </InvalidEncodingTest>
+    </data>
+</configuration>

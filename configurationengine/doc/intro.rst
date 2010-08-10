@@ -7,26 +7,31 @@ ConE installation offers three different use scenarios of the tool.
 #. ConE plugin API (A plugin interface to add functionality to ConE)
 #. ConE command line interface (tools/utilities that use the API)
 
-ConE API
---------
+ConE API introduction
+---------------------
 The ConE API tries to offer a simple way to access the configurations inside the Configuration
 project. The concepts of confml and the Configuration project are quite complicated, but the API
 simplifies the project quite a bit to enable effective programming. Although the API aims for 
 simplicity, everything is made available via the API.
-The API is described in this document with python api documentation tool *epydoc*.  
 
-ConE plugin API
----------------
+The API is described in :ref:`cone-api` with a :ref:`cone-api-howto` and with python api documentation tool *epydoc*. 
+
+ConE plugin (extension) API
+---------------------------
 The purpose of the plugin API is to offer the possibility to expand the functionality of Configuration project. Normal use case
 is an implementation plugin which reads data from the configuration and transforms it into some other form 
-(e.g. centralrepository text file).
+(e.g. centralrepository text file). 
 
-ConE command line interface
----------------------------
+See :ref:`plugin-api`.
+
+ConE command line interface introduction
+----------------------------------------
 The main purpose of ConE is to offer the above APIs, but ConE installation as tool
 offers also set of command line utilities that can used to modify, read and utilize (generate other output files 
 with implementation plugins) from a Configuration project. These utilities lie on the cone-script package and 
-are described in the ConE command line interface section.
+are described in the ConE command line interface section. 
+
+See :ref:`cone-cli`
 
 Installation
 ------------
@@ -100,9 +105,8 @@ Install from ZIP
 
 Fetch the latest ConE build from our CruiseControl build server (works only in Nokia intranet):
   
-* Goto http://trwec021.nmp.nokia.com:8080/buildresults/cone-build
-* Click on the Build Artifacts to get the latest build. Older builds are also available for some time.
-* Download the zip file
+* Goto https://trace1.isource-nokia.nokia.com/trac/cone/wiki/ConeReleases
+* Download the release zip file from ConE releases.
 
 The ZIP file should contain a pre-built standalone installation described in the previous section.
 Simply unzip it where you please.

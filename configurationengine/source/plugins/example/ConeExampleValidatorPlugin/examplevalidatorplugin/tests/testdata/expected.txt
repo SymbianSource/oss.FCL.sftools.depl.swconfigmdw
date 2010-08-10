@@ -1,0 +1,1 @@
+Problem(msg="String 'foo' missing from value of feature 'ExampleValidatorTest.FOO_SomeSetting2'", type='model.confml.foo_missing', line=12, file='test.confml', severity='warning')

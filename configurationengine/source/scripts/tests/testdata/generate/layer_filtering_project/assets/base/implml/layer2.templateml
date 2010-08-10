@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1">
+    <output file="layer2.txt" encoding="UTF-8">
+        <template>Value: {{ feat_tree.TestFeature.Layer2Setting._value }}</template>
+    </output>
+</templateml>

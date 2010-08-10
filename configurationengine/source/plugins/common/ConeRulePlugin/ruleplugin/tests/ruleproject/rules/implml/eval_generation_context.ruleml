@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ruleml xmlns="http://www.s60.com/xml/ruleml/3">
+  <rule>True configures ${EvalTest.output} = {% test_get_output_folder() %}</rule>
+  <rule>True configures ${EvalTest.file} = {% test_add_file_to_output_folder() %}</rule>
+ 
+  <eval_globals>SOME_VALUE = 12345</eval_globals>
+	  
+  
+<eval_globals file="scripts/test_eval_generation_context.py"/>
+</ruleml>

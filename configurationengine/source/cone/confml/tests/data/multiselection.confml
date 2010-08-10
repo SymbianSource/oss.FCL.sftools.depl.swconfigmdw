@@ -47,7 +47,7 @@
 	      </user_udafiles>
 	</uda_content>
     <uda_selection>
-      <selectedfiles></selectedfiles>
+      <selectedfiles empty="true"/>
     </uda_selection>   
     
   </data>

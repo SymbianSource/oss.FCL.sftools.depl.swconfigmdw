@@ -28,7 +28,7 @@ import simplejson
 import posixpath
 
 from cone.public import *
-from cone.carbon import persistentjson, model
+from cone.carbon import persistentjson, model, resourcemapper
 from cone.storage import authenticate
 
 class WebStorage(api.Storage):
@@ -55,9 +55,9 @@ class WebStorage(api.Storage):
         try:
             object_type = object.meta.get('type')
         except (TypeError,AttributeError):
-            logging.getLogger('cone').error('Cannot dump configuration %s to webstorage without a type.' % path)
+            logging.getLogger('cone').info('Cannot dump configuration %s to webstorage without a type.' % path)
             return False
-        carbonpath = persistentjson.CarbonResourceMapper().map_confml_resource(object_type, path)
+        carbonpath = resourcemapper.CarbonResourceMapper().map_confml_resource(object_type, path)
         if object_type == 'featurelist':
             # Create a featurelist 
             success = self.extapi.create_featurelist(carbonpath, object)
@@ -93,7 +93,11 @@ class WebStorage(api.Storage):
         """
         if not self._resource_cache: 
             self._resource_cache = ResourceCache()
-            reslist = self.extapi.list_resources("/", True)
+            try:
+                reslist = self.extapi.list_resources("/", True)
+            except urllib2.HTTPError, e:
+                print e
+                return []
             # Append all resources to resource cache
             for res in reslist:
                 self._resource_cache.add_resource(res)
@@ -103,7 +107,7 @@ class WebStorage(api.Storage):
 #                        self._resource_cache.add_featurelist(res)
         return self._resource_cache
 
-    def list_resources(self,path, recurse=False, empty_folders=False):
+    def list_resources(self,path, **kwargs):
         """
         find the resources under certain path/path 
         @param path : reference to path where resources are searched
@@ -112,7 +116,7 @@ class WebStorage(api.Storage):
         @param empty_folders: parameters that defined whether empty folders are included. This parameter is ignored 
         in WebStorage. 
         """
-        return self.resource_cache.list_resources(path,recurse)
+        return self.resource_cache.list_resources(path, kwargs.get('recurse', False))
 
 
     def open_resource(self,path,mode="r"):
@@ -141,7 +145,14 @@ class WebStorage(api.Storage):
             raise exceptions.NotResource("The given resource is not found %s" % path)
 
     def is_resource(self,path):
-        return self.resource_cache.is_resource(path)
+        ret= self.resource_cache.is_resource(path)
+        if not ret:
+            try:
+                mapped = self.resource_cache.get_mapped_resource(path)
+                ret = self.extapi.is_resource(mapped)
+            except Exception:
+                pass
+        return ret
 #        path = path.replace(".confml", ".configuration")
 #        path = utils.resourceref.join_refs([self.get_current_path(), path])
 #        try:
@@ -191,19 +202,23 @@ class WebStorage(api.Storage):
         if self.get_mode(self.mode) != api.Storage.MODE_READ:
             if self.resource_cache.get_resource_link(path):
                 path = self.resource_cache.get_resource_link(path)
+            elif self.is_resource(path):
+                 path = self.resource_cache.get_mapped_resource(path)
             else:
                 """ otherwise create the new resource first before update"""
                 if self._create_resource(path, object):
                     path = self.resource_cache.get_resource_link(path)
                 else:
                     # Creation failed
-                    logging.getLogger('cone').error('Creation of %s resource failed' % path)
+                    logging.getLogger('cone').info('Creation of %s resource failed' % path)
                     return 
             data = persistentjson.dumps(object)
             self.extapi.update_resource(path, data)
         else:
             raise exceptions.StorageException("Cannot dump object to readonly storage")
         return
+    
+    
 
     def load(self, path):
         """
@@ -298,21 +313,20 @@ class CarbonExtapi(object):
         if len(pathelems) > 1: 
             self.service_path = pathelems[1]
         self._username = kwargs.get('username', None)
-        self._password = kwargs.get('password', None)
+        self._password = kwargs.get('password', None)     
         authhandler = authenticate.CarbonAuthHandler()
-        authhandler.add_password(self.username, self.password)
+        authhandler.add_username_func(self.get_username)
+        authhandler.add_password_func(self.get_password)
         self.conn = urllib2.build_opener(urllib2.HTTPCookieProcessor, authhandler, urllib2.ProxyHandler({}))
         
-    @property
-    def username(self):
+    def get_username(self):
         if self._username == None:
             self._username = getpass.getuser()
         return self._username 
 
-    @property
-    def password(self):
+    def get_password(self):
         if self._password == None:
-            self._password = getpass.getpass()
+            self._password = getpass.getpass("Password (%s):" % self._username)
         return self._password
 
     def checklogin(self):
@@ -389,14 +403,29 @@ class CarbonExtapi(object):
             resp = self.conn.open(req)
             if resp.code == httplib.OK:
                 bytes = resp.read()
-                reslist = simplejson.loads(bytes)
-                return reslist.get('resources',[])
+                if bytes:
+                    reslist = simplejson.loads(bytes)
+                    return reslist.get('resources',[])
             else:
                 return []
         except exceptions.NotFound:
             return []
 
+    def is_resource(self, path):
+        try:
+            query = self._get_action_url('is_resource', path)
+            req = urllib2.Request(query)
+            resp = self.conn.open(req)
+            if resp.code == httplib.OK:
+                reader = persistentjson.HasResourceReader()
+                ret = resp.read()
+                return reader.loads(ret)
+            else:
+                return False
+        except exceptions.NotFound:
+            return False
 
+        
     def update_resource(self, path, data):
         """
         Update a resource to carbon. The resource can be a CarbonConfiguration or FeatureList object.
@@ -417,7 +446,12 @@ class CarbonExtapi(object):
                 if success:
                     logging.getLogger('cone').info('Carbon update succeeds to path %s.' % (respdata.get('path')))
                 else:
-                    logging.getLogger('cone').error('Carbon update %s failed %s' % (path,respdata.get('errors')))
+                    logging.getLogger('cone').error('Carbon update %s failed!' % (path))
+                if respdata.get('errors'):
+                    formatted_err = "" 
+                    for error in respdata.get('errors'):
+                        formatted_err += "%s: %s\n" % (error,respdata.get('errors')[error])
+                    logging.getLogger('cone').info('Carbon update to path %s returned %s' % (respdata.get('path'),formatted_err))
                 return success
             else:
                 logging.getLogger('cone').error('Carbon update %s failed %s: %s' % (path,resp.code, resp))
@@ -558,7 +592,7 @@ class ResourceCache(object):
         """
         Add a resource 
         """
-        confmlpath = persistentjson.CarbonResourceMapper().map_carbon_resource(resourcepath)
+        confmlpath = resourcemapper.CarbonResourceMapper().map_carbon_resource(resourcepath)
         self._cache[confmlpath] = resourcepath 
 
     def list_resources(self, path, recurse=False):
@@ -599,7 +633,7 @@ class ResourceCache(object):
             object_type = 'configurationlayer'
         else:
             object_type = 'configurationroot'
-        carbonpath = persistentjson.CarbonResourceMapper().map_confml_resource(object_type, path)
+        carbonpath = resourcemapper.CarbonResourceMapper().map_confml_resource(object_type, path)
         return carbonpath
 
     def add_resource_link(self,link, path):

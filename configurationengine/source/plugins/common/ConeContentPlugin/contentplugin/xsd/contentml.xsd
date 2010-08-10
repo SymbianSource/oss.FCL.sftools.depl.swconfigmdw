@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.s60.com/xml/content/1" 
+	xmlns:content="http://www.s60.com/xml/content/1" 
+	elementFormDefault="qualified">
+	
+	<xs:complexType name="tagType">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="includeType">
+		<xs:attribute name="files" type="xs:string"/>
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="pattern" type="xs:string"/>
+	</xs:complexType>
+
+	
+	<xs:complexType name="outputType">
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="flatten" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="excludeType">
+		<xs:attribute name="files" type="xs:string"/>
+		<xs:attribute name="dir" type="xs:string"/>
+		<xs:attribute name="pattern" type="xs:string"/>
+	</xs:complexType>
+
+	
+		
+	<xs:complexType name="inputType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="include" type="content:includeType"/>
+			<xs:element name="exclude" type="content:excludeType"/>
+		</xs:choice>
+		<xs:attribute name="file" type="xs:string"/>
+        <xs:attribute name="dir" type="xs:string"/>
+	</xs:complexType>
+
+
+	<xs:complexType name="contentRootType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="desc" type="xs:string"/>
+                <xs:element name="tag" type="content:tagType"/>
+            </xs:choice>
+            
+            <!-- There has got to be a better way to do this... -->
+			<xs:choice>
+                <xs:sequence>
+                    <xs:element name="input" type="content:inputType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="output" type="content:outputType" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element name="output" type="content:outputType" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="input" type="content:inputType" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="phase" type="xs:string"/>
+    </xs:complexType>
+	
+	<xs:element name="content" type="content:contentRootType"/>
+		
+</xs:schema>

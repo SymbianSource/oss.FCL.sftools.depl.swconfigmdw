@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.s60.com/xml/genconfml/1" xmlns:gcfml="http://www.s60.com/xml/genconfml/1" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xs:import namespace="http://www.w3.org/1999/XSL/Transform"/>
+  <xs:element name="file">
+    <xs:complexType>
+    	<xs:choice minOccurs="0" maxOccurs="unbounded">
+        	<xs:element minOccurs="1" maxOccurs="unbounded" ref="gcfml:setting" />
+        	<xs:any namespace="http://www.w3.org/1999/XSL/Transform" processContents="skip"/>
+      	</xs:choice>
+      	<xs:attribute name="target" type="xs:string" use="optional"/>
+      	<xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="lineEndingStyle" type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setting">
+    <xs:complexType>
+      <xs:attribute name="ref" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
