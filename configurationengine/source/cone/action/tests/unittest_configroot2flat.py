@@ -17,7 +17,7 @@
 ## 
 # @author Teemu Rytkonen
 
-import os
+import os, shutil
 
 import unittest
 from cone.action import configroot2flat
@@ -61,4 +61,45 @@ class TestConfigRootFlat(unittest.TestCase):
                                                                        'layer5/root.confml',
                                                                        'layer6/root.confml',
                                                                        'test/one/root.confml'])
-                
+    
+    def test_get_flat_configuration_with_nonexistent_files(self):
+        TEMP_DIR = os.path.join(ROOT_PATH,'temp2')
+        if os.path.exists(TEMP_DIR):
+            shutil.rmtree(TEMP_DIR)
+        
+        # Create a configuration with some non-existent layers
+        prj = api.Project(api.Storage.open(TEMP_DIR, 'w'))
+        prj.create_configuration('test/one/root.confml', True)
+        
+        rootconf1 = prj.create_configuration('product1_root.confml', True)
+        rootconf1.create_configuration('layer1/root.confml')
+        rootconf1.include_configuration('nonexistent1/root.confml')
+        
+        rootconf2 = prj.create_configuration('product2_root.confml', True)
+        rootconf2.create_configuration('layer3/root.confml')
+        rootconf2.include_configuration('nonexistent2/root.confml')
+        
+        fooconf = prj.create_configuration('test/foo.confml', True)
+        fooconf.include_configuration('/product1_root.confml')
+        fooconf.include_configuration('/product2_root.confml')
+        rootconf1.include_configuration('/nonexistent_product_root.confml')
+        fooconf.include_configuration('/test/one/root.confml')
+        fooconf.include_configuration('nonexistent3/root.confml')
+        prj.save()
+        prj.close()
+        
+        action = configroot2flat.ConeConfigroot2FlatAction(
+            project=TEMP_DIR,
+            configs=['test/foo.confml'])
+        action.run()
+        
+        prj = api.Project(api.Storage.open(TEMP_DIR, 'r'))
+        fooconf = prj.get_configuration('foo.confml')
+        self.assertEquals(fooconf.list_configurations(),
+            ['layer1/root.confml',
+             'nonexistent1/root.confml',
+             'layer3/root.confml',
+             'nonexistent2/root.confml',
+             'test/one/root.confml',
+             'nonexistent3/root.confml'])
+        

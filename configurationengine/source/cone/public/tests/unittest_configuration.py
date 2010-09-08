@@ -36,29 +36,6 @@ class TestConfiguration(unittest.TestCase):
         conf = api.Configuration("testmee.confml")
         self.assertTrue(conf)
 
-    def test_configuration_reduce_ex(self):
-        prj = api.Project(api.Storage('.'))
-        conf = api.Configuration("testmee.confml")
-        prj.add_configuration(conf)
-        tpl = conf.__reduce_ex__(2)
-        self.assertEquals(tpl[2]['_storeint'],prj)
-        self.assertEquals(tpl[2]['path'],'testmee.confml')
-        
-    def test_configuration_pickle(self):
-        remove_if_exists(os.path.join(ROOT_PATH,'temp'))
-        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp'), 'w'))
-        conf = api.Configuration("testmee.confml")
-        prj.add_configuration(conf, True)
-        prj.save()
-        dfile  = open(os.path.join(ROOT_PATH,'temp/out.dat'), 'w')
-        pickle.dump(conf, dfile)
-        dfile.close()
-        dfile  = open(os.path.join(ROOT_PATH,'temp/out.dat'))
-        conf2 = pickle.load(dfile)
-        self.assertEquals(conf2.path,'testmee.confml')
-        self.assertEquals(conf2.name,'testmee_confml')
-
-
     def test_get_root_configuration(self):
         conf = api.Configuration("testmee.confml")
         self.assertEquals(conf.get_root_configuration(),conf)

@@ -1,0 +1,25 @@
+{% extends "cone_base.html" %}
+{% block title %}CTR configuration info{% endblock %}
+{% block content %}
+    <h1>CTR configuration info</h1><br>
+
+    <table class="report" id="report_data">
+    <tr><th>Based_on_CTR</th><th>Configuration_name</th><th>Product Profile Info</th><th>Language</th><th>Country</th><th>UDA ID</th>
+    </tr>
+    {% for line in data.ctr_data %}
+    <tr>
+    <td>{{ line['ctr_code'] }}</td>
+    <td>{{ line['config_name'] }}</td>
+    <td>{{ line['ppbit'] }}</td>
+    <td>{{ line['language'] }}</td>
+    <td>{{ line['country'] }}</td>
+    <td>{{ line['uda'] }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <script language="javascript" type="text/javascript">
+//<![CDATA[
+    setFilterGrid("report_data");
+//]]>
+</script>
+{% endblock %}

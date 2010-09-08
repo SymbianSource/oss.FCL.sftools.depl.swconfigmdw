@@ -25,7 +25,7 @@ import os
 import logging
 import types
 import pkg_resources
-
+import sys 
 import subprocess
 
 from cone.public import plugin,utils
@@ -331,7 +331,7 @@ class Command(object):
         self.cwd = None
         self.envs = None
         self.arguments = []
-        self.pipes = {}
+        self.pipes = {'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE}
         self.streams = {}
         self.filters = []
         self.logger = None
@@ -457,8 +457,15 @@ class Command(object):
                 pid = subprocess.Popen(command_str, shell=self.shell, env=env_dict, cwd=cwd,\
                                           bufsize=self.bufsize, stdin = self.get_pipe("stdin", 'r'),\
                                           stdout = self.get_pipe("stdout"), stderr = self.get_pipe("stderr"))
+                
+                #log stdout and stderr to logger
+                stdout_value, stderr_value = pid.communicate()
+                if stdout_value != None: self.logger.info("stdout: %s" % stdout_value)
+                if stderr_value != None: self.logger.warning("stderr: %s" % stderr_value)
+                
                 #Waiting for process to complete
                 retcode = pid.wait()
+                
                 #Storing stream information for possible further processing.
                 self.set_streams(pid.stdin, pid.stdout, pid.stderr)
                 

@@ -909,17 +909,6 @@ class Configuration(CompositeConfiguration):
         super(Configuration, self).__init__(utils.resourceref.to_objref(self.path), **kwargs)
         self.container = True
 
-    def __reduce_ex__(self, protocol_version):
-        """
-        Make the Configuration pickle a ConfigurationProxy object that would load this configuration
-        """
-        proxy = ConfigurationProxy(self.path, store_interface = self.get_project())
-        tpl = proxy.__reduce_ex__(protocol_version)
-        return tpl
-
-    def __getstate__(self):
-        return None
-
     def _default_object(self, name):
         return self._default_class()(name)
 
@@ -1376,12 +1365,6 @@ class ConfigurationProxy(container.LoadProxy):
         """
         super(ConfigurationProxy,self).__init__(path, **kwargs)
         self.set('_name', utils.resourceref.to_objref(path))
-
-    def __reduce_ex__(self, protocol_version):
-        """
-        Make the Configuration pickle a ConfigurationProxy object that would load this configuration
-        """
-        return super(ConfigurationProxy, self).__reduce_ex__(protocol_version)
     
     def _clone(self, **kwargs):
         """
@@ -1677,6 +1660,11 @@ class Feature(Base):
         state = super(Feature, self).__getstate__()
         # remove the dataproxy value so that it is not stored in serializings
         state.pop('_dataproxy', None)
+        # remove instancemethods so that those are not stored in serializings
+        state.pop('get_original_value', None)
+        state.pop('get_value', None)
+        state.pop('set_value', None)
+        state.pop('add_feature', None)
         return state
 
     def __setstate__(self, state):
@@ -2625,11 +2613,6 @@ class FeatureSequenceSub(Feature):
         self.type = 'subseq'
         self._index = 0
 
-    def __getstate__(self):
-        state = super(FeatureSequenceSub,self).__getstate__()
-        state['_children'].pop('?datarows', None)
-        return state
-
     def get_index(self):
         """
         @return : the index of the data element for sequential data defined inside the same configuration.
@@ -3345,13 +3328,6 @@ class Storage(object):
         self.__opened_res__ = {}
         self.mode = mode
         self.cpath_stack = []
-    
-    def __reduce_ex__(self, protocol_version):
-        return  (open_storage, 
-                 (self.path, self.mode),
-                 None,
-                 None,
-                 None)
         
     def __opened__(self, res):
         """

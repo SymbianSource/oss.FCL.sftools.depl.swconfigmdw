@@ -30,6 +30,7 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 testproject = os.path.join(ROOT_PATH,'test_project.cpf')
 temp_dir    = os.path.join(ROOT_PATH, 'temp/info')
 VALUE_REPORT_PROJECT = os.path.join(ROOT_PATH, 'testdata/info/value_report_project')
+CTR_REPORT_PROJECT = os.path.join(ROOT_PATH, 'testdata/info/ctr_report_project')
 
 class TestInfo(BaseTestCase):
     
@@ -238,6 +239,28 @@ class TestInfo(BaseTestCase):
             % (get_cmd('info'), VALUE_REPORT_PROJECT, 
                                 TEMPLATE_FILE, 
                                 os.path.join(temp_dir, 'value_report_custom_cone.log'),
+                                REPORT_FILE)
+        out = self.run_command(cmd)
+        
+        self.assert_file_contents_equal(EXPECTED_FILE, REPORT_FILE)
+    
+    def test_ctr_report_csv(self):
+        EXPECTED_FILE = os.path.join(ROOT_PATH, 'testdata/info/expected/ctr_report.csv')
+        REPORT_FILE = os.path.join(temp_dir, 'ctr_report.csv')
+        self.remove_if_exists(REPORT_FILE)
+        cmd = '%s -p "%s" --report "%s" --report-type ctr_csv --config-wildcard product_customisation_root*' \
+            % (get_cmd('info'), CTR_REPORT_PROJECT, 
+                                REPORT_FILE)
+        out = self.run_command(cmd)
+        
+        self.assert_file_contents_equal(EXPECTED_FILE, REPORT_FILE)
+    
+    def test_ctr_report_html(self):
+        EXPECTED_FILE = os.path.join(ROOT_PATH, 'testdata/info/expected/ctr_report.html')
+        REPORT_FILE = os.path.join(temp_dir, 'ctr_report.html')
+        self.remove_if_exists(REPORT_FILE)
+        cmd = '%s -p "%s" --report "%s" --report-type ctr --config-wildcard product_customisation_root*' \
+            % (get_cmd('info'), CTR_REPORT_PROJECT, 
                                 REPORT_FILE)
         out = self.run_command(cmd)
         

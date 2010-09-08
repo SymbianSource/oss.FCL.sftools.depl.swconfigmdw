@@ -16,6 +16,7 @@
 
 import os, logging, pickle
 import time
+import types
 from time import strftime
 from cone.public import api, exceptions, utils, plugin
 from cone.confml import model
@@ -23,6 +24,41 @@ from cone.report import report_util
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 SERIALISATION_FORMAT = 'pickle'
+
+def pickle_persistent_id(obj):
+    """
+    Prepare report data for pickler.
+    """
+    if isinstance(obj, (logging.Logger, types.ModuleType)):
+        return ""
+    elif isinstance(obj, (api.Configuration, api.ConfigurationProxy)):
+        try:    project_path = os.path.abspath(obj.get_project().get_storage().get_path())
+        except: project_path = None
+        return "conf:" + repr(pickle.dumps((project_path, obj.path)))
+    else:
+        return None
+
+def persistent_load(persid):
+    """
+    Prepare pickler for unpickling report data.
+    """
+    global loaded_project
+    if persid.startswith("impl:"):
+        type_id, ref, lineno = pickle.loads(eval(persid[5:]))
+        impl = plugin.ImplBase(ref, None)
+        impl.IMPL_TYPE_ID = type_id
+        impl.lineno = lineno
+        return impl
+    elif persid.startswith("conf:"):
+        project_path, config_path = pickle.loads(eval(persid[5:]))
+        configuration = api.ConfigurationProxy(config_path)
+        if project_path:
+            if not loaded_project:
+                loaded_project = api.Project(api.Storage.open(project_path))
+            configuration._set_parent(loaded_project)
+        return configuration
+    else:
+        return None
 
 def save_report_data(rep_data, file_path):
     """
@@ -32,13 +68,18 @@ def save_report_data(rep_data, file_path):
     if dir != '' and not os.path.exists(dir):
         os.makedirs(dir)
     f = open(file_path, 'wb')
+    
     try:
         if SERIALISATION_FORMAT == 'yaml':
             yaml.dump(rep_data, f)
         elif SERIALISATION_FORMAT == 'pickle':
-            pickle.dump(rep_data, f)
+            pickler = pickle.Pickler(f)
+            pickler.persistent_id = pickle_persistent_id
+            pickler.dump(rep_data)
         elif SERIALISATION_FORMAT == 'pickle/2':
-            pickle.dump(rep_data, f, 2)
+            pickler = pickle.Pickler(f, 2)
+            pickler.persistent_id = pickle_persistent_id
+            pickler.dump(rep_data)
     finally:    
         f.close()
 
@@ -48,12 +89,17 @@ def load_report_data(file_path):
     """
     try:        
         f = open(file_path, "rb")
+        unpickler = pickle.Unpickler(f)
+        global loaded_project
+        loaded_project = None
+        unpickler.persistent_load = persistent_load
+        
         if SERIALISATION_FORMAT == 'yaml':
             data = yaml.load(f)
         elif SERIALISATION_FORMAT == 'pickle':
-            data = pickle.load(f)
+            data = unpickler.load()
         elif SERIALISATION_FORMAT == 'pickle/2':
-            data = pickle.load(f)
+            data = unpickler.load()
     finally:
         f.close()
         
@@ -88,9 +134,10 @@ def generate_report(rep_data, report_file_path, template_file_path=None, templat
     if template_file_path is None:
         template_file_path = 'gen_report_template.html'
     contexts = [report_data.context for report_data in rep_data]
+    merged_context = plugin.MergedContext(contexts)
     report_data = {'rep_data' : rep_data, 
                    'report_options' : report_options,
-                   'merged_context' : plugin.MergedContext(contexts)}
+                   'merged_context' : merged_context}
     report_util.generate_report(template_file_path, report_file_path, report_data, template_paths)
 
 def normalize_slash(path):
@@ -135,7 +182,25 @@ class ReportData(object):
                                    self.options,
                                    self.duration,
                                    self.output_dir,
-                                   self.project_dir]    
+                                   self.project_dir]
+    
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        if self.project:
+            state['project_path'] = os.path.abspath(self.project.get_path())
+        else:
+            state['project_path'] = None
+        del state['project']
+        return state
+    
+    def __setstate__(self, dict):
+        project_path = dict['project_path']
+        if project_path is None:
+            self.project = None
+        else:
+            self.project = api.Project(api.Storage.open(project_path))
+        
+        self.__dict__.update(dict)
 
 
 class RefLine(object):

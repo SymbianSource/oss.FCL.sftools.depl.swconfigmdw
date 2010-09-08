@@ -1,11 +1,25 @@
 
 
                          ConE - the Configuration Engine
-                              Version cone-1.2.11
-                            Release Notes, 10.08.2010
+                              Version cone-1.2.13
+                            Release Notes, 06.09.2010
 
 Release notes:
 =============
+
+== Version Cone-1.2.13 ==
+* Stories
+ * #1046 As a product integrator I want to get product specific report containing changed settings so that I can easily compare different configurations
+ * #1047 Uda generation slow down with Vasco custvariant
+ * #1054 As a TemplateML user I want to define a filter as a Python function
+
+* Bug fixes
+ * #1016 Error: Pickle usage break Nuage usage
+ * #1053 CommandML should redirect output to the ConE log by default, not the standard output
+
+== Version Cone-1.2.12 ==
+* Stories
+ * #1043 As an integrator I want to have more robust root flattener so that the whole build is not failing when something in input for some product is broken
 
 == Version Cone-1.2.11 ==
 * Stories

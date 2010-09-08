@@ -1,0 +1,2 @@
+{{ 2|printequals(3) }}
+{{ 5|printequals(5) }}

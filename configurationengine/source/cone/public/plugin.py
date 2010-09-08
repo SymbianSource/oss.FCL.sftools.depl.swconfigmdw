@@ -25,6 +25,8 @@ import codecs
 
 from cone.public import exceptions, utils, api, settings, rules, parsecontext
 import _plugin_reader
+from cone.public.exceptions import NotFound
+
 
 debug = 0
 """
@@ -147,12 +149,12 @@ class GenerationContext(rules.DefaultContext):
         #: Generation output elements as a list 
         self.generation_output = []
 
-        #: possible log elemement 
+        #: possible log element 
         self.log = []
         self.log_file = ""
-
+    
     def __getstate__(self):
-        state = self.__dict__
+        state = self.__dict__.copy()
         state['impl_data_dict'] = {}
         return state
     
@@ -767,6 +769,17 @@ class ImplBase(object):
             return (read_impl_from_location,
                     (self.ref, config, self.lineno))
             
+
+    #def __getstate__(self):
+        #state = self.__dict__
+        #state['configuration'] = self.configuration.path
+        #return state
+    
+    #def __setstate__(self, dict):
+    #    path = dict['configuration']
+    #    configuration = api.ConfigurationProxy(path)
+    #    self.__dict__.update(dict)
+    #    self.configuration = configuration
 
     def _dereference(self, ref):
         """

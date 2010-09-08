@@ -1,0 +1,5 @@
+Based_on_CTR,Configuration_name,Product Profile Info,Language,Country,UDA ID
+{# -#}
+{%- for line in data.ctr_data -%}
+{{line['ctr_code'] + ',' + line['config_name'] + ',' + line['ppbit'] + ',' + line['language'] + ',' + line['country'] + ',' + line['uda']}}
+{% endfor %}

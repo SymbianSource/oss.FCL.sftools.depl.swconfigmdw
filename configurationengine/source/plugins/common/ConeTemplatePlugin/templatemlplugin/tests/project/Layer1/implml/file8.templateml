@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateml xmlns="http://www.s60.com/xml/templateml/1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <desc>Description field text</desc>
+
+    <output file="test8a.txt" encoding="UTF-8" dir="output">
+        <template>3 + 4 = {{ 3|sumfunc(4) }}</template>
+        <filters>
+def sumfunc(a,b):
+    return a+b
+        </filters>
+    </output>
+
+    <output file="test8b.txt" encoding="UTF-8" dir="output">
+        <template>3 ** 4 = {{ 3|powfunc(4) }}</template>
+        <filters file="../../filters/test_filter4.py"/>
+    </output>
+</templateml>

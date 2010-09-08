@@ -151,7 +151,6 @@ class RulemlRelationContainer(plugin.RelationContainer):
             
             if self.context:
                 self.context.results += results
-                self.context.add_changed_refs(autoconfig.list_leaf_datas())
             return results
         finally:
             relations.unregister()

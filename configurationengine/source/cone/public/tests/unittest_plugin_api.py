@@ -19,6 +19,8 @@ import os
 
 from cone.public import *
 from cone.public import _plugin_reader
+from testautomation.utils import remove_if_exists
+import pickle
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 Tfd = _plugin_reader.TempVariableDefinition
@@ -487,6 +489,42 @@ class TestPluginGenerationContext(unittest.TestCase):
                      'foo faa',
                      'jee jee jehu']
         self.assertEquals(context.grep_log('jee'), [(2,'jee jee jehu')])
+
+    def test_context_pickle(self):
+        remove_if_exists(os.path.join(ROOT_PATH,'temp'))
+        os.mkdir(os.path.join(ROOT_PATH, 'temp'))
+        
+        config = api.Configuration()
+        config.create_feature('feature')
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        
+        dfile  = open(os.path.join(ROOT_PATH,'temp/out_gencontext.dat'), 'w')
+        pickle.dump(context, dfile)
+        dfile.close()
+        dfile  = open(os.path.join(ROOT_PATH,'temp/out_gencontext.dat'))
+        context2 = pickle.load(dfile)
+        self.assertEquals(context2.configuration.path, context.configuration.path)
+
+    def test_context_with_project_pickle(self):
+        remove_if_exists(os.path.join(ROOT_PATH,'temp'))
+        os.mkdir(os.path.join(ROOT_PATH, 'temp'))
+        prj = api.Project(api.Storage(""))
+        config = api.Configuration()
+        config.create_feature('feature')
+        prj.add_configuration(config, True)
+        context = plugin.GenerationContext(configuration=config, 
+                                           output=os.path.join(ROOT_PATH, 'temp'),
+                                           phase="normal")
+        
+        dfile  = open(os.path.join(ROOT_PATH,'temp/out_gencontext2.dat'), 'w')
+        pickle.dump(context, dfile)
+        dfile.close()
+        dfile  = open(os.path.join(ROOT_PATH,'temp/out_gencontext2.dat'))
+        context2 = pickle.load(dfile)
+        self.assertEquals(context2.configuration.path, context.configuration.path)
+
 
 class TestPluginImplBase(unittest.TestCase):
     def setUp(self):
@@ -1238,7 +1276,7 @@ class TestTempFeatureDefinition(unittest.TestCase):
         config.add_feature(api.Feature("Int"), "TempFeature")
         #self.assertRaises(exceptions.AlreadyExists, impls.create_temp_features, config)
         temp_feature_refs = impls.create_temp_features(config)
-        self.assertEquals(temp_feature_refs, ['TempFeature.String', 'TempFeature.Real', 'TempFeature.Boolean'])
+        self.assertEquals(temp_feature_refs.sort(), ['TempFeature.String', 'TempFeature.Real', 'TempFeature.Boolean'].sort())
         
 
 class TestCommonImplmlDataReader(unittest.TestCase):

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<commandml xmlns="http://www.s60.com/xml/commandml/1">
+    
+    <tag name="target" value="footarget"/>
+    
+    <command executable="echo" shell="true" bufsize="0" cwd=".">
+        <argument value="testing stdout, echo, echo! " />
+    </command>
+    
+    
+    <command executable="testing" shell="true" bufsize="0" cwd=".">
+        <argument value="stderr with invalid command, testing, testing,..." /> 
+    </command>
+    
+</commandml>

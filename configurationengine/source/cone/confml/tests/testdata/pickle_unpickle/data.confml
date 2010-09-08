@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="data">
+    <data>
+        <TestFeature>
+            <Template template="true"/>
+            <InvalidMap map="foobar"/>
+            <EmptyMap map=""/>
+            <Empty empty="true"/>
+        </TestFeature>
+    </data>
+</configuration>

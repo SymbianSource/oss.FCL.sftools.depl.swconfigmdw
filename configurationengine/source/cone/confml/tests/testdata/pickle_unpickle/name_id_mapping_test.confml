@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Test features for testing name-ID mappings">
+    <feature ref="NameIdMappingTestSourceSequences" name="Source sequences for name-ID mappings">
+        <setting ref="StringSequence" name="String sequence" type="sequence" mapKey="Value" mapValue="Value">
+            <setting ref="Value" name="Value sub-setting" type="string"/>
+        </setting>
+        
+        <setting ref="StringToStringSequence" name="String-to-string sequence" type="sequence" mapKey="Name" mapValue="Value" displayName="Name">
+            <setting ref="Name" name="Name sub-setting" type="string"/>
+            <setting ref="Value" name="Value sub-setting" type="string"/>
+        </setting>
+        
+        <setting ref="StringToIntSequence" name="String-to-int sequence" type="sequence" mapKey="Name" mapValue="Value">
+            <setting ref="Name" name="Name sub-setting" type="string"/>
+            <setting ref="Value" name="Value sub-setting" type="int"/>
+        </setting>
+        
+        <setting ref="StringToRealSequence" name="String-to-real sequence" type="sequence" mapKey="Name" mapValue="Value">
+            <setting ref="Name" name="Name sub-setting" type="string"/>
+            <setting ref="Value" name="Value sub-setting" type="real"/>
+        </setting>
+    </feature>
+
+
+    <feature ref="NameIdMappingTestTargetSettings" name="Target settings for name-ID mappings">
+        <setting ref="Selection" name="Selection setting" type="selection">
+            <option map="NameIdMappingTestSourceSequences/StringSequence"/>
+            <option map="NameIdMappingTestSourceSequences/StringToStringSequence" displayName="Name" mapValue="Value"/>
+            <option name="None" value="none"/>
+        </setting>
+        
+        <setting ref="Selection2" name="Selection setting 2" type="selection">
+            <option map="NameIdMappingTestSourceSequences/StringToStringSequence"/>
+            <option name="None" value="none"/>
+        </setting>
+        
+        <setting ref="String" name="String setting" type="string">
+            <option map="NameIdMappingTestSourceSequences/StringSequence"/>
+            <option name="None" value=""/>
+        </setting>
+        
+        <setting ref="String2" name="String setting 2" type="string">
+            <option map="NameIdMappingTestSourceSequences/StringToStringSequence"/>
+            <option name="None" value=""/>
+        </setting>
+        
+        <setting ref="Int" name="Int setting" type="int">
+            <option map="NameIdMappingTestSourceSequences/StringToIntSequence"/>
+            <option name="Zero" value="0"/>
+        </setting>
+        
+        <setting ref="Real" name="Real setting" type="real">
+            <option map="NameIdMappingTestSourceSequences/StringToRealSequence"/>
+            <option name="Zero" value="0"/>
+        </setting>
+        
+        <setting ref="Sequence" name="Sequence" type="sequence">
+            <setting ref="Selection" name="Selection sub-setting" type="selection">
+                <option map="NameIdMappingTestSourceSequences/StringSequence"/>
+                <option name="None" value="none"/>
+            </setting>
+            
+            <setting ref="Selection2" name="Selection sub-setting 2" type="selection">
+                <option map="NameIdMappingTestSourceSequences/StringToStringSequence"/>
+                <option name="None" value="none"/>
+            </setting>
+            
+            <setting ref="String" name="String sub-setting" type="string">
+                <option map="NameIdMappingTestSourceSequences/StringSequence"/>
+                <option name="None" value=""/>
+            </setting>
+            
+            <setting ref="String2" name="String sub-setting 2" type="string">
+                <option map="NameIdMappingTestSourceSequences/StringToStringSequence"/>
+                <option name="None" value=""/>
+            </setting>
+            
+            <setting ref="Int" name="Int sub-setting" type="int">
+                <option map="NameIdMappingTestSourceSequences/StringToIntSequence"/>
+                <option name="Zero" value="0"/>
+            </setting>
+            
+            <setting ref="Real" name="Real sub-setting" type="real">
+                <option map="NameIdMappingTestSourceSequences/StringToRealSequence"/>
+                <option name="Zero" value="0"/>
+            </setting>
+        </setting>
+    </feature>
+
+    <data>
+        <NameIdMappingTestSourceSequences>
+            <StringSequence template="true">
+                <Value></Value>
+            </StringSequence>
+            <StringSequence><Value>Entry 1</Value></StringSequence>
+            <StringSequence><Value>Entry 2</Value></StringSequence>
+            <StringSequence><Value>Entry 3</Value></StringSequence>
+            
+            <StringToStringSequence template="true">
+                <Name></Name>
+                <Value></Value>
+            </StringToStringSequence>
+            <StringToStringSequence><Name>Entry 1</Name><Value>e 1</Value></StringToStringSequence>
+            <StringToStringSequence><Name>Entry 2</Name><Value>e 2</Value></StringToStringSequence>
+            <StringToStringSequence><Name>Entry 3</Name><Value>e 3</Value></StringToStringSequence>
+            
+            <StringToIntSequence template="true">
+                <Name></Name>
+                <Value></Value>
+            </StringToIntSequence>
+            <StringToIntSequence><Name>Entry 1</Name><Value>100</Value></StringToIntSequence>
+            <StringToIntSequence><Name>Entry 2</Name><Value>120</Value></StringToIntSequence>
+            <StringToIntSequence><Name>Entry 3</Name><Value>130</Value></StringToIntSequence>
+            
+            
+            <StringToRealSequence template="true">
+                <Name></Name>
+                <Value></Value>
+            </StringToRealSequence>
+            <StringToRealSequence><Name>Entry 1</Name><Value>1.1</Value></StringToRealSequence>
+            <StringToRealSequence><Name>Entry 2</Name><Value>1.2</Value></StringToRealSequence>
+            <StringToRealSequence><Name>Entry 3</Name><Value>1.3</Value></StringToRealSequence>
+        </NameIdMappingTestSourceSequences>
+        
+        
+        <NameIdMappingTestTargetSettings>
+            <Selection>none</Selection>
+            <Selection2>none</Selection2>
+            <String></String>
+            <String2></String2>
+            <Int>0</Int>
+            <Real>0</Real>
+            
+            <Sequence template="true">
+                <Selection>none</Selection>
+                <Selection2>none</Selection2>
+                <String></String>
+                <String2></String2>
+                <Int>0</Int>
+                <Real>0</Real>
+            </Sequence>
+            <Sequence>
+                <Selection>none</Selection>
+                <Selection2>none</Selection2>
+                <String></String>
+                <String2></String2>
+                <Int>0</Int>
+                <Real>0</Real>
+            </Sequence>
+        </NameIdMappingTestTargetSettings>
+    </data>
+</configuration>
