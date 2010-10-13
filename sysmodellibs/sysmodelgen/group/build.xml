@@ -19,13 +19,15 @@
 
 	<property name="zip.folder" value="${epoc.build}/zips/" />
 	
-	<property name="current.version" value="1.0.0" />
+	<property name="current.version" value="2.0.0" />
 	
 	<property name="src.folder" value="${basedir}/src" />
 	
-	<property name="doc.folder" value="${basedir}/docs" />
+	<property name="xslt.folder" value="${basedir}/core" />
 	
-	<property name="resources.folder" value="${basedir}/resources" />
+	<property name="resources.folder" value="${basedir}/rsc" />
+
+	<property name="extras.folder" value="${basedir}/extra" />
 	
 	<property name="installer.folder" value="${basedir}/installer" />
 	
@@ -47,31 +49,36 @@
 		
 		<mkdir dir="${zip.folder}"/>
 		
-		<copy file="${src.folder}/svg/DrawSvg.pl" tofile="${temp.folder}/SysModGen.pl"/>
+		<copy file="${basedir}/SysModGen.pl" tofile="${temp.folder}/SysModGen.pl"/>
 		
-		<copy todir="${temp.folder}/documentation" >
-			<fileset dir="${doc.folder}/">
-				<exclude name="**/DISTRIBUTION.POLICY"/>
-				<exclude name="**/SystemModelToolkitInstaller_main.jpg" />
-			</fileset>
-		</copy>
-		
-		<copy todir="${temp.folder}">
+		<copy todir="${temp.folder}/src">
 			<fileset dir="${src.folder}/">
-				<exclude name="**/DISTRIBUTION.POLICY"/>
+				<exclude name="**/DISTRIBUTION.POLICY.S60"/>
 				<exclude name="**/*.pl"/>
 			</fileset>
 		</copy>
 		
-		<copy todir="${temp.folder}/resources">
+		<copy todir="${temp.folder}/rsc">
 			<fileset dir="${resources.folder}/">
-				<exclude name="**/DISTRIBUTION.POLICY"/>
+				<exclude name="**/DISTRIBUTION.POLICY.S60"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${temp.folder}/extra">
+			<fileset dir="${extras.folder}/">
+				<exclude name="**/DISTRIBUTION.POLICY.S60"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${temp.folder}/core">
+			<fileset dir="${xslt.folder}/">
+				<exclude name="**/DISTRIBUTION.POLICY.S60"/>
 			</fileset>
 		</copy>
 		
 		<copy todir="${release.folder}/SystemModelGenerator">
 			<fileset dir="${temp.folder}">
-				<exclude name="**/DISTRIBUTION.POLICY"/>
+				<exclude name="**/DISTRIBUTION.POLICY.S60"/>
 			</fileset>
 		</copy>
 		
@@ -97,27 +104,23 @@
 		<pathconvert property="prop.dist.contents" refid="dist.contents.SystemModelGenerator" pathsep="${line.separator}"/>
 		<echo>${prop.dist.contents}</echo>
 		
-		<fileset id="dist.contents.common" dir="${release.folder}/SystemModelGenerator/common" includes="*"/>
-		<pathconvert property="prop.dist.contents.common" refid="dist.contents.common" pathsep="${line.separator}"/>
-		<echo>${prop.dist.contents.common}</echo>
-
-		<fileset id="dist.contents.documentation" dir="${release.folder}/SystemModelGenerator/documentation" includes="*"/>
-		<pathconvert property="prop.dist.contents.documentation" refid="dist.contents.documentation" pathsep="${line.separator}"/>
-		<echo>${prop.dist.contents.documentation}</echo>
+		<fileset id="dist.contents.core" dir="${release.folder}/SystemModelGenerator/core" includes="*"/>
+		<pathconvert property="prop.dist.contents.core" refid="dist.contents.core" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.core}</echo>
 		
-		<fileset id="dist.contents.svg" dir="${release.folder}/SystemModelGenerator/svg" includes="*"/>
-		<pathconvert property="prop.dist.contents.svg" refid="dist.contents.svg" pathsep="${line.separator}"/>
-		<echo>${prop.dist.contents.svg}</echo>
+		<fileset id="dist.contents.src" dir="${release.folder}/SystemModelGenerator/src" includes="*"/>
+		<pathconvert property="prop.dist.contents.src" refid="dist.contents.src" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.src}</echo>
 		
-		<fileset id="dist.contents.auxiliary" dir="${release.folder}/SystemModelGenerator/resources/auxiliary" includes="*"/>
-		<pathconvert property="prop.dist.contents.auxiliary" refid="dist.contents.auxiliary" pathsep="${line.separator}"/>
-		<echo>${prop.dist.contents.auxiliary}</echo>
+		<fileset id="dist.contents.extra" dir="${release.folder}/SystemModelGenerator/extra" includes="*"/>
+		<pathconvert property="prop.dist.contents.extra" refid="dist.contents.extra" pathsep="${line.separator}"/>
+		<echo>${prop.dist.contents.extra}</echo>
 		
-		<fileset id="dist.contents.Xalan" dir="${release.folder}/SystemModelGenerator/resources/installed/Xalan" includes="*"/>
+		<fileset id="dist.contents.Xalan" dir="${release.folder}/SystemModelGenerator/rsc/installed/Xalan" includes="*"/>
 		<pathconvert property="prop.dist.contents.Xalan" refid="dist.contents.Xalan" pathsep="${line.separator}"/>
 		<echo>${prop.dist.contents.Xalan}</echo>
 		
-		<fileset id="dist.contents.xsd" dir="${release.folder}/SystemModelGenerator/resources/xsd" includes="*"/>
+		<fileset id="dist.contents.xsd" dir="${release.folder}/SystemModelGenerator/src/old/resources/xsd" includes="*"/>
 		<pathconvert property="prop.dist.contents.xsd" refid="dist.contents.xsd" pathsep="${line.separator}"/>
 		<echo>${prop.dist.contents.xsd}</echo>
 		

@@ -1,0 +1,493 @@
+/* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. License: http://www.symbianfoundation.org/legal/sfl-v10.html. */
+
+dt
+{
+font-weight: bold;
+}
+
+.topNavigation ul li {
+display: inline;
+padding-right: 20px;
+}
+
+hr {
+	border: 0px;
+	background: url(../images/css/section_hr.gif) top left repeat-x;
+	height: 15px;
+	width: 100%;
+}
+
+#authoredContent, .Bodytext {
+	padding-top: 5px;
+	line-height: 150% !important;
+	padding-bottom: 15px;
+}
+
+
+#authoredContent h1, .Bodytext h1, .Head1 h1 {
+	margin: 0px;
+	font-size: 210%;
+	font-weight: bold;
+	line-height: 1.4;
+	margin: 0.5em 0 0.8em 0;
+}
+
+#authoredContent h2, .Bodytext h2 {
+	margin: 0.8em 0 0.5em 0;
+	font-size: 170%;
+	font-weight: bold;
+	margin-left: 0px;
+}
+
+#authoredContent h3 , .Bodytext h3 {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin: 0px;
+	font-size: 140%;
+	font-weight: bold;
+	margin-left: 0px;
+}
+
+#authoredContent h4, .Bodytext h4 {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin: 0px;
+	font-size: 120%;
+	font-weight: bold;
+	margin-left: -0px;
+}
+
+#authoredContent h5, .Bodytext h5 {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin: 0px;
+	font-size: 110%;
+	font-weight: bold;
+	margin-left: -0px;
+}
+
+#authoredContent table, .Bodytext table {
+	margin: 0px;
+	border: 1px solid #000000;
+	margin: 0.5em 0 1em 0;
+}
+
+#authoredContent table p, .Bodytext table p{
+	margin: 0px;
+	padding: 2px 0px;
+}
+
+#authoredContent th, .Bodytext th {
+	border: 1px solid #000000;
+	background-color: #e5e5e5;
+	font-weight: bold;
+	padding: 0.5em;
+}
+
+#authoredContent td, .Bodytext td {
+	border: 1px solid #000000;
+
+	padding: 0.5em;
+}
+
+.Bodytext td table td, .Bodytext td table, .Bodytext table, .Bodytext table td
+{
+border: none;
+padding: 0.2em;
+margin: 0;
+margin-bottom: 0.5em;
+}
+
+#authoredContent.codeblock {
+	border: 1px solid #d1d1d1; 
+	background-color: #e5e5e5;
+	padding: 5px;
+	font-family: "courier new", "courier", serif;
+	color: #444444;
+}
+
+#authoredContent ul, #authoredContent ol, .Bodytext ul, .Bodytext ol
+{
+margin-bottom: 0.8em;
+}
+
+#authoredContent ul li ul, #authoredContent ol li ol, .Bodytext ul li ul, .Bodytext ol li ol
+{
+margin-top: 0.2em;
+margin-bottom: 0.2em;
+}
+
+#authoredContent ul li, .Bodytext ul li
+{
+list-style-type: square;
+margin-left: 2.5em;
+}
+
+#authoredContent ul li ul li, .Bodytext ul li ul li
+{
+margin-left: 1.5em;
+list-style-type: disc;
+}
+
+#authoredContent ol li, .Bodytext ol li
+{
+margin-left: 2em;
+list-style-type: decimal;
+}
+
+#authoredContent.section, .Bodytext.section {
+	padding-top: 5px;
+}
+
+#authoredContent.section.section, .Bodytext.section.section {
+	padding-top: 5px;
+}
+
+
+
+
+
+#main_content {
+	background-color: #ffffff;
+	padding: 13px 5px;
+
+}
+
+
+#main_content table {
+	font-family: "verdana", sans-serif;
+	color: #222222;
+}
+
+#main_content_toc {
+	/** border-right: 1px solid #b2b2b2; **/
+	overflow: auto;
+	font-size: 0.9em;
+}
+
+#main_content_toc a {
+	font-weight: normal;
+	background-color: transparent;
+padding-bottom: 4px;
+}
+
+#main_content_sizer {
+	width: 5px;
+	background-color: #cccccc;
+	cursor: w-resize;
+}
+
+#main_content_toc a:hover {
+	background-color: #fee126;
+	text-decoration: none;
+	border: 0px;
+}
+
+#main_content_txt {
+	padding-left: 13px;
+	padding-top: 1px;
+		font-size: 1.1em;
+}
+
+
+
+.sysdoc_navigator
+{
+	font-size: 0.8em;
+	border-top: 1px dotted #b2b2b2;
+	border-bottom: 1px dotted #b2b2b2;
+}
+
+.sysdoc_navigator a {
+	background-color: #e5e5e5;
+}
+
+.sysdoc_navigator a:hover {
+	background-color: #fee126;
+	text-decoration: underline;
+	border: 0px;
+}
+
+.sysdoc_navigator_padding {
+	padding: 5px;
+	background-color: #e5e5e5;
+	font-size: 1.1em;
+}
+
+#printer_copyright {
+	display: none;
+}
+
+#printer_copyright_padding {
+	display: none;
+}
+
+.main_content_label {
+	padding-bottom: 2px;
+}
+
+.main_content_padding {
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+.main_content_rss {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	background: url(../images/css/rss.gif) top left no-repeat;
+	float: right;
+	clear: right;
+}
+
+.main_content_title {
+	padding-bottom: 10px;
+}
+
+.print_icon {
+	float: right;
+	width: 26px;
+	height: 26px;
+	background: url(../images/css/icon_print.gif) top left no-repeat;
+	cursor: pointer;
+	margin-top: -22px;
+}
+
+.subheading {
+	padding-bottom: 10px;
+}
+
+.table_border {
+	width: 384px;
+	padding-bottom: 13px;
+}
+
+.table_border_top {
+	width: 384px;
+	height: 8px;
+	font-size: 0px;
+	background: url(../images/css/table_top.gif) top left no-repeat;
+}
+
+.table_border_middle {
+	width: 384px;
+	background: url(../images/css/table_middle.gif) top left repeat-y;
+}
+
+.table_border_bottom {
+	font-size: 0px;
+	width: 384px;
+	height: 8px;
+	background: url(../images/css/table_bottom.gif) bottom left no-repeat;
+}
+
+.table_border_padding {
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 5px;
+	padding-bottom: 10px;
+}
+
+#authoredContent pre, .Bodytext pre
+{
+padding: 0.6em 1em;
+background-color: #eee;
+line-height: 2 !important;
+margin-bottom: 1em;
+}
+
+#authoredContent code, .Bodytext code
+{
+line-height: 1.4 !important;
+font-size: 1.2em;
+}
+
+h1 code, h2 code, h3 code, h4 code, h5 code
+{
+font-weight: bold;
+}
+
+#authoredContent ul li pre, #authoredContent ol li pre, .Bodytext ul li pre, .Bodytext ol li pre
+{
+margin-top: 1em;
+}
+
+#authoredContent p.Caption, .Bodytext p.Caption
+{
+font-style: italic;
+font-size: 0.9em;
+}
+
+.RelatedItems
+{
+font-weight: bold;
+margin: 1em 0 0.5em 0;
+}
+
+#header
+{
+width: auto;
+}
+
+#container
+{
+overflow: auto;
+}
+
+pre
+{
+overflow: auto;
+
+}
+
+
+pre code
+{
+}
+
+.Structure, .CodeBlock, .Prototype, .Instructions, .Process,
+.Guideline, .DataDescription, .Classification, .Example {
+  padding: 1em 1em 0 1em;
+  background-color: #eee;
+  margin-bottom: 1em;
+}
+
+/* CodeBlocks in blue boxes want to be blue too. */
+.Structure       pre,
+.Instructions    pre,
+.Process         pre,
+.Guideline       pre,
+.DataDescription pre,
+.Classification  pre,
+.Example         pre
+{
+  background-color: #d5d5d5 !important;
+}
+
+.apiAbstract
+{
+    margin-top: 3px;
+    margin-left: 10px;
+}
+
+/* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. License: http://www.symbianfoundation.org/legal/sfl-v10.html. */
+
+#authoredContent p.Caption, .Bodytext p.Caption
+{
+margin-top: -1.5em;
+}
+
+#authoredContent p.Image
+{
+margin-bottom: 0;
+padding-bottom: 0;
+}
+
+.Structure, .CodeBlock, .Prototype, .Instructions, .Process,
+.Guideline, .DataDescription, .Classification, .Example {
+  padding: 1em 1em 1em 1em;
+  background-color: #eee;
+  margin-bottom: 1em;
+}
+
+/* CodeBlocks in blue boxes want to be blue too. */
+.Structure       .CodeBlock,
+.Instructions    .CodeBlock,
+.Process         .CodeBlock,
+.Guideline       .CodeBlock,
+.DataDescription .CodeBlock,
+.Classification  .CodeBlock,
+.Example         .CodeBlock
+{
+  background-color: #cccccc;
+  border: solid #dddddd 1px;
+}
+
+.apiAbstract
+{
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
+.ValueDesc { padding-left: 10px !important;}
+
+.apiAbstract:before
+{
+content: ' - ';
+}
+
+.ValueDesc
+{
+padding: 0px 0px 0px 10px !important;
+}
+
+#pageFunctions
+{
+float: right;
+margin-top: 3px;
+background-color: transparent;
+}
+
+#pageFunctions a:hover {
+	background-color: transparent;
+}
+
+.ajax-div h3
+{
+font-size: 1.1em;
+}
+
+.ajax-div h3 a
+{
+color: #0000ff !important;
+font-weight: bold !important;
+}
+
+#container
+{
+margin:0 auto;
+text-align:left;
+width:99%;
+}
+
+
+.ygtvitem, .ygtvchildren, #toc
+{
+width: 100%;
+}
+
+.ygtvtable
+{
+table-layout: fixed;
+width: 100%;
+overflow: hidden;
+}
+
+.ygtvcontent a
+{
+display: block;
+}
+
+.input-div, .output-div-container
+{
+padding: 0;
+}
+
+.error
+{
+padding: 1em;
+text-decoration: none !important;
+color: red;
+margin-right: 1em;
+font-weight: bold;
+text-align: center;
+}
+
+strong
+{
+font-weight: bold;
+}
+
+em
+{font-style: italic;
+}

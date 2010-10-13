@@ -1,0 +1,253 @@
+/* Symbian Foundation
+   CSS
+   Alex Abarmovich 10-02-2009 
+   Version 5
+   Date: 10-02-2009 
+   Last modified: 17-02-2009
+*/
+   
+/* Addtitional CSS styles and style corrections */
+
+#container #contentContainer{
+min-height:500px;
+}
+
+#header {
+height:90px
+}
+
+/* variable width container  AA */
+
+body#variable_width #container {
+width: 99%;
+margin: 0 auto;
+/*overflow: hidden;  does not work with absolutely positioned #globalWrapper Wiki AA */ 
+max-width: 1250px;
+min-width: 980px;
+text-align: left;
+}
+
+/* top header AA */
+#header .right { width:548px; }
+#searchForm label { float:left; padding-top:5px; width:4.30em; }
+
+
+
+/* top navigation AA */
+#dropmenu li#m_item1 { width:9.8em; padding-left:10px; z-index:11; } /* community */
+#dropmenu li#m_item2 { width:5.25em; z-index:12; } /* code */
+#dropmenu li#m_item3 { width:9.1em; z-index:13; } /* tools */
+#dropmenu li#m_item4 { width:11.7em; z-index:14; } /* documentation */
+#dropmenu li#m_item5 { width:6.5em; z-index:15;} /* forums */
+#dropmenu li#m_item6 { width:7.3em; z-index:16;} /* learning */
+#dropmenu li#m_item7 { width:5.46em; z-index:17;} /*  about us */ 
+
+/* generic classes */
+
+#genericContent {
+padding:10px;
+}
+
+#genericContent h2 {
+margin-bottom:10px;
+}
+
+#genericContent h3 {
+margin-bottom:5px;
+}
+
+#genericContent img {
+padding:15px;
+}
+
+
+/* home page */  
+/* main promo */
+
+#siteBox div.itemCopy ul.main_promo_internal {
+margin-bottom:10px;
+padding-top:0;
+}
+
+#siteBox div.itemCopy ul.main_promo_internal li {
+min-height:10px;
+}
+
+
+/*  contact form  AA  */
+form#contactUsFrm input#ophone_ctyCode {
+width:25px;
+} 
+
+/* form submit buttons AA */
+
+p.buttons {
+padding-bottom:10px;
+margin:10px 0 20px 0;
+width:100%;
+}
+
+p.buttons input {
+float:none;
+font-size:1.1em;
+font-weight:bold;
+padding:2px 9px;
+display:block;
+min-width:20px;
+margin:0 auto;
+}
+
+#addPackageUser li.buttons {
+padding:5px 0 5px 210px;
+}
+
+.multiSelect .labelContainer .buttons {
+margin:0 0 10px 0;
+}
+
+/* Getting Started */
+
+.GetStartedBoxContent { padding:9px 10px 2px 10px; }
+
+#GetStartedBox { width:238px; margin:5px 0; height: auto !important; min-height:237px; height:237px; }
+#GetStartedBox .started { margin-bottom:5px; margin-top:5px; background-image: url('../img/btn_box.gif'); background-repeat: no-repeat; background-position: top left; height: 60px; width: 220px; padding: 3px;}
+#GetStartedBox .started p { padding-bottom:0px;}
+#GetStartedBox .started img { float:left; margin-left: 10px; margin-right:15px;}
+#GetStartedBox .BoxCenter {height:60px;}
+
+/* Tools & kits box content */
+
+div#colcontainer1 p, div#colcontainer2 p { float:left;padding: 5px 0 10px 10px;}
+
+.img_t_comm_activity_dashboard {background:transparent url(../img/t_comm_activity_dashboard.gif) no-repeat scroll left top; padding:30px 0 0; width:350px;}
+.img_t_other_tools {background:transparent url(../img/t_other_tools.gif) no-repeat scroll left top; padding:30px 0 0; width:350px;}
+.img_t_quick_links {background:transparent url(../img/t_quick_links.gif) no-repeat scroll left top; padding:25px 0 0; width:350px;}
+.img_t_featured_developer {background:transparent url(../img/t_featured_developer.gif) no-repeat scroll left top; padding:55px 0 0; width:350px;}
+.img_t_platform_dashboard {background:transparent url(../img/t_platform_dashboard.gif) no-repeat scroll left top; padding:35px 0 0; width:265px;}
+.img_t_community_news {background:transparent url(../img/t_community_news.gif) no-repeat scroll left top; padding:55px 0 0; width:350px;}
+.img_t_application_dev {background:transparent url(../img/t_application_dev.gif) no-repeat scroll left top; padding:30px 0 0; width:350px;}
+.img_t_platform_dev {background:transparent url(../img/t_platform_phone_dev.gif) no-repeat scroll left top; padding:30px 0 0; width:350px;}
+.img_t_lets_get_started {background:transparent url(../img/t_lets_get_started.gif) no-repeat scroll left top; padding:30px 0 0; width:350px;}
+
+/* User profile section */
+
+/* registration */
+
+body#user_profile form table td {
+height:25px;
+padding-left:15px;
+}
+
+body#user_profile form table td.userFormLabel {
+padding-left:0;
+}
+
+
+
+body#user_profile form#registerForm table {
+width:850px;
+}
+
+body#user_profile form#registerForm {
+margin-top:20px;
+}
+
+body#user_profile form#registerForm input {
+margin-right:3px;
+}
+
+body#user_profile #subheader {
+margin-top:10px;
+height:60px;
+}
+
+body#user_profile div.BoxFrame {
+margin-bottom:20px;
+padding-bottom:15px;
+}
+
+body#user_profile div.error {
+color:#ff0000;
+margin-bottom:2px;
+}
+
+body#user_profile td.userFormLabel {
+font-weight:700;
+text-align:right;
+}
+
+body#user_profile input#registerForm_submit,
+body#user_profile input#_submit {
+background-color:#000000; 
+color:#fee126; 
+border:none; 
+padding:2px 9px; 
+cursor:pointer; 
+font-weight:bold; 
+font-size:1.1em;
+margin-left:0; 
+}
+
+/* login */
+
+body#user_profile #formContent {
+padding:15px;
+}
+
+body#user_profile form#frmLogin div.fieldHolder {
+height:25px;
+display:inline;
+}
+
+body#user_profile form#frmLogin label {
+width:90px;
+display:inline-block;
+font-weight:700;
+height:25px;
+}
+
+body#user_profile form#frmLogin input.loginSubmit { 
+margin:0 0 20px 95px;
+}
+
+body#user_profile #loginLinks {
+margin-left:95px;
+}
+
+/* profile */
+
+body#user_profile table#user_profile_table {
+border: none;
+}
+
+body#user_profile table#user_profile_table td {
+height:25px;
+padding-left:20px;
+vertical-align:top;
+}
+
+
+code var {font-style: italic; font-family: times new roman, times, serif}
+code em.comment {font-style: italic; color: #383; font-family: arial, helvetica, sans;}
+code em.comment code {font-weight: normal; font-size: 90%!important}
+code span.opt {color: #666}
+code span.depr {text-decoration: line-through}
+code span.default, code.default {color: #338}
+code span.aux {color:blue; font: sans; padding: 0px 0.3em}
+span.namespaced {color: #e3e}
+
+div.indent {
+  margin-left: 1em;
+}
+
+div.grouped {border: 1px dashed green; margin-top: 0.6em; margin-bottom: 0.6em; padding-left: 0.3emx;}
+
+tbody.deprecated td {background-color: #eee}
+
+table.invisible td {
+	vertical-align:top;
+	}
+table.invisible th {
+	vertical-align:top;
+	width: 9em;
+}

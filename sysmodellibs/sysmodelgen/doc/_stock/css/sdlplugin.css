@@ -1,0 +1,16 @@
+body {
+    background-color: #FFFFFF;
+}
+
+.help_breadcrumbs {
+    background-color: #E5E5E5;
+    border-bottom:1px dotted #B2B2B2;
+    border-top:1px dotted #B2B2B2;
+    font-size:12px;
+    margin:10px;
+    padding:5px;
+}
+
+.help_breadcrumbs a {
+    color: black;
+}

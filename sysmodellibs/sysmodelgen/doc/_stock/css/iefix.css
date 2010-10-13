@@ -1,0 +1,41 @@
+/* Symbian Foundation
+   CSS
+   Alex Abarmovich 10-02-2009 
+   Version 2
+   Date: 10-02-2009 
+   Last modified: 19-02-2009
+*/
+   
+/* CSS fixes for IE6 and IE7 */
+
+* html #contentContainer  {
+height:500px;
+}
+
+
+/* variable width container */
+
+* html body#variable_width #container {
+overflow: visible;
+font-size: 100%;
+}
+
+* html body#variable_width #container {width:expression(
+(document.documentElement.offsetWidth) >1280 
+* (parseInt(document.body.currentStyle.fontSize) 
+/ parseInt(document.body.currentStyle.fontSize))?  "1250px" 
+: ((document.documentElement.offsetWidth) < 1010? "980px" : "99%")); }
+
+/* main promo */
+* html #siteBox ul li {height:35px; }
+* html #siteBox div.itemCopy ul.main_promo_internal li {
+height:10px;
+}
+
+/* buttons IE 7 */
+
+*:first-child+html p.buttons input#submitForm {
+text-align:center;
+display:block;
+width:110px;
+}
