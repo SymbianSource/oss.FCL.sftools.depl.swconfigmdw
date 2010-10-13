@@ -114,7 +114,9 @@
 		<xsl:processing-instruction name="xml-stylesheet">type="text/xsl" href="<xsl:value-of select="$xml-stylesheet"/>"</xsl:processing-instruction>
 	</xsl:if>
 	<SystemDefinition>
-		<xsl:copy-of select="document(sysdef/@href, .)/SystemDefinition/@*"/>
+		<xsl:for-each select="document(sysdef/@href, .)/SystemDefinition">
+			<xsl:copy-of select="@* | namespace::*"/>
+		</xsl:for-each>
 	<xsl:copy-of select="document(layout/info[@type='abbrev']/@href,.)/*/@xml:lang"/> <!-- copy localized language value -->
 		<xsl:apply-templates select="document(@deps, .)/SystemModelDeps" mode="merge"/>
 		<styling>

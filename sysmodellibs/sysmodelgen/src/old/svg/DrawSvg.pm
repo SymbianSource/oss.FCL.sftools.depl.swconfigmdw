@@ -27,13 +27,12 @@ use lib $FindBin::Bin."/../common";
 use Getopt::Long qw(:config no_ignore_case);
 use File::Basename;
 use File::Spec;
-use Logger;
-use DepConstants;
 
 
 use constant KNoCoreOs					=> 0;
 use constant KCoreOsWithHal			=> 1;
 use constant KCoreOsWithHardware	=> 2;
+use constant KOldSystemModelGenerator							=> 202;
 
 my @Filters;
 
@@ -54,17 +53,101 @@ sub new
     # basic test of command line:
     if (scalar(@ARGV) == 0)
     	{
-		warn $self->Help();
-        &Logger::LogFatal("Incorrect syntax. Cannot continue...", $self->{iScriptCode});
+		$self->Help();
+        exit Logger::KErrorNone;	# nothing to do. Leave
     	}
     
     # process the input:
     $self->ParseCommandLineOptions();
     
-    $self->{iReturnCode} = DepConstants::KErrorNone;
+    $self->{iReturnCode} = Logger::KErrorNone;
     return $self;
 	}
 
+
+# gets the schema versions without comsuming any of the command line arguments
+sub SchemaVersionsFromArgs
+	{ 
+	my @sysdefs;
+	my @ini;
+	my $model;
+	for(my $i=0;$i<=$#_;$i++)
+		{
+		if($_[$i] eq '-model')
+			{
+			$model=$_[++$i];
+			}
+		if($_[$i] eq '-sysdef')
+			{
+			$i++;
+			push(@sysdefs,split(/,/,$_[$i]));
+			}
+		elsif($_[$i] eq '-i')
+			{
+			push(@ini,$_[++$i]);
+			}
+		}
+	if(!scalar(@sysdefs) )
+		{
+		foreach my $in (@ini)
+			{
+			open(INI,$in);
+			my $iniDir = $in;
+			$iniDir =~ s,[^\\//]+$,,;
+			while(my $line = <INI>)
+				{
+				$line =~ s/^\s*//; 		# remove spaces
+				$line =~ s/\s*$//;		# a/a
+				$line =~ s/\n$//; 		# remove new line
+				if($line =~/"/) {
+					$line =~ s/^(([^"#]*"[^"]*")+)#.*$/$1/; 		# remove comments indicated by # (to the end of the line)
+				}  else {
+					$line =~ s/#.*$//; 		# remove comments indicated by # (to the end of the line)
+				}
+				next if $line eq ""; 	# ignore blank lines
+				if ($line =~ m/sysdef\s*=\s*(.*)/i)
+					{
+					foreach my $file (split(/,/,$1))
+						{
+						push(@sysdefs,&FullPath($iniDir,$file));
+						}
+					}
+				}
+			close INI;
+			}
+		}
+	my $dir = $model;
+	$dir=~s,[^/\\]+$,,;
+	open M,$model;
+	$/=">";
+	while(my $line=<M>)
+		{
+		if($line=~s/<sysdef.*href=("[^"]+"|'[^']+')//)
+			{
+			my $f=$1;
+			$f=~s/^.(.*).$/$1/;
+			if(! ($f=~/^(\/|[a-z]+:)/)) {$f="$dir$f"}
+			push(@sysdefs,$f);
+			}
+		}
+	close M;
+	my %res;
+	foreach my $file (@sysdefs)
+		{
+		open S,$file;
+		while(my $line = <S>)
+			{
+			if($line =~ /<SystemDefinition.*\sschema="(.*?)"/s)
+				{
+				push(@{$res{$1}},$file);
+				last;
+				}
+			}
+		close S;
+		}
+	$/="\n";
+	return %res;
+	}
 
 sub GuessReleaseNumber()
 	{
@@ -180,6 +263,7 @@ sub ParseCommandLineOptions()
 				"model_version_type=s"	=> \$self->{iRevisionType},
 				"copyright=s"			=> \$self->{iCopyright},
 				"distribution=s"		=> \$self->{iDistribution},
+				"legend_title=s"		=> \$self->{iLgdTitle},
 				"coreos=s"				=> \$self->{iCoreOs},
 				
 				"sysinfo=s"				=> \@{$self->{iExtra}},
@@ -225,7 +309,7 @@ sub ParseCommandLineOptions()
 	if ($help)
 	    {
 	   	warn $self->Help();
-	   	exit DepConstants::KErrorNone;
+	   	exit Logger::KErrorNone;
 	   	}
 
 	@{$self->{'iFiltering'}} = @Filters;
@@ -239,25 +323,25 @@ sub ParseCommandLineOptions()
 			if($ARGV[$i] eq "-" || $ARGV[$i] eq "") 
 				{ #special values to use nothing or use the tmp file, but only valid for odd numbered args
 				if($i%2==1) {next}
-				warn "Invalid syntax";
-				warn $self->Help();
-	   			exit DepConstants::KIncorrectSyntax
+				$self->Help();
+				&Logger::LogFatal("Invalid syntax", KOldSystemModelGenerator, 0,Logger::KIncorrectSyntax);
 				}
 			if(!(-e $ARGV[$i])) {
 				warn "file $ARGV[$i] does not exist";
-	   			exit DepConstants::KFileDoesNotExist;
+	   			exit Logger::KFileDoesNotExist;
 			}
 		}
 	
 	# Now read the ini file and override command line if necessary:
 	my @yr = gmtime();
-	my $dataroot =&DepConstants::SystemModelXmlDataDir();
+	my $dataroot =&SystemModelXmlDataDir();
 	my %defaults = (
 		'iCopyright' 			=> (1900+$yr[5])." Nokia Corporation",
 		'iDiagram' 			=> "sysmodel.svg",
 		'iTemporaryDirectory' 	=> "drawsvg_temp",
 		'iName' 				=> "Symbian OS"	,
 		'iLabel' 				=> "System Model",
+		'iLgdTitle' 				=> "Key",
 		'iShapes' 				=> "$dataroot/Shapes.xml" 	,
 		'iLogFile' 				=> ""  # do not set this to any default: stdout is used if log file isn't set
 	);
@@ -324,7 +408,7 @@ sub ParseCommandLineOptions()
 	
 	if ($self->{iShapes} eq "$dataroot/Shapes.xml"  && !scalar(@{$self->{'iColor'}}))
 		{ # if it's got the default shapes use default colours
-		@{$self->{iColor}} = (&DepConstants::SystemModelColorsXmlFile());
+		@{$self->{iColor}} = (&SystemModelColorsXmlFile());
 		}
 
 	if(defined $self->{iCoreOs})
@@ -363,20 +447,20 @@ sub ParseCommandLineOptions()
 		{
 		if ($self->{iWarningLevel} == 2)
 			{
-			$self->{iWarningLevel} = DepConstants::WARNING;
+			$self->{iWarningLevel} = LogItem::WARNING;
 			}
 		elsif ($self->{iWarningLevel} == 3)
 			{
-			$self->{iWarningLevel} = DepConstants::INFO;
+			$self->{iWarningLevel} = LogItem::INFO;
 			}
-		else # for anything higher than set it to DepConstants::VERBOSE
+		else # for anything higher than set it to LogItem::VERBOSE
 			{
-			$self->{iWarningLevel} = DepConstants::VERBOSE;
+			$self->{iWarningLevel} = LogItem::VERBOSE;
 			}
 		}
 	else
 		{
-		$self->{iWarningLevel} = DepConstants::ERROR;
+		$self->{iWarningLevel} = LogItem::ERROR;
 		}
 	# set the logger up:
 	$Logger::SEVERITY = $self->{iWarningLevel};
@@ -441,7 +525,7 @@ sub FullPath {
 	}
 	
 	if ($root && !-e $root) {
-		&Logger::LogFatal("$root does not exist");
+		&Logger::LogFatal("root $root does not exist");
 	}
 	
 	if (-f $root) {
@@ -472,12 +556,12 @@ sub ReadIniFile()
 	return if ! defined $self->{iIniFile};
 	
 	# Log a fatal error if the ini file is defined but doesn't exist:
-	&Logger::LogFatal("ini file does not exist\"$self->{iIniFile}\": $!", $self->{iScriptCode}) if ! -e $self->{iIniFile};
+	&Logger::LogFatal("ini file does not exist\"$self->{iIniFile}\": $!", KOldSystemModelGenerator) if ! -e $self->{iIniFile};
 	
-	open(INI, $self->{iIniFile}) or 
-		&Logger::LogFatal("Could not open the ini file \"$self->{iIniFile}\": $!", $self->{iScriptCode});
+	open(INI, $self->{iIniFile}) or 	
+		&Logger::LogFatal("Could not open the ini file \"$self->{iIniFile}\": $!", KOldSystemModelGenerator);
 	
-	&Logger::LogInfo("Reading ini file \"$self->{iIniFile}...", $self->{iScriptCode});
+	&Logger::LogInfo("Reading ini file \"$self->{iIniFile}...", KOldSystemModelGenerator);
 	
 	%AllowMulitples = (
 		"iLocalize"		=> 1,
@@ -519,6 +603,7 @@ sub ReadIniFile()
 		"model_version"			=> 'iRevision',
 		"model_version_type"	=> 'iRevisionType',
 		"distribution"			=> 'iDistribution',
+		"legend_title"			=> 'iLgdTitle',
 		"coreos"				=> 'iCoreOs',
 		"sysinfo"				=> 'iExtra',
 		"localize"				=> 'iLocalize',
@@ -721,10 +806,9 @@ sub getModel()
 
 	# Step 1:
 	# Create a Model.xml based on the ModelTemplate.xml
-	open (INPUT, $modelTemplateXml) or &Logger::LogError("Xalan error ($error) occured in Step 1 of SVG building...", $self->{iScriptCode}, 1);
-	open (OUTPUT, ">$modelXml") or &Logger::LogError("Xalan error ($error) occured in Step 1 of SVG building...", $self->{iScriptCode}, 1);
+	open (INPUT, $modelTemplateXml) or &Logger::LogError("Xalan error ($?) occured in Step 1 of SVG building (<$modelTemplateXml)...", KOldSystemModelGenerator, 1);
+	open (OUTPUT, ">$modelXml") or &Logger::LogError("Xalan error ($?) occured in Step 1 of SVG building (>$modelXml)...", KOldSystemModelGenerator, 1);
 	my $release = $self->{iRelease};
-	
 	
 	
 	# Since $self->{iSysDefFile} may be a comma-separated list of sysdefs, create a <sysdef> tag for each one of the files:
@@ -852,6 +936,7 @@ sub getModel()
 		$line =~ s/___FILTERS___/$filters/g;
 		$line =~ s/___IGNORE___/$ignore/g;
 		$line =~ s/___LEGEND___/$legend/g;
+		$line =~ s/___LEGEND_TITLE___/$self->{iLgdTitle}/g;
 		$line =~ s/___LEGEND_OPTIONS___/$legendOptions/g;
 		$line =~ s/___SHAPES_XML___/$self->{iShapes}/g;
 		$line =~ s/___SYSTEM_DEFINITIONS___/$sysdefTagsForModelTemplate/; # should be only one incident of it
@@ -863,7 +948,7 @@ sub getModel()
 	close OUPUT;
 
 	# Open and close the file so that it can flush itself:
-	open (OUTPUT, "$modelXml") or &Logger::LogError("Xalan error ($error) occured in Step 1 of SVG building...", $self->{iScriptCode}, 1);
+	open (OUTPUT, "$modelXml") or &Logger::LogError("Xalan error ($error) occured in Step 1 of SVG building...", KOldSystemModelGenerator, 1);
 	close OUTPUT;
 	return $modelXml;
 	}
@@ -871,8 +956,9 @@ sub getModel()
 sub GetXsltDir()
 	{
 	my $self = shift;
-	my $xsltDir = $FindBin::Bin."/svg";  # calcluated w.r.t root of Dep directory
-	$xsltDir = $FindBin::Bin."/../svg" if ! -d $xsltDir; # calculated w.r.t the /commands directory
+	my $xsltDir = $FindBin::Bin."/svg";  # calcluated w.r.t old directory
+	$xsltDir = $FindBin::Bin."/src/old/svg" if ! -d $xsltDir; # calculated w.r.t the root directory
+	$xsltDir = $FindBin::Bin  if ! -d $xsltDir; # calculated w.r.t the /svg directory
 	return $xsltDir;
 	}
 
@@ -913,11 +999,11 @@ sub RunCmd() {
 		s/\.Source tree node:.*$//;
 		if($_ ne '') {
 			if(s/^note: //i) {
-				&Logger::LogInfo($_, 100);
+				&Logger::LogInfo($_, KOldSystemModelGenerator,2, 100);
 			} elsif(s/^Warning: //) {
-				&Logger::LogInfo($_, 600);
+				&Logger::LogWarning($_,  KOldSystemModelGenerator,2, 600);
 			} elsif(s/^Error: //i) {
-				&Logger::LogInfo($_, 400);
+				&Logger::LogError($_,  KOldSystemModelGenerator,2, 400);
 			} else {
 				print STDERR "$_\n";
 			}
@@ -968,7 +1054,7 @@ sub XsltTransform()
 		$xsltParams.= " -p $p \"$v\"";
 		}
 
-	my $command = &DepConstants::Xalan();
+	my $command = &SysModelGen::Xalan();
 	$command =~ s#\/#\\#g;
 	$command .= $xsltParams;
 	if($indent >=0) {
@@ -992,10 +1078,10 @@ sub Draw()
 	
 	if(!$genSvg && !$genCsv && !$genXml)  
 		{
-        &Logger::LogFatal("Must specify at least one type of output file. Cannot continue...", $self->{iScriptCode});		
+        &Logger::LogFatal("Must specify at least one type of output file. Cannot continue...", KOldSystemModelGenerator, 0,Logger::KNothingToDo);		
 		}
 	
-	&Logger::LogInfo("Creating sysmodel.svg...", $self->{iScriptCode});
+	&Logger::LogInfo("Creating sysmodel.svg...", KOldSystemModelGenerator,0);
 	
 	# Step 0:
 	# Prepare some file names and create output directory:
@@ -1014,18 +1100,17 @@ sub Draw()
 	my $tempModelFile2 = "$tempDirectoryPathname/model_tmp2.svg";
 	my $modelXsl = $xsltDir."/Model.xsl";
 	
-
 	my $modelXml = $self->getModel();
 	 
 	# Step 2
 	# xalan -i 2 model.xml model.xsl > tmp.xml
 	$error = &XsltTransform($modelXsl,$modelXml,$tempStuctureFile,1,	$self->{'iXsltParam'});
 				
-	&Logger::LogError("Xalan error ($error) occured in Step 2 of SVG building...", $self->{iScriptCode}, 1) if $error;
+	&Logger::LogError("Xalan error ($error) occured in combining sysdefs", KOldSystemModelGenerator, 1) if $error;
 
 	# Step 3 - validation
 	# xalan tmp.xml validate.xsl
-	if($self->{iWarningLevel} == DepConstants::VERBOSE )
+	if($self->{iWarningLevel} == LogItem::VERBOSE )
 		{
 		my $errors = &XsltTransform($xsltDir."/validate.xsl",$tempStuctureFile,'',-1);
 		&Logger::LogList(split(/\n/,$errors));
@@ -1034,15 +1119,15 @@ sub Draw()
 		{ # only needed for model building 
 		
 		# Step 4
-		# xalan -i 2 model.xml shapes.xsl > tmp.xsl
+		&Logger::LogInfo("Creating styling XSLT...", KOldSystemModelGenerator, 1);
 		$error = &XsltTransform("$xsltDir/Shapes.xsl",$modelXml,$tempXslFile,1,
 				{%{$self->{'iXsltParam'}},'Model-Transform' => "'".&FileAsUrl($modelXsl)."'" });
-		&Logger::LogError("Xalan error ($error) occured in Step 4 of SVG building...", $self->{iScriptCode}, 1) if $error;
+		&Logger::LogError("Xalan error ($error) occured generating Styling transform", KOldSystemModelGenerator, 2) if $error;
 	
 		# Step 5
-		# xalan -i 2  tmp.xml tmp.xsl > tmp.svg
+		&Logger::LogInfo("Generating SVG model...", KOldSystemModelGenerator, 1);
 		$error = &XsltTransform($tempXslFile,$tempStuctureFile,$tempModelFile,1,$self->{'iXsltParam'});
-		&Logger::LogError("Xalan error ($error) occured in Step 4 of SVG building...", $self->{iScriptCode}, 1) if $error;
+		&Logger::LogError("Xalan error ($error) occured in building SVG", KOldSystemModelGenerator, 2) if $error;
 
 		if ($self->ShouldCreateDepmodel()) {	# insert as 1st transform
 			@ARGV=( $xsltDir."/Postprocess.xsl",'-',@ARGV)
@@ -1051,6 +1136,7 @@ sub Draw()
 		while(scalar(@ARGV)) {
 			my $transform = shift(@ARGV);
 			my $datafile = shift(@ARGV);
+			if($datafile eq '""' || $datafile eq "''") {$datafile=''}	# not sure if this will work, but it should fix cygwin troubles
 			if($datafile eq '-') {$datafile = &FileAsUrl($tempStuctureFile)}
 			elsif($datafile ne '') {$datafile = &FileAsUrl($datafile)}
 			# save to the output if this is the last transform
@@ -1066,7 +1152,8 @@ sub Draw()
 				$p{'Data'}="'$datafile'";	# optional -- only if needed for transform
 			}
 			$error = &XsltTransform($transform,$tmpsvg,$saveto,1,\%p);
-			&Logger::LogError("Xalan error ($error) occured in Step 6 of SVG building...", $self->{iScriptCode}, 1) if $error;
+			&Logger::LogError("Xalan error ($error) occured in post-processing SVG file", KOldSystemModelGenerator, 2) if $error;
+
 			$tmpsvg = $saveto; # read from this next time.
 		}
 		if ($tmpsvg ne $self->{'iDiagram'}) {
@@ -1084,27 +1171,28 @@ sub Draw()
 		my $compressed = 0;
 		if($self->{iCompress})
 			{
-			my $gzip = &DepConstants::GzipCommand();
+			my $gzip = &SysModelGen::GzipCommand();
 			if($gzip)
 				{
 				my $command = "$gzip ".$self->{iDiagram};
-				&Logger::LogInfo("System Call: $command", $self->{iScriptCode});
+				&Logger::LogInfo("System Call: $command", KOldSystemModelGenerator);
 				$error = &RunCmd($command);# this should generate the sysmodel.svg in the output directory
-				&Logger::LogError("Gzip error ($error) occured when comrpessing SVG", $self->{iScriptCode}, 1) if $error;
-				&Logger::LogInfo("Renaming output to : $zipname", $self->{iScriptCode});		
+				&Logger::LogError("Gzip error ($error) occured when comrpessing SVG", KOldSystemModelGenerator, 1) if $error;
+				&Logger::LogInfo("Renaming output to : $zipname", KOldSystemModelGenerator);		
 				rename $self->{iDiagram}.".gz", $zipname;
 				$compressed = 1;
 				}
 			}
 		if(!$compressed && $unzipname ne $self->{iDiagram}) 
 			{
-			&Logger::LogInfo("Renaming output to : $unzipname", $self->{iScriptCode});		
+			&Logger::LogInfo("Renaming output to : $unzipname", KOldSystemModelGenerator);		
 			rename $self->{iDiagram}, $unzipname;	
 			}
 		}
 	# create CSV if desired
 	if($genCsv)
 		{
+		&Logger::LogInfo("Generating CSV output", KOldSystemModelGenerator, 0);
 		my %p;
 		if($self->{iCsvColumns})
 			{
@@ -1115,15 +1203,17 @@ sub Draw()
 			$p{'labels'}="'".$self->{iCsvLabels}."'";
 			}
 		$error = &XsltTransform($xsltDir."/output-csv.xsl",$tempStuctureFile,$self->{iOutputCsv},-1,\%p);
-		&Logger::LogError("Xalan error ($error) occured in CSV output...", $self->{iScriptCode}, 1) if $error;
+		&Logger::LogError("Xalan error ($error) occured in CSV output...", KOldSystemModelGenerator, 1) if $error;
+
 		}
 		
 	# create sysdef XML if desired
 	
 	if($genXml)
 		{
+		&Logger::LogInfo("Generating XML output", KOldSystemModelGenerator, 0);
 		$error = &XsltTransform($xsltDir."/output-sysdef.xsl",$tempStuctureFile,$self->{iOutputXml},1);
-		&Logger::LogError("Xalan error ($error) occured in Sysdef output...", $self->{iScriptCode}, 1) if $error;
+		&Logger::LogError("Xalan error ($error) occured in Sysdef output...", KOldSystemModelGenerator, 1) if $error;
 		}
 
 	# delete the contents of the temp directory if -clean is specified by the user:
@@ -1133,6 +1223,40 @@ sub Draw()
 		$self->DeleteTempDirectory();
 		}	
 	}
+
+sub Downgrade()
+	{
+	my $self = shift;
+	my $sysdef = shift;
+	my $saveto = $self->{iTemporaryDirectory}."/".shift;
+	my $sysdefurl=&FileAsUrl($sysdef);
+	my $xsltDir = $self->GetXsltDir();	
+	foreach(@{$self->{iSysDefFile}}) 
+		{
+		if($_ eq $sysdefurl)
+			{
+			$error = &XsltTransform("$xsltDir/sysdefdowngrade.xsl",$sysdef,$saveto,1);
+			&Logger::LogError("Xalan error ($error) occured in downgrading $sysdef...", KOldSystemModelGenerator, 1) if $error;
+			$_=&FileAsUrl($saveto);
+			}
+		}
+	}
+
+
+sub SystemModelXmlDataDir()
+	{
+	my $file = $FindBin::Bin."/src/old/resources/auxiliary";
+	$file = $FindBin::Bin."/../resources/auxiliary" if ! -d $file; # calculated w.r.t the /svg directory
+	return $file;
+	}
+
+sub SystemModelColorsXmlFile()
+	{
+	my $colorsFile =  &SystemModelXmlDataDir()."/system_model_colors.xml";
+	return $colorsFile;
+	}
+
+
 
 sub CreateSysDefTagsForModelXML()
 	{
@@ -1163,7 +1287,7 @@ sub DeleteTempDirectory()
 sub Help()
 	{
 	my $self = shift;
-format STDERR =
+format OK =
  @<<<<<<<<<<<<<<<<<<<< ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 $param,                               $text,
                        ^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<~~
@@ -1206,7 +1330,8 @@ my @list =(
 '-model_version_type', 'One of "draft", "issued", "build" or free-text value. Appears below the model label. If specified this overrides the build number used by DepToolkit.If not building depmodel, this defaults to "draft"',
 '-copyright', 'The copyright to appear in the lower left. Set to empty string to leave out. Defaults to "[this year] Nokia Corporation"',
 '-distribution', 'Text to appear on the bottom centre to indicate to whom the  model can be show. Informational only. Suggested values are "internal", "secret" or "unrestrictred". Not shown if not set.',
-'-note', 'Free text to appear inside the legend box, on the rightmost side. If multiple ones are provided, they will appear as separate boxes from left to right. Newlines and otehr special characters can be entity-encoded (e.g. &#xa;)',  
+'-legend_title', 'The title to appear in the leftmost part of the legend. Defautls to "Key"',
+'-note', 'Free text to appear inside the legend box, on the rightmost side. If multiple ones are provided, they will appear as separate boxes from left to right. Newlines and other special characters can be entity-encoded (e.g. &#xa;)',  
 "==== Model Control  ====",
 '-sysdef [uri-list]',   'Comma-separated list of locations for the System Definition XML file(s) used to build the model. Layers in the files will be  stacked on top of each other in order, from bottom to top.',
 '-coreos [on/off/new]', 'Turn on or off Core OS colouring, or use the new colouring for 9.5 and later models. Defaults to "off" for model versions before 9.4 or those with no specified version, "on" for 9.4 and "new" for 9.5 and later',
@@ -1234,7 +1359,7 @@ while(@list) {
 	$param = shift(@list);
 	if($head<=0 and !($param=~/^-/)){print "\n$param\n";next;}
 	$text = shift(@list);
-	write STDERR ;
+	write OK ;
 	$head--;
 }
 	return;

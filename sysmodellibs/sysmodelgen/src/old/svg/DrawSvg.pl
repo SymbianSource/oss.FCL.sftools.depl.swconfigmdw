@@ -19,12 +19,25 @@ use warnings;
 use FindBin;
 use lib $FindBin::Bin;
 use lib $FindBin::Bin."/svg";
-use lib $FindBin::Bin."/common";
-use lib $FindBin::Bin."/../common"; # needed to run from within DepToolkit
+
+use lib $FindBin::Bin."/../..";
+use SysModelGen;
 
 use DrawSvg;
-
+my %versions = &DrawSvg::SchemaVersionsFromArgs(@ARGV);
 my $drawer = new DrawSvg();
+
+
+foreach my $v (grep /^3\./,keys(%versions))
+	{ # need to downgrade anything in 3.x syntax
+	my $i=0;
+	foreach my $sys (@{$versions{$v}})
+		{
+		$i++;
+		$drawer->Downgrade($sys,"sysdef$i.xml");
+		}
+	}
+
 $drawer->Draw();
 
 exit;

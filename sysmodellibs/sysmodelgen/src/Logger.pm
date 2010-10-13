@@ -12,14 +12,32 @@
 #
 # Description:
 #
-
 package Logger;
 
 use FindBin;
 use lib $FindBin::Bin;
 
-use DepConstants;
 use LogItem;
+
+
+# -------------------------------------------------------
+# 	ERROR & WARNING CODES
+# -------------------------------------------------------
+
+use constant KErrorNone							=> 0;
+
+use constant KIncorrectSyntax					=> 1;
+use constant KFileDoesNotExist					=> 2;
+use constant KCannotOpenFile					=> 3;
+use constant KBinaryDoesNotExist				=> 7;
+use constant KFailure							=> 9;
+use constant KNothingToDo							=> 10;
+use constant KUnknownError				=> 200;
+
+# System_Definition.xml error codes:
+use constant KSysDefNotFound					=> 31;
+use constant KInvalidSysDefXML					=> 32;
+use constant KConfigurationNotFound				=> 33;
 
 # Global statics:
 
@@ -27,7 +45,7 @@ use LogItem;
 # If it's not defined, the logging is done to stdout
 $LOGFILE = "";
 
-$SEVERITY = DepConstants::ERROR;
+$SEVERITY = LogItem::ERROR;
 
 # Forward declarations:
 sub Log($$$$);
@@ -47,7 +65,7 @@ sub Log($$$$)
 	{
 	my $message = $_[0];
 	my $callingModule = $_[1];
-	my $severity = $_[2] ? $_[2] : DepConstants::INFO;
+	my $severity = $_[2] ? $_[2] : LogItem::INFO;
 	my $depth = $_[3] ? $_[3] : 0;
 	
 	# log this only if its severity level is less than or equal to the user-defined level:
@@ -56,7 +74,7 @@ sub Log($$$$)
 	#  -w3: info messages, warnings and errors.
 	return if $severity > $SEVERITY;
 	
-	my $code = &DepConstants::ModuleErrorCodes($callingModule, $severity);
+	my $code = $callingModule;
 	my $logItem = new LogItem(msg => $message, code => $code, severity => $severity, depth => $depth);
 	&WriteToFile($logItem->LogText());
 	}
@@ -72,8 +90,8 @@ sub LogFatal($$$)
 	my $message = $_[0];
 	my $callingModule = $_[1];
 	my $depth = $_[2] ? $_[2] : 0;
-	my $exitCode = $_[3] ? $_[3] : DepConstants::KFailure;
-	&Log("Fatal! ".$message, $callingModule, DepConstants::ERROR, $depth);
+	my $exitCode = $_[3] ? $_[3] : KFailure;
+	&Log("Fatal! ".$message, $callingModule, LogItem::ERROR, $depth);
 	exit $exitCode;
 	}
 
@@ -88,7 +106,7 @@ sub LogError($$$)
 	my $message = $_[0];
 	my $callingModule = $_[1];
 	my $depth = $_[2] ? $_[2] : 0;
-	&Log($message, $callingModule, DepConstants::ERROR, $depth);
+	&Log($message, $callingModule, LogItem::ERROR, $depth);
 	}
 
 #-------------------------------------------------------------------------------------------------
@@ -100,12 +118,12 @@ sub LogError($$$)
 sub LogWarning($$$)
 	{
 	# first check the severity level:
-	return if $SEVERITY < DepConstants::WARNING;
+	return if $SEVERITY < LogItem::WARNING;
 	
 	my $message = $_[0];
 	my $callingModule = $_[1];
 	my $depth = $_[2] ? $_[2] : 0;
-	&Log($message, $callingModule, DepConstants::WARNING, $depth);
+	&Log($message, $callingModule, LogItem::WARNING, $depth);
 	}
 
 #-------------------------------------------------------------------------------------------------
@@ -117,12 +135,12 @@ sub LogWarning($$$)
 sub LogInfo($$$)
 	{
 	# first check the severity level:
-	return if $SEVERITY < DepConstants::INFO;
+	return if $SEVERITY < LogItem::INFO;
 	
 	my $message = $_[0];
 	my $callingModule = $_[1];
 	my $depth = $_[2] ? $_[2] : 0;
-	&Log($message, $callingModule, DepConstants::INFO, $depth);
+	&Log($message, $callingModule, LogItem::INFO, $depth);
 	}
 
 #-------------------------------------------------------------------------------------------------
@@ -134,7 +152,7 @@ sub LogInfo($$$)
 sub LogRaw($)
 	{
 	# only log raw text if the warning level is on info - i.e. the most verbose:
-	return if $SEVERITY < DepConstants::INFO;
+	return if $SEVERITY < LogItem::INFO;
 	&WriteToFile($_[0]);
 	}
 
@@ -146,20 +164,20 @@ sub LogRaw($)
 #-------------------------------------------------------------------------------------------------
 sub LogList
 	{
-	foreach $log (@_) 
+	foreach my $log (@_) 
 		{
 		$log.="\n";
 		if($log=~s/^ERROR:\s*//)
 			{
-			&LogError($log,DepConstants::KUnknownModuleError,1);
+			&LogError($log,KUnknownError,1);
 			}
 		elsif($log=~s/^WARNING:\s*//)
 			{
-			&LogWarning($log,DepConstants::KUnknownModuleError,1);
+			&LogWarning($log,KUnknownError,1);
 			}
 		elsif($log=~s/^Note:\s*//)
 			{
-			&LogInfo($log,DepConstants::KUnknownModuleError,1);
+			&LogInfo($log,KUnknownError,1);
 			}
 		else
 			{

@@ -17,7 +17,12 @@ package LogItem;
 
 use FindBin;
 use lib $FindBin::Bin;
-use DepConstants;
+use strict;
+
+use constant ERROR 								=> 1;
+use constant WARNING							=> 2;
+use constant INFO 								=> 3;
+use constant VERBOSE							=> 4;
 
 #-------------------------------------------------------------------------------------------------
 # Subroutine:   new
@@ -37,7 +42,7 @@ sub new()
 	$self->{iSeverity} 	= $parameters{'severity'} ? $parameters{'severity'} : 3; # default is INFO
 	$self->{iDepth}		= $parameters{'depth'} ? $parameters{'depth'} : 0;
 	
-	$self->{iCode} = &DepConstants::ModuleErrorCodes($self->{iModule}, $self->{iSeverity}) if $self->{iCode} == 0;
+	$self->{iCode} = 0;
 	
 	$self->{iDate} 		= scalar(localtime);
     return $self;
@@ -94,8 +99,9 @@ sub LogText()
 sub SeverityText()
 	{
 	my $self = shift;
-	return "  ERROR" if $self->Severity() == DepConstants::ERROR;
-	return "WARNING" if $self->Severity() == DepConstants::WARNING;
+	return "  ERROR" if $self->Severity() == ERROR;
+	return "WARNING" if $self->Severity() == WARNING;
+	return "VERBOSE" if $self->Severity() == VERBOSE;
 	return "   INFO";
 	}
 
