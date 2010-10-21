@@ -134,6 +134,14 @@ class TestExport(BaseTestCase):
                 self.fail("Entry '%s' not in zip file '%s'." % (path, zipfile))
         finally:
             zf.close()
+            
+    def assert_zip_entry_exists_not(self, zip_file, path):
+        zf = zipfile.ZipFile(zip_file, "r")
+        try:
+            if path in zf.namelist():
+                self.fail("Entry '%s' in zip file '%s'." % (path, zipfile))
+        finally:
+            zf.close()
     
     
     def _run_test_export_project_to_project(self,
@@ -397,7 +405,55 @@ class TestExport(BaseTestCase):
             expected_cpfs = [('root1.cpf', 'root1.confml'),
                              ('root4.cpf', 'root4.confml')])
     
+    def test_export_with_include_content_filter_help(self):
+        # test help update
+        cmd = '%s -h' % get_cmd('export')
+        out = self.run_command(cmd)
+        lines = out.split(os.linesep)
+        self.assertTrue('    --include-content-filter=INCLUDE_CONTENT_FILTER' in lines)
+        
+    def test_export_with_include_content_filter_project_to_cpf(self):
+        # test cpf export
+        source = os.path.join(TEMP_DIR, "layers")
+        remote = os.path.join(TEMP_DIR, 'layers.cpf')
+        self.remove_if_exists(remote)
+        
+        unzip_file(EXPORT_TEST_PROJECT, source, delete_if_exists=True)
 
+        
+        cmd = '%s -p "%s" -c "root4.confml" -r "%s" --include-content-filter="%s"' % (get_cmd('export'), TEST_PROJECT_CPF, remote,".*layer1.*")
+        out = self.run_command(cmd)
+        
+        # layer1 content 
+        self.assert_zip_entry_exists(remote, "root4.confml")
+        self.assert_zip_entry_exists(remote, "Layer1/content/default_file.txt")
+        self.assert_zip_entry_exists(remote, "Layer1/content/seq/def1_file.txt")
+
+        # filtered content
+        self.assert_zip_entry_exists_not(remote, "Layer2/content/layer2_file.txt")
+        self.assert_zip_entry_exists_not(remote, "Layer3/content/seq/layer3_file.txt")
+        self.assert_zip_entry_exists_not(remote, "Layer4/content/seq/layer4_file.txt")
+
+    def test_export_with_include_content_filter_cpf_to_cpf(self):
+        # test cpf export
+        remote = os.path.join(TEMP_DIR, 'layers2.cpf')
+        self.remove_if_exists(remote)
+        
+
+        
+        cmd = '%s -p "%s" -c "root4.confml" -r "%s" --include-content-filter="%s"' % (get_cmd('export'), TEST_PROJECT_CPF, remote,".*layer2.*")
+        out = self.run_command(cmd)
+        
+        # layer1 content 
+        self.assert_zip_entry_exists(remote, "root4.confml")
+        self.assert_zip_entry_exists(remote, "Layer2/content/layer2_file.txt")
+
+        # filtered content
+        self.assert_zip_entry_exists_not(remote, "Layer1/content/default_file.txt")
+        self.assert_zip_entry_exists_not(remote, "Layer3/content/seq/layer3_file.txt")
+        self.assert_zip_entry_exists_not(remote, "Layer4/content/seq/layer4_file.txt")
+        
+    
 class TestExportInvalidArgs(BaseTestCase):
     
     def _run_test_invalid_args(self, args, expected_msg):

@@ -65,6 +65,110 @@ class TestConeProjectExport(BaseTestCase):
             self.assertEquals(files1[i],files2[i])
         os.unlink(export_zip)
 
+    def test_export_with_include_content_filter(self):
+        include_content_filter = ".*layer4.*"
+        include_filters = {'content':include_content_filter}
+        test_project_dir = os.path.join(temp_dir, "test_project_1")
+        unzip_file.unzip_file(test_cpf, test_project_dir, delete_if_exists=True)
+        
+        export_zip = os.path.join(temp_dir, "configexport.zip")
+        
+        fs = FileStorage(test_project_dir)
+        p  = api.Project(fs)
+        conf = p.get_configuration('root5.confml')
+        zs = ZipStorage(export_zip,"w")
+        zp  = api.Project(zs)
+        p.export_configuration(conf,zs,include_filters = include_filters)
+        zp.close()
+        
+        zs = ZipStorage(export_zip,"r")
+        zp  = api.Project(zs)
+        conf = zp.get_configuration('root5.confml')
+        rel = conf.get_layer().list_all_related()
+        
+        exp = ['Layer1/implml/bitmask_test_12341002.crml', 
+               'Layer1/implml/feature1_12341000.crml',
+               'Layer1/implml/feature1_12341001.crml',
+               'Layer1/implml/feature1_sequence.gcfml',
+               'Layer1/implml/feature2_ABCD0000.crml',
+               'Layer1/implml/time_types_test_12341003.crml',
+               'Layer4/content/seq/layer4_file.txt']
+        zs.close()
+        self.assertEquals(exp,rel)
+        os.unlink(export_zip)
+
+    def test_export_with_exclude_content_filter(self):
+        exclude_content_filter = ".*(layer1|layer2).*"
+        exclude_filters = {'content':exclude_content_filter}
+        test_project_dir = os.path.join(temp_dir, "test_project_1")
+        unzip_file.unzip_file(test_cpf, test_project_dir, delete_if_exists=True)
+        
+        export_zip = os.path.join(temp_dir, "configexport.zip")
+        
+        fs = FileStorage(test_project_dir)
+        p  = api.Project(fs)
+        conf = p.get_configuration('root5.confml')
+        zs = ZipStorage(export_zip,"w")
+        zp  = api.Project(zs)
+        p.export_configuration(conf,zs,exclude_filters = exclude_filters)
+        zp.close()
+        
+        zs = ZipStorage(export_zip,"r")
+        zp  = api.Project(zs)
+        conf = zp.get_configuration('root5.confml')
+        rel = conf.get_layer().list_all_related()
+        
+        exp = ['Layer1/implml/bitmask_test_12341002.crml',
+               'Layer1/implml/feature1_12341000.crml', 
+               'Layer1/implml/feature1_12341001.crml', 
+               'Layer1/implml/feature1_sequence.gcfml', 
+               'Layer1/implml/feature2_ABCD0000.crml', 
+               'Layer1/implml/time_types_test_12341003.crml', 
+               'Layer3/content/seq/layer3_file.txt', 
+               'Layer4/content/seq/layer4_file.txt', 
+               'Layer5/content/content.txt', 
+               'Layer5/content/folder/abc.txt']
+        zs.close()
+        self.assertEquals(exp,rel)
+        os.unlink(export_zip)
+
+    def test_export_with_include_exclude_content_filters(self):
+        exclude_content_filter = ".*def.+\.txt"
+        include_content_filter = ".*layer5.*"
+        exclude_filters = {'content':exclude_content_filter}
+        include_filters = {'content':include_content_filter}
+        test_project_dir = os.path.join(temp_dir, "test_project_1")
+        unzip_file.unzip_file(test_cpf, test_project_dir, delete_if_exists=True)
+        
+        export_zip = os.path.join(temp_dir, "configexport.zip")
+        
+        fs = FileStorage(test_project_dir)
+        p  = api.Project(fs)
+        conf = p.get_configuration('root5.confml')
+        zs = ZipStorage(export_zip,"w")
+        zp  = api.Project(zs)
+        p.export_configuration(conf,zs,exclude_filters = exclude_filters,
+                               include_filters = include_filters)
+        zp.close()
+        
+        zs = ZipStorage(export_zip,"r")
+        zp  = api.Project(zs)
+        conf = zp.get_configuration('root5.confml')
+        rel = conf.get_layer().list_all_related()
+        
+        exp = ['Layer1/implml/bitmask_test_12341002.crml',
+               'Layer1/implml/feature1_12341000.crml', 
+               'Layer1/implml/feature1_12341001.crml', 
+               'Layer1/implml/feature1_sequence.gcfml', 
+               'Layer1/implml/feature2_ABCD0000.crml', 
+               'Layer1/implml/time_types_test_12341003.crml', 
+               'Layer5/content/content.txt', 
+               'Layer5/content/folder/abc.txt']
+
+        zs.close()
+        self.assertEquals(exp,rel)
+        os.unlink(export_zip)
+
     def test_export_from_files_to_zipstorage_add(self):
         test_project_dir = os.path.join(temp_dir, "test_project_1")
         unzip_file.unzip_file(test_cpf, test_project_dir, delete_if_exists=True)
@@ -158,29 +262,6 @@ class TestConeProjectExport(BaseTestCase):
         r.close()
         self.assertTrue(os.path.exists(output_dir))
 
-    # Temporarly hacked to pass, because feature is not supported  
-#    def test_export_to_zipstorage_multiple_configurations(self):
-#        try:
-#            fs = FileStorage(datafolder)
-#            p  = api.Project(fs)
-#            zs = ZipStorage(tempzip,"w")
-#            zp  = api.Project(zs)
-#            conf = p.get_configuration('morestuff.confml')
-#            conf_files = conf.list_resources()
-#            p.export_configuration(conf,zs)
-#            conf = p.get_configuration('prodX.confml')
-#            conf_files2 = conf.list_resources()
-#            conf_files.extend(conf_files2)
-#            conf_files = utils.distinct_array(conf_files) 
-#            p.export_configuration(conf,zs)
-#            zp.close()
-#            self.assertTrue(os.path.exists(tempzip))
-#            zfile = zipfile.ZipFile(tempzip,"r")
-#            files = zfile.namelist()
-#            files.remove('.metadata')
-#            self.assertEquals(sorted(conf_files),sorted(files))
-#        except exceptions.NotSupportedException:
-#            pass
 
     def _test_export_to_filestorage_multiple_configurations(self):
         fs = FileStorage(datafolder)

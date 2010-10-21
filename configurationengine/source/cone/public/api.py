@@ -614,12 +614,44 @@ class Project(Base):
         for child in configuration._traverse(type=Configuration):
             export_storage.unload(child.get_full_path(),child)
         
+        ruleml_eval_globals_files = []
+        for child in configuration._traverse(type=RulemlEvalGlobals):
+            if child.file != None:
+                ruleml_eval_globals_files.append(RulemlEvalGlobals.get_script_file_full_path(child))
+        
         #If the configuration is not in the root of the project adding the path 
         #to final exporting source path.
         #l = []
+        empty_folders = kwargs.get('empty_folders',False)
+        layer = configuration.get_layer()
+        all_resources = []
+        layer_content = layer.list_content(empty_folders)
+        layer_doc = layer.list_doc(empty_folders)
+        layer_implml = layer.list_implml(empty_folders)
+
+        include_filters = kwargs.get('include_filters',{})
+        exclude_filters = kwargs.get('exclude_filters',{})
+        
+        include_content_filter = include_filters.get('content')
+        exclude_content_filter = exclude_filters.get('content')
+        
+        # perform filtering of content files
+        if exclude_content_filter:
+            f = lambda x: not re.search(exclude_content_filter, x, re.IGNORECASE)
+            layer_content = filter(f,layer_content)
+
+        if include_content_filter:
+            f = lambda x: re.search(include_content_filter, x, re.IGNORECASE)
+            layer_content = filter(f,layer_content)
+        
+        all_resources.extend(layer_content) 
+        all_resources.extend(layer_doc)
+        all_resources.extend(layer_implml)
+        
         cpath = utils.resourceref.get_path(configuration.get_path()) 
         resr = [utils.resourceref.join_refs([cpath,related]) \
-                for related in configuration.get_layer().list_all_related(**kwargs)]
+                for related in all_resources]
+        resr.extend(ruleml_eval_globals_files)
         
         self.storage.export_resources(resr ,export_storage, kwargs.get("empty_folders", False))
         return
@@ -908,6 +940,15 @@ class Configuration(CompositeConfiguration):
         self.version = kwargs.get('version')
         super(Configuration, self).__init__(utils.resourceref.to_objref(self.path), **kwargs)
         self.container = True
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        if state.has_key('_children'):
+            childs = state.get('_children')
+            if childs.has_key('?default_view'):
+                childs.pop('?default_view')
+                state['_children'] = childs
+        return state
 
     def _default_object(self, name):
         return self._default_class()(name)
@@ -1645,6 +1686,7 @@ class Feature(Base):
         self.relevant = kwargs.get('relevant', None)
         self.constraint = kwargs.get('constraint', None)
         self._dataproxy = None
+        self.extensionAttributes = []
 
     def __copy__(self):
         dict = {}
@@ -2185,6 +2227,14 @@ class Feature(Base):
         else:           value_list = value_subsetting.get_original_value()
         return value_list[key_list.index(mapping_key)]
 
+    def set_extension_attributes(self, attributes):
+        self.extensionAttributes = attributes
+        
+    def get_extension_attributes(self):
+        return self.extensionAttributes
+    
+    def add_extension_attribute(self, attribute):
+        self.extensionAttributes.append(attribute)
 
 class FeatureSequence(Feature):
     POLICY_REPLACE = 0
@@ -3274,6 +3324,7 @@ class Option(Base):
         self.relevant = kwargs.get('relevant', None)
         self.map_value = kwargs.get('map_value', None)
         self.display_name = kwargs.get('display_name', None)
+        self.extensionAttributes = []
 
     @classmethod
     def to_optref(cls, value, map):
@@ -3306,6 +3357,14 @@ class Option(Base):
         else:
             return 1
 
+    def set_extension_attributes(self, attributes):
+        self.extensionAttributes = attributes
+        
+    def get_extension_attributes(self):
+        return self.extensionAttributes
+    
+    def add_extension_attribute(self, attribute):
+        self.extensionAttributes.append(attribute)
 
 class Storage(object):
     """
@@ -3950,33 +4009,33 @@ class CompositeLayer(Folder):
                 lres.append(utils.resourceref.join_refs([layerpath, respath]))
         return lres
 
-    def list_implml(self):
+    def list_implml(self,empty_folders=False):
         """
         @return: array of implml file references.
         """
         lres = []
         for layerpath in self.list_layers():
-            for respath in self.get_layer(layerpath).list_implml():
+            for respath in self.get_layer(layerpath).list_implml(empty_folders):
                 lres.append(utils.resourceref.join_refs([layerpath, respath]))
         return lres
 
-    def list_content(self):
+    def list_content(self,empty_folders=False):
         """
         @return: array of content file references.
         """
         lres = []
         for layerpath in self.list_layers():
-            for respath in self.get_layer(layerpath).list_content():
+            for respath in self.get_layer(layerpath).list_content(empty_folders):
                 lres.append(utils.resourceref.join_refs([layerpath, respath]))
         return lres
 
-    def list_doc(self):
+    def list_doc(self,empty_folders=False):
         """
         @return: array of document file references.
         """
         lres = []
         for layerpath in self.list_layers():
-            for respath in self.get_layer(layerpath).list_doc():
+            for respath in self.get_layer(layerpath).list_doc(empty_folders):
                 lres.append(utils.resourceref.join_refs([layerpath, respath]))
         return lres
 
@@ -4056,28 +4115,28 @@ class Layer(CompositeLayer):
         res += super(Layer, self).list_confml()
         return res 
 
-    def list_implml(self):
+    def list_implml(self,empty_folders=False):
         """
         @return: array of implml file references.
         """
-        res = self.list_resources(self.predefined['implml_path'], recurse=True)
-        res += super(Layer, self).list_implml()
+        res = self.list_resources(self.predefined['implml_path'], recurse=True,empty_folders=empty_folders)
+        res += super(Layer, self).list_implml(empty_folders)
         return res 
 
-    def list_content(self):
+    def list_content(self,empty_folders=False):
         """
         @return: array of content file references.
         """
-        res = self.list_resources(self.predefined['content_path'], recurse=True)
-        res += super(Layer, self).list_content()
+        res = self.list_resources(self.predefined['content_path'], recurse=True,empty_folders=empty_folders)
+        res += super(Layer, self).list_content(empty_folders)
         return res
 
-    def list_doc(self):
+    def list_doc(self,empty_folders=False):
         """
         @return: array of document file references.
         """
-        res = self.list_resources(self.predefined['doc_path'], recurse=True)
-        res += super(Layer, self).list_doc()
+        res = self.list_resources(self.predefined['doc_path'], recurse=True,empty_folders=empty_folders)
+        res += super(Layer, self).list_doc(empty_folders)
         return res
 
     def confml_folder(self):
@@ -4186,6 +4245,25 @@ def get_mapper(modelname):
     mapmodule = __import__('cone.public.mapping')
     return mapmodule.public.mapping.BaseMapper()
 
+class RulemlEvalGlobals(Base):
+    """
+    Ruleml subelement of extensions element
+    """
+    refname = "_extension"
+    def __init__(self, value = None, file = None, **kwargs):
+        """
+        """
+        super(RulemlEvalGlobals,self).__init__(self.refname)
+        self.value = value
+        self.file = file
+    
+    @classmethod
+    def get_script_file_full_path(self, child): 
+        parent_config = child._find_parent(type=Configuration)
+        cpath = parent_config.get_full_path()
+        cpath = utils.resourceref.psplit_ref(cpath)[0]
+        path = utils.resourceref.join_refs([cpath, child.file])
+        return path
 
 class Problem(object):
     SEVERITY_ERROR      = "error"

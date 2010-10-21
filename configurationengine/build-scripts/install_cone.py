@@ -130,24 +130,17 @@ def install_cone_eggs(target_dir, python_version):
     for egg in eggs:
         log.debug(egg)
         
-        if PLATFORM_SUBDIR == 'win': 
-            command = ['easy_install-%s' % python_version,
-                       '--allow-hosts None',
-                       '--find-links install-temp/dep-eggs',
-                       '--install-dir "%s"' % LIB_DIR,
-                       '--script-dir "%s"' % SCRIPT_DIR,
-                       '--site-dirs "%s"' % LIB_DIR,
-                       '--always-copy',
-                       '--always-unzip']
-        else:
-            command = ['easy_install-%s' % python_version,
-                       '--allow-hosts None',
-                       '--find-links install-temp/dep-eggs',
-                       '--install-dir "%s"' % LIB_DIR,
-                       '--script-dir "%s"' % SCRIPT_DIR,
-                       '--site-dirs "%s"' % LIB_DIR,
-                       '--always-unzip']
-
+        command = ['easy_install-%s' % python_version,
+                   '--find-links install-temp/dep-eggs',
+                   '--install-dir "%s"' % LIB_DIR,
+                   '--script-dir "%s"' % SCRIPT_DIR,
+                   '--site-dirs "%s"' % LIB_DIR,
+                   '--always-unzip']
+        
+        if PLATFORM_SUBDIR == 'win':
+            # Use --always-copy on Windows to copy all needed libraries
+            command.append('--always-copy')
+        
         command.append('"' + egg + '"')
         command = ' '.join(command)
         
@@ -165,12 +158,11 @@ def develop_install_cone_sources(source_paths, target_dir, python_version, pytho
         for source_path in source_paths:
             os.chdir(source_path)
             command = ['%s setup.py develop' % python_executable,
-                   '--allow-hosts None',
                    '--find-links "%s"' % os.path.normpath(os.path.join(ROOT_PATH, 'install-temp/dep-eggs')),
                    '--install-dir "%s"' % LIB_DIR,
                    '--script-dir "%s"' % SCRIPT_DIR,
                    '--site-dirs "%s"' % LIB_DIR,
-                   '--always-copy']
+                   ]
             command = ' '.join(command)
             log.debug(command)
             ok = utils.run_command(command, env_overrides={'PYTHONPATH': LIB_DIR})
@@ -187,6 +179,21 @@ def perform_build(target_dir, plugin_package, install_type, python_version, pyth
 
     # Retrieve dependencies to the correct location
     retrieve_dep_eggs(plugin_package)
+    
+    # Install the dependencies locally using either local copies or downloading from PyPi
+    deps = ['Jinja2', 'lxml']
+    for dep in deps:
+        command = ['easy_install-%s' % python_version,
+                   '--find-links install-temp/dep-eggs']
+
+        command.append(dep)
+        command = ' '.join(command)
+        log.debug(command)
+        ok = utils.run_command(command)
+        if not ok:
+            print "Warning: failed to run easy_install to install %s." % dep
+        
+        
     
     # Find paths to the sources to install
     source_paths = find_cone_egg_sources(plugin_package)

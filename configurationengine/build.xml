@@ -8,10 +8,9 @@
   <property file="linux.properties" />
   <property file="windows.properties" />
   <property environment="env" />
-  <property name="cone.src.dir"
-            value="source/cone" />
-  <property name="cone.src.dir_abs"
-            location="${cone.src.dir}" />
+  <property name="cone.src.dir" value="source/cone"/>
+  <property name="cone.src.dir_abs" location="${cone.src.dir}"/>
+
   <!--
     Build properties, intended to be overridden from the command line
     where necessary.
@@ -65,6 +64,7 @@
             location="${build.cone_pack_path}" />
   <property name="build.bat_pack_path_abs"
             location="${build.bat_pack_path}" />
+
   <!--
     <property name="os.linux.name" value="Linux" />
     <property name="os.windows" value="Windows 2003, Windows XP, Windows vista" />
@@ -151,6 +151,7 @@
     <delete dir="${build.bat_export_path_abs}" />
     <delete dir="${build.cone_pack_path_abs}" />
     <delete dir="${build.bat_pack_path_abs}" />
+
   </target>
   <target name="svnversion">
     <!--
@@ -308,6 +309,8 @@
   <target name="_install-cone-dualversion-linux"
           depends="svninitupdate"
           if="os_is_linux">
+    <echo>Adding execution rights to source/cone</echo>
+    <chmod dir="source" file="cone" perm="ugo+rx"/>
     <echo>Installing with first Python version (executable=${build.dualversioninstall.executable1})</echo>
     <exec executable="python"
           dir="${build_scripts_dir}"
@@ -326,6 +329,7 @@
       <arg value="update_svn_revision.py" />
       <arg value="source/cone/__init__.py" />
     </exec>
+
   </target>
   <target name="install-cone-dualversion"
           depends="_install-cone-dualversion-win,_install-cone-dualversion-linux" />
@@ -342,7 +346,31 @@
     The actual dependencies to cone-install and cone-install-dualversion are
     specified in the actual targets below.
     -->
-  <target name="_pack">
+  <target name="_pack" depends="_pack_linux,_pack_windows"/>
+
+  <target name="_pack_linux" if="os_is_linux">
+    <!--
+        <echo>$${build.cone_pack_path}:     ${build.cone_pack_path}</echo>
+        <echo>$${build.cone_pack_path_abs}: ${build.cone_pack_path_abs}</echo>
+        -->
+    <echo message="Creating zip file" />
+    <mkdir dir="${build.cone_pack_path_abs}" />
+    <tstamp>
+      <format property="lastbuild"
+              pattern="yyyyMMddHHmmss" />
+    </tstamp>
+    <zip destfile="${build.cone_pack_path_abs}/ConE-${common.version}-${build.plugin_package}-${lastbuild}-${svn.version}.zip">
+      <fileset dir="${build.cone_install_path_abs}" />
+    </zip>
+    <exec executable="zip"
+          dir="${build.cone_pack_path_abs}">
+      <arg value="-j" />
+      <arg value="ConE-${common.version}-${build.plugin_package}-${lastbuild}-${svn.version}.zip" />
+      <arg value="${build.cone_install_path_abs}/cone" />
+    </exec>
+  </target>	
+
+  <target name="_pack_windows" unless="os_is_linux">
     <!--
         <echo>$${build.cone_pack_path}:     ${build.cone_pack_path}</echo>
         <echo>$${build.cone_pack_path_abs}: ${build.cone_pack_path_abs}</echo>
@@ -357,7 +385,8 @@
       <fileset dir="${build.cone_install_path_abs}" />
     </zip>
   </target>
-  <!-- Actual pack targets -->
+
+<!-- Actual pack targets -->
   <target name="pack"
           depends="install-cone">
     <antcall target="_pack" />
@@ -441,27 +470,30 @@
       <arg value="python runtests.py" />
     </exec>
   </target>
-  <target name="zip-src"
-          depends="svnversion, clean">
-    <mkdir dir="${build.cone_pack_path_abs}" />
-    <tstamp>
-      <format property="lastbuild"
-              pattern="yyyyMMdd-HHmmss" />
-    </tstamp>
-    <property name="zip_abs"
-              location="${build.cone_pack_path_abs}/cone-src-${common.version}-${lastbuild}-r${svn.version}.zip" />
-    <zip destfile="${zip_abs}">
-      <zipfileset dir="${cone.src.dir_abs}">
-        <exclude name="**/tests/**" />
-        <exclude name="**/*.pyc" />
-        <exclude name="**/runtests.py" />
-        <exclude name="test.xml" />
-        <exclude name="nose_unittests.cfg" />
-        <exclude name="all.doxygen" />
-      </zipfileset>
-      <zipfileset file="RELEASE.TXT" />
-    </zip>
-    <echo>Zip package located at ${zip_abs}.</echo>
-  </target>
+    <target name="zip-src" depends="svnversion, clean">
+            
+            <mkdir dir="${build.cone_pack_path_abs}"/>
+            
+            <tstamp>
+                <format property="lastbuild" pattern="yyyyMMdd-HHmmss" />
+            </tstamp>
+            <property name="zip_abs" location="${build.cone_pack_path_abs}/cone-src-${common.version}-${lastbuild}-r${svn.version}.zip" />
+            
+            <zip destfile="${zip_abs}">
+                <zipfileset dir="${cone.src.dir_abs}">
+                    <exclude name="**/tests/**"/>
+                    <exclude name="**/*.pyc"/>
+                	<exclude name="**/runtests.py"/>
+                	<exclude name="test.xml"/>
+                	<exclude name="nose_unittests.cfg"/>
+                	<exclude name="all.doxygen"/>
+                	
+                </zipfileset>
+                <zipfileset file="RELEASE.TXT"/>
+
+            </zip>
+            
+            <echo>Zip package located at ${zip_abs}.</echo>
+        </target>
   <import file="generatedoc-build.xml" />
 </project>

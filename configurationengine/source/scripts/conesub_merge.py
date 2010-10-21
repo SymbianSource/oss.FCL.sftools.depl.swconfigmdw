@@ -16,6 +16,7 @@
 
 import sys
 import logging
+import re
 from optparse import OptionParser, OptionGroup
 import cone_common
 
@@ -184,7 +185,8 @@ def get_active_root_if_necessary(project, configuration, name):
 def merge_config_root_to_config_root(source_project, target_project,
                                      source_config, target_config,
                                      layer_finder_func,
-                                     merge_policy):
+                                     merge_policy,
+                                     find_pattern=None):
     """
     Merge the source configuration root to the target configuration root.
     
@@ -197,6 +199,10 @@ def merge_config_root_to_config_root(source_project, target_project,
         configuration and target_layer_root the one in the target
         configuration.
     @param merge_policy: The used merge policy.
+    @param find_pattern: Layers found with this pattern will be used from 
+        the source configuration. If the configuration project has a root
+        configuration which has the same ctr code as the source config,
+        the other layers are taken from the found root config.
     """
     target_root = get_active_root_if_necessary(target_project, target_config, 'target')
     source_root = get_active_root_if_necessary(source_project, source_config, 'source')
@@ -209,22 +215,77 @@ def merge_config_root_to_config_root(source_project, target_project,
     except exceptions.NotFound:
         raise MergeFailedException("Configuration root '%s' not found in source project" % source_root)
     
-    
+
+    def get_matching_config_in_target_project(target_prj, src_config):
+        
+        def get_based_on_ctr(meta):
+            if meta:
+                for prop in meta.array:
+                    if 'name' in prop.attrs and 'value' in prop.attrs:
+                        name = prop.attrs['name']
+                        if name == 'based_on_ctr':
+                            ctr_codes = prop.attrs['value'].split(',')
+                            return [ctr.strip() for ctr in ctr_codes]
+            return []
+        
+        root_configs = target_prj.list_configurations()
+        based_on_ctr_s = sorted(get_based_on_ctr(src_config.meta))
+        for c in root_configs:
+            based_on_ctr_c = sorted(get_based_on_ctr(target_prj.get_configuration(c).meta))
+            if based_on_ctr_c and based_on_ctr_s:
+                # if only one ctr code specified in source config, try to find root config that has that code
+                # (and maybe some others)
+                if len(based_on_ctr_s) == 1:
+                    if based_on_ctr_s[0] in based_on_ctr_c:
+                        return c
+                # otherwise try to find a config that has all the same ctr codes
+                elif based_on_ctr_c == based_on_ctr_s:
+                    return c
+        return None
+        
+        
     # Create or get the target configuration root
     try:
         target_config = target_project.get_configuration(target_root)
     except exceptions.NotFound:
         logger.info('Creating new root configuration %s' % (target_config))
         target_config  = target_project.create_configuration(target_config)
-        for sourcelayer_path in source_config.list_configurations():
-            sourcelayer = source_config.get_configuration(sourcelayer_path)
-            sourcelayer_path = sourcelayer.path
-            if target_config.get_storage().is_resource(sourcelayer.path):
-                logger.info('Including layer %s to root %s' % (sourcelayer_path, target_config.path))
-                target_config.include_configuration(sourcelayer_path)
-            else:
-                logger.info('Creating new layer %s to root %s' % (sourcelayer_path, target_config.path))
-                target_config.create_configuration(sourcelayer_path)
+        # try to find a matching configuration in target project (based_on_ctr)
+        cmp_config_in_target_prj = get_matching_config_in_target_project(target_project, source_config)
+        #cmp_config_in_target_prj = None
+        if cmp_config_in_target_prj:
+            logger.info('Found root %s with the same ctr code(s) from target project.' % cmp_config_in_target_prj)
+            cmp_configurations = target_project.get_configuration(cmp_config_in_target_prj).list_configurations()
+            p = re.compile(find_pattern)
+            for cmp_layer_path in cmp_configurations:
+                if not p.search(cmp_layer_path):
+                    if target_config.get_storage().is_resource(cmp_layer_path):
+                        logger.info('Including layer %s to root %s' % (cmp_layer_path, target_config.path))
+                        target_config.include_configuration(cmp_layer_path)
+                    else:
+                        logger.info('Creating new layer %s to root %s' % (cmp_layer_path, target_config.path))
+                        target_config.create_configuration(cmp_layer_path)
+        
+            for sourcelayer_path in source_config.list_configurations():
+                sourcelayer = source_config.get_configuration(sourcelayer_path)
+                sourcelayer_path = sourcelayer.path
+                if p.search(sourcelayer_path):
+                    if target_config.get_storage().is_resource(sourcelayer.path):
+                        logger.info('Including layer %s to root %s' % (sourcelayer_path, target_config.path))
+                        target_config.include_configuration(sourcelayer_path)
+                    else:
+                        logger.info('Creating new layer %s to root %s' % (sourcelayer_path, target_config.path))
+                        target_config.create_configuration(sourcelayer_path)
+        else:
+            for sourcelayer_path in source_config.list_configurations():
+                sourcelayer = source_config.get_configuration(sourcelayer_path)
+                sourcelayer_path = sourcelayer.path
+                if target_config.get_storage().is_resource(sourcelayer.path):
+                    logger.info('Including layer %s to root %s' % (sourcelayer_path, target_config.path))
+                    target_config.include_configuration(sourcelayer_path)
+                else:
+                    logger.info('Creating new layer %s to root %s' % (sourcelayer_path, target_config.path))
+                    target_config.create_configuration(sourcelayer_path)
     
     # Collect a correctly sorted list of all layer paths to merge
     layers_to_merge = layer_finder_func(source_config, target_config)

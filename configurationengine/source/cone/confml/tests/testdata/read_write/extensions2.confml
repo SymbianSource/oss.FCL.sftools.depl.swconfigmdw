@@ -1,0 +1,40 @@
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Example Configuration" version="2.91.0" xmlns:ruleml="http://www.s60.com/xml/ruleml/3" xmlns:custom="mynamespace1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <extensions>
+        <custom:something foobar="barfoo">
+            <custom:foo>
+                <custom:foo2>bar</custom:foo2>
+            </custom:foo>
+            <custom:foo>bar2</custom:foo>
+        </custom:something>
+        <custom:something2 foobar="foba"/>
+        <ruleml:rule id="SampleRuleID">${Feature/Boolean} == true</ruleml:rule>
+        <ruleml:eval_globals file="scripts/eval_globals_example.py"/>
+        <ruleml:eval_globals>
+def is_foobar(value):
+	if value.lower() == "foobar":
+		return True
+	else:
+		return False
+        </ruleml:eval_globals>
+    </extensions>
+    <feature ref="ExampleFeature" name="Example Feature Settings" custom:foo="3">
+        <desc>This is the description for the feature. It can be used for display purposes.</desc>
+        <setting ref="setting1" name="Setting 1" type="int" readOnly="false" custom:bar="1">
+            <extensions>
+                <custom:something myattribute="baar">
+                    <custom:foo myatt="baarfoo">bar</custom:foo>
+                </custom:something>
+                <custom:something2 myattribute="bar"/>
+            </extensions>
+            <desc>The first setting</desc>
+        </setting>
+        <setting ref="Int" name="Int setting" type="int" ruleml:relevant="SampleRuleID"/>
+        <setting ref="MMSMessageSize" name="MMS Message Size" type="selection">
+            <option name="small" value="10" relevant="MMSSmall = true"/>
+            <option name="medium" value="20" custom:foo="4"/>
+            <option name="large" value="30"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="50"/>
+        </setting>
+    </feature>
+</configuration>

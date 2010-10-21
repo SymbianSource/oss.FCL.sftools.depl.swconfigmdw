@@ -202,6 +202,8 @@ class ContentImpl(plugin.ImplBase):
         if input_dir == None:
             self.logger.warning("Input dir is none!")
 
+        files = utils.flatten_list(files)
+        self.logger.info("Files: %s" % files)
         
         if files != []:
             for f in files:
@@ -212,8 +214,7 @@ class ContentImpl(plugin.ImplBase):
             
 
         if files != []:
-            filesfunc = lambda x: x.lower() in [f.lower() for f in files]
-            contentfiles = filter(filesfunc, contentfiles)
+            contentfiles = files
         if include_filter != "":
             filter_regexp = include_filter
             filter_regexp = filter_regexp.replace('.','\.')         
@@ -226,7 +227,7 @@ class ContentImpl(plugin.ImplBase):
             filter_regexp = filter_regexp.replace('*','.*')         
             self.logger.info("filtering with exclude %s" % filter_regexp)   
             contentfiles = utils.resourceref.neg_filter_resources(contentfiles,filter_regexp)
-        for outfile in contentfiles:
+        for (index, outfile) in enumerate(contentfiles):
             sourcefile = ""
             targetfile = ""
             
@@ -235,24 +236,34 @@ class ContentImpl(plugin.ImplBase):
             else:                                   input_dir_check = input_dir
             
             if input_dir != None and (input_dir == outfile or outfile.startswith(input_dir_check)):
-                sourcefile = datacontainer.get_value(outfile)
-                if flatten:
-                    targetfile = utils.resourceref.join_refs([output_dir, os.path.basename(outfile)])
-                    targetfile = utils.resourceref.norm(targetfile)
+                try:
+                    sourcefile = datacontainer.get_value(outfile)
+                except KeyError:
+                    self.logger.info("Input file not found: %s" % outfile)
                 else:
-                    targetfile = utils.resourceref.replace_dir(outfile,input_dir,output_dir)
+                    if flatten:
+                        targetfile = utils.resourceref.join_refs([output_dir, os.path.basename(outfile)])
+                        targetfile = utils.resourceref.norm(targetfile)
+                    else:
+                        targetfile = utils.resourceref.replace_dir(outfile,input_dir,output_dir)
             elif external:
                 #External inputs
-                sourcefile = utils.resourceref.norm(datacontainer.get_value(outfile))
-                                
-                if flatten:
-                    targetfile = utils.resourceref.join_refs([output_dir, os.path.basename(sourcefile)])
-                    targetfile = utils.resourceref.norm(targetfile)
+                try: 
+                    sourcefile = utils.resourceref.norm(datacontainer.get_value(outfile))
+                except KeyError:
+                    self.logger.info("Input file not found: %s" % outfile)
                 else:
-                    fulldir = os.path.abspath(os.path.join(self.configuration.get_project().get_storage().get_path(),input_dir))
-                    targetfile = utils.resourceref.replace_dir(sourcefile,fulldir,output_dir)
-                
-            if output_file:
+                    if flatten:
+                        targetfile = utils.resourceref.join_refs([output_dir, os.path.basename(sourcefile)])
+                        targetfile = utils.resourceref.norm(targetfile)
+                    else:
+                        fulldir = os.path.abspath(os.path.join(self.configuration.get_project().get_storage().get_path(),input_dir))
+                        targetfile = utils.resourceref.replace_dir(sourcefile,fulldir,output_dir)
+                    
+            if isinstance(output_file,list):
+                #Renaming output if defined
+                targetfile = targetfile.replace(os.path.basename(targetfile), output_file[index])
+            elif output_file:
                 #Renaming output if defined
                 targetfile = targetfile.replace(os.path.basename(targetfile), output_file)
                 

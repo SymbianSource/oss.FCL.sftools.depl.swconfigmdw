@@ -2,7 +2,7 @@
 <configuration xmlns="http://www.s60.com/xml/confml/2"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2"
-               name="Relevant feature test">
+               name="Relevant feature test" version="2.91.0">
     <feature ref="RelevantFeatureTest" name="Relevant feature test" relevant="Feature1/StringSetting = 'test'">
         <desc>Feature for testing attribute 'relevant' in a feature.</desc>
         

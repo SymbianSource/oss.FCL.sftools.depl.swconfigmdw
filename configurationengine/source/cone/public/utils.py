@@ -569,6 +569,25 @@ def prepend_list(elem, prepend):
     retlist.insert(0, prepend)
     return retlist
 
+def iter_flatten(iterable):
+    for item in iterable:
+        if isinstance(item, (list, tuple)):
+            for subitem in flatten_list(item):
+                yield subitem
+        else:
+            yield item
+
+def flatten_list(lst):
+    """
+    Flatten a list or tuple.
+    @param lst: The list of tuple to flatten.
+    @return: The flattened list.
+    
+    >>> flatten_list([1, 2, [3, [4, 5]], [6]])
+    [1, 2, 3, 4, 5, 6]
+    """
+    return [item for item in iter_flatten(lst)]
+
 def is_list(elem):
     return isinstance(elem, list)
 

@@ -176,7 +176,10 @@ class TestContentPluginOnFileStorage(unittest.TestCase):
                     'content/test/shout.txt', 
                     'content/test/override.txt', 
                     'content/test/s60.txt',
-                    'content/test/test_CAP_letters.txt']
+                    'content/test/test_CAP_letters.txt',
+                    'content/wallpapers/wallpaper1.png',
+                    'content/wallpapers/wallpaper2.png',
+                    'content/wallpapers/wallpaper3.png']
         actual = impl.list_output_files()
         self.assertEquals(sorted(actual), sorted(expected))
 
@@ -272,6 +275,25 @@ class TestContentPluginOnFileStorage(unittest.TestCase):
         copylist = impl.get_full_copy_list()
         # There should be nothing in the copy list
         self.assertEquals(copylist, [])
+        
+    def test_get_copy_list_with_multiple_includes_from_sequence(self):
+        impl = self.load_impl('assets/s60/implml/multiple_input_includes_from_sequence.content')
+        copylist = impl.get_full_copy_list()
+        self.assertEquals(sorted(copylist),
+            sorted(
+                [('assets/s60/content/test/foo.txt', 'widget/temp/foo.txt', False),
+                 ('assets/s60/content/test/bar.txt', 'widget/temp/bar.txt', False),
+                 ('assets/s60/content/test/baz.txt', 'widget/temp/baz.txt', False),
+                 ('assets/s60/content/test/s60.txt', 'widget/temp/s60.txt', False)]))
+
+    def test_get_copy_list_with_multiple_input_from_sequence_with_flatten(self):
+        impl = self.load_impl('assets/s60/implml/multiple_input_from_sequence_with_flatten.content')
+        copylist = impl.get_full_copy_list()
+        self.assertEquals(sorted(copylist),
+            sorted(
+                [('family/product/content/wallpapers/wallpaper1.png', 'content/wallpapers/1_wallpaper1.png', False),
+                 ('family/product/content/wallpapers/wallpaper2.png', 'content/wallpapers/2_wallpaper2.png', False),
+                 ('family/product/content/wallpapers/wallpaper3.png', 'content/wallpapers/3_wallpaper3.png', False)]))
         
 if __name__ == '__main__':
     unittest.main()

@@ -13,5 +13,5 @@
 #
 # Description: 
 #
-__version__ = "1.2.13"
+__version__ = "1.2.14"
 _svnrevision = ""

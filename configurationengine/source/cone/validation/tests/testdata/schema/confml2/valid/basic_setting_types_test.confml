@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="Basic setting types test">
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2" xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2" name="Basic setting types test" version="2.91.0">
   <confml:feature ref="BasicSettingTypesTest" name="Basic setting types test">
     <confml:desc>Feature with basic setting types (ConfML v2.0)</confml:desc>
     

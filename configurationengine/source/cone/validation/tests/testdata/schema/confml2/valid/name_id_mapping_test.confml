@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<configuration xmlns="http://www.s60.com/xml/confml/2" name="Test features for testing name-ID mappings" version="1">
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Test features for testing name-ID mappings" version="2.91.0">
     <feature ref="NameIdMappingTestSourceSequences" name="Source sequences for name-ID mappings">
         <setting ref="StringSequence" name="String sequence" type="sequence" mapKey="Value" mapValue="Value">
             <setting ref="Value" name="Value sub-setting" type="string"/>

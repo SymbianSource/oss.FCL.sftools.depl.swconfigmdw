@@ -19,7 +19,7 @@ Test the configuration
 """
 import unittest
 import os
-import pickle 
+import pickle
 
 from cone.public import api,exceptions
 from cone.storage import persistentdictionary
@@ -773,6 +773,28 @@ class TestConfigurationData(unittest.TestCase):
                           [['test1','test2','test3'],
                            ['foo1','foo2','foo3']])
         self.assertEquals(conf.list_all_datas(),['feature1', 'feature1.child1', 'feature1.child2', 'feature1.child3', 'feature1', 'feature1.child1', 'feature1.child2', 'feature1.child3'])
+
+    def test_create_layers_add_featuresequence_and_add_data_via_features_pickle(self):
+
+        conf = api.Configuration("foo/foo.confml")
+        conf.add_feature(api.FeatureSequence('feature1'))
+        conf.add_feature(api.Feature('child1'),'feature1')
+        conf.add_feature(api.Feature('child2'),'feature1')
+        conf.add_feature(api.Feature('child3'),'feature1')
+
+        pickle.dumps(conf)
+
+        conf.feature1.add_sequence(['foo1','foo2','foo3'])
+        pickle.dumps(conf)
+
+        conf.feature1.add_sequence()
+        pickle.dumps(conf)
+
+        conf.feature1.get_data()[1][0].set_value('test1')
+        conf.feature1.get_data()[1][1].set_value('test2')
+        conf.feature1.get_data()[1][2].set_value('test3')
+        conf.feature1.add_sequence(['bar1','bar2','bar3'])
+
 
     def test_create_featuresequence_and_get_empty_data(self):
         conf = api.Configuration("foo/foo.confml")

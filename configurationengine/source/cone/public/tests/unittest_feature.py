@@ -232,6 +232,7 @@ class TestFeature(unittest.TestCase):
         self.assertEquals(fea._dict(), {'ref': 'foo',
                                         'type': 'int',
                                         'name': None,
+                                        'extensionAttributes': [],
                                         'relevant': None,
                                         'constraint': None })
 

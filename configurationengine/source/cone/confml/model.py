@@ -76,6 +76,8 @@ class ConfmlConfiguration(ConfmlElement, api.Configuration):
             self.meta = kwargs.get('meta')
         if kwargs.get('desc'):
             self.desc = kwargs.get('desc')
+        if kwargs.get('extensions'):
+            self.extensions = kwargs.get('extensions')
 
     def _view_class(self):
         return ConfmlView
@@ -129,6 +131,28 @@ class ConfmlConfiguration(ConfmlElement, api.Configuration):
 
     """ The meta element as a property """
     meta = property(get_meta,set_meta,del_meta)
+    
+    def get_extensions(self): 
+        """
+        @return: The extension element of the Configuration.
+        """
+        try:
+            extensions = getattr(self,ConfmlExtensions.refname)
+            return extensions
+        except AttributeError:
+            return None
+
+    def set_extensions(self,value): 
+        self._add(ConfmlExtensions(value))
+
+    def del_extensions(self): 
+        try:
+            self._remove(ConfmlExtensions.refname)
+        except exceptions.NotFound:
+            pass
+
+    """ The extensions element as a property """
+    extensions = property(get_extensions,set_extensions,del_extensions)
 
 class ConfmlSettingAttributes(ConfmlElement):
     """
@@ -429,6 +453,7 @@ class ConfmlSetting(ConfmlSettingAttributes, api.Feature):
                        'selection']
     def __init__(self, ref,**kwargs):
         super(ConfmlSetting,self).__init__(ref,**kwargs)
+        self.extensionAttributes = []
         self.type = kwargs.get('type',None)
 
     def get_value_cast(self, value, attr=None):
@@ -496,7 +521,15 @@ class ConfmlSetting(ConfmlSettingAttributes, api.Feature):
             return 'true'
         else: 
             return 'false'
-
+        
+    def set_extension_attributes(self, attributes):
+        self.extensionAttributes = attributes
+        
+    def get_extension_attributes(self):
+        return self.extensionAttributes
+    
+    def add_extension_attribute(self, attribute):
+        self.extensionAttributes.append(attribute)
 
 class ConfmlStringSetting(ConfmlSetting):
     """
@@ -1128,3 +1161,51 @@ def get_mapper(modelname):
     mapmodule = __import__('cone.confml.mapping')
     return mapmodule.confml.mapping.MAPPERS[modelname]()
 
+class ConfmlExtensions(api.Base):
+    """
+    Confml extensions element
+    """
+    refname = "_extensions"
+    def __init__(self,  **kwargs):
+        super(ConfmlExtensions,self).__init__(self.refname)
+
+
+class ConfmlExtension(api.Base):
+    """
+    Confml generic subelement of extensions element
+    """
+    refname = "_extension"
+    def __init__(self, tag, value = None, ns = None, **kwargs):
+        """
+        """
+        super(ConfmlExtension,self).__init__(self.refname)
+        self.tag = tag
+        self.value = value
+        self.ns = ns
+        self.attrs = dict(kwargs.get('attrs') or {})
+
+
+    def __cmp__(self, other):
+        try:
+            if self.tag != other.tag or self.value != other.value\
+                or self.ns != other.ns or self.attrs != other.attrs:
+                return 1
+        except:
+            return 1
+        return 0
+
+    def __str__(self):
+        return "Tag: %s Value: %s Namespace: %s Attributes: % s" % (self.tag, self.value, self.ns, repr(self.attrs))         
+
+class ConfmlExtensionAttribute():
+    """
+    Confml generic extension attribute
+    """
+    def __init__(self, name, value = None, ns = None, **kwargs):
+        """
+        """
+        self.name = name
+        self.value = value
+        self.ns = ns
+        self.attrs = dict(kwargs.get('attrs') or {})
+    

@@ -55,6 +55,7 @@ class ZipStorage(common.StorageBase):
         self.persistentmodule = persistentconfml
         self.compression = zipfile.ZIP_DEFLATED
         self.modified = False
+        self.cache = {}
         self.logger = logging.getLogger('cone')
         self.logger.debug("ZipStorage path %s open in mode %s" % (path,self.mode))
         try:
@@ -284,22 +285,30 @@ class ZipStorage(common.StorageBase):
             self.zipfile.close()
             # Recreate the zip file if the zip has been modified to make a zip without 
             # duplicate local file entries
-            if self.modified:
-                oldfile = None
-                newzipfile = None
-                fh, tmp_path = tempfile.mkstemp(suffix='.zip')
-                shutil.move(self.path, tmp_path)
-                oldfile = zipfile.ZipFile(tmp_path,"r")
-                newzipfile = zipfile.ZipFile(self.path,"w",self.compression)
-                for fileinfo in oldfile.infolist():
-                    newzipfile.writestr(fileinfo, oldfile.read(fileinfo.filename))
-                if oldfile: oldfile.close()
-                if newzipfile: newzipfile.close()
-                os.close(fh)
-                os.unlink(tmp_path)
-            self.zipfile = None
         else:
             raise exceptions.StorageException('Storage %s has been already closed!' % self.path)
+
+        if self.modified or self.cache:
+            logging.getLogger('cone').debug("Recreating the ZIP output file")
+            oldfile = None
+            newzipfile = None
+            fh, tmp_path = tempfile.mkstemp(suffix='.zip')
+            shutil.move(self.path, tmp_path)
+            oldfile = zipfile.ZipFile(tmp_path,"r")
+            newzipfile = zipfile.ZipFile(self.path,"w",self.compression)
+            for fileinfo in oldfile.infolist():
+                if fileinfo.filename not in self.cache.keys():
+                    newzipfile.writestr(fileinfo, oldfile.read(fileinfo.filename))
+            for filename in sorted(self.cache.keys()):
+                logging.getLogger('cone').debug("Adding pre-cached file %s." % filename)
+                newzipfile.write(self.cache[filename], arcname=filename)
+            if oldfile: oldfile.close()
+            if newzipfile: newzipfile.close()
+            os.close(fh)
+            os.unlink(tmp_path)
+            logging.getLogger('cone').debug("Recreating the ZIP output file completed.")
+        
+        self.zipfile = None
 
     def unload(self, path, object):
         """

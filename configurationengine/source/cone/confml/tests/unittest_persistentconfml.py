@@ -29,6 +29,7 @@ from cone.confml import persistentconfml, model, confmltree
 from testautomation.base_testcase import BaseTestCase
 import pickle
 
+
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 ElementTree = utils.etree
@@ -1745,6 +1746,44 @@ class TestWriteSequenceTemplates(BaseTestCase):
             os.path.join(self.TEMP_DIR, FILE_NAME),
             os.path.join(self.EXPECTED_DIR, 'complex_seq_with_nones.confml'))
 
+class TestExtensions(unittest.TestCase):
+    def test_get_reader_for_extensions(self):
+        reader = persistentconfml.get_reader_for_elem("extensions")
+        self.assertTrue(isinstance(reader, persistentconfml.ExtensionsReader))
+
+    def test_parse_extensions_elem(self):
+        reader = persistentconfml.get_reader_for_elem("extensions")
+        elem = ElementTree.Element('extension')
+        owner = ElementTree.Element('owner')
+        owner.text = 'Testing owner'
+        origin = ElementTree.Element('origin')
+        origin.text = 'just origin'
+        target = ElementTree.Element('target')
+        target.text = 'target hw'
+        elem.append(owner)
+        elem.append(origin)
+        elem.append(target)
+        data = reader.loads(elem)
+        exts = data._get('_extension')
+        self.assertTrue(isinstance(exts, list))
+        self.assertEquals(exts[0].tag, 'owner')
+        self.assertEquals(exts[0].value, 'Testing owner')
+        self.assertEquals(exts[1].tag, 'origin')
+        self.assertEquals(exts[1].value, 'just origin')
+        self.assertEquals(exts[2].tag, 'target')
+        self.assertEquals(exts[2].value, 'target hw')
+
+    def test_write_extensions_elem(self):
+        writer = persistentconfml.get_writer_for_class("ConfmlExtensions")
+        celem = model.ConfmlExtensions()
+        celem._add([model.ConfmlExtension('test', 123), 
+                    model.ConfmlExtension('owner', "some ownername"), 
+                    model.ConfmlExtension('target', "hw")])
+        etree = writer.dumps(celem)
+        self.assertEquals(etree.find('test').text,123)
+        self.assertEquals(etree.find('owner').text,'some ownername')
+        self.assertEquals(etree.find('target').text,'hw')
+        
 class TestReadWriteConfml(BaseTestCase):
     """
     Test case for ensuring that reading in a ConfML file and then writing
@@ -1862,6 +1901,7 @@ class TestPickle(BaseTestCase):
         finally:    f.close()
         
         model = persistentconfml.loads(original_data)
+        model.get_default_view()#verify that dump works also after get_default_view is called
         
         PATH_ORIGINAL = os.path.join(output_dir, 'original_pickled', file_name)
         PATH_DUMPED   = os.path.join(output_dir, 'pickled', file_name)

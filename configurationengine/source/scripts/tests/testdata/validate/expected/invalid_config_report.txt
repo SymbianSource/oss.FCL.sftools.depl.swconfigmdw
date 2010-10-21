@@ -8,7 +8,7 @@ Msg:  no element found: line 1, column 0
 File: assets/invalid/confml/invalid_element.confml
 Line: 8
 Type: schema.confml
-Msg:  Element '{http://www.s60.com/xml/confml/2}foo': This element is not expected. Expected is one of ( {http://www.s60.com/xml/confml/2}desc, {http://www.s60.com/xml/confml/2}icon, {http://www.s60.com/xml/confml/2}link, {http://www.s60.com/xml/confml/2}option, {http://www.s60.com/xml/confml/2}property, {http://www.s60.com/xml/confml/2}setting, {http://www.s60.com/xml/confml/2}localPath, {http://www.s60.com/xml/confml/2}targetPath, {http://www.w3.org/2001/XMLSchema}minInclusive, {http://www.w3.org/2001/XMLSchema}maxInclusive ).
+Msg:  Element '{http://www.s60.com/xml/confml/2}foo': This element is not expected. Expected is one of ( {http://www.s60.com/xml/confml/2}desc, {http://www.s60.com/xml/confml/2}icon, {http://www.s60.com/xml/confml/2}link, {http://www.s60.com/xml/confml/2}option, {http://www.s60.com/xml/confml/2}property, {http://www.s60.com/xml/confml/2}setting, {http://www.s60.com/xml/confml/2}localPath, {http://www.s60.com/xml/confml/2}targetPath, {http://www.w3.org/2001/XMLSchema}pattern, {http://www.w3.org/2001/XMLSchema}minInclusive ).
 
 File: assets/invalid/confml/invalid_type.confml
 Line: 4

@@ -224,8 +224,9 @@ class FileStorage(common.StorageBase):
                 # when we can just write the file directly into the ZIP
                 if isinstance(storage, zipstorage.ZipStorage):
                     source_abspath = os.path.join(self.rootpath, path)
-                    logging.getLogger("cone").debug("Exporting directly from file to ZIP: %r -> %r" % (source_abspath, path))
-                    storage.zipfile.write(source_abspath, path)
+                    logging.getLogger("cone").debug("Pre-caching: %r -> %r" % (source_abspath, path))
+                    storage.cache[path] = source_abspath
+                    storage.modified = True
                 else:
                     wres = storage.open_resource(path,'wb')
                     res  = self.open_resource(path,"rb")

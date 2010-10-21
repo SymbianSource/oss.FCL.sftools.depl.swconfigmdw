@@ -317,6 +317,17 @@ class TestContentOutput(unittest.TestCase):
         self.assertEquals(conout.path_convert('/test/foo/bar.txt'), 'test/foo/bar.txt')
         self.assertEquals(conout.path_convert('foo/bar.txt'), 'foo/bar.txt')
 
+    def test_path_convert_with_sequence_input(self):
+        conout = contentmlparser.ContentOutput()
+        self.assertEquals(conout.path_convert(['z:\\test\\foo\\bar.txt',
+                                               'z:/test/foo/bar.txt',
+                                               '/test/foo/bar.txt',
+                                               'foo/bar.txt']),
+                                               ['test\\foo\\bar.txt',
+                                                'test/foo/bar.txt',
+                                                'test/foo/bar.txt',
+                                                'foo/bar.txt'])
+
 class TestContentInput(unittest.TestCase):    
     def test_content_input_dir(self):
         conin = contentmlparser.ContentInput(dir='foobar/test')
