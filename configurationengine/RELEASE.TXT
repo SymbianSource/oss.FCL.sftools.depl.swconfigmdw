@@ -1,11 +1,39 @@
 
 
                          ConE - the Configuration Engine
-                              Version cone-1.2.11
-                            Release Notes, 10.08.2010
+                              Version cone-1.2.14
+                            Release Notes, 19.10.2010
 
 Release notes:
 =============
+
+== Version Cone-1.2.14 ==
+* Stories
+ * #1129 Remove lxml and jinja from SF, because they are under GPL witch is not compatible with EPL
+ * #1113 Theme generation fails if theme doesn't have .project file
+ * #1104 As a variant engineer I want to use Initvariant in TB10.1 environment
+ * #1086 As a user I want initvariant to update configuration project's root file so that any structural changes are included
+ * #1108 As a ConE Linux user I want to have execution rights in cone.zip file for cone (shell script)
+ * #1003 As a variant engineer I want to export CPF filtered so that content only from the specified layers is included
+ * #1125 ConE support for confml rules extension
+
+* Bug fixes
+ * #1127 Pickling error with sequences
+ * #1126 Content copied too many times in master CPF
+
+== Version Cone-1.2.13 ==
+* Stories
+ * #1046 As a product integrator I want to get product specific report containing changed settings so that I can easily compare different configurations
+ * #1047 Uda generation slow down with Vasco custvariant
+ * #1054 As a TemplateML user I want to define a filter as a Python function
+
+* Bug fixes
+ * #1016 Error: Pickle usage break Nuage usage
+ * #1053 CommandML should redirect output to the ConE log by default, not the standard output
+
+== Version Cone-1.2.12 ==
+* Stories
+ * #1043 As an integrator I want to have more robust root flattener so that the whole build is not failing when something in input for some product is broken
 
 == Version Cone-1.2.11 ==
 * Stories

@@ -150,22 +150,11 @@ class ContainerBase(object):
             setattr(self, arg, kwargs.get(arg))
 
     def __getstate__(self):
-        state = {}
-        if self._parent: state['_parent'] = self._parent
-        if self._order: state['_order'] = self._order
-        if self._children: state['_children'] = self._children
-        if self._respath: state['_respath'] = self._respath
+        state = self.__dict__.copy()
         return state
     
     def __setstate__(self, state):
-        self._name = state.get('ref','')
-        self._parent = state.get('_parent',None)
-        self._order = state.get('_order',[])
-        self._children = state.get('_children',{})
-        self._respath = state.get('_respath',"")
-        # update the parent link for all the children of this object
-        for child in self._objects():
-            child._parent = self
+        self.__dict__.update(state)
 
     def _set_parent(self, newparent):
         """

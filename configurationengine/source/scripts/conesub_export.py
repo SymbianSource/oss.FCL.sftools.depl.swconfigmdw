@@ -138,6 +138,14 @@ def main():
                              "Filters out all files with extension sis, sisx, wgz or wgt.",
                         default=None)
 
+    group.add_option("--include-content-filter",
+                        dest="include_content_filter",
+                        help="Filters out files and folders from content folder which don't match with "\
+                             "the given regular expression. Matching is case-insensitive. "\
+                             "Example --include-content-filter=\".*(manual|configurator).*\" "\
+                             "Filters out all content files which don't have manual or configurator in their path.",
+                        default=None)
+
     
     parser.add_option_group(group)
     (options, args) = parser.parse_args()
@@ -201,6 +209,7 @@ def run_export(options):
                        added_layers  = options.added,
                        empty_folders = not options.exclude_empty_folders,
                        exclude_filters       = {"content": options.exclude_content_filter},
+                       include_filters       = {"content": options.include_content_filter},
                        options               = options)
     else:
         _export_to_storage(project                 = project,
@@ -209,10 +218,11 @@ def run_export(options):
                            added_layers            = options.added,
                            empty_folders           = not options.exclude_empty_folders,
                            exclude_filters         = {"content": options.exclude_content_filter},
+						   include_filters         = {"content": options.include_content_filter},
                            options                 = options)
     
 
-def _export_to_storage(project, remote_project_location, configs, added_layers, empty_folders, exclude_filters, options):
+def _export_to_storage(project, remote_project_location, configs, added_layers, empty_folders, exclude_filters, include_filters, options):
     assert len(configs) > 0
     
     # If the remote storage is not given, determine it automatically based
@@ -240,7 +250,8 @@ def _export_to_storage(project, remote_project_location, configs, added_layers, 
         project.export_configuration(config,
                                      remote_project.storage,
                                      empty_folders = empty_folders,
-                                     exclude_filters = exclude_filters)
+                                     exclude_filters = exclude_filters,
+									 include_filters = include_filters)
         print "Export %s to %s done!" % (config_path, remote_project_location)
     
     # Setting first as active configuration if there are more than one configuration defined.
@@ -254,9 +265,9 @@ def _export_to_storage(project, remote_project_location, configs, added_layers, 
     remote_project.save()
     remote_project.close()
     
-    _add_layers(project, remote_project_location, added_layers, empty_folders, exclude_filters, options)
+    _add_layers(project, remote_project_location, added_layers, empty_folders, exclude_filters, include_filters, options)
     
-def _add_layers(source_project, remote_project_location, added_configs, empty_folders, exclude_filters, options):
+def _add_layers(source_project, remote_project_location, added_configs, empty_folders, exclude_filters, include_filters, options):
     """
     Add new configuration layers from source_project into 
     """
@@ -278,7 +289,8 @@ def _add_layers(source_project, remote_project_location, added_configs, empty_fo
                     source_project.export_configuration(existing_config,
                                                         target_project.storage,
                                                         empty_folders = empty_folders,
-                                                        exclude_filters = exclude_filters)
+                                                        exclude_filters = exclude_filters,
+                                                        include_filters = include_filters)
                 else:
                     # The given configuration does not exist in the source project,
                     # create a new empty layer
@@ -292,7 +304,7 @@ def _add_layers(source_project, remote_project_location, added_configs, empty_fo
     target_project.save()
     target_project.close()
 
-def _export_to_dir(project, export_dir, export_format, configs, added_layers, empty_folders, exclude_filters, options):
+def _export_to_dir(project, export_dir, export_format, configs, added_layers, empty_folders, exclude_filters, include_filters, options):
     if not os.path.exists(export_dir):
         os.makedirs(export_dir)
     
@@ -304,7 +316,7 @@ def _export_to_dir(project, export_dir, export_format, configs, added_layers, em
             remote_name += '/'
         
         remote_name = os.path.join(export_dir, remote_name)
-        _export_to_storage(project, remote_name, [config], added_layers, empty_folders, exclude_filters, options)
+        _export_to_storage(project, remote_name, [config], added_layers, empty_folders, exclude_filters, include_filters, options)
 
 if __name__ == "__main__":
     main()

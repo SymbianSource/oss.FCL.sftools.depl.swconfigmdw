@@ -1,0 +1,10 @@
+Based_on_CTR,Configuration_name,Product Profile Info,Language,Country,UDA ID
+1234567,RM-XXX 01 RegionA,euro,langpack_01,custvariant_00_common,uda_U01
+7654321,RM-XXX 01 RegionA,euro,langpack_01,custvariant_00_common,uda_U01
+3456789,RM-XXX 01 RegionA,euro,langpack_01,custvariant_00_common,uda_U01
+9876543,RM-XXX 01 RegionA,euro,langpack_01,custvariant_00_common,uda_U01
+1111111,RM-YYY 02 RegionB,euro_als,langpack_02,custvariant_01_common,uda_U02
+2222222,RM-YYY 02 RegionB,euro_als,langpack_02,custvariant_01_common,uda_U02
+3333333,RM-YYY 02 RegionB,euro_als,langpack_02,custvariant_01_common,uda_U02
+4444444,RM-YYY 02 RegionB,euro_als,langpack_02,custvariant_01_common,uda_U02
+5555555,RM-YYY 02 RegionB,euro_als,langpack_02,custvariant_01_common,uda_U02

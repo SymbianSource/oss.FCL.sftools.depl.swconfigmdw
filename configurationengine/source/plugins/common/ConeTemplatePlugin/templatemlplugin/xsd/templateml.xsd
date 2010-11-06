@@ -59,6 +59,18 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="filters" type="templ:filtersType">
+                <xs:annotation>
+                    <xs:documentation><![CDATA[
+                        Defines a filter usable in the Jinja template of the current output file.<br/>
+                        <br/>
+                        The filter is defined as a Python function either directly in the element, or
+                        in a file specified by the 'file' attribute. The filter is referenced with the
+                        function name from the Jinja template.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
 		</xs:choice>
 		<xs:attribute name="file" type="xs:string">
             <xs:annotation>
@@ -87,6 +99,13 @@
                 <xs:documentation>
                     Defines the encoding of the output file. Can be any of the encodings supported
                     by the Python codecs module (see http://docs.python.org/library/codecs.html#standard-encodings).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="newline" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Defines the newline of the output file.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -128,6 +147,20 @@
             </xs:annotation>
         </xs:attribute>
 	</xs:complexType>
+
+	<xs:complexType name="filtersType" mixed="true">
+		<xs:sequence>
+			<xs:element ref="xi:include" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+        <xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Path to the file where the filter's Python code is defined.
+                    Should be relative to the current implementation file.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+	</xs:complexType>
 	
     <xs:element name="templateml">
         <xs:complexType>
@@ -148,6 +181,18 @@
                             <br/>
                             The filter is defined as a Python lambda function either directly in the element, or
                             in a file referenced by the 'file' attribute.
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="filters" type="templ:filtersType">
+                    <xs:annotation>
+                        <xs:documentation><![CDATA[
+                            Defines a filter usable in any template in the current TemplateML implementation.<br/>
+                            <br/>
+                            The filter is defined as a Python function either directly in the element, or
+                            in a file referenced by the 'file' attribute. The filter is referenced with the
+                            function name from the Jinja template.
                             ]]>
                         </xs:documentation>
                     </xs:annotation>

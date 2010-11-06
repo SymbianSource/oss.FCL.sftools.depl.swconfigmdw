@@ -35,12 +35,15 @@ datafiles = ['cone_defaults.cfg',
              'info_content_report_template.html',
              'info_value_report_template.html',
              'info_value_report_template.csv',
+             'info_ctr_report_template.csv',
+             'info_ctr_report_template.html',
              'crml_dc_report_template.csv',
              'crml_dc_report_template.html',
              'validation_report_template.html',
              'validation_report_template.xml',
              'tablefilter.js',
-             'popup.js']
+             'popup.js'
+             ]
 
 setup(
     name = "cone-scripts",

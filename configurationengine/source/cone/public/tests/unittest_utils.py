@@ -648,6 +648,16 @@ class TestMakeList(unittest.TestCase):
     def test_prepend_list_with_string(self):
         self.assertEquals(utils.prepend_list(['bar','test'], 'foo'), ['foo','bar','test'])
 
+class TestFlattenList(unittest.TestCase):
+    def test_flatten_list(self):
+        self.assertEquals(utils.flatten_list([]), [])
+        self.assertEquals(utils.flatten_list([[[[]]]]), [])
+        self.assertEquals(utils.flatten_list([1]), [1])
+        self.assertEquals(utils.flatten_list([[[[1]]]]), [1])
+        self.assertEquals(utils.flatten_list([1, 2, 3]), [1, 2, 3])
+        self.assertEquals(utils.flatten_list([1, [2, [3, [4, 5], 6], 7]]), [1, 2, 3, 4, 5, 6, 7])
+        self.assertEquals(utils.flatten_list(((1, 2), [3, 4])), [1, 2, 3, 4])
+
 from cone.confml import model as confmlmodel
         
 class TestModelGetters(unittest.TestCase):

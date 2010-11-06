@@ -22,17 +22,19 @@ def unzip_file_into_dir(file, dir):
     
     if (os.path.exists(dir) is not True):
         os.mkdir(dir, 0777)
-        
     zfobj = zipfile.ZipFile(file)
     for name in zfobj.namelist():
         filePath = dir + name
         if name.endswith('/'):
-            os.mkdir(filePath)
+            if not os.path.exists(filePath):
+                createEmtyResource(filePath)
+                #os.mkdir(filePath)
         else:
-            createEmtyResource(filePath)
-            outfile = open(dir+ name, 'wb')
-            outfile.write(zfobj.read(name))
-            outfile.close()
+            if not os.path.exists(filePath):
+                createEmtyResource(filePath)
+                outfile = open(dir+ name, 'wb')
+                outfile.write(zfobj.read(name))
+                outfile.close()
 
 def createEmtyResource(path):
     splitdrive = os.path.splitdrive(path)

@@ -698,11 +698,14 @@ class ConvertProjectReader(plugin.ReaderBase):
         """
         """ 
         retStr = data
-        if not mapping: mapping = {}        
+        if not mapping: mapping = {}
         if data != None:
-            merged = dict(mapping.items() + self._get_env_variables().items())                                    
+            merged = dict(mapping.items() + self._get_env_variables().items())
             for key in merged.keys():
-                retStr = retStr.replace(key, merged[key])
+                # Do a case-insensitive replace so that things work
+                # both in Linux and Windows
+                pattern = re.compile(re.escape(key), re.IGNORECASE)
+                retStr = re.sub(pattern, lambda m: merged[key], retStr)
          
         return retStr
         

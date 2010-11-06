@@ -238,6 +238,7 @@ class ElementTreeWrapper(object):
             for backend_id in self.DEFAULT_BACKEND_IMPORT_ORDER:
                 try:
                     self.set_backend_id(backend_id)
+                    #break
                 except ImportError:
                     pass
             

@@ -32,6 +32,18 @@ elif sys.version_info[0] == 2:
         print("Officially supported versions are 2.5 and 2.6")
         sys.exit(1)
 
+try:
+    import jinja2
+except:
+    print "ERROR: Jinja2 library is not installed - please install it by running 'easy_install Jinja2'"
+    sys.exit(1)
+
+try:
+    import lxml
+except:
+    print "ERROR: Python LXML library is not installed - please install it by running 'easy_install lxml'"
+    sys.exit(1)
+
 import os
 import fnmatch 
 import re

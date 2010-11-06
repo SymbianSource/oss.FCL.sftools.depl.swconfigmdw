@@ -160,8 +160,25 @@ def main(argv=sys.argv):
             print >>sys.stderr, "Are you sure the given based-on-configuration is valid?"
             sys.exit(2)
         
-        path = coreplat_name + '/' + product        
-                    
+        path = coreplat_name + '/' + product
+        
+        # the new way (product)
+        if (os.path.exists(os.path.join(options.project, product, "root.confml"))):
+            path = product
+        # the old way (coreplat/product)
+        elif (os.path.exists(os.path.join(options.project, coreplat_name, product, "root.confml"))):
+            path = coreplat_name + '/' + product
+        # any other way, product root somewhere else (?/?/product/root.confml)
+        else:
+            for root, dirs, files in os.walk(os.path.abspath(options.project)):
+                if os.path.exists(os.path.join(root, product, "root.confml")):
+                    fullpath = os.path.abspath(os.path.join(root, product, "root.confml"))
+                    m = re.search(r'%s[\\/](.*)[\\/]root.confml' % re.escape(os.path.abspath(options.project)), fullpath)
+                    if m:
+                        path = m.group(1)
+                        path = re.sub(r'\\','/', path)
+                    break
+        
         temp_cpf_folder = tempfile.mkdtemp()
         
         export_options = ExportOptions()
@@ -174,6 +191,7 @@ def main(argv=sys.argv):
         export_options.config_regexes   = None
         export_options.export_dir = None
         export_options.exclude_content_filter = None
+        export_options.include_content_filter = None
         export_options.added = [path + '/customer/custvariant/manual/root.confml',
                                 path + '/customer/custvariant/configurator/root.confml']
         export_options.exclude_empty_folders = False
@@ -241,7 +259,8 @@ def main(argv=sys.argv):
             source_config       = options.sourceconfiguration,
             target_config       = target_config,
             layer_finder_func   = find_layers,
-            merge_policy        = MergePolicy.OVERWRITE_LAYER)
+            merge_policy        = MergePolicy.OVERWRITE_LAYER,
+            find_pattern        = options.find_pattern)
         
         if options.set_active_root:
             target_project.get_storage().set_active_configuration(target_config)

@@ -28,6 +28,7 @@ except ImportError:
 
 import os
 import logging
+import re
 
 def convert_hexa_to_decimal(hexa_number):
     """
@@ -61,14 +62,21 @@ def get_tdf_file(path):
     This method takes the name of the tdf file from the .project file 
     """
     
-    path = os.path.join(path,".project")
-    etree = ElementTree.parse(path)
-    
-    el_name =  etree.find("name")
-    if el_name != None:
-        return el_name.text
+    prj_file_path = os.path.join(path,".project")
+    if os.path.exists(prj_file_path):
+        etree = ElementTree.parse(prj_file_path)
+        
+        el_name =  etree.find("name")
+        if el_name != None:
+            return el_name.text
+        else:
+            logging.getLogger('cone.thememl').error("The element name is not in %s" % prj_file_path)
     else:
-        logging.getLogger('cone.thememl').error("The element name is not in %s" % path)
+        logging.getLogger('cone.thememl').info("No .project file found. Trying to find tdf file.")
+        for root,dirs,files in os.walk(path):
+            for f in files:
+                if f.endswith('tdf'):
+                    return re.sub('\.tdf', '', os.path.join(root, f))
         
 
 

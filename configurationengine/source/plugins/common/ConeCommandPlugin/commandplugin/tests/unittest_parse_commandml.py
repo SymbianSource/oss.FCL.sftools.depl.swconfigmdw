@@ -49,7 +49,8 @@ class TestParseCommandMl(BaseTestCase):
                                           '-d some_dir',
                                           '-x'])
         self.assertEquals(cmd.pipes, {'stdin':  subprocess.PIPE,
-                                      'stdout': 'program1.log'})
+                                      'stdout': 'program1.log',
+                                      'stderr': subprocess.PIPE})
         
         cond = impl.reader.elements[1]
         self.assertTrue(isinstance(cond, Condition))
@@ -61,7 +62,8 @@ class TestParseCommandMl(BaseTestCase):
         self.assertEquals(cmd.shell, True)
         self.assertEquals(cmd.bufsize, 0)
         self.assertEquals(cmd.arguments, ['-c some_config.txt'])
-        self.assertEquals(cmd.pipes, {})
+        self.assertEquals(cmd.pipes, {'stdout': subprocess.PIPE,
+                                      'stderr': subprocess.PIPE})
         
         self.assertEquals(impl.get_tags(), {})
     

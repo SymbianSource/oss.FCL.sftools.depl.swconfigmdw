@@ -1,0 +1,14 @@
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Example Configuration" version="2.91.0" xmlns:custom="...">
+    <extensions>
+        <custom:something/>
+    </extensions>
+    <feature ref="ExampleFeature" name="Example Feature Settings" custom:foo="3">
+        <desc>This is the description for the feature. It can be used for display purposes.</desc>
+        <setting ref="setting1" name="Setting 1" type="int" readOnly="false" custom:bar="1">
+            <extensions>
+                <custom:something>foo</custom:something>
+            </extensions>
+            <desc>The first setting</desc>
+        </setting>
+    </feature>
+</configuration>

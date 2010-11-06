@@ -79,6 +79,33 @@ class TestCommonGenerateAllImplsOnLastLayer(BaseTestCase):
         
         self._run_test_generate_all_impls_on_last_layer('temp/gen_ll2', project_zip)
 
+    def test_commandml_stout_and_sterr_logger_redirect(self):
+        project_dir = os.path.join(ROOT_PATH, "testdata/commandml_test_project")
+        self.assert_exists_and_contains_something(project_dir)
+        
+        orig_workdir = os.getcwd()
+        workdir = self._prepare_workdir("temp/commandml/logger")
+        os.chdir(workdir)
+        
+        try:
+            cmd = '%s -p "%s" --output output --log-file cone.log -v 1' % (get_cmd(), project_dir)
+            self.run_command(cmd)
+            
+            self.assert_file_contains(
+                os.path.join(workdir, "cone.log"),
+                "INFO    : cone.commandml(assets/s60/implml/file4.commandml) stdout: testing stdout, echo, echo!")
+            if sys.platform == "win32":
+                self.assert_file_contains(
+                    os.path.join(workdir, "cone.log"),
+                    "WARNING : cone.commandml(assets/s60/implml/file4.commandml) stderr: 'testing' is not recognized as an internal or external command")
+            else:
+                self.assert_file_contains(
+                    os.path.join(workdir, "cone.log"),
+                    "WARNING : cone.commandml(assets/s60/implml/file4.commandml) stderr: /bin/sh: testing: not found")
+                
+        finally:
+            os.chdir(orig_workdir)        
+
     def test_uses_layers_rule(self):
         project_dir = get_uses_layer_test_project()
         self.assert_exists_and_contains_something(project_dir)

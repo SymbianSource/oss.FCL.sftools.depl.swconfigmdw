@@ -60,10 +60,16 @@ class ContentOutput(object):
         self.configuration = configuration
 
     def path_convert(self, path):
-        match = re.match('([a-zA-Z]:)(.*)', path)
-        if match:
-            path = match.group(2)
-        return path.lstrip('\\/')
+        if isinstance(path,list):
+            converted_paths = []
+            for path_item in path:
+                converted_paths.append(self.path_convert(path_item))
+            return converted_paths
+        else:
+            match = re.match('([a-zA-Z]:)(.*)', path)
+            if match:
+                path = match.group(2)
+            return path.lstrip('\\/')
 
     def get_dir(self):
         if self.configuration and ConfmlRefs.is_confml_ref(self._dir):
@@ -92,6 +98,28 @@ class ContentOutput(object):
                     parts[index] = self.path_convert(parts[index])
                 else:
                     parts[index] = part
+            #sequence tester
+            has_sequence = False
+            seq_indexes = []
+            for (index,single_part) in enumerate(parts):
+                if isinstance(single_part,list):
+                    has_sequence= True
+                    seq_indexes.append(index)
+                    break
+
+            if has_sequence:
+                final_list = []
+                list_index = 0
+                while len(parts[seq_indexes[0]]) > list_index:
+                    tmp_list = []
+                    for tmp_part in parts:
+                        if isinstance(tmp_part,list):
+                            tmp_list.append(tmp_part[list_index])
+                        else:
+                            tmp_list.append(tmp_part)
+                    final_list.append((os.sep).join(tmp_list))
+                    list_index = list_index + 1
+                return final_list
             return (os.sep).join(parts)
         else:
             return self._file

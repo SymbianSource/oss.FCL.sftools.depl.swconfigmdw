@@ -1,0 +1,20 @@
+<configuration name="RM-YYY 02 RegionB" xmlns="http://www.s60.com/xml/confml/2" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xi:include href="family/product/uda/uda_U02/root.confml" />
+<xi:include href="family/ppbit/ppbit_euro_als/root.confml" />
+<xi:include href="family/product/language/langpack_02/root.confml" />
+<xi:include href="family/product/country/custvariant_01_common/root.confml" />
+<meta xmlns:cv="http://www.nokia.com/xml/cpf-id/1">
+  <platform>S60 / 5.2</platform>
+  <product>RM-YYY</product>
+  <version>001</version>
+  <release>123.456</release>
+  <cv:configuration-property name="sw_version" value="123.456" />
+  <cv:configuration-property name="coreplat_name" value="familyname" />
+  <cv:configuration-property name="coreplat_version" value="99" />
+  <cv:configuration-property name="s60_version" value="52" />
+  <cv:configuration-property name="sos_version" value="9.5" />
+  <cv:configuration-property name="product_name" value="prname" />
+  <cv:configuration-property name="product_type" value="RM-XXX" />
+  <cv:configuration-property name="based_on_ctr" value="1111111,2222222,3333333,4444444,5555555" />
+  </meta>
+</configuration>

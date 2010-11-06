@@ -19,7 +19,7 @@ Test the configuration
 """
 import unittest
 import os
-import pickle 
+import pickle
 
 from cone.public import api,exceptions
 from cone.storage import persistentdictionary
@@ -35,29 +35,6 @@ class TestConfiguration(unittest.TestCase):
     def test_create_configuration(self):
         conf = api.Configuration("testmee.confml")
         self.assertTrue(conf)
-
-    def test_configuration_reduce_ex(self):
-        prj = api.Project(api.Storage('.'))
-        conf = api.Configuration("testmee.confml")
-        prj.add_configuration(conf)
-        tpl = conf.__reduce_ex__(2)
-        self.assertEquals(tpl[2]['_storeint'],prj)
-        self.assertEquals(tpl[2]['path'],'testmee.confml')
-        
-    def test_configuration_pickle(self):
-        remove_if_exists(os.path.join(ROOT_PATH,'temp'))
-        prj = api.Project(api.Storage.open(os.path.join(ROOT_PATH,'temp'), 'w'))
-        conf = api.Configuration("testmee.confml")
-        prj.add_configuration(conf, True)
-        prj.save()
-        dfile  = open(os.path.join(ROOT_PATH,'temp/out.dat'), 'w')
-        pickle.dump(conf, dfile)
-        dfile.close()
-        dfile  = open(os.path.join(ROOT_PATH,'temp/out.dat'))
-        conf2 = pickle.load(dfile)
-        self.assertEquals(conf2.path,'testmee.confml')
-        self.assertEquals(conf2.name,'testmee_confml')
-
 
     def test_get_root_configuration(self):
         conf = api.Configuration("testmee.confml")
@@ -796,6 +773,28 @@ class TestConfigurationData(unittest.TestCase):
                           [['test1','test2','test3'],
                            ['foo1','foo2','foo3']])
         self.assertEquals(conf.list_all_datas(),['feature1', 'feature1.child1', 'feature1.child2', 'feature1.child3', 'feature1', 'feature1.child1', 'feature1.child2', 'feature1.child3'])
+
+    def test_create_layers_add_featuresequence_and_add_data_via_features_pickle(self):
+
+        conf = api.Configuration("foo/foo.confml")
+        conf.add_feature(api.FeatureSequence('feature1'))
+        conf.add_feature(api.Feature('child1'),'feature1')
+        conf.add_feature(api.Feature('child2'),'feature1')
+        conf.add_feature(api.Feature('child3'),'feature1')
+
+        pickle.dumps(conf)
+
+        conf.feature1.add_sequence(['foo1','foo2','foo3'])
+        pickle.dumps(conf)
+
+        conf.feature1.add_sequence()
+        pickle.dumps(conf)
+
+        conf.feature1.get_data()[1][0].set_value('test1')
+        conf.feature1.get_data()[1][1].set_value('test2')
+        conf.feature1.get_data()[1][2].set_value('test3')
+        conf.feature1.add_sequence(['bar1','bar2','bar3'])
+
 
     def test_create_featuresequence_and_get_empty_data(self):
         conf = api.Configuration("foo/foo.confml")

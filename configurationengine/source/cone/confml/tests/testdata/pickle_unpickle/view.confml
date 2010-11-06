@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<confml:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:confml="http://www.s60.com/xml/confml/2">
+  <confml:view name="Layer 1 view">
+    <confml:desc>Testing view located on layer 1.</confml:desc>
+    <confml:group name="ConfML v1.0 settings">
+      <confml:setting ref="Feature1/RealSetting"/>
+      <confml:setting ref="Feature1/IntSetting"/>
+      <confml:setting ref="Feature1/StringSetting"/>
+      <confml:setting ref="Feature1/BooleanSetting"/>
+      <confml:setting ref="Feature1/SelectionSetting"/>
+      <confml:setting ref="Feature1/SequenceSetting"/>
+      <confml:setting ref="Feature2/SequenceSetting"/>
+    </confml:group>
+    <confml:group name="ConfML v2.0 settings">
+      <confml:setting ref="BasicSettingTypesTest/RealSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/IntSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/StringSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/BooleanSetting"/>
+      <confml:setting ref="BasicSettingTypesTest/SelectionSetting"/>
+      <confml:setting ref="FileFolderTest/FolderSetting"/>
+      <confml:setting ref="FileFolderTest/FileSetting"/>
+      <confml:setting ref="SequenceSettingTest/SequenceSetting"/>
+    </confml:group>
+    
+    
+    <confml:group name="Settings for testing attribute 'relevant'">
+        <confml:group name="In options">
+            <confml:setting ref="RelevantOptionTest/*" readOnly="true"/>
+        </confml:group>
+        <confml:group name="In settings">
+            <confml:setting ref="RelevantSettingTest/*"/>
+        </confml:group>
+        <confml:group name="In a feature">
+            <confml:setting ref="RelevantFeatureTest/*"/>
+        </confml:group>
+    </confml:group>
+    
+    <confml:group name="Settings for testing Name-ID mapping">
+        <confml:group name="Source sequences">
+            <confml:setting ref="NameIdMappingTestSourceSequences/*"/>
+        </confml:group>
+        <confml:group name="Target settings">
+            <confml:setting ref="NameIdMappingTestTargetSettings/*"/>
+        </confml:group>
+    </confml:group>
+    
+    <confml:group name="Settings for testing options">
+        <confml:setting ref="OptionTest/*"/>
+    </confml:group>
+    
+    <confml:group name="Settings for testing redefining things in views">
+        <confml:group name="Redefining name and description">
+            <confml:setting ref="RedefineInViewTest/NameAndDescRedefinition" name="Name from view">
+                <confml:desc>Description from view</confml:desc>
+            </confml:setting>
+        </confml:group>
+        
+        <confml:group name="Redefining options">
+            <confml:setting ref="RedefineInViewTest/IntWithOptions">
+                <confml:option name="Small value" value="2"/>
+                <confml:option name="Large value" value="200"/>
+                <confml:option name="Huge value" value="1000000"/>
+            </confml:setting>
+            
+            <confml:setting ref="RedefineInViewTest/RealWithOptions">
+                <confml:option name="Small value" value="0.002"/>
+                <confml:option name="Large value" value="20"/>
+                <confml:option name="Microscopic value" value="1e-9"/>
+            </confml:setting>
+            
+            <confml:setting ref="RedefineInViewTest/StringWithOptions">
+                <confml:option name="UTF-8" value="utf8"/>
+                <confml:option name="UTF-16" value="utf16"/>
+                <confml:option name="Latin-1" value="iso-8859-1"/>
+            </confml:setting>
+        </confml:group>
+    </confml:group>
+
+    
+  </confml:view>
+</confml:configuration>

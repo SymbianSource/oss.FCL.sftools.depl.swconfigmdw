@@ -85,8 +85,9 @@ class ConfigurationFlattener():
             # If the value is an empty list, don't add it.
             # This is because an empty list means that we have
             # a sequence setting or sequence sub-setting that doesn't have
-            # any contents, and calling set_value() would create a data
-            # element for it with the attribute empty="true".
+            # any contents, and calling set_value() would create an empty
+            # data element to mark the sequence as empty, as the
+            # ConfML specification says
             val = fromfea.get_value()
             if val not in (None, []):
                 fea.set_value(val)

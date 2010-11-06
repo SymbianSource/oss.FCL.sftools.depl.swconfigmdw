@@ -76,7 +76,7 @@ class TestSymbianGenerateAllImplsOnLastLayer(BaseTestCase):
             project = project_dir,
             expected = os.path.join(ROOT_PATH, 'testdata/generate/expected_last_layer'),
             args = '--layer -1',
-            linux_ignores = ['anim1.mbm', 'anim2.mif', '20000000.txt', '10207114',  'themepackage.mbm', 'themepackage.mif', '12340001', '12340002'])
+            linux_ignores = ['anim1.mbm', 'anim2.mif', '20000000.txt', '10207114',  'themepackage.mbm', 'themepackage.mif', '12340001', '12340002', 'resource'])
     
     def test_generate_all_impls_target_rofs2_file_storage(self):
         project_dir = os.path.join(ROOT_PATH, "testdata/generate/project")
@@ -101,7 +101,7 @@ class TestSymbianGenerateAllImplsOnLastLayer(BaseTestCase):
             project = project_zip,
             expected = os.path.join(ROOT_PATH, 'testdata/generate/expected_last_layer'),
             args = '--layer -1',
-            linux_ignores = ['anim1.mbm', 'anim2.mif', '20000000.txt', '10207114', 'themepackage.mbm', 'themepackage.mif', '12340001', '12340002' ])
+            linux_ignores = ['anim1.mbm', 'anim2.mif', '20000000.txt', '10207114', 'themepackage.mbm', 'themepackage.mif', '12340001', '12340002', 'resource' ])
     
     def _run_test_generate_all_impls_on_last_layer(self, workdir, project, expected, args='', linux_ignores=[]):
         # Create a temp workdir and go there to run the test

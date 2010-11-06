@@ -141,10 +141,10 @@ class ThemeContainer:
         name_tdf = os.path.join(name_tdf,name_tdf+".tdf")
         input_tdf = os.path.join(zip_output,name_tdf)
        
-        command_line = "makepackage -input " + input_tdf + " -output " + output_path
+        command_line = "makepackage -input \"%s\" -output \"%s\"" % (input_tdf, output_path)
         
         if len(theme_version) != 0:
-            command_line = command_line + " -ver "+ theme_version
+            command_line = "%s -ver %s" % (command_line, theme_version)
         
         if theme.get_uid() != None:
             command_line = command_line + " -uid " + theme.get_uid()

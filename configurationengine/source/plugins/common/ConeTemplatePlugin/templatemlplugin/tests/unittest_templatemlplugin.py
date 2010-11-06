@@ -448,6 +448,111 @@ class TestTemplatemlPlugin(BaseTestCase):
         finally:
             if result_file1 != None: result_file1.close()
 
+    def test_simple_generate_prj7_with_funcs_as_filters(self):
+        
+        self.remove_if_exists(os.path.normpath("output/output/test7a.txt"))
+        self.remove_if_exists(os.path.normpath("output/output/test7b.txt"))
+        self.remove_if_exists(os.path.normpath("output/output/test7c.txt"))
+        
+        (config,impl) = self.load_impl('Layer1/implml/file7.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
+        
+        self.assert_exists_and_contains_something(os.path.normpath("output/output/test7a.txt"))
+        self.assert_exists_and_contains_something(os.path.normpath("output/output/test7b.txt"))
+        self.assert_exists_and_contains_something(os.path.normpath("output/output/test7c.txt"))
+        
+        result_file1 = None
+        result_file2 = None
+        result_file3 = None
+        
+        try:
+            result_file1 = open(os.path.normpath("output/output/test7a.txt"))
+            result_file2 = open(os.path.normpath("output/output/test7b.txt"))
+            result_file3 = open(os.path.normpath("output/output/test7c.txt"))
+            
+            if result_file1 != None: 
+                for line in result_file1:
+                    self.assertTrue(line == "3 + 4 = 7")
+            else:
+                self.fail("No result file found: output/output/test7a.txt")
+            
+            if result_file2 != None: 
+                for line in result_file2:
+                    self.assertTrue(line == "3 ** 4 = 81")
+            else:
+                self.fail("No result file found: output/output/test7b.txt")
+            
+            if result_file3 != None: 
+                for line in result_file3:
+                    self.assertTrue((line.strip() == "2!=3") or (line.strip() == "5=5"))
+            else:
+                self.fail("No result file found: output/output/test7c.txt")    
+        finally:
+            if result_file1 != None: result_file1.close()
+            if result_file2 != None: result_file2.close()
+            if result_file2 != None: result_file3.close()
+
+
+    def test_simple_generate_prj8_with_funcs_as_filters_under_output_elems(self):
+        
+        self.remove_if_exists(os.path.normpath("output/output/test8a.txt"))
+        self.remove_if_exists(os.path.normpath("output/output/test8b.txt"))
+        
+        (config,impl) = self.load_impl('Layer1/implml/file8.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
+        
+        self.assert_exists_and_contains_something(os.path.normpath("output/output/test8a.txt"))
+        self.assert_exists_and_contains_something(os.path.normpath("output/output/test8b.txt"))
+        #self.assertTrue(os.path.exists(os.path.normpath("output/output/test8a.txt")))
+        #self.assertTrue(os.path.exists(os.path.normpath("output/output/test8b.txt")))
+        
+        result_file1 = None
+        result_file2 = None
+        
+        try:
+            result_file1 = open(os.path.normpath("output/output/test8a.txt"))
+            result_file2 = open(os.path.normpath("output/output/test8b.txt"))
+            
+            if result_file1 != None: 
+                for line in result_file1:
+                    self.assertTrue(line == "3 + 4 = 7")
+            else:
+                self.fail("No result file found: output/output/test8a.txt")
+            
+            if result_file2 != None: 
+                for line in result_file2:
+                    self.assertTrue(line == "3 ** 4 = 81")
+            else:
+                self.fail("No result file found: output/output/test8b.txt")
+      
+        finally:
+            if result_file1 != None: result_file1.close()
+            if result_file2 != None: result_file2.close()
+            
+    def test_filters_in_output_not_visible_to_other_outputs(self):
+        self.remove_if_exists(os.path.normpath("output/output/test9a.txt"))
+        self.remove_if_exists(os.path.normpath("output/output/test9b.txt"))
+        (config,impl) = self.load_impl('Layer1/implml/file9.templateml')
+        gc = plugin.GenerationContext(configuration=config)
+        impl.generate(gc)
+        self.assert_exists_and_contains_something(os.path.normpath("output/output/test9a.txt"))
+        result_file1 = None
+        try:
+            result_file1 = open(os.path.normpath("output/output/test9a.txt"))
+            
+            if result_file1 != None: 
+                for line in result_file1:
+                    self.assertTrue(line == "3 + 4 = 7")
+            else:
+                self.fail("No result file found: output/output/test9a.txt")
+        finally:
+            if result_file1 != None: result_file1.close()
+            
+        # an empty file must be created
+        self.assert_file_content_equals(os.path.normpath("output/output/test9b.txt"), "", ignore_endline_style=True)
+
     def test_generate_prj1(self):
         
         self.remove_if_exists(os.path.normpath("output/output/test5a.txt"))

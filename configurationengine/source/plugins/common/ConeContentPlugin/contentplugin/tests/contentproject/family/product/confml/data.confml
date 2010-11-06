@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.s60.com/xml/confml/2"
+	xsi:schemaLocation="http://www.s60.com/xml/confml/2 http://www.s60.com/xml/confml/1#//confml2"
+	name="data">
+	<data>
+		<WallpaperSettings>
+			<Wallpapers extensionPolicy="replace">
+				<LandscapeWallpaper>
+					<localPath>wallpapers/wallpaper1.png</localPath>
+					<targetPath>1_wallpaper1.png</targetPath>
+				</LandscapeWallpaper>
+			</Wallpapers>
+			<Wallpapers>
+				<LandscapeWallpaper>
+					<localPath>wallpapers/wallpaper2.png</localPath>
+					<targetPath>2_wallpaper2.png</targetPath>
+				</LandscapeWallpaper>
+			</Wallpapers>
+			<Wallpapers>
+				<LandscapeWallpaper>
+					<localPath>wallpapers/wallpaper3.png</localPath>
+					<targetPath>3_wallpaper3.png</targetPath>
+				</LandscapeWallpaper>
+			</Wallpapers>
+		</WallpaperSettings>
+	</data>
+</configuration>

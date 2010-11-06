@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2"
+               name="Relevant option test">
+  <feature ref="RelevantOptionTest" name="Relevant option test">
+    <desc>Feature for testing attribute 'relevant' in options.</desc>
+    
+    <setting ref="RealValue" name="Real value" type="real">
+      <desc>A real value used for filtering the options in NormalSelection.</desc>
+    </setting>
+    <setting ref="IntValue" name="Int value" type="int">
+      <desc>An int value used for filtering the options in NormalSelection.</desc>
+    </setting>
+    
+    <setting ref="NormalSelection" name="Normal selection" type="selection">
+      <desc>A selection setting</desc>
+      <option name="None" value="none"/>
+      <option name="Real > 1.5" value="real15" relevant="RealValue > 1.5"/>
+      <option name="Real = 3.0" value="real30" relevant="RealValue = 3.0"/>
+      <option name="Real &lt; 3.5" value="real35" relevant="RealValue &lt; 3.5"/>
+      <option name="Int > 15" value="int15" relevant="IntValue > 15"/>
+      <option name="Int = 30" value="int30" relevant="IntValue = 30"/>
+      <option name="Int &lt; 35" value="int35" relevant="IntValue &lt; 35"/>
+      <option name="Real = 3.0 and Int = 30" value="real30_and_int30" relevant="RealValue = 3.0 and IntValue = 30"/>
+      <option name="Real = 3.0 or Int = 30" value="real30_or_int30" relevant="RealValue = 3.0 or IntValue = 30"/>
+      <option name="Feature1/StringSetting = 'test'" value="f1st_is_test" relevant="Feature1/StringSetting = 'test'"/>
+    </setting>
+    
+    <setting ref="Sequence1" name="Sequence 1" type="sequence" mapKey="Value" mapValue="Value">
+        <setting ref="Value" name="Value" type="string"/>
+    </setting>
+    
+    <setting ref="Sequence2" name="Sequence 2" type="sequence" mapKey="Value" mapValue="Value">
+        <setting ref="Value" name="Value" type="string"/>
+    </setting>
+    
+    <setting ref="UseSequence1Items" name="Use items from sequence 1" type="boolean">
+      <desc>Determines whether sequence items from Sequence1 are used in NameIdMappedSelection.</desc>
+    </setting>
+    <setting ref="UseSequence2Items" name="Use items from sequence 2" type="boolean">
+      <desc>Determines whether sequence items from Sequence2 are used in NameIdMappedSelection.</desc>
+    </setting>
+    
+    <setting ref="NameIdMappedSelection" name="Name-ID mapped selection" type="selection">
+      <desc>A selection setting with name-ID mapped options</desc>
+      <option name="None" value="none"/>
+      <option map="RelevantOptionTest/Sequence1" relevant="UseSequence1Items = 'true'"/>
+      <option map="RelevantOptionTest/Sequence2" relevant="UseSequence2Items = 'true'"/>
+    </setting>
+  </feature>
+  
+  <data>
+    <RelevantOptionTest>
+        <RealValue>0.5</RealValue>
+        <IntValue>5</IntValue>
+        <NormalSelection>none</NormalSelection>
+        
+        <Sequence1><Value>Sequence1 item 1</Value></Sequence1>
+        <Sequence1><Value>Sequence1 item 2</Value></Sequence1>
+        <Sequence1><Value>Sequence1 item 3</Value></Sequence1>
+        <Sequence2><Value>Sequence2 item 1</Value></Sequence2>
+        <Sequence2><Value>Sequence2 item 2</Value></Sequence2>
+        <Sequence2><Value>Sequence2 item 3</Value></Sequence2>
+        <UseSequence1Items>true</UseSequence1Items>
+        <UseSequence2Items>false</UseSequence2Items>
+        <NameIdMappedSelection>none</NameIdMappedSelection>
+    </RelevantOptionTest>
+  </data>
+</configuration>

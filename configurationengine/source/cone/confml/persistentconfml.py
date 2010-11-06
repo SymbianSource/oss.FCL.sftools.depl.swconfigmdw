@@ -16,6 +16,7 @@
 import os
 import re
 import logging
+
 try:
     from cElementTree import ElementTree
 except ImportError:
@@ -35,7 +36,15 @@ CONFIGURATION_NAMESPACES = ["http://www.s60.com/xml/confml/2","http://www.s60.co
 INCLUDE_NAMESPACES       = ["http://www.w3.org/2001/XInclude","http://www.w3.org/2001/xinclude"]
 XLINK_NAMESPACES         = ["http://www.w3.org/1999/xlink"]
 SCHEMA_NAMESPACES        = ["http://www.w3.org/2001/XMLSchema"]
+RULEML_NAMESPACES        = ["http://www.s60.com/xml/ruleml/3"]
+RULEML_NAMESPACE         = {"http://www.s60.com/xml/ruleml/3" : "ruleml"}
 CV_NAMESPACE             = {"http://www.nokia.com/xml/cpf-id/1": "cv"}
+KNOWN_NAMESPACES         = []
+KNOWN_NAMESPACES.extend(CONFIGURATION_NAMESPACES)
+KNOWN_NAMESPACES.extend(INCLUDE_NAMESPACES)
+KNOWN_NAMESPACES.extend(XLINK_NAMESPACES)
+KNOWN_NAMESPACES.extend(SCHEMA_NAMESPACES)
+KNOWN_NAMESPACES.extend(CV_NAMESPACE)
 MODEL                    = model
 
 def dumps(obj, indent=True):
@@ -365,6 +374,9 @@ class FeatureWriter(ConfmlWriter):
             elem.set('relevant', obj.get_relevant())
         if obj.get_constraint() != None:
             elem.set('constraint', obj.get_constraint())
+        
+        dump_extension_attributes(obj, elem)
+        
         for child in obj._objects():
             """ Make sure that the object is mapped to an object in this model """
             mobj = child._get_mapper('confml').map_object(child)
@@ -408,14 +420,17 @@ class FeatureReader(ConfmlReader):
             feature.set_constraint(elem.get('constraint'))
         feature.set_type(type)
         feature.lineno = utils.etree.get_lineno(elem)
+        
+        load_extension_attributes(elem, feature)
+        
         for elem in elem.getchildren():
             # At the moment we ignore the namespace of elements
-            (namespace,elemname) = get_elemname(elem.tag)
+            (_,elemname) = get_elemname(elem.tag)
             try:
                 reader = get_reader_for_elem(elemname)
                 obj = reader.loads(elem)
                 feature.add(obj)
-            except exceptions.ConePersistenceError,e:
+            except exceptions.ConePersistenceError:
                 add_unknown_element_warning(elem)
                 continue
         return feature
@@ -445,6 +460,13 @@ class OptionWriter(ConfmlWriter):
         if obj.relevant is not None: objdict['relevant'] = obj.relevant
         if obj.display_name is not None: objdict['displayName'] = obj.display_name
         if obj.map_value is not None: objdict['mapValue'] = obj.map_value
+
+        if hasattr(obj,'extensionAttributes') and obj.extensionAttributes is not None and obj.extensionAttributes != []:
+            for ext_attribute in obj.extensionAttributes:
+                if ext_attribute.ns != None and ext_attribute.ns != "":
+                    objdict["{%s}%s" % (ext_attribute.ns, ext_attribute.name)] = str(ext_attribute.value)
+                else:
+                    objdict[ext_attribute.name] = str(ext_attribute.value)    
 
         elem = ElementTree.Element('option', objdict)
         
@@ -482,6 +504,14 @@ class OptionReader(ConfmlReader):
                                 map_value=elem.get('mapValue'), 
                                 display_name=elem.get('displayName'))
             option.lineno = utils.etree.get_lineno(elem) 
+            
+        #Add extension attributes
+        for attribute in elem.attrib:
+            (ns,attname) = get_elemname(attribute)
+            if ns != None and ns != "":
+                if not ns in KNOWN_NAMESPACES:
+                    option.add_extension_attribute(model.ConfmlExtensionAttribute(attname, elem.attrib[attribute], ns))
+        
         return option
 
 
@@ -905,6 +935,13 @@ class ConfmlSettingWriter(ConfmlWriter):
         if hasattr(obj,'displayName') and obj.displayName is not None:
             elem.set('displayName', str(obj.displayName))
             
+        if getattr(obj, 'extensionAttributes', None):
+            for ext_attribute in obj.extensionAttributes:
+                if ext_attribute.ns:
+                    elem.set(("{%s}%s" % (ext_attribute.ns, ext_attribute.name)), str(ext_attribute.value))
+                else:
+                    elem.set(ext_attribute.name, str(ext_attribute.value))
+            
         for child in obj._objects():
             """ Make sure that the object is mapped to an object in this model """
             mobj = child._get_mapper('confml').map_object(child)
@@ -966,13 +1003,12 @@ class ConfmlSettingReader(ConfmlReader):
             feature = model.ConfmlDurationSetting(elem.get('ref'))
         elif typedef == 'hexBinary':
             feature = model.ConfmlHexBinarySetting(elem.get('ref'))
-        
-           
         else:
             # Handle the default setting as int type
             feature = model.ConfmlSetting(elem.get('ref'), type=typedef)
         feature.lineno = utils.etree.get_lineno(elem)
         self._get_setting_properties(elem, feature)
+        
         return feature
         
     def _get_setting_properties(self, elem, feature):
@@ -996,12 +1032,20 @@ class ConfmlSettingReader(ConfmlReader):
         if elem.get('relevant'):
             feature.relevant = elem.get('relevant')
         
+        #Add extension attributes
+        for attribute in elem.attrib:
+            (ns,attname) = get_elemname(attribute)
+            if ns != None and ns != "":
+                if not ns in KNOWN_NAMESPACES:
+                    feature.add_extension_attribute(model.ConfmlExtensionAttribute(attname, elem.attrib[attribute], ns))
+        
         for elem in elem.getchildren():
             # At the moment we ignore the namespace of elements
             (namespace,elemname) = get_elemname(elem.tag)
             try:
                 reader = get_reader_for_elem(elemname)
                 obj = reader.loads(elem)
+                    
                 if obj != None:
                     feature.add(obj,container.APPEND)
                 else:
@@ -1171,7 +1215,155 @@ class DummyWriter(ConfmlWriter):
     def dumps(self, obj):
         return None
 
+class ExtensionsWriter(ConfmlWriter):
+    @classmethod
+    def supported_class(cls, classname):
+        """
+        Class method to determine if this ConfmlWriter supports writing
+        of the given class name
+        """
+        if classname=="ConfmlExtensions":
+            return True
+        else:
+            return False
 
+    def dumps(self, obj):
+        """
+        @param obj: The Configuration object 
+        """
+        
+        elem = ElementTree.Element("extensions")
+        for extension in obj._objects():
+            if isinstance(extension, api.RulemlEvalGlobals):
+                writer = EvalGlobalsWriter()
+                childelem = writer.dumps(extension)
+                if childelem != None:
+                    elem.append(childelem)
+            else:
+                if extension.ns != None and extension.ns != "":
+                    childelem = ElementTree.Element("{%s}%s" % (extension.ns, extension.tag))
+                else:
+                    childelem = ElementTree.Element(extension.tag)
+                if extension.value != None:
+                    childelem.text = extension.value
+                for attr in extension.attrs:
+                    childelem.set(attr, extension.attrs[attr])
+                
+                childs = self._dump_childen(extension._objects())
+                for ch in childs:
+                    childelem.append(ch)
+                
+                elem.append(childelem)
+        return elem
+
+    def _dump_childen(self, obj):
+        childs = []
+        
+        for child in obj:
+            if child.ns != None and child.ns != "":
+                childelem = ElementTree.Element("{%s}%s" % (child.ns, child.tag))
+            else:
+                childelem = ElementTree.Element(child.tag)
+            if child.value != None:
+                childelem.text = child.value
+            for attr in child.attrs:
+                childelem.set(attr, child.attrs[attr])
+                
+                
+            chds = self._dump_childen(child._objects())
+            for ch in chds:
+                childelem.append(ch)
+                
+            childs.append(childelem)
+            
+        return childs
+#import xml.sax.expatreader 
+
+class ExtensionsReader(ConfmlReader):
+    
+    @classmethod
+    def supported_elem(cls, elemname, parent=None):
+        """
+        Class method to determine if this ConfmlWriter supports reading
+        of the given elem name
+        """
+        if elemname=="extensions":
+            return True
+        else:
+            return False
+
+    def loads(self,etree):
+        extensionselem = model.ConfmlExtensions()
+        extensionselem.lineno = utils.etree.get_lineno(etree)
+        for elem in etree.getchildren():
+            try:
+                (_,elemname) = utils.xml.split_tag_namespace(elem.tag)
+                reader = get_reader_for_elem(elemname, 'extensions')
+            except exceptions.ConePersistenceError:
+                extensionselem._add(self._load_children(elem, etree), policy=container.APPEND)
+            else:
+                obj = reader.loads(elem)
+                if obj != None:
+                    extensionselem._add(obj, policy=container.APPEND)
+        return extensionselem
+
+    def _load_children(self, elem, etree):
+        (namespace,elemname) = get_elemname(elem.tag)
+        attributes = {}
+        for key in elem.keys():
+            attributes[key] = elem.get(key)
+
+        extension = model.ConfmlExtension(elemname, elem.text, namespace, attrs=attributes)
+        
+        for childelem in elem.getchildren():
+            extension._add(self._load_children(childelem, etree), policy=container.APPEND)
+        
+        return extension
+        
+
+class EvalGlobalsWriter(ConfmlWriter):
+    @classmethod
+    def supported_class(cls, classname):
+        """
+        Class method to determine if this ConfmlWriter supports writing
+        of the given class name
+        """
+        if classname=="RulemlEvalGlobals":
+            return True
+        else:
+            return False
+
+    def dumps(self, obj):
+        """
+        @param obj: The Configuration object 
+        """
+        
+        elem = ElementTree.Element("{%s}eval_globals" % (RULEML_NAMESPACES[0]))
+
+        if obj.value != None:
+            elem.text = obj.value
+        if obj.file != None:
+            elem.set('file', obj.file)
+        
+        return elem
+
+class EvalGlobalsReader(ConfmlReader):
+    
+    @classmethod
+    def supported_elem(cls, elemname, parent=None):
+        """
+        Class method to determine if this ConfmlWriter supports reading
+        of the given elem name
+        """
+        if elemname=="eval_globals":
+            return True
+        else:
+            return False
+
+    def loads(self,etree):
+        eval_globals = api.RulemlEvalGlobals(etree.text, etree.get("file", None))
+        
+        return eval_globals
 
 class RfsReader(ConfmlReader):
     """
@@ -1255,7 +1447,6 @@ def get_elemname(tag):
         return (namespace,elemname)
     else:
         raise exceptions.ParseError("Could not parse tag %s" % tag)
-        
 
 def get_reader_for_elem(elemname, parent=None):
     for reader in utils.all_subclasses(ConfmlReader):
@@ -1268,3 +1459,18 @@ def get_writer_for_class(classname):
         if writer.supported_class(classname):
             return writer ()
     raise exceptions.ConePersistenceError("No writer for given class found! %s" % classname)
+
+def dump_extension_attributes(obj, elem):
+    if hasattr(obj,'extensionAttributes') and obj.extensionAttributes is not None and obj.extensionAttributes != []:
+        for ext_attribute in obj.extensionAttributes:
+            if ext_attribute.ns != None and ext_attribute.ns != "":
+                elem.set(("{%s}%s" % (ext_attribute.ns, ext_attribute.name)), unicode(ext_attribute.value))
+            else:
+                elem.set(ext_attribute.name, unicode(ext_attribute.value))    
+
+def load_extension_attributes(elem, obj):
+    for attribute in elem.attrib:
+        (ns,attname) = get_elemname(attribute)
+        if ns != None and ns != "":
+            if not ns in KNOWN_NAMESPACES:
+                obj.add_extension_attribute(model.ConfmlExtensionAttribute(attname, elem.attrib[attribute], ns))

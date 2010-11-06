@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://www.s60.com/xml/confml/2" name="Redefine in view test">
+    <feature ref="RedefineInViewTest" name="Redefine in view test">
+        <setting ref="NameAndDescRedefinition" name="Name from base" type="string">
+            <desc>Description from base</desc>
+        </setting>
+        
+        <setting ref="IntWithOptions" name="Int setting with options" type="int">
+            <option name="Zero" value="0"/>
+            <option name="Small value" value="1"/>
+            <option name="Medium value" value="10"/>
+            <option name="Large value" value="100"/>
+        </setting>
+        
+        <setting ref="RealWithOptions" name="Real setting with options" type="real">
+            <option name="Zero" value="0"/>
+            <option name="Small value" value="0.001"/>
+            <option name="Medium value" value="0.1"/>
+            <option name="Large value" value="10"/>
+        </setting>
+        
+        <setting ref="StringWithOptions" name="String setting with options" type="string">
+            <option name="None" value="none"/>
+            <option name="UTF-8" value="u8"/>
+            <option name="UTF-16" value="u16"/>
+            <option name="UTF-16 Little-endian" value="u16le"/>
+            <option name="UTF-16 Big-endian" value="u16be"/>
+        </setting>
+    </feature>
+
+    <data>
+        <RedefineInViewTest>
+            <NameAndDescRedefinition>test</NameAndDescRedefinition>
+            <IntWithOptions>0</IntWithOptions>
+            <RealWithOptions>0</RealWithOptions>
+            <StringWithOptions>none</StringWithOptions>
+        </RedefineInViewTest>
+    </data>
+</configuration>

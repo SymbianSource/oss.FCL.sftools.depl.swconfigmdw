@@ -75,7 +75,7 @@ output element
 Output element describes how one output file is generated. Output has one mandatory attribute 'file' that defines filename for output file. If you want to generate output file to some other than default folder, it can be done by defining a output directory to 'dir' attribute. Default encoding for output file is 'UTF-8', if some other encoding is wanted, it can be defined by 'encoding' attribute.  This encoding should be one of the standard Python codecs encoding (see http://docs.python.org/library/codecs.html#standard-encodings). By 'newline' attribute the output file's newline characters can be defined. The default value is 'unix' that use LF (Line feed, '\n', 0x0A) in output file. LF is used Unix-like systems and web applications. If output file has to use CR (Carriage Return) followed by LF (CR+LF, '\r\n', 0x0D 0x0A) as newline characters, 'newline' attribute should have value 'win'. CR+LF is used in non-Unix systems like DOS, Windows and Symbian OS.
 
 Template element is mandatory child element for output element. One output element can have only one template element.
-Output element can also contain optional filter elements that are specific just for this output file. Global filters that are common for all output files should be defined under root templateml element. 
+Output element can also contain optional filter and filters elements that are specific just for this output file. Global filters that are common for all output files should be defined under root templateml element. 
 
 **output example**:
 
@@ -85,6 +85,10 @@ Output element can also contain optional filter elements that are specific just 
     <template>Hello world!</template>
     <filter name="filter1">lambda a,b: a+b</filter>
     <filter name="filter2">lambda a,b: a*b</filter>
+    <filters>
+    def filter3(a,b):
+      return a-b
+    </filters>
   </output>
 
 For unicode transformation formats, control over the BOM is provided by the attribute ``bom``.
@@ -137,7 +141,7 @@ With template's file attribute template is defined relatively to templateml file
 filter element
 **************************
 
-With filter element you can define custom filters. Custom filters are just regular Python functions that take the left side of the filter as first argument and the the arguments passed to the filter as extra arguments or keyword arguments. Filter element has mandatory 'name' attribute that defines the name of the filter. Name is used in template to refer to that filter. Filter can be defined in filter element or in external file. If both are defined file attribute overwrites. 
+With filter element you can define custom filters. Custom filters are Python lambda functions that take the left side of the filter as first argument and the the arguments passed to the filter as extra arguments or keyword arguments. Filter element has mandatory 'name' attribute that defines the name of the filter. Name is used in template to refer to that filter. Filter can be defined in filter element or in external file. If both are defined file attribute overwrites. 
 
 `Jinja has built-in filters <http://jinja.pocoo.org/2/documentation/templates#builtin-filters>`_ (e.g. capitalize, replace, trim, urlize, format, escape) that can be utilized without any extra definitions templateml file.
 
@@ -148,6 +152,22 @@ With filter element you can define custom filters. Custom filters are just regul
   <filter name="minus">lambda a,b: a-b</filter>
 
 With filter's file attribute filter is defined relatively to templateml file. 
+
+filters element
+**************************
+
+With filters element you can also define custom filters. These can be any Python functions that take the left side of the filter as first argument and the the arguments passed to the filter as extra arguments or keyword arguments. Function name is used to refer to the filter. Filters can be defined in filters element or in external file. If both are defined file attribute overwrites. 
+
+**filters example**:
+
+.. code-block:: xml
+
+  <filters>
+  def sum(a,b):
+    return a+b  
+  </filters>
+
+With filters's file attribute filter is defined relatively to templateml file. 
 
 Variables
 +++++++++
@@ -202,15 +222,10 @@ Configuration object that is defined ConE API can be accessed also inside templa
 Examples
 '''''''''
 
-An example of templateml file, that generates two output files, utilizes XInclude and defines two custom filters:
+An example of templateml file, that generates three output files, utilizes XInclude and defines a number of custom filters:
 
 .. literalinclude:: templateml_example0.txt
    :language: xml
-
-XSD
-'''
-
-Download: :download:`templateml.xsd </xsd/templateml.xsd>`
 
 
 FAQ

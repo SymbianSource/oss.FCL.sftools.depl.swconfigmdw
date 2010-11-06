@@ -27,6 +27,9 @@ from cone.public import api, persistence, utils
 from cone.storage import filestorage
 from cone.confml import persistentconfml, model, confmltree
 from testautomation.base_testcase import BaseTestCase
+import pickle
+
+
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 ElementTree = utils.etree
@@ -1743,6 +1746,44 @@ class TestWriteSequenceTemplates(BaseTestCase):
             os.path.join(self.TEMP_DIR, FILE_NAME),
             os.path.join(self.EXPECTED_DIR, 'complex_seq_with_nones.confml'))
 
+class TestExtensions(unittest.TestCase):
+    def test_get_reader_for_extensions(self):
+        reader = persistentconfml.get_reader_for_elem("extensions")
+        self.assertTrue(isinstance(reader, persistentconfml.ExtensionsReader))
+
+    def test_parse_extensions_elem(self):
+        reader = persistentconfml.get_reader_for_elem("extensions")
+        elem = ElementTree.Element('extension')
+        owner = ElementTree.Element('owner')
+        owner.text = 'Testing owner'
+        origin = ElementTree.Element('origin')
+        origin.text = 'just origin'
+        target = ElementTree.Element('target')
+        target.text = 'target hw'
+        elem.append(owner)
+        elem.append(origin)
+        elem.append(target)
+        data = reader.loads(elem)
+        exts = data._get('_extension')
+        self.assertTrue(isinstance(exts, list))
+        self.assertEquals(exts[0].tag, 'owner')
+        self.assertEquals(exts[0].value, 'Testing owner')
+        self.assertEquals(exts[1].tag, 'origin')
+        self.assertEquals(exts[1].value, 'just origin')
+        self.assertEquals(exts[2].tag, 'target')
+        self.assertEquals(exts[2].value, 'target hw')
+
+    def test_write_extensions_elem(self):
+        writer = persistentconfml.get_writer_for_class("ConfmlExtensions")
+        celem = model.ConfmlExtensions()
+        celem._add([model.ConfmlExtension('test', 123), 
+                    model.ConfmlExtension('owner', "some ownername"), 
+                    model.ConfmlExtension('target', "hw")])
+        etree = writer.dumps(celem)
+        self.assertEquals(etree.find('test').text,123)
+        self.assertEquals(etree.find('owner').text,'some ownername')
+        self.assertEquals(etree.find('target').text,'hw')
+        
 class TestReadWriteConfml(BaseTestCase):
     """
     Test case for ensuring that reading in a ConfML file and then writing
@@ -1835,8 +1876,66 @@ class TestReadWriteConfml(BaseTestCase):
         self.assertTrue(os.path.exists("temp/testprojectviews"))
         shutil.rmtree("temp")
 
+class TestPickle(BaseTestCase):
+    """
+    Test case for ensuring that pickling in a ConfML file and then unpickling
+    it out again results in logically the same data (XML-wise) as the
+    original data was.
+    """
+    
+    def _normalize_xml_data(self, data):
+        """
+        Normalize XML data so that it can be compared using a binary
+        comparison.
+        """
+        etree = ElementTree.fromstring(data)
+        persistence.indent(etree)
+        normalized_data = ElementTree.tostring(etree)
+        return normalized_data
+    
+    def _run_pickle_and_unpickle_test(self, file_name, input_dir, output_dir):
+        file_path = os.path.join(input_dir, file_name)
+        
+        f = open(file_path, "rb")
+        try:        original_data = f.read()
+        finally:    f.close()
+        
+        model = persistentconfml.loads(original_data)
+        model.get_default_view()#verify that dump works also after get_default_view is called
+        
+        PATH_ORIGINAL = os.path.join(output_dir, 'original_pickled', file_name)
+        PATH_DUMPED   = os.path.join(output_dir, 'pickled', file_name)
+        
+        file_dir = os.path.dirname(PATH_DUMPED)
+        if not os.path.exists(file_dir):
+            os.makedirs(file_dir)
+    
+        dfile  = open(PATH_DUMPED, 'w')
+        try:
+            pickle.dump(model, dfile)
+        except Exception, e:
+            self.fail("Couldn't pickle \nfile: %s \nobject: %s \nexception: %s" % (PATH_ORIGINAL, model, e))
+        finally:
+            dfile.close()
+        
+        dfile  = open(PATH_DUMPED)
+        model_unpickled = pickle.load(dfile)
+        
+        normalized_model = self._normalize_xml_data(persistentconfml.dumps(model))
+        normalized_model_unpickled = self._normalize_xml_data(persistentconfml.dumps(model_unpickled))
+        
+        if normalized_model_unpickled != normalized_model:
+            self.fail("Pickle-unpickle output for file '%s' \noriginal: '%s' \npickled/unpickled: '%s'" % (PATH_ORIGINAL, normalized_model, normalized_model_unpickled))
+    
+    def _run_pickle_test_for_file(self, file_path):
+        self._run_pickle_and_unpickle_test(
+            file_name  = os.path.basename(file_path),
+            input_dir  = os.path.dirname(file_path),
+            output_dir = os.path.normpath(os.path.join(ROOT_PATH, 'temp/pickle_unpickle_results')))
+    
 # Create a separate test method for each ConfML file in the read-write test data
 _READ_WRITE_TESTDATA_DIR = os.path.join(ROOT_PATH, 'testdata/read_write')
+
 for filename in filter(lambda fn: fn.endswith('.confml'), os.listdir(_READ_WRITE_TESTDATA_DIR)):
     path = os.path.join(_READ_WRITE_TESTDATA_DIR, filename)
     test_method_name = 'test_read_write_file__%s' % filename.replace('.', '_')
@@ -1849,7 +1948,21 @@ for filename in filter(lambda fn: fn.endswith('.confml'), os.listdir(_READ_WRITE
         method.__name__ = test_method_name
         setattr(TestReadWriteConfml, test_method_name, method)
     _register_test_method(path)
+
+_PICKLE_UNPICKLE_TESTDATA_DIR = os.path.join(ROOT_PATH, 'testdata/pickle_unpickle')
+
+for filename in filter(lambda fn: fn.endswith('.confml'), os.listdir(_PICKLE_UNPICKLE_TESTDATA_DIR)):
+    path = os.path.join(_PICKLE_UNPICKLE_TESTDATA_DIR, filename)
+    test_pickle_method_name = 'test_pickle_unpickle_file__%s' % filename.replace('.', '_')
     
+    # Use a separate function to create and set the lambda function on the
+    # test class, because otherwise 'path' would be the last one value set to
+    # it in the for loop
+    def _register_pickle_test_method(path):
+        method = lambda self: self._run_pickle_test_for_file(path)
+        method.__name__ = test_pickle_method_name
+        setattr(TestPickle, test_pickle_method_name, method)
+    _register_pickle_test_method(path)
 
 if __name__ == '__main__':
     unittest.main()

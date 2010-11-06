@@ -7,7 +7,7 @@
     
 		<message severity="error" type="xml.confml" message="no element found: line 1, column 0" />
     
-		<message severity="error" type="schema.confml" message="Element &#39;{http://www.s60.com/xml/confml/2}foo&#39;: This element is not expected. Expected is one of ( {http://www.s60.com/xml/confml/2}desc, {http://www.s60.com/xml/confml/2}icon, {http://www.s60.com/xml/confml/2}link, {http://www.s60.com/xml/confml/2}option, {http://www.s60.com/xml/confml/2}property, {http://www.s60.com/xml/confml/2}setting, {http://www.s60.com/xml/confml/2}localPath, {http://www.s60.com/xml/confml/2}targetPath, {http://www.w3.org/2001/XMLSchema}minInclusive, {http://www.w3.org/2001/XMLSchema}maxInclusive )." />
+		<message severity="error" type="schema.confml" message="Element &#39;{http://www.s60.com/xml/confml/2}foo&#39;: This element is not expected. Expected is one of ( {http://www.s60.com/xml/confml/2}desc, {http://www.s60.com/xml/confml/2}icon, {http://www.s60.com/xml/confml/2}link, {http://www.s60.com/xml/confml/2}option, {http://www.s60.com/xml/confml/2}property, {http://www.s60.com/xml/confml/2}setting, {http://www.s60.com/xml/confml/2}localPath, {http://www.s60.com/xml/confml/2}targetPath, {http://www.w3.org/2001/XMLSchema}pattern, {http://www.w3.org/2001/XMLSchema}minInclusive )." />
     
 		<message severity="error" type="schema.confml" message="Element &#39;{http://www.s60.com/xml/confml/2}setting&#39;, attribute &#39;type&#39;: &#39;invalid_type&#39; is not a valid value of the atomic type &#39;{http://www.s60.com/xml/confml/2}typeType&#39;." />
     

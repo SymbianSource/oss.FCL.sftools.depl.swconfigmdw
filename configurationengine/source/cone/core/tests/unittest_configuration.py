@@ -184,7 +184,7 @@ class TestConfiguration(unittest.TestCase):
         config = p.get_configuration('root5.confml')
         view = config.get_default_view()
         print "Fealist %s." % len(view.list_all_features())
-        self.assertEquals(len(view.list_all_features()), 99)
+        self.assertEquals(len(view.list_all_features()), 102)
         for feaname in view.list_all_features():
             fea = view.get_feature(feaname)
             if fea.get_type() == 'sequence':

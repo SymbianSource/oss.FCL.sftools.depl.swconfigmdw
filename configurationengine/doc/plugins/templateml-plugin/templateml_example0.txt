@@ -8,8 +8,19 @@
        <template>
           This template uses custom filter to count the sum of 2 and 3:
             2+3={{ 2|example_filter(3) }}
+       </template>
+    </output>
+    <output file="output_file3.txt" encoding="UTF-8">
+       <template>
+          This template uses custom filter to multiply 2 by 3:
+            2*3={{ 2|example_filter3(3) }}
         </template>
     </output>
     <filter name="example_filter">lambda a,b: a+b</filter>
     <filter name="example_filter2"><xi:include href="example.filter" parse="text"/></filter>
+    <filters>
+def example_filter3(a,b):
+    return a*b
+    </filters>
+    <filters file="./filters/example_filter.py"/>
 </templateml>

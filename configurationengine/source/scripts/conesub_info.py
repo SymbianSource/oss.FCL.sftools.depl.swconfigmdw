@@ -63,6 +63,14 @@ REPORT_SHORTCUTS = {
         os.path.join(ROOT_PATH, 'info_content_report_template.html'),
         'content_report.html',
         'Create a report of the content files in the configuration.'),
+    'ctr_csv': report_util.ReportShortcut(
+        os.path.join(ROOT_PATH, 'info_ctr_report_template.csv'),
+        'ctr_report.csv',
+        'Create a report of CTR configurations (CSV format).'),
+    'ctr': report_util.ReportShortcut(
+        os.path.join(ROOT_PATH, 'info_ctr_report_template.html'),
+        'ctr_report.html',
+        'Create a report of CTR configurations.'),
 }
 
 def main():
@@ -224,7 +232,8 @@ def main():
             data_providers = {'impl_data'   : ImplDataProvider(configs[0], options.impl_filter),
                               'api_data'    : ApiDataProvider(configs[0]),
                               'content_data': ContentDataProvider(configs[0]),
-                              'value_data'  : ValueDataProvider(configs, view)}
+                              'value_data'  : ValueDataProvider(configs, view),
+                              'ctr_data'    : CtrDataProvider(configs)}
             report_util.generate_report(template, report, {'data': ReportDataProxy(data_providers)}, [ROOT_PATH])
         else:
             # Printing configuration info
@@ -368,6 +377,43 @@ class ContentDataProvider(ReportDataProviderBase):
             data.append(entry)
         return data
 
+class CtrDataProvider(ReportDataProviderBase):
+    def __init__(self, configs):
+        self._configs = configs
+    
+    def generate_data(self):
+        lines = []
+        for config in self._configs:
+            lines.extend(self._get_config_data(config))
+        return lines
+    
+    def _get_config_data(self, config):
+        ctrs = []
+        config_name = config.get_name()
+        ctrs_in_meta_index = config.meta.find_by_attribute('name','based_on_ctr')
+        ctrs = config.meta[ctrs_in_meta_index].attrs['value'].split(',')
+        lines = []
+        ppbit = language = country = uda = ''
+        for c in config.list_configurations():
+            m = re.search(r'/ppbit/ppbit_(.*)/', c)
+            if m: ppbit = m.group(1)
+            m = re.search(r'/language/(.*)/', c)
+            if m: language = m.group(1)
+            m = re.search(r'/country/(.*)/', c)
+            if m: country = m.group(1)
+            m = re.search(r'/uda/(.*)/', c)
+            if m: uda = m.group(1)
+        for ctr in ctrs:
+            data = {'ctr_code':     ctr,
+                    'config_name':  config_name,
+                    'ppbit':        ppbit,
+                    'language':     language,
+                    'country':      country,
+                    'uda':          uda
+                    }
+            lines.append(data)
+        return lines
+        
 
 class ValueDataProvider(ReportDataProviderBase):
     

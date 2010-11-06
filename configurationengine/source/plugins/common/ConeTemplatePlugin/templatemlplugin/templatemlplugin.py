@@ -289,6 +289,22 @@ class TemplatemlImplReader(plugin.ReaderBase):
                     if filter_elem.get('file') != None:
                         logging.getLogger('cone.templateml').warning("In filter element file attribute and text defined. Using filter found from file attribute.")
                 filters.append(filter)
+        
+        filters_elems = etree.findall("{%s}filters" % self.namespaces[0])
+        for filters_elem in filters_elems:
+            if filters_elem != None:
+                filter = Filter()
+                if filters_elem.get('file') != None:
+                    file = filters_elem.get('file')
+                    if self.configuration != None:
+                        file = utils.expand_refs_by_default_view(file, self.configuration.get_default_view())
+                    filter.set_path(file)
+                if filters_elem.text != None:
+                    filter.set_code(filters_elem.text)
+                    if filters_elem.get('file') != None:
+                        logging.getLogger('cone.templateml'). warning("In filters element file attribute and text defined. Using filters found from file attribute.")
+                filters.append(filter)
+                
         return filters
     
     def parse_tags(self, etree):
@@ -419,14 +435,21 @@ class Generator(object):
 
                     # Common filters
                     for filter in self.filters:
-                        
                         if filter.path:
                             filter.code = _read_relative_file(generation_context.configuration, filter.path, ref)
                         
                         if not filter.code:
                             logging.getLogger('cone.templateml').warning("Skipping empty filter definition.")
                         else:
-                            env.filters[str(filter.name)] = eval(filter.code.replace('\r', ''))
+                            # filter elements (lambda functions) have names
+                            if filter.name:
+                                env.filters[str(filter.name)] = eval(filter.code.replace('\r', ''))
+                            # filters elements (any python functions) do not have names
+                            else:
+                                funcs = {}
+                                exec(filter.code.strip().replace('\r', ''), funcs)
+                                for k,v in funcs.items():
+                                    env.filters[k] = v
                     
                     # Output file specific filters
                     for filter in output.filters:
@@ -436,7 +459,13 @@ class Generator(object):
                         if not filter.code:
                             logging.getLogger('cone.templateml').warning("Skipping empty filter definition.")
                         else:
-                            env.filters[str(filter.name)] = eval(filter.code)
+                            if filter.name:
+                                env.filters[str(filter.name)] = eval(filter.code.replace('\r', ''))
+                            else:
+                                funcs = {}
+                                exec(filter.code.strip().replace('\r', ''), funcs)
+                                for k,v in funcs.items():
+                                    env.filters[k] = v
                     
                     template = env.get_template('template')
                     

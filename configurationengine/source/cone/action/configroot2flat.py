@@ -78,12 +78,16 @@ def get_flat_includes(config):
     @param config: the configuration object to process. 
     """
     includes = []
-    for include in config.list_configurations():
-        if include.endswith('/root.confml'):
-            includes.append(utils.resourceref.remove_begin_slash(include))
-        else:
-            subconfig = config.get_configuration(include)
-            includes += get_flat_includes(subconfig)
+    try:
+        for include in config.list_configurations():
+            if include.endswith('/root.confml'):
+                includes.append(utils.resourceref.remove_begin_slash(include))
+            else:
+                subconfig = config.get_configuration(include)
+                includes += get_flat_includes(subconfig)
+    except Exception, e:
+        logger.error('Error getting includes from sub-configuration: %s: %s'
+                     % (e.__class__.__name__, e))
     return includes
 
 def get_nested_meta(config, recursion_depth=-1):
@@ -96,17 +100,21 @@ def get_nested_meta(config, recursion_depth=-1):
     """
     
     meta = confml_model.ConfmlMeta()
-    if recursion_depth != 0:
-        # First recurse through all subconfigurations to get their meta     
-        for subconfig_name in config.list_configurations():
-            subconfig = config.get_configuration(subconfig_name)
-            submeta = get_nested_meta(subconfig, recursion_depth-1)
-            
-            meta.update( submeta )
-    
-    # lastly, update the meta data of the root configuration
-    if config.meta:
-        meta.update(config.meta)
+    try:
+        if recursion_depth != 0:
+            # First recurse through all subconfigurations to get their meta     
+            for subconfig_name in config.list_configurations():
+                subconfig = config.get_configuration(subconfig_name)
+                submeta = get_nested_meta(subconfig, recursion_depth-1)
+                
+                meta.update( submeta )
+        
+        # lastly, update the meta data of the root configuration
+        if config.meta:
+            meta.update(config.meta)
+    except Exception, e:
+        logger.error('Error getting metadata from sub-configuration: %s: %s'
+                     % (e.__class__.__name__, e))
     return meta
 
 

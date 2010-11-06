@@ -19,9 +19,11 @@
 
 from optparse import OptionParser
 from cone.action import configroot2flat
+import cone_common
 
 def get_parser():
     parser = OptionParser()
+    parser.add_options(cone_common.COMMON_OPTIONS)
     parser.add_option("-c", "--configuration",
                         dest="configs",
                         action="append",
@@ -59,6 +61,7 @@ def main():
     """
     parser = get_parser()
     options, _ = parser.parse_args()
+    cone_common.handle_common_options(options)
     
     action = configroot2flat.ConeConfigroot2FlatAction(
         project          = options.project,

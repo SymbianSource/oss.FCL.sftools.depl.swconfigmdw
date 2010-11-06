@@ -16,7 +16,7 @@
 
 import unittest
 import sys
-from cone.public import api, exceptions
+from cone.public import api, exceptions, container
 from cone.confml import model
 
 
@@ -1376,7 +1376,6 @@ class TestConfmlConfiguration(unittest.TestCase):
         self.assertEquals(subconfig.get_full_path(),'test/foo/sub/jee.confml')
         self.assertTrue(isinstance(subconfig,model.ConfmlConfiguration))
 
-        
 class TestConfmlView(unittest.TestCase):
     def test_create_view(self):
         view = model.ConfmlView("test", id="test")
@@ -1471,6 +1470,11 @@ class TestConfmlView(unittest.TestCase):
         self.assertEquals(view.get_feature('group1.proxy_fea1_intset1').minExclusive, 0)
         self.assertEquals(view.get_feature('group1.proxy_fea1_intset1').maxExclusive, 10)
         self.assertEquals(view.get_feature('group1.proxy_fea1_intset1').options['1'].name,'opt1')
-        
+
+class TestConfmlExtensions(unittest.TestCase):
+    def test_create_extensions(self):
+        extensionselem = model.ConfmlExtensions()
+        self.assertEquals(str(extensionselem),"ConfmlExtensions({'ref': '_extensions'})")
+
 if __name__ == '__main__':
     unittest.main()

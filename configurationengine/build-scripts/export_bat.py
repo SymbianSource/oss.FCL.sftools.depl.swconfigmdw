@@ -157,7 +157,7 @@ def main(argv):
     log.info("Copying library eggs...")
     DEP_EGGS_DIR = os.path.normpath(os.path.join(ROOT_PATH, '../dep-eggs'))
     assert os.path.isdir(DEP_EGGS_DIR)
-    DEPENDENCIES = ['simplejson', 'Jinja2']
+    DEPENDENCIES = ['simplejson']
     for dep in DEPENDENCIES:
         egg_file_name = find_egg_file(DEP_EGGS_DIR, dep, PYTHON_VERSION)
         if egg_file_name is None:
